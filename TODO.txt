@@ -1,0 +1,5 @@
+
+- handle warnings in build
+- add dependencies versions update check plugin
+- add jacoco exclusion annotation to avoid coverage including unnecessary files
+- edit theme

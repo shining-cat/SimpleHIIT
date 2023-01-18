@@ -1,19 +1,3 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package fr.shining_cat.simplehiit.data.local.di
 
 import android.content.Context
@@ -23,26 +7,40 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import fr.shining_cat.simplehiit.data.local.database.AppDatabase
-import fr.shining_cat.simplehiit.data.local.database.DataItemTypeShivaDao
+import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
+import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
+import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase.Companion.SimpleHiitDatabaseName
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionsUsersLinkDao
+import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import javax.inject.Singleton
-
 
 @Module
 @InstallIn(SingletonComponent::class)
 class DatabaseModule {
+
     @Provides
-    fun provideDataItemTypeShivaDao(appDatabase: AppDatabase): DataItemTypeShivaDao {
-        return appDatabase.dataItemTypeShivaDao()
+    fun provideUserDao(simpleHiitDatabase: SimpleHiitDatabase): UsersDao {
+        return simpleHiitDatabase.userDao()
+    }
+
+    @Provides
+    fun provideSessionsDao(simpleHiitDatabase: SimpleHiitDatabase): SessionsDao {
+        return simpleHiitDatabase.sessionsDao()
+    }
+
+    @Provides
+    fun provideSessionsUsersLinkDao(simpleHiitDatabase: SimpleHiitDatabase): SessionsUsersLinkDao {
+        return simpleHiitDatabase.sessionsUsersLinkDao()
     }
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+    fun provideSimpleHiitDatabase(@ApplicationContext appContext: Context): SimpleHiitDatabase {
         return Room.databaseBuilder(
             appContext,
-            AppDatabase::class.java,
-            "DataItemTypeShiva"
+            SimpleHiitDatabase::class.java,
+            SimpleHiitDatabaseName
         ).build()
     }
 }

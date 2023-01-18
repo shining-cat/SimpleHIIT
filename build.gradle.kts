@@ -1,17 +1,32 @@
-/*
- * Copyright (C) 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
 
-// Root build.gradle.kts
+    dependencies {
+        classpath ("com.android.tools.build:gradle:7.4.0")
+        classpath ("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+        classpath ("com.squareup:javapoet:1.13.0")//This is to prevent the older version pulled by AGP to override the newer needed by Hilt
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+plugins {
+    id("com.google.dagger.hilt.android") version "2.44.2" apply false
+    // see files coverage.gradle.kts and CoveragePluginDSL.kts in buildSrc folder
+    // article : https://medium.com/@gmazzo65/generating-android-jvm-aggregated-coverage-reports-53e912b2e63c
+    //  source : https://github.com/gmazzo/android-jacoco-aggregated-demo
+    coverage
+    //
+    id("com.github.ben-manes.versions") version "0.43.0"
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
