@@ -13,6 +13,7 @@ import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
 import javax.inject.Inject
+import kotlin.coroutines.cancellation.CancellationException
 
 class SimpleHiitRepositoryImpl @Inject constructor(
     private val usersDao: UsersDao,
@@ -27,6 +28,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         return try {
             val insertedId = usersDao.insert(userMapper.convert(user))
             Output.Success(result = insertedId)
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "insertUser::Error", exception)
             Output.Error(
@@ -40,6 +43,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
             val users = usersDao.getUsers()
             val usersModels = users.map { userMapper.convert(it)}
             Output.Success(usersModels)
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "getUsers::Error", exception)
             Output.Error(
@@ -59,6 +64,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                     errorCode = Errors.DATABASE_UPDATE_FAILED, exception = Exception("failed updating user")
                 )
             }
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "insertUser::Error", exception)
             Output.Error(
@@ -76,48 +83,71 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 val linksForSession = sessionsUsersLinkDao.getSessionsUsersLinksForSession(link.sessionId)
                 if (linksForSession.size == 1) {
                     if (linksForSession[0].userId == user.id){
-                        hiitLogger.d(
-                            "SimpleHiitRepositoryImpl",
-                            "deleteUser::session only linked to targeted user, deleting link AND session"
-                        )
                         //this session is only linked to the targeted user => delete link then session
-                        val deleteNumber = sessionsUsersLinkDao.deleteByLinkId(link.linkId)
-                        if(deleteNumber != 1){
-                            hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error::link deletion failed")
-                        }
-                        sessionsDao.delete(link.sessionId)
+                        hiitLogger.d("SimpleHiitRepositoryImpl","deleteUser::session only linked to targeted user, deleting link AND session")
+                        deleteUserSessionLink(link.linkId)
+                        deleteSession(link.sessionId)
                     } else {
                         //This should really never happen, the data is obviously corrupted: the session found is linked to an other user
-                        hiitLogger.e(
-                            "SimpleHiitRepositoryImpl",
-                            "deleteUser::Error::Inconsistent data -> deleting ONLY found link for input user"
-                        )
-                        val deleteNumber = sessionsUsersLinkDao.deleteByLinkId(link.linkId)
-                        if (deleteNumber != 1) {
-                            hiitLogger.e("SimpleHiitRepositoryImpl","deleteUser::Error::link deletion failed")
-                        }
+                        hiitLogger.e("SimpleHiitRepositoryImpl","deleteUser::Error::Inconsistent data -> deleting ONLY found link for input user")
+                        deleteUserSessionLink(link.linkId)
                     }
                 }else{
                     hiitLogger.d("SimpleHiitRepositoryImpl", "deleteUser::session linked to other user(s), ONLY deleting link")
                     //this session is linked to other user(s) => only delete the link
-                    sessionsUsersLinkDao.deleteByLinkId(link.linkId)
+                    deleteUserSessionLink(link.linkId)
                 }
             }
             //finally we can delete the user
-            hiitLogger.d("SimpleHiitRepositoryImpl", "deleteUser::deleting user")
-            val numberOfDeletes = usersDao.delete(userMapper.convert(user))
-            if(numberOfDeletes == 1) {
-                Output.Success(result = numberOfDeletes)
-            } else{
-                hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error")
-                Output.Error(
-                    errorCode = Errors.DATABASE_DELETE_FAILED, exception = Exception("failed updating user")
-                )
-            }
+            return deleteUserWithoutSessions(user)
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error", exception)
+            Output.Error(errorCode = Errors.DATABASE_DELETE_FAILED, exception = exception)
+        }
+    }
+
+    private suspend fun deleteUserSessionLink(linkId: Long){
+        try {
+            val deleteNumber = sessionsUsersLinkDao.deleteByLinkId(linkId)
+            if (deleteNumber != 1) {
+                hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error::link deletion failed")
+            }
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error::link deletion failed", exception)
+        }
+    }
+
+    private suspend fun deleteSession(sessionId: Long){
+        try {
+            val deleteNumber = sessionsDao.delete(sessionId)
+            if (deleteNumber != 1) {
+                hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error::session deletion failed")
+            }
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error::session deletion failed", exception)
+        }
+    }
+
+    /**
+     * This is private and not intended to be ever called except from the public
+     * deleteUser which handles the associated deletion of links
+     * tied to the user, and sessions linked to this user alone
+     */
+    private suspend fun deleteUserWithoutSessions(user: User): Output<Int> {
+        hiitLogger.d("SimpleHiitRepositoryImpl", "deleteUser::deleting user")
+        val numberOfDeletes = usersDao.delete(userMapper.convert(user))
+        return if(numberOfDeletes == 1) {
+            Output.Success(result = numberOfDeletes)
+        } else{
+            hiitLogger.e("SimpleHiitRepositoryImpl", "deleteUser::Error")
             Output.Error(
-                errorCode = Errors.DATABASE_DELETE_FAILED, exception = exception
+                errorCode = Errors.DATABASE_DELETE_FAILED, exception = Exception("failed deleting user")
             )
         }
     }
@@ -149,6 +179,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                     errorCode = Errors.DATABASE_INSERT_FAILED, exception = Exception("failed inserting users to sessions links, deleted partially inserted data from DB")
                 )
             }
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "insertSession::Error", exception)
             Output.Error(
@@ -166,6 +198,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
             hiitLogger.d("SimpleHiitRepositoryImpl", "getSessionsForUser::found ${sessions.size} sessions")
             val sessionsModels = sessions.map { sessionMapper.convert(it)}
             Output.Success(sessionsModels)
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "getSessionsForUser::Error", exception)
             Output.Error(

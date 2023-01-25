@@ -62,7 +62,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.squareup:javapoet:1.13.0")//This is to prevent the older version pulled by AGP to override the newer needed by Hilt
+    implementation("com.squareup:javapoet:1.13.0")
+    testImplementation("org.junit.jupiter:junit-jupiter")//This is to prevent the older version pulled by AGP to override the newer needed by Hilt
     //
     val composeBom = platform("androidx.compose:compose-bom:2022.12.00")
     implementation(composeBom)
