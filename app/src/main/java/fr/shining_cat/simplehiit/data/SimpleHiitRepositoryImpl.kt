@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.data
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
+import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants.Errors
@@ -18,6 +19,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     private val sessionsDao: SessionsDao,
     private val userMapper: UserMapper,
     private val sessionMapper: SessionMapper,
+    private val hiitPreferences: SimpleHiitPreferences,
     private val hiitLogger: HiitLogger
 ) : SimpleHiitRepository {
 
@@ -134,6 +136,70 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception
             )
         }
+    }
+
+    override suspend fun setWorkPeriodLength(durationSeconds: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getWorkPeriodLengthSeconds(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setRestPeriodLength(durationSeconds: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getRestPeriodLengthSeconds(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setNumberOfWorkPeriods(number: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNumberOfWorkPeriods(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setBeepSound(active: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getBeepSound(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setSessionStartCountdown(durationSeconds: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getSessionStartCountdown(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setPeriodStartCountdown(durationSeconds: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getPeriodStartCountdown(): Int {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setUsersSelected(users: List<Long>) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getUsersSelected(): List<Long> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun setNumberOfCumulatedCycles(number: Int) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getNumberOfCumulatedCycles(): Int {
+        TODO("Not yet implemented")
     }
 
 }

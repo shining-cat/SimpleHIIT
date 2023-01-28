@@ -11,7 +11,7 @@ abstract class AbstractMockkTest {
     protected val mockHiitLogger = mockk<HiitLogger>()
 
     @BeforeEach
-    fun setupBeforeEach() {
+    open fun setupBeforeEach() {
         val tagSlot = slot<String>()
         val messageSlot = slot<String>()
         val exceptionMessagingLogSlot = slot<Throwable>()

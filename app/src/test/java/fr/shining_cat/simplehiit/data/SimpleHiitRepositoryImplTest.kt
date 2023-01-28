@@ -5,6 +5,7 @@ import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
+import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants
@@ -34,12 +35,14 @@ internal class SimpleHiitRepositoryImplTest : AbstractMockkTest() {
     private val mockSessionsDao = mockk<SessionsDao>()
     private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
+    private val mockSimpleHiitPreferences = mockk<SimpleHiitPreferences>()
 
     private val simpleHiitRepository = SimpleHiitRepositoryImpl(
         usersDao = mockUsersDao,
         sessionsDao = mockSessionsDao,
         userMapper = mockUserMapper,
         sessionMapper = mockSessionMapper,
+        hiitPreferences = mockSimpleHiitPreferences,
         hiitLogger = mockHiitLogger
     )
 
