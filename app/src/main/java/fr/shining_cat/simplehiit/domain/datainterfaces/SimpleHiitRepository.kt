@@ -13,6 +13,6 @@ interface SimpleHiitRepository {
     suspend fun updateUser(user:User):Output<Int>
     suspend fun deleteUser(user:User):Output<Int>
     //
-    suspend fun insertSession(session: Session): Output<Long>
+    suspend fun insertSession(session: Session): Output<Int>
     suspend fun getSessionsForUser(user: User):Output<List<Session>>
 }

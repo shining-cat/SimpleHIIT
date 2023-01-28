@@ -7,11 +7,9 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase.Companion.SimpleHiitDatabaseName
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsUsersLinkDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import javax.inject.Singleton
 
@@ -27,11 +25,6 @@ class DatabaseModule {
     @Provides
     fun provideSessionsDao(simpleHiitDatabase: SimpleHiitDatabase): SessionsDao {
         return simpleHiitDatabase.sessionsDao()
-    }
-
-    @Provides
-    fun provideSessionsUsersLinkDao(simpleHiitDatabase: SimpleHiitDatabase): SessionsUsersLinkDao {
-        return simpleHiitDatabase.sessionsUsersLinkDao()
     }
 
     @Provides

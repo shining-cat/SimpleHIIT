@@ -2,9 +2,7 @@ package fr.shining_cat.simplehiit.data.local.database.dao
 
 import androidx.room.*
 import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
-import fr.shining_cat.simplehiit.data.local.database.entities.SessionsUsersLinkEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
-import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Companion.userIdColumnName
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Companion.usersTableName
 
 @ExcludeFromJacocoGeneratedReport

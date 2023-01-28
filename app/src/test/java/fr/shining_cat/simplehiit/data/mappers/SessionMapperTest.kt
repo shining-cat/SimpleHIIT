@@ -17,26 +17,27 @@ internal class SessionMapperTest : AbstractMockkTest() {
 
     @ParameterizedTest(name = "{index} -> given {0} should return {1}")
     @MethodSource("sessionMapperArguments")
-    fun`converting from model to entity returns expected object`(
+    fun `converting from model to entity returns expected list of objects`(
         input: Session,
-        expectedOutput:SessionEntity
-    ){
+        expectedOutput: List<SessionEntity>
+    ) {
         val actual = sessionMapper.convert(input)
         assertEquals(expectedOutput, actual)
     }
 
     @Test
-    fun `converting from entity to model returns expected object`(){
+    fun `converting from entity to model returns expected object`() {
         val entity = SessionEntity(
             sessionId = 123L,
             date = 78696L,
-            durationMs = 345L
+            durationMs = 345L,
+            userId = 1234L
         )
         val expectedOutput = Session(
             id = 123L,
             date = 78696L,
             duration = 345L,
-            users = emptyList()
+            usersIds = listOf(1234L)
         )
         val actual = sessionMapper.convert(entity)
         assertEquals(expectedOutput, actual)
@@ -52,12 +53,15 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         id = 123L,
                         date = 78696L,
                         duration = 345L,
-                        users = emptyList()
+                        usersIds = listOf(123L)
                     ),
-                    SessionEntity(
-                        sessionId = 123L,
-                        date = 78696L,
-                        durationMs = 345L
+                    listOf(
+                        SessionEntity(
+                            sessionId = 123L,
+                            date = 78696L,
+                            durationMs = 345L,
+                            userId = 123L
+                        )
                     )
                 ),
                 Arguments.of(
@@ -65,34 +69,35 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         id = 123L,
                         date = 78696L,
                         duration = 345L,
-                        users = listOf(
-                            User( id = 123L, name = "tralala")
+                        usersIds = listOf(123L, 234L, 345L, 456L)
+                    ),
+                    listOf(
+                        SessionEntity(
+                            sessionId = 123L,
+                            date = 78696L,
+                            durationMs = 345L,
+                            userId = 123L
+                        ),
+                        SessionEntity(
+                            sessionId = 123L,
+                            date = 78696L,
+                            durationMs = 345L,
+                            userId = 234L
+                        ),
+                        SessionEntity(
+                            sessionId = 123L,
+                            date = 78696L,
+                            durationMs = 345L,
+                            userId = 345L
+                        ),
+                        SessionEntity(
+                            sessionId = 123L,
+                            date = 78696L,
+                            durationMs = 345L,
+                            userId = 456L
                         )
                     ),
-                    SessionEntity(
-                        sessionId = 123L,
-                        date = 78696L,
-                        durationMs = 345L
-                    )
-                ),
-                Arguments.of(
-                    Session(
-                        id = 123L,
-                        date = 78696L,
-                        duration = 345L,
-                        users = listOf(
-                            User( id = 123L, name = "tralala"),
-                            User( id = 234L, name = "trilili"),
-                            User( id = 345L, name = "trololo"),
-                            User( id = 456L, name = "trululu")
-                        )
-                    ),
-                    SessionEntity(
-                        sessionId = 123L,
-                        date = 78696L,
-                        durationMs = 345L
-                    )
-                ),
+                )
             )
     }
 }

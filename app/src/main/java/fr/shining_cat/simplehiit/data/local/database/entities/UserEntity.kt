@@ -7,7 +7,8 @@ import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Compani
 @ExcludeFromJacocoGeneratedReport
 @Entity(tableName = usersTableName)
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = userIdColumnName) val userId: Long = 0L,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = userIdColumnName, index = true) val userId: Long = 0L,
     @ColumnInfo(name = userNameColumnName) val name: String
 ) {
 
@@ -18,12 +19,3 @@ data class UserEntity(
         const val userNameColumnName = "name"
     }
 }
-
-data class UserWithSessions(
-    @Embedded val user: UserEntity,
-    @Relation(
-        parentColumn = "userId",
-        entityColumn = "sessionId"
-    )
-    val sessions: List<SessionEntity>
-)

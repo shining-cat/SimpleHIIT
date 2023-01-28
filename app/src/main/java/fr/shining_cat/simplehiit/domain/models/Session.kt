@@ -7,5 +7,5 @@ data class Session(
     val id:Long = 0L,
     val date:Long,
     val duration:Long,
-    val users:List<User>
+    val usersIds:List<Long>
 )

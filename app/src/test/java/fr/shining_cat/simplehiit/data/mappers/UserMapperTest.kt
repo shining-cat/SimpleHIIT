@@ -10,7 +10,6 @@ internal class UserMapperTest : AbstractMockkTest() {
 
     private val userMapper = UserMapper()
 
-
     @Test
     fun `converting from model to entity returns expected object`() {
         val expectedOutput = UserEntity(

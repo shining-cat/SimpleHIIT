@@ -9,11 +9,23 @@ import javax.inject.Inject
 class SessionMapper @Inject constructor() {
 
     fun convert(sessionEntity: SessionEntity): Session {
-        return Session(id = sessionEntity.sessionId, date = sessionEntity.date, duration = sessionEntity.durationMs, users = emptyList())
+        return Session(
+            id = sessionEntity.sessionId,
+            date = sessionEntity.date,
+            duration = sessionEntity.durationMs,
+            usersIds = listOf(sessionEntity.userId)
+        )
     }
 
-    fun convert(sessionModel:Session):SessionEntity{
-        return SessionEntity(sessionId = sessionModel.id, date = sessionModel.date, durationMs = sessionModel.duration)
+    fun convert(sessionModel: Session): List<SessionEntity> {
+        return sessionModel.usersIds.map { userId ->
+            SessionEntity(
+                sessionId = sessionModel.id,
+                userId = userId,
+                date = sessionModel.date,
+                durationMs = sessionModel.duration
+            )
+        }
     }
 
 }
