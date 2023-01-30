@@ -52,6 +52,21 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getSelectedUsers(): Output<List<User>> {
+        return try {
+            val users = usersDao.getSelectedUsers()
+            val usersModels = users.map { userMapper.convert(it) }
+            Output.Success(usersModels)
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting selected users", exception)
+            Output.Error(
+                errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception
+            )
+        }
+    }
+
     override suspend fun updateUser(user: User): Output<Int> {
         return try {
             val numberOfUpdates = usersDao.update(userMapper.convert(user))
@@ -139,67 +154,63 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setWorkPeriodLength(durationSeconds: Int) {
-        TODO("Not yet implemented")
+        hiitPreferences.setWorkPeriodLength(durationSeconds)
     }
 
     override suspend fun getWorkPeriodLengthSeconds(): Int {
-        TODO("Not yet implemented")
+        return hiitPreferences.getWorkPeriodLengthSeconds()
     }
 
     override suspend fun setRestPeriodLength(durationSeconds: Int) {
-        TODO("Not yet implemented")
+        hiitPreferences.setRestPeriodLength(durationSeconds)
     }
 
     override suspend fun getRestPeriodLengthSeconds(): Int {
-        TODO("Not yet implemented")
+        return hiitPreferences.getRestPeriodLengthSeconds()
     }
 
     override suspend fun setNumberOfWorkPeriods(number: Int) {
-        TODO("Not yet implemented")
+        hiitPreferences.setNumberOfWorkPeriods(number)
     }
 
     override suspend fun getNumberOfWorkPeriods(): Int {
-        TODO("Not yet implemented")
+        return hiitPreferences.getNumberOfWorkPeriods()
     }
 
     override suspend fun setBeepSound(active: Boolean) {
-        TODO("Not yet implemented")
+        hiitPreferences.setBeepSound(active)
     }
 
     override suspend fun getBeepSound(): Boolean {
-        TODO("Not yet implemented")
+        return hiitPreferences.getBeepSoundActive()
     }
 
     override suspend fun setSessionStartCountdown(durationSeconds: Int) {
-        TODO("Not yet implemented")
+        hiitPreferences.setSessionStartCountdown(durationSeconds)
     }
 
     override suspend fun getSessionStartCountdown(): Int {
-        TODO("Not yet implemented")
+        return hiitPreferences.getSessionStartCountdown()
     }
 
     override suspend fun setPeriodStartCountdown(durationSeconds: Int) {
-        TODO("Not yet implemented")
+        hiitPreferences.setPeriodStartCountdown(durationSeconds)
     }
 
     override suspend fun getPeriodStartCountdown(): Int {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun setUsersSelected(users: List<Long>) {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun getUsersSelected(): List<Long> {
-        TODO("Not yet implemented")
+        return hiitPreferences.getPeriodStartCountdown()
     }
 
     override suspend fun setNumberOfCumulatedCycles(number: Int) {
-        TODO("Not yet implemented")
+        hiitPreferences.setNumberOfCumulatedCycles(number = number)
     }
 
     override suspend fun getNumberOfCumulatedCycles(): Int {
-        TODO("Not yet implemented")
+        return hiitPreferences.getNumberOfCumulatedCycles()
     }
+
+    //TODO:add these once the exercises classes have been created:
+//    override suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
+//    override suspend fun getExercisesTypesSelected():List<ExerciseType>
 
 }

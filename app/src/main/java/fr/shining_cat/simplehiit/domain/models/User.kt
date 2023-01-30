@@ -5,5 +5,6 @@ import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
 @ExcludeFromJacocoGeneratedReport
 data class User(
     val id:Long = 0L,
-    val name:String
+    val name:String,
+    val selected:Boolean
 )

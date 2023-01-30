@@ -14,7 +14,6 @@ import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Ke
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.NUMBER_WORK_PERIODS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.REST_PERIOD_LENGTH_SECONDS
-import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.SELECTED_USERS_IDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.WORK_PERIOD_LENGTH_SECONDS
 import io.mockk.*
@@ -25,7 +24,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
@@ -65,7 +63,12 @@ internal class SimpleHiitPreferencesImplTest : AbstractMockkTest() {
         //
         simpleHiitPreferences.setWorkPeriodLength(testValue)
         //
-        coVerify(exactly = 1) { mockSharedPrefsEditor.putInt(WORK_PERIOD_LENGTH_SECONDS, testValue) }
+        coVerify(exactly = 1) {
+            mockSharedPrefsEditor.putInt(
+                WORK_PERIOD_LENGTH_SECONDS,
+                testValue
+            )
+        }
     }
 
     @ParameterizedTest(name = "{index} -> when called should get sharedPrefs WORK_PERIOD_LENGTH_SECONDS and it returns {0} should return {0}")
@@ -97,7 +100,12 @@ internal class SimpleHiitPreferencesImplTest : AbstractMockkTest() {
         //
         simpleHiitPreferences.setRestPeriodLength(testValue)
         //
-        coVerify(exactly = 1) { mockSharedPrefsEditor.putInt(REST_PERIOD_LENGTH_SECONDS, testValue) }
+        coVerify(exactly = 1) {
+            mockSharedPrefsEditor.putInt(
+                REST_PERIOD_LENGTH_SECONDS,
+                testValue
+            )
+        }
     }
 
     @ParameterizedTest(name = "{index} -> when called should get sharedPrefs WORK_PERIOD_LENGTH_SECONDS and it returns {0} should return {0}")
@@ -258,122 +266,16 @@ internal class SimpleHiitPreferencesImplTest : AbstractMockkTest() {
         //
         val result = simpleHiitPreferences.getPeriodStartCountdown()
         //
-        coVerify(exactly = 1) { mockSharedPreferences.getInt(PERIOD_COUNTDOWN_LENGTH_SECONDS, any()) }
+        coVerify(exactly = 1) {
+            mockSharedPreferences.getInt(
+                PERIOD_COUNTDOWN_LENGTH_SECONDS,
+                any()
+            )
+        }
         assertEquals(PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT, defaultSlot.captured)
         assertEquals(testValue, result)
     }
 
-    @ParameterizedTest(name = "{index} -> when called with {0} set sharedPrefs SELECTED_USERS_IDS to {1}")
-    @MethodSource("setSelectedUsersArguments")
-    fun `setUsersSelected calls SharedPrefs with correct list`(
-        inputList: List<Long>,
-        expectedSharedPrefsCallList: Set<String>
-    ) = runTest {
-        val setSlot = slot<Set<String>>()
-        coEvery {
-            mockSharedPrefsEditor.putStringSet(
-                any(),
-                capture(setSlot)
-            )
-        } returns mockSharedPrefsEditor
-        //
-        simpleHiitPreferences.setUsersSelected(inputList)
-        //
-        coVerify(exactly = 1) { mockSharedPrefsEditor.putStringSet(SELECTED_USERS_IDS, any()) }
-        assertEquals(expectedSharedPrefsCallList, setSlot.captured)
-    }
-
-    @ParameterizedTest(name = "{index} -> when SharedPrefs returns {0} should return empty list")
-    @MethodSource("getSelectedUsersNothingArguments")
-    fun `getUsersSelected no values found`(
-        testValue: Set<String>?
-    ) = runTest {
-        val defaultSlot = slot<Set<String>>()
-        coEvery {
-            mockSharedPreferences.getStringSet(
-                SELECTED_USERS_IDS,
-                capture(defaultSlot)
-            )
-        } returns testValue
-        //
-        val result = simpleHiitPreferences.getUsersSelected()
-        //
-        coVerify(exactly = 1) {
-            mockSharedPreferences.getStringSet(
-                SELECTED_USERS_IDS,
-                any()
-            )
-        }
-        assertEquals(emptySet<String>(), defaultSlot.captured)
-        assertTrue(result.isEmpty())
-    }
-
-    @Test
-    fun `getUsersSelected error case failed to parse to Long`() = runTest {
-        val SharedPrefCorruptedSet = setOf("123", "234tralala", "345", "567")
-        val defaultSlot = slot<Set<String>>()
-        coEvery {
-            mockSharedPreferences.getStringSet(
-                SELECTED_USERS_IDS,
-                capture(defaultSlot)
-            )
-        } returns SharedPrefCorruptedSet
-        val setSlot = slot<Set<String>>()
-        coEvery {
-            mockSharedPrefsEditor.putStringSet(
-                any(),
-                capture(setSlot)
-            )
-        } returns mockSharedPrefsEditor
-        //
-        val result = simpleHiitPreferences.getUsersSelected()
-        //
-        //verify first call
-        coVerify(exactly = 1) {
-            mockSharedPreferences.getStringSet(
-                SELECTED_USERS_IDS,
-                any()
-            )
-        }
-        assertEquals(emptySet<String>(), defaultSlot.captured)
-        //verify exception logging
-        val exceptionSlot = slot<Exception>()
-        coVerify(exactly = 1) { mockHiitLogger.e(any(), "getUsersSelected corruption found, resetting stored list to empty list", capture(exceptionSlot)) }
-        assertTrue(exceptionSlot.captured is NumberFormatException)
-        //verify delete call
-        coVerify(exactly = 1) { mockSharedPrefsEditor.putStringSet(SELECTED_USERS_IDS, any()) }
-        assertEquals(emptySet<String>(), setSlot.captured)
-        //verify final empty result
-        assertEquals(emptyList<Long>(), result)
-    }
-
-    @ParameterizedTest(name = "{index} -> when SharedPrefs returns {0} should return {1}")
-    @MethodSource("getSelectedUsersArguments")
-    fun `getUsersSelected happy case`(
-        testValue: Set<String>,
-        expectedResult:List<Long>
-    ) = runTest {
-        val defaultSlot = slot<Set<String>>()
-        coEvery {
-            mockSharedPreferences.getStringSet(
-                SELECTED_USERS_IDS,
-                capture(defaultSlot)
-            )
-        } returns testValue
-        //
-        val result = simpleHiitPreferences.getUsersSelected()
-        //
-        coVerify(exactly = 1) {
-            mockSharedPreferences.getStringSet(
-                SELECTED_USERS_IDS,
-                any()
-            )
-        }
-        assertEquals(emptySet<String>(), defaultSlot.captured)
-        assertEquals(expectedResult, result)
-    }
-    
-    
     @ParameterizedTest(name = "{index} -> when called with {0} should set sharedPrefs WORK_PERIOD_LENGTH_SECONDS to {0}")
     @ValueSource(ints = [-1, 0, 1, 5, 10, 10000000])
     fun `setNumberOfCumulatedCycles calls sharedPrefs with same value`(
@@ -415,42 +317,5 @@ internal class SimpleHiitPreferencesImplTest : AbstractMockkTest() {
         assertEquals(NUMBER_CUMULATED_CYCLES_DEFAULT, defaultSlot.captured)
         assertEquals(testValue, result)
     }
-
-////////////////////
-private companion object {
-
-    @JvmStatic
-    fun setSelectedUsersArguments() =
-        Stream.of(
-            Arguments.of(
-                emptyList<Long>(),
-                emptySet<String>()
-            ),
-            Arguments.of(
-                listOf(123L),
-                setOf("123")
-            ),
-            Arguments.of(
-                listOf(123L, 456L, 567L, 789L),
-                setOf("123", "456", "567", "789")
-            ),
-        )
-
-    @JvmStatic
-    fun getSelectedUsersNothingArguments() =
-        Stream.of(
-            Arguments.of(emptySet<String>()),
-            Arguments.of(null)
-        )
-
-    @JvmStatic
-    fun getSelectedUsersArguments() =
-        Stream.of(
-            Arguments.of(setOf("123"), listOf(123L)),
-            Arguments.of(setOf("123", "234"), listOf(123L, 234L)),
-            Arguments.of(setOf("123", "234", "345", "567"), listOf(123L, 234L, 345L, 567L)),
-        )
-}
-
 
 }

@@ -10,6 +10,7 @@ interface SimpleHiitRepository {
 
     suspend fun insertUser(user:User): Output<Long>
     suspend fun getUsers():Output<List<User>>
+    suspend fun getSelectedUsers():Output<List<User>>
     suspend fun updateUser(user:User):Output<Int>
     suspend fun deleteUser(user:User):Output<Int>
     //
@@ -18,28 +19,25 @@ interface SimpleHiitRepository {
     //
     suspend fun setWorkPeriodLength(durationSeconds:Int)
     suspend fun getWorkPeriodLengthSeconds():Int
-
+    //
     suspend fun setRestPeriodLength(durationSeconds:Int)
     suspend fun getRestPeriodLengthSeconds():Int
-
+    //
     suspend fun setNumberOfWorkPeriods(number:Int)
     suspend fun getNumberOfWorkPeriods():Int
-
+    //
     suspend fun setBeepSound(active:Boolean)
     suspend fun getBeepSound():Boolean
-
+    //
     suspend fun setSessionStartCountdown(durationSeconds:Int)
     suspend fun getSessionStartCountdown():Int
-
+    //
     suspend fun setPeriodStartCountdown(durationSeconds:Int)
     suspend fun getPeriodStartCountdown():Int
-
-    suspend fun setUsersSelected(users:List<Long>)
-    suspend fun getUsersSelected():List<Long>
-
+    //
     suspend fun setNumberOfCumulatedCycles(number:Int)
     suspend fun getNumberOfCumulatedCycles():Int
-
+    //
     //TODO:add these once the exercises classes have been created:
 //    suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
 //    suspend fun getExercisesTypesSelected():List<ExerciseType>

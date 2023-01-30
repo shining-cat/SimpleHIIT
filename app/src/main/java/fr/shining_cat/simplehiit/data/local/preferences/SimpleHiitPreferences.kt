@@ -14,7 +14,6 @@ import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Ke
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.NUMBER_WORK_PERIODS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.REST_PERIOD_LENGTH_SECONDS
-import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.SELECTED_USERS_IDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.WORK_PERIOD_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.utils.HiitLogger
@@ -43,9 +42,6 @@ interface SimpleHiitPreferences {
     suspend fun setPeriodStartCountdown(durationSeconds: Int)
     suspend fun getPeriodStartCountdown(): Int
 
-    suspend fun setUsersSelected(users: List<Long>)
-    suspend fun getUsersSelected(): List<Long>
-
     suspend fun setNumberOfCumulatedCycles(number: Int)
     suspend fun getNumberOfCumulatedCycles(): Int
 
@@ -57,7 +53,6 @@ interface SimpleHiitPreferences {
         const val SESSION_COUNTDOWN_LENGTH_SECONDS = "session_countdown_length_seconds"
         const val PERIOD_COUNTDOWN_LENGTH_SECONDS = "period_countdown_length_seconds"
         const val NUMBER_CUMULATED_CYCLES = "number_cumulated_cycles"
-        const val SELECTED_USERS_IDS = "selected_users_ids"
     }
 
     object DefaultValues {
@@ -144,36 +139,6 @@ internal class SimpleHiitPreferencesImpl(
         val durationSeconds = sharedPreferences.getInt(PERIOD_COUNTDOWN_LENGTH_SECONDS, PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT)
         hiitLogger.d("SimpleHiitPreferences", "getPeriodStartCountdown: $durationSeconds")
         return durationSeconds
-    }
-
-    override suspend fun setUsersSelected(users: List<Long>) {
-        val setOfStringIds = users.map{it.toString()}.toSet()
-        hiitLogger.d("SimpleHiitPreferences", "setUsersSelected: $setOfStringIds")
-        sharedPreferences.edit(commit = true) { putStringSet(SELECTED_USERS_IDS, setOfStringIds) }
-    }
-
-    override suspend fun getUsersSelected(): List<Long> {
-        val setOfStringIds = sharedPreferences.getStringSet(SELECTED_USERS_IDS, setOf<String>())
-        val listOfLongIds = mutableListOf<Long>()
-        if(!setOfStringIds.isNullOrEmpty()){
-            for (userId in setOfStringIds) {
-                try {
-                    val userIdLong = userId.toLong()
-                    listOfLongIds.add(userIdLong)
-                } catch (exception: NumberFormatException) {
-                    hiitLogger.e(
-                        "SimpleHiitPreferences",
-                        "getUsersSelected corruption found, resetting stored list to empty list",
-                        exception
-                    )
-                    sharedPreferences.edit(commit = true) { putStringSet(SELECTED_USERS_IDS, emptySet()) }
-                    listOfLongIds.clear()
-                    break
-                }
-            }
-        }
-        hiitLogger.d("SimpleHiitPreferences", "getUsersSelected: $listOfLongIds")
-        return listOfLongIds.toList()
     }
 
     override suspend fun setNumberOfCumulatedCycles(number: Int) {

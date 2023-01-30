@@ -9,7 +9,8 @@ import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Compani
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = userIdColumnName, index = true) val userId: Long = 0L,
-    @ColumnInfo(name = userNameColumnName) val name: String
+    @ColumnInfo(name = userNameColumnName) val name: String,
+    @ColumnInfo(name = userSelectedColumnName) val selected: Boolean
 ) {
 
     companion object {
@@ -17,5 +18,6 @@ data class UserEntity(
         //
         const val userIdColumnName = "userId"
         const val userNameColumnName = "name"
+        const val userSelectedColumnName = "selected"
     }
 }
