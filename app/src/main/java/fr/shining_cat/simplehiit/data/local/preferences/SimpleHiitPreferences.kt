@@ -156,5 +156,4 @@ internal class SimpleHiitPreferencesImpl(
 //    suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
 //    suspend fun getExercisesTypesSelected():List<ExerciseType>
 
-
 }

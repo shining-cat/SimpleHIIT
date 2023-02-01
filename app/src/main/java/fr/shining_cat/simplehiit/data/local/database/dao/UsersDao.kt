@@ -6,7 +6,6 @@ import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Companion.userSelectedColumnName
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Companion.usersTableName
 
-@ExcludeFromJacocoGeneratedReport
 @Dao
 abstract class UsersDao {
 
