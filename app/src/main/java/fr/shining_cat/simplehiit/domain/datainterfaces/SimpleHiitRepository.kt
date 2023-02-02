@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.domain.datainterfaces
 
 import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
 
@@ -38,10 +39,7 @@ interface SimpleHiitRepository {
     suspend fun setNumberOfCumulatedCycles(number:Int)
     suspend fun getNumberOfCumulatedCycles():Int
     //
-    //TODO:add these once the exercises classes have been created:
-//    suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
-//    suspend fun getExercisesTypesSelected():List<ExerciseType>
-
-
+    suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
+    suspend fun getExercisesTypesSelected():List<ExerciseType>
 
 }

@@ -10,17 +10,40 @@ import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.De
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.DefaultValues.SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.DefaultValues.WORK_PERIOD_LENGTH_SECONDS_DEFAULT
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.BEEP_SOUND_ACTIVE
+import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.EXERCISE_TYPES_SELECTED
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.NUMBER_CUMULATED_CYCLES
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.NUMBER_WORK_PERIODS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.REST_PERIOD_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.WORK_PERIOD_LENGTH_SECONDS
+import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.utils.HiitLogger
 
 const val SIMPLE_HIIT_PREFERENCE_FILENAME = "simple_hiit_preference_filename"
 
 interface SimpleHiitPreferences {
+
+    object Keys {
+        const val WORK_PERIOD_LENGTH_SECONDS = "work_period_length_seconds"
+        const val REST_PERIOD_LENGTH_SECONDS = "rest_period_length_seconds"
+        const val NUMBER_WORK_PERIODS = "number_work_periods"
+        const val BEEP_SOUND_ACTIVE = "beep_sound_active"
+        const val SESSION_COUNTDOWN_LENGTH_SECONDS = "session_countdown_length_seconds"
+        const val PERIOD_COUNTDOWN_LENGTH_SECONDS = "period_countdown_length_seconds"
+        const val NUMBER_CUMULATED_CYCLES = "number_cumulated_cycles"
+        const val EXERCISE_TYPES_SELECTED = "exercise_types_selected"
+    }
+
+    object DefaultValues {
+        const val WORK_PERIOD_LENGTH_SECONDS_DEFAULT = 20
+        const val REST_PERIOD_LENGTH_SECONDS_DEFAULT = 10
+        const val NUMBER_WORK_PERIODS_DEFAULT = 8
+        const val BEEP_SOUND_ACTIVE_DEFAULT = true
+        const val SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT = 15
+        const val PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT = 5
+        const val NUMBER_CUMULATED_CYCLES_DEFAULT = 1
+    }
 
     suspend fun clearAll()
 
@@ -45,25 +68,9 @@ interface SimpleHiitPreferences {
     suspend fun setNumberOfCumulatedCycles(number: Int)
     suspend fun getNumberOfCumulatedCycles(): Int
 
-    object Keys {
-        const val WORK_PERIOD_LENGTH_SECONDS = "work_period_length_seconds"
-        const val REST_PERIOD_LENGTH_SECONDS = "rest_period_length_seconds"
-        const val NUMBER_WORK_PERIODS = "number_work_periods"
-        const val BEEP_SOUND_ACTIVE = "beep_sound_active"
-        const val SESSION_COUNTDOWN_LENGTH_SECONDS = "session_countdown_length_seconds"
-        const val PERIOD_COUNTDOWN_LENGTH_SECONDS = "period_countdown_length_seconds"
-        const val NUMBER_CUMULATED_CYCLES = "number_cumulated_cycles"
-    }
+    suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
+    suspend fun getExercisesTypesSelected(): List<ExerciseType>
 
-    object DefaultValues {
-        const val WORK_PERIOD_LENGTH_SECONDS_DEFAULT = 20
-        const val REST_PERIOD_LENGTH_SECONDS_DEFAULT = 10
-        const val NUMBER_WORK_PERIODS_DEFAULT = 8
-        const val BEEP_SOUND_ACTIVE_DEFAULT = true
-        const val SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT = 15
-        const val PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT = 5
-        const val NUMBER_CUMULATED_CYCLES_DEFAULT = 1
-    }
 }
 
 internal class SimpleHiitPreferencesImpl(
@@ -152,8 +159,35 @@ internal class SimpleHiitPreferencesImpl(
         return number
     }
 
-    //TODO:add these once the exercises classes have been created:
-//    suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
-//    suspend fun getExercisesTypesSelected():List<ExerciseType>
+    override suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>){
+        val setOfStringExerciseTypes = exercisesTypes.map{it.name}.toSet()
+        hiitLogger.d("SimpleHiitPreferences", "setExercisesTypesSelected: $setOfStringExerciseTypes")
+        sharedPreferences.edit(commit = true) { putStringSet(EXERCISE_TYPES_SELECTED, setOfStringExerciseTypes) }
+    }
+    override suspend fun getExercisesTypesSelected():List<ExerciseType>{
+        val setOfStringExerciseTypes = sharedPreferences.getStringSet(EXERCISE_TYPES_SELECTED, setOf<String>())
+        val listOfExerciseTypes = mutableListOf<ExerciseType>()
+        if(!setOfStringExerciseTypes.isNullOrEmpty()){
+            for (typeName in setOfStringExerciseTypes) {
+                try {
+                    val exerciseType = ExerciseType.valueOf(typeName)
+                    listOfExerciseTypes.add(exerciseType)
+                } catch (exception: IllegalArgumentException) {
+                    hiitLogger.e(
+                        "SimpleHiitPreferences",
+                        "getExercisesTypesSelected corruption found, resetting stored list to complete list",
+                        exception
+                    )
+                    listOfExerciseTypes.clear()
+                    listOfExerciseTypes.addAll(ExerciseType.values())
+                    val completeSet = ExerciseType.values().map { it.name }.toSet()
+                    sharedPreferences.edit(commit = true) { putStringSet(EXERCISE_TYPES_SELECTED, completeSet) }
+                    break
+                }
+            }
+        }
+        hiitLogger.d("SimpleHiitPreferences", "getExercisesTypesSelected: $listOfExerciseTypes")
+        return listOfExerciseTypes.toList()
+    }
 
 }

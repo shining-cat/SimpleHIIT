@@ -10,12 +10,17 @@ import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.De
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.DefaultValues.SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.DefaultValues.WORK_PERIOD_LENGTH_SECONDS_DEFAULT
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.BEEP_SOUND_ACTIVE
+import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.EXERCISE_TYPES_SELECTED
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.NUMBER_CUMULATED_CYCLES
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.NUMBER_WORK_PERIODS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.REST_PERIOD_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS
 import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences.Keys.WORK_PERIOD_LENGTH_SECONDS
+import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.models.ExerciseType.*
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -24,6 +29,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
@@ -316,6 +322,166 @@ internal class SimpleHiitPreferencesImplTest : AbstractMockkTest() {
         }
         assertEquals(NUMBER_CUMULATED_CYCLES_DEFAULT, defaultSlot.captured)
         assertEquals(testValue, result)
+    }
+
+    @ParameterizedTest(name = "{index} -> when called with {0} set sharedPrefs SELECTED_USERS_IDS to {1}")
+    @MethodSource("setExercisesTypesSelectedArguments")
+    fun `setExercisesTypesSelected calls SharedPrefs with correct list`(
+        inputList: List<ExerciseType>,
+        expectedSharedPrefsCallList: Set<String>
+    ) = runTest {
+        val setSlot = slot<Set<String>>()
+        coEvery {
+            mockSharedPrefsEditor.putStringSet(
+                any(),
+                capture(setSlot)
+            )
+        } returns mockSharedPrefsEditor
+        //
+        simpleHiitPreferences.setExercisesTypesSelected(inputList)
+        //
+        coVerify(exactly = 1) { mockSharedPrefsEditor.putStringSet(EXERCISE_TYPES_SELECTED, any()) }
+        assertEquals(expectedSharedPrefsCallList, setSlot.captured)
+    }
+
+    @ParameterizedTest(name = "{index} -> when SharedPrefs returns {0} should return empty list")
+    @MethodSource("getExercisesTypesSelectedNothingArguments")
+    fun `getExercisesTypesSelected no values found`(
+        testValue: Set<String>?
+    ) = runTest {
+        val defaultSlot = slot<Set<String>>()
+        coEvery {
+            mockSharedPreferences.getStringSet(
+                EXERCISE_TYPES_SELECTED,
+                capture(defaultSlot)
+            )
+        } returns testValue
+        //
+        val result = simpleHiitPreferences.getExercisesTypesSelected()
+        //
+        coVerify(exactly = 1) {
+            mockSharedPreferences.getStringSet(
+                EXERCISE_TYPES_SELECTED,
+                any()
+            )
+        }
+        assertEquals(emptySet<String>(), defaultSlot.captured)
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun `getExercisesTypesSelected error case failed to parse to ExerciseType`() = runTest {
+        val sharedPrefCorruptedSet = setOf("CAT", "CRABcorrupted-123", "LUNGE", "LYING")
+        val defaultSlot = slot<Set<String>>()
+        coEvery {
+            mockSharedPreferences.getStringSet(
+                EXERCISE_TYPES_SELECTED,
+                capture(defaultSlot)
+            )
+        } returns sharedPrefCorruptedSet
+        val setSlot = slot<Set<String>>()
+        coEvery {
+            mockSharedPrefsEditor.putStringSet(
+                any(),
+                capture(setSlot)
+            )
+        } returns mockSharedPrefsEditor
+        //
+        val result = simpleHiitPreferences.getExercisesTypesSelected()
+        //
+        //verify first call
+        coVerify(exactly = 1) {
+            mockSharedPreferences.getStringSet(
+                EXERCISE_TYPES_SELECTED,
+                any()
+            )
+        }
+        assertEquals(emptySet<String>(), defaultSlot.captured)
+        //verify exception logging
+        val exceptionSlot = slot<Exception>()
+        coVerify(exactly = 1) { mockHiitLogger.e(any(), "getExercisesTypesSelected corruption found, resetting stored list to complete list", capture(exceptionSlot)) }
+        assertTrue(exceptionSlot.captured is IllegalArgumentException)
+        //verify delete call
+        coVerify(exactly = 1) { mockSharedPrefsEditor.putStringSet(EXERCISE_TYPES_SELECTED, any()) }
+        val expectedCompleteSet = ExerciseType.values().map { it.name }.toSet()
+        assertEquals(expectedCompleteSet, setSlot.captured)
+        //verify final empty result
+        val expectedCompleteList = ExerciseType.values().toList()
+        assertEquals(expectedCompleteList, result)
+    }
+
+    @ParameterizedTest(name = "{index} -> when SharedPrefs returns {0} should return {1}")
+    @MethodSource("getExercisesTypesSelectedArguments")
+    fun `getExercisesTypesSelected happy case`(
+        testValue: Set<String>,
+        expectedResult:List<Long>
+    ) = runTest {
+        val defaultSlot = slot<Set<String>>()
+        coEvery {
+            mockSharedPreferences.getStringSet(
+                EXERCISE_TYPES_SELECTED,
+                capture(defaultSlot)
+            )
+        } returns testValue
+        //
+        val result = simpleHiitPreferences.getExercisesTypesSelected()
+        //
+        coVerify(exactly = 1) {
+            mockSharedPreferences.getStringSet(
+                EXERCISE_TYPES_SELECTED,
+                any()
+            )
+        }
+        assertEquals(emptySet<String>(), defaultSlot.captured)
+        assertEquals(expectedResult, result)
+    }
+
+    private companion object {
+
+        @JvmStatic
+        fun setExercisesTypesSelectedArguments() =
+            Stream.of(
+                Arguments.of(
+                    emptyList<ExerciseType>(),
+                    emptySet<String>()
+                ),
+                Arguments.of(
+                    listOf(LUNGE),
+                    setOf("LUNGE")
+                ),
+                Arguments.of(
+                    listOf(CAT, LUNGE, PLANK, SQUAT),
+                    setOf("CAT", "LUNGE", "PLANK", "SQUAT")
+                ),
+                Arguments.of(
+                    listOf(CAT, CRAB, LUNGE, LYING, PLANK, SITTING, SQUAT, STANDING),
+                    setOf("CAT", "CRAB", "LUNGE", "LYING", "PLANK", "SITTING", "SQUAT", "STANDING")
+                )
+            )
+
+        @JvmStatic
+        fun getExercisesTypesSelectedNothingArguments() =
+            Stream.of(
+                Arguments.of(emptySet<String>()),
+                Arguments.of(null)
+            )
+
+        @JvmStatic
+        fun getExercisesTypesSelectedArguments() =
+            Stream.of(
+                Arguments.of(
+                    setOf("LUNGE"),
+                    listOf(LUNGE)
+                ),
+                Arguments.of(
+                    setOf("CAT", "LUNGE", "PLANK", "SQUAT"),
+                    listOf(CAT, LUNGE, PLANK, SQUAT)
+                ),
+                Arguments.of(
+                    setOf("CAT", "CRAB", "LUNGE", "LYING", "PLANK", "SITTING", "SQUAT", "STANDING"),
+                    listOf(CAT, CRAB, LUNGE, LYING, PLANK, SITTING, SQUAT, STANDING)
+                )
+            )
     }
 
 }

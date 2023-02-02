@@ -9,6 +9,7 @@ import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants.Errors
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
+import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
 import javax.inject.Inject
@@ -209,8 +210,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         return hiitPreferences.getNumberOfCumulatedCycles()
     }
 
-    //TODO:add these once the exercises classes have been created:
-//    override suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
-//    override suspend fun getExercisesTypesSelected():List<ExerciseType>
+    override suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>){
+        hiitPreferences.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
+    }
+    override suspend fun getExercisesTypesSelected():List<ExerciseType>{
+        return hiitPreferences.getExercisesTypesSelected()
+    }
 
 }

@@ -10,6 +10,8 @@ import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.models.ExerciseType.*
 import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.*
@@ -209,4 +211,24 @@ internal class SimpleHiitRepositoryImplTest : AbstractMockkTest() {
 
 ///////////////////
 
+    @Test
+    fun `setExercisesTypesSelected calls hiitPreferences setExercisesTypesSelected with correct value `() = runTest {
+        val testValue = listOf(CAT, CRAB, LUNGE, LYING, PLANK, SITTING, SQUAT, STANDING)
+        coEvery { mockSimpleHiitPreferences.setExercisesTypesSelected(any()) } just Runs
+        //
+        simpleHiitRepository.setExercisesTypesSelected(testValue)
+        //
+        coVerify (exactly = 1){ mockSimpleHiitPreferences.setExercisesTypesSelected(testValue) }
+    }
+
+    @Test
+    fun `getExercisesTypesSelected calls hiitPreferences getExercisesTypesSelected and return correct value `() = runTest {
+        val testValue = listOf(CAT, CRAB, LUNGE, LYING, PLANK, SITTING, SQUAT, STANDING)
+        coEvery { mockSimpleHiitPreferences.getExercisesTypesSelected() } returns testValue
+        //
+        val actual = simpleHiitRepository.getExercisesTypesSelected()
+        //
+        coVerify (exactly = 1){ mockSimpleHiitPreferences.getExercisesTypesSelected() }
+        assertEquals(testValue, actual)
+    }
 }
