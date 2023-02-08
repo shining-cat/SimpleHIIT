@@ -1,5 +1,4 @@
 
-- handle warnings in build
+- fix test coverage task for instrumented tests not reporting any coverage
 - add dependencies versions update check plugin
-- add jacoco exclusion annotation to avoid coverage including unnecessary files
 - edit theme
