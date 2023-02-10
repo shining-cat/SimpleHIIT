@@ -8,6 +8,7 @@ import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -148,7 +149,7 @@ class SessionsDaoTest {
     @Test(expected = SQLiteConstraintException::class)
     fun testInsertSessionWithUnknownUserId() = runTest {
         //first check there are no user with id in the users table
-        val users = usersDao.getUsers()
+        val users = usersDao.getUsers().first()
         assertEquals(0, users.size)
         //try to insert session
         val testUserID = 1243L

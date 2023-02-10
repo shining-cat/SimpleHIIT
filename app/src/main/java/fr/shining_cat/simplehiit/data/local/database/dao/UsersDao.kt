@@ -5,6 +5,7 @@ import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Companion.userSelectedColumnName
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity.Companion.usersTableName
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class UsersDao {
@@ -13,10 +14,10 @@ abstract class UsersDao {
     abstract suspend fun insert(user: UserEntity):Long
 
     @Query("SELECT * FROM $usersTableName")
-    abstract suspend fun getUsers(): List<UserEntity>
+    abstract fun getUsers(): Flow<List<UserEntity>>
 
     @Query("SELECT * FROM $usersTableName WHERE $userSelectedColumnName = true")
-    abstract suspend fun getSelectedUsers(): List<UserEntity>
+    abstract fun getSelectedUsers(): Flow<List<UserEntity>>
 
     @Update
     abstract suspend fun update(userEntity: UserEntity): Int

@@ -14,6 +14,7 @@ object BuildPlugins {
  */
 object Deps {
     val appCompat           by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
+    val datastore           by lazy { "androidx.datastore:datastore-preferences:${Versions.datastore}" }
     val kotlin              by lazy { "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}" }
     val materialDesign      by lazy { "com.google.android.material:material:${Versions.material}" }
     val constraintLayout    by lazy { "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}" }

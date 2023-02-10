@@ -4,8 +4,7 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
-import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
-import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants
@@ -35,14 +34,14 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     private val mockSessionsDao = mockk<SessionsDao>()
     private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
-    private val mockSimpleHiitPreferences = mockk<SimpleHiitPreferences>()
+    private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
     private val simpleHiitRepository = SimpleHiitRepositoryImpl(
         usersDao = mockUsersDao,
         sessionsDao = mockSessionsDao,
         userMapper = mockUserMapper,
         sessionMapper = mockSessionMapper,
-        hiitPreferences = mockSimpleHiitPreferences,
+        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
         hiitLogger = mockHiitLogger
     )
 
@@ -52,10 +51,17 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     private val testSessionId = 1234L
     private val testDate = 2345L
     private val testSessionUserId1 = 345L
-    private val testSessionUserModel = User(id = testSessionUserId1, name = "test user name", selected = true)
+    private val testSessionUserModel =
+        User(id = testSessionUserId1, name = "test user name", selected = true)
     private val testDuration = 123L
-    private val testSession = Session(date = testDate, duration = testDuration, usersIds = listOf(testSessionUserId1))
-    private val testSessionEntity = SessionEntity(sessionId = testSessionId, date = testDate, durationMs = testDuration, userId = testSessionUserId1)
+    private val testSession =
+        Session(date = testDate, duration = testDuration, usersIds = listOf(testSessionUserId1))
+    private val testSessionEntity = SessionEntity(
+        sessionId = testSessionId,
+        date = testDate,
+        durationMs = testDuration,
+        userId = testSessionUserId1
+    )
 
     @Test
     fun `insert session returns error when users list is empty`() = runTest {
@@ -96,7 +102,13 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSessionMapper.convert(testSession) }
         coVerify(exactly = 1) { mockSessionsDao.insert(listOf(testSessionEntity)) }
-        coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed inserting session", thrownException) }
+        coVerify(exactly = 1) {
+            mockHiitLogger.e(
+                any(),
+                "failed inserting session",
+                thrownException
+            )
+        }
         val expectedOutput = Output.Error(
             errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
             exception = thrownException
@@ -108,17 +120,17 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     @MethodSource("insertSessionArguments")
     fun `insert session behaves correctly in happy cases`(
         inputSession: Session,
-        converterOutput : List<SessionEntity>,
+        converterOutput: List<SessionEntity>,
         daoAnswer: List<Long>
     ) = runTest {
         coEvery { mockSessionMapper.convert(any<Session>()) } answers { converterOutput }
-        coEvery { mockSessionsDao.insert(any()) } answers {daoAnswer}
+        coEvery { mockSessionsDao.insert(any()) } answers { daoAnswer }
         //
         val actual = simpleHiitRepository.insertSession(inputSession)
         //
         coVerify(exactly = 1) { mockSessionMapper.convert(inputSession) }
         val entityListSlot = slot<List<SessionEntity>>()
-        coVerify(exactly = 1) { mockSessionsDao.insert(capture(entityListSlot))}
+        coVerify(exactly = 1) { mockSessionsDao.insert(capture(entityListSlot)) }
         assertEquals(converterOutput, entityListSlot.captured)
         assertTrue(actual is Output.Success)
         actual as Output.Success
@@ -133,16 +145,47 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
             Stream.of(
                 Arguments.of(
                     Session(date = 123L, duration = 234L, usersIds = listOf(345L)),
-                    listOf(SessionEntity(sessionId = 456L, date = 123L, durationMs = 234L, userId = 345L)),
+                    listOf(
+                        SessionEntity(
+                            sessionId = 456L,
+                            date = 123L,
+                            durationMs = 234L,
+                            userId = 345L
+                        )
+                    ),
                     listOf(321L)
                 ),
                 Arguments.of(
-                    Session(date = 123L, duration = 234L, usersIds = listOf(345L, 678L, 789L, 891L)),
+                    Session(
+                        date = 123L,
+                        duration = 234L,
+                        usersIds = listOf(345L, 678L, 789L, 891L)
+                    ),
                     listOf(
-                        SessionEntity(sessionId = 456L, date = 123L, durationMs = 234L, userId = 345L),
-                        SessionEntity(sessionId = 456L, date = 123L, durationMs = 234L, userId = 678L),
-                        SessionEntity(sessionId = 456L, date = 123L, durationMs = 234L, userId = 789L),
-                        SessionEntity(sessionId = 456L, date = 123L, durationMs = 234L, userId = 891L),
+                        SessionEntity(
+                            sessionId = 456L,
+                            date = 123L,
+                            durationMs = 234L,
+                            userId = 345L
+                        ),
+                        SessionEntity(
+                            sessionId = 456L,
+                            date = 123L,
+                            durationMs = 234L,
+                            userId = 678L
+                        ),
+                        SessionEntity(
+                            sessionId = 456L,
+                            date = 123L,
+                            durationMs = 234L,
+                            userId = 789L
+                        ),
+                        SessionEntity(
+                            sessionId = 456L,
+                            date = 123L,
+                            durationMs = 234L,
+                            userId = 891L
+                        ),
                     ),
                     listOf(321L, 543L, 654L, 765L)
                 )

@@ -7,6 +7,10 @@ import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -67,14 +71,17 @@ class UsersJoinSessionsDaoTest {
     private val testSessionDate7 = 56789L
 
     @Test
-    fun getSessionsForUserList() = runTest {
+    fun cascadeSessionsDeletionWhenDeletingAUser() = runTest {
         //first insert users in users table
         val testUser1 =
             UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
-        usersDao.insert(testUser1)
         val testUser2 =
             UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
-        usersDao.insert(testUser2)
+        launch {
+            usersDao.insert(testUser1)
+            usersDao.insert(testUser2)
+        }
+        advanceUntilIdle()
         //
         val testSession = SessionEntity(
             userId = testUserID,
@@ -111,24 +118,31 @@ class UsersJoinSessionsDaoTest {
             durationMs = testSessionDuration7,
             date = testSessionDate7
         )
-        sessionsDao.insert(
-            listOf(
-                testSession,
-                testSession2,
-                testSession3,
-                testSession4,
-                testSession5,
-                testSession6,
-                testSession7
+        launch {
+            sessionsDao.insert(
+                listOf(
+                    testSession,
+                    testSession2,
+                    testSession3,
+                    testSession4,
+                    testSession5,
+                    testSession6,
+                    testSession7
+                )
             )
-        )
+        }
+        advanceUntilIdle()
         //Assert that we have stored expected users in users table
-        val retrievedUsers = usersDao.getUsers()
-        assertEquals(2, retrievedUsers.size)
-        assertEquals(testUserID, retrievedUsers[0].userId)
-        assertEquals(testUserName, retrievedUsers[0].name)
-        assertEquals(testUserID2, retrievedUsers[1].userId)
-        assertEquals(testUserName2, retrievedUsers[1].name)
+        val usersFlowAsList = mutableListOf<List<UserEntity>>()
+        val collectJob = launch(UnconfinedTestDispatcher()){
+            usersDao.getUsers().toList(usersFlowAsList)
+        }
+        val usersTableContentBefore = usersFlowAsList[0]
+        assertEquals(2, usersTableContentBefore.size)
+        assertEquals(testUserID, usersTableContentBefore[0].userId)
+        assertEquals(testUserName, usersTableContentBefore[0].name)
+        assertEquals(testUserID2, usersTableContentBefore[1].userId)
+        assertEquals(testUserName2, usersTableContentBefore[1].name)
         //assert that the expected user 1's sessions are stored in sessions table
         val sessionsForUser1 = sessionsDao.getSessionsForUser(userId = testUserID)
         assertEquals(4, sessionsForUser1.size)
@@ -164,9 +178,13 @@ class UsersJoinSessionsDaoTest {
         assertEquals(testSessionDuration7, retrievedSession7.durationMs)
         assertEquals(testSessionDate7, retrievedSession7.date)
         //delete user 1 in users table
-        usersDao.delete(testUser1)
+        var deleted = -1
+        launch {deleted = usersDao.delete(testUser1)}
+        advanceUntilIdle()
+        assertEquals(1, deleted)
         //assert user 1 is not in users table anymore
-        val retrievedUsersAfterDeletion = usersDao.getUsers()
+        assertEquals(2, usersFlowAsList.size)
+        val retrievedUsersAfterDeletion = usersFlowAsList[1]
         assertEquals(1, retrievedUsersAfterDeletion.size)
         assertEquals(testUser2, retrievedUsersAfterDeletion[0])
         //assert no sessions are found in sessions table for user 1
@@ -175,6 +193,8 @@ class UsersJoinSessionsDaoTest {
         //assert sessions for user 2 are still all there
         val sessionsForUser2AfterDeletion = sessionsDao.getSessionsForUser(userId = testUserID2)
         assertEquals(3, sessionsForUser2AfterDeletion.size)
+        //
+        collectJob.cancel()
     }
 
 

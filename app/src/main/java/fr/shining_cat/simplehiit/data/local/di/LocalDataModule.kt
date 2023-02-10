@@ -2,6 +2,8 @@ package fr.shining_cat.simplehiit.data.local.di
 
 import android.app.Application
 import android.content.Context
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -12,9 +14,9 @@ import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase.Companion.SimpleHiitDatabaseName
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
-import fr.shining_cat.simplehiit.data.local.preferences.SIMPLE_HIIT_PREFERENCE_FILENAME
-import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences
-import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferencesImpl
+import fr.shining_cat.simplehiit.data.local.datastore.SIMPLE_HIIT_DATASTORE_FILENAME
+import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
+import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManagerImpl
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Singleton
 
@@ -43,17 +45,17 @@ class LocalDataModule {
     }
 
     @Provides
-    fun provideSimpleHiitPreferences(
-        application: Application,
+    @Singleton
+    fun provideSimpleHiitDataStoreManager(
+        @ApplicationContext appContext: Context,
         hiitLogger: HiitLogger
-    ): SimpleHiitPreferences {
-        return SimpleHiitPreferencesImpl(
-            sharedPreferences = application.getSharedPreferences(
-                SIMPLE_HIIT_PREFERENCE_FILENAME,
-                Context.MODE_PRIVATE
-            ),
-            hiitLogger = hiitLogger
+    ): SimpleHiitDataStoreManager {
+        val datastore = PreferenceDataStoreFactory.create(
+            produceFile = {
+                appContext.preferencesDataStoreFile(SIMPLE_HIIT_DATASTORE_FILENAME)
+            }
         )
+        return SimpleHiitDataStoreManagerImpl(datastore, hiitLogger)
     }
 
 }

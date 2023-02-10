@@ -19,7 +19,7 @@ android {
         versionCode = ConfigData.versionCode
         versionName = ConfigData.versionName
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "fr.shining_cat.simplehiit.HiltTestRunner"
     }
 
     buildTypes {
@@ -62,8 +62,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.squareup:javapoet:1.13.0")
-    testImplementation("org.junit.jupiter:junit-jupiter")//This is to prevent the older version pulled by AGP to override the newer needed by Hilt
+    //This is to prevent the older version pulled by AGP to override the newer needed by Hilt
+    //implementation("com.squareup:javapoet:1.13.0") //seems to not be needed here but only in project build.gradle and buildSrc one
     //
     val composeBom = platform("androidx.compose:compose-bom:2022.12.00")
     implementation(composeBom)
@@ -71,15 +71,20 @@ dependencies {
     //
     implementation(Deps.kotlin)
     implementation(Deps.appCompat)
+    implementation(Deps.datastore)
     implementation(Deps.materialDesign)
     implementation(Deps.constraintLayout)
     testImplementation(Deps.jupiter)
+    androidTestImplementation(Deps.archCoreTesting)
+    androidTestImplementation(Deps.testRunner)
     //
     implementation(HiltDeps.hiltAndroid)
     implementation(HiltDeps.hiltNavigation)
     kapt(HiltDeps.hiltAndroidCompiler)
     testImplementation(HiltDeps.hiltTestAndroid)
+    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
     androidTestImplementation(HiltDeps.hiltTestAndroid)
+    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
     //
     implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composePreview)

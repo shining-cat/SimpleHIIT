@@ -1,17 +1,18 @@
 package fr.shining_cat.simplehiit.data
 
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
-import fr.shining_cat.simplehiit.data.local.preferences.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants.Errors
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.Session
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.domain.models.*
+import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.coroutines.cancellation.CancellationException
 
@@ -20,7 +21,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     private val sessionsDao: SessionsDao,
     private val userMapper: UserMapper,
     private val sessionMapper: SessionMapper,
-    private val hiitPreferences: SimpleHiitPreferences,
+    private val hiitDataStoreManager: SimpleHiitDataStoreManager,
     private val hiitLogger: HiitLogger
 ) : SimpleHiitRepository {
 
@@ -38,32 +39,42 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getUsers(): Output<List<User>> {
+    override fun getUsers(): Flow<Output<List<User>>> {
         return try {
-            val users = usersDao.getUsers()
-            val usersModels = users.map { userMapper.convert(it) }
-            Output.Success(usersModels)
+            val usersFlow = usersDao.getUsers()
+            usersFlow.map { users ->
+                Output.Success(
+                    users.map {user ->
+                        userMapper.convert(user)
+                    }
+                )
+            }
         } catch (cancellationException: CancellationException) {
             throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting users", exception)
-            Output.Error(
-                errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception
+            flowOf(
+                Output.Error(errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception)
             )
         }
     }
 
-    override suspend fun getSelectedUsers(): Output<List<User>> {
+    override suspend fun getSelectedUsers(): Flow<Output<List<User>>> {
         return try {
-            val users = usersDao.getSelectedUsers()
-            val usersModels = users.map { userMapper.convert(it) }
-            Output.Success(usersModels)
+            val usersFlow = usersDao.getSelectedUsers()
+            usersFlow.map { users ->
+                Output.Success(
+                    users.map {user ->
+                        userMapper.convert(user)
+                    }
+                )
+            }
         } catch (cancellationException: CancellationException) {
             throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting selected users", exception)
-            Output.Error(
-                errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception
+            flowOf(
+                Output.Error(errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception)
             )
         }
     }
@@ -96,9 +107,9 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override suspend fun deleteUser(user: User): Output<Int> {
         return try {
             val deletedCount = usersDao.delete(userMapper.convert(user))
-            if(deletedCount == 1){
+            if (deletedCount == 1) {
                 Output.Success(result = deletedCount)
-            } else{
+            } else {
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting user")
                 Output.Error(
                     errorCode = Errors.DATABASE_DELETE_FAILED,
@@ -154,67 +165,51 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getGeneralSettings(): Flow<SimpleHiitSettings> {
+        return try {
+            hiitDataStoreManager.getPreferences()
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting general settings - returning default settings", exception)
+            flowOf(SimpleHiitSettings())
+        }
+    }
+
+    override fun getTotalRepetitionsSetting(): Flow<TotalRepetitionsSetting> {
+        return try {
+            hiitDataStoreManager.getNumberOfCumulatedCycles()
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting TotalRepetitionsSetting - returning default value", exception)
+            flowOf(TotalRepetitionsSetting())
+        }
+    }
+
     override suspend fun setWorkPeriodLength(durationSeconds: Int) {
-        hiitPreferences.setWorkPeriodLength(durationSeconds)
+        hiitDataStoreManager.setWorkPeriodLength(durationSeconds)
     }
-
-    override suspend fun getWorkPeriodLengthSeconds(): Int {
-        return hiitPreferences.getWorkPeriodLengthSeconds()
-    }
-
     override suspend fun setRestPeriodLength(durationSeconds: Int) {
-        hiitPreferences.setRestPeriodLength(durationSeconds)
+        hiitDataStoreManager.setRestPeriodLength(durationSeconds)
     }
-
-    override suspend fun getRestPeriodLengthSeconds(): Int {
-        return hiitPreferences.getRestPeriodLengthSeconds()
-    }
-
     override suspend fun setNumberOfWorkPeriods(number: Int) {
-        hiitPreferences.setNumberOfWorkPeriods(number)
+        hiitDataStoreManager.setNumberOfWorkPeriods(number)
     }
-
-    override suspend fun getNumberOfWorkPeriods(): Int {
-        return hiitPreferences.getNumberOfWorkPeriods()
-    }
-
     override suspend fun setBeepSound(active: Boolean) {
-        hiitPreferences.setBeepSound(active)
+        hiitDataStoreManager.setBeepSound(active)
     }
-
-    override suspend fun getBeepSound(): Boolean {
-        return hiitPreferences.getBeepSoundActive()
-    }
-
     override suspend fun setSessionStartCountdown(durationSeconds: Int) {
-        hiitPreferences.setSessionStartCountdown(durationSeconds)
+        hiitDataStoreManager.setSessionStartCountdown(durationSeconds)
     }
-
-    override suspend fun getSessionStartCountdown(): Int {
-        return hiitPreferences.getSessionStartCountdown()
-    }
-
     override suspend fun setPeriodStartCountdown(durationSeconds: Int) {
-        hiitPreferences.setPeriodStartCountdown(durationSeconds)
+        hiitDataStoreManager.setPeriodStartCountdown(durationSeconds)
     }
-
-    override suspend fun getPeriodStartCountdown(): Int {
-        return hiitPreferences.getPeriodStartCountdown()
-    }
-
     override suspend fun setNumberOfCumulatedCycles(number: Int) {
-        hiitPreferences.setNumberOfCumulatedCycles(number = number)
+        hiitDataStoreManager.setNumberOfCumulatedCycles(number = number)
     }
-
-    override suspend fun getNumberOfCumulatedCycles(): Int {
-        return hiitPreferences.getNumberOfCumulatedCycles()
-    }
-
-    override suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>){
-        hiitPreferences.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
-    }
-    override suspend fun getExercisesTypesSelected():List<ExerciseType>{
-        return hiitPreferences.getExercisesTypesSelected()
+    override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
+        hiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
     }
 
 }
