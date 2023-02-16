@@ -1,4 +1,0 @@
-
-- fix test coverage task for instrumented tests not reporting any coverage
-- add dependencies versions update check plugin
-- edit theme

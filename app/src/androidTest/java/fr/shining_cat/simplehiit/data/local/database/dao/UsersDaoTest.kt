@@ -213,7 +213,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun getSelectedUsersOnlyOneIsSelected() = runTest {
+    fun getSelectedUsersOnlyOneAndIsSelected() = runTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
@@ -227,7 +227,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun getSelectedUsersOnlyOneIsNotSelected() = runTest {
+    fun getSelectedUsersOnlyOneAndIsNotSelected() = runTest {
         val testUserName = "test user name"
         val testSelected = false
         val user = UserEntity(name = testUserName, selected = testSelected)
@@ -265,13 +265,14 @@ class UsersDaoTest {
         advanceUntilIdle()
         //
         val tableContent = usersDao.getSelectedUsers().first()
-        assertEquals(3, tableContent.size)
+        assertEquals(3, tableContent.size)//we got all the users with selected = true
         assertEquals(testUserName1, tableContent[0].name)
-        assertEquals(testSelected1, tableContent[0].selected)
         assertEquals(testUserName3, tableContent[1].name)
-        assertEquals(testSelected3, tableContent[1].selected)
         assertEquals(testUserName5, tableContent[2].name)
-        assertEquals(testSelected5, tableContent[2].selected)
+        //assert that all returned users are selected=true
+        for(user in tableContent){
+            assertTrue(user.selected)
+        }
     }
 
     @Test

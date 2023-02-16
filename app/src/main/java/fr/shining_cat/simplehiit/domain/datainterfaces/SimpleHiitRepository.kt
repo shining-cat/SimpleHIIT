@@ -10,7 +10,7 @@ interface SimpleHiitRepository {
 
     suspend fun insertUser(user:User): Output<Long>
     fun getUsers(): Flow<Output<List<User>>>
-    suspend fun getSelectedUsers(): Flow<Output<List<User>>>
+    fun getSelectedUsers(): Flow<Output<List<User>>>
     suspend fun updateUser(user:User):Output<Int>
     suspend fun deleteUser(user:User):Output<Int>
     //

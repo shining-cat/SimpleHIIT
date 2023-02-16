@@ -59,7 +59,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSelectedUsers(): Flow<Output<List<User>>> {
+    override fun getSelectedUsers(): Flow<Output<List<User>>> {
         return try {
             val usersFlow = usersDao.getSelectedUsers()
             usersFlow.map { users ->

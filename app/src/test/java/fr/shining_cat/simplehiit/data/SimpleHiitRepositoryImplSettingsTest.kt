@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
@@ -177,19 +178,19 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getPreferences() }
             // first emission
             settingsFlow.emit(datastoreOutput1)
-            Assertions.assertEquals(1, settingsFlowAsList.size)
+            assertEquals(1, settingsFlowAsList.size)
             val settings1 = settingsFlowAsList[0]
-            Assertions.assertEquals(datastoreOutput1, settings1)
+            assertEquals(datastoreOutput1, settings1)
             // second emission
             settingsFlow.emit(datastoreOutput2)
-            Assertions.assertEquals(2, settingsFlowAsList.size)
+            assertEquals(2, settingsFlowAsList.size)
             val settings2 = settingsFlowAsList[1]
-            Assertions.assertEquals(datastoreOutput2, settings2)
+            assertEquals(datastoreOutput2, settings2)
             // third emission
             settingsFlow.emit(datastoreOutput3)
-            Assertions.assertEquals(3, settingsFlowAsList.size)
+            assertEquals(3, settingsFlowAsList.size)
             val settings3 = settingsFlowAsList[2]
-            Assertions.assertEquals(datastoreOutput3, settings3)
+            assertEquals(datastoreOutput3, settings3)
             //
             collectJob.cancel()
         }
@@ -213,9 +214,9 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        Assertions.assertEquals(1, settingsFlowAsList.size)
+        assertEquals(1, settingsFlowAsList.size)
         val settingsOutput = settingsFlowAsList[0]
-        Assertions.assertEquals(defaultSettings, settingsOutput)
+        assertEquals(defaultSettings, settingsOutput)
         //
         collectJob.cancel()
     }
@@ -250,19 +251,19 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() }
             // first emission
             repetitionsNumberFlow.emit(datastoreOutput1)
-            Assertions.assertEquals(1, repetitionsNumberFlowAsList.size)
+            assertEquals(1, repetitionsNumberFlowAsList.size)
             val repetitionsNumber1 = repetitionsNumberFlowAsList[0]
-            Assertions.assertEquals(datastoreOutput1, repetitionsNumber1)
+            assertEquals(datastoreOutput1, repetitionsNumber1)
             // second emission
             repetitionsNumberFlow.emit(datastoreOutput2)
-            Assertions.assertEquals(2, repetitionsNumberFlowAsList.size)
+            assertEquals(2, repetitionsNumberFlowAsList.size)
             val repetitionsNumber2 = repetitionsNumberFlowAsList[1]
-            Assertions.assertEquals(datastoreOutput2, repetitionsNumber2)
+            assertEquals(datastoreOutput2, repetitionsNumber2)
             // third emission
             repetitionsNumberFlow.emit(datastoreOutput3)
-            Assertions.assertEquals(3, repetitionsNumberFlowAsList.size)
+            assertEquals(3, repetitionsNumberFlowAsList.size)
             val repetitionsNumber3 = repetitionsNumberFlowAsList[2]
-            Assertions.assertEquals(datastoreOutput3, repetitionsNumber3)
+            assertEquals(datastoreOutput3, repetitionsNumber3)
             //
             collectJob.cancel()
         }
@@ -285,9 +286,9 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        Assertions.assertEquals(1, repetitionsNumberFlowAsList.size)
+        assertEquals(1, repetitionsNumberFlowAsList.size)
         val settingsOutput = repetitionsNumberFlowAsList[0]
-        Assertions.assertEquals(defaultRepetitions, settingsOutput)
+        assertEquals(defaultRepetitions, settingsOutput)
         //
         collectJob.cancel()
     }
