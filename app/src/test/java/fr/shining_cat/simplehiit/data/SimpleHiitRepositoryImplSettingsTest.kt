@@ -17,7 +17,6 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -121,7 +120,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             val testValue = 123
             coEvery { mockSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(any()) } just Runs
             //
-            simpleHiitRepository.setNumberOfCumulatedCycles(testValue)
+            simpleHiitRepository.setTotalRepetitionsNumber(testValue)
             //
             coVerify(exactly = 1) {
                 mockSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(

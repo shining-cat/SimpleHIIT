@@ -205,7 +205,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override suspend fun setPeriodStartCountdown(durationSeconds: Int) {
         hiitDataStoreManager.setPeriodStartCountdown(durationSeconds)
     }
-    override suspend fun setNumberOfCumulatedCycles(number: Int) {
+    override suspend fun setTotalRepetitionsNumber(number: Int) {
         hiitDataStoreManager.setNumberOfCumulatedCycles(number = number)
     }
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {

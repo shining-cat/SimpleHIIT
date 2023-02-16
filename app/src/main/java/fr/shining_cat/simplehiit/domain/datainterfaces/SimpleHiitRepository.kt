@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @ExcludeFromJacocoGeneratedReport
 interface SimpleHiitRepository {
 
-    suspend fun insertUser(user:User): Output<Long>
+        suspend fun insertUser(user:User): Output<Long>
     fun getUsers(): Flow<Output<List<User>>>
     fun getSelectedUsers(): Flow<Output<List<User>>>
     suspend fun updateUser(user:User):Output<Int>
@@ -26,7 +26,7 @@ interface SimpleHiitRepository {
     suspend fun setBeepSound(active:Boolean)
     suspend fun setSessionStartCountdown(durationSeconds:Int)
     suspend fun setPeriodStartCountdown(durationSeconds:Int)
-    suspend fun setNumberOfCumulatedCycles(number:Int)
+    suspend fun setTotalRepetitionsNumber(number:Int)
     suspend fun setExercisesTypesSelected(exercisesTypes:List<ExerciseType>)
 
 }

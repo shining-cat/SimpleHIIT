@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
@@ -10,7 +11,7 @@ class InsertSessionUseCase(
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    suspend fun execute(session: Session) {
-        simpleHiitRepository.insertSession(session)
+    suspend fun execute(session: Session): Output<Int> {
+        return simpleHiitRepository.insertSession(session)
     }
 }
