@@ -211,5 +211,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
         hiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
     }
-
+    override suspend fun resetAllSettings() {
+        hiitDataStoreManager.clearAll()
+    }
 }

@@ -237,7 +237,8 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `getTotalRepetitionsSetting calls HiitDataStoreManager getTotalRepetitionsSetting, return correct value and updates returned flow content`() =
         runTest {
-            val datastoreOutput1 = TotalRepetitionsSetting() //holds default values, should always be the fallback
+            val datastoreOutput1 =
+                TotalRepetitionsSetting() //holds default values, should always be the fallback
             val datastoreOutput2 = TotalRepetitionsSetting(5)
             val datastoreOutput3 = TotalRepetitionsSetting(35)
             val repetitionsNumberFlow = MutableSharedFlow<TotalRepetitionsSetting>()
@@ -245,7 +246,8 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             //
             val repetitionsNumberFlowAsList = mutableListOf<TotalRepetitionsSetting>()
             val collectJob = launch(UnconfinedTestDispatcher()) {
-                simpleHiitRepository.getTotalRepetitionsSetting().toList(repetitionsNumberFlowAsList)
+                simpleHiitRepository.getTotalRepetitionsSetting()
+                    .toList(repetitionsNumberFlowAsList)
             }
             coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() }
             // first emission
@@ -268,29 +270,32 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
         }
 
     @Test
-    fun `getTotalRepetitionsSetting swallows datastore exception and returns default value`() = runTest {
-        val defaultRepetitions = TotalRepetitionsSetting() //holds default values, should always be the fallback
-        val thrownException = Exception("this is a test exception")
-        coEvery { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() } throws thrownException
-        //
-        val repetitionsNumberFlowAsList = mutableListOf<TotalRepetitionsSetting>()
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            simpleHiitRepository.getTotalRepetitionsSetting().toList(repetitionsNumberFlowAsList)
+    fun `getTotalRepetitionsSetting swallows datastore exception and returns default value`() =
+        runTest {
+            val defaultRepetitions =
+                TotalRepetitionsSetting() //holds default values, should always be the fallback
+            val thrownException = Exception("this is a test exception")
+            coEvery { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() } throws thrownException
+            //
+            val repetitionsNumberFlowAsList = mutableListOf<TotalRepetitionsSetting>()
+            val collectJob = launch(UnconfinedTestDispatcher()) {
+                simpleHiitRepository.getTotalRepetitionsSetting()
+                    .toList(repetitionsNumberFlowAsList)
+            }
+            coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed getting TotalRepetitionsSetting - returning default value",
+                    thrownException
+                )
+            }
+            assertEquals(1, repetitionsNumberFlowAsList.size)
+            val settingsOutput = repetitionsNumberFlowAsList[0]
+            assertEquals(defaultRepetitions, settingsOutput)
+            //
+            collectJob.cancel()
         }
-        coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() }
-        coVerify(exactly = 1) {
-            mockHiitLogger.e(
-                any(),
-                "failed getting TotalRepetitionsSetting - returning default value",
-                thrownException
-            )
-        }
-        assertEquals(1, repetitionsNumberFlowAsList.size)
-        val settingsOutput = repetitionsNumberFlowAsList[0]
-        assertEquals(defaultRepetitions, settingsOutput)
-        //
-        collectJob.cancel()
-    }
 
     @Test
     fun `getTotalRepetitionsSetting rethrows CancellationException when it gets thrown by datastore`() =
@@ -303,5 +308,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getNumberOfCumulatedCycles() }
             coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
         }
+
+    //////////////////
+
+    @Test
+    fun `resetAllSettings calls HiitDataStoreManager clearAll`() = runTest {
+        coEvery { mockSimpleHiitDataStoreManager.clearAll() } just Runs
+        //
+        simpleHiitRepository.resetAllSettings()
+        //
+        coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.clearAll() }
+    }
 
 }
