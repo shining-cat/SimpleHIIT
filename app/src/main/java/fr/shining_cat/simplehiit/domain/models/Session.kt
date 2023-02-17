@@ -5,7 +5,7 @@ import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
 @ExcludeFromJacocoGeneratedReport
 data class Session(
     val id:Long = 0L,
-    val date:Long,
-    val duration:Long,
+    val timeStamp:Long,
+    val durationSeconds:Long,
     val usersIds:List<Long>
 )

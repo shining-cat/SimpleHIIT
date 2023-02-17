@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test
 internal class UpdateUserUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val mockSimpleHiitLogger = mockk<HiitLogger>()
     private val testedUseCase = UpdateUserUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test

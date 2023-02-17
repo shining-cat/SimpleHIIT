@@ -5,8 +5,6 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.Session
-import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -17,15 +15,14 @@ import org.junit.jupiter.api.Test
 internal class InsertSessionUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val mockSimpleHiitLogger = mockk<HiitLogger>()
     private val testedUseCase = InsertSessionUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() = runTest {
         val testValue = Session(
             id = 123L,
-            date = 78696L,
-            duration = 345L,
+            timeStamp = 78696L,
+            durationSeconds = 345L,
             usersIds = listOf(1234L, 2345L)
         )
         val successFromRepo = Output.Success(2)
@@ -41,8 +38,8 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo error`() = runTest {
         val testValue = Session(
             id = 123L,
-            date = 78696L,
-            duration = 345L,
+            timeStamp = 78696L,
+            durationSeconds = 345L,
             usersIds = listOf(1234L, 2345L)
         )
         val exceptionMessage = "this is a test exception"

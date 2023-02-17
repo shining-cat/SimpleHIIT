@@ -16,7 +16,6 @@ import org.junit.jupiter.api.Test
 internal class DeleteUserUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val mockSimpleHiitLogger = mockk<HiitLogger>()
     private val testedUseCase = DeleteUserUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test

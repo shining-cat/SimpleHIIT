@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.data.mappers
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.domain.models.Session
-import fr.shining_cat.simplehiit.domain.models.User
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -29,14 +28,14 @@ internal class SessionMapperTest : AbstractMockkTest() {
     fun `converting from entity to model returns expected object`() {
         val entity = SessionEntity(
             sessionId = 123L,
-            date = 78696L,
-            durationMs = 345L,
+            timeStamp = 78696L,
+            durationSeconds = 345L,
             userId = 1234L
         )
         val expectedOutput = Session(
             id = 123L,
-            date = 78696L,
-            duration = 345L,
+            timeStamp = 78696L,
+            durationSeconds = 345L,
             usersIds = listOf(1234L)
         )
         val actual = sessionMapper.convert(entity)
@@ -51,15 +50,15 @@ internal class SessionMapperTest : AbstractMockkTest() {
                 Arguments.of(
                     Session(
                         id = 123L,
-                        date = 78696L,
-                        duration = 345L,
+                        timeStamp = 78696L,
+                        durationSeconds = 345L,
                         usersIds = listOf(123L)
                     ),
                     listOf(
                         SessionEntity(
                             sessionId = 123L,
-                            date = 78696L,
-                            durationMs = 345L,
+                            timeStamp = 78696L,
+                            durationSeconds = 345L,
                             userId = 123L
                         )
                     )
@@ -67,33 +66,33 @@ internal class SessionMapperTest : AbstractMockkTest() {
                 Arguments.of(
                     Session(
                         id = 123L,
-                        date = 78696L,
-                        duration = 345L,
+                        timeStamp = 78696L,
+                        durationSeconds = 345L,
                         usersIds = listOf(123L, 234L, 345L, 456L)
                     ),
                     listOf(
                         SessionEntity(
                             sessionId = 123L,
-                            date = 78696L,
-                            durationMs = 345L,
+                            timeStamp = 78696L,
+                            durationSeconds = 345L,
                             userId = 123L
                         ),
                         SessionEntity(
                             sessionId = 123L,
-                            date = 78696L,
-                            durationMs = 345L,
+                            timeStamp = 78696L,
+                            durationSeconds = 345L,
                             userId = 234L
                         ),
                         SessionEntity(
                             sessionId = 123L,
-                            date = 78696L,
-                            durationMs = 345L,
+                            timeStamp = 78696L,
+                            durationSeconds = 345L,
                             userId = 345L
                         ),
                         SessionEntity(
                             sessionId = 123L,
-                            date = 78696L,
-                            durationMs = 345L,
+                            timeStamp = 78696L,
+                            durationSeconds = 345L,
                             userId = 456L
                         )
                     ),

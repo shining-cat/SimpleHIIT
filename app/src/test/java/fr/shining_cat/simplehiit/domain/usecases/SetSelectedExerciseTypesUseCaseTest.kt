@@ -20,7 +20,6 @@ import java.util.stream.Stream
 internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val mockSimpleHiitLogger = mockk<HiitLogger>()
     private val testedUseCase = SetSelectedExerciseTypesUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")

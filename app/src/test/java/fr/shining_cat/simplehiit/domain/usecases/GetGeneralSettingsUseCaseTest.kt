@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test
 internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val mockSimpleHiitLogger = mockk<HiitLogger>()
     private val testedUseCase = GetGeneralSettingsUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test

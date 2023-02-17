@@ -55,17 +55,17 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         User(id = testSessionUserId1, name = "test user name", selected = true)
     private val testDuration = 123L
     private val testSession =
-        Session(date = testDate, duration = testDuration, usersIds = listOf(testSessionUserId1))
+        Session(timeStamp = testDate, durationSeconds = testDuration, usersIds = listOf(testSessionUserId1))
     private val testSessionEntity = SessionEntity(
         sessionId = testSessionId,
-        date = testDate,
-        durationMs = testDuration,
+        timeStamp = testDate,
+        durationSeconds = testDuration,
         userId = testSessionUserId1
     )
 
     @Test
     fun `insert session returns error when users list is empty`() = runTest {
-        val session = Session(date = testDate, duration = testDuration, usersIds = emptyList())
+        val session = Session(timeStamp = testDate, durationSeconds = testDuration, usersIds = emptyList())
         //
         val actual = simpleHiitRepository.insertSession(session)
         //
@@ -144,12 +144,12 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         fun insertSessionArguments() =
             Stream.of(
                 Arguments.of(
-                    Session(date = 123L, duration = 234L, usersIds = listOf(345L)),
+                    Session(timeStamp = 123L, durationSeconds = 234L, usersIds = listOf(345L)),
                     listOf(
                         SessionEntity(
                             sessionId = 456L,
-                            date = 123L,
-                            durationMs = 234L,
+                            timeStamp = 123L,
+                            durationSeconds = 234L,
                             userId = 345L
                         )
                     ),
@@ -157,33 +157,33 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     Session(
-                        date = 123L,
-                        duration = 234L,
+                        timeStamp = 123L,
+                        durationSeconds = 234L,
                         usersIds = listOf(345L, 678L, 789L, 891L)
                     ),
                     listOf(
                         SessionEntity(
                             sessionId = 456L,
-                            date = 123L,
-                            durationMs = 234L,
+                            timeStamp = 123L,
+                            durationSeconds = 234L,
                             userId = 345L
                         ),
                         SessionEntity(
                             sessionId = 456L,
-                            date = 123L,
-                            durationMs = 234L,
+                            timeStamp = 123L,
+                            durationSeconds = 234L,
                             userId = 678L
                         ),
                         SessionEntity(
                             sessionId = 456L,
-                            date = 123L,
-                            durationMs = 234L,
+                            timeStamp = 123L,
+                            durationSeconds = 234L,
                             userId = 789L
                         ),
                         SessionEntity(
                             sessionId = 456L,
-                            date = 123L,
-                            durationMs = 234L,
+                            timeStamp = 123L,
+                            durationSeconds = 234L,
                             userId = 891L
                         ),
                     ),

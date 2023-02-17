@@ -19,7 +19,6 @@ import org.junit.jupiter.params.provider.ValueSource
 internal class SetNumberOfWorkPeriodUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val mockSimpleHiitLogger = mockk<HiitLogger>()
     private val testedUseCase = SetNumberOfWorkPeriodsUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")

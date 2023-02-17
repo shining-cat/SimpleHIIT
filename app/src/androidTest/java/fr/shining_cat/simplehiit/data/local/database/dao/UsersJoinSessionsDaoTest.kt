@@ -56,19 +56,19 @@ class UsersJoinSessionsDaoTest {
     private val testUserName2 = "test user name 2"
     private val testSelected = true
     private val testSessionDuration = 234L
-    private val testSessionDate = 345L
+    private val testSessionTimeStamp = 345L
     private val testSessionDuration2 = 678L
-    private val testSessionDate2 = 901L
+    private val testSessionTimeStamp2 = 901L
     private val testSessionDuration3 = 12345L
-    private val testSessionDate3 = 23456L
+    private val testSessionTimeStamp3 = 23456L
     private val testSessionDuration4 = 345467L
-    private val testSessionDate4 = 56789L
+    private val testSessionTimeStamp4 = 56789L
     private val testSessionDuration5 = 345467L
-    private val testSessionDate5 = 56789L
+    private val testSessionTimeStamp5 = 56789L
     private val testSessionDuration6 = 345467L
-    private val testSessionDate6 = 56789L
+    private val testSessionTimeStamp6 = 56789L
     private val testSessionDuration7 = 345467L
-    private val testSessionDate7 = 56789L
+    private val testSessionTimeStamp7 = 56789L
 
     @Test
     fun cascadeSessionsDeletionWhenDeletingAUser() = runTest {
@@ -85,38 +85,38 @@ class UsersJoinSessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationMs = testSessionDuration,
-            date = testSessionDate
+            durationSeconds = testSessionDuration,
+            timeStamp = testSessionTimeStamp
         )
         val testSession2 = SessionEntity(
             userId = testUserID,
-            durationMs = testSessionDuration2,
-            date = testSessionDate2
+            durationSeconds = testSessionDuration2,
+            timeStamp = testSessionTimeStamp2
         )
         val testSession3 = SessionEntity(
             userId = testUserID,
-            durationMs = testSessionDuration3,
-            date = testSessionDate3
+            durationSeconds = testSessionDuration3,
+            timeStamp = testSessionTimeStamp3
         )
         val testSession4 = SessionEntity(
             userId = testUserID,
-            durationMs = testSessionDuration4,
-            date = testSessionDate4
+            durationSeconds = testSessionDuration4,
+            timeStamp = testSessionTimeStamp4
         )
         val testSession5 = SessionEntity(
             userId = testUserID2,
-            durationMs = testSessionDuration5,
-            date = testSessionDate5
+            durationSeconds = testSessionDuration5,
+            timeStamp = testSessionTimeStamp5
         )
         val testSession6 = SessionEntity(
             userId = testUserID2,
-            durationMs = testSessionDuration6,
-            date = testSessionDate6
+            durationSeconds = testSessionDuration6,
+            timeStamp = testSessionTimeStamp6
         )
         val testSession7 = SessionEntity(
             userId = testUserID2,
-            durationMs = testSessionDuration7,
-            date = testSessionDate7
+            durationSeconds = testSessionDuration7,
+            timeStamp = testSessionTimeStamp7
         )
         launch {
             sessionsDao.insert(
@@ -148,35 +148,35 @@ class UsersJoinSessionsDaoTest {
         assertEquals(4, sessionsForUser1.size)
         val retrievedSession1 = sessionsForUser1[0]
         assertEquals(testUserID, retrievedSession1.userId)
-        assertEquals(testSessionDuration, retrievedSession1.durationMs)
-        assertEquals(testSessionDate, retrievedSession1.date)
+        assertEquals(testSessionDuration, retrievedSession1.durationSeconds)
+        assertEquals(testSessionTimeStamp, retrievedSession1.timeStamp)
         val retrievedSession2 = sessionsForUser1[1]
         assertEquals(testUserID, retrievedSession2.userId)
-        assertEquals(testSessionDuration2, retrievedSession2.durationMs)
-        assertEquals(testSessionDate2, retrievedSession2.date)
+        assertEquals(testSessionDuration2, retrievedSession2.durationSeconds)
+        assertEquals(testSessionTimeStamp2, retrievedSession2.timeStamp)
         val retrievedSession3 = sessionsForUser1[2]
         assertEquals(testUserID, retrievedSession3.userId)
-        assertEquals(testSessionDuration3, retrievedSession3.durationMs)
-        assertEquals(testSessionDate3, retrievedSession3.date)
+        assertEquals(testSessionDuration3, retrievedSession3.durationSeconds)
+        assertEquals(testSessionTimeStamp3, retrievedSession3.timeStamp)
         val retrievedSession4 = sessionsForUser1[3]
         assertEquals(testUserID, retrievedSession4.userId)
-        assertEquals(testSessionDuration4, retrievedSession4.durationMs)
-        assertEquals(testSessionDate4, retrievedSession4.date)
+        assertEquals(testSessionDuration4, retrievedSession4.durationSeconds)
+        assertEquals(testSessionTimeStamp4, retrievedSession4.timeStamp)
         //same for user 2's sessions
         val sessionsForUser2 = sessionsDao.getSessionsForUser(userId = testUserID2)
         assertEquals(3, sessionsForUser2.size)
         val retrievedSession5 = sessionsForUser2[0]
         assertEquals(testUserID2, retrievedSession5.userId)
-        assertEquals(testSessionDuration5, retrievedSession5.durationMs)
-        assertEquals(testSessionDate5, retrievedSession5.date)
+        assertEquals(testSessionDuration5, retrievedSession5.durationSeconds)
+        assertEquals(testSessionTimeStamp5, retrievedSession5.timeStamp)
         val retrievedSession6 = sessionsForUser2[1]
         assertEquals(testUserID2, retrievedSession6.userId)
-        assertEquals(testSessionDuration6, retrievedSession6.durationMs)
-        assertEquals(testSessionDate6, retrievedSession6.date)
+        assertEquals(testSessionDuration6, retrievedSession6.durationSeconds)
+        assertEquals(testSessionTimeStamp6, retrievedSession6.timeStamp)
         val retrievedSession7 = sessionsForUser2[2]
         assertEquals(testUserID2, retrievedSession7.userId)
-        assertEquals(testSessionDuration7, retrievedSession7.durationMs)
-        assertEquals(testSessionDate7, retrievedSession7.date)
+        assertEquals(testSessionDuration7, retrievedSession7.durationSeconds)
+        assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
         //delete user 1 in users table
         var deleted = -1
         launch {deleted = usersDao.delete(testUser1)}
