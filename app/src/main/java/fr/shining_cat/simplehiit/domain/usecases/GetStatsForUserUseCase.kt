@@ -36,12 +36,14 @@ class GetStatsForUserUseCase(
             val totalNumberOfSessions = sessions.size
             val cumulatedTimeOfExerciseSeconds = sessions.sumOf{it.durationSeconds}
             val averageSessionLengthSeconds = (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
+            val timestampsList = sessions.map { it.timeStamp }
+            val now = System.currentTimeMillis()
             UserStatistics(
                 totalNumberOfSessions = totalNumberOfSessions,
                 cumulatedTimeOfExerciseSeconds = cumulatedTimeOfExerciseSeconds,
                 averageSessionLengthSeconds = averageSessionLengthSeconds,
-                longestStreakDays = calculateLongestStreakUseCase.execute(sessions),
-                currentStreakDays = calculateCurrentStreakUseCase.execute(sessions),
+                longestStreakDays = calculateLongestStreakUseCase.execute(timestampsList),
+                currentStreakDays = calculateCurrentStreakUseCase.execute(timestampsList, now),
                 averageNumberOfSessionsPerWeek = calculateAverageSessionsPerWeekUseCase.execute(sessions)
             )
         }

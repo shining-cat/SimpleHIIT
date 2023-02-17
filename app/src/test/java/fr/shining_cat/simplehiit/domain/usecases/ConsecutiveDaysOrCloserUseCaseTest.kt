@@ -9,7 +9,7 @@ import java.util.stream.Stream
 
 internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
 
-    val testedUseCase = ConsecutiveDaysOrCloserUseCase()
+    val testedUseCase = ConsecutiveDaysOrCloserUseCase(mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> given {0} should return {1}")
     @MethodSource("datesArguments")
@@ -95,7 +95,7 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
                         1665133200000 // Friday, 7 October 2022 11:00:00 GMT+02:00 DST
                     ),
                     Consecutiveness.SAME_DAY
-                ),
+                )
             )
 
     }
