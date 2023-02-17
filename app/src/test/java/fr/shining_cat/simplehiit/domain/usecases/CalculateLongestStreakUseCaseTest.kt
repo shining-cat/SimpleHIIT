@@ -4,26 +4,26 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.random.Random
 
-internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
+internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
 
     private val mockConsecutiveDaysOrCloserUseCaseTest = mockk<ConsecutiveDaysOrCloserUseCase>()
-    private val testedUseCase = CalculateCurrentStreakUseCase(
+    private val testedUseCase = CalculateLongestStreakUseCase(
         mockConsecutiveDaysOrCloserUseCaseTest,
         mockHiitLogger
     )
 
-    @ParameterizedTest(name = "{index} -> should call ConsecutiveDaysOrCloserUseCase {1} time(s) and return {2}")
+    @ParameterizedTest(name = "{index} -> should return {1}")
     @MethodSource("streakArguments")
     fun `finding current streak length in days`(
         consecutivenessReturns: List<Consecutiveness>,
-        expectedCallsOnConsecutiveDaysOrCloserUseCase: Int,
         expectedStreakLengthOutput: Int
     ) {
         coEvery {
@@ -42,12 +42,6 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
         } // random timestamps between Thursday, 21 January 2010 09:49:41 GMT+01:00 and Monday, 17 July 2023 09:49:41 GMT+02:00 DST
         val now = Random.nextLong(1264063781000L, 1689580181000L)
         val result = testedUseCase.execute(input, now)
-        coVerify(exactly = expectedCallsOnConsecutiveDaysOrCloserUseCase) {
-            mockConsecutiveDaysOrCloserUseCaseTest.execute(
-                any(),
-                any()
-            )
-        }
         assertEquals(expectedStreakLengthOutput, result)
     }
 
@@ -58,7 +52,6 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
             Stream.of(
                 Arguments.of(
                     emptyList<Consecutiveness>(),
-                    0,
                     0
                 ),
                 Arguments.of(
@@ -69,9 +62,8 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 4
                         Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
-                    5,
                     4
                 ),
                 Arguments.of(
@@ -82,9 +74,8 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
                         Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
-                    5,
                     3
                 ),
                 Arguments.of(
@@ -92,10 +83,9 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.NON_CONSECUTIVE_DAYS, //current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS //longest streak is 3
                     ),
-                    1,
-                    0
+                    3
                 ),
                 Arguments.of(
                     listOf(
@@ -103,10 +93,9 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS //longest streak is 2
                     ),
-                    1,
-                    0
+                    2
                 ),
                 Arguments.of(
                     listOf(
@@ -114,14 +103,72 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
-                    5,
                     5
+                ),
+                Arguments.of(
+                    listOf(
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 5
+                    ),
+                    5
+                ),
+                Arguments.of(
+                    listOf(
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS, // longest streak is 6
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
+                    ),
+                    6
+                ),
+                Arguments.of(
+                    listOf(
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 7
+                    ),
+                    7
+                ),
+
                 )
-            )
 
     }
-
 
 }

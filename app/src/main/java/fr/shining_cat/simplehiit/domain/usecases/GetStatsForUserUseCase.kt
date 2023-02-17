@@ -42,7 +42,7 @@ class GetStatsForUserUseCase(
                 totalNumberOfSessions = totalNumberOfSessions,
                 cumulatedTimeOfExerciseSeconds = cumulatedTimeOfExerciseSeconds,
                 averageSessionLengthSeconds = averageSessionLengthSeconds,
-                longestStreakDays = calculateLongestStreakUseCase.execute(timestampsList),
+                longestStreakDays = calculateLongestStreakUseCase.execute(timestampsList, now),
                 currentStreakDays = calculateCurrentStreakUseCase.execute(timestampsList, now),
                 averageNumberOfSessionsPerWeek = calculateAverageSessionsPerWeekUseCase.execute(sessions)
             )
