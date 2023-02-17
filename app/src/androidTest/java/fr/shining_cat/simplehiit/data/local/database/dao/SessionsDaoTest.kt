@@ -314,4 +314,7 @@ class SessionsDaoTest {
         assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
     }
 
+    ////////////////
+
+    //TODO: write tests for deleteForUser
 }

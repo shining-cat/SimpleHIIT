@@ -95,6 +95,13 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
                         1665133200000 // Friday, 7 October 2022 11:00:00 GMT+02:00 DST
                     ),
                     Consecutiveness.SAME_DAY
+                ),
+                Arguments.of(
+                    Pair(
+                        1665162000000, // Friday, 7 October 2022 19:00:00 GMT+02:00 DST
+                        1665162000000, // Friday, 7 October 2022 19:00:00 GMT+02:00 DST
+                    ),
+                    Consecutiveness.SAME_DAY
                 )
             )
 

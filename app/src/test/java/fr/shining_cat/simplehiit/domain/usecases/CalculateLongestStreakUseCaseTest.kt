@@ -22,7 +22,7 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
 
     @ParameterizedTest(name = "{index} -> should return {1}")
     @MethodSource("streakArguments")
-    fun `finding current streak length in days`(
+    fun `finding longest streak length in days`(
         consecutivenessReturns: List<Consecutiveness>,
         expectedStreakLengthOutput: Int
     ) {

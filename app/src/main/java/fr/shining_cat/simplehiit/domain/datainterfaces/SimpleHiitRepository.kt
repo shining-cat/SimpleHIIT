@@ -17,6 +17,7 @@ interface SimpleHiitRepository {
     //
     suspend fun insertSession(session: Session): Output<Int>
     suspend fun getSessionsForUser(user: User): Output<List<Session>>
+    suspend fun resetSessionsForUser(user: User): Output<Int>
 
     //
     fun getGeneralSettings(): Flow<SimpleHiitSettings>

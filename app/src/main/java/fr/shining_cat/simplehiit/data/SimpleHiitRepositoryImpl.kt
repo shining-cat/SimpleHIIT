@@ -165,6 +165,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun resetSessionsForUser(user: User): Output<Int> {
+        TODO("Not yet implemented")
+        // TODO: write tests for deleteForUser
+    }
+
     override fun getGeneralSettings(): Flow<SimpleHiitSettings> {
         return try {
             hiitDataStoreManager.getPreferences()
