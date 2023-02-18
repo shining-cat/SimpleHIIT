@@ -3,9 +3,12 @@ package fr.shining_cat.simplehiit.domain.models
 import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.domain.models.ExerciseType.*
 
+/**
+ *  The order of exercises types set here is what will determine the order in practice
+ */
 @ExcludeFromJacocoGeneratedReport
 enum class ExerciseType{
-    CAT, CRAB, LUNGE, LYING, PLANK, SITTING, SQUAT, STANDING
+    STANDING, SQUAT, CAT, PLANK, SITTING, CRAB, LUNGE, LYING
 }
 
 @ExcludeFromJacocoGeneratedReport
