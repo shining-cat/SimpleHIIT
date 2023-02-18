@@ -6,7 +6,6 @@ import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.models.UserStatistics
 import fr.shining_cat.simplehiit.utils.HiitLogger
-import java.util.concurrent.TimeUnit
 
 class GetStatsForUserUseCase(
     private val simpleHiitRepository: SimpleHiitRepository,
@@ -16,7 +15,7 @@ class GetStatsForUserUseCase(
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    suspend fun execute(user: User): UserStatistics {
+    suspend fun execute(user: User, now: Long): UserStatistics {
         val sessionsForUser = simpleHiitRepository.getSessionsForUser(user)
         return when(sessionsForUser){
             is Output.Error -> {
@@ -24,12 +23,12 @@ class GetStatsForUserUseCase(
                 UserStatistics()
             }
             is Output.Success -> {
-                mapListOfSessionsToStatistics(sessionsForUser.result)
+                mapListOfSessionsToStatistics(sessionsForUser.result, now)
             }
         }
     }
 
-    private fun mapListOfSessionsToStatistics(sessions: List<Session>):UserStatistics{
+    private fun mapListOfSessionsToStatistics(sessions: List<Session>, now: Long):UserStatistics{
         return if(sessions.isEmpty()){
             UserStatistics()
         } else{
@@ -37,7 +36,6 @@ class GetStatsForUserUseCase(
             val cumulatedTimeOfExerciseSeconds = sessions.sumOf{it.durationSeconds}
             val averageSessionLengthSeconds = (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
             val timestampsList = sessions.map { it.timeStamp }
-            val now = System.currentTimeMillis()
             UserStatistics(
                 totalNumberOfSessions = totalNumberOfSessions,
                 cumulatedTimeOfExerciseSeconds = cumulatedTimeOfExerciseSeconds,
