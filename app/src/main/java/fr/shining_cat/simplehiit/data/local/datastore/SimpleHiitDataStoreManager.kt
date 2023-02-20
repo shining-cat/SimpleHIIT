@@ -2,8 +2,7 @@ package fr.shining_cat.simplehiit.data.local.datastore
 
 import androidx.datastore.preferences.core.*
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.SimpleHiitSettings
-import fr.shining_cat.simplehiit.domain.models.TotalRepetitionsSetting
+import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
 import kotlinx.coroutines.flow.Flow
 
 const val SIMPLE_HIIT_DATASTORE_FILENAME = "simple_hiit_datastore_filename"
@@ -32,7 +31,6 @@ interface SimpleHiitDataStoreManager {
     suspend fun setNumberOfCumulatedCycles(number: Int)
     suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
     //
-    fun getPreferences(): Flow<SimpleHiitSettings>
-    fun getNumberOfCumulatedCycles(): Flow<TotalRepetitionsSetting>
+    fun getPreferences(): Flow<SimpleHiitPreferences>
 
 }

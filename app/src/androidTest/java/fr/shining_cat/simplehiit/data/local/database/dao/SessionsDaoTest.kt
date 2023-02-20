@@ -314,7 +314,142 @@ class SessionsDaoTest {
         assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
     }
 
-    ////////////////
+////////////////
 
-    //TODO: write tests for deleteForUser
+    @Test
+    fun deleteSessionsForUserEmptyTable() = runTest {
+        val deleteCount = sessionsDao.deleteForUser(userId = testUserID)
+        assertEquals(0, deleteCount)
+    }
+
+    @Test
+    fun deleteSessionsForUserOnlyOne() = runTest {
+        //first insert a user in users table
+        val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
+        usersDao.insert(user)
+        //
+        val testSession = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration,
+            timeStamp = testSessionTimeStamp
+        )
+        sessionsDao.insert(listOf(testSession))
+        //
+        val deleteCount = sessionsDao.deleteForUser(userId = testUserID)
+        assertEquals(1, deleteCount)
+    }
+
+    @Test
+    fun deleteSessionsForUserList() = runTest {
+        //first insert user in users table
+        val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
+        usersDao.insert(user)
+        //
+        val testSession = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration,
+            timeStamp = testSessionTimeStamp
+        )
+        val testSession2 = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration2,
+            timeStamp = testSessionTimeStamp2
+        )
+        val testSession3 = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration3,
+            timeStamp = testSessionTimeStamp3
+        )
+        val testSession4 = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration4,
+            timeStamp = testSessionTimeStamp4
+        )
+        sessionsDao.insert(
+            listOf(
+                testSession,
+                testSession2,
+                testSession3,
+                testSession4
+            )
+        )
+        //
+        val deleteCount = sessionsDao.deleteForUser(userId = testUserID)
+        assertEquals(4, deleteCount)
+    }
+
+    @Test
+    fun deleteSessionsForUserDoesNotAffectSessionsForOthers() = runTest {
+        //first insert users in users table
+        val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
+        usersDao.insert(user)
+        val user2 = UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
+        usersDao.insert(user2)
+        //
+        val testSession = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration,
+            timeStamp = testSessionTimeStamp
+        )
+        val testSession2 = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration2,
+            timeStamp = testSessionTimeStamp2
+        )
+        val testSession3 = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration3,
+            timeStamp = testSessionTimeStamp3
+        )
+        val testSession4 = SessionEntity(
+            userId = testUserID,
+            durationSeconds = testSessionDuration4,
+            timeStamp = testSessionTimeStamp4
+        )
+        val testSession5 = SessionEntity(
+            userId = testUserID2,
+            durationSeconds = testSessionDuration5,
+            timeStamp = testSessionTimeStamp5
+        )
+        val testSession6 = SessionEntity(
+            userId = testUserID2,
+            durationSeconds = testSessionDuration6,
+            timeStamp = testSessionTimeStamp6
+        )
+        val testSession7 = SessionEntity(
+            userId = testUserID2,
+            durationSeconds = testSessionDuration7,
+            timeStamp = testSessionTimeStamp7
+        )
+        sessionsDao.insert(
+            listOf(
+                testSession,
+                testSession2,
+                testSession3,
+                testSession4,
+                testSession5,
+                testSession6,
+                testSession7
+            )
+        )
+        //
+        val deleteCount = sessionsDao.deleteForUser(userId = testUserID)
+        assertEquals(4, deleteCount)
+        //
+        val sessionsForUser2 = sessionsDao.getSessionsForUser(userId = testUserID2)
+        assertEquals(3, sessionsForUser2.size)
+        val retrievedSession5 = sessionsForUser2[0]
+        assertEquals(testUserID2, retrievedSession5.userId)
+        assertEquals(testSessionDuration5, retrievedSession5.durationSeconds)
+        assertEquals(testSessionTimeStamp5, retrievedSession5.timeStamp)
+        val retrievedSession6 = sessionsForUser2[1]
+        assertEquals(testUserID2, retrievedSession6.userId)
+        assertEquals(testSessionDuration6, retrievedSession6.durationSeconds)
+        assertEquals(testSessionTimeStamp6, retrievedSession6.timeStamp)
+        val retrievedSession7 = sessionsForUser2[2]
+        assertEquals(testUserID2, retrievedSession7.userId)
+        assertEquals(testSessionDuration7, retrievedSession7.durationSeconds)
+        assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
+    }
+
 }

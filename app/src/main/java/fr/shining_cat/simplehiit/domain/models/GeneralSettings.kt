@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.domain.models
 
-data class Settings(
+data class GeneralSettings(
     val workPeriodLengthSeconds:Int,
     val restPeriodLengthSeconds:Int,
     val numberOfWorkPeriods:Int,

@@ -165,30 +165,26 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun resetSessionsForUser(user: User): Output<Int> {
-        TODO("Not yet implemented")
-        // TODO: write tests for deleteForUser
+    override suspend fun deleteSessionsForUser(userId: Long): Output<Int> {
+        return try {
+            val deletedCount = sessionsDao.deleteForUser(userId)
+            Output.Success(result = deletedCount)
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting sessions for user", exception)
+            Output.Error(errorCode = Errors.DATABASE_DELETE_FAILED, exception = exception)
+        }
     }
 
-    override fun getGeneralSettings(): Flow<SimpleHiitSettings> {
+    override fun getPreferences(): Flow<SimpleHiitPreferences> {
         return try {
             hiitDataStoreManager.getPreferences()
         } catch (cancellationException: CancellationException) {
             throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting general settings - returning default settings", exception)
-            flowOf(SimpleHiitSettings())
-        }
-    }
-
-    override fun getTotalRepetitionsSetting(): Flow<TotalRepetitionsSetting> {
-        return try {
-            hiitDataStoreManager.getNumberOfCumulatedCycles()
-        } catch (cancellationException: CancellationException) {
-            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
-        } catch (exception: Exception) {
-            hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting TotalRepetitionsSetting - returning default value", exception)
-            flowOf(TotalRepetitionsSetting())
+            flowOf(SimpleHiitPreferences())
         }
     }
 

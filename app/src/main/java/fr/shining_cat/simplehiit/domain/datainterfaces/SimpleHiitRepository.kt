@@ -17,11 +17,10 @@ interface SimpleHiitRepository {
     //
     suspend fun insertSession(session: Session): Output<Int>
     suspend fun getSessionsForUser(user: User): Output<List<Session>>
-    suspend fun resetSessionsForUser(user: User): Output<Int>
+    suspend fun deleteSessionsForUser(userId: Long): Output<Int>
 
     //
-    fun getGeneralSettings(): Flow<SimpleHiitSettings>
-    fun getTotalRepetitionsSetting(): Flow<TotalRepetitionsSetting>
+    fun getPreferences(): Flow<SimpleHiitPreferences>
 
     //
     suspend fun setWorkPeriodLength(durationSeconds: Int)

@@ -12,8 +12,8 @@ import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.REST_PER
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_SECONDS_DEFAULT
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.SimpleHiitSettings
-import fr.shining_cat.simplehiit.domain.models.TotalRepetitionsSetting
+import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -88,22 +88,23 @@ class SimpleHiitDataStoreManagerImpl(
         }
     }
 
-    override fun getPreferences(): Flow<SimpleHiitSettings> =
+    override fun getPreferences(): Flow<SimpleHiitPreferences> =
         dataStore.data.catch { exception ->
             // dataStore.data throws an IOException when an error is encountered when reading data
             hiitLogger.e("SimpleHiitDataStoreManager", "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception")
            //TODO: should we also filter out CancellationException to avoid blocking the natural handling of cancellation by the coroutine flow
             clearAll()
-            SimpleHiitSettings()
+            SimpleHiitPreferences()
         }.map { preferences ->
-            SimpleHiitSettings(
+            SimpleHiitPreferences(
                 workPeriodLength = retrieveWorkPeriodLength(preferences),
                 restPeriodLength = retrieveRestPeriodLength(preferences),
                 numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
                 beepSoundActive = retrieveBeepSoundActive(preferences),
                 sessionCountDownLengthSeconds = retrieveSessionCountDownLengthSeconds(preferences),
                 PeriodCountDownLengthSeconds = retrievePeriodCountDownLengthSeconds(preferences),
-                selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences)
+                selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
+                numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences)
             )
         }
 
@@ -131,52 +132,26 @@ class SimpleHiitDataStoreManagerImpl(
         preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS]
             ?: PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT
 
-    private suspend fun getSelectedExerciseTypesAsList(preferences: Preferences): List<ExerciseType> {
-        val setOfStringExerciseTypes =
-            preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED] ?: getAllExerciseTypesAsSetOfString()
-        val listOfExerciseTypes = mutableListOf<ExerciseType>()
-        if (setOfStringExerciseTypes.isNotEmpty()) {
-            for (typeName in setOfStringExerciseTypes) {
-                try {
-                    val exerciseType = ExerciseType.valueOf(typeName)
-                    listOfExerciseTypes.add(exerciseType)
-                } catch (exception: IllegalArgumentException) {
-                    hiitLogger.e(
-                        "SimpleHiitPreferences",
-                        "getExercisesTypesSelected corruption found, resetting stored list to complete list",
-                        exception
-                    )
-                    listOfExerciseTypes.clear()
-                    listOfExerciseTypes.addAll(ExerciseType.values())
-                    setExercisesTypesSelected(DEFAULT_SELECTED_EXERCISES_TYPES)
-                    break
-                }
-            }
-        } else{
-            hiitLogger.e(
-                "SimpleHiitPreferences",
-                "getExercisesTypesSelected empty list found: Should display warning to user that at least one must be selected"
+    private suspend fun getSelectedExerciseTypesAsList(preferences: Preferences): List<ExerciseTypeSelected> {
+        val setOfStringExerciseTypes = retrieveSelectedExerciseTypes(preferences)
+        val listOfExerciseTypeSelected = ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = setOfStringExerciseTypes.contains(it.name)
             )
         }
-        return listOfExerciseTypes.toList()
-    }
-
-    private fun getAllExerciseTypesAsSetOfString():Set<String>{
-        return DEFAULT_SELECTED_EXERCISES_TYPES.map { it.name }.toSet()
-    }
-
-    override fun getNumberOfCumulatedCycles(): Flow<TotalRepetitionsSetting> =
-        dataStore.data.catch { exception ->
-            // dataStore.data throws an IOException when an error is encountered when reading data
-            hiitLogger.e("SimpleHiitDataStoreManager", "getTotalRepetitionsNumber::swallowing exception and setting saved value to default:: $exception")
-            //TODO: should we also filter out CancellationException to avoid blocking the natural handling of cancellation by the coroutine flow
-            setNumberOfCumulatedCycles(NUMBER_CUMULATED_CYCLES_DEFAULT)
-            TotalRepetitionsSetting()
-        }.map { preferences ->
-            TotalRepetitionsSetting(retrieveNumberCumulatedCycles(preferences))
+        if (setOfStringExerciseTypes.isEmpty()) {
+            //TODO: Should display warning to user that at least one must be selected
         }
+        return listOfExerciseTypeSelected.toList()
+    }
 
-    private fun retrieveNumberCumulatedCycles(preferences: Preferences) =
+    private fun retrieveSelectedExerciseTypes(preferences: Preferences) =
+        preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED]
+            ?: DEFAULT_SELECTED_EXERCISES_TYPES.map { it.type.name }.toSet()
+
+
+    private fun retrieveNumberOfCumulatedCycles(preferences: Preferences) =
         preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES]
             ?: NUMBER_CUMULATED_CYCLES_DEFAULT
 
