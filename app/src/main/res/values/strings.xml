@@ -1,3 +1,143 @@
 <resources>
     <string name="app_name">SimpleHIIT</string>
+
+    <!-- HOME PAGE -->
+    <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over 4mn</string>
+    <string name="number_of_cycle_setting_title">Select number of cycles</string>
+    <string name="number_of_cycle_setting">x %1$d mn</string>
+    <string name="selected_users_setting_title">Select user(s)</string>
+    <string name="launch_session_label">Launch session</string>
+    <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>
+    <string name="warning_no_user_exist">Please create your first user in the settings to start</string>
+
+    <!-- SETTINGS PAGE -->
+    <string name="settings_page_title">Settings</string>
+    <string name="work_period_length_label">Work period length</string>
+    <string name="seconds_setting_value">%1$d s</string>
+    <string name="minutes_setting_value">%1$d mn</string>
+    <string name="rest_period_length_label">Rest period length</string>
+    <string name="number_of_periods_label">Number of work period</string>
+    <string name="total_cycle_length_label">Total cycle length</string>
+    <string name="beep_sound_setting_label">Beep sound countdown</string>
+    <string name="session_start_countdown_length_setting_label">Session start countdown</string>
+    <string name="period_start_countdown_length_setting_label">Period start countdown</string>
+    <string name="users_list_setting_label">Users</string>
+    <string name="selected_exercise_types_list_setting_label">Exercises types to pick from</string>
+    <string name="reset_settings_button_label">Reset to default values</string>
+    <string name="reset_settings_confirmation_button_label">Click again to confirm. This will NOT delete registered users or their stored sessions.</string>
+    <string name="save_settings_button_label">Save</string>
+    <string name="create_user_field_hint">Enter a user name</string>
+    <string name="seconds_settings_button_label">s</string>
+    <string name="delete_button_label">DELETE</string>
+    <string name="delete_confirmation_button_label">Click again to confirm. Deleting the user will delete associated sessions.</string>
+
+    <!-- SESSION PAGE -->
+    <string name="session_work_page_title">Work</string>
+    <string name="exit_button_label">Exit</string>
+    <string name="pause">Pause…</string>
+    <string name="resume_button_label">Resume</string>
+    <string name="next_rest_in_s">Next rest in %1$d s</string>
+    <string name="session_time_remaining">Session time remaining</string>
+    <string name="session_rest_page_title">Rest</string>
+    <string name="coming_next">Coming next:</string>
+    <string name="next_exercise_in_s">Next exercise in %1$d s</string>
+
+    <!-- FINISH PAGE -->
+    <string name="finish_page_title">Congratulation!</string>
+    <string name="session_length_summary">You just did %1$d mn session of HIIT!</string>
+    <string name="summary_session">Here\'s the list of exercises you have done:</string>
+    <string name="summary_session_exercise">%1$s - %2$s</string>
+
+    <!-- STATISTICS PAGE -->
+    <string name="statistics_page_title">%1$s statistics</string> <!-- insert user's name -->
+    <string name="sessions_total">You have done a total of %1$d sessions</string>
+    <string name="time_total">You have exercised a total of %1$s</string> <!-- we'll format the total length as a string in XXdYYhZZmn-->
+    <string name="average">Your average session length is %1$d mn</string>
+    <string name="longest_streak">Your longest streak is %1$d days</string>
+    <string name="current_streak">Your current streak is %1$d days</string>
+    <string name="average_sessions_week">You have done on average %1$d sessions per week</string>
+    <string name="reset_button_label">RESET</string>
+    <string name="reset_statistics_confirmation_button_label">Click again to confirm. This will delete all sessions stored for %1$s</string> <!-- insert user's name -->
+
+    <!-- EXERCISES TYPES-->
+    <string name="exercise_type_standing">Standing</string>
+    <string name="exercise_type_squat">Squat</string>
+    <string name="exercise_type_cat">Cat</string>
+    <string name="exercise_type_plank">Plank</string>
+    <string name="exercise_type_sitting">Sitting</string>
+    <string name="exercise_type_crab">Crab</string>
+    <string name="exercise_type_lunge">Lunge</string>
+    <string name="exercise_type_lying">Lying</string>
+
+    <!-- EXERCISES -->
+    <!--Cat-->
+    <string name="exercise_cat_bird_dogs">Lying</string>
+    <string name="exercise_cat_knee_and_elbow_pressup">Lying</string>
+    <string name="exercise_cat_knee_pushup">Lying</string>
+    <string name="exercise_cat_back_leg_lift">Lying</string>
+    <string name="exercise_cat_donkey_kick_twist">Lying</string>
+    <!--Crab-->
+    <string name="exercise_crab_advanced_bridge">Lying</string>
+    <string name="exercise_crab_bridge_twist">Lying</string>
+    <string name="exercise_crab_kicks">Lying</string>
+    <string name="exercise_crab_toe_touches">Lying</string>
+    <string name="exercise_crab_single_leg_triceps_dips">Lying</string>
+    <!--Lunge-->
+    <string name="exercise_lunge_alternate_front_raise">Lying</string>
+    <string name="exercise_lunge_alternate_side_touch">Lying</string>
+    <string name="exercise_lunge_arms_cross_side">Lying</string>
+    <string name="exercise_lunge_alternate_curtsy">Lying</string>
+    <string name="exercise_lunge_twist">Lying</string>
+    <string name="exercise_lunge_basic">Lying</string>
+    <string name="exercise_lunge_shoulders_squeeze_reverse">Lying</string>
+    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Lying</string>
+    <string name="exercise_lunge_curtsy_side_kick">Lying</string>
+    <string name="exercise_lunge_front_and_back">Lying</string>
+    <string name="exercise_lunge_back_kick">Lying</string>
+    <string name="exercise_lunge_front_kick">Lying</string>
+    <string name="exercise_lunge_side_to_curtsy">Lying</string>
+    <string name="exercise_lunge_side">Lying</string>
+    <string name="exercise_lunge_split_squat">Lying</string>
+    <!--Lying-->
+    <string name="exercise_lying_dead_bug">Lying</string>
+    <string name="exercise_lying_reverse_crunches">Lying</string>
+    <string name="exercise_lying_scissor_kicks">Lying</string>
+    <string name="exercise_lying_star_toe_touch_sit_up">Lying</string>
+    <string name="exercise_lying_superman_twist">Lying</string>
+    <string name="exercise_lying_side_leg_lift">Lying</string>
+    <!--Plank-->
+    <string name="exercise_plank_mountain_climber_twist">Lying</string>
+    <string name="exercise_plank_mountain_climber">Lying</string>
+    <string name="exercise_plank_bird_dogs">Lying</string>
+    <string name="exercise_plank_shoulder_tap">Lying</string>
+    <string name="exercise_plank_reverse_leg_raise">Lying</string>
+    <string name="exercise_plank_spiderman">Lying</string>
+    <string name="exercise_plank_knee_to_elbow_kickback">Lying</string>
+    <string name="exercise_plank_side_arm_rotation">Lying</string>
+    <!--Sitting-->
+    <string name="exercise_sitting_boat_twist">Lying</string>
+    <string name="exercise_sitting_knee_hugs">Lying</string>
+    <string name="exercise_sitting_rope_climb_crunches">Lying</string>
+    <string name="exercise_sitting_touch_floor_twist">Lying</string>
+    <string name="exercise_sitting_knee_tucks">Lying</string>
+    <string name="exercise_sitting_twist_bicycle">Lying</string>
+    <!--Squat-->
+    <string name="exercise_squat_boxer_punch">Lying</string>
+    <string name="exercise_squat_cossack">Lying</string>
+    <string name="exercise_squat_half_cross_jab">Lying</string>
+    <string name="exercise_squat_kick_back">Lying</string>
+    <string name="exercise_squat_overhead_triceps_extension">Lying</string>
+    <string name="exercise_squat_basic">Lying</string>
+    <string name="exercise_squat_sumo">Lying</string>
+    <string name="exercise_squat_baseball_bat_hit">Lying</string>
+    <!--Standing-->
+    <string name="exercise_standing_bent_over_twist">Lying</string>
+    <string name="exercise_standing_touch_feet_jacks">Lying</string>
+    <string name="exercise_standing_kick_crunches">Lying</string>
+    <string name="exercise_standing_skater">Lying</string>
+    <string name="exercise_standing_skating_windmill">Lying</string>
+    <string name="exercise_standing_criss_cross_crunches">Lying</string>
+    <string name="exercise_standing_mountain_climber">Lying</string>
+    <string name="exercise_standing_balance_chops">Lying</string>
+
 </resources>
