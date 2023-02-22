@@ -3,7 +3,7 @@ package fr.shining_cat.simplehiit.utils
 import android.util.Log
 import javax.inject.Inject
 
-class HiitLoggerImpl @Inject constructor(
+class HiitLoggerImpl(
     private val isDebugBuild: Boolean
 ) : HiitLogger {
 

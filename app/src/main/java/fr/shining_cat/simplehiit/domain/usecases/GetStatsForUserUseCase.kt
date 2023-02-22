@@ -6,8 +6,9 @@ import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.models.UserStatistics
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import javax.inject.Inject
 
-class GetStatsForUserUseCase(
+class GetStatsForUserUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
     private val calculateCurrentStreakUseCase: CalculateCurrentStreakUseCase,
     private val calculateLongestStreakUseCase: CalculateLongestStreakUseCase,

@@ -7,8 +7,9 @@ import fr.shining_cat.simplehiit.domain.models.GeneralSettings
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
+import javax.inject.Inject
 
-class GetGeneralSettingsUseCase(
+class GetGeneralSettingsUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
     private val simpleHiitLogger: HiitLogger
 ) {

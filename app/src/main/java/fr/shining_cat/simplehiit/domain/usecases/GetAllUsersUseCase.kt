@@ -8,8 +8,9 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class GetAllUsersUseCase(
+class GetAllUsersUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
     private val simpleHiitLogger: HiitLogger
 ) {

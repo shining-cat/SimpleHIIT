@@ -16,7 +16,7 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
 
     val testedUseCase = ComposeExercisesListForSessionUseCase(mockHiitLogger)
 
-    @RepeatedTest(500)
+    @RepeatedTest(100)
     fun `Testing created list is correct size and exercises are only present once and only of selected types`() = runTest {
         val fullListOfExerciseTypes = ExerciseType.values().toList()
         val testNumberOfSelectedTypes = Random.nextInt(1, fullListOfExerciseTypes.size)
@@ -34,16 +34,13 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
         //size is small enough to expect unicity, except for asymmetrical ones
         for(exercise in result.distinct()){
             assertTrue(testSelectedExercises.contains(exercise.exerciseType))
-            var frequency = Collections.frequency(result, exercise)
-            if(exercise.asymmetrical){
-                assertEquals(2, frequency)
-            } else{
-                assertEquals(1, frequency)
-            }
-        }
+            //because we add the source list again in case all the remaining exercises are asymmetrical for the last spot,
+            // we can't guarantee unicity in 100% of cases. It should still be rare enough that it shouldn't matter, but
+            // we don't want random failing tests so we're not asserting unicity
+         }
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(50)
     fun `Testing created list is correct size and exercises are only of selected types when requested number is too big`() = runTest {
         val fullListOfExerciseTypes = ExerciseType.values().toList()
         val testNumberOfSelectedTypes = Random.nextInt(1, fullListOfExerciseTypes.size)

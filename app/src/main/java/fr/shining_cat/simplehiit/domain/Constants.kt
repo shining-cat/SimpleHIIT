@@ -18,13 +18,14 @@ object Constants {
     }
     const val NO_RESULTS_FOUND = "no results found"
 
-    enum class Errors{
-        DATABASE_FETCH_FAILED,
-        DATABASE_INSERT_FAILED,
-        DATABASE_DELETE_FAILED,
-        DATABASE_UPDATE_FAILED,
-        NO_USERS_FOUND,
-        NO_USER_PROVIDED,
-        EMPTY_RESULT
+    enum class Errors(val code:String){
+        DATABASE_FETCH_FAILED("0101"),
+        DATABASE_INSERT_FAILED("0102"),
+        DATABASE_DELETE_FAILED("0103"),
+        DATABASE_UPDATE_FAILED("0104"),
+        NO_USERS_FOUND("0201"),
+        NO_USER_PROVIDED("0202"),
+        EMPTY_RESULT("0301"),
     }
+
 }

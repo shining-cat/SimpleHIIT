@@ -16,14 +16,4 @@ interface DataModule {
         simpleHiitRepository: SimpleHiitRepositoryImpl
     ):SimpleHiitRepository
 
-    /*@Provides
-    fun provideSessionMapper():SessionMapper{
-        return SessionMapper()
-    }
-
-    @Provides
-    fun provideUserMapper():UserMapper{
-        return UserMapper()
-    }*/
-
 }

@@ -7,19 +7,23 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import fr.shining_cat.simplehiit.Screen
 import fr.shining_cat.simplehiit.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.ui.session.SessionScreen
 import fr.shining_cat.simplehiit.ui.settings.SettingsScreen
 import fr.shining_cat.simplehiit.ui.statistics.StatisticsScreen
 
 @Composable
-fun MainNavigation() {
+fun SimpleHiitNavigation() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "main") {
-        composable("main") { HomeScreen(modifier = Modifier.padding(16.dp)) }
-        composable("main") { SessionScreen(modifier = Modifier.padding(16.dp)) }
-        composable("main") { SettingsScreen(modifier = Modifier.padding(16.dp)) }
-        composable("main") { StatisticsScreen(modifier = Modifier.padding(16.dp)) }
+    NavHost(
+        navController = navController,
+        startDestination = Screen.Home.route
+    ) {
+        composable(route = Screen.Home.route) {HomeScreen()}
+        composable(route = Screen.Settings.route) {SettingsScreen()}
+        composable(route = Screen.Statistics.route) {StatisticsScreen()}
+        composable(route = Screen.Session.route) {SessionScreen()}
     }
 }

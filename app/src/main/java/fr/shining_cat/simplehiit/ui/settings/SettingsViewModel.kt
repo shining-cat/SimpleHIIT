@@ -2,11 +2,15 @@ package fr.shining_cat.simplehiit.ui.settings
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
+import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-) : ViewModel() {
+    private val hiitLogger: HiitLogger
+
+) : AbstractLoggerViewModel(hiitLogger) {
 
 
 }
