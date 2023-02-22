@@ -46,7 +46,6 @@
     <string name="finish_page_title">Congratulation!</string>
     <string name="session_length_summary">You just did %1$d mn session of HIIT!</string>
     <string name="summary_session">Here\'s the list of exercises you have done:</string>
-    <string name="summary_session_exercise">%1$s - %2$s</string>
 
     <!-- STATISTICS PAGE -->
     <string name="statistics_page_title">%1$s statistics</string> <!-- insert user's name -->
@@ -71,73 +70,73 @@
 
     <!-- EXERCISES -->
     <!--Cat-->
-    <string name="exercise_cat_bird_dogs">Lying</string>
-    <string name="exercise_cat_knee_and_elbow_pressup">Lying</string>
-    <string name="exercise_cat_knee_pushup">Lying</string>
-    <string name="exercise_cat_back_leg_lift">Lying</string>
-    <string name="exercise_cat_donkey_kick_twist">Lying</string>
+    <string name="exercise_cat_bird_dogs">Cat - Crossed extension</string>
+    <string name="exercise_cat_knee_and_elbow_pressup">Cat - Knee and elbow press-up</string>
+    <string name="exercise_cat_knee_pushup">Cat - Knee push-up</string>
+    <string name="exercise_cat_back_leg_lift">Cat - Back leg lift</string>
+    <string name="exercise_cat_donkey_kick_twist">Cat- Donkey kick and twist</string>
     <!--Crab-->
-    <string name="exercise_crab_advanced_bridge">Lying</string>
-    <string name="exercise_crab_bridge_twist">Lying</string>
-    <string name="exercise_crab_kicks">Lying</string>
-    <string name="exercise_crab_toe_touches">Lying</string>
-    <string name="exercise_crab_single_leg_triceps_dips">Lying</string>
+    <string name="exercise_crab_advanced_bridge">Crab - Bridge push-up</string>
+    <string name="exercise_crab_bridge_twist">Crab - Bridge and twist</string>
+    <string name="exercise_crab_kicks">Crab - High kick</string>
+    <string name="exercise_crab_toe_touches">Crab - Toes touch</string>
+    <string name="exercise_crab_single_leg_triceps_dips">Crab - Lifted leg triceps push-up</string>
     <!--Lunge-->
-    <string name="exercise_lunge_alternate_front_raise">Lying</string>
-    <string name="exercise_lunge_alternate_side_touch">Lying</string>
-    <string name="exercise_lunge_arms_cross_side">Lying</string>
-    <string name="exercise_lunge_alternate_curtsy">Lying</string>
-    <string name="exercise_lunge_twist">Lying</string>
-    <string name="exercise_lunge_basic">Lying</string>
-    <string name="exercise_lunge_shoulders_squeeze_reverse">Lying</string>
-    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Lying</string>
-    <string name="exercise_lunge_curtsy_side_kick">Lying</string>
-    <string name="exercise_lunge_front_and_back">Lying</string>
-    <string name="exercise_lunge_back_kick">Lying</string>
-    <string name="exercise_lunge_front_kick">Lying</string>
-    <string name="exercise_lunge_side_to_curtsy">Lying</string>
-    <string name="exercise_lunge_side">Lying</string>
-    <string name="exercise_lunge_split_squat">Lying</string>
+    <string name="exercise_lunge_alternate_front_raise">Lunge - Alternate front arms raise</string>
+    <string name="exercise_lunge_alternate_side_touch">Lunge - Alternate side cross touch</string>
+    <string name="exercise_lunge_arms_cross_side">Lunge - Alternate arm crossing</string>
+    <string name="exercise_lunge_alternate_curtsy">Lunge - Alternate curtsy</string>
+    <string name="exercise_lunge_twist">Lunge - Twist</string>
+    <string name="exercise_lunge_basic">Lunge - Basic</string>
+    <string name="exercise_lunge_shoulders_squeeze_reverse">Lunge - Shoulder squeeze reverse</string>
+    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Lunge - Curtsy, side-kick lateral raise</string>
+    <string name="exercise_lunge_curtsy_side_kick">Lunge - Curtsy, side-kick</string>
+    <string name="exercise_lunge_front_and_back">Lunge - Front and back</string>
+    <string name="exercise_lunge_back_kick">Lunge - Back-kick</string>
+    <string name="exercise_lunge_front_kick">Lunge - Front-kick</string>
+    <string name="exercise_lunge_side_to_curtsy">Lunge - Side to curtsy</string>
+    <string name="exercise_lunge_side">Lunge - Side</string>
+    <string name="exercise_lunge_split_squat">Lunge - Split squat</string>
     <!--Lying-->
-    <string name="exercise_lying_dead_bug">Lying</string>
-    <string name="exercise_lying_reverse_crunches">Lying</string>
-    <string name="exercise_lying_scissor_kicks">Lying</string>
-    <string name="exercise_lying_star_toe_touch_sit_up">Lying</string>
-    <string name="exercise_lying_superman_twist">Lying</string>
-    <string name="exercise_lying_side_leg_lift">Lying</string>
+    <string name="exercise_lying_dead_bug">Lying - Dead bug</string>
+    <string name="exercise_lying_reverse_crunches">Lying - Reverse crunches</string>
+    <string name="exercise_lying_scissor_kicks">Lying - Scissor kicks</string>
+    <string name="exercise_lying_star_toe_touch_sit_up">Lying - Star, toes touch sit-up</string>
+    <string name="exercise_lying_superman_twist">Lying - Superman twist</string>
+    <string name="exercise_lying_side_leg_lift">Lying - Side leg lift</string>
     <!--Plank-->
-    <string name="exercise_plank_mountain_climber_twist">Lying</string>
-    <string name="exercise_plank_mountain_climber">Lying</string>
-    <string name="exercise_plank_bird_dogs">Lying</string>
-    <string name="exercise_plank_shoulder_tap">Lying</string>
-    <string name="exercise_plank_reverse_leg_raise">Lying</string>
-    <string name="exercise_plank_spiderman">Lying</string>
-    <string name="exercise_plank_knee_to_elbow_kickback">Lying</string>
-    <string name="exercise_plank_side_arm_rotation">Lying</string>
+    <string name="exercise_plank_mountain_climber_twist">Plank - Mountain climber twist</string>
+    <string name="exercise_plank_mountain_climber">Plank - Mountain climber</string>
+    <string name="exercise_plank_bird_dogs">Plank - Bird dogs</string>
+    <string name="exercise_plank_shoulder_tap">Plank - Shoulder tap</string>
+    <string name="exercise_plank_reverse_leg_raise">Plank - Reverse leg raise</string>
+    <string name="exercise_plank_spiderman">Plank - Spiderman</string>
+    <string name="exercise_plank_knee_to_elbow_kickback">Plank - Knee to elbow kickback</string>
+    <string name="exercise_plank_side_arm_rotation">Plank - Side arm rotation</string>
     <!--Sitting-->
-    <string name="exercise_sitting_boat_twist">Lying</string>
-    <string name="exercise_sitting_knee_hugs">Lying</string>
-    <string name="exercise_sitting_rope_climb_crunches">Lying</string>
-    <string name="exercise_sitting_touch_floor_twist">Lying</string>
-    <string name="exercise_sitting_knee_tucks">Lying</string>
-    <string name="exercise_sitting_twist_bicycle">Lying</string>
+    <string name="exercise_sitting_boat_twist">Sitting - Boat twist</string>
+    <string name="exercise_sitting_knee_hugs">Sitting - Knee hugs</string>
+    <string name="exercise_sitting_rope_climb_crunches">Sitting - Rope climbing crunches</string>
+    <string name="exercise_sitting_touch_floor_twist">Sitting - Touch floor twist</string>
+    <string name="exercise_sitting_knee_tucks">Sitting - Knee tucks</string>
+    <string name="exercise_sitting_twist_bicycle">Sitting - Twist bycicle</string>
     <!--Squat-->
-    <string name="exercise_squat_boxer_punch">Lying</string>
-    <string name="exercise_squat_cossack">Lying</string>
-    <string name="exercise_squat_half_cross_jab">Lying</string>
-    <string name="exercise_squat_kick_back">Lying</string>
-    <string name="exercise_squat_overhead_triceps_extension">Lying</string>
-    <string name="exercise_squat_basic">Lying</string>
-    <string name="exercise_squat_sumo">Lying</string>
-    <string name="exercise_squat_baseball_bat_hit">Lying</string>
+    <string name="exercise_squat_boxer_punch">Squat - Boxer punches</string>
+    <string name="exercise_squat_cossack">Squat - Cossack</string>
+    <string name="exercise_squat_half_cross_jab">Squat - Half cross jab</string>
+    <string name="exercise_squat_kick_back">Squat - Kick back</string>
+    <string name="exercise_squat_overhead_triceps_extension">Squat - Overhead triceps extension</string>
+    <string name="exercise_squat_basic">Squat - Basic</string>
+    <string name="exercise_squat_sumo">Squat - Sumo</string>
+    <string name="exercise_squat_baseball_bat_hit">Squat - Baseball hit</string>
     <!--Standing-->
-    <string name="exercise_standing_bent_over_twist">Lying</string>
-    <string name="exercise_standing_touch_feet_jacks">Lying</string>
-    <string name="exercise_standing_kick_crunches">Lying</string>
-    <string name="exercise_standing_skater">Lying</string>
-    <string name="exercise_standing_skating_windmill">Lying</string>
-    <string name="exercise_standing_criss_cross_crunches">Lying</string>
-    <string name="exercise_standing_mountain_climber">Lying</string>
-    <string name="exercise_standing_balance_chops">Lying</string>
+    <string name="exercise_standing_bent_over_twist">Standing - Bent over twist</string>
+    <string name="exercise_standing_touch_feet_jacks">Standing - Touch feet jacks</string>
+    <string name="exercise_standing_kick_crunches">Standing - Kick crunches</string>
+    <string name="exercise_standing_skater">Standing - Skater</string>
+    <string name="exercise_standing_skating_windmill">Standing - Skating windmill</string>
+    <string name="exercise_standing_criss_cross_crunches">Standing - Criss-cross crunches</string>
+    <string name="exercise_standing_mountain_climber">Standing - Mountain climber</string>
+    <string name="exercise_standing_balance_chops">Standing - Balance chops</string>
 
 </resources>
