@@ -21,7 +21,7 @@ class GetAllUsersUseCase @Inject constructor(
                 is Output.Success -> if(it.result.isEmpty()){
                     simpleHiitLogger.e("GetAllUsersUseCase", "No users found")
                     val emptyResultException = Exception(NO_RESULTS_FOUND)
-                    Output.Error(errorCode = Constants.Errors.EMPTY_RESULT, exception = emptyResultException)
+                    Output.Error(errorCode = Constants.Errors.NO_USERS_FOUND, exception = emptyResultException)
                 } else{
                     it
                 }

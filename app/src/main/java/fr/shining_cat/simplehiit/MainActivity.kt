@@ -1,12 +1,16 @@
 package fr.shining_cat.simplehiit
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalView
 import dagger.hilt.android.AndroidEntryPoint
 import fr.shining_cat.simplehiit.ui.SimpleHiitNavigation
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme

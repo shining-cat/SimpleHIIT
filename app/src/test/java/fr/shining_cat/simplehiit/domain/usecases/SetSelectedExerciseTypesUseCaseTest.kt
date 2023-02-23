@@ -1,11 +1,9 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -13,26 +11,28 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
-import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = SetSelectedExerciseTypesUseCase(mockSimpleHiitRepository, mockHiitLogger)
+    private val testedUseCase =
+        SetSelectedExerciseTypesUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @MethodSource("selectedExerciseTypesArguments")
     fun `calls repo with corresponding value and returns repo success`(
-        testValue: List<ExerciseType>
+        testValue: List<ExerciseTypeSelected>,
+        expectedOutput:List<ExerciseType>
     ) = runTest {
         coEvery { mockSimpleHiitRepository.setExercisesTypesSelected(any()) } just Runs
         //
         testedUseCase.execute(testValue)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.setExercisesTypesSelected(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.setExercisesTypesSelected(expectedOutput) }
     }
+
     ////////////////////////
     private companion object {
 
@@ -40,13 +40,56 @@ internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
         fun selectedExerciseTypesArguments() =
             Stream.of(
                 Arguments.of(
-                    listOf(ExerciseType.LUNGE, ExerciseType.SITTING, ExerciseType.LYING)
+                    listOf(
+                        ExerciseTypeSelected(ExerciseType.LUNGE, true),
+                        ExerciseTypeSelected(ExerciseType.LYING, false),
+                        ExerciseTypeSelected(ExerciseType.CRAB, false),
+                        ExerciseTypeSelected(ExerciseType.CAT, false),
+                        ExerciseTypeSelected(ExerciseType.SITTING, false),
+                        ExerciseTypeSelected(ExerciseType.SQUAT, true),
+                        ExerciseTypeSelected(ExerciseType.SITTING, false),
+                        ExerciseTypeSelected(ExerciseType.PLANK, true)
+                    ),
+                    listOf(
+                        ExerciseType.LUNGE,
+                        ExerciseType.SQUAT,
+                        ExerciseType.PLANK
+                    )
                 ),
                 Arguments.of(
-                    listOf(ExerciseType.SITTING, ExerciseType.PLANK, ExerciseType.SQUAT, ExerciseType.CRAB)
+                    listOf(
+                        ExerciseTypeSelected(ExerciseType.LUNGE, true),
+                        ExerciseTypeSelected(ExerciseType.LYING, true),
+                        ExerciseTypeSelected(ExerciseType.CRAB, true),
+                        ExerciseTypeSelected(ExerciseType.CAT, true),
+                        ExerciseTypeSelected(ExerciseType.SITTING, true),
+                        ExerciseTypeSelected(ExerciseType.SQUAT, true),
+                        ExerciseTypeSelected(ExerciseType.SITTING, true),
+                        ExerciseTypeSelected(ExerciseType.PLANK, true)
+                    ),
+                    listOf(
+                        ExerciseType.LUNGE,
+                        ExerciseType.LYING,
+                        ExerciseType.CRAB,
+                        ExerciseType.CAT,
+                        ExerciseType.SITTING,
+                        ExerciseType.SQUAT,
+                        ExerciseType.SITTING,
+                        ExerciseType.PLANK
+                    )
                 ),
                 Arguments.of(
-                    ExerciseType.values().toList()
+                    listOf(
+                        ExerciseTypeSelected(ExerciseType.LUNGE,false),
+                        ExerciseTypeSelected(ExerciseType.LYING,false),
+                        ExerciseTypeSelected(ExerciseType.CRAB,false),
+                        ExerciseTypeSelected(ExerciseType.CAT,false),
+                        ExerciseTypeSelected(ExerciseType.SITTING,false),
+                        ExerciseTypeSelected(ExerciseType.SQUAT,false),
+                        ExerciseTypeSelected(ExerciseType.SITTING,false),
+                        ExerciseTypeSelected(ExerciseType.PLANK,false)
+                    ),
+                    emptyList<ExerciseType>()
                 )
 
             )

@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.domain.usecases
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * This usecase checks for consecutiveness of 2 timestamps in terms of CALENDAR days.
@@ -16,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
 enum class Consecutiveness{SAME_DAY, CONSECUTIVE_DAYS, NON_CONSECUTIVE_DAYS}
 
-class ConsecutiveDaysOrCloserUseCase(
+class ConsecutiveDaysOrCloserUseCase @Inject constructor(
     private val hiitLogger: HiitLogger
 ){
 

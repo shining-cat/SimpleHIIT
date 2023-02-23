@@ -13,8 +13,6 @@ import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-//TODO: why does ActivityComponent here fail the build?
-// I don't need the logger to be a singleton, and I fear an issue in it being a singleton while holding ApplicationContext...
 object UtilsModule {
 
     @Provides

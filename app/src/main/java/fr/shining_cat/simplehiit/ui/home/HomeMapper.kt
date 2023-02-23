@@ -12,15 +12,15 @@ class HomeMapper @Inject constructor(private val hiitLogger: HiitLogger) {
         return when(homeSettingsOutput){
             is Output.Success<HomeSettings> -> {
                 if(homeSettingsOutput.result.users.isEmpty()){
-                    HomeSettingsMissingUsersState(numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles)
+                    HomeSettingsMissingUsers(numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles)
                 } else{
-                    HomeSettingsState(
+                    HomeSettingsNominal(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
                         users = homeSettingsOutput.result.users
                     )
                 }
             }
-            is Output.Error -> HomeSettingsErrorState(homeSettingsOutput.errorCode.code)
+            is Output.Error -> HomeSettingsError(homeSettingsOutput.errorCode.code)
         }
     }
 }

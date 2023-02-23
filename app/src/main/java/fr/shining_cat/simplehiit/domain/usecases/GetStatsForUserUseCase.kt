@@ -21,23 +21,24 @@ class GetStatsForUserUseCase @Inject constructor(
         return when(sessionsForUser){
             is Output.Error -> {
                 simpleHiitLogger.e("GetStatsForUserUseCase", "failed getting sessions, returning default values", sessionsForUser.exception)
-                UserStatistics()
+                UserStatistics(userName = user.name)
             }
             is Output.Success -> {
-                mapListOfSessionsToStatistics(sessionsForUser.result, now)
+                mapListOfSessionsToStatistics(userName = user.name, sessions = sessionsForUser.result, now = now)
             }
         }
     }
 
-    private fun mapListOfSessionsToStatistics(sessions: List<Session>, now: Long):UserStatistics{
+    private fun mapListOfSessionsToStatistics(userName: String, sessions: List<Session>, now: Long):UserStatistics{
         return if(sessions.isEmpty()){
-            UserStatistics()
+            UserStatistics(userName = userName)
         } else{
             val totalNumberOfSessions = sessions.size
             val cumulatedTimeOfExerciseSeconds = sessions.sumOf{it.durationSeconds}
             val averageSessionLengthSeconds = (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
             val timestampsList = sessions.map { it.timeStamp }
             UserStatistics(
+                userName = userName,
                 totalNumberOfSessions = totalNumberOfSessions,
                 cumulatedTimeOfExerciseSeconds = cumulatedTimeOfExerciseSeconds,
                 averageSessionLengthSeconds = averageSessionLengthSeconds,

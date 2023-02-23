@@ -1,8 +1,9 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import javax.inject.Inject
 
-class CalculateCurrentStreakUseCase(
+class CalculateCurrentStreakUseCase @Inject constructor(
     private val consecutiveDaysOrCloserUseCase: ConsecutiveDaysOrCloserUseCase,
     private val simpleHiitLogger: HiitLogger
 ) {

@@ -1,13 +1,14 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import javax.inject.Inject
 import kotlin.math.round
 
 /**
  * This calculates an average over an arbitrary 7-days period,
  * rather than any form of predefined calendar week
  */
-class CalculateAverageSessionsPerWeekUseCase(
+class CalculateAverageSessionsPerWeekUseCase @Inject constructor(
     private val simpleHiitLogger: HiitLogger
 ) {
 

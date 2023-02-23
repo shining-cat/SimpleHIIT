@@ -2,8 +2,9 @@ package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.domain.models.Session
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import javax.inject.Inject
 
-class CalculateLongestStreakUseCase(
+class CalculateLongestStreakUseCase @Inject constructor(
     private val consecutiveDaysOrCloserUseCase: ConsecutiveDaysOrCloserUseCase,
     private val simpleHiitLogger: HiitLogger
 ) {

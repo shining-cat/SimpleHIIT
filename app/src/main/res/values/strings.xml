@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">SimpleHIIT</string>
+    <string name="back_button_content_label">Back</string>
+    <string name="close_button_content_label">Close</string>
 
     <!-- HOME PAGE -->
     <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over 4mn</string>
     <string name="number_of_cycle_setting_title">Select number of cycles</string>
     <string name="number_of_cycle_setting">x %1$d mn</string>
+    <string name="settings_button_content_label">Settings</string>
+    <string name="statictics_button_content_label">Statistics</string>
     <string name="selected_users_setting_title">Select user(s)</string>
     <string name="launch_session_label">Launch session</string>
     <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>
@@ -33,12 +37,12 @@
 
     <!-- SESSION PAGE -->
     <string name="session_work_page_title">Work</string>
+    <string name="session_rest_page_title">Rest</string>
     <string name="exit_button_label">Exit</string>
     <string name="pause">Pause…</string>
     <string name="resume_button_label">Resume</string>
     <string name="next_rest_in_s">Next rest in %1$d s</string>
     <string name="session_time_remaining">Session time remaining</string>
-    <string name="session_rest_page_title">Rest</string>
     <string name="coming_next">Coming next:</string>
     <string name="next_exercise_in_s">Next exercise in %1$d s</string>
 
@@ -48,7 +52,8 @@
     <string name="summary_session">Here\'s the list of exercises you have done:</string>
 
     <!-- STATISTICS PAGE -->
-    <string name="statistics_page_title">%1$s statistics</string> <!-- insert user's name -->
+    <string name="statistics_page_title">Statistics</string> <!-- insert user's name -->
+    <string name="statistics_page_title_with_user_name">%1$s\'s statistics</string> <!-- insert user's name -->
     <string name="sessions_total">You have done a total of %1$d sessions</string>
     <string name="time_total">You have exercised a total of %1$s</string> <!-- we'll format the total length as a string in XXdYYhZZmn-->
     <string name="average">Your average session length is %1$d mn</string>
@@ -56,6 +61,7 @@
     <string name="current_streak">Your current streak is %1$d days</string>
     <string name="average_sessions_week">You have done on average %1$d sessions per week</string>
     <string name="reset_button_label">RESET</string>
+    <string name="user_pick_button_content_label">Users</string>
     <string name="reset_statistics_confirmation_button_label">Click again to confirm. This will delete all sessions stored for %1$s</string> <!-- insert user's name -->
 
     <!-- EXERCISES TYPES-->

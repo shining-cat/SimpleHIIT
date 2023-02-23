@@ -68,7 +68,7 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
         val users = usersFlowAsList[0]
         assertTrue(users is Output.Error)
         users as Output.Error
-        assertEquals(Constants.Errors.EMPTY_RESULT, users.errorCode)
+        assertEquals(Constants.Errors.NO_USERS_FOUND, users.errorCode)
         assertEquals(Constants.NO_RESULTS_FOUND, users.exception.message)
         //
         collectJob.cancel()

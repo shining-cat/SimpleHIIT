@@ -21,9 +21,9 @@ fun SimpleHiitNavigation() {
         navController = navController,
         startDestination = Screen.Home.route
     ) {
-        composable(route = Screen.Home.route) {HomeScreen()}
-        composable(route = Screen.Settings.route) {SettingsScreen()}
-        composable(route = Screen.Statistics.route) {StatisticsScreen()}
-        composable(route = Screen.Session.route) {SessionScreen()}
+        composable(route = Screen.Home.route) {HomeScreen(navController)}
+        composable(route = Screen.Settings.route) {SettingsScreen(navController)}
+        composable(route = Screen.Statistics.route) {StatisticsScreen(navController)}
+        composable(route = Screen.Session.route) {SessionScreen(navController)}
     }
 }

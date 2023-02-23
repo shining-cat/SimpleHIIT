@@ -47,7 +47,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         val result = testedUseCase.execute(testUser, testNow)
         //
         coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
-        assertEquals(UserStatistics(), result)
+        assertEquals(UserStatistics(testUser.name), result)
     }
 
     @Test
@@ -64,7 +64,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = 0) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
-        assertEquals(UserStatistics(), result)
+        assertEquals(UserStatistics(testUser.name), result)
     }
 
 
@@ -91,6 +91,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
+        assertEquals(testUser.name, result.userName)
         assertEquals(expectedTotalNumberOfSessions, result.totalNumberOfSessions)
         assertEquals(expectedCumulatedTimeOfExerciseSeconds, result.cumulatedTimeOfExerciseSeconds)
         assertEquals(expectedAverageSessionLengthSeconds, result.averageSessionLengthSeconds)
