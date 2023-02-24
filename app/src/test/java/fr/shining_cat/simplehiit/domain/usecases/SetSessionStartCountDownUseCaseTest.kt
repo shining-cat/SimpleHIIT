@@ -17,9 +17,9 @@ internal class SetSessionStartCountDownUseCaseTest : AbstractMockkTest() {
     private val testedUseCase = SetSessionStartCountDownUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
-    @ValueSource(ints = [8, 3, 13])
+    @ValueSource(longs = [8000L, 3000L, 13000L])
     fun `calls repo with corresponding value and returns repo success`(
-        testValue: Int
+        testValue: Long
     ) = runTest {
         coEvery { mockSimpleHiitRepository.setSessionStartCountdown(any()) } just Runs
         //

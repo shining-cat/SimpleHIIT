@@ -27,22 +27,22 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
     fun `calls repo and return success with correct order of values`() = runTest(UnconfinedTestDispatcher()) {
         val settingsValue1 = SimpleHiitPreferences()
         val settingsValue2 = SimpleHiitPreferences(
-            workPeriodLength = 123,
-            restPeriodLength = 234,
+            workPeriodLengthMs = 123L,
+            restPeriodLengthMs = 234L,
             numberOfWorkPeriods = 345,
             beepSoundActive = true,
-            sessionCountDownLengthSeconds = 456,
-            PeriodCountDownLengthSeconds = 567,
+            sessionCountDownLengthMs = 456L,
+            PeriodCountDownLengthMs = 567L,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 5
         )
         val settingsValue3 = SimpleHiitPreferences(
-            workPeriodLength = 321,
-            restPeriodLength = 432,
+            workPeriodLengthMs = 321L,
+            restPeriodLengthMs = 432L,
             numberOfWorkPeriods = 543,
             beepSoundActive = false,
-            sessionCountDownLengthSeconds = 654,
-            PeriodCountDownLengthSeconds = 765,
+            sessionCountDownLengthMs = 654L,
+            PeriodCountDownLengthMs = 765L,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 3
         )
@@ -71,6 +71,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val expectedResult1 = Output.Success(
             HomeSettings(
                 numberCumulatedCycles = settingsValue1.numberCumulatedCycles,
+                cycleLengthMs = 230000L,
                 users = usersList1.result
             )
         )
@@ -83,6 +84,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val expectedResult2 = Output.Success(
             HomeSettings(
                 numberCumulatedCycles = settingsValue2.numberCumulatedCycles,
+                cycleLengthMs = 122931L,
                 users = usersList1.result
             )
         )
@@ -96,6 +98,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val expectedResult3 = Output.Success(
             HomeSettings(
                 numberCumulatedCycles = settingsValue3.numberCumulatedCycles,
+                cycleLengthMs = 408447L,
                 users = usersList2.result
             )
         )
@@ -114,12 +117,12 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
     @Test
     fun `calls repo and return error if repo returns error for Users`() = runTest(UnconfinedTestDispatcher()) {
         val settingsValue = SimpleHiitPreferences(
-            workPeriodLength = 123,
-            restPeriodLength = 234,
+            workPeriodLengthMs = 123,
+            restPeriodLengthMs = 234,
             numberOfWorkPeriods = 345,
             beepSoundActive = true,
-            sessionCountDownLengthSeconds = 456,
-            PeriodCountDownLengthSeconds = 567,
+            sessionCountDownLengthMs = 456,
+            PeriodCountDownLengthMs = 567,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 5
         )

@@ -13,6 +13,7 @@ interface SimpleHiitRepository {
     fun getSelectedUsers(): Flow<Output<List<User>>>
     suspend fun updateUser(user: User): Output<Int>
     suspend fun deleteUser(user: User): Output<Int>
+    suspend fun deleteAllUsers(): Unit
 
     //
     suspend fun insertSession(session: Session): Output<Int>
@@ -23,12 +24,12 @@ interface SimpleHiitRepository {
     fun getPreferences(): Flow<SimpleHiitPreferences>
 
     //
-    suspend fun setWorkPeriodLength(durationSeconds: Int)
-    suspend fun setRestPeriodLength(durationSeconds: Int)
+    suspend fun setWorkPeriodLength(durationMs: Long)
+    suspend fun setRestPeriodLength(durationMs: Long)
     suspend fun setNumberOfWorkPeriods(number: Int)
     suspend fun setBeepSound(active: Boolean)
-    suspend fun setSessionStartCountdown(durationSeconds: Int)
-    suspend fun setPeriodStartCountdown(durationSeconds: Int)
+    suspend fun setSessionStartCountdown(durationMs: Long)
+    suspend fun setPeriodStartCountdown(durationMs: Long)
     suspend fun setTotalRepetitionsNumber(number: Int)
     suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
     suspend fun resetAllSettings()

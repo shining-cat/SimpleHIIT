@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.GetHomeSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.domain.usecases.SetTotalRepetitionsNumberUseCase
 import fr.shining_cat.simplehiit.domain.usecases.UpdateUserUseCase
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
@@ -20,6 +21,7 @@ class HomeViewModel @Inject constructor(
     private val getHomeSettingsUseCase: GetHomeSettingsUseCase,
     private val setTotalRepetitionsNumberUseCase: SetTotalRepetitionsNumberUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
+    private val resetWholeAppUseCase: ResetWholeAppUseCase,
     private val homeMapper: HomeMapper,
     private val hiitLogger: HiitLogger
 ) : AbstractLoggerViewModel(hiitLogger) {
@@ -44,6 +46,18 @@ class HomeViewModel @Inject constructor(
     fun toggleSelectedUser(user: User){
         viewModelScope.launch {
             updateUserUseCase.execute(user.copy(selected = !user.selected))
+        }
+    }
+
+    fun resetWholeApp(errorCode: String){
+        viewModelScope.launch {
+            _viewState.emit(HomeViewState.HomeDialogConfirmWholeReset(errorCode))
+        }
+    }
+
+    fun resetWholeAppConfirmationDeleteEverything(){
+        viewModelScope.launch {
+            resetWholeAppUseCase.execute()
         }
     }
 

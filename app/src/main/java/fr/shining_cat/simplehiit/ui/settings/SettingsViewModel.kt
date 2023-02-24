@@ -40,9 +40,9 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setWorkPeriodLength(durationSeconds: Int) {
+    fun setWorkPeriodLength(durationMs: Long) {
         viewModelScope.launch {
-            setWorkPeriodLengthUseCase.execute(durationSeconds)
+            setWorkPeriodLengthUseCase.execute(durationMs)
         }
     }
 
@@ -58,21 +58,21 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun setSessionStartCountDown(durationSeconds: Int) {
+    fun setSessionStartCountDown(durationMs: Long) {
         viewModelScope.launch {
-            setSessionStartCountDownUseCase.execute(durationSeconds)
+            setSessionStartCountDownUseCase.execute(durationMs)
         }
     }
 
-    fun setPeriodStartCountDown(durationSeconds: Int) {
+    fun setPeriodStartCountDown(durationMs: Long) {
         viewModelScope.launch {
-            setPeriodStartCountDownUseCase.execute(durationSeconds)
+            setPeriodStartCountDownUseCase.execute(durationMs)
         }
     }
 
-     fun setRestPeriodLength(durationSeconds: Int) {
+     fun setRestPeriodLength(durationMs: Long) {
         viewModelScope.launch {
-            setRestPeriodLengthUseCase.execute(durationSeconds)
+            setRestPeriodLengthUseCase.execute(durationMs)
         }
     }
 

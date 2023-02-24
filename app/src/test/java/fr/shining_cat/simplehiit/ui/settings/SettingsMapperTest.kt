@@ -4,7 +4,6 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -43,46 +42,46 @@ internal class SettingsMapperTest : AbstractMockkTest() {
             Stream.of(
                 Arguments.of(
                     Output.Success(GeneralSettings(
-                        workPeriodLengthSeconds = 15,
-                        restPeriodLengthSeconds = 10,
+                        workPeriodLengthMs = 15,
+                        restPeriodLengthMs = 10,
                         numberOfWorkPeriods = 6,
                         beepSoundCountDownActive = true,
-                        sessionStartCountDownLengthSeconds = 5,
-                        periodsStartCountDownLengthSeconds = 20,
+                        sessionStartCountDownLengthMs = 5,
+                        periodsStartCountDownLengthMs = 20,
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
                         exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4)
                     )),
                     SettingsViewState.SettingsNominal(
-                        workPeriodLengthSeconds = 15,
-                        restPeriodLengthSeconds = 10,
+                        workPeriodLengthMs = 15,
+                        restPeriodLengthMs = 10,
                         numberOfWorkPeriods = 6,
-                        totalCycleLength = 140,
+                        totalCycleLengthMs = 140,
                         beepSoundCountDownActive = true,
-                        sessionStartCountDownLengthSeconds = 5,
-                        periodsStartCountDownLengthSeconds = 20,
+                        sessionStartCountDownLengthMs = 5,
+                        periodsStartCountDownLengthMs = 20,
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
                         exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4)
                     )
                 ),
                 Arguments.of(
                     Output.Success(GeneralSettings(
-                        workPeriodLengthSeconds = 21,
-                        restPeriodLengthSeconds = 13,
+                        workPeriodLengthMs = 21,
+                        restPeriodLengthMs = 13,
                         numberOfWorkPeriods = 7,
                         beepSoundCountDownActive = false,
-                        sessionStartCountDownLengthSeconds = 7,
-                        periodsStartCountDownLengthSeconds = 34,
+                        sessionStartCountDownLengthMs = 7,
+                        periodsStartCountDownLengthMs = 34,
                         users = listOf(testUser1, testUser2),
                         exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
                     )),
                     SettingsViewState.SettingsNominal(
-                        workPeriodLengthSeconds = 21,
-                        restPeriodLengthSeconds = 13,
+                        workPeriodLengthMs = 21,
+                        restPeriodLengthMs = 13,
                         numberOfWorkPeriods = 7,
-                        totalCycleLength = 225,
+                        totalCycleLengthMs = 225,
                         beepSoundCountDownActive = false,
-                        sessionStartCountDownLengthSeconds = 7,
-                        periodsStartCountDownLengthSeconds = 34,
+                        sessionStartCountDownLengthMs = 7,
+                        periodsStartCountDownLengthMs = 34,
                         users = listOf(testUser1, testUser2),
                         exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
                     )

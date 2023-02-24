@@ -124,6 +124,15 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun deleteAllUsers() {
+        try {
+            usersDao.deleteAllUsers()
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting All Users", exception)
+            throw exception
+        }
+    }
+
     override suspend fun insertSession(session: Session): Output<Int> {
         if (session.usersIds.isEmpty()) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "insertSession::Error - no user provided")
@@ -188,11 +197,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun setWorkPeriodLength(durationSeconds: Int) {
-        hiitDataStoreManager.setWorkPeriodLength(durationSeconds)
+    override suspend fun setWorkPeriodLength(durationMs: Long) {
+        hiitDataStoreManager.setWorkPeriodLength(durationMs)
     }
-    override suspend fun setRestPeriodLength(durationSeconds: Int) {
-        hiitDataStoreManager.setRestPeriodLength(durationSeconds)
+    override suspend fun setRestPeriodLength(durationMs: Long) {
+        hiitDataStoreManager.setRestPeriodLength(durationMs)
     }
     override suspend fun setNumberOfWorkPeriods(number: Int) {
         hiitDataStoreManager.setNumberOfWorkPeriods(number)
@@ -200,11 +209,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override suspend fun setBeepSound(active: Boolean) {
         hiitDataStoreManager.setBeepSound(active)
     }
-    override suspend fun setSessionStartCountdown(durationSeconds: Int) {
-        hiitDataStoreManager.setSessionStartCountdown(durationSeconds)
+    override suspend fun setSessionStartCountdown(durationMs: Long) {
+        hiitDataStoreManager.setSessionStartCountdown(durationMs)
     }
-    override suspend fun setPeriodStartCountdown(durationSeconds: Int) {
-        hiitDataStoreManager.setPeriodStartCountdown(durationSeconds)
+    override suspend fun setPeriodStartCountdown(durationMs: Long) {
+        hiitDataStoreManager.setPeriodStartCountdown(durationMs)
     }
     override suspend fun setTotalRepetitionsNumber(number: Int) {
         hiitDataStoreManager.setNumberOfCumulatedCycles(number = number)

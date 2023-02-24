@@ -14,15 +14,15 @@ class SettingsMapper @Inject constructor(private val hiitLogger: HiitLogger) {
             is Output.Success<GeneralSettings> -> {
                 val generalSettings = generalSettingsOutput.result
                 val totalCycleLength =
-                    generalSettings.workPeriodLengthSeconds * generalSettings.numberOfWorkPeriods + generalSettings.restPeriodLengthSeconds * (generalSettings.numberOfWorkPeriods - 1)
+                    generalSettings.workPeriodLengthMs * generalSettings.numberOfWorkPeriods + generalSettings.restPeriodLengthMs * (generalSettings.numberOfWorkPeriods - 1)
                 SettingsNominal(
-                    workPeriodLengthSeconds = generalSettings.workPeriodLengthSeconds,
-                    restPeriodLengthSeconds = generalSettings.restPeriodLengthSeconds,
+                    workPeriodLengthMs = generalSettings.workPeriodLengthMs,
+                    restPeriodLengthMs = generalSettings.restPeriodLengthMs,
                     numberOfWorkPeriods = generalSettings.numberOfWorkPeriods,
-                    totalCycleLength = totalCycleLength,
+                    totalCycleLengthMs = totalCycleLength,
                     beepSoundCountDownActive = generalSettings.beepSoundCountDownActive,
-                    sessionStartCountDownLengthSeconds = generalSettings.sessionStartCountDownLengthSeconds,
-                    periodsStartCountDownLengthSeconds = generalSettings.periodsStartCountDownLengthSeconds,
+                    sessionStartCountDownLengthMs = generalSettings.sessionStartCountDownLengthMs,
+                    periodsStartCountDownLengthMs = generalSettings.periodsStartCountDownLengthMs,
                     users = generalSettings.users,
                     exerciseTypes = generalSettings.exerciseTypes,
                 )

@@ -13,43 +13,54 @@ import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.domain.models.User
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StatisticsScreen(
     navController: NavController,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    val lifecycle = LocalLifecycleOwner.current.lifecycle
     viewModel.logD("StatisticsScreen", "INIT")
     val statisticsViewState = viewModel.statisticsViewState.collectAsState().value
-    val allUsersViewState = viewModel.allUsersViewState.collectAsState().value
     //
+    StatisticsScreen(
+        onNavigateUp = { navController.navigateUp() },
+        statisticsViewState = statisticsViewState,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun StatisticsScreen(
+    onNavigateUp: () -> Boolean = { false },
+    statisticsViewState: StatisticsViewState,
+) {
     Scaffold(
         topBar = {
             StatisticsTopBar(
-                navController = navController,
+                onNavigateUp = onNavigateUp,
                 statisticsViewState = statisticsViewState
             )
         },
         content = { paddingValues ->
             StatisticsContent(
                 modifier = Modifier.padding(paddingValues),
-                navController = navController,
                 viewState = statisticsViewState
             )
         }
     )
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatisticsTopBar(navController: NavController, statisticsViewState: StatisticsViewState, ) {
+private fun StatisticsTopBar(
+    onNavigateUp: () -> Boolean = { false },
+    statisticsViewState: StatisticsViewState,
+) {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
-            IconButton(onClick = { navController.navigateUp() }) {
+            IconButton(onClick = { onNavigateUp() }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
                     contentDescription = stringResource(id = R.string.back_button_content_label),
@@ -59,8 +70,13 @@ fun StatisticsTopBar(navController: NavController, statisticsViewState: Statisti
         },
         title = {
             val title = when (statisticsViewState) {
-                is StatisticsViewState.StatisticsError, StatisticsViewState.StatisticsLoading -> stringResource(R.string.statistics_page_title)
-                is StatisticsViewState.StatisticsNominal -> stringResource(R.string.statistics_page_title_with_user_name, statisticsViewState.userName)
+                is StatisticsViewState.StatisticsError, StatisticsViewState.StatisticsLoading -> stringResource(
+                    R.string.statistics_page_title
+                )
+                is StatisticsViewState.StatisticsNominal -> stringResource(
+                    R.string.statistics_page_title_with_user_name,
+                    statisticsViewState.userName
+                )
             }
             Text(
                 text = title,
@@ -70,7 +86,7 @@ fun StatisticsTopBar(navController: NavController, statisticsViewState: Statisti
             )
         },
         actions = {
-            IconButton(onClick = { /* TODO: open user picking dialog */ }) {
+            IconButton(onClick = { /* TODO: open user picking dialog by triggering new viewstate in viewmodel*/ }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.people),
                     contentDescription = stringResource(id = R.string.user_pick_button_content_label),
@@ -82,9 +98,8 @@ fun StatisticsTopBar(navController: NavController, statisticsViewState: Statisti
 }
 
 @Composable
-fun StatisticsContent(
+private fun StatisticsContent(
     modifier: Any,
-    navController: NavController,
     viewState: StatisticsViewState
 ) {
 

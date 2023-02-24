@@ -1,12 +1,12 @@
 package fr.shining_cat.simplehiit.domain.models
 
 data class GeneralSettings(
-    val workPeriodLengthSeconds:Int,
-    val restPeriodLengthSeconds:Int,
+    val workPeriodLengthMs:Long,
+    val restPeriodLengthMs:Long,
     val numberOfWorkPeriods:Int,
     val beepSoundCountDownActive:Boolean,
-    val sessionStartCountDownLengthSeconds:Int,
-    val periodsStartCountDownLengthSeconds:Int,
+    val sessionStartCountDownLengthMs:Long,
+    val periodsStartCountDownLengthMs:Long,
     val users:List<User>,
     val exerciseTypes: List<ExerciseTypeSelected>
 )

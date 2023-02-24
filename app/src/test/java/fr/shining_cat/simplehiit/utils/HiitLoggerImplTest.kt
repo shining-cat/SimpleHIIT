@@ -52,7 +52,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.d(testTag, testMessage)
         //
-        verify (exactly = 1){ Log.d(testTag, testMessage) }
+        verify (exactly = 1){ Log.d("SIMPLEHIIT", "$testTag::$testMessage") }
     }
 
     @Test
@@ -70,7 +70,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.e(testTag, testMessage)
         //
-        verify (exactly = 1){ Log.e(testTag, testMessage) }
+        verify (exactly = 1){ Log.e("SIMPLEHIIT", "$testTag::$testMessage") }
     }
 
     @Test
@@ -79,7 +79,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.e(testTag, testMessage, testThrowable)
         //
-        verify (exactly = 1){ Log.e(testTag, testMessage, testThrowable) }
+        verify (exactly = 1){ Log.e("SIMPLEHIIT", "$testTag::$testMessage", testThrowable) }
     }
 
     @Test

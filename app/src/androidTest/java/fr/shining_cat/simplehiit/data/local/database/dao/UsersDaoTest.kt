@@ -536,4 +536,100 @@ class UsersDaoTest {
     }
 
 
+////////////////
+
+    @Test
+    fun deleteAllUsersEmptyTable() = runTest {
+        val tableFlowAsList = mutableListOf<List<UserEntity>>()
+        val collectJob = launch(UnconfinedTestDispatcher()){
+            usersDao.getUsers().toList(tableFlowAsList)
+        }
+        val tableContentBefore = tableFlowAsList[0]
+        assertTrue(tableContentBefore.isEmpty())
+        //
+        launch {usersDao.deleteAllUsers()}
+        advanceUntilIdle()
+        assertEquals(1, tableFlowAsList.size)
+        val tableContentAfter = tableFlowAsList[0]
+        assertTrue(tableContentAfter.isEmpty())
+        collectJob.cancel()
+
+    }
+
+    @Test
+    fun deleteAllUsersOnlyOneInTable() = runTest {
+        val testUserName = "test user name"
+        val testSelected = true
+        val user = UserEntity(name = testUserName, selected = testSelected)
+        launch {usersDao.insert(user)}
+        advanceUntilIdle()
+        //
+        val tableFlowAsList = mutableListOf<List<UserEntity>>()
+        val collectJob = launch(UnconfinedTestDispatcher()){
+            usersDao.getUsers().toList(tableFlowAsList)
+        }
+        val tableContentBefore = tableFlowAsList[0]
+        assertEquals(1, tableContentBefore.size)
+        assertEquals(testUserName, tableContentBefore[0].name)
+        assertEquals(testSelected, tableContentBefore[0].selected)
+        //
+        launch {usersDao.deleteAllUsers()}
+        advanceUntilIdle()
+        assertEquals(2, tableFlowAsList.size)
+        val tableContentAfter = tableFlowAsList[1]
+        assertTrue(tableContentAfter.isEmpty())
+        collectJob.cancel()
+    }
+
+    @Test
+    fun deleteAllUsersEmptiesTable() = runTest {
+        val testUserName1 = "test user name 1"
+        val testSelected1 = true
+        val user1 = UserEntity(name = testUserName1, selected = testSelected1)
+        val testUserName2 = "test user name 2"
+        val testSelected2 = false
+        val user2 = UserEntity(name = testUserName2, selected = testSelected2)
+        val testUserName3 = "test user name 3"
+        val testSelected3 = true
+        val user3 = UserEntity(name = testUserName3, selected = testSelected3)
+        val testUserName4 = "test user name 4"
+        val testSelected4 = false
+        val user4 = UserEntity(name = testUserName4, selected = testSelected4)
+        val testUserName5 = "test user name 5"
+        val testSelected5 = true
+        val user5 = UserEntity(name = testUserName5, selected = testSelected5)
+        launch {
+            usersDao.insert(user1)
+            usersDao.insert(user2)
+            usersDao.insert(user3)
+            usersDao.insert(user4)
+            usersDao.insert(user5)}
+        advanceUntilIdle()
+        //
+        val tableFlowAsList = mutableListOf<List<UserEntity>>()
+        val collectJob = launch(UnconfinedTestDispatcher()){
+            usersDao.getUsers().toList(tableFlowAsList)
+        }
+        val tableContentBefore = tableFlowAsList[0]
+        assertEquals(5, tableContentBefore.size)
+        assertEquals(testUserName1, tableContentBefore[0].name)
+        assertEquals(testSelected1, tableContentBefore[0].selected)
+        assertEquals(testUserName2, tableContentBefore[1].name)
+        assertEquals(testSelected2, tableContentBefore[1].selected)
+        assertEquals(testUserName3, tableContentBefore[2].name)
+        assertEquals(testSelected3, tableContentBefore[2].selected)
+        assertEquals(testUserName4, tableContentBefore[3].name)
+        assertEquals(testSelected4, tableContentBefore[3].selected)
+        assertEquals(testUserName5, tableContentBefore[4].name)
+        assertEquals(testSelected5, tableContentBefore[4].selected)
+        //
+        launch {usersDao.deleteAllUsers()}
+        advanceUntilIdle()
+        assertEquals(2, tableFlowAsList.size)
+        val tableContentAfter = tableFlowAsList[1]
+        assertTrue(tableContentAfter.isEmpty())
+        collectJob.cancel()
+    }
+
+
 }

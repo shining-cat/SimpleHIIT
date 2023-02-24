@@ -2,9 +2,18 @@
     <string name="app_name">SimpleHIIT</string>
     <string name="back_button_content_label">Back</string>
     <string name="close_button_content_label">Close</string>
+    <string name="error_title">Whoops!</string>
+    <string name="error_notice">Something bad happened.</string>
+    <string name="error_code">Error code: %1$s</string>
+    <string name="warning_icon_content_description">Warning symbol</string>
+    <string name="delete_button_label">DELETE</string>
+    <string name="cancel_button_label">Cancel</string>
 
     <!-- HOME PAGE -->
     <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over 4mn</string>
+    <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
+    <string name="reset_app_button_label">Reset the whole app</string>
+    <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
     <string name="number_of_cycle_setting_title">Select number of cycles</string>
     <string name="number_of_cycle_setting">x %1$d mn</string>
     <string name="settings_button_content_label">Settings</string>
@@ -32,7 +41,6 @@
     <string name="save_settings_button_label">Save</string>
     <string name="create_user_field_hint">Enter a user name</string>
     <string name="seconds_settings_button_label">s</string>
-    <string name="delete_button_label">DELETE</string>
     <string name="delete_confirmation_button_label">Click again to confirm. Deleting the user will delete associated sessions.</string>
 
     <!-- SESSION PAGE -->

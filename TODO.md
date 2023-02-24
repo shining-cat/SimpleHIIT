@@ -12,3 +12,5 @@
   * apply plugin: "com.vanniktech.dependency.graph.generator"
 * check https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp
 * TODO? if we want a complete evaluation of streaks, we need to store the locale at the time of recording alongside the timestamp for the session date. Then we can provide it to the usecase for evaluation.
+* translate to FR and SV. Maybe add language selection in settings to be able to demo it?
+* we handle system black/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)

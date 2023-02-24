@@ -6,7 +6,6 @@ import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.*
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,22 +27,22 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
     fun `calls repo and return success with correct order of values`() = runTest(UnconfinedTestDispatcher()) {
         val settingsValue1 = SimpleHiitPreferences()
         val settingsValue2 = SimpleHiitPreferences(
-            workPeriodLength = 123,
-            restPeriodLength = 234,
+            workPeriodLengthMs = 123,
+            restPeriodLengthMs = 234,
             numberOfWorkPeriods = 345,
             beepSoundActive = true,
-            sessionCountDownLengthSeconds = 456,
-            PeriodCountDownLengthSeconds = 567,
+            sessionCountDownLengthMs = 456,
+            PeriodCountDownLengthMs = 567,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 5
         )
         val settingsValue3 = SimpleHiitPreferences(
-            workPeriodLength = 321,
-            restPeriodLength = 432,
+            workPeriodLengthMs = 321,
+            restPeriodLengthMs = 432,
             numberOfWorkPeriods = 543,
             beepSoundActive = false,
-            sessionCountDownLengthSeconds = 654,
-            PeriodCountDownLengthSeconds = 765,
+            sessionCountDownLengthMs = 654,
+            PeriodCountDownLengthMs = 765,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 3
         )
@@ -71,12 +70,12 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         val homeSettingsResult1 = generalSettingsFlowAsList.last()
         val expectedResult1 = Output.Success(
             GeneralSettings(
-                workPeriodLengthSeconds = settingsValue1.workPeriodLength,
-                restPeriodLengthSeconds = settingsValue1.restPeriodLength,
+                workPeriodLengthMs = settingsValue1.workPeriodLengthMs,
+                restPeriodLengthMs = settingsValue1.restPeriodLengthMs,
                 numberOfWorkPeriods = settingsValue1.numberOfWorkPeriods,
                 beepSoundCountDownActive = settingsValue1.beepSoundActive,
-                sessionStartCountDownLengthSeconds = settingsValue1.sessionCountDownLengthSeconds,
-                periodsStartCountDownLengthSeconds = settingsValue1.PeriodCountDownLengthSeconds,
+                sessionStartCountDownLengthMs = settingsValue1.sessionCountDownLengthMs,
+                periodsStartCountDownLengthMs = settingsValue1.PeriodCountDownLengthMs,
                 users = usersList1.result,
                 exerciseTypes = settingsValue1.selectedExercisesTypes
             )
@@ -89,12 +88,12 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         val homeSettingsResult2 = generalSettingsFlowAsList.last()
         val expectedResult2 = Output.Success(
             GeneralSettings(
-                workPeriodLengthSeconds = settingsValue2.workPeriodLength,
-                restPeriodLengthSeconds = settingsValue2.restPeriodLength,
+                workPeriodLengthMs = settingsValue2.workPeriodLengthMs,
+                restPeriodLengthMs = settingsValue2.restPeriodLengthMs,
                 numberOfWorkPeriods = settingsValue2.numberOfWorkPeriods,
                 beepSoundCountDownActive = settingsValue2.beepSoundActive,
-                sessionStartCountDownLengthSeconds = settingsValue2.sessionCountDownLengthSeconds,
-                periodsStartCountDownLengthSeconds = settingsValue2.PeriodCountDownLengthSeconds,
+                sessionStartCountDownLengthMs = settingsValue2.sessionCountDownLengthMs,
+                periodsStartCountDownLengthMs = settingsValue2.PeriodCountDownLengthMs,
                 users = usersList1.result,
                 exerciseTypes = settingsValue2.selectedExercisesTypes
             )
@@ -108,12 +107,12 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         val homeSettingsResult3 = generalSettingsFlowAsList.last()
         val expectedResult3 = Output.Success(
             GeneralSettings(
-                workPeriodLengthSeconds = settingsValue3.workPeriodLength,
-                restPeriodLengthSeconds = settingsValue3.restPeriodLength,
+                workPeriodLengthMs = settingsValue3.workPeriodLengthMs,
+                restPeriodLengthMs = settingsValue3.restPeriodLengthMs,
                 numberOfWorkPeriods = settingsValue3.numberOfWorkPeriods,
                 beepSoundCountDownActive = settingsValue3.beepSoundActive,
-                sessionStartCountDownLengthSeconds = settingsValue3.sessionCountDownLengthSeconds,
-                periodsStartCountDownLengthSeconds = settingsValue3.PeriodCountDownLengthSeconds,
+                sessionStartCountDownLengthMs = settingsValue3.sessionCountDownLengthMs,
+                periodsStartCountDownLengthMs = settingsValue3.PeriodCountDownLengthMs,
                 users = usersList2.result,
                 exerciseTypes = settingsValue3.selectedExercisesTypes
             )
@@ -133,12 +132,12 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
     @Test
     fun `calls repo and return error if repo returns error for Users`() = runTest(UnconfinedTestDispatcher()) {
         val settingsValue = SimpleHiitPreferences(
-            workPeriodLength = 123,
-            restPeriodLength = 234,
+            workPeriodLengthMs = 123,
+            restPeriodLengthMs = 234,
             numberOfWorkPeriods = 345,
             beepSoundActive = true,
-            sessionCountDownLengthSeconds = 456,
-            PeriodCountDownLengthSeconds = 567,
+            sessionCountDownLengthMs = 456,
+            PeriodCountDownLengthMs = 567,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 5
         )

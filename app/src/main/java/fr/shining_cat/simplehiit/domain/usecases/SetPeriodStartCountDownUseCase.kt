@@ -9,7 +9,7 @@ class SetPeriodStartCountDownUseCase @Inject constructor(
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    suspend fun execute(durationSeconds: Int) {
-        simpleHiitRepository.setPeriodStartCountdown(durationSeconds)
+    suspend fun execute(durationMs: Long) {
+        simpleHiitRepository.setPeriodStartCountdown(durationMs)
     }
 }

@@ -27,12 +27,12 @@ class GetGeneralSettingsUseCase @Inject constructor(
                 emit(
                     Output.Success(
                         GeneralSettings(
-                            workPeriodLengthSeconds = settings.workPeriodLength,
-                            restPeriodLengthSeconds = settings.restPeriodLength,
+                            workPeriodLengthMs = settings.workPeriodLengthMs,
+                            restPeriodLengthMs = settings.restPeriodLengthMs,
                             numberOfWorkPeriods = settings.numberOfWorkPeriods,
                             beepSoundCountDownActive = settings.beepSoundActive,
-                            sessionStartCountDownLengthSeconds = settings.sessionCountDownLengthSeconds,
-                            periodsStartCountDownLengthSeconds = settings.PeriodCountDownLengthSeconds,
+                            sessionStartCountDownLengthMs = settings.sessionCountDownLengthMs,
+                            periodsStartCountDownLengthMs = settings.PeriodCountDownLengthMs,
                             users = usersOutput.result,
                             exerciseTypes = settings.selectedExercisesTypes
                         )

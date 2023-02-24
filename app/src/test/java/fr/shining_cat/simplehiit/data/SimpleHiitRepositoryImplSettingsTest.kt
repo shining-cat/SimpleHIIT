@@ -46,7 +46,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setWorkPeriodLength calls HiitDataStoreManager setWorkPeriodLength with correct value `() =
         runTest {
-            val testValue = 123
+            val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setWorkPeriodLength(any()) } just Runs
             //
             simpleHiitRepository.setWorkPeriodLength(testValue)
@@ -57,7 +57,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setRestPeriodLength calls HiitDataStoreManager setRestPeriodLength with correct value `() =
         runTest {
-            val testValue = 123
+            val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setRestPeriodLength(any()) } just Runs
             //
             simpleHiitRepository.setRestPeriodLength(testValue)
@@ -93,7 +93,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setSessionStartCountdown calls HiitDataStoreManager setSessionStartCountdown with correct value `() =
         runTest {
-            val testValue = 123
+            val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setSessionStartCountdown(any()) } just Runs
             //
             simpleHiitRepository.setSessionStartCountdown(testValue)
@@ -108,7 +108,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setPeriodStartCountdown calls HiitDataStoreManager setPeriodStartCountdown with correct value `() =
         runTest {
-            val testValue = 123
+            val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setPeriodStartCountdown(any()) } just Runs
             //
             simpleHiitRepository.setPeriodStartCountdown(testValue)
@@ -152,22 +152,22 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             val datastoreOutput1 =
                 SimpleHiitPreferences() //holds default values, should always be the fallback
             val datastoreOutput2 = SimpleHiitPreferences(
-                workPeriodLength = 123,
-                restPeriodLength = 234,
+                workPeriodLengthMs = 123,
+                restPeriodLengthMs = 234,
                 numberOfWorkPeriods = 345,
                 beepSoundActive = true,
-                sessionCountDownLengthSeconds = 456,
-                PeriodCountDownLengthSeconds = 567,
+                sessionCountDownLengthMs = 456,
+                PeriodCountDownLengthMs = 567,
                 selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                 numberCumulatedCycles = 3
             )
             val datastoreOutput3 = SimpleHiitPreferences(
-                workPeriodLength = 987,
-                restPeriodLength = 876,
+                workPeriodLengthMs = 987,
+                restPeriodLengthMs = 876,
                 numberOfWorkPeriods = 765,
                 beepSoundActive = false,
-                sessionCountDownLengthSeconds = 654,
-                PeriodCountDownLengthSeconds = 543,
+                sessionCountDownLengthMs = 654,
+                PeriodCountDownLengthMs = 543,
                 selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                 numberCumulatedCycles = 5
             )

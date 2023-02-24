@@ -9,7 +9,7 @@ class SetWorkPeriodLengthUseCase @Inject constructor(
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    suspend fun execute(durationSeconds: Int) {
-        simpleHiitRepository.setWorkPeriodLength(durationSeconds)
+    suspend fun execute(durationMs: Long) {
+        simpleHiitRepository.setWorkPeriodLength(durationMs)
     }
 }

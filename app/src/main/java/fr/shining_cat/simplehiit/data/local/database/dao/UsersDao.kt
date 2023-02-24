@@ -25,4 +25,6 @@ abstract class UsersDao {
     @Delete
     abstract suspend fun delete(userEntity: UserEntity): Int
 
+    @Query("DELETE FROM $usersTableName")
+    abstract suspend fun deleteAllUsers()
 }

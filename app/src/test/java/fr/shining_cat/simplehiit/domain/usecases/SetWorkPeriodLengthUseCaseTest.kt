@@ -17,9 +17,9 @@ internal class SetWorkPeriodLengthUseCaseTest : AbstractMockkTest() {
     private val testedUseCase = SetWorkPeriodLengthUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
-    @ValueSource(ints = [15, 20, 30])
+    @ValueSource(longs = [15000L, 20000L, 30000L])
     fun `calls repo with corresponding value and returns repo success`(
-        testValue: Int
+        testValue: Long
     ) = runTest {
         coEvery { mockSimpleHiitRepository.setWorkPeriodLength(any()) } just Runs
         //

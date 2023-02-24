@@ -13,12 +13,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.Screen
-import fr.shining_cat.simplehiit.ui.home.HomeContent
-import fr.shining_cat.simplehiit.ui.home.HomeTopBar
-import fr.shining_cat.simplehiit.ui.home.HomeViewState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SessionScreen(
     navController: NavController,
@@ -28,15 +23,27 @@ fun SessionScreen(
     viewModel.logD("SessionScreen", "INIT")
     val viewState = viewModel.viewState.collectAsState().value
     //
+    SessionScreen(
+        onNavigateUp = { navController.navigateUp() },
+        viewState = viewState
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SessionScreen(
+    onNavigateUp: () -> Boolean = { false },
+    viewState: SessionViewState
+) {
     Scaffold(
         topBar = {
-            SessionTopBar(navController = navController)
+            SessionTopBar()
         },
         content = { paddingValues ->
             SessionContent(
                 modifier = Modifier.padding(paddingValues),
-                navController = navController,
-                viewState = viewState
+                viewState = viewState,
+                onNavigateUp = onNavigateUp
             )
         }
     )
@@ -44,11 +51,11 @@ fun SessionScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SessionTopBar(navController: NavController) {
+private fun SessionTopBar() {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
-            IconButton(onClick = { /* TODO: open Pause dialog */ }) {
+            IconButton(onClick = { /* TODO: open Pause dialog by triggering new state from viewmodel*/ }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
                     contentDescription = stringResource(id = R.string.back_button_content_label),
@@ -68,10 +75,10 @@ fun SessionTopBar(navController: NavController) {
 }
 
 @Composable
-fun SessionContent(
+private fun SessionContent(
     modifier: Any,
-    navController: NavController,
-    viewState: SessionViewState
+    viewState: SessionViewState,
+    onNavigateUp: () -> Boolean = { false }
 ) {
 
 }

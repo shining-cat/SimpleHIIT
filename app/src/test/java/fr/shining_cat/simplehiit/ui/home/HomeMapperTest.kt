@@ -5,7 +5,6 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.HomeSettings
 import fr.shining_cat.simplehiit.domain.models.User
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -39,24 +38,24 @@ internal class HomeMapperTest : AbstractMockkTest() {
         fun homeSettingsArguments() =
             Stream.of(
                 Arguments.of(
-                    Output.Success(HomeSettings(numberCumulatedCycles = 3, users = listOf(testUser1, testUser3, testUser2, testUser4))),
-                    HomeViewState.HomeSettingsNominal(numberCumulatedCycles = 3, users = listOf(testUser1, testUser3, testUser2, testUser4))
+                    Output.Success(HomeSettings(numberCumulatedCycles = 3, cycleLengthMs = 123L, users = listOf(testUser1, testUser3, testUser2, testUser4))),
+                    HomeViewState.HomeNominal(numberCumulatedCycles = 3, cycleLengthMs = 123L, users = listOf(testUser1, testUser3, testUser2, testUser4))
                 ),
                 Arguments.of(
-                    Output.Success(HomeSettings(numberCumulatedCycles = 5, users = listOf(testUser1, testUser2))),
-                    HomeViewState.HomeSettingsNominal(numberCumulatedCycles = 5, users = listOf(testUser1, testUser2))
+                    Output.Success(HomeSettings(numberCumulatedCycles = 5, cycleLengthMs = 234L, users = listOf(testUser1, testUser2))),
+                    HomeViewState.HomeNominal(numberCumulatedCycles = 5, cycleLengthMs = 234L, users = listOf(testUser1, testUser2))
                 ),
                 Arguments.of(
-                    Output.Success(HomeSettings(numberCumulatedCycles = 3, users = listOf())),
-                    HomeViewState.HomeSettingsMissingUsers(numberCumulatedCycles = 3)
+                    Output.Success(HomeSettings(numberCumulatedCycles = 3, cycleLengthMs = 456L, users = listOf())),
+                    HomeViewState.HomeMissingUsers(numberCumulatedCycles = 3, cycleLengthMs = 456L)
                 ),
                 Arguments.of(
                     Output.Error(errorCode = Constants.Errors.NO_USERS_FOUND, exception = testException),
-                    HomeViewState.HomeSettingsError(Constants.Errors.NO_USERS_FOUND.code)
+                    HomeViewState.HomeError(Constants.Errors.NO_USERS_FOUND.code)
                 ),
                 Arguments.of(
                     Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException),
-                    HomeViewState.HomeSettingsError(Constants.Errors.DATABASE_FETCH_FAILED.code)
+                    HomeViewState.HomeError(Constants.Errors.DATABASE_FETCH_FAILED.code)
                 )
             )
     }

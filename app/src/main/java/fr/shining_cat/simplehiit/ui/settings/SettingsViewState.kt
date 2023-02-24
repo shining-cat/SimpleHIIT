@@ -6,13 +6,13 @@ import fr.shining_cat.simplehiit.domain.models.User
 sealed class SettingsViewState{
     object SettingsLoading:SettingsViewState()
     data class SettingsNominal(
-        val workPeriodLengthSeconds:Int,
-        val restPeriodLengthSeconds:Int,
+        val workPeriodLengthMs:Long,
+        val restPeriodLengthMs:Long,
         val numberOfWorkPeriods:Int,
-        val totalCycleLength:Int,
+        val totalCycleLengthMs:Long,
         val beepSoundCountDownActive:Boolean,
-        val sessionStartCountDownLengthSeconds:Int,
-        val periodsStartCountDownLengthSeconds:Int,
+        val sessionStartCountDownLengthMs:Long,
+        val periodsStartCountDownLengthMs:Long,
         val users:List<User>,
         val exerciseTypes: List<ExerciseTypeSelected>
     ):SettingsViewState()

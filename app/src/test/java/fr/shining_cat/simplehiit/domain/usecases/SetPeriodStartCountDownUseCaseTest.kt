@@ -17,9 +17,9 @@ internal class SetPeriodStartCountDownUseCaseTest : AbstractMockkTest() {
     private val testedUseCase = SetPeriodStartCountDownUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
-    @ValueSource(ints = [5, 7, 15])
+    @ValueSource(longs = [5000L, 7000L, 15000L])
     fun `calls repo with corresponding value and returns repo success`(
-        testValue: Int
+        testValue: Long
     ) = runTest {
         coEvery { mockSimpleHiitRepository.setPeriodStartCountdown(any()) } just Runs
         //

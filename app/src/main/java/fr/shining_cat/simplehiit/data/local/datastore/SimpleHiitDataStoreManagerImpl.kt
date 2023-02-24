@@ -7,10 +7,10 @@ import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.BEEP_SOU
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.NUMBER_WORK_PERIODS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_SECONDS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_SECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
@@ -31,17 +31,17 @@ class SimpleHiitDataStoreManagerImpl(
         }
     }
 
-    override suspend fun setWorkPeriodLength(durationSeconds: Int) {
-        hiitLogger.d("SimpleHiitDataStoreManager", "setWorkPeriodLength:: $durationSeconds")
+    override suspend fun setWorkPeriodLength(durationMs: Long) {
+        hiitLogger.d("SimpleHiitDataStoreManager", "setWorkPeriodLength:: $durationMs")
         dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS] = durationSeconds
+            preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS] = durationMs
         }
     }
 
-    override suspend fun setRestPeriodLength(durationSeconds: Int) {
-        hiitLogger.d("SimpleHiitDataStoreManager", "setRestPeriodLength:: $durationSeconds")
+    override suspend fun setRestPeriodLength(durationMs: Long) {
+        hiitLogger.d("SimpleHiitDataStoreManager", "setRestPeriodLength:: $durationMs")
         dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS] = durationSeconds
+            preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS] = durationMs
         }
     }
 
@@ -59,17 +59,17 @@ class SimpleHiitDataStoreManagerImpl(
         }
     }
 
-    override suspend fun setSessionStartCountdown(durationSeconds: Int) {
-        hiitLogger.d("SimpleHiitDataStoreManager", "setSessionStartCountdown:: $durationSeconds")
+    override suspend fun setSessionStartCountdown(durationMs: Long) {
+        hiitLogger.d("SimpleHiitDataStoreManager", "setSessionStartCountdown:: $durationMs")
         dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS] = durationSeconds
+            preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
         }
     }
 
-    override suspend fun setPeriodStartCountdown(durationSeconds: Int) {
-        hiitLogger.d("SimpleHiitDataStoreManager", "setPeriodStartCountdown:: $durationSeconds")
+    override suspend fun setPeriodStartCountdown(durationMs: Long) {
+        hiitLogger.d("SimpleHiitDataStoreManager", "setPeriodStartCountdown:: $durationMs")
         dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS] = durationSeconds
+            preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
         }
     }
 
@@ -97,24 +97,24 @@ class SimpleHiitDataStoreManagerImpl(
             SimpleHiitPreferences()
         }.map { preferences ->
             SimpleHiitPreferences(
-                workPeriodLength = retrieveWorkPeriodLength(preferences),
-                restPeriodLength = retrieveRestPeriodLength(preferences),
+                workPeriodLengthMs = retrieveWorkPeriodLength(preferences),
+                restPeriodLengthMs = retrieveRestPeriodLength(preferences),
                 numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
                 beepSoundActive = retrieveBeepSoundActive(preferences),
-                sessionCountDownLengthSeconds = retrieveSessionCountDownLengthSeconds(preferences),
-                PeriodCountDownLengthSeconds = retrievePeriodCountDownLengthSeconds(preferences),
+                sessionCountDownLengthMs = retrieveSessionCountDownLengthSeconds(preferences),
+                PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
                 selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
                 numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences)
             )
         }
 
     private fun retrieveWorkPeriodLength(preferences: Preferences) =
-        preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS]
-            ?: WORK_PERIOD_LENGTH_SECONDS_DEFAULT
+        preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS]
+            ?: WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 
     private fun retrieveRestPeriodLength(preferences: Preferences) =
-        preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS]
-            ?: REST_PERIOD_LENGTH_SECONDS_DEFAULT
+        preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS]
+            ?: REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 
     private fun retrieveNumberOfWorkPeriods(preferences: Preferences) =
         preferences[SimpleHiitDataStoreManager.Keys.NUMBER_WORK_PERIODS]
@@ -125,12 +125,12 @@ class SimpleHiitDataStoreManagerImpl(
             ?: BEEP_SOUND_ACTIVE_DEFAULT
 
     private fun retrieveSessionCountDownLengthSeconds(preferences: Preferences) =
-        preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS]
-            ?: SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT
+        preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS]
+            ?: SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
 
     private fun retrievePeriodCountDownLengthSeconds(preferences: Preferences) =
-        preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS]
-            ?: PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT
+        preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS]
+            ?: PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
 
     private suspend fun getSelectedExerciseTypesAsList(preferences: Preferences): List<ExerciseTypeSelected> {
         val setOfStringExerciseTypes = retrieveSelectedExerciseTypes(preferences)

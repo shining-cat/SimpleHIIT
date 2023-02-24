@@ -13,10 +13,10 @@ import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.BEEP_SOU
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.NUMBER_WORK_PERIODS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_SECONDS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT
-import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_SECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
+import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
@@ -51,6 +51,7 @@ internal class SimpleHiitDataStoreManagerImplTest {
             produceFile = { testContext.preferencesDataStoreFile(TEST_DATASTORE_NAME) }
         )
     private val defaultIntValue = -1
+    private val defaultLongValue = -1L
     private val defaultBoolValue = false
     private val defaultStringSetValue = emptySet<String>()
 
@@ -75,18 +76,18 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetWorkPeriodLengthIsStoringInPrefDataStore() = runTest {
-        val valueFlowAsList = mutableListOf<Int>()
+        val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS).toList(
                 valueFlowAsList
             )
         }
         assertEquals(1, valueFlowAsList.size)
         //check nothing is there first
         val beforeStoring = valueFlowAsList[0]
-        assertEquals(defaultIntValue, beforeStoring)
+        assertEquals(defaultLongValue, beforeStoring)
         //insert new value
-        val testValue = 123
+        val testValue = 123L
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testValue)
         //check new value is in there
         assertEquals(2, valueFlowAsList.size)
@@ -98,18 +99,18 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetRestPeriodLengthIsStoringInPrefDataStore() = runTest {
-        val valueFlowAsList = mutableListOf<Int>()
+        val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS).toList(
                 valueFlowAsList
             )
         }
         assertEquals(1, valueFlowAsList.size)
         //check nothing is there first
         val beforeStoring = valueFlowAsList[0]
-        assertEquals(defaultIntValue, beforeStoring)
+        assertEquals(defaultLongValue, beforeStoring)
         //insert new value
-        val testValue = 321
+        val testValue = 321L
         testedSimpleHiitDataStoreManager.setRestPeriodLength(testValue)
         //check new value is in there
         assertEquals(2, valueFlowAsList.size)
@@ -167,18 +168,18 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetSessionStartCountdownIsStoringInPrefDataStore() = runTest {
-        val valueFlowAsList = mutableListOf<Int>()
+        val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 valueFlowAsList
             )
         }
         assertEquals(1, valueFlowAsList.size)
         //check nothing is there first
         val beforeStoring = valueFlowAsList[0]
-        assertEquals(defaultIntValue, beforeStoring)
+        assertEquals(defaultLongValue, beforeStoring)
         //insert new value
-        val testValue = 345
+        val testValue = 345L
         testedSimpleHiitDataStoreManager.setSessionStartCountdown(testValue)
         //check new value is in there
         assertEquals(2, valueFlowAsList.size)
@@ -190,18 +191,18 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetPeriodStartCountdownIsStoringInPrefDataStore() = runTest {
-        val valueFlowAsList = mutableListOf<Int>()
+        val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 valueFlowAsList
             )
         }
         assertEquals(1, valueFlowAsList.size)
         //check nothing is there first
         val beforeStoring = valueFlowAsList[0]
-        assertEquals(defaultIntValue, beforeStoring)
+        assertEquals(defaultLongValue, beforeStoring)
         //insert new value
-        val testValue = 456
+        val testValue = 456L
         testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testValue)
         //check new value is in there
         assertEquals(2, valueFlowAsList.size)
@@ -272,15 +273,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 numberCyclesFlowAsList
             )
         }
-        val periodCountDownFlowAsList = mutableListOf<Int>()
+        val periodCountDownFlowAsList = mutableListOf<Long>()
         val collectPeriodCountDownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 periodCountDownFlowAsList
             )
         }
-        val sessionStartCountdownFlowAsList = mutableListOf<Int>()
+        val sessionStartCountdownFlowAsList = mutableListOf<Long>()
         val collectSessionStartCountdownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 sessionStartCountdownFlowAsList
             )
         }
@@ -296,15 +297,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 numberOfWorkPeriodsFlowAsList
             )
         }
-        val restPeriodLengthFlowAsList = mutableListOf<Int>()
+        val restPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectRestPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS).toList(
                 restPeriodLengthFlowAsList
             )
         }
-        val workPeriodLengthFlowAsList = mutableListOf<Int>()
+        val workPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectWorkPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS).toList(
                 workPeriodLengthFlowAsList
             )
         }
@@ -314,17 +315,17 @@ internal class SimpleHiitDataStoreManagerImplTest {
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
         val testNumberCyclesValue = 567
         testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testNumberCyclesValue)
-        val testPeriodStartCountdownValue = 456
+        val testPeriodStartCountdownValue = 456L
         testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testPeriodStartCountdownValue)
-        val testSessionStartCountdownValue = 345
+        val testSessionStartCountdownValue = 345L
         testedSimpleHiitDataStoreManager.setSessionStartCountdown(testSessionStartCountdownValue)
         val testBeepSoundValue = !defaultBoolValue
         testedSimpleHiitDataStoreManager.setBeepSound(testBeepSoundValue)
         val testNumberOfWorkPeriodsValue = 234
         testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testNumberOfWorkPeriodsValue)
-        val testRestPeriodLengthValue = 321
+        val testRestPeriodLengthValue = 321L
         testedSimpleHiitDataStoreManager.setRestPeriodLength(testRestPeriodLengthValue)
-        val testWorkPeriodLengthValue = 123
+        val testWorkPeriodLengthValue = 123L
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
         //clear
         testedSimpleHiitDataStoreManager.clearAll()
@@ -334,17 +335,17 @@ internal class SimpleHiitDataStoreManagerImplTest {
         val afterClearingNumberOfCycles = numberCyclesFlowAsList.last()
         assertEquals(defaultIntValue, afterClearingNumberOfCycles)
         val afterClearingPeriodCountDown = periodCountDownFlowAsList.last()
-        assertEquals(defaultIntValue, afterClearingPeriodCountDown)
+        assertEquals(defaultLongValue, afterClearingPeriodCountDown)
         val afterClearingSessionStartCountdown = sessionStartCountdownFlowAsList.last()
-        assertEquals(defaultIntValue, afterClearingSessionStartCountdown)
+        assertEquals(defaultLongValue, afterClearingSessionStartCountdown)
         val afterClearingBeepSound = beepSoundFlowAsList.last()
         assertEquals(defaultBoolValue, afterClearingBeepSound)
         val afterClearingNumberOfWorkPeriods = numberOfWorkPeriodsFlowAsList.last()
         assertEquals(defaultIntValue, afterClearingNumberOfWorkPeriods)
         val afterClearingRestPeriodLength = restPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, afterClearingRestPeriodLength)
+        assertEquals(defaultLongValue, afterClearingRestPeriodLength)
         val afterClearingWorkPeriodLength = workPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, afterClearingWorkPeriodLength)
+        assertEquals(defaultLongValue, afterClearingWorkPeriodLength)
         //cancel all collect jobs
         collectJobExercisesSelected.cancel()
         collectJobNumberOfCycles.cancel()
@@ -364,15 +365,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 exercisesSelectedFlowAsList
             )
         }
-        val periodCountDownFlowAsList = mutableListOf<Int>()
+        val periodCountDownFlowAsList = mutableListOf<Long>()
         val collectPeriodCountDownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 periodCountDownFlowAsList
             )
         }
-        val sessionStartCountdownFlowAsList = mutableListOf<Int>()
+        val sessionStartCountdownFlowAsList = mutableListOf<Long>()
         val collectSessionStartCountdownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 sessionStartCountdownFlowAsList
             )
         }
@@ -388,15 +389,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 numberOfWorkPeriodsFlowAsList
             )
         }
-        val restPeriodLengthFlowAsList = mutableListOf<Int>()
+        val restPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectRestPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS).toList(
                 restPeriodLengthFlowAsList
             )
         }
-        val workPeriodLengthFlowAsList = mutableListOf<Int>()
+        val workPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectWorkPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS).toList(
                 workPeriodLengthFlowAsList
             )
         }
@@ -410,34 +411,34 @@ internal class SimpleHiitDataStoreManagerImplTest {
         val exercisesSelected = exercisesSelectedFlowAsList.last()
         assertEquals(defaultStringSetValue, exercisesSelected)
         val periodCountDown = periodCountDownFlowAsList.last()
-        assertEquals(defaultIntValue, periodCountDown)
+        assertEquals(defaultLongValue, periodCountDown)
         val sessionStartCountdown = sessionStartCountdownFlowAsList.last()
-        assertEquals(defaultIntValue, sessionStartCountdown)
+        assertEquals(defaultLongValue, sessionStartCountdown)
         val beepSound = beepSoundFlowAsList.last()
         assertEquals(defaultBoolValue, beepSound)
         val numberOfWorkPeriods = numberOfWorkPeriodsFlowAsList.last()
         assertEquals(defaultIntValue, numberOfWorkPeriods)
         val restPeriodLength = restPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, restPeriodLength)
+        assertEquals(defaultLongValue, restPeriodLength)
         val workPeriodLength = workPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, workPeriodLength)
+        assertEquals(defaultLongValue, workPeriodLength)
         val numberOfCycles = numberCyclesFlowAsList.last()
         assertEquals(defaultIntValue, numberOfCycles)
         //insert new values
         val testValueExercisesSelected =
             listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
-        val testPeriodStartCountdownValue = 456
+        val testPeriodStartCountdownValue = 456L
         testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testPeriodStartCountdownValue)
-        val testSessionStartCountdownValue = 345
+        val testSessionStartCountdownValue = 345L
         testedSimpleHiitDataStoreManager.setSessionStartCountdown(testSessionStartCountdownValue)
         val testBeepSoundValue = !defaultBoolValue
         testedSimpleHiitDataStoreManager.setBeepSound(testBeepSoundValue)
         val testNumberOfWorkPeriodsValue = 234
         testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testNumberOfWorkPeriodsValue)
-        val testRestPeriodLengthValue = 321
+        val testRestPeriodLengthValue = 321L
         testedSimpleHiitDataStoreManager.setRestPeriodLength(testRestPeriodLengthValue)
-        val testWorkPeriodLengthValue = 123
+        val testWorkPeriodLengthValue = 123L
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
         val testNumberCyclesValue = 567
         testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testNumberCyclesValue)
@@ -448,12 +449,12 @@ internal class SimpleHiitDataStoreManagerImplTest {
         }
         //
         val expectedPreferences = SimpleHiitPreferences(
-            workPeriodLength = testWorkPeriodLengthValue,
-            restPeriodLength = testRestPeriodLengthValue,
+            workPeriodLengthMs = testWorkPeriodLengthValue,
+            restPeriodLengthMs = testRestPeriodLengthValue,
             numberOfWorkPeriods = testNumberOfWorkPeriodsValue,
             beepSoundActive = testBeepSoundValue,
-            sessionCountDownLengthSeconds = testSessionStartCountdownValue,
-            PeriodCountDownLengthSeconds = testPeriodStartCountdownValue,
+            sessionCountDownLengthMs = testSessionStartCountdownValue,
+            PeriodCountDownLengthMs = testPeriodStartCountdownValue,
             selectedExercisesTypes = ExerciseType.values().toList().map{ ExerciseTypeSelected(it, testValueExercisesSelected.contains(it))},
             numberCumulatedCycles = testNumberCyclesValue
         )
@@ -471,13 +472,6 @@ internal class SimpleHiitDataStoreManagerImplTest {
         collectJobNumberOfCycles.cancel()
     }
 
-    private fun randomListOfExerciseTypesSelected() = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = Random.nextBoolean()
-        )
-    }
-
     @Test
     fun checkGetPreferencesPrefDataStoreFailingReturnAllDefaults() = runTest {
         //TODO: how to trigger throwing exception from test dataStore?
@@ -490,15 +484,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 exercisesSelectedFlowAsList
             )
         }
-        val periodCountDownFlowAsList = mutableListOf<Int>()
+        val periodCountDownFlowAsList = mutableListOf<Long>()
         val collectPeriodCountDownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 periodCountDownFlowAsList
             )
         }
-        val sessionStartCountdownFlowAsList = mutableListOf<Int>()
+        val sessionStartCountdownFlowAsList = mutableListOf<Long>()
         val collectSessionStartCountdownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 sessionStartCountdownFlowAsList
             )
         }
@@ -514,15 +508,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 numberOfWorkPeriodsFlowAsList
             )
         }
-        val restPeriodLengthFlowAsList = mutableListOf<Int>()
+        val restPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectRestPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS).toList(
                 restPeriodLengthFlowAsList
             )
         }
-        val workPeriodLengthFlowAsList = mutableListOf<Int>()
+        val workPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectWorkPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS).toList(
                 workPeriodLengthFlowAsList
             )
         }
@@ -536,17 +530,17 @@ internal class SimpleHiitDataStoreManagerImplTest {
         val beforeInsertionExercisesSelected = exercisesSelectedFlowAsList.last()
         assertEquals(defaultStringSetValue, beforeInsertionExercisesSelected)
         val beforeInsertionPeriodCountDown = periodCountDownFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionPeriodCountDown)
+        assertEquals(defaultLongValue, beforeInsertionPeriodCountDown)
         val beforeInsertionSessionStartCountdown = sessionStartCountdownFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionSessionStartCountdown)
+        assertEquals(defaultLongValue, beforeInsertionSessionStartCountdown)
         val beforeInsertionBeepSound = beepSoundFlowAsList.last()
         assertEquals(defaultBoolValue, beforeInsertionBeepSound)
         val beforeInsertionNumberOfWorkPeriods = numberOfWorkPeriodsFlowAsList.last()
         assertEquals(defaultIntValue, beforeInsertionNumberOfWorkPeriods)
         val beforeInsertionRestPeriodLength = restPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionRestPeriodLength)
+        assertEquals(defaultLongValue, beforeInsertionRestPeriodLength)
         val beforeInsertionWorkPeriodLength = workPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionWorkPeriodLength)
+        assertEquals(defaultLongValue, beforeInsertionWorkPeriodLength)
         val beforeInsertionNumberOfCycles = numberCyclesFlowAsList.last()
         assertEquals(defaultIntValue, beforeInsertionNumberOfCycles)
         //insert nothing
@@ -557,12 +551,12 @@ internal class SimpleHiitDataStoreManagerImplTest {
         }
         //Check that non-inserted settings return actual default values defined in Domain
         val expectedPreferences = SimpleHiitPreferences(
-            workPeriodLength = WORK_PERIOD_LENGTH_SECONDS_DEFAULT,
-            restPeriodLength = REST_PERIOD_LENGTH_SECONDS_DEFAULT,
+            workPeriodLengthMs = WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
+            restPeriodLengthMs = REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
             numberOfWorkPeriods = NUMBER_WORK_PERIODS_DEFAULT,
             beepSoundActive = BEEP_SOUND_ACTIVE_DEFAULT,
-            sessionCountDownLengthSeconds = SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT,
-            PeriodCountDownLengthSeconds = PERIOD_COUNTDOWN_LENGTH_SECONDS_DEFAULT,
+            sessionCountDownLengthMs = SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
+            PeriodCountDownLengthMs = PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
             selectedExercisesTypes = DEFAULT_SELECTED_EXERCISES_TYPES,
             numberCumulatedCycles = NUMBER_CUMULATED_CYCLES_DEFAULT
         )
@@ -588,15 +582,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 exercisesSelectedFlowAsList
             )
         }
-        val periodCountDownFlowAsList = mutableListOf<Int>()
+        val periodCountDownFlowAsList = mutableListOf<Long>()
         val collectPeriodCountDownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 periodCountDownFlowAsList
             )
         }
-        val sessionStartCountdownFlowAsList = mutableListOf<Int>()
+        val sessionStartCountdownFlowAsList = mutableListOf<Long>()
         val collectSessionStartCountdownJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS).toList(
                 sessionStartCountdownFlowAsList
             )
         }
@@ -612,15 +606,15 @@ internal class SimpleHiitDataStoreManagerImplTest {
                 numberOfWorkPeriodsFlowAsList
             )
         }
-        val restPeriodLengthFlowAsList = mutableListOf<Int>()
+        val restPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectRestPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS).toList(
                 restPeriodLengthFlowAsList
             )
         }
-        val workPeriodLengthFlowAsList = mutableListOf<Int>()
+        val workPeriodLengthFlowAsList = mutableListOf<Long>()
         val collectWorkPeriodLengthJob = launch(UnconfinedTestDispatcher()) {
-            retrievePrefInt(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_SECONDS).toList(
+            retrievePrefLong(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS).toList(
                 workPeriodLengthFlowAsList
             )
         }
@@ -634,26 +628,26 @@ internal class SimpleHiitDataStoreManagerImplTest {
         val beforeInsertionExercisesSelected = exercisesSelectedFlowAsList.last()
         assertEquals(defaultStringSetValue, beforeInsertionExercisesSelected)
         val beforeInsertionPeriodCountDown = periodCountDownFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionPeriodCountDown)
+        assertEquals(defaultLongValue, beforeInsertionPeriodCountDown)
         val beforeInsertionSessionStartCountdown = sessionStartCountdownFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionSessionStartCountdown)
+        assertEquals(defaultLongValue, beforeInsertionSessionStartCountdown)
         val beforeInsertionBeepSound = beepSoundFlowAsList.last()
         assertEquals(defaultBoolValue, beforeInsertionBeepSound)
         val beforeInsertionNumberOfWorkPeriods = numberOfWorkPeriodsFlowAsList.last()
         assertEquals(defaultIntValue, beforeInsertionNumberOfWorkPeriods)
         val beforeInsertionRestPeriodLength = restPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionRestPeriodLength)
+        assertEquals(defaultLongValue, beforeInsertionRestPeriodLength)
         val beforeInsertionWorkPeriodLength = workPeriodLengthFlowAsList.last()
-        assertEquals(defaultIntValue, beforeInsertionWorkPeriodLength)
+        assertEquals(defaultLongValue, beforeInsertionWorkPeriodLength)
         //insert only some new values
         val testValueExercisesSelected =
             listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
-        val testPeriodStartCountdownValue = 456
+        val testPeriodStartCountdownValue = 456L
         testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testPeriodStartCountdownValue)
         val testBeepSoundValue = !defaultBoolValue
         testedSimpleHiitDataStoreManager.setBeepSound(testBeepSoundValue)
-        val testWorkPeriodLengthValue = 123
+        val testWorkPeriodLengthValue = 123L
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
         val beforeInsertionNumberOfCycles = numberCyclesFlowAsList.last()
         assertEquals(defaultIntValue, beforeInsertionNumberOfCycles)
@@ -664,12 +658,12 @@ internal class SimpleHiitDataStoreManagerImplTest {
         }
         //Check that non-inserted settings return actual default values defined in Domain
         val expectedPreferences = SimpleHiitPreferences(
-            workPeriodLength = testWorkPeriodLengthValue,
-            restPeriodLength = REST_PERIOD_LENGTH_SECONDS_DEFAULT,
+            workPeriodLengthMs = testWorkPeriodLengthValue,
+            restPeriodLengthMs = REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
             numberOfWorkPeriods = NUMBER_WORK_PERIODS_DEFAULT,
             beepSoundActive = testBeepSoundValue,
-            sessionCountDownLengthSeconds = SESSION_COUNTDOWN_LENGTH_SECONDS_DEFAULT,
-            PeriodCountDownLengthSeconds = testPeriodStartCountdownValue,
+            sessionCountDownLengthMs = SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
+            PeriodCountDownLengthMs = testPeriodStartCountdownValue,
             selectedExercisesTypes = ExerciseType.values().toList().map{ ExerciseTypeSelected(it, testValueExercisesSelected.contains(it))},
             numberCumulatedCycles = NUMBER_CUMULATED_CYCLES_DEFAULT
         )
@@ -690,6 +684,8 @@ internal class SimpleHiitDataStoreManagerImplTest {
     ////////////
     private fun retrievePrefInt(key: Preferences.Key<Int>): Flow<Int> =
         testDataStore.data.map { it[key] ?: defaultIntValue }
+    private fun retrievePrefLong(key: Preferences.Key<Long>): Flow<Long> =
+        testDataStore.data.map { it[key] ?: defaultLongValue }
 
     private fun retrievePrefBool(key: Preferences.Key<Boolean>): Flow<Boolean> =
         testDataStore.data.map { it[key] ?: defaultBoolValue }
