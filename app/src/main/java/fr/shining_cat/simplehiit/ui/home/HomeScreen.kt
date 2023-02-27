@@ -144,7 +144,7 @@ private fun HomeContent(
             is HomeMissingUsers -> HomeContentMissingUsers(
                 navigateToSettings = { navigateTo(Screen.Settings.route) },
                 numberOfCycles = viewState.numberCumulatedCycles,
-                lengthOfCycle = viewState.cycleLengthMs
+                lengthOfCycle = viewState.cycleLength
             )
             is HomeError -> HomeContentBrokenState(
                 errorCode = viewState.errorCode,
@@ -226,7 +226,7 @@ private fun HomeContentNominal(
 private fun HomeContentMissingUsers(
     navigateToSettings: () -> Unit,
     numberOfCycles: Int,
-    lengthOfCycle: Long
+    lengthOfCycle: String
 ) {
     Column(
         modifier = Modifier

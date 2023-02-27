@@ -5,7 +5,12 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.HomeSettings
 import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -13,9 +18,15 @@ import java.util.stream.Stream
 
 internal class HomeMapperTest : AbstractMockkTest() {
 
-    private val testedMapper = HomeMapper(mockHiitLogger)
+    private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase = mockk< FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
+    private val testedMapper = HomeMapper(mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase, mockHiitLogger)
 
-    @ParameterizedTest(name = "{index} -> should return {0}")
+    @BeforeEach
+    fun setUpMock(){
+        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any()) } returns mockDurationString
+    }
+
+    @ParameterizedTest(name = "{index} -> called with {0} should return {1}")
     @MethodSource("homeSettingsArguments")
     fun `mapping homeSettings to correct viewstate`(
         input: Output<HomeSettings>,
@@ -23,6 +34,11 @@ internal class HomeMapperTest : AbstractMockkTest() {
     ) {
         val result = testedMapper.map(input)
         //
+        if(input is Output.Success) {
+            coVerify(exactly = 1) { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(input.result.cycleLengthMs) }
+        } else{
+            coVerify(exactly = 0) { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any()) }
+        }
         assertEquals(expectedOutput, result)
     }
 
@@ -33,21 +49,22 @@ internal class HomeMapperTest : AbstractMockkTest() {
         private val testUser3 = User(id = 345L, name = "test user 3 name", selected = true)
         private val testUser4 = User(id = 456L, name = "test user 4 name", selected = false)
         private val testException = Exception("this is a test exception")
+        private const val mockDurationString = "This is a test duration string"
 
         @JvmStatic
         fun homeSettingsArguments() =
             Stream.of(
                 Arguments.of(
                     Output.Success(HomeSettings(numberCumulatedCycles = 3, cycleLengthMs = 123L, users = listOf(testUser1, testUser3, testUser2, testUser4))),
-                    HomeViewState.HomeNominal(numberCumulatedCycles = 3, cycleLengthMs = 123L, users = listOf(testUser1, testUser3, testUser2, testUser4))
+                    HomeViewState.HomeNominal(numberCumulatedCycles = 3, cycleLength = mockDurationString, users = listOf(testUser1, testUser3, testUser2, testUser4))
                 ),
                 Arguments.of(
                     Output.Success(HomeSettings(numberCumulatedCycles = 5, cycleLengthMs = 234L, users = listOf(testUser1, testUser2))),
-                    HomeViewState.HomeNominal(numberCumulatedCycles = 5, cycleLengthMs = 234L, users = listOf(testUser1, testUser2))
+                    HomeViewState.HomeNominal(numberCumulatedCycles = 5, cycleLength = mockDurationString, users = listOf(testUser1, testUser2))
                 ),
                 Arguments.of(
                     Output.Success(HomeSettings(numberCumulatedCycles = 3, cycleLengthMs = 456L, users = listOf())),
-                    HomeViewState.HomeMissingUsers(numberCumulatedCycles = 3, cycleLengthMs = 456L)
+                    HomeViewState.HomeMissingUsers(numberCumulatedCycles = 3, cycleLength = mockDurationString)
                 ),
                 Arguments.of(
                     Output.Error(errorCode = Constants.Errors.NO_USERS_FOUND, exception = testException),

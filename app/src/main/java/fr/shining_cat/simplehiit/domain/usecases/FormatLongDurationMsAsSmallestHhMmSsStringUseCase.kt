@@ -3,8 +3,9 @@ package fr.shining_cat.simplehiit.domain.usecases
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
+class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
