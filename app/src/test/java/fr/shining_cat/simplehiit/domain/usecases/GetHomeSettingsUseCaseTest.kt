@@ -71,7 +71,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val expectedResult1 = Output.Success(
             HomeSettings(
                 numberCumulatedCycles = settingsValue1.numberCumulatedCycles,
-                cycleLengthMs = 230000L,
+                cycleLengthMs = 240000L,
                 users = usersList1.result
             )
         )
@@ -84,7 +84,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val expectedResult2 = Output.Success(
             HomeSettings(
                 numberCumulatedCycles = settingsValue2.numberCumulatedCycles,
-                cycleLengthMs = 122931L,
+                cycleLengthMs = 123165L,
                 users = usersList1.result
             )
         )
@@ -98,7 +98,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val expectedResult3 = Output.Success(
             HomeSettings(
                 numberCumulatedCycles = settingsValue3.numberCumulatedCycles,
-                cycleLengthMs = 408447L,
+                cycleLengthMs = 408879L,
                 users = usersList2.result
             )
         )

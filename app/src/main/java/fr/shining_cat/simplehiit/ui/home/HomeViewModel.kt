@@ -1,6 +1,5 @@
 package fr.shining_cat.simplehiit.ui.home
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.models.User
@@ -12,7 +11,6 @@ import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,36 +24,81 @@ class HomeViewModel @Inject constructor(
     private val hiitLogger: HiitLogger
 ) : AbstractLoggerViewModel(hiitLogger) {
 
-    private val _viewState = MutableStateFlow<HomeViewState>(HomeViewState.HomeLoading)
-    val viewState = _viewState.asStateFlow()
+    private val _screenViewState = MutableStateFlow<HomeViewState>(HomeViewState.HomeLoading)
+    val screenViewState = _screenViewState.asStateFlow()
 
-    init {
+    private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
+    val dialogViewState = _dialogViewState.asStateFlow()
+
+    fun init(
+        formatStringHoursMinutesSeconds: String,
+        formatStringHoursMinutesNoSeconds: String,
+        formatStringHoursNoMinutesNoSeconds: String,
+        formatStringMinutesSeconds: String,
+        formatStringMinutesNoSeconds: String,
+        formatStringSeconds: String
+    ) {
         viewModelScope.launch {
-            getHomeSettingsUseCase.execute().collect(){
-                _viewState.emit(homeMapper.map(it))
+            getHomeSettingsUseCase.execute().collect() {
+                _screenViewState.emit(
+                    homeMapper.map(
+                        it,
+                        formatStringHoursMinutesSeconds,
+                        formatStringHoursMinutesNoSeconds,
+                        formatStringHoursNoMinutesNoSeconds,
+                        formatStringMinutesSeconds,
+                        formatStringMinutesNoSeconds,
+                        formatStringSeconds
+                    )
+                )
             }
         }
     }
 
-    fun editNumberCumulatedCycles(value:Int){
+    fun cancelDialog() {
+        logD("HomeViewModel", "cancelDialog")
         viewModelScope.launch {
-            setTotalRepetitionsNumberUseCase.execute(value)
+            _dialogViewState.emit(HomeDialog.None)
         }
     }
 
-    fun toggleSelectedUser(user: User){
+    fun openInputNumberCyclesDialog(currentValue: Int) {
+        logD("HomeViewModel", "openInputNumberCyclesDialog::currentValue = $currentValue")
+        viewModelScope.launch {
+            _dialogViewState.emit(
+                HomeDialog.HomeDialogInputNumberCycles(initialNumberOfCycles = currentValue)
+            )
+        }
+    }
+
+    fun validateInputNumberCycles(input: String):Boolean{
+        return input.toIntOrNull() is Int
+    }
+
+    fun updateNumberCumulatedCycles(value: String) {
+        if(validateInputNumberCycles(value)) {
+            viewModelScope.launch {
+                setTotalRepetitionsNumberUseCase.execute(value.toInt())
+                _dialogViewState.emit(HomeDialog.None)
+            }
+        } else{
+            logD("HomeViewModel", "updateNumberCumulatedCycles:: invalid input, this should never happen")
+        }
+    }
+
+    fun toggleSelectedUser(user: User) {
         viewModelScope.launch {
             updateUserUseCase.execute(user.copy(selected = !user.selected))
         }
     }
 
-    fun resetWholeApp(errorCode: String){
+    fun resetWholeApp(errorCode: String) {
         viewModelScope.launch {
-            _viewState.emit(HomeViewState.HomeDialogConfirmWholeReset(errorCode))
+            _dialogViewState.emit(HomeDialog.HomeDialogConfirmWholeReset(errorCode))
         }
     }
 
-    fun resetWholeAppConfirmationDeleteEverything(){
+    fun resetWholeAppConfirmationDeleteEverything() {
         viewModelScope.launch {
             resetWholeAppUseCase.execute()
         }

@@ -8,6 +8,7 @@
     <string name="warning_icon_content_description">Warning symbol</string>
     <string name="delete_button_label">DELETE</string>
     <string name="cancel_button_label">Cancel</string>
+    <string name="error">Error</string>
 
     <!-- HOME PAGE -->
     <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over 4mn</string>
@@ -15,11 +16,14 @@
     <string name="reset_app_button_label">Reset the whole app</string>
     <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
     <string name="number_of_cycle_setting_title">Select number of cycles</string>
-    <string name="number_of_cycle_setting">x %1$d mn</string>
+    <string name="number_of_cycle_setting">x %1$s</string>
     <string name="settings_button_content_label">Settings</string>
-    <string name="statictics_button_content_label">Statistics</string>
+    <string name="statistics_button_content_label">Statistics</string>
     <string name="selected_users_setting_title">Select user(s)</string>
     <string name="launch_session_label">Launch session</string>
+    <string name="input_number_cycles_dialog_title">Number of repetitions</string>
+    <string name="input_number_cycles_dialog_error">Needs to be a number</string>
+    <string name="input_number_cycles_dialog_postfix">cycle(s)</string>
     <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>
     <string name="warning_no_user_exist">Please create your first user in the settings to start</string>
 
@@ -81,5 +85,13 @@
     <string name="exercise_type_crab">Crab</string>
     <string name="exercise_type_lunge">Lunge</string>
     <string name="exercise_type_lying">Lying</string>
+
+    <!-- DURATION DISPLAY FORMATTING STRINGS-->
+    <string name="hours_minutes_seconds_short">%1\$dh %2$02dmn %3$02ds</string>
+    <string name="hours_minutes_no_seconds_short">%1\$dh %2$02dmn</string>
+    <string name="hours_no_minutes_no_seconds_short">%1\$dh</string>
+    <string name="minutes_seconds_short">%1\$dmn %2\$02ds</string>
+    <string name="minutes_no_seconds_short">%1\$dmn</string>
+    <string name="seconds_short">%ds</string>
 
 </resources>

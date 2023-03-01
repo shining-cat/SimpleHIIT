@@ -4,12 +4,17 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Devices
@@ -26,10 +31,16 @@ fun InputDialog(
     inputFieldValue: String,
     inputFieldPostfix: String,
     buttonSaveLabel: String,
-    onEditInput: (String) -> Unit,
-    onSave: () -> Unit,
-    onCancel: () -> Unit
+    onSave: (String) -> Unit,
+    onCancel: () -> Unit,
+    keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
+    validate: (String) -> Boolean = { true },
+    errorMessage: String = stringResource(id = R.string.error),
+    displayErrorBelow:Boolean = false
 ) {
+
+    val input = rememberSaveable { mutableStateOf(inputFieldValue) }
+    val isError = rememberSaveable() { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onCancel) {
         Surface(
@@ -53,19 +64,39 @@ fun InputDialog(
                 }
                 Row(
                     Modifier
-                        .padding(horizontal = 24.dp, vertical = 24.dp)
+                        .padding(horizontal = 64.dp, vertical = 24.dp)
                         .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     OutlinedTextField(
-                        value = inputFieldValue,
-                        onValueChange = { onEditInput(it) },
-                        isError = false,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = { onSave() }),
-                        modifier = Modifier.weight(0.3F, false).alignByBaseline()
+                        value = input.value,
+                        singleLine = true,
+                        onValueChange = {
+                            input.value = it
+                            isError.value = !validate(input.value)
+                        },
+                        isError = isError.value,
+                        trailingIcon = {
+                            if (isError.value)
+                                Icon(
+                                    Icons.Filled.Info,
+                                    errorMessage,
+                                    tint = MaterialTheme.colorScheme.error
+                                )
+                        },
+                        supportingText = {ErrorText(isError.value, displayErrorBelow, errorMessage) },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = keyboardType,
+                            imeAction = ImeAction.Done
+                        ),
+                        keyboardActions = KeyboardActions(onDone = {
+                            if (!isError.value) onSave(input.value)
+                        }),
+                        modifier = Modifier
+                            .weight(0.3F, false)
+                            .alignByBaseline()
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         modifier = Modifier.alignByBaseline(),
                         text = inputFieldPostfix,
@@ -81,12 +112,24 @@ fun InputDialog(
                     OutlinedButton(onClick = { onCancel() }) {
                         Text(text = stringResource(id = R.string.cancel_button_label))
                     }
-                    Button(onClick = { onSave() }) {
+                    Button(onClick = { if(!isError.value) onSave(input.value) }) {
                         Text(text = buttonSaveLabel)
                     }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun ErrorText(isError: Boolean, displayErrorBelow: Boolean, errorMessage: String) {
+    if (isError && displayErrorBelow) {
+        Text(
+            text = errorMessage,
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.error,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
@@ -111,9 +154,10 @@ private fun ChoiceDialogPreview() {
             inputFieldValue = "30",
             inputFieldPostfix = "seconds",
             buttonSaveLabel = "Save",
-            onEditInput = {},
             onSave = {},
             onCancel = {},
+            KeyboardType.Number,
+            { true }
         )
     }
 }

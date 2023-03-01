@@ -24,8 +24,7 @@ class GetHomeSettingsUseCase @Inject constructor(
                 emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
             } else {
                 usersOutput as Output.Success
-                val totalCycleLength =
-                    settings.workPeriodLengthMs * settings.numberOfWorkPeriods + settings.restPeriodLengthMs * (settings.numberOfWorkPeriods - 1)
+                val totalCycleLength = (settings.workPeriodLengthMs + settings.restPeriodLengthMs) * settings.numberOfWorkPeriods
                 emit(
                     Output.Success(
                         HomeSettings(

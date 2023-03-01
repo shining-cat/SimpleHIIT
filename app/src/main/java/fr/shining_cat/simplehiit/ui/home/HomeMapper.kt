@@ -10,18 +10,35 @@ import javax.inject.Inject
 class HomeMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
     private val hiitLogger: HiitLogger
-    ) {
+) {
 
-    fun map(homeSettingsOutput: Output<HomeSettings>):HomeViewState{
-        return when(homeSettingsOutput){
+    fun map(
+        homeSettingsOutput: Output<HomeSettings>,
+        formatStringHoursMinutesSeconds: String,
+        formatStringHoursMinutesNoSeconds: String,
+        formatStringHoursNoMinutesNoSeconds: String,
+        formatStringMinutesSeconds: String,
+        formatStringMinutesNoSeconds: String,
+        formatStringSeconds: String
+    ): HomeViewState {
+        return when (homeSettingsOutput) {
             is Output.Success<HomeSettings> -> {
-                val cycleLengthDisplay = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(homeSettingsOutput.result.cycleLengthMs)
-                if(homeSettingsOutput.result.users.isEmpty()){
+                val cycleLengthDisplay =
+                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                        homeSettingsOutput.result.cycleLengthMs,
+                        formatStringHoursMinutesSeconds,
+                        formatStringHoursMinutesNoSeconds,
+                        formatStringHoursNoMinutesNoSeconds,
+                        formatStringMinutesSeconds,
+                        formatStringMinutesNoSeconds,
+                        formatStringSeconds
+                    )
+                if (homeSettingsOutput.result.users.isEmpty()) {
                     HomeMissingUsers(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
                         cycleLength = cycleLengthDisplay
                     )
-                } else{
+                } else {
                     HomeNominal(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
                         cycleLength = cycleLengthDisplay,

@@ -18,12 +18,14 @@ import java.util.stream.Stream
 
 internal class HomeMapperTest : AbstractMockkTest() {
 
-    private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase = mockk< FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
-    private val testedMapper = HomeMapper(mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase, mockHiitLogger)
+    private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
+        mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
+    private val testedMapper =
+        HomeMapper(mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase, mockHiitLogger)
 
     @BeforeEach
-    fun setUpMock(){
-        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any()) } returns mockDurationString
+    fun setUpMock() {
+        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any(), any(), any(), any(), any(), any()) } returns mockDurationString
     }
 
     @ParameterizedTest(name = "{index} -> called with {0} should return {1}")
@@ -32,12 +34,34 @@ internal class HomeMapperTest : AbstractMockkTest() {
         input: Output<HomeSettings>,
         expectedOutput: HomeViewState
     ) {
-        val result = testedMapper.map(input)
+        val result = testedMapper.map(
+            homeSettingsOutput = input,
+            formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
+            formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
+            formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
+            formatStringMinutesSeconds = "formatStringMinutesSeconds",
+            formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
+            formatStringSeconds = "formatStringSeconds"
+        )
         //
-        if(input is Output.Success) {
-            coVerify(exactly = 1) { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(input.result.cycleLengthMs) }
-        } else{
-            coVerify(exactly = 0) { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any()) }
+        if (input is Output.Success) {
+            coVerify(exactly = 1) {
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    durationMs = input.result.cycleLengthMs,
+                    formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
+                    formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
+                    formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
+                    formatStringMinutesSeconds = "formatStringMinutesSeconds",
+                    formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
+                    formatStringSeconds = "formatStringSeconds"
+                )
+            }
+        } else {
+            coVerify(exactly = 0) {
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    any()
+                )
+            }
         }
         assertEquals(expectedOutput, result)
     }
@@ -55,23 +79,58 @@ internal class HomeMapperTest : AbstractMockkTest() {
         fun homeSettingsArguments() =
             Stream.of(
                 Arguments.of(
-                    Output.Success(HomeSettings(numberCumulatedCycles = 3, cycleLengthMs = 123L, users = listOf(testUser1, testUser3, testUser2, testUser4))),
-                    HomeViewState.HomeNominal(numberCumulatedCycles = 3, cycleLength = mockDurationString, users = listOf(testUser1, testUser3, testUser2, testUser4))
+                    Output.Success(
+                        HomeSettings(
+                            numberCumulatedCycles = 3,
+                            cycleLengthMs = 123L,
+                            users = listOf(testUser1, testUser3, testUser2, testUser4)
+                        )
+                    ),
+                    HomeViewState.HomeNominal(
+                        numberCumulatedCycles = 3,
+                        cycleLength = mockDurationString,
+                        users = listOf(testUser1, testUser3, testUser2, testUser4)
+                    )
                 ),
                 Arguments.of(
-                    Output.Success(HomeSettings(numberCumulatedCycles = 5, cycleLengthMs = 234L, users = listOf(testUser1, testUser2))),
-                    HomeViewState.HomeNominal(numberCumulatedCycles = 5, cycleLength = mockDurationString, users = listOf(testUser1, testUser2))
+                    Output.Success(
+                        HomeSettings(
+                            numberCumulatedCycles = 5,
+                            cycleLengthMs = 234L,
+                            users = listOf(testUser1, testUser2)
+                        )
+                    ),
+                    HomeViewState.HomeNominal(
+                        numberCumulatedCycles = 5,
+                        cycleLength = mockDurationString,
+                        users = listOf(testUser1, testUser2)
+                    )
                 ),
                 Arguments.of(
-                    Output.Success(HomeSettings(numberCumulatedCycles = 3, cycleLengthMs = 456L, users = listOf())),
-                    HomeViewState.HomeMissingUsers(numberCumulatedCycles = 3, cycleLength = mockDurationString)
+                    Output.Success(
+                        HomeSettings(
+                            numberCumulatedCycles = 3,
+                            cycleLengthMs = 456L,
+                            users = listOf()
+                        )
+                    ),
+                    HomeViewState.HomeMissingUsers(
+                        numberCumulatedCycles = 3,
+                        cycleLength = mockDurationString
+                    )
                 ),
                 Arguments.of(
-                    Output.Error(errorCode = Constants.Errors.NO_USERS_FOUND, exception = testException),
+                    Output.Error(
+                        errorCode = Constants.Errors.NO_USERS_FOUND,
+                        exception = testException
+                    ),
                     HomeViewState.HomeError(Constants.Errors.NO_USERS_FOUND.code)
                 ),
                 Arguments.of(
-                    Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException),
+                    Output.Error(
+                        errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                        exception = testException
+                    ),
                     HomeViewState.HomeError(Constants.Errors.DATABASE_FETCH_FAILED.code)
                 )
             )
