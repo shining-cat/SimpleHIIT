@@ -230,33 +230,36 @@ private fun HomeContentBrokenState(
             modifier = Modifier
                 .size(120.dp)
                 .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 48.dp),
+                .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description)
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 0.dp, vertical = 48.dp),
+            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
             text = stringResource(id = R.string.error_irrecoverable_state),
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.error
+            style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 48.dp)
+                    .padding(horizontal = 0.dp, vertical = 16.dp)
                     .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.error
+                style = MaterialTheme.typography.headlineSmall,
             )
         }
         Button(
             modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 48.dp)
+                .padding(horizontal = 0.dp, vertical = 16.dp)
                 .align(Alignment.CenterHorizontally),
-            onClick = { resetWholeApp(errorCode) }) {
+            onClick = { resetWholeApp(errorCode) },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.error,
+                contentColor = MaterialTheme.colorScheme.onError
+            )
+        ) {
             Text(text = stringResource(id = R.string.reset_app_button_label))
         }
     }
@@ -274,7 +277,7 @@ private fun HomeContentNominal(
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         NumberCyclesSection(
@@ -288,7 +291,7 @@ private fun HomeContentNominal(
         )
         Button(
             modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 48.dp)
+                .padding(horizontal = 0.dp, vertical = 24.dp)
                 .align(Alignment.CenterHorizontally),
             onClick = { navigateToSession() },
             colors = ButtonDefaults.buttonColors(

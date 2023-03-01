@@ -1,4 +1,5 @@
 
+* fix broken layout in landscape
 * See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
 * fix test coverage task for instrumented tests not reporting any coverage
 * add dependencies versions update check plugin
