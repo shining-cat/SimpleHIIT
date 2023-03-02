@@ -1,33 +1,78 @@
 package fr.shining_cat.simplehiit.ui.settings
 
+import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.GeneralSettings
+import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.SettingsError
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.SettingsNominal
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
-class SettingsMapper @Inject constructor(private val hiitLogger: HiitLogger) {
+class SettingsMapper @Inject constructor(
+    private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+    private val hiitLogger: HiitLogger
+) {
 
-    fun map(generalSettingsOutput: Output<GeneralSettings>): SettingsViewState {
+    fun map(
+        generalSettingsOutput: Output<GeneralSettings>,
+        formatStringHoursMinutesSeconds: String,
+        formatStringHoursMinutesNoSeconds: String,
+        formatStringHoursNoMinutesNoSeconds: String,
+        formatStringMinutesSeconds: String,
+        formatStringMinutesNoSeconds: String,
+        formatStringSeconds: String
+    ): SettingsViewState {
         return when (generalSettingsOutput) {
             is Output.Success<GeneralSettings> -> {
                 val generalSettings = generalSettingsOutput.result
-                val totalCycleLength =
-                    generalSettings.workPeriodLengthMs * generalSettings.numberOfWorkPeriods + generalSettings.restPeriodLengthMs * (generalSettings.numberOfWorkPeriods - 1)
-                SettingsNominal(
-                    workPeriodLengthMs = generalSettings.workPeriodLengthMs,
-                    restPeriodLengthMs = generalSettings.restPeriodLengthMs,
-                    numberOfWorkPeriods = generalSettings.numberOfWorkPeriods,
-                    totalCycleLengthMs = totalCycleLength,
-                    beepSoundCountDownActive = generalSettings.beepSoundCountDownActive,
-                    sessionStartCountDownLengthMs = generalSettings.sessionStartCountDownLengthMs,
-                    periodsStartCountDownLengthMs = generalSettings.periodsStartCountDownLengthMs,
-                    users = generalSettings.users,
-                    exerciseTypes = generalSettings.exerciseTypes,
-                )
+                val cycleLengthDisplay =
+                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                        generalSettings.cycleLengthMs,
+                        formatStringHoursMinutesSeconds,
+                        formatStringHoursMinutesNoSeconds,
+                        formatStringHoursNoMinutesNoSeconds,
+                        formatStringMinutesSeconds,
+                        formatStringMinutesNoSeconds,
+                        formatStringSeconds
+                    )
+                //these other values are only displayed as seconds to the user, as we don't expect any other format to be relevant
+                val workPeriodLengthAsSeconds =
+                    durationMsAsSeconds(generalSettings.workPeriodLengthMs)
+                val restPeriodLengthAsSeconds =
+                    durationMsAsSeconds(generalSettings.restPeriodLengthMs)
+                val sessionStartCountDownLengthAsSeconds =
+                    durationMsAsSeconds(generalSettings.sessionStartCountDownLengthMs)
+                val periodsStartCountDownLengthAsSeconds =
+                    durationMsAsSeconds(generalSettings.periodsStartCountDownLengthMs)
+                if (workPeriodLengthAsSeconds == null || restPeriodLengthAsSeconds == null || sessionStartCountDownLengthAsSeconds == null || periodsStartCountDownLengthAsSeconds == null) {
+                    SettingsError(Constants.Errors.CONVERSION_ERROR.code)
+                } else {
+                    SettingsNominal(
+                        workPeriodLengthAsSeconds = workPeriodLengthAsSeconds,
+                        restPeriodLengthAsSeconds = restPeriodLengthAsSeconds,
+                        numberOfWorkPeriods = generalSettings.numberOfWorkPeriods,
+                        totalCycleLength = cycleLengthDisplay,
+                        beepSoundCountDownActive = generalSettings.beepSoundCountDownActive,
+                        sessionStartCountDownLengthAsSeconds = sessionStartCountDownLengthAsSeconds,
+                        periodsStartCountDownLengthAsSeconds = periodsStartCountDownLengthAsSeconds,
+                        users = generalSettings.users,
+                        exerciseTypes = generalSettings.exerciseTypes,
+                    )
+                }
             }
             is Output.Error -> SettingsError(generalSettingsOutput.errorCode.code)
+        }
+    }
+
+    private fun durationMsAsSeconds(durationMs: Long): String? {
+        val asSeconds = durationMs.toDouble() / 1000L.toDouble()
+        return try {
+            asSeconds.roundToInt().toString()
+        } catch (exception: IllegalArgumentException) { //this should never happen as we can't get a NaN as a Long
+            hiitLogger.e("SettingsMapper", "durationMsAsSeconds", exception)
+            null
         }
     }
 }

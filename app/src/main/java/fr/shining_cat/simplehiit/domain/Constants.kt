@@ -26,6 +26,7 @@ object Constants {
         NO_USERS_FOUND("0201"),
         NO_USER_PROVIDED("0202"),
         EMPTY_RESULT("0301"),
+        CONVERSION_ERROR("0401"),
     }
 
 }

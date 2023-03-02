@@ -4,6 +4,7 @@ data class GeneralSettings(
     val workPeriodLengthMs:Long,
     val restPeriodLengthMs:Long,
     val numberOfWorkPeriods:Int,
+    val cycleLengthMs:Long,
     val beepSoundCountDownActive:Boolean,
     val sessionStartCountDownLengthMs:Long,
     val periodsStartCountDownLengthMs:Long,

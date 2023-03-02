@@ -166,7 +166,7 @@ private fun HomeContent(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxSize() //TODO: handle landscape layout
             .padding(paddingValues = innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

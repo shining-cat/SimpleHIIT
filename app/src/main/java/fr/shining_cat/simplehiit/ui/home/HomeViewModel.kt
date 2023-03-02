@@ -63,7 +63,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun openInputNumberCyclesDialog(currentValue: Int) {
-        logD("HomeViewModel", "openInputNumberCyclesDialog::currentValue = $currentValue")
         viewModelScope.launch {
             _dialogViewState.emit(
                 HomeDialog.HomeDialogInputNumberCycles(initialNumberOfCycles = currentValue)

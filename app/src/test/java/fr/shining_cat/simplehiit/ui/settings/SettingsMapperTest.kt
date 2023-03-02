@@ -4,7 +4,13 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
+import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.ui.home.HomeMapperTest
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -12,7 +18,17 @@ import java.util.stream.Stream
 
 internal class SettingsMapperTest : AbstractMockkTest() {
 
-    private val testedMapper = SettingsMapper(mockHiitLogger)
+    private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
+        mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
+    private val testedMapper = SettingsMapper(
+        formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+        hiitLogger = mockHiitLogger
+    )
+
+    @BeforeEach
+    fun setUpMock() {
+        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any(), any(), any(), any(), any(), any()) } returns mockDurationString
+    }
 
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("generalSettingsArguments")
@@ -20,9 +36,35 @@ internal class SettingsMapperTest : AbstractMockkTest() {
         input: Output<GeneralSettings>,
         expectedOutput: SettingsViewState
     ) {
-        val result = testedMapper.map(input)
+        val result = testedMapper.map(
+            input,
+            formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
+            formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
+            formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
+            formatStringMinutesSeconds = "formatStringMinutesSeconds",
+            formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
+            formatStringSeconds = "formatStringSeconds")
         //
         assertEquals(expectedOutput, result)
+        if (input is Output.Success) {
+            coVerify(exactly = 1) {
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    durationMs = input.result.cycleLengthMs,
+                    formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
+                    formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
+                    formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
+                    formatStringMinutesSeconds = "formatStringMinutesSeconds",
+                    formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
+                    formatStringSeconds = "formatStringSeconds"
+                )
+            }
+        } else {
+            coVerify(exactly = 0) {
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    any()
+                )
+            }
+        }
     }
 
     private companion object {
@@ -36,52 +78,55 @@ internal class SettingsMapperTest : AbstractMockkTest() {
         private val testExerciseTypeSelected3 = ExerciseTypeSelected(type = ExerciseType.SITTING, selected = false)
         private val testExerciseTypeSelected4 = ExerciseTypeSelected(type = ExerciseType.SQUAT, selected = true)
         private val testException = Exception("this is a test exception")
+        private const val mockDurationString = "This is a test duration string"
 
         @JvmStatic
         fun generalSettingsArguments() =
             Stream.of(
                 Arguments.of(
                     Output.Success(GeneralSettings(
-                        workPeriodLengthMs = 15,
-                        restPeriodLengthMs = 10,
+                        workPeriodLengthMs = 15000L,
+                        restPeriodLengthMs = 10000L,
                         numberOfWorkPeriods = 6,
+                        cycleLengthMs = 123L,
                         beepSoundCountDownActive = true,
-                        sessionStartCountDownLengthMs = 5,
-                        periodsStartCountDownLengthMs = 20,
+                        sessionStartCountDownLengthMs = 5000L,
+                        periodsStartCountDownLengthMs = 20000L,
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
                         exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4)
                     )),
                     SettingsViewState.SettingsNominal(
-                        workPeriodLengthMs = 15,
-                        restPeriodLengthMs = 10,
+                        workPeriodLengthAsSeconds = "15",
+                        restPeriodLengthAsSeconds = "10",
                         numberOfWorkPeriods = 6,
-                        totalCycleLengthMs = 140,
+                        totalCycleLength = mockDurationString,
                         beepSoundCountDownActive = true,
-                        sessionStartCountDownLengthMs = 5,
-                        periodsStartCountDownLengthMs = 20,
+                        sessionStartCountDownLengthAsSeconds = "5",
+                        periodsStartCountDownLengthAsSeconds = "20",
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
                         exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4)
                     )
                 ),
                 Arguments.of(
                     Output.Success(GeneralSettings(
-                        workPeriodLengthMs = 21,
-                        restPeriodLengthMs = 13,
+                        workPeriodLengthMs = 21000L,
+                        restPeriodLengthMs = 13000L,
                         numberOfWorkPeriods = 7,
+                        cycleLengthMs = 234L,
                         beepSoundCountDownActive = false,
-                        sessionStartCountDownLengthMs = 7,
-                        periodsStartCountDownLengthMs = 34,
+                        sessionStartCountDownLengthMs = 7000L,
+                        periodsStartCountDownLengthMs = 34000L,
                         users = listOf(testUser1, testUser2),
                         exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
                     )),
                     SettingsViewState.SettingsNominal(
-                        workPeriodLengthMs = 21,
-                        restPeriodLengthMs = 13,
+                        workPeriodLengthAsSeconds = "21",
+                        restPeriodLengthAsSeconds = "13",
                         numberOfWorkPeriods = 7,
-                        totalCycleLengthMs = 225,
+                        totalCycleLength = mockDurationString,
                         beepSoundCountDownActive = false,
-                        sessionStartCountDownLengthMs = 7,
-                        periodsStartCountDownLengthMs = 34,
+                        sessionStartCountDownLengthAsSeconds = "7",
+                        periodsStartCountDownLengthAsSeconds = "34",
                         users = listOf(testUser1, testUser2),
                         exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
                     )
@@ -93,6 +138,30 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                 Arguments.of(
                     Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException),
                     SettingsViewState.SettingsError(Constants.Errors.DATABASE_FETCH_FAILED.code)
+                ),
+                Arguments.of(
+                    Output.Success(GeneralSettings(
+                        workPeriodLengthMs = Int.MAX_VALUE.toLong() * 1000L + 15L, //testing one case of INT overflow
+                        restPeriodLengthMs = 13000L,
+                        numberOfWorkPeriods = 7,
+                        cycleLengthMs = 234L,
+                        beepSoundCountDownActive = false,
+                        sessionStartCountDownLengthMs = 7000L,
+                        periodsStartCountDownLengthMs = 34000L,
+                        users = listOf(testUser1, testUser2),
+                        exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
+                    )),
+                    SettingsViewState.SettingsNominal(
+                        workPeriodLengthAsSeconds = (Int.MAX_VALUE).toString(),
+                        restPeriodLengthAsSeconds = "13",
+                        numberOfWorkPeriods = 7,
+                        totalCycleLength = mockDurationString,
+                        beepSoundCountDownActive = false,
+                        sessionStartCountDownLengthAsSeconds = "7",
+                        periodsStartCountDownLengthAsSeconds = "34",
+                        users = listOf(testUser1, testUser2),
+                        exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
+                    )
                 )
             )
     }

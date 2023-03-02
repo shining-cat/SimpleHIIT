@@ -24,12 +24,14 @@ class GetGeneralSettingsUseCase @Inject constructor(
                 emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
             } else {
                 usersOutput as Output.Success
+                val totalCycleLength = (settings.workPeriodLengthMs + settings.restPeriodLengthMs) * settings.numberOfWorkPeriods
                 emit(
                     Output.Success(
                         GeneralSettings(
                             workPeriodLengthMs = settings.workPeriodLengthMs,
                             restPeriodLengthMs = settings.restPeriodLengthMs,
                             numberOfWorkPeriods = settings.numberOfWorkPeriods,
+                            cycleLengthMs = totalCycleLength,
                             beepSoundCountDownActive = settings.beepSoundActive,
                             sessionStartCountDownLengthMs = settings.sessionCountDownLengthMs,
                             periodsStartCountDownLengthMs = settings.PeriodCountDownLengthMs,
