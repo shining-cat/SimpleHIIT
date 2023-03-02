@@ -72,7 +72,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun validateInputNumberCycles(input: String):Boolean{
-        return input.toIntOrNull() is Int
+        return (input.length < 3 && input.toIntOrNull() is Int)
     }
 
     fun updateNumberCumulatedCycles(value: String) {

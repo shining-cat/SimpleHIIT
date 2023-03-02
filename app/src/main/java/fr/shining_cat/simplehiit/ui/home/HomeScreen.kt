@@ -34,6 +34,7 @@ import fr.shining_cat.simplehiit.Screen
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialog
+import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.ui.components.ToggleButton
 import fr.shining_cat.simplehiit.ui.home.HomeViewState.*
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -350,13 +351,15 @@ private fun HomeContentInputNumberCyclesDialog(
             dialogTitle = stringResource(id = R.string.input_number_cycles_dialog_title),
             inputFieldValue = numberOfCycles.toString(),
             inputFieldPostfix = stringResource(id = R.string.input_number_cycles_dialog_postfix),
-            buttonSaveLabel = stringResource(id = R.string.save_settings_button_label),
-            onSave = { saveInputNumberCycles(it) },
-            onCancel = onCancel,
+            inputFieldSingleLine = true,
+            inputFieldSize = InputDialogTextFieldSize.SMALL,
+            primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
+            primaryAction = { saveInputNumberCycles(it) },
+            dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
+            dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
-            validate = validateInputNumberCycles,
-            errorMessage = stringResource(id = R.string.input_number_cycles_dialog_error),
-            displayErrorBelow = false // this input field is too small for an error text to be displayed below
+            validateInput = validateInputNumberCycles,
+            errorMessage = stringResource(id = R.string.input_number_cycles_dialog_error)
         )
     }
 }
