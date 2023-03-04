@@ -17,14 +17,15 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 fun ToggleButton(
     label: String,
     selected: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     if (selected) {
-        Button(onClick = onToggle) {
+        Button(modifier = modifier, onClick = onToggle) {
             Text(text = label)
         }
     } else {
-        OutlinedButton(onClick = onToggle) {
+        OutlinedButton(modifier = modifier, onClick = onToggle) {
             Text(text = label)
         }
     }

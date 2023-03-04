@@ -2,15 +2,18 @@ package fr.shining_cat.simplehiit.ui.settings
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
-import fr.shining_cat.simplehiit.ui.home.HomeDialog
 import fr.shining_cat.simplehiit.utils.HiitLogger
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -48,24 +51,29 @@ class SettingsViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             getGeneralSettingsUseCase.execute().collect() {
-                _screenViewState.emit(mapper.map(
-                    it,
-                    formatStringHoursMinutesSeconds,
-                    formatStringHoursMinutesNoSeconds,
-                    formatStringHoursNoMinutesNoSeconds,
-                    formatStringMinutesSeconds,
-                    formatStringMinutesNoSeconds,
-                    formatStringSeconds
-                ))
+                _screenViewState.emit(
+                    mapper.map(
+                        it,
+                        formatStringHoursMinutesSeconds,
+                        formatStringHoursMinutesNoSeconds,
+                        formatStringHoursNoMinutesNoSeconds,
+                        formatStringMinutesSeconds,
+                        formatStringMinutesNoSeconds,
+                        formatStringSeconds
+                    )
+                )
             }
         }
     }
+
     fun editWorkPeriodLength() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
             viewModelScope.launch {
                 val currentValueAsSeconds = currentViewState.workPeriodLengthAsSeconds
-                _dialogViewState.emit(SettingsDialog.SettingsDialogEditWorkPeriodLength(currentValueAsSeconds))
+                _dialogViewState.emit(
+                    SettingsDialog.SettingsDialogEditWorkPeriodLength(currentValueAsSeconds)
+                )
             }
         } else {
             hiitLogger.e(
@@ -76,7 +84,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setWorkPeriodLength(inputSecondsAsString: String) {
-        if (validateInputLong(inputSecondsAsString)) {
+        if (validatePeriodLength(inputSecondsAsString) == Constants.InputError.NONE) {
             viewModelScope.launch {
                 setWorkPeriodLengthUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -88,12 +96,30 @@ class SettingsViewModel @Inject constructor(
             )
         }
     }
+
+    fun validatePeriodLength(input: String): Constants.InputError {
+        if ((input.toLongOrNull() is Long).not()) {
+            return Constants.InputError.WRONG_FORMAT
+        }
+        val currentViewState = screenViewState.value
+        if (currentViewState is SettingsViewState.SettingsNominal) {
+            val periodLengthSeconds = input.toLong()
+            val periodCountDownLengthSeconds = currentViewState.periodsStartCountDownLengthAsSeconds.toLong()
+            if (periodLengthSeconds < periodCountDownLengthSeconds) {
+                return Constants.InputError.VALUE_TOO_SMALL
+            }
+        }
+        return Constants.InputError.NONE
+    }
+
     fun editRestPeriodLength() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
             viewModelScope.launch {
                 val currentValueAsSeconds = currentViewState.restPeriodLengthAsSeconds
-                _dialogViewState.emit(SettingsDialog.SettingsDialogEditRestPeriodLength(currentValueAsSeconds))
+                _dialogViewState.emit(
+                    SettingsDialog.SettingsDialogEditRestPeriodLength(currentValueAsSeconds)
+                )
             }
         } else {
             hiitLogger.e(
@@ -104,7 +130,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setRestPeriodLength(inputSecondsAsString: String) {
-        if (validateInputLong(inputSecondsAsString)) {
+        if (validatePeriodLength(inputSecondsAsString) == Constants.InputError.NONE) {
             viewModelScope.launch {
                 setRestPeriodLengthUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -116,6 +142,7 @@ class SettingsViewModel @Inject constructor(
             )
         }
     }
+
     fun editNumberOfWorkPeriods() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
@@ -132,7 +159,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setNumberOfWorkPeriods(value: String) {
-        if (validateInputInt(value)) {
+        if (validateNumberOfWorkPeriods(value) == Constants.InputError.NONE) {
             viewModelScope.launch {
                 setNumberOfWorkPeriodsUseCase.execute(value.toInt())
                 _dialogViewState.emit(SettingsDialog.None)
@@ -145,6 +172,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun validateNumberOfWorkPeriods(input: String): Constants.InputError {
+        return if ((input.toIntOrNull() is Int).not()) {
+            Constants.InputError.WRONG_FORMAT
+        } else Constants.InputError.NONE
+    }
+
     fun toggleBeepSound() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
@@ -155,12 +188,15 @@ class SettingsViewModel @Inject constructor(
             hiitLogger.e("SettingsViewModel", "setBeepSound::current state does not allow this now")
         }
     }
+
     fun editSessionStartCountDown() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
             viewModelScope.launch {
                 val currentValueAsSeconds = currentViewState.sessionStartCountDownLengthAsSeconds
-                _dialogViewState.emit(SettingsDialog.SettingsDialogEditSessionStartCountDown(currentValueAsSeconds))
+                _dialogViewState.emit(
+                    SettingsDialog.SettingsDialogEditSessionStartCountDown(currentValueAsSeconds)
+                )
             }
         } else {
             hiitLogger.e(
@@ -171,7 +207,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setSessionStartCountDown(inputSecondsAsString: String) {
-        if (validateInputLong(inputSecondsAsString)) {
+        if (validateInputSessionStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
             viewModelScope.launch {
                 setSessionStartCountDownUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -184,12 +220,20 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun validateInputSessionStartCountdown(input: String): Constants.InputError {
+        return if ((input.toLongOrNull() is Long).not()) {
+            Constants.InputError.WRONG_FORMAT
+        } else Constants.InputError.NONE
+    }
+
     fun editPeriodStartCountDown() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
             viewModelScope.launch {
                 val currentValueAsSeconds = currentViewState.periodsStartCountDownLengthAsSeconds
-                _dialogViewState.emit(SettingsDialog.SettingsDialogEditPeriodStartCountDown(currentValueAsSeconds))
+                _dialogViewState.emit(
+                    SettingsDialog.SettingsDialogEditPeriodStartCountDown(currentValueAsSeconds)
+                )
             }
         } else {
             hiitLogger.e(
@@ -200,7 +244,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setPeriodStartCountDown(inputSecondsAsString: String) {
-        if (validateInputLong(inputSecondsAsString)) {
+        if (validateInputPeriodStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
             viewModelScope.launch {
                 setPeriodStartCountDownUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -213,15 +257,31 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun editUser(user: User) {
-        viewModelScope.launch {
-            _dialogViewState.emit(SettingsDialog.SettingsDialogEditUser(user))
+    fun validateInputPeriodStartCountdown(input: String): Constants.InputError {
+        if ((input.toLongOrNull() is Long).not()) {
+            return Constants.InputError.WRONG_FORMAT
         }
+        val currentViewState = screenViewState.value
+        if (currentViewState is SettingsViewState.SettingsNominal) {
+            val workPeriodLengthSeconds = currentViewState.workPeriodLengthAsSeconds.toLong()
+            val restPeriodLengthSeconds = currentViewState.restPeriodLengthAsSeconds.toLong()
+            val periodCountDownLengthSeconds = input.toLong()
+            if (workPeriodLengthSeconds < periodCountDownLengthSeconds || restPeriodLengthSeconds < periodCountDownLengthSeconds) {
+                return Constants.InputError.VALUE_TOO_BIG
+            }
+        }
+        return Constants.InputError.NONE
     }
 
     fun addUser() {
         viewModelScope.launch {
             _dialogViewState.emit(SettingsDialog.SettingsDialogAddUser)
+        }
+    }
+
+    fun editUser(user: User) {
+        viewModelScope.launch {
+            _dialogViewState.emit(SettingsDialog.SettingsDialogEditUser(user))
         }
     }
 
@@ -231,13 +291,27 @@ class SettingsViewModel @Inject constructor(
 
     private fun createUser(user: User) {
         viewModelScope.launch {
-            createUserUseCase.execute(user)
+            val result = createUserUseCase.execute(user)
+            when(result){
+                is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
+                is Output.Error -> {
+                    hiitLogger.e("SettingsViewModel", "createUser::error happened:${result.errorCode}", result.exception)
+                    _dialogViewState.emit(SettingsDialog.InputCausedError(result.errorCode.code))
+                }
+            }
         }
     }
 
     private fun updateUser(user: User) {
         viewModelScope.launch {
-            updateUserUseCase.execute(user)
+            val result = updateUserUseCase.execute(user)
+            when(result){
+                is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
+                is Output.Error -> {
+                    hiitLogger.e("SettingsViewModel", "updateUser::error happened:${result.errorCode}", result.exception)
+                    _dialogViewState.emit(SettingsDialog.InputCausedError(result.errorCode.code))
+                }
+            }
         }
     }
 
@@ -249,22 +323,16 @@ class SettingsViewModel @Inject constructor(
 
     fun deleteUserConfirmation(user: User) {
         viewModelScope.launch {
-            deleteUserUseCase.execute(user)
+            val result = deleteUserUseCase.execute(user)
+            when(result){
+                is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
+                is Output.Error -> {
+                    hiitLogger.e("SettingsViewModel", "deleteUserConfirmation::error happened:${result.errorCode}", result.exception)
+                    _dialogViewState.emit(SettingsDialog.InputCausedError(result.errorCode.code))
+                }
+            }
         }
     }
-
-    fun validateInputInt(input: String): Boolean {
-        return (input.length < 5 && input.toIntOrNull() is Int)
-    }
-
-    fun validateInputLong(input: String): Boolean {
-        return (input.length < 6 && input.toLongOrNull() is Long)
-    }
-
-    fun validateInputString(input: String): Boolean {
-        return (input.length < 24)
-    }
-
 
     fun toggleSelectedExercise(exerciseTypeToggled: ExerciseTypeSelected) {
         val currentViewState = screenViewState.value
@@ -294,7 +362,12 @@ class SettingsViewModel @Inject constructor(
     fun resetAllSettingsConfirmation() {
         viewModelScope.launch {
             resetAllSettingsUseCase.execute()
+            _dialogViewState.emit(SettingsDialog.None)
         }
+    }
+
+    fun validateInputString(input: String): Constants.InputError {
+        return if(input.length < 25) Constants.InputError.NONE else Constants.InputError.TOO_LONG
     }
 
     fun cancelDialog() {

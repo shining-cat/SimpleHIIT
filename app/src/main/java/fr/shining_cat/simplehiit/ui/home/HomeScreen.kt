@@ -2,11 +2,8 @@ package fr.shining_cat.simplehiit.ui.home
 
 import android.app.Activity
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -16,10 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,11 +26,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.Screen
+import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
-import fr.shining_cat.simplehiit.ui.components.InputDialog
-import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
-import fr.shining_cat.simplehiit.ui.components.ToggleButton
 import fr.shining_cat.simplehiit.ui.home.HomeViewState.*
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
@@ -58,7 +51,7 @@ fun HomeScreen(
     //
     HomeScreen(
         onNavigate = { navController.navigate(it) },
-        onResetWholeApp = { viewModel.resetWholeApp(it) },
+        onResetWholeApp = { viewModel.resetWholeApp() },
         onResetWholeAppDeleteEverything = { viewModel.resetWholeAppConfirmationDeleteEverything() },
         openInputNumberCycles = { viewModel.openInputNumberCyclesDialog(it) },
         saveInputNumberCycles = { viewModel.updateNumberCumulatedCycles(it) },
@@ -74,11 +67,11 @@ fun HomeScreen(
 @Composable
 private fun HomeScreen(
     onNavigate: (String) -> Unit = {},
-    onResetWholeApp: (String) -> Unit = {},
+    onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
     openInputNumberCycles: (Int) -> Unit = {},
     saveInputNumberCycles: (String) -> Unit = {},
-    validateInputNumberCycles: (String) -> Boolean,
+    validateInputNumberCycles: (String) -> Constants.InputError,
     toggleSelectedUser: (User) -> Unit = {},
     cancelDialog: () -> Unit = {},
     viewState: HomeViewState,
@@ -154,11 +147,11 @@ private fun HomeTopBar(navigateTo: (String) -> Unit = {}) {
 private fun HomeContent(
     innerPadding: PaddingValues,
     navigateTo: (String) -> Unit,
-    resetWholeApp: (String) -> Unit,
+    resetWholeApp: () -> Unit,
     resetWholeAppDeleteEverything: () -> Unit,
     openInputNumberCycles: (Int) -> Unit,
     saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> Boolean,
+    validateInputNumberCycles: (String) -> Constants.InputError,
     toggleSelectedUser: (User) -> Unit,
     cancelDialog: () -> Unit,
     screenViewState: HomeViewState,
@@ -167,12 +160,13 @@ private fun HomeContent(
     Column(
         modifier = Modifier
             .fillMaxSize() //TODO: handle landscape layout
+            //.verticalScroll(rememberScrollState())
             .padding(paddingValues = innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp),
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
             text = stringResource(id = R.string.hiit_description)
         )
         when (screenViewState) {
@@ -218,55 +212,6 @@ private fun HomeContent(
 }
 
 @Composable
-private fun HomeContentBrokenState(
-    errorCode: String,
-    resetWholeApp: (String) -> Unit = {}
-) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-    ) {
-        Image(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 16.dp),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
-        )
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
-            text = stringResource(id = R.string.error_irrecoverable_state),
-            style = MaterialTheme.typography.headlineMedium,
-        )
-        if (errorCode.isNotBlank()) {
-            Text(
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
-                    .align(Alignment.CenterHorizontally),
-                text = stringResource(id = R.string.error_code, errorCode),
-                style = MaterialTheme.typography.headlineSmall,
-            )
-        }
-        Button(
-            modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
-            onClick = { resetWholeApp(errorCode) },
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
-            )
-        ) {
-            Text(text = stringResource(id = R.string.reset_app_button_label))
-        }
-    }
-}
-
-@Composable
 private fun HomeContentNominal(
     openInputNumberCycles: (Int) -> Unit,
     numberOfCycles: Int,
@@ -278,23 +223,38 @@ private fun HomeContentNominal(
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceEvenly
+            .fillMaxWidth(),
     ) {
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp), thickness = 1.dp
+        )
         NumberCyclesSection(
             openInputNumberCycles = openInputNumberCycles,
             numberOfCycles = numberOfCycles,
             lengthOfCycle = lengthOfCycle
         )
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp), thickness = 1.dp
+        )
         SelectUsersSection(
             users = users,
             toggleSelectedUser = toggleSelectedUser
         )
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp), thickness = 1.dp
+        )
+        Spacer(modifier = Modifier.height(24.dp))
         Button(
             modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 24.dp)
+                .height(56.dp)
                 .align(Alignment.CenterHorizontally),
-            onClick = { navigateToSession() },
+            onClick = navigateToSession,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.secondary,
                 contentColor = MaterialTheme.colorScheme.onSecondary
@@ -302,65 +262,7 @@ private fun HomeContentNominal(
         ) {
             Text(text = stringResource(id = R.string.launch_session_label))
         }
-    }
-}
-
-@Composable
-private fun SelectUsersSection(users: List<User>, toggleSelectedUser: (User) -> Unit) {
-    Column(
-        Modifier.fillMaxWidth()
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.selected_users_setting_title),
-            style = MaterialTheme.typography.headlineLarge
-        )
-        LazyRow(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 48.dp)
-        ) {
-            items(users.size) {
-                val user = users[it]
-                Box(modifier = Modifier.padding(horizontal = 8.dp)) {
-                    ToggleButton(
-                        label = user.name,
-                        selected = user.selected,
-                        onToggle = { toggleSelectedUser(user) }
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun HomeContentInputNumberCyclesDialog(
-    saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> Boolean,
-    numberOfCycles: Int,
-    onCancel: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-    ) {
-        InputDialog(
-            dialogTitle = stringResource(id = R.string.input_number_cycles_dialog_title),
-            inputFieldValue = numberOfCycles.toString(),
-            inputFieldPostfix = stringResource(id = R.string.input_number_cycles_dialog_postfix),
-            inputFieldSingleLine = true,
-            inputFieldSize = InputDialogTextFieldSize.SMALL,
-            primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
-            primaryAction = { saveInputNumberCycles(it) },
-            dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
-            dismissAction = onCancel,
-            keyboardType = KeyboardType.Number,
-            validateInput = validateInputNumberCycles,
-            errorMessage = stringResource(id = R.string.input_number_cycles_dialog_error)
-        )
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -386,76 +288,6 @@ private fun HomeContentMissingUsers(
     }
 }
 
-@Composable
-private fun SelectUsersSectionNoUsers(navigateToSettings: () -> Unit) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .clickable { navigateToSettings() }
-    ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.selected_users_setting_title),
-            style = MaterialTheme.typography.headlineLarge
-        )
-        Text(
-            textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.warning_no_user_exist),
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp, vertical = 24.dp)
-        )
-        Image(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 24.dp),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
-        )
-    }
-}
-
-@Composable
-private fun NumberCyclesSection(
-    openInputNumberCycles: (Int) -> Unit,
-    numberOfCycles: Int,
-    lengthOfCycle: String
-) {
-    Column(
-        Modifier
-            .fillMaxWidth()
-            .clickable { openInputNumberCycles(numberOfCycles) }
-    ) {
-
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            text = stringResource(id = R.string.number_of_cycle_setting_title),
-            style = MaterialTheme.typography.headlineLarge
-        )
-        Row(
-            Modifier
-                .padding(horizontal = 0.dp, vertical = 24.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                text = numberOfCycles.toString(),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = stringResource(id = R.string.number_of_cycle_setting, lengthOfCycle),
-                style = MaterialTheme.typography.headlineMedium
-            )
-        }
-    }
-}
-
-
 // Previews
 @Preview(
     showBackground = true,
@@ -475,13 +307,7 @@ private fun HomeScreenPreview(
 ) {
     SimpleHiitTheme {
         HomeScreen(
-            onNavigate = {},
-            onResetWholeApp = {},
-            onResetWholeAppDeleteEverything = {},
-            openInputNumberCycles = {},
-            saveInputNumberCycles = {},
-            validateInputNumberCycles = { true },
-            cancelDialog = {},
+            validateInputNumberCycles = { Constants.InputError.NONE },
             viewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
         )
@@ -494,7 +320,7 @@ internal class HomeScreenPreviewParameterProvider :
         get() = sequenceOf(
             Pair(HomeLoading, HomeDialog.None),
             Pair(HomeError(errorCode = "12345"), HomeDialog.None),
-            Pair(HomeError(errorCode = "12345"), HomeDialog.HomeDialogConfirmWholeReset("12345")),
+            Pair(HomeError(errorCode = "12345"), HomeDialog.HomeDialogConfirmWholeReset),
             Pair(HomeMissingUsers(4, "4mn"), HomeDialog.None),
             Pair(HomeMissingUsers(4, "4mn"), HomeDialog.HomeDialogInputNumberCycles(4)),
             Pair(

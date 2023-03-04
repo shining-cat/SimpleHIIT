@@ -54,12 +54,15 @@ fun ErrorDialog(
                     text = stringResource(id = R.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Text(
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
-                    text = errorMessage,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                if(errorMessage.isNotBlank()) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 0.dp, vertical = 8.dp),
+                        text = errorMessage,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
                 Text(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
@@ -71,49 +74,6 @@ fun ErrorDialog(
         }
     }
 }
- /*   Dialog(onDismissRequest = dismissCallback) {
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
-            ) {
-                Image(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .align(Alignment.CenterHorizontally),
-                    painter = painterResource(id = R.drawable.warning),
-                    contentDescription = stringResource(id = R.string.warning_icon_content_description)
-                )
-                Text(
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
-                    text = stringResource(id = R.string.error_notice),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                if (errorMessage.isNotBlank()) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
-                        text = errorMessage,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                if (errorCode.isNotBlank()) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
-                        text = stringResource(id = R.string.error_code, errorCode),
-                        style = MaterialTheme.typography.bodySmall
-                    )
-                }
-            }
-        }
-    }
-}*/
 
 // Previews
 @Preview(

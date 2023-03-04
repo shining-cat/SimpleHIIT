@@ -29,4 +29,13 @@ object Constants {
         CONVERSION_ERROR("0401"),
     }
 
+    enum class InputError(){
+        NONE,
+        WRONG_FORMAT,
+        TOO_LONG,
+        TOO_SHORT,
+        VALUE_TOO_SMALL,
+        VALUE_TOO_BIG
+    }
+
 }

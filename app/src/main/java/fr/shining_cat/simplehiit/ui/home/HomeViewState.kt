@@ -12,5 +12,5 @@ sealed class HomeViewState{
 sealed class HomeDialog(){
     object None: HomeDialog()
     data class HomeDialogInputNumberCycles(val initialNumberOfCycles: Int): HomeDialog()
-    data class HomeDialogConfirmWholeReset(val errorCode: String): HomeDialog()
+    object HomeDialogConfirmWholeReset: HomeDialog()
 }

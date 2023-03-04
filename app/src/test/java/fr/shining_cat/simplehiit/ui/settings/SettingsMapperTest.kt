@@ -98,7 +98,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                     SettingsViewState.SettingsNominal(
                         workPeriodLengthAsSeconds = "15",
                         restPeriodLengthAsSeconds = "10",
-                        numberOfWorkPeriods = 6,
+                        numberOfWorkPeriods = "6",
                         totalCycleLength = mockDurationString,
                         beepSoundCountDownActive = true,
                         sessionStartCountDownLengthAsSeconds = "5",
@@ -122,7 +122,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                     SettingsViewState.SettingsNominal(
                         workPeriodLengthAsSeconds = "21",
                         restPeriodLengthAsSeconds = "13",
-                        numberOfWorkPeriods = 7,
+                        numberOfWorkPeriods = "7",
                         totalCycleLength = mockDurationString,
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthAsSeconds = "7",
@@ -154,7 +154,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                     SettingsViewState.SettingsNominal(
                         workPeriodLengthAsSeconds = (Int.MAX_VALUE).toString(),
                         restPeriodLengthAsSeconds = "13",
-                        numberOfWorkPeriods = 7,
+                        numberOfWorkPeriods = "7",
                         totalCycleLength = mockDurationString,
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthAsSeconds = "7",

@@ -52,7 +52,7 @@ class SettingsMapper @Inject constructor(
                     SettingsNominal(
                         workPeriodLengthAsSeconds = workPeriodLengthAsSeconds,
                         restPeriodLengthAsSeconds = restPeriodLengthAsSeconds,
-                        numberOfWorkPeriods = generalSettings.numberOfWorkPeriods,
+                        numberOfWorkPeriods = generalSettings.numberOfWorkPeriods.toString(),
                         totalCycleLength = cycleLengthDisplay,
                         beepSoundCountDownActive = generalSettings.beepSoundCountDownActive,
                         sessionStartCountDownLengthAsSeconds = sessionStartCountDownLengthAsSeconds,

@@ -1,6 +1,7 @@
 package fr.shining_cat.simplehiit.ui.components
 
 import android.content.res.Configuration
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,6 +15,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +27,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 
@@ -50,18 +54,19 @@ fun InputDialog(
     dismissButtonLabel: String = "",
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
-    validateInput: (String) -> Boolean = { true },
-    errorMessage: String = "",
+    validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
+    pickErrorMessage: (Constants.InputError) -> Int = { -1 }
 ) {
 
     //TODO: auto-focus on input field when opening dialog
 
     //TODO: open keyboard when auto-focusing
 
-    //TODO: set cursor position at end of inputFieldValue in input field when auto-focusing
+    //TODO: set cursor position at end of inputFieldValue in input field when auto-focusing. Only affect this position once on dialog opening
 
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
-    val isError = rememberSaveable() { mutableStateOf(!validateInput(inputFieldValue)) }
+    val isError = rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
+    val errorMessageStringRes = rememberSaveable {mutableStateOf(pickErrorMessage(validateInput(inputFieldValue)))}
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -96,13 +101,16 @@ fun InputDialog(
                         singleLine = inputFieldSingleLine,
                         onValueChange = {
                             input.value = it
-                            isError.value = !validateInput(input.value)
+                            val validationResult = validateInput(it)
+                            val errorStringRes = pickErrorMessage(validationResult)
+                            isError.value = validationResult != Constants.InputError.NONE // updating the error state Boolean
+                            errorMessageStringRes.value = errorStringRes // updating the eventual error message String resource pointer
                         },
                         isError = isError.value,
                         trailingIcon = errorTrailingIcon(
                             isError.value,
                             inputFieldSize,
-                            errorMessage
+                            errorMessageStringRes.value
                         ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = keyboardType,
@@ -123,9 +131,9 @@ fun InputDialog(
                         style = MaterialTheme.typography.bodyMedium
                     )
                 }
-                if (isError.value && errorMessage.isNotBlank()) {
+                if (isError.value && errorMessageStringRes.value != -1) {
                     Text(
-                        text = errorMessage,
+                        text = stringResource(id = errorMessageStringRes.value),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
                         modifier = Modifier
@@ -140,12 +148,12 @@ fun InputDialog(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
-                        TextButton(onClick = { secondaryAction() }) {
+                        TextButton(onClick = secondaryAction) {
                             Text(text = secondaryButtonLabel)
                         }
                     }
                     if (dismissButtonLabel.isNotBlank()) {
-                        OutlinedButton(onClick = { dismissAction() }) {
+                        OutlinedButton(onClick = dismissAction) {
                             Text(text = dismissButtonLabel)
                         }
                     }
@@ -162,14 +170,14 @@ fun InputDialog(
 fun errorTrailingIcon(
     isError: Boolean,
     inputFieldSize: InputDialogTextFieldSize,
-    errorMessage: String
+    errorMessageStringRes: Int
 ): @Composable (() -> Unit)? {
     // small input field can not fit the trailing icon plus content
     return if (isError && inputFieldSize != InputDialogTextFieldSize.SMALL) {
         {
             Icon(
-                Icons.Filled.Info,
-                errorMessage,
+                imageVector = Icons.Filled.Info,
+                contentDescription = stringResource(id = errorMessageStringRes),
                 tint = MaterialTheme.colorScheme.error
             )
         }
@@ -208,7 +216,7 @@ private fun ChoiceDialogPreview(
             dismissAction = {},
             keyboardType = KeyboardType.Number,
             validateInput = inputDialogPreviewObject.validateInput,
-            errorMessage = inputDialogPreviewObject.errorMessage,
+            pickErrorMessage = inputDialogPreviewObject.errorMessage,
         )
     }
 }
@@ -226,8 +234,8 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { true },
-                    errorMessage = ""
+                    validateInput = { Constants.InputError.NONE },
+                    errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "Quatre-vingt",
@@ -237,8 +245,8 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.MEDIUM,
-                    validateInput = { true },
-                    errorMessage = ""
+                    validateInput = { Constants.InputError.NONE },
+                    errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "This is a very long input value so it takes a lot of place",
@@ -248,8 +256,8 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { true },
-                    errorMessage = ""
+                    validateInput = { Constants.InputError.NONE },
+                    errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "This is a very long input value so it takes a lot of place",
@@ -259,8 +267,8 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { true },
-                    errorMessage = ""
+                    validateInput = { Constants.InputError.NONE },
+                    errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "This is a very long input value so it takes a lot of place, and it could grow indefinitely depending only on the user's choice, so we need to be able to display this correctly on screen",
@@ -270,8 +278,8 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { false },
-                    errorMessage = "This input is wrong, please enter something else"
+                    validateInput = { Constants.InputError.WRONG_FORMAT },
+                    errorMessage = { R.string.invalid_input_error }
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "30",
@@ -281,8 +289,8 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { false },
-                    errorMessage = "This input is wrong, please enter something else"
+                    validateInput = { Constants.InputError.WRONG_FORMAT },
+                    errorMessage = { R.string.invalid_input_error }
                 ),
             )
             return sequenceOf
@@ -297,6 +305,6 @@ internal data class InputDialogPreviewObject(
     val secondaryButtonLabel: String,
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
-    val validateInput: (String) -> Boolean,
-    val errorMessage: String
+    val validateInput: (String) -> Constants.InputError,
+    val errorMessage: (Constants.InputError) -> Int
 )

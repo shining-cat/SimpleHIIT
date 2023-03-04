@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.ui.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.GetHomeSettingsUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
@@ -70,12 +71,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun validateInputNumberCycles(input: String):Boolean{
-        return (input.length < 3 && input.toIntOrNull() is Int)
+    fun validateInputNumberCycles(input: String):Constants.InputError{
+        return if (input.length < 3 && input.toIntOrNull() is Int) Constants.InputError.NONE else Constants.InputError.WRONG_FORMAT
     }
 
     fun updateNumberCumulatedCycles(value: String) {
-        if(validateInputNumberCycles(value)) {
+        if(validateInputNumberCycles(value) == Constants.InputError.NONE) {
             viewModelScope.launch {
                 setTotalRepetitionsNumberUseCase.execute(value.toInt())
                 _dialogViewState.emit(HomeDialog.None)
@@ -91,9 +92,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun resetWholeApp(errorCode: String) {
+    fun resetWholeApp() {
         viewModelScope.launch {
-            _dialogViewState.emit(HomeDialog.HomeDialogConfirmWholeReset(errorCode))
+            _dialogViewState.emit(HomeDialog.HomeDialogConfirmWholeReset)
         }
     }
 

@@ -11,6 +11,7 @@ class UpdateUserUseCase @Inject constructor(
     private val simpleHiitLogger: HiitLogger
 ) {
 
+    //TODO: include check to avoid duplicating names
     suspend fun execute(user: User): Output<Int> {
         return simpleHiitRepository.updateUser(user)
     }

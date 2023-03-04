@@ -54,13 +54,10 @@ fun ConfirmDialog(
                         .padding(horizontal = 0.dp, vertical = 24.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    Button(
-                        onClick = { onConfirm }
-
-                    ) {
+                    Button(onClick = onConfirm) {
                         Text(text = buttonConfirmLabel)
                     }
-                    OutlinedButton(onClick = { onCancel }) {
+                    OutlinedButton(onClick = onCancel) {
                         Text(text = stringResource(id = R.string.cancel_button_label))
                     }
                 }
