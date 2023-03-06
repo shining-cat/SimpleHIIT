@@ -168,8 +168,8 @@ private fun SettingToggle(
             checked = value,
             onCheckedChange = { onToggle() },
             colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.secondary,
-                checkedThumbColor = MaterialTheme.colorScheme.primary,
+                checkedTrackColor = MaterialTheme.colorScheme.primary,
+                checkedThumbColor = MaterialTheme.colorScheme.secondary,
                 checkedBorderColor = MaterialTheme.colorScheme.primary,
                 uncheckedTrackColor = MaterialTheme.colorScheme.surface,
                 uncheckedThumbColor = MaterialTheme.colorScheme.primary,
