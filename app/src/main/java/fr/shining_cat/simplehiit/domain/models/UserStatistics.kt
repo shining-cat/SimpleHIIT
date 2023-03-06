@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.domain.models
 
 data class UserStatistics(
-    val userName:String,
+    val user:User,
     val totalNumberOfSessions: Int = 0,
     val cumulatedTimeOfExerciseSeconds: Long = 0L,
     val averageSessionLengthSeconds: Int = 0,

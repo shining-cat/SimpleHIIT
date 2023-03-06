@@ -1,6 +1,7 @@
 package fr.shining_cat.simplehiit.ui.statistics
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
+import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.models.UserStatistics
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -30,7 +31,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
             Stream.of(
                 Arguments.of(
                     UserStatistics(
-                        userName = "test user name 1",
+                        user = User(name = "test user name 1"),
                         totalNumberOfSessions = 8,
                         cumulatedTimeOfExerciseSeconds = 1234L,
                         averageSessionLengthSeconds = 234,
@@ -39,7 +40,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         averageNumberOfSessionsPerWeek = 1.7,
                     ),
                     StatisticsViewState.StatisticsNominal(
-                        userName = "test user name 1",
+                        user = User(name = "test user name 1"),
                         totalNumberOfSessions = 8,
                         cumulatedTimeOfExerciseSeconds = 1234L,
                         averageSessionLengthSeconds = 234,
@@ -50,7 +51,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     UserStatistics(
-                        userName = "test user name 2",
+                        user = User(name = "test user name 2"),
                         totalNumberOfSessions = 9,
                         cumulatedTimeOfExerciseSeconds = 543L,
                         averageSessionLengthSeconds = 432,
@@ -59,7 +60,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         averageNumberOfSessionsPerWeek = 6.4
                     ),
                     StatisticsViewState.StatisticsNominal(
-                        userName = "test user name 2",
+                        user = User(name = "test user name 2"),
                         totalNumberOfSessions = 9,
                         cumulatedTimeOfExerciseSeconds = 543L,
                         averageSessionLengthSeconds = 432,
@@ -70,7 +71,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     UserStatistics(
-                        userName = "test user name 3",
+                        user = User(name = "test user name 3"),
                         totalNumberOfSessions = 157,
                         cumulatedTimeOfExerciseSeconds = 4567L,
                         averageSessionLengthSeconds = 9876,
@@ -79,7 +80,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         averageNumberOfSessionsPerWeek = 14.3
                     ),
                     StatisticsViewState.StatisticsNominal(
-                        userName = "test user name 3",
+                        user = User(name = "test user name 3"),
                         totalNumberOfSessions = 157,
                         cumulatedTimeOfExerciseSeconds = 4567L,
                         averageSessionLengthSeconds = 9876,
@@ -89,9 +90,9 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                     )
                 ),
                 Arguments.of(
-                    UserStatistics(userName = "test user name 4"),
+                    UserStatistics(user = User(name = "test user name 4")),
                     StatisticsViewState.StatisticsNominal(
-                        userName = "test user name 4",
+                        user = User(name = "test user name 4"),
                         totalNumberOfSessions = 0,
                         cumulatedTimeOfExerciseSeconds = 0L,
                         averageSessionLengthSeconds = 0,

@@ -16,34 +16,36 @@ class GetStatsForUserUseCase @Inject constructor(
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    suspend fun execute(user: User, now: Long): UserStatistics {
-        val sessionsForUser = simpleHiitRepository.getSessionsForUser(user)
-        return when (sessionsForUser) {
+    suspend fun execute(user: User, now: Long): Output<UserStatistics> {
+        val sessionsForUserOutput = simpleHiitRepository.getSessionsForUser(user)
+        return when (sessionsForUserOutput) {
             is Output.Error -> {
                 simpleHiitLogger.e(
                     "GetStatsForUserUseCase",
                     "failed getting sessions, returning default values",
-                    sessionsForUser.exception
+                    sessionsForUserOutput.exception
                 )
-                UserStatistics(userName = user.name)
+                sessionsForUserOutput
             }
             is Output.Success -> {
-                mapListOfSessionsToStatistics(
-                    userName = user.name,
-                    sessions = sessionsForUser.result,
-                    now = now
+                Output.Success(
+                    mapListOfSessionsToStatistics(
+                        user = user,
+                        sessions = sessionsForUserOutput.result,
+                        now = now
+                    )
                 )
             }
         }
     }
 
     private fun mapListOfSessionsToStatistics(
-        userName: String,
+        user: User,
         sessions: List<Session>,
         now: Long
     ): UserStatistics {
         return if (sessions.isEmpty()) {
-            UserStatistics(userName = userName)
+            UserStatistics(user = user)
         } else {
             val totalNumberOfSessions = sessions.size
             val cumulatedTimeOfExerciseSeconds = sessions.sumOf { it.durationSeconds }
@@ -51,7 +53,7 @@ class GetStatsForUserUseCase @Inject constructor(
                 (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
             val timestampsList = sessions.map { it.timeStamp }
             UserStatistics(
-                userName = userName,
+                user = user,
                 totalNumberOfSessions = totalNumberOfSessions,
                 cumulatedTimeOfExerciseSeconds = cumulatedTimeOfExerciseSeconds,
                 averageSessionLengthSeconds = averageSessionLengthSeconds,

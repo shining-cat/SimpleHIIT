@@ -8,13 +8,13 @@ class StatisticsMapper @Inject constructor(private val hiitLogger: HiitLogger) {
 
     fun map(userStats: UserStatistics): StatisticsViewState {
         return StatisticsViewState.StatisticsNominal(
-            userName = userStats.userName,
+            user = userStats.user,
             totalNumberOfSessions = userStats.totalNumberOfSessions,
             cumulatedTimeOfExerciseSeconds = userStats.cumulatedTimeOfExerciseSeconds,
             averageSessionLengthSeconds = userStats.averageSessionLengthSeconds,
             longestStreakDays = userStats.longestStreakDays,
             currentStreakDays = userStats.currentStreakDays,
-            averageNumberOfSessionsPerWeek = userStats.averageNumberOfSessionsPerWeek,
+            averageNumberOfSessionsPerWeek = userStats.averageNumberOfSessionsPerWeek
         )
     }
 }

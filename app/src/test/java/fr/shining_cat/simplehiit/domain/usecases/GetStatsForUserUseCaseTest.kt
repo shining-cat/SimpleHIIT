@@ -39,7 +39,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
     private val testNow = 12345L
 
     @Test
-    fun `return empty value when repo call fails`() = runTest {
+    fun `return error when repo call fails`() = runTest {
         val testException = Exception("this is a test exception")
         val testError = Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException)
         coEvery { mockSimpleHiitRepository.getSessionsForUser(any()) } answers { testError}
@@ -47,7 +47,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         val result = testedUseCase.execute(testUser, testNow)
         //
         coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
-        assertEquals(UserStatistics(testUser.name), result)
+        assertEquals(testError, result)
     }
 
     @Test
@@ -58,13 +58,15 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns Random.nextInt(10,5000)
         coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns Random.nextInt(10,5000).toDouble() / 100.toDouble()
         //
-        val result = testedUseCase.execute(testUser, testNow)
+        val output = testedUseCase.execute(testUser, testNow)
         //
         coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
         coVerify(exactly = 0) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
-        assertEquals(UserStatistics(testUser.name), result)
+        assertTrue(output is Output.Success)
+        output as Output.Success
+        assertEquals(UserStatistics(testUser), output.result)
     }
 
 
@@ -85,19 +87,21 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns testLongestStreak
         coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns testAverageWeek
         //
-        val result = testedUseCase.execute(testUser, testNow)
+        val output = testedUseCase.execute(testUser, testNow)
         //
         coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
-        assertEquals(testUser.name, result.userName)
-        assertEquals(expectedTotalNumberOfSessions, result.totalNumberOfSessions)
-        assertEquals(expectedCumulatedTimeOfExerciseSeconds, result.cumulatedTimeOfExerciseSeconds)
-        assertEquals(expectedAverageSessionLengthSeconds, result.averageSessionLengthSeconds)
-        assertEquals(testLongestStreak, result.longestStreakDays)
-        assertEquals(testCurrentStreak, result.currentStreakDays)
-        assertEquals(testAverageWeek, result.averageNumberOfSessionsPerWeek)
+        assertTrue(output is Output.Success)
+        output as Output.Success
+        assertEquals(testUser, output.result.user)
+        assertEquals(expectedTotalNumberOfSessions, output.result.totalNumberOfSessions)
+        assertEquals(expectedCumulatedTimeOfExerciseSeconds, output.result.cumulatedTimeOfExerciseSeconds)
+        assertEquals(expectedAverageSessionLengthSeconds, output.result.averageSessionLengthSeconds)
+        assertEquals(testLongestStreak, output.result.longestStreakDays)
+        assertEquals(testCurrentStreak, output.result.currentStreakDays)
+        assertEquals(testAverageWeek, output.result.averageNumberOfSessionsPerWeek)
     }
 
     ////////////////////////
