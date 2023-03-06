@@ -16,6 +16,9 @@ abstract class UsersDao {
     @Query("SELECT * FROM $usersTableName")
     abstract fun getUsers(): Flow<List<UserEntity>>
 
+    @Query("SELECT * FROM $usersTableName")
+    abstract suspend fun getUsersList(): List<UserEntity>
+
     @Query("SELECT * FROM $usersTableName WHERE $userSelectedColumnName = true")
     abstract fun getSelectedUsers(): Flow<List<UserEntity>>
 

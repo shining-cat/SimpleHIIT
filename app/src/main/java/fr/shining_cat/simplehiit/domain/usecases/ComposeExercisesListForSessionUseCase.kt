@@ -14,7 +14,8 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
         numberOfCycles: Int,
         selectedExerciseTypes: List<ExerciseType>
     ): List<Exercise> {
-        val exercisesOfSelectedTypesSourceList = listOfExercisesOfSelectedTypes(selectedExerciseTypes)
+        val exercisesOfSelectedTypesSourceList =
+            listOfExercisesOfSelectedTypes(selectedExerciseTypes)
         val exercisesSourceList = exercisesOfSelectedTypesSourceList.toMutableList()
         val wantedNumberOfExercises = numberOfWorkPeriodsPerCycle * numberOfCycles
         while (wantedNumberOfExercises > numberOfAvailableExercises(exercisesSourceList)) {
@@ -35,13 +36,19 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
                 val exercisesForType =
                     if (listOfExercises.size == wantedNumberOfExercises - 1) {
                         if (exercisesSourceList.none { !it.asymmetrical }) {
-                            hiitLogger.d("ComposeExercisesListForSessionUseCase", "only one spot left, but all remaining exercises in available list are asymmetrical-> adding whole pack one last time to allow for the last picking to not block the loop")
+                            hiitLogger.d(
+                                "ComposeExercisesListForSessionUseCase",
+                                "only one spot left, but all remaining exercises in available list are asymmetrical-> adding whole pack one last time to allow for the last picking to not block the loop"
+                            )
                             // only one spot left, but all remaining exercises in available list are asymmetrical
                             // adding whole pack one last time to allow for the last picking to not block the loop
                             exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
                         }
                         //only one spot left, we need to pick a non-asymmetrical exercise
-                        hiitLogger.d("ComposeExercisesListForSessionUseCase", "only one spot left, we need to pick a non-asymmetrical exercise")
+                        hiitLogger.d(
+                            "ComposeExercisesListForSessionUseCase",
+                            "only one spot left, we need to pick a non-asymmetrical exercise"
+                        )
                         exercisesSourceList.filter { it.exerciseType == type && !it.asymmetrical }
                     } else {
                         exercisesSourceList.filter { it.exerciseType == type }

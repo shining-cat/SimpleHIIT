@@ -17,12 +17,15 @@ class GetSelectedUsersUseCase @Inject constructor(
 
     fun execute(): Flow<Output<List<User>>> {
         val selectedUsersFlow = simpleHiitRepository.getSelectedUsers().map {
-            when(it){
-                is Output.Success -> if(it.result.isEmpty()){
+            when (it) {
+                is Output.Success -> if (it.result.isEmpty()) {
                     simpleHiitLogger.e("GetSelectedUsersUseCase", "No selected users found")
                     val emptyResultException = Exception(NO_RESULTS_FOUND)
-                    Output.Error(errorCode = Constants.Errors.EMPTY_RESULT, exception = emptyResultException)
-                } else{
+                    Output.Error(
+                        errorCode = Constants.Errors.EMPTY_RESULT,
+                        exception = emptyResultException
+                    )
+                } else {
                     it
                 }
                 is Output.Error -> it

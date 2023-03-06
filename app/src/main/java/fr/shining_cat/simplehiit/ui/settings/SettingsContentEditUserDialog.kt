@@ -43,9 +43,10 @@ fun SettingsContentEditUserDialog(
     }
 }
 
-private fun setUserNameErrorMessage(error: Constants.InputError): Int{
-    return when(error){
+private fun setUserNameErrorMessage(error: Constants.InputError): Int {
+    return when (error) {
         Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
+        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 }

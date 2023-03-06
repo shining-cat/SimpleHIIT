@@ -42,8 +42,8 @@ fun SettingsContentInputWorkPeriodLengthDialog(
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int{
-    return when(error){
+private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int {
+    return when (error) {
         Constants.InputError.NONE -> -1
         Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
         else -> R.string.invalid_input_error

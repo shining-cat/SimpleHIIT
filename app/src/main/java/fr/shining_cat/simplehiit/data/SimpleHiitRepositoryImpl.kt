@@ -8,7 +8,10 @@ import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants.Errors
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.models.*
+import fr.shining_cat.simplehiit.domain.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -44,7 +47,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
             val usersFlow = usersDao.getUsers()
             usersFlow.map { users ->
                 Output.Success(
-                    users.map {user ->
+                    users.map { user ->
                         userMapper.convert(user)
                     }
                 )
@@ -59,12 +62,25 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getUsersList(): Output<List<User>> {
+        return try {
+            Output.Success(result = usersDao.getUsersList().map { user ->
+                userMapper.convert(user)
+            })
+        } catch (cancellationException: CancellationException) {
+            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
+        } catch (exception: Exception) {
+            hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting users as List", exception)
+            Output.Error(errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception)
+        }
+    }
+
     override fun getSelectedUsers(): Flow<Output<List<User>>> {
         return try {
             val usersFlow = usersDao.getSelectedUsers()
             usersFlow.map { users ->
                 Output.Success(
-                    users.map {user ->
+                    users.map { user ->
                         userMapper.convert(user)
                     }
                 )
@@ -192,7 +208,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         } catch (cancellationException: CancellationException) {
             throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
-            hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting general settings - returning default settings", exception)
+            hiitLogger.e(
+                "SimpleHiitRepositoryImpl",
+                "failed getting general settings - returning default settings",
+                exception
+            )
             flowOf(SimpleHiitPreferences())
         }
     }
@@ -200,27 +220,35 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override suspend fun setWorkPeriodLength(durationMs: Long) {
         hiitDataStoreManager.setWorkPeriodLength(durationMs)
     }
+
     override suspend fun setRestPeriodLength(durationMs: Long) {
         hiitDataStoreManager.setRestPeriodLength(durationMs)
     }
+
     override suspend fun setNumberOfWorkPeriods(number: Int) {
         hiitDataStoreManager.setNumberOfWorkPeriods(number)
     }
+
     override suspend fun setBeepSound(active: Boolean) {
         hiitDataStoreManager.setBeepSound(active)
     }
+
     override suspend fun setSessionStartCountdown(durationMs: Long) {
         hiitDataStoreManager.setSessionStartCountdown(durationMs)
     }
+
     override suspend fun setPeriodStartCountdown(durationMs: Long) {
         hiitDataStoreManager.setPeriodStartCountdown(durationMs)
     }
+
     override suspend fun setTotalRepetitionsNumber(number: Int) {
         hiitDataStoreManager.setNumberOfCumulatedCycles(number = number)
     }
+
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
         hiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
     }
+
     override suspend fun resetAllSettings() {
         hiitDataStoreManager.clearAll()
     }

@@ -36,7 +36,8 @@ object Constants {
         TOO_LONG,
         TOO_SHORT,
         VALUE_TOO_SMALL,
-        VALUE_TOO_BIG
+        VALUE_TOO_BIG,
+        VALUE_ALREADY_TAKEN
     }
 
 }

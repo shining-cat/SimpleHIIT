@@ -127,7 +127,7 @@ class UsersDaoTest {
     }
 
     @Test
-    fun getUsersList() = runTest {
+    fun getUsersFlow() = runTest {
         val testUserName1 = "test user name 1"
         val testSelected1 = true
         val user1 = UserEntity(name = testUserName1, selected = testSelected1)
@@ -202,6 +202,66 @@ class UsersDaoTest {
         assertEquals(testSelected3, users2[2].selected)
         //
         collectJob.cancel()
+    }
+
+////////////////
+
+    @Test
+    fun getUsersListEmptyTable() = runTest {
+        val tableContent = usersDao.getUsersList()
+        assertTrue(tableContent.isEmpty())
+    }
+
+    @Test
+    fun getUsersListOnlyOne() = runTest {
+        val testUserName = "test user name"
+        val testSelected = true
+        val user = UserEntity(name = testUserName, selected = testSelected)
+        launch {usersDao.insert(user)}
+        advanceUntilIdle()
+        //
+        val tableContent = usersDao.getUsersList()
+        assertEquals(1, tableContent.size)
+        assertEquals(testUserName, tableContent[0].name)
+        assertEquals(testSelected, tableContent[0].selected)
+    }
+
+    @Test
+    fun getUsersList() = runTest {
+        val testUserName1 = "test user name 1"
+        val testSelected1 = true
+        val user1 = UserEntity(name = testUserName1, selected = testSelected1)
+        usersDao.insert(user1)
+        val testUserName2 = "test user name 2"
+        val testSelected2 = false
+        val user2 = UserEntity(name = testUserName2, selected = testSelected2)
+        usersDao.insert(user2)
+        val testUserName3 = "test user name 3"
+        val testSelected3 = true
+        val user3 = UserEntity(name = testUserName3, selected = testSelected3)
+        usersDao.insert(user3)
+        val testUserName4 = "test user name 4"
+        val testSelected4 = false
+        val user4 = UserEntity(name = testUserName4, selected = testSelected4)
+        usersDao.insert(user4)
+        val testUserName5 = "test user name 5"
+        val testSelected5 = true
+        val user5 = UserEntity(name = testUserName5, selected = testSelected5)
+        launch {usersDao.insert(user5)}
+        advanceUntilIdle()
+        //
+        val tableContent = usersDao.getUsersList()
+        assertEquals(5, tableContent.size)
+        assertEquals(testUserName1, tableContent[0].name)
+        assertEquals(testSelected1, tableContent[0].selected)
+        assertEquals(testUserName2, tableContent[1].name)
+        assertEquals(testSelected2, tableContent[1].selected)
+        assertEquals(testUserName3, tableContent[2].name)
+        assertEquals(testSelected3, tableContent[2].selected)
+        assertEquals(testUserName4, tableContent[3].name)
+        assertEquals(testSelected4, tableContent[3].selected)
+        assertEquals(testUserName5, tableContent[4].name)
+        assertEquals(testSelected5, tableContent[4].selected)
     }
 
 ////////////////

@@ -18,24 +18,37 @@ class GetStatsForUserUseCase @Inject constructor(
 
     suspend fun execute(user: User, now: Long): UserStatistics {
         val sessionsForUser = simpleHiitRepository.getSessionsForUser(user)
-        return when(sessionsForUser){
+        return when (sessionsForUser) {
             is Output.Error -> {
-                simpleHiitLogger.e("GetStatsForUserUseCase", "failed getting sessions, returning default values", sessionsForUser.exception)
+                simpleHiitLogger.e(
+                    "GetStatsForUserUseCase",
+                    "failed getting sessions, returning default values",
+                    sessionsForUser.exception
+                )
                 UserStatistics(userName = user.name)
             }
             is Output.Success -> {
-                mapListOfSessionsToStatistics(userName = user.name, sessions = sessionsForUser.result, now = now)
+                mapListOfSessionsToStatistics(
+                    userName = user.name,
+                    sessions = sessionsForUser.result,
+                    now = now
+                )
             }
         }
     }
 
-    private fun mapListOfSessionsToStatistics(userName: String, sessions: List<Session>, now: Long):UserStatistics{
-        return if(sessions.isEmpty()){
+    private fun mapListOfSessionsToStatistics(
+        userName: String,
+        sessions: List<Session>,
+        now: Long
+    ): UserStatistics {
+        return if (sessions.isEmpty()) {
             UserStatistics(userName = userName)
-        } else{
+        } else {
             val totalNumberOfSessions = sessions.size
-            val cumulatedTimeOfExerciseSeconds = sessions.sumOf{it.durationSeconds}
-            val averageSessionLengthSeconds = (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
+            val cumulatedTimeOfExerciseSeconds = sessions.sumOf { it.durationSeconds }
+            val averageSessionLengthSeconds =
+                (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
             val timestampsList = sessions.map { it.timeStamp }
             UserStatistics(
                 userName = userName,
@@ -44,7 +57,10 @@ class GetStatsForUserUseCase @Inject constructor(
                 averageSessionLengthSeconds = averageSessionLengthSeconds,
                 longestStreakDays = calculateLongestStreakUseCase.execute(timestampsList, now),
                 currentStreakDays = calculateCurrentStreakUseCase.execute(timestampsList, now),
-                averageNumberOfSessionsPerWeek = calculateAverageSessionsPerWeekUseCase.execute(timestampsList, now)
+                averageNumberOfSessionsPerWeek = calculateAverageSessionsPerWeekUseCase.execute(
+                    timestampsList,
+                    now
+                )
             )
         }
     }

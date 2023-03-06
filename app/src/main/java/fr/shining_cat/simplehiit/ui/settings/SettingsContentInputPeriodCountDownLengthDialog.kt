@@ -42,8 +42,8 @@ fun SettingsContentInputPeriodCountDownLengthDialog(
     }
 }
 
-private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int{
-    return when(error){
+private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int {
+    return when (error) {
         Constants.InputError.NONE -> -1
         Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error

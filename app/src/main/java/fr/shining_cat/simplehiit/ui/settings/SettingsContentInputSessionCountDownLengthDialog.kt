@@ -42,8 +42,8 @@ fun SettingsContentInputSessionCountDownLengthDialog(
     }
 }
 
-private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int{
-    return when(error){
+private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int {
+    return when (error) {
         Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }

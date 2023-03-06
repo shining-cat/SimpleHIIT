@@ -8,7 +8,7 @@ class CalculateCurrentStreakUseCase @Inject constructor(
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    fun execute(timestamps: List<Long>, now: Long):Int{
+    fun execute(timestamps: List<Long>, now: Long): Int {
         //"now" does not represent a session but the time of evaluation for the current streak.
         // if the original list is empty, the expected current streak length is 0
         // So if we check on the same day, or before the end of the following day of the last session, the current streak is not considered broken
@@ -16,18 +16,22 @@ class CalculateCurrentStreakUseCase @Inject constructor(
         val timestampsIncludingNow = timestamps + now
         val sortedTimestampsFromLast = timestampsIncludingNow.sortedByDescending { it }
         var streakCounter = 0
-        streakLoop@ for((index, timestamp) in sortedTimestampsFromLast.withIndex()){
-            if(index + 1 == sortedTimestampsFromLast.size) break
+        streakLoop@ for ((index, timestamp) in sortedTimestampsFromLast.withIndex()) {
+            if (index + 1 == sortedTimestampsFromLast.size) break
             //
             val timeStamp2 = sortedTimestampsFromLast[index + 1]
-            val areConsecutiveDaysOrLess = consecutiveDaysOrCloserUseCase.execute(timestamp, timeStamp2)
-            simpleHiitLogger.d("CalculateCurrentStreakUseCase",  "execute::areConsecutiveDaysOrLess = $areConsecutiveDaysOrLess")
-            when(areConsecutiveDaysOrLess){
+            val areConsecutiveDaysOrLess =
+                consecutiveDaysOrCloserUseCase.execute(timestamp, timeStamp2)
+            simpleHiitLogger.d(
+                "CalculateCurrentStreakUseCase",
+                "execute::areConsecutiveDaysOrLess = $areConsecutiveDaysOrLess"
+            )
+            when (areConsecutiveDaysOrLess) {
                 Consecutiveness.SAME_DAY -> {
-                    if(index == 0){
+                    if (index == 0) {
                         // if "now" and the last session are SAME_DAY, then we want to count today in the streak
                         streakCounter++
-                    } else{
+                    } else {
                         //the two sessions occurred on the same day, not increasing counter, but not breaking streak
                     }
                 }

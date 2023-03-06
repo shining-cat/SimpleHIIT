@@ -15,14 +15,14 @@ import javax.inject.Inject
  * The local time zone AT THE TIME OF EVALUATION will be used
  */
 
-enum class Consecutiveness{SAME_DAY, CONSECUTIVE_DAYS, NON_CONSECUTIVE_DAYS}
+enum class Consecutiveness { SAME_DAY, CONSECUTIVE_DAYS, NON_CONSECUTIVE_DAYS }
 
 class ConsecutiveDaysOrCloserUseCase @Inject constructor(
     private val hiitLogger: HiitLogger
-){
+) {
 
-    fun execute(timeStamp1: Long, timeStamp2: Long): Consecutiveness{
-        return when(getNumberOfFullDaysBetween2Timestamps(timeStamp1, timeStamp2)){
+    fun execute(timeStamp1: Long, timeStamp2: Long): Consecutiveness {
+        return when (getNumberOfFullDaysBetween2Timestamps(timeStamp1, timeStamp2)) {
             0 -> Consecutiveness.SAME_DAY
             1 -> Consecutiveness.CONSECUTIVE_DAYS
             else -> Consecutiveness.NON_CONSECUTIVE_DAYS
@@ -33,7 +33,7 @@ class ConsecutiveDaysOrCloserUseCase @Inject constructor(
         timeStamp1: Long,
         timeStamp2: Long
     ): Int {
-        if(timeStamp1 == timeStamp2) return 0
+        if (timeStamp1 == timeStamp2) return 0
         val earlyTimestampCal = Calendar.getInstance()
         earlyTimestampCal.timeInMillis = minOf(timeStamp1, timeStamp2)
         val lateTimestampCal = Calendar.getInstance()
@@ -41,7 +41,10 @@ class ConsecutiveDaysOrCloserUseCase @Inject constructor(
         val lateAtMidnight = setTimePartOfDateToMidnight(lateTimestampCal)
         val earlyAtMidnight = setTimePartOfDateToMidnight(earlyTimestampCal)
         val result = TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
-        hiitLogger.d("ConsecutiveDaysOrCloserUseCase", "getNumberOfFullDaysBetween2Timestamps::result = $result")
+        hiitLogger.d(
+            "ConsecutiveDaysOrCloserUseCase",
+            "getNumberOfFullDaysBetween2Timestamps::result = $result"
+        )
         return TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
     }
 

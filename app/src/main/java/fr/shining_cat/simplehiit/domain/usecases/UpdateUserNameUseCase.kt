@@ -14,9 +14,7 @@ class UpdateUserNameUseCase @Inject constructor(
 ) {
 
     suspend fun execute(user: User): Output<Int> {
-        simpleHiitLogger.d("UpdateUserUseCase","execute::user = $user")
         val nameIsFreeCheckOutput = checkUserNameFreeUseCase.execute(user.name)
-        simpleHiitLogger.d("UpdateUserUseCase","execute::user = $user")
         return when (nameIsFreeCheckOutput) {
             is Output.Error -> nameIsFreeCheckOutput
             is Output.Success -> {

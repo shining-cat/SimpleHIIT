@@ -17,12 +17,15 @@ class GetAllUsersUseCase @Inject constructor(
 
     fun execute(): Flow<Output<List<User>>> {
         val allUsersFlow = simpleHiitRepository.getUsers().map {
-            when(it){
-                is Output.Success -> if(it.result.isEmpty()){
+            when (it) {
+                is Output.Success -> if (it.result.isEmpty()) {
                     simpleHiitLogger.e("GetAllUsersUseCase", "No users found")
                     val emptyResultException = Exception(NO_RESULTS_FOUND)
-                    Output.Error(errorCode = Constants.Errors.NO_USERS_FOUND, exception = emptyResultException)
-                } else{
+                    Output.Error(
+                        errorCode = Constants.Errors.NO_USERS_FOUND,
+                        exception = emptyResultException
+                    )
+                } else {
                     it
                 }
                 is Output.Error -> it

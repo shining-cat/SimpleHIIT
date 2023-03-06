@@ -42,8 +42,8 @@ fun SettingsContentInputNumberCyclesDialog(
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int{
-    return when(error){
+private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
+    return when (error) {
         Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }

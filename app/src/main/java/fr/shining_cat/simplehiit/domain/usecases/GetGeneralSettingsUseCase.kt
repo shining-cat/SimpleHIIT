@@ -24,7 +24,8 @@ class GetGeneralSettingsUseCase @Inject constructor(
                 emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
             } else {
                 usersOutput as Output.Success
-                val totalCycleLength = (settings.workPeriodLengthMs + settings.restPeriodLengthMs) * settings.numberOfWorkPeriods
+                val totalCycleLength =
+                    (settings.workPeriodLengthMs + settings.restPeriodLengthMs) * settings.numberOfWorkPeriods
                 emit(
                     Output.Success(
                         GeneralSettings(

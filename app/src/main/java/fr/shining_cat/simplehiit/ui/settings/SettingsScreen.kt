@@ -68,7 +68,7 @@ fun SettingsScreen(
         deleteUserCancel = { viewModel.editUser(it) },
         deleteUserConfirm = { viewModel.deleteUserConfirmation(it) },
         toggleExerciseType = { viewModel.toggleSelectedExercise(it) },
-        validateStringInput = { viewModel.validateInputString(it) },
+        validateInputNameString = { viewModel.validateInputNameString(it) },
         resetSettings = { viewModel.resetAllSettings() },
         resetSettingsConfirmation = { viewModel.resetAllSettingsConfirmation() },
         cancelDialog = { viewModel.cancelDialog() },
@@ -103,7 +103,7 @@ private fun SettingsScreen(
     deleteUserCancel: (User) -> Unit,
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
-    validateStringInput: (String) -> Constants.InputError,
+    validateInputNameString: (String) -> Constants.InputError,
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -139,7 +139,7 @@ private fun SettingsScreen(
                 deleteUserCancel = deleteUserCancel,
                 deleteUserConfirm = deleteUserConfirm,
                 toggleExerciseType = toggleExerciseType,
-                validateStringInput = validateStringInput,
+                validateInputNameString = validateInputNameString,
                 resetSettings = resetSettings,
                 resetSettingsConfirmation = resetSettingsConfirmation,
                 cancelDialog = cancelDialog,
@@ -200,7 +200,7 @@ fun SettingsContent(
     deleteUserCancel: (User) -> Unit,
     deleteUserConfirm: (User) -> Unit,
     toggleExerciseType: (ExerciseTypeSelected) -> Unit,
-    validateStringInput: (String) -> Constants.InputError,
+    validateInputNameString: (String) -> Constants.InputError,
     resetSettings: () -> Unit,
     resetSettingsConfirmation: () -> Unit,
     cancelDialog: () -> Unit,
@@ -270,13 +270,13 @@ fun SettingsContent(
             is SettingsDialog.SettingsDialogAddUser -> SettingsContentCreateUserDialog(
                 saveUserName = { saveUser(User(name = it)) },
                 userName = dialogViewState.userName,
-                validateUserNameInput = validateStringInput,
+                validateUserNameInput = validateInputNameString,
                 onCancel = cancelDialog
             )
             is SettingsDialog.SettingsDialogEditUser -> SettingsContentEditUserDialog(
                 saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
                 deleteUser = { deleteUser(dialogViewState.user) },
-                validateUserNameInput = validateStringInput,
+                validateUserNameInput = validateInputNameString,
                 userName = dialogViewState.user.name,
                 onCancel = cancelDialog
             )
@@ -292,21 +292,12 @@ fun SettingsContent(
                 onConfirm = resetSettingsConfirmation,
                 dismissAction = cancelDialog
             )
-            is SettingsDialog.InputUserNameNotFreeError -> ErrorDialog(
-                    errorMessage = stringResource(id = R.string.user_name_taken_error),
-                    errorCode = dialogViewState.errorCode,
-                    dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
-                    dismissAction = {
-                        println("InputUserNameNotFreeError::calling cancel on error dialog")
-                        dialogViewState.onCancel.invoke()
-                    }
-                )
             is SettingsDialog.SettingsDialogError -> ErrorDialog(
-                    errorMessage = "",
-                    errorCode = dialogViewState.errorCode,
-                    dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
-                    dismissAction = cancelDialog
-                )
+                errorMessage = "",
+                errorCode = dialogViewState.errorCode,
+                dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
+                dismissAction = cancelDialog
+            )
         }
     }
 }
@@ -335,7 +326,7 @@ private fun SettingsScreenPreview(
             validateSessionCountDownLengthInput = { Constants.InputError.NONE },
             validatePeriodCountDownLengthInput = { Constants.InputError.NONE },
             deleteUserCancel = {},
-            validateStringInput = { Constants.InputError.NONE },
+            validateInputNameString = { Constants.InputError.NONE },
             screenViewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
         )
@@ -357,16 +348,22 @@ internal class SettingsScreenPreviewParameterProvider :
             selected = false
         )
     }
-    private val exerciseTypeSelectedMixed = ExerciseType.values().toList().map{
+    private val exerciseTypeSelectedMixed = ExerciseType.values().toList().map {
         ExerciseTypeSelected(
             type = it,
-            selected = (ExerciseType.values().indexOf(it) %2 == 0)
+            selected = (ExerciseType.values().indexOf(it) % 2 == 0)
         )
     }
 
     private val listOfOneUser = listOf(User(name = "user 1"))
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
-    private val listOfMoreUser = listOf(User(name = "user 1"), User(name = "user 2"), User(name = "user 3"), User(name = "user 4"), User(name = "user 5"))
+    private val listOfMoreUser = listOf(
+        User(name = "user 1"),
+        User(name = "user 2"),
+        User(name = "user 3"),
+        User(name = "user 4"),
+        User(name = "user 5")
+    )
 
     override val values: Sequence<Pair<SettingsViewState, SettingsDialog>>
         get() = sequenceOf(
@@ -380,56 +377,56 @@ internal class SettingsScreenPreviewParameterProvider :
             Pair(
                 SettingsViewState.SettingsNominal(
                     workPeriodLengthAsSeconds = "15",
-                            restPeriodLengthAsSeconds = "5",
-                            numberOfWorkPeriods = "4",
-                            totalCycleLength = "3mn 20s",
-                            beepSoundCountDownActive = true,
-                            sessionStartCountDownLengthAsSeconds = "20",
-                            periodsStartCountDownLengthAsSeconds = "5",
-                            users = emptyList(),
-                            exerciseTypes = exerciseTypeSelectedAlltrue
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = emptyList(),
+                    exerciseTypes = exerciseTypeSelectedAlltrue
                 ),
                 SettingsDialog.None
             ),
             Pair(
                 SettingsViewState.SettingsNominal(
                     workPeriodLengthAsSeconds = "15",
-                            restPeriodLengthAsSeconds = "5",
-                            numberOfWorkPeriods = "4",
-                            totalCycleLength = "3mn 20s",
-                            beepSoundCountDownActive = false,
-                            sessionStartCountDownLengthAsSeconds = "20",
-                            periodsStartCountDownLengthAsSeconds = "5",
-                            users = listOfOneUser,
-                            exerciseTypes = exerciseTypeSelectedAlltrue
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = false,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfOneUser,
+                    exerciseTypes = exerciseTypeSelectedAlltrue
                 ),
                 SettingsDialog.None
             ),
             Pair(
                 SettingsViewState.SettingsNominal(
                     workPeriodLengthAsSeconds = "15",
-                            restPeriodLengthAsSeconds = "5",
-                            numberOfWorkPeriods = "4",
-                            totalCycleLength = "3mn 20s",
-                            beepSoundCountDownActive = true,
-                            sessionStartCountDownLengthAsSeconds = "20",
-                            periodsStartCountDownLengthAsSeconds = "5",
-                            users = listOfTwoUser,
-                            exerciseTypes = exerciseTypeSelectedAllfalse
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfTwoUser,
+                    exerciseTypes = exerciseTypeSelectedAllfalse
                 ),
                 SettingsDialog.None
             ),
             Pair(
                 SettingsViewState.SettingsNominal(
                     workPeriodLengthAsSeconds = "15",
-                            restPeriodLengthAsSeconds = "5",
-                            numberOfWorkPeriods = "4",
-                            totalCycleLength = "3mn 20s",
-                            beepSoundCountDownActive = false,
-                            sessionStartCountDownLengthAsSeconds = "20",
-                            periodsStartCountDownLengthAsSeconds = "5",
-                            users = listOfMoreUser,
-                            exerciseTypes = exerciseTypeSelectedMixed
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = false,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfMoreUser,
+                    exerciseTypes = exerciseTypeSelectedMixed
                 ),
                 SettingsDialog.None
             ),
