@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.ui.settings
 
+import androidx.annotation.StringRes
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
 
@@ -23,12 +24,13 @@ sealed class SettingsDialog{
     object None: SettingsDialog()
     data class SettingsDialogEditWorkPeriodLength(val valueSeconds: String): SettingsDialog()
     data class SettingsDialogEditRestPeriodLength(val valueSeconds: String): SettingsDialog()
-    data class SettingsDialogInputNumberCycles(val numberOfCycles: String): SettingsDialog()
+    data class SettingsDialogEditNumberCycles(val numberOfCycles: String): SettingsDialog()
     data class SettingsDialogEditSessionStartCountDown(val valueSeconds: String): SettingsDialog()
     data class SettingsDialogEditPeriodStartCountDown(val valueSeconds: String): SettingsDialog()
-    object SettingsDialogAddUser: SettingsDialog()
+    data class SettingsDialogAddUser(val userName:String ): SettingsDialog()
     data class SettingsDialogEditUser(val user: User): SettingsDialog()
     data class SettingsDialogConfirmDeleteUser(val user: User): SettingsDialog()
     object SettingsDialogConfirmResetAllSettings: SettingsDialog()
-    data class InputCausedError(val errorCode:String):SettingsDialog()
+    data class InputUserNameNotFreeError(val errorCode:String, val onCancel: () -> Unit):SettingsDialog()
+    data class SettingsDialogError(val errorCode:String):SettingsDialog()
 }

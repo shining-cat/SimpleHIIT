@@ -5,7 +5,6 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -13,24 +12,24 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class CreateUserUseCaseTest : AbstractMockkTest() {
+internal class UpdateUserNameUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
     private val mockCheckUserNameFreeUseCase = mockk<CheckUserNameFreeUseCase>()
-    private val testedUseCase = CreateUserUseCase(mockSimpleHiitRepository, mockCheckUserNameFreeUseCase, mockHiitLogger)
+    private val testedUseCase = UpdateUserNameUseCase(mockSimpleHiitRepository, mockCheckUserNameFreeUseCase, mockHiitLogger)
 
     @Test
     fun `if name is free calls repo with corresponding value and returns repo success`() = runTest {
         val testValue = User(id = 123L, name = "test user name", selected = true)
-        val successFromRepo = Output.Success(1L)
-        coEvery { mockSimpleHiitRepository.insertUser(any()) } answers {successFromRepo}
+        val successFromRepo = Output.Success(1)
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {successFromRepo}
         val successFromNameCheck = Output.Success(true)
         coEvery { mockCheckUserNameFreeUseCase.execute(any()) } answers {successFromNameCheck}
         //
         val result = testedUseCase.execute(testValue)
         //
         coVerify(exactly = 1) { mockCheckUserNameFreeUseCase.execute(testValue.name) }
-        coVerify(exactly = 1) { mockSimpleHiitRepository.insertUser(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.updateUser(testValue) }
         assertEquals(successFromRepo, result)
     }
 
@@ -44,7 +43,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         val result = testedUseCase.execute(testValue)
         //
         coVerify(exactly = 1) { mockCheckUserNameFreeUseCase.execute(testValue.name) }
-        coVerify(exactly = 0) { mockSimpleHiitRepository.insertUser(testValue) }
+        coVerify(exactly = 0) { mockSimpleHiitRepository.updateUser(testValue) }
         assertEquals(errorFromRepo, result)
     }
     @Test
@@ -56,7 +55,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         val result = testedUseCase.execute(testValue)
         //
         coVerify(exactly = 1) { mockCheckUserNameFreeUseCase.execute(testValue.name) }
-        coVerify(exactly = 0) { mockSimpleHiitRepository.insertUser(testValue) }
+        coVerify(exactly = 0) { mockSimpleHiitRepository.updateUser(testValue) }
         val expectedErrorCode = Constants.Errors.USER_NAME_TAKEN
         val expectedExceptionCode = Constants.Errors.USER_NAME_TAKEN.code
         assertTrue(result is Output.Error)
@@ -70,13 +69,14 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         val testValue = User(id = 123L, name = "test user name", selected = true)
         val exceptionMessage = "this is a test exception"
         val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-        coEvery { mockSimpleHiitRepository.insertUser(any()) } answers {errorFromRepo}
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {errorFromRepo}
         val successFromNameCheck = Output.Success(true)
         coEvery { mockCheckUserNameFreeUseCase.execute(any()) } answers {successFromNameCheck}
         //
         val result = testedUseCase.execute(testValue)
         //
         coVerify(exactly = 1) { mockCheckUserNameFreeUseCase.execute(testValue.name) }
-        coVerify(exactly = 1) { mockSimpleHiitRepository.insertUser(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.updateUser(testValue) }
         assertEquals(errorFromRepo, result)
-    }}
+    }
+}

@@ -7,19 +7,21 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
 
-class CreateUserUseCase @Inject constructor(
+class UpdateUserNameUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
     private val checkUserNameFreeUseCase: CheckUserNameFreeUseCase,
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    suspend fun execute(user: User): Output<Long> {
+    suspend fun execute(user: User): Output<Int> {
+        simpleHiitLogger.d("UpdateUserUseCase","execute::user = $user")
         val nameIsFreeCheckOutput = checkUserNameFreeUseCase.execute(user.name)
+        simpleHiitLogger.d("UpdateUserUseCase","execute::user = $user")
         return when (nameIsFreeCheckOutput) {
             is Output.Error -> nameIsFreeCheckOutput
             is Output.Success -> {
                 if (nameIsFreeCheckOutput.result) {
-                    simpleHiitRepository.insertUser(user)
+                    simpleHiitRepository.updateUser(user)
                 } else {
                     val nameTakenException = Exception(Constants.Errors.USER_NAME_TAKEN.code)
                     Output.Error(Constants.Errors.USER_NAME_TAKEN, nameTakenException)

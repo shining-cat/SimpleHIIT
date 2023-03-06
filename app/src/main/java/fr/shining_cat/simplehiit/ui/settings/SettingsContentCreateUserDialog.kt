@@ -15,6 +15,7 @@ import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 @Composable
 fun SettingsContentCreateUserDialog(
     saveUserName: (String) -> Unit,
+    userName: String,
     validateUserNameInput: (String) -> Constants.InputError,
     onCancel: () -> Unit
 ) {
@@ -25,7 +26,7 @@ fun SettingsContentCreateUserDialog(
     ) {
         InputDialog(
             dialogTitle = stringResource(id = R.string.create_user_dialog_title),
-            inputFieldValue = "",
+            inputFieldValue = userName,
             inputFieldPostfix = "",
             inputFieldSingleLine = true,
             inputFieldSize = InputDialogTextFieldSize.LARGE,

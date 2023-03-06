@@ -196,7 +196,7 @@ private fun HomeContent(
                     message = stringResource(id = R.string.error_confirm_whole_reset),
                     buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
                     onConfirm = resetWholeAppDeleteEverything,
-                    onCancel = cancelDialog
+                    dismissAction = cancelDialog
                 )
             }
             is HomeDialog.HomeDialogInputNumberCycles -> HomeContentInputNumberCyclesDialog(

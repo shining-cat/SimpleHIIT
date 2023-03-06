@@ -22,9 +22,10 @@ fun ConfirmDialog(
     message: String,
     buttonConfirmLabel: String,
     onConfirm: () -> Unit,
-    onCancel: () -> Unit
+    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
+    dismissAction: () -> Unit
 ) {
-    Dialog(onDismissRequest = onCancel) {
+    Dialog(onDismissRequest = dismissAction) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium
@@ -57,8 +58,8 @@ fun ConfirmDialog(
                     Button(onClick = onConfirm) {
                         Text(text = buttonConfirmLabel)
                     }
-                    OutlinedButton(onClick = onCancel) {
-                        Text(text = stringResource(id = R.string.cancel_button_label))
+                    OutlinedButton(onClick = dismissAction) {
+                        Text(text = dismissButtonLabel)
                     }
                 }
             }
@@ -84,8 +85,10 @@ private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
         ConfirmDialog(
             message = "This will erase all users, all stored sessions, and all settings",
-            buttonConfirmLabel = "Delete",
-            {}, {}
+            buttonConfirmLabel = "Yeah",
+            onConfirm = {},
+            dismissButtonLabel = "Nope",
+            dismissAction = {}
         )
     }
 }

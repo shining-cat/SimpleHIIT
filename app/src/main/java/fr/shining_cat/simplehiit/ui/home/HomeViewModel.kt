@@ -4,10 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.GetHomeSettingsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetTotalRepetitionsNumberUseCase
-import fr.shining_cat.simplehiit.domain.usecases.UpdateUserUseCase
+import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +16,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val getHomeSettingsUseCase: GetHomeSettingsUseCase,
     private val setTotalRepetitionsNumberUseCase: SetTotalRepetitionsNumberUseCase,
-    private val updateUserUseCase: UpdateUserUseCase,
+    private val toggleUserSelectedUseCase: ToggleUserSelectedUseCase,
     private val resetWholeAppUseCase: ResetWholeAppUseCase,
     private val homeMapper: HomeMapper,
     private val hiitLogger: HiitLogger
@@ -87,8 +84,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun toggleSelectedUser(user: User) {
+        logD("HomeViewModel","toggleSelectedUser::user:: was selected = ${user.selected}, toggling to ${!user.selected}")
         viewModelScope.launch {
-            updateUserUseCase.execute(user.copy(selected = !user.selected))
+            toggleUserSelectedUseCase.execute(user.copy(selected = !user.selected))
         }
     }
 

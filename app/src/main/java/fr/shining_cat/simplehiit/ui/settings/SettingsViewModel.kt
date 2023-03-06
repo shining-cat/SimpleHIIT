@@ -24,7 +24,7 @@ class SettingsViewModel @Inject constructor(
     private val setBeepSoundUseCase: SetBeepSoundUseCase,
     private val setSessionStartCountDownUseCase: SetSessionStartCountDownUseCase,
     private val setPeriodStartCountDownUseCase: SetPeriodStartCountDownUseCase,
-    private val updateUserUseCase: UpdateUserUseCase,
+    private val updateUserNameUseCase: UpdateUserNameUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val createUserUseCase: CreateUserUseCase,
     private val setSelectedExerciseTypesUseCase: SetSelectedExerciseTypesUseCase,
@@ -148,7 +148,7 @@ class SettingsViewModel @Inject constructor(
         if (currentViewState is SettingsViewState.SettingsNominal) {
             viewModelScope.launch {
                 val currentValue = currentViewState.numberOfWorkPeriods
-                _dialogViewState.emit(SettingsDialog.SettingsDialogInputNumberCycles(currentValue))
+                _dialogViewState.emit(SettingsDialog.SettingsDialogEditNumberCycles(currentValue))
             }
         } else {
             hiitLogger.e(
@@ -273,9 +273,9 @@ class SettingsViewModel @Inject constructor(
         return Constants.InputError.NONE
     }
 
-    fun addUser() {
+    fun addUser(userName: String = "") {
         viewModelScope.launch {
-            _dialogViewState.emit(SettingsDialog.SettingsDialogAddUser)
+            _dialogViewState.emit(SettingsDialog.SettingsDialogAddUser(userName = userName))
         }
     }
 
@@ -296,7 +296,10 @@ class SettingsViewModel @Inject constructor(
                 is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
                 is Output.Error -> {
                     hiitLogger.e("SettingsViewModel", "createUser::error happened:${result.errorCode}", result.exception)
-                    _dialogViewState.emit(SettingsDialog.InputCausedError(result.errorCode.code))
+                    _dialogViewState.emit(SettingsDialog.InputUserNameNotFreeError(
+                        errorCode = result.errorCode.code,
+                        onCancel = {addUser(user.name)}
+                    ))
                 }
             }
         }
@@ -304,12 +307,15 @@ class SettingsViewModel @Inject constructor(
 
     private fun updateUser(user: User) {
         viewModelScope.launch {
-            val result = updateUserUseCase.execute(user)
+            val result = updateUserNameUseCase.execute(user)
             when(result){
                 is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
                 is Output.Error -> {
                     hiitLogger.e("SettingsViewModel", "updateUser::error happened:${result.errorCode}", result.exception)
-                    _dialogViewState.emit(SettingsDialog.InputCausedError(result.errorCode.code))
+                    _dialogViewState.emit(SettingsDialog.InputUserNameNotFreeError(
+                        errorCode = result.errorCode.code,
+                        onCancel = {editUser(user)}
+                    ))
                 }
             }
         }
@@ -328,7 +334,7 @@ class SettingsViewModel @Inject constructor(
                 is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
                 is Output.Error -> {
                     hiitLogger.e("SettingsViewModel", "deleteUserConfirmation::error happened:${result.errorCode}", result.exception)
-                    _dialogViewState.emit(SettingsDialog.InputCausedError(result.errorCode.code))
+                    _dialogViewState.emit(SettingsDialog.SettingsDialogError(result.errorCode.code))
                 }
             }
         }

@@ -25,6 +25,7 @@ object Constants {
         DATABASE_UPDATE_FAILED("0104"),
         NO_USERS_FOUND("0201"),
         NO_USER_PROVIDED("0202"),
+        USER_NAME_TAKEN("0203"),
         EMPTY_RESULT("0301"),
         CONVERSION_ERROR("0401"),
     }

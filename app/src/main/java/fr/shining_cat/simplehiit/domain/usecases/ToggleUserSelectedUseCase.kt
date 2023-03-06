@@ -6,13 +6,13 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
 
-class UpdateUserUseCase @Inject constructor(
+class ToggleUserSelectedUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
     private val simpleHiitLogger: HiitLogger
 ) {
 
-    //TODO: include check to avoid duplicating names
     suspend fun execute(user: User): Output<Int> {
+        simpleHiitLogger.d("ToggleUserSelectedUseCase", "execute::user = $user")
         return simpleHiitRepository.updateUser(user)
     }
 }

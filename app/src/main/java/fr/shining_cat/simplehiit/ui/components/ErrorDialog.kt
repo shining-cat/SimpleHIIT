@@ -22,9 +22,10 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 fun ErrorDialog(
     errorMessage: String,
     errorCode: String,
-    onCancel: () -> Unit
+    dismissButtonLabel: String = "",
+    dismissAction: () -> Unit
 ) {
-    Dialog(onDismissRequest = onCancel) {
+    Dialog(onDismissRequest = dismissAction) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium
@@ -69,7 +70,9 @@ fun ErrorDialog(
                     text = stringResource(id = R.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium
                 )
-
+                TextButton(onClick = dismissAction) {
+                    Text(text = dismissButtonLabel)
+                }
             }
         }
     }
@@ -94,7 +97,8 @@ private fun ChoiceDialogPreview() {
         ErrorDialog(
             errorMessage = "A balloon is floating above the country",
             errorCode = "1234",
-            onCancel = {}
+            dismissAction = {},
+            dismissButtonLabel = "OK"
         )
     }
 }

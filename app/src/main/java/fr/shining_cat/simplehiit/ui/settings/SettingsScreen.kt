@@ -25,11 +25,7 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
 import fr.shining_cat.simplehiit.ui.components.ErrorDialog
-import fr.shining_cat.simplehiit.ui.home.HomeDialog
-import fr.shining_cat.simplehiit.ui.home.HomeScreenPreviewParameterProvider
-import fr.shining_cat.simplehiit.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import kotlin.random.Random
 
 @Composable
 fun SettingsScreen(
@@ -253,7 +249,7 @@ fun SettingsContent(
                 restPeriodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-            is SettingsDialog.SettingsDialogInputNumberCycles -> SettingsContentInputNumberCyclesDialog(
+            is SettingsDialog.SettingsDialogEditNumberCycles -> SettingsContentInputNumberCyclesDialog(
                 saveNumber = saveNumberOfWorkPeriod,
                 validateNumberCyclesInput = validateNumberOfWorkPeriodsInput,
                 numberOfCycles = dialogViewState.numberOfCycles,
@@ -271,8 +267,9 @@ fun SettingsContent(
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog
             )
-            SettingsDialog.SettingsDialogAddUser -> SettingsContentCreateUserDialog(
+            is SettingsDialog.SettingsDialogAddUser -> SettingsContentCreateUserDialog(
                 saveUserName = { saveUser(User(name = it)) },
+                userName = dialogViewState.userName,
                 validateUserNameInput = validateStringInput,
                 onCancel = cancelDialog
             )
@@ -287,19 +284,29 @@ fun SettingsContent(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
                 onConfirm = { deleteUserConfirm(dialogViewState.user) },
-                onCancel = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
+                dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
             )
             SettingsDialog.SettingsDialogConfirmResetAllSettings -> ConfirmDialog(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
                 buttonConfirmLabel = stringResource(id = R.string.reset_button_label),
                 onConfirm = resetSettingsConfirmation,
-                onCancel = cancelDialog
+                dismissAction = cancelDialog
             )
-            is SettingsDialog.InputCausedError -> ErrorDialog(
-                errorMessage = "",
-                errorCode = dialogViewState.errorCode,
-                onCancel = cancelDialog
-            )
+            is SettingsDialog.InputUserNameNotFreeError -> ErrorDialog(
+                    errorMessage = stringResource(id = R.string.user_name_taken_error),
+                    errorCode = dialogViewState.errorCode,
+                    dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
+                    dismissAction = {
+                        println("InputUserNameNotFreeError::calling cancel on error dialog")
+                        dialogViewState.onCancel.invoke()
+                    }
+                )
+            is SettingsDialog.SettingsDialogError -> ErrorDialog(
+                    errorMessage = "",
+                    errorCode = dialogViewState.errorCode,
+                    dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
+                    dismissAction = cancelDialog
+                )
         }
     }
 }

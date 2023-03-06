@@ -5,7 +5,6 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -13,10 +12,10 @@ import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class UpdateUserUseCaseTest : AbstractMockkTest() {
+internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = UpdateUserUseCase(mockSimpleHiitRepository, mockHiitLogger)
+    private val testedUseCase = ToggleUserSelectedUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() = runTest {

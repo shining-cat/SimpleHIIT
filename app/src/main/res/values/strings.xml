@@ -11,6 +11,7 @@
     <string name="cancel_button_label">Cancel</string>
     <string name="error">Error</string>
     <string name="invalid_input_error">Invalid input</string>
+    <string name="ok">OK</string>
 
     <!-- HOME PAGE -->
     <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over a 4mn cycle.</string>
@@ -46,6 +47,7 @@
     <string name="users_list_setting_label">Manage users</string>
     <string name="add_user_button_label">Add a user</string>
     <string name="create_user_dialog_title">Pick a name</string>
+    <string name="user_name_taken_error">This name is taken already</string>
     <string name="edit_user_dialog_title">Pick an other name or delete the user</string>
     <string name="error_irrecoverable_state_settings">There was an error retrieving settings. Please try to kill the app and relaunch. If this persists, you\'ll have to try resetting the settings to the default values</string>
     <string name="user_name_too_long_error">This name is too long</string>
