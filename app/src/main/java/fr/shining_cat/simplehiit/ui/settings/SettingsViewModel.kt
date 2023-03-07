@@ -27,7 +27,7 @@ class SettingsViewModel @Inject constructor(
     private val updateUserNameUseCase: UpdateUserNameUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val createUserUseCase: CreateUserUseCase,
-    private val checkUserNameFreeUseCase: CheckUserNameFreeUseCase,
+    private val checkIfAnotherUserUsesThatNameUseCase: CheckIfAnotherUserUsesThatNameUseCase,
     private val setSelectedExerciseTypesUseCase: SetSelectedExerciseTypesUseCase,
     private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
     private val mapper: SettingsMapper,
@@ -380,17 +380,17 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun validateInputNameString(input: String): Constants.InputError {
+    fun validateInputUserNameString(user: User): Constants.InputError {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.SettingsNominal) {
-            if (currentViewState.users.find { it.name == input } != null) return Constants.InputError.VALUE_ALREADY_TAKEN
+            if (currentViewState.users.find { it.name == user.name && it.id != user.id} != null) return Constants.InputError.VALUE_ALREADY_TAKEN
         } else {
             hiitLogger.e(
                 "SettingsViewModel",
                 "validateInputNameString::current state does not allow this now"
             )
         }
-        return if (input.length < 25) Constants.InputError.NONE else Constants.InputError.TOO_LONG
+        return if (user.name.length < 25) Constants.InputError.NONE else Constants.InputError.TOO_LONG
     }
 
     fun cancelDialog() {

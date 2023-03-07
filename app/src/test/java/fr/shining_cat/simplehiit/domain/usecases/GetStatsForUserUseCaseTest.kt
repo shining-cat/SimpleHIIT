@@ -69,7 +69,6 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         assertEquals(UserStatistics(testUser), output.result)
     }
 
-
     @ParameterizedTest(name = "{index} -> when called should return UserStatistics with {2} totalNumberOfSessions, {3} cumulatedTimeOfExerciseSeconds, {4} averageSessionLengthSeconds")
     @MethodSource("sessionsArguments")
     fun `return correct value when repo call succeeds`(

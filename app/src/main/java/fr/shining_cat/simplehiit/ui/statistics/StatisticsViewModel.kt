@@ -62,6 +62,7 @@ class StatisticsViewModel @Inject constructor(
             val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)
             when (statisticsOutput) {
                 is Output.Success -> {
+                    _dialogViewState.emit(StatisticsDialog.None)
                     _screenViewState.emit(mapper.map(statisticsOutput.result))
                 }
                 is Output.Error -> { //failed retrieving statistics for selected user -> special error for this user

@@ -68,7 +68,7 @@ fun SettingsScreen(
         deleteUserCancel = { viewModel.editUser(it) },
         deleteUserConfirm = { viewModel.deleteUserConfirmation(it) },
         toggleExerciseType = { viewModel.toggleSelectedExercise(it) },
-        validateInputNameString = { viewModel.validateInputNameString(it) },
+        validateInputNameString = { viewModel.validateInputUserNameString(it) },
         resetSettings = { viewModel.resetAllSettings() },
         resetSettingsConfirmation = { viewModel.resetAllSettingsConfirmation() },
         cancelDialog = { viewModel.cancelDialog() },
@@ -103,7 +103,7 @@ private fun SettingsScreen(
     deleteUserCancel: (User) -> Unit,
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
-    validateInputNameString: (String) -> Constants.InputError,
+    validateInputNameString: (User) -> Constants.InputError,
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -200,7 +200,7 @@ fun SettingsContent(
     deleteUserCancel: (User) -> Unit,
     deleteUserConfirm: (User) -> Unit,
     toggleExerciseType: (ExerciseTypeSelected) -> Unit,
-    validateInputNameString: (String) -> Constants.InputError,
+    validateInputNameString: (User) -> Constants.InputError,
     resetSettings: () -> Unit,
     resetSettingsConfirmation: () -> Unit,
     cancelDialog: () -> Unit,
@@ -270,13 +270,13 @@ fun SettingsContent(
             is SettingsDialog.SettingsDialogAddUser -> SettingsContentCreateUserDialog(
                 saveUserName = { saveUser(User(name = it)) },
                 userName = dialogViewState.userName,
-                validateUserNameInput = validateInputNameString,
+                validateUserNameInput = { validateInputNameString(User(name = it))},
                 onCancel = cancelDialog
             )
             is SettingsDialog.SettingsDialogEditUser -> SettingsContentEditUserDialog(
                 saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
                 deleteUser = { deleteUser(dialogViewState.user) },
-                validateUserNameInput = validateInputNameString,
+                validateUserNameInput = { validateInputNameString(dialogViewState.user.copy(name = it))},
                 userName = dialogViewState.user.name,
                 onCancel = cancelDialog
             )

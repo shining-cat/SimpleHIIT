@@ -45,7 +45,7 @@ fun StatisticsScreen(
 @Composable
 private fun StatisticsScreen(
     onNavigateUp: () -> Boolean = { false },
-    openUserPicker: (User) -> Unit,
+    openUserPicker: () -> Unit,
     selectUser: (User) -> Unit,
     deleteAllSessionsForUser: (User) -> Unit,
     deleteAllSessionsForUserConfirm: (User) -> Unit,
@@ -83,7 +83,7 @@ private fun StatisticsScreen(
 @Composable
 private fun StatisticsTopBar(
     onNavigateUp: () -> Boolean = { false },
-    openUserPicker: (User) -> Unit,
+    openUserPicker: () -> Unit,
     screenViewState: StatisticsViewState,
 ) {
     TopAppBar(
@@ -115,7 +115,7 @@ private fun StatisticsTopBar(
             )
         },
         actions = {
-            IconButton(onClick = { openUserPicker }) {
+            IconButton(onClick = openUserPicker ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.people),
                     contentDescription = stringResource(id = R.string.user_pick_button_content_label),
@@ -160,7 +160,11 @@ private fun StatisticsContent(
         }
         when(dialogViewState){
             StatisticsDialog.None -> {/*Do nothing*/}
-            is StatisticsDialog.SelectUserDialog -> {}
+            is StatisticsDialog.SelectUserDialog -> StatisticsPickUserDialog(
+                users = dialogViewState.users,
+                selectUser = selectUser,
+                dismissAction = cancelDialog
+            )
             is StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser -> ConfirmDialog(
                 message = stringResource(id = R.string.reset_statistics_confirmation_button_label, dialogViewState.user.name),
                 buttonConfirmLabel = stringResource(id = R.string.delete_button_label),

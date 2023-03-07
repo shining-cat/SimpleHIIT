@@ -9,20 +9,20 @@ import javax.inject.Inject
 
 class UpdateUserNameUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
-    private val checkUserNameFreeUseCase: CheckUserNameFreeUseCase,
+    private val checkIfAnotherUserUsesThatNameUseCase: CheckIfAnotherUserUsesThatNameUseCase,
     private val simpleHiitLogger: HiitLogger
 ) {
 
     suspend fun execute(user: User): Output<Int> {
-        val nameIsFreeCheckOutput = checkUserNameFreeUseCase.execute(user.name)
-        return when (nameIsFreeCheckOutput) {
-            is Output.Error -> nameIsFreeCheckOutput
+        val anotherUserUsesThatNameOutput = checkIfAnotherUserUsesThatNameUseCase.execute(user)
+        return when (anotherUserUsesThatNameOutput) {
+            is Output.Error -> anotherUserUsesThatNameOutput
             is Output.Success -> {
-                if (nameIsFreeCheckOutput.result) {
-                    simpleHiitRepository.updateUser(user)
-                } else {
+                if (anotherUserUsesThatNameOutput.result) {
                     val nameTakenException = Exception(Constants.Errors.USER_NAME_TAKEN.code)
                     Output.Error(Constants.Errors.USER_NAME_TAKEN, nameTakenException)
+                } else {
+                    simpleHiitRepository.updateUser(user)
                 }
             }
         }
