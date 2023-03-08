@@ -49,13 +49,13 @@ fun StatisticsScreen(
     //
     StatisticsScreen(
         onNavigateUp = { navController.navigateUp() },
-        openUserPicker = {viewModel.openPickUser()},
-        selectUser = {viewModel.retrieveStatsForUser(it)},
-        deleteAllSessionsForUser = {viewModel.deleteAllSessionsForUser(it)},
-        deleteAllSessionsForUserConfirm = {viewModel.deleteAllSessionsForUserConfirmation(it)},
-        cancelDialog = {viewModel.cancelDialog()},
-        resetWholeApp = {viewModel.resetWholeApp()},
-        resetWholeAppConfirmation = {viewModel.resetWholeAppConfirmationDeleteEverything()},
+        openUserPicker = { viewModel.openPickUser() },
+        selectUser = { viewModel.retrieveStatsForUser(it) },
+        deleteAllSessionsForUser = { viewModel.deleteAllSessionsForUser(it) },
+        deleteAllSessionsForUserConfirm = { viewModel.deleteAllSessionsForUserConfirmation(it) },
+        cancelDialog = { viewModel.cancelDialog() },
+        resetWholeApp = { viewModel.resetWholeApp() },
+        resetWholeAppConfirmation = { viewModel.resetWholeAppConfirmationDeleteEverything() },
         screenViewState = screenViewState,
         dialogViewState = dialogViewState
     )
@@ -135,7 +135,9 @@ private fun StatisticsTopBar(
             )
         },
         actions = {
-            if(screenViewState is StatisticsViewState.StatisticsNominal || screenViewState is StatisticsViewState.StatisticsError) {
+            val shouldShowUserPickButton = screenViewState is StatisticsViewState.StatisticsError ||
+                    screenViewState is StatisticsViewState.StatisticsNominal
+            if (shouldShowUserPickButton) {
                 IconButton(onClick = openUserPicker) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.people),
@@ -167,7 +169,7 @@ private fun StatisticsContent(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        when(screenViewState){
+        when (screenViewState) {
             StatisticsViewState.StatisticsLoading -> CircularProgressIndicator()
             is StatisticsViewState.StatisticsNominal -> StatisticsContentNominal(
                 deleteAllSessionsForUser = deleteAllSessionsForUser,
@@ -184,7 +186,7 @@ private fun StatisticsContent(
                 resetWholeApp = resetWholeApp
             )
         }
-        when(dialogViewState){
+        when (dialogViewState) {
             StatisticsDialog.None -> {/*Do nothing*/}
             is StatisticsDialog.SelectUserDialog -> StatisticsPickUserDialog(
                 users = dialogViewState.users,
@@ -192,7 +194,10 @@ private fun StatisticsContent(
                 dismissAction = cancelDialog
             )
             is StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser -> ConfirmDialog(
-                message = stringResource(id = R.string.reset_statistics_confirmation_button_label, dialogViewState.user.name),
+                message = stringResource(
+                    id = R.string.reset_statistics_confirmation_button_label,
+                    dialogViewState.user.name
+                ),
                 buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
                 onConfirm = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog
@@ -226,7 +231,7 @@ private fun StatisticsScreenPreview(
 ) {
     SimpleHiitTheme {
         StatisticsScreen(
-            onNavigateUp = {true},
+            onNavigateUp = { true },
             openUserPicker = {},
             selectUser = {},
             deleteAllSessionsForUser = {},
@@ -246,16 +251,26 @@ internal class StatisticsScreenPreviewParameterProvider :
         get() = sequenceOf(
             Pair(StatisticsViewState.StatisticsLoading, StatisticsDialog.None),
             Pair(StatisticsViewState.StatisticsNoUsers, StatisticsDialog.None),
-            Pair(StatisticsViewState.StatisticsError(errorCode = "Error code", user = User(name = "Sven Svensson")), StatisticsDialog.None),
-            Pair(StatisticsViewState.StatisticsFatalError(errorCode = "Error code"), StatisticsDialog.None),
-            Pair(StatisticsViewState.StatisticsNominal(
-                user = User(name = "Sven Svensson"),
-                totalNumberOfSessions = 73,
-                cumulatedTimeOfExerciseFormatted = "5h 23mn 64s",
-                averageSessionLengthFormatted = "15mn 13s",
-                longestStreakDays = 25,
-                currentStreakDays = 7,
-                averageNumberOfSessionsPerWeek = "3,5"
-            ), StatisticsDialog.None),
+            Pair(
+                StatisticsViewState.StatisticsError(
+                    errorCode = "Error code",
+                    user = User(name = "Sven Svensson")
+                ), StatisticsDialog.None
+            ),
+            Pair(
+                StatisticsViewState.StatisticsFatalError(errorCode = "Error code"),
+                StatisticsDialog.None
+            ),
+            Pair(
+                StatisticsViewState.StatisticsNominal(
+                    user = User(name = "Sven Svensson"),
+                    totalNumberOfSessions = 73,
+                    cumulatedTimeOfExerciseFormatted = "5h 23mn 64s",
+                    averageSessionLengthFormatted = "15mn 13s",
+                    longestStreakDays = 25,
+                    currentStreakDays = 7,
+                    averageNumberOfSessionsPerWeek = "3,5"
+                ), StatisticsDialog.None
+            ),
         )
 }

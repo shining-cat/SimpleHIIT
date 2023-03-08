@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.ui.statistics
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.DeleteSessionsForUserUseCase
@@ -59,15 +60,18 @@ class StatisticsViewModel @Inject constructor(
             getAllUsersUseCase.execute().collect() {
                 when (it) {
                     is Output.Success -> {
-                        if (it.result.isEmpty()) {//users list retrieved is empty -> no users yet. Special case
-                            _screenViewState.emit(StatisticsViewState.StatisticsNoUsers)
-                        } else {//nominal case
-                            _allUsersViewState.emit(it.result)
-                            retrieveStatsForUser(it.result[0])
-                        }
+                        //nominal case
+                        _allUsersViewState.emit(it.result)
+                        retrieveStatsForUser(it.result[0])
                     }
-                    is Output.Error -> { //failed retrieving users list -> fatal error
-                        _screenViewState.emit(StatisticsViewState.StatisticsFatalError(it.errorCode.code))
+                    is Output.Error -> {
+                        if(it.errorCode == Constants.Errors.NO_USERS_FOUND){
+                            //users list retrieved is empty -> no users yet. Special case
+                            _screenViewState.emit(StatisticsViewState.StatisticsNoUsers)
+                        }else {
+                            //failed retrieving users list -> fatal error
+                            _screenViewState.emit(StatisticsViewState.StatisticsFatalError(it.errorCode.code))
+                        }
                     }
                 }
             }
