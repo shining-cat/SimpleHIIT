@@ -34,6 +34,8 @@ class StatisticsViewModel @Inject constructor(
     private val _dialogViewState = MutableStateFlow<StatisticsDialog>(StatisticsDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
+    private var isInitialized = false // TODO: discuss better way to prevent viewModel initialization on every Screen composable composition
+
     private var formatStringHoursMinutesSeconds: String = ""
     private var formatStringHoursMinutesNoSeconds: String = ""
     private var formatStringHoursNoMinutesNoSeconds: String = ""
@@ -49,42 +51,45 @@ class StatisticsViewModel @Inject constructor(
         formatStringMinutesNoSeconds: String,
         formatStringSeconds: String
     ) {
-        this.formatStringHoursMinutesSeconds = formatStringHoursMinutesSeconds
-        this.formatStringHoursMinutesNoSeconds = formatStringHoursMinutesNoSeconds
-        this.formatStringHoursNoMinutesNoSeconds = formatStringHoursNoMinutesNoSeconds
-        this.formatStringMinutesSeconds = formatStringMinutesSeconds
-        this.formatStringMinutesNoSeconds = formatStringMinutesNoSeconds
-        this.formatStringSeconds = formatStringSeconds
-        //
-        viewModelScope.launch {
-            getAllUsersUseCase.execute().collect() {
-                when (it) {
-                    is Output.Success -> {
-                        //nominal case
-                        _allUsersViewState.emit(it.result)
-                        retrieveStatsForUser(it.result[0])
-                    }
-                    is Output.Error -> {
-                        if(it.errorCode == Constants.Errors.NO_USERS_FOUND){
-                            //users list retrieved is empty -> no users yet. Special case
-                            _screenViewState.emit(StatisticsViewState.StatisticsNoUsers)
-                        }else {
-                            //failed retrieving users list -> fatal error
-                            _screenViewState.emit(StatisticsViewState.StatisticsFatalError(it.errorCode.code))
+        if(!isInitialized) {
+            this.formatStringHoursMinutesSeconds = formatStringHoursMinutesSeconds
+            this.formatStringHoursMinutesNoSeconds = formatStringHoursMinutesNoSeconds
+            this.formatStringHoursNoMinutesNoSeconds = formatStringHoursNoMinutesNoSeconds
+            this.formatStringMinutesSeconds = formatStringMinutesSeconds
+            this.formatStringMinutesNoSeconds = formatStringMinutesNoSeconds
+            this.formatStringSeconds = formatStringSeconds
+            //
+            viewModelScope.launch {
+                getAllUsersUseCase.execute().collect() {
+                    when (it) {
+                        is Output.Success -> {
+                            //nominal case
+                            _allUsersViewState.emit(it.result)
+                            retrieveStatsForUser(it.result[0])
+                        }
+                        is Output.Error -> {
+                            if (it.errorCode == Constants.Errors.NO_USERS_FOUND) {
+                                //users list retrieved is empty -> no users yet. Special case
+                                _screenViewState.emit(StatisticsViewState.StatisticsNoUsers)
+                            } else {
+                                //failed retrieving users list -> fatal error
+                                _screenViewState.emit(StatisticsViewState.StatisticsFatalError(it.errorCode.code))
+                            }
                         }
                     }
                 }
             }
+            isInitialized = true
         }
     }
 
     fun retrieveStatsForUser(user: User) {
+        hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
         viewModelScope.launch {
             val now = System.currentTimeMillis()
             val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)
             when (statisticsOutput) {
                 is Output.Success -> {
-                    _dialogViewState.emit(StatisticsDialog.None)
                     _screenViewState.emit(mapper.map(
                         statisticsOutput.result,
                         formatStringHoursMinutesSeconds,

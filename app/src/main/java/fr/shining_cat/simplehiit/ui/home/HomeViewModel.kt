@@ -28,6 +28,8 @@ class HomeViewModel @Inject constructor(
     private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
+    private var isInitialized = false // TODO: discuss better way to prevent viewModel initialization on every Screen composable composition
+
     fun init(
         formatStringHoursMinutesSeconds: String,
         formatStringHoursMinutesNoSeconds: String,
@@ -36,19 +38,21 @@ class HomeViewModel @Inject constructor(
         formatStringMinutesNoSeconds: String,
         formatStringSeconds: String
     ) {
-        viewModelScope.launch {
-            getHomeSettingsUseCase.execute().collect() {
-                _screenViewState.emit(
-                    homeMapper.map(
-                        it,
-                        formatStringHoursMinutesSeconds,
-                        formatStringHoursMinutesNoSeconds,
-                        formatStringHoursNoMinutesNoSeconds,
-                        formatStringMinutesSeconds,
-                        formatStringMinutesNoSeconds,
-                        formatStringSeconds
+        if(!isInitialized) {
+            viewModelScope.launch {
+                getHomeSettingsUseCase.execute().collect() {
+                    _screenViewState.emit(
+                        homeMapper.map(
+                            it,
+                            formatStringHoursMinutesSeconds,
+                            formatStringHoursMinutesNoSeconds,
+                            formatStringHoursNoMinutesNoSeconds,
+                            formatStringMinutesSeconds,
+                            formatStringMinutesNoSeconds,
+                            formatStringSeconds
+                        )
                     )
-                )
+                }
             }
         }
     }

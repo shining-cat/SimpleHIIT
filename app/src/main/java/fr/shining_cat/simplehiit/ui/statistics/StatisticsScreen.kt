@@ -22,6 +22,7 @@ import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
 fun StatisticsScreen(
@@ -29,13 +30,13 @@ fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
     viewModel.logD("StatisticsScreen", "INIT")
+    //
     val formatStringHoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short)
     val formatStringHoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short)
     val formatStringHoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short)
     val formatStringMinutesSeconds = stringResource(id = R.string.minutes_seconds_short)
     val formatStringMinutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short)
     val formatStringSeconds = stringResource(id = R.string.seconds_short)
-
     viewModel.init(
         formatStringHoursMinutesSeconds,
         formatStringHoursMinutesNoSeconds,
@@ -44,6 +45,7 @@ fun StatisticsScreen(
         formatStringMinutesNoSeconds,
         formatStringSeconds
     )
+    //
     val screenViewState = viewModel.screenViewState.collectAsState().value
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
@@ -57,7 +59,8 @@ fun StatisticsScreen(
         resetWholeApp = { viewModel.resetWholeApp() },
         resetWholeAppConfirmation = { viewModel.resetWholeAppConfirmationDeleteEverything() },
         screenViewState = screenViewState,
-        dialogViewState = dialogViewState
+        dialogViewState = dialogViewState,
+        hiitLogger = viewModel.getLogger()
     )
 }
 
@@ -73,14 +76,16 @@ private fun StatisticsScreen(
     resetWholeApp: () -> Unit,
     resetWholeAppConfirmation: () -> Unit,
     screenViewState: StatisticsViewState,
-    dialogViewState: StatisticsDialog
+    dialogViewState: StatisticsDialog,
+    hiitLogger: HiitLogger? = null
 ) {
     Scaffold(
         topBar = {
             StatisticsTopBar(
                 onNavigateUp = onNavigateUp,
                 openUserPicker = openUserPicker,
-                screenViewState = screenViewState
+                screenViewState = screenViewState,
+                hiitLogger = hiitLogger
             )
         },
         content = { paddingValues ->
@@ -93,7 +98,8 @@ private fun StatisticsScreen(
                 resetWholeApp = resetWholeApp,
                 resetWholeAppConfirmation = resetWholeAppConfirmation,
                 screenViewState = screenViewState,
-                dialogViewState = dialogViewState
+                dialogViewState = dialogViewState,
+                hiitLogger = hiitLogger
             )
         }
     )
@@ -105,6 +111,7 @@ private fun StatisticsTopBar(
     onNavigateUp: () -> Boolean = { false },
     openUserPicker: () -> Unit,
     screenViewState: StatisticsViewState,
+    hiitLogger: HiitLogger?
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -160,7 +167,8 @@ private fun StatisticsContent(
     resetWholeApp: () -> Unit,
     resetWholeAppConfirmation: () -> Unit,
     screenViewState: StatisticsViewState,
-    dialogViewState: StatisticsDialog
+    dialogViewState: StatisticsDialog,
+    hiitLogger: HiitLogger?
 ) {
     Column(
         modifier = Modifier
@@ -169,6 +177,8 @@ private fun StatisticsContent(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        hiitLogger?.d("StatisticsContent", "screenViewState = $screenViewState")
+        hiitLogger?.d("StatisticsContent", "dialogViewState = $dialogViewState")
         when (screenViewState) {
             StatisticsViewState.StatisticsLoading -> CircularProgressIndicator()
             is StatisticsViewState.StatisticsNominal -> StatisticsContentNominal(
@@ -189,10 +199,13 @@ private fun StatisticsContent(
         when (dialogViewState) {
             StatisticsDialog.None -> {/*Do nothing*/}
             is StatisticsDialog.SelectUserDialog -> StatisticsPickUserDialog(
-                users = dialogViewState.users,
-                selectUser = selectUser,
-                dismissAction = cancelDialog
-            )
+                    users = dialogViewState.users,
+                    selectUser = {
+                        cancelDialog()
+                        selectUser(it)
+                     },
+                    dismissAction = cancelDialog
+                )
             is StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser -> ConfirmDialog(
                 message = stringResource(
                     id = R.string.reset_statistics_confirmation_button_label,

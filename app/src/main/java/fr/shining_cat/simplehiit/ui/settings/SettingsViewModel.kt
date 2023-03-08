@@ -42,6 +42,8 @@ class SettingsViewModel @Inject constructor(
     private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
+    private var isInitialized = false // TODO: discuss better way to prevent viewModel initialization on every Screen composable composition
+
     fun init(
         formatStringHoursMinutesSeconds: String,
         formatStringHoursMinutesNoSeconds: String,
@@ -50,19 +52,21 @@ class SettingsViewModel @Inject constructor(
         formatStringMinutesNoSeconds: String,
         formatStringSeconds: String
     ) {
-        viewModelScope.launch {
-            getGeneralSettingsUseCase.execute().collect() {
-                _screenViewState.emit(
-                    mapper.map(
-                        it,
-                        formatStringHoursMinutesSeconds,
-                        formatStringHoursMinutesNoSeconds,
-                        formatStringHoursNoMinutesNoSeconds,
-                        formatStringMinutesSeconds,
-                        formatStringMinutesNoSeconds,
-                        formatStringSeconds
+        if(!isInitialized) {
+            viewModelScope.launch {
+                getGeneralSettingsUseCase.execute().collect() {
+                    _screenViewState.emit(
+                        mapper.map(
+                            it,
+                            formatStringHoursMinutesSeconds,
+                            formatStringHoursMinutesNoSeconds,
+                            formatStringHoursNoMinutesNoSeconds,
+                            formatStringMinutesSeconds,
+                            formatStringMinutesNoSeconds,
+                            formatStringSeconds
+                        )
                     )
-                )
+                }
             }
         }
     }

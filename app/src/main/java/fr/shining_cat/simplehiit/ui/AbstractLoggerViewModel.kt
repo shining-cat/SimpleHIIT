@@ -7,6 +7,7 @@ abstract class AbstractLoggerViewModel(
     private val hiitLogger: HiitLogger
 ): ViewModel() {
 
+    fun getLogger() = hiitLogger
     fun logD(tag: String, msg: String){
         hiitLogger.d(tag, msg)
     }

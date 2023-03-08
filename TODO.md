@@ -1,4 +1,5 @@
 
+* why do I see multiple initialization for all my screens?
 * fix broken layout in landscape
 * See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
 * fix test coverage task for instrumented tests not reporting any coverage
