@@ -14,17 +14,22 @@ class CalculateAverageSessionsPerWeekUseCase @Inject constructor(
 
     private val weekLengthAsMs = 604800000L
 
-    fun execute(timestamps: List<Long>, now: Long): Double {
-        if (timestamps.isEmpty()) return 0.0
+    fun execute(timestamps: List<Long>, now: Long): String {
+        if (timestamps.isEmpty()) return "0"
         val sortedTimestamps = timestamps.sorted()
         val elapsedTotalTimeMs = now - sortedTimestamps.first()
         val numberOfElapsedWeeks = elapsedTotalTimeMs.toDouble() / weekLengthAsMs.toDouble()
         val numberOfSessions = timestamps.size
         val averageSessionsPer7DaysPeriod =
-            numberOfSessions.toDouble() / numberOfElapsedWeeks.toDouble()
+            numberOfSessions.toDouble() / numberOfElapsedWeeks
         val roundedAverageSessionsPer7DaysPeriod =
             round(averageSessionsPer7DaysPeriod * 100.0) / 100.0
-        return roundedAverageSessionsPer7DaysPeriod
+        return if(roundedAverageSessionsPer7DaysPeriod - roundedAverageSessionsPer7DaysPeriod.toInt() == 0.00){
+            //remove trailing 0
+            roundedAverageSessionsPer7DaysPeriod.toInt().toString()
+        } else {
+            roundedAverageSessionsPer7DaysPeriod.toString()
+        }
     }
 
 }

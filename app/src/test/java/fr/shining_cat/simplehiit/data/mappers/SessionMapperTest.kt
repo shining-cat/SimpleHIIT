@@ -29,13 +29,13 @@ internal class SessionMapperTest : AbstractMockkTest() {
         val entity = SessionEntity(
             sessionId = 123L,
             timeStamp = 78696L,
-            durationSeconds = 345L,
+            durationMs = 345L,
             userId = 1234L
         )
         val expectedOutput = Session(
             id = 123L,
             timeStamp = 78696L,
-            durationSeconds = 345L,
+            durationMs = 345L,
             usersIds = listOf(1234L)
         )
         val actual = sessionMapper.convert(entity)
@@ -51,14 +51,14 @@ internal class SessionMapperTest : AbstractMockkTest() {
                     Session(
                         id = 123L,
                         timeStamp = 78696L,
-                        durationSeconds = 345L,
+                        durationMs = 345L,
                         usersIds = listOf(123L)
                     ),
                     listOf(
                         SessionEntity(
                             sessionId = 123L,
                             timeStamp = 78696L,
-                            durationSeconds = 345L,
+                            durationMs = 345L,
                             userId = 123L
                         )
                     )
@@ -67,32 +67,32 @@ internal class SessionMapperTest : AbstractMockkTest() {
                     Session(
                         id = 123L,
                         timeStamp = 78696L,
-                        durationSeconds = 345L,
+                        durationMs = 345L,
                         usersIds = listOf(123L, 234L, 345L, 456L)
                     ),
                     listOf(
                         SessionEntity(
                             sessionId = 123L,
                             timeStamp = 78696L,
-                            durationSeconds = 345L,
+                            durationMs = 345L,
                             userId = 123L
                         ),
                         SessionEntity(
                             sessionId = 123L,
                             timeStamp = 78696L,
-                            durationSeconds = 345L,
+                            durationMs = 345L,
                             userId = 234L
                         ),
                         SessionEntity(
                             sessionId = 123L,
                             timeStamp = 78696L,
-                            durationSeconds = 345L,
+                            durationMs = 345L,
                             userId = 345L
                         ),
                         SessionEntity(
                             sessionId = 123L,
                             timeStamp = 78696L,
-                            durationSeconds = 345L,
+                            durationMs = 345L,
                             userId = 456L
                         )
                     ),

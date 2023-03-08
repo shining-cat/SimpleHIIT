@@ -10,7 +10,7 @@ class SessionMapper @Inject constructor() {
         return Session(
             id = sessionEntity.sessionId,
             timeStamp = sessionEntity.timeStamp,
-            durationSeconds = sessionEntity.durationSeconds,
+            durationMs = sessionEntity.durationMs,
             usersIds = listOf(sessionEntity.userId)
         )
     }
@@ -21,7 +21,7 @@ class SessionMapper @Inject constructor() {
                 sessionId = sessionModel.id,
                 userId = userId,
                 timeStamp = sessionModel.timeStamp,
-                durationSeconds = sessionModel.durationSeconds
+                durationMs = sessionModel.durationMs
             )
         }
     }

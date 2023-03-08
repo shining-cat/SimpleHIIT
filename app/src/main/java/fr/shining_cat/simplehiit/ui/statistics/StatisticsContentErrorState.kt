@@ -17,9 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.domain.models.User
 
 @Composable
 fun StatisticsContentErrorState(
+    user: User,
     errorCode: String,
     deleteSessionsForUser: () -> Unit = {}
 ) {
@@ -39,7 +41,7 @@ fun StatisticsContentErrorState(
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
-            text = stringResource(id = R.string.error_irrecoverable_statistics),
+            text = stringResource(id = R.string.error_irrecoverable_statistics, user.name),
             style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {

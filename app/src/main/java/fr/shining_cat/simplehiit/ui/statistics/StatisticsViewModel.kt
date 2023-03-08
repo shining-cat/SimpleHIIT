@@ -9,8 +9,6 @@ import fr.shining_cat.simplehiit.domain.usecases.GetAllUsersUseCase
 import fr.shining_cat.simplehiit.domain.usecases.GetStatsForUserUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
-import fr.shining_cat.simplehiit.ui.home.HomeDialog
-import fr.shining_cat.simplehiit.ui.settings.SettingsDialog
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -35,8 +33,28 @@ class StatisticsViewModel @Inject constructor(
     private val _dialogViewState = MutableStateFlow<StatisticsDialog>(StatisticsDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
+    private var formatStringHoursMinutesSeconds: String = ""
+    private var formatStringHoursMinutesNoSeconds: String = ""
+    private var formatStringHoursNoMinutesNoSeconds: String = ""
+    private var formatStringMinutesSeconds: String = ""
+    private var formatStringMinutesNoSeconds: String = ""
+    private var formatStringSeconds: String = ""
 
-    init {
+    fun init(
+        formatStringHoursMinutesSeconds: String,
+        formatStringHoursMinutesNoSeconds: String,
+        formatStringHoursNoMinutesNoSeconds: String,
+        formatStringMinutesSeconds: String,
+        formatStringMinutesNoSeconds: String,
+        formatStringSeconds: String
+    ) {
+        this.formatStringHoursMinutesSeconds = formatStringHoursMinutesSeconds
+        this.formatStringHoursMinutesNoSeconds = formatStringHoursMinutesNoSeconds
+        this.formatStringHoursNoMinutesNoSeconds = formatStringHoursNoMinutesNoSeconds
+        this.formatStringMinutesSeconds = formatStringMinutesSeconds
+        this.formatStringMinutesNoSeconds = formatStringMinutesNoSeconds
+        this.formatStringSeconds = formatStringSeconds
+        //
         viewModelScope.launch {
             getAllUsersUseCase.execute().collect() {
                 when (it) {
@@ -63,7 +81,15 @@ class StatisticsViewModel @Inject constructor(
             when (statisticsOutput) {
                 is Output.Success -> {
                     _dialogViewState.emit(StatisticsDialog.None)
-                    _screenViewState.emit(mapper.map(statisticsOutput.result))
+                    _screenViewState.emit(mapper.map(
+                        statisticsOutput.result,
+                        formatStringHoursMinutesSeconds,
+                        formatStringHoursMinutesNoSeconds,
+                        formatStringHoursNoMinutesNoSeconds,
+                        formatStringMinutesSeconds,
+                        formatStringMinutesNoSeconds,
+                        formatStringSeconds
+                    ))
                 }
                 is Output.Error -> { //failed retrieving statistics for selected user -> special error for this user
                     _screenViewState.emit(StatisticsViewState.StatisticsError(statisticsOutput.errorCode.code, user))
@@ -88,6 +114,10 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun deleteAllSessionsForUser(user: User) {
+        hiitLogger.d(
+            "StatisticsViewModel",
+            "deleteAllSessionsForUser::user = $user"
+        )
         viewModelScope.launch {
             _dialogViewState.emit(StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser(user))
         }

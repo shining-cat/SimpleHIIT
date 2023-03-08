@@ -20,7 +20,7 @@ data class SessionEntity(
     @ColumnInfo(name = sessionIdColumnName) val sessionId: Long = 0L,
     @ColumnInfo(name = userIdColumnName, index = true) val userId: Long,
     @ColumnInfo(name = timeStampColumnName) val timeStamp: Long,
-    @ColumnInfo(name = durationColumnName) val durationSeconds: Long
+    @ColumnInfo(name = durationColumnName) val durationMs: Long
 ) {
 
     companion object {

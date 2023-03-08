@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.ui.statistics
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,12 +12,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
+import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
 fun StatisticsScreen(
@@ -24,6 +29,21 @@ fun StatisticsScreen(
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
     viewModel.logD("StatisticsScreen", "INIT")
+    val formatStringHoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short)
+    val formatStringHoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short)
+    val formatStringHoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short)
+    val formatStringMinutesSeconds = stringResource(id = R.string.minutes_seconds_short)
+    val formatStringMinutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short)
+    val formatStringSeconds = stringResource(id = R.string.seconds_short)
+
+    viewModel.init(
+        formatStringHoursMinutesSeconds,
+        formatStringHoursMinutesNoSeconds,
+        formatStringHoursNoMinutesNoSeconds,
+        formatStringMinutesSeconds,
+        formatStringMinutesNoSeconds,
+        formatStringSeconds
+    )
     val screenViewState = viewModel.screenViewState.collectAsState().value
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
@@ -147,9 +167,13 @@ private fun StatisticsContent(
     ) {
         when(screenViewState){
             StatisticsViewState.StatisticsLoading -> CircularProgressIndicator()
-            is StatisticsViewState.StatisticsNominal -> {}
-            StatisticsViewState.StatisticsNoUsers -> {}
+            is StatisticsViewState.StatisticsNominal -> StatisticsContentNominal(
+                deleteAllSessionsForUser = deleteAllSessionsForUser,
+                viewState = screenViewState
+            )
+            StatisticsViewState.StatisticsNoUsers -> {/*TODO*/}
             is StatisticsViewState.StatisticsError -> StatisticsContentErrorState(
+                user = screenViewState.user,
                 errorCode = screenViewState.errorCode,
                 deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) }
             )
@@ -181,22 +205,55 @@ private fun StatisticsContent(
     }
 }
 
+// Previews
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
-private fun StatisticField(
-    label: String,
-    value: String
+private fun StatisticsScreenPreview(
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
 ) {
-    Row(
-        Modifier
-            .fillMaxWidth()
-            .defaultMinSize(minHeight = 48.dp)
-            .padding(bottom = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = label, style = MaterialTheme.typography.headlineSmall)
-        Text(text = value, style = MaterialTheme.typography.headlineSmall)
+    SimpleHiitTheme {
+        StatisticsScreen(
+            onNavigateUp = {true},
+            openUserPicker = {},
+            selectUser = {},
+            deleteAllSessionsForUser = {},
+            deleteAllSessionsForUserConfirm = {},
+            cancelDialog = {},
+            resetWholeApp = {},
+            resetWholeAppConfirmation = {},
+            screenViewState = viewStates.first,
+            dialogViewState = viewStates.second
+        )
     }
 }
 
-// Previews
+internal class StatisticsScreenPreviewParameterProvider :
+    PreviewParameterProvider<Pair<StatisticsViewState, StatisticsDialog>> {
+    override val values: Sequence<Pair<StatisticsViewState, StatisticsDialog>>
+        get() = sequenceOf(
+            Pair(StatisticsViewState.StatisticsLoading, StatisticsDialog.None),
+            Pair(StatisticsViewState.StatisticsNoUsers, StatisticsDialog.None),
+            Pair(StatisticsViewState.StatisticsError(errorCode = "Error code", user = User(name = "Sven Svensson")), StatisticsDialog.None),
+            Pair(StatisticsViewState.StatisticsFatalError(errorCode = "Error code"), StatisticsDialog.None),
+            Pair(StatisticsViewState.StatisticsNominal(
+                user = User(name = "Sven Svensson"),
+                totalNumberOfSessions = 73,
+                cumulatedTimeOfExerciseFormatted = "5h 23mn 64s",
+                averageSessionLengthFormatted = "15mn 13s",
+                longestStreakDays = 25,
+                currentStreakDays = 7,
+                averageNumberOfSessionsPerWeek = "3,5"
+            ), StatisticsDialog.None),
+        )
+}

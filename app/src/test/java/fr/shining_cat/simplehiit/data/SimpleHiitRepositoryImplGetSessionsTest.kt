@@ -50,7 +50,7 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
         User(id = testSessionUserId1, name = "test user name", selected = true)
     private val testDuration = 123L
     private val testSession =
-        Session(timeStamp = testDate, durationSeconds = testDuration, usersIds = listOf(testSessionUserId1))
+        Session(timeStamp = testDate, durationMs = testDuration, usersIds = listOf(testSessionUserId1))
 
 //////////////
 //   GET SESSIONS FOR USER
@@ -120,7 +120,7 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
-                            durationSeconds = 234L,
+                            durationMs = 234L,
                             userId = 345L
                         )
                     )
@@ -130,25 +130,25 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
-                            durationSeconds = 234L,
+                            durationMs = 234L,
                             userId = 345L
                         ),
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
-                            durationSeconds = 234L,
+                            durationMs = 234L,
                             userId = 678L
                         ),
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
-                            durationSeconds = 234L,
+                            durationMs = 234L,
                             userId = 789L
                         ),
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
-                            durationSeconds = 234L,
+                            durationMs = 234L,
                             userId = 891L
                         ),
                     )

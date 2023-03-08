@@ -51,12 +51,12 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
     }
 
     @Test
-    fun `return empty value when repo returns empty list`() = runTest {
+    fun `return default empty value when repo returns empty list`() = runTest {
         val testSessions = emptyList<Session>()
         coEvery { mockSimpleHiitRepository.getSessionsForUser(any()) } answers { Output.Success(testSessions)}
-        coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns Random.nextInt(10,5000)
-        coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns Random.nextInt(10,5000)
-        coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns Random.nextInt(10,5000).toDouble() / 100.toDouble()
+        coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns 0
+        coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns 0
+        coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns "0"
         //
         val output = testedUseCase.execute(testUser, testNow)
         //
@@ -76,11 +76,11 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         expectedNumberOfCallsSubUseCases: Int,
         expectedTotalNumberOfSessions: Int,
         expectedCumulatedTimeOfExerciseSeconds: Long,
-        expectedAverageSessionLengthSeconds: Int
+        expectedAverageSessionLengthSeconds: Long
     ) = runTest {
         val testCurrentStreak = Random.nextInt(10,5000)
         val testLongestStreak = Random.nextInt(5000,10000)
-        val testAverageWeek = Random.nextInt(1,100).toDouble() / 100.toDouble()
+        val testAverageWeek = (Random.nextInt(1,100).toDouble() / 100.toDouble()).toString()
         coEvery { mockSimpleHiitRepository.getSessionsForUser(any()) } answers { Output.Success(testSessions)}
         coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns testCurrentStreak
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns testLongestStreak
@@ -96,8 +96,8 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         output as Output.Success
         assertEquals(testUser, output.result.user)
         assertEquals(expectedTotalNumberOfSessions, output.result.totalNumberOfSessions)
-        assertEquals(expectedCumulatedTimeOfExerciseSeconds, output.result.cumulatedTimeOfExerciseSeconds)
-        assertEquals(expectedAverageSessionLengthSeconds, output.result.averageSessionLengthSeconds)
+        assertEquals(expectedCumulatedTimeOfExerciseSeconds, output.result.cumulatedTimeOfExerciseMs)
+        assertEquals(expectedAverageSessionLengthSeconds, output.result.averageSessionLengthMs)
         assertEquals(testLongestStreak, output.result.longestStreakDays)
         assertEquals(testCurrentStreak, output.result.currentStreakDays)
         assertEquals(testAverageWeek, output.result.averageNumberOfSessionsPerWeek)
@@ -116,72 +116,72 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
                         Session(
                             id = 123L,
                             timeStamp = 1234L,
-                            durationSeconds = 12345L,
+                            durationMs = 12345L,
                             usersIds = listOf(testUser.id)
                         )
                     ),
                     1,
                     1,
                     12345L,
-                    12345
+                    12345L
                 ),
                 Arguments.of(
                     listOf(
                         Session(
                             id = 123L,
                             timeStamp = 1234L,
-                            durationSeconds = 1500L,
+                            durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
                         Session(
                             id = 234L,
                             timeStamp = 2345L,
-                            durationSeconds = 2700L,
+                            durationMs = 2700L,
                             usersIds = listOf(testUser.id)
                         ),
                         Session(
                             id = 345L,
                             timeStamp = 3456L,
-                            durationSeconds = 1800L,
+                            durationMs = 1800L,
                             usersIds = listOf(testUser.id)
                         ),
                         Session(
                             id = 456L,
                             timeStamp = 4567L,
-                            durationSeconds = 3000L,
+                            durationMs = 3000L,
                             usersIds = listOf(testUser.id)
                         ),
                     ),
                     1,
                     4,
                     9000L,
-                    2250
+                    2250L
                 ),
                 Arguments.of(
                     listOf(
                         Session(
                             id = 123L,
                             timeStamp = 1234L,
-                            durationSeconds = 1500L,
+                            durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
                         Session(
                             id = 345L,
                             timeStamp = 3456L,
-                            durationSeconds = 1500L,
+                            durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
                         Session(
                             id = 456L,
                             timeStamp = 4567L,
-                            durationSeconds = 1500L,
+                            durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
                     ),
                     1,
                     3,
                     4500L,
-                    1500
+                    1500L
                 ),
 
             )

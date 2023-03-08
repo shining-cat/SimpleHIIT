@@ -78,7 +78,7 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         sessionsDao.insert(listOf(testSession))
@@ -87,7 +87,7 @@ class SessionsDaoTest {
         assertEquals(1, tableContent.size)
         val retrievedSession = tableContent[0]
         assertEquals(testUserID, retrievedSession.userId)
-        assertEquals(testSessionDuration, retrievedSession.durationSeconds)
+        assertEquals(testSessionDuration, retrievedSession.durationMs)
         assertEquals(testSessionTimeStamp, retrievedSession.timeStamp)
     }
 
@@ -100,7 +100,7 @@ class SessionsDaoTest {
         val testSession = SessionEntity(
             sessionId = testSessionId,
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         sessionsDao.insert(listOf(testSession))
@@ -110,7 +110,7 @@ class SessionsDaoTest {
         val retrievedSession = tableContent[0]
         assertEquals(testSessionId, retrievedSession.sessionId)
         assertEquals(testUserID, retrievedSession.userId)
-        assertEquals(testSessionDuration, retrievedSession.durationSeconds)
+        assertEquals(testSessionDuration, retrievedSession.durationMs)
         assertEquals(testSessionTimeStamp, retrievedSession.timeStamp)
     }
 
@@ -124,7 +124,7 @@ class SessionsDaoTest {
         val testSession = SessionEntity(
             sessionId = testSessionId,
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         sessionsDao.insert(listOf(testSession))
@@ -132,7 +132,7 @@ class SessionsDaoTest {
         val testSession2 = SessionEntity(
             sessionId = testSessionId,
             userId = testUserID,
-            durationSeconds = testSessionDuration2,
+            durationMs = testSessionDuration2,
             timeStamp = testSessionTimeStamp2
         )
         sessionsDao.insert(listOf(testSession2))
@@ -142,7 +142,7 @@ class SessionsDaoTest {
         val retrievedSession = tableContent[0]
         assertEquals(testSessionId, retrievedSession.sessionId)
         assertEquals(testUserID, retrievedSession.userId)
-        assertEquals(testSessionDuration2, retrievedSession.durationSeconds)
+        assertEquals(testSessionDuration2, retrievedSession.durationMs)
         assertEquals(testSessionTimeStamp2, retrievedSession.timeStamp)
     }
 
@@ -157,7 +157,7 @@ class SessionsDaoTest {
         val testSessionTimeStamp = 345L
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         sessionsDao.insert(listOf(testSession))
@@ -179,7 +179,7 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         sessionsDao.insert(listOf(testSession))
@@ -188,7 +188,7 @@ class SessionsDaoTest {
         assertEquals(1, tableContent.size)
         val retrievedSession = tableContent[0]
         assertEquals(testUserID, retrievedSession.userId)
-        assertEquals(testSessionDuration, retrievedSession.durationSeconds)
+        assertEquals(testSessionDuration, retrievedSession.durationMs)
         assertEquals(testSessionTimeStamp, retrievedSession.timeStamp)
     }
 
@@ -200,22 +200,22 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         val testSession2 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration2,
+            durationMs = testSessionDuration2,
             timeStamp = testSessionTimeStamp2
         )
         val testSession3 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration3,
+            durationMs = testSessionDuration3,
             timeStamp = testSessionTimeStamp3
         )
         val testSession4 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration4,
+            durationMs = testSessionDuration4,
             timeStamp = testSessionTimeStamp4
         )
         sessionsDao.insert(listOf(testSession, testSession2, testSession3, testSession4))
@@ -234,37 +234,37 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         val testSession2 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration2,
+            durationMs = testSessionDuration2,
             timeStamp = testSessionTimeStamp2
         )
         val testSession3 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration3,
+            durationMs = testSessionDuration3,
             timeStamp = testSessionTimeStamp3
         )
         val testSession4 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration4,
+            durationMs = testSessionDuration4,
             timeStamp = testSessionTimeStamp4
         )
         val testSession5 = SessionEntity(
             userId = testUserID2,
-            durationSeconds = testSessionDuration5,
+            durationMs = testSessionDuration5,
             timeStamp = testSessionTimeStamp5
         )
         val testSession6 = SessionEntity(
             userId = testUserID2,
-            durationSeconds = testSessionDuration6,
+            durationMs = testSessionDuration6,
             timeStamp = testSessionTimeStamp6
         )
         val testSession7 = SessionEntity(
             userId = testUserID2,
-            durationSeconds = testSessionDuration7,
+            durationMs = testSessionDuration7,
             timeStamp = testSessionTimeStamp7
         )
         sessionsDao.insert(
@@ -283,34 +283,34 @@ class SessionsDaoTest {
         assertEquals(4, sessionsForUser1.size)
         val retrievedSession1 = sessionsForUser1[0]
         assertEquals(testUserID, retrievedSession1.userId)
-        assertEquals(testSessionDuration, retrievedSession1.durationSeconds)
+        assertEquals(testSessionDuration, retrievedSession1.durationMs)
         assertEquals(testSessionTimeStamp, retrievedSession1.timeStamp)
         val retrievedSession2 = sessionsForUser1[1]
         assertEquals(testUserID, retrievedSession2.userId)
-        assertEquals(testSessionDuration2, retrievedSession2.durationSeconds)
+        assertEquals(testSessionDuration2, retrievedSession2.durationMs)
         assertEquals(testSessionTimeStamp2, retrievedSession2.timeStamp)
         val retrievedSession3 = sessionsForUser1[2]
         assertEquals(testUserID, retrievedSession3.userId)
-        assertEquals(testSessionDuration3, retrievedSession3.durationSeconds)
+        assertEquals(testSessionDuration3, retrievedSession3.durationMs)
         assertEquals(testSessionTimeStamp3, retrievedSession3.timeStamp)
         val retrievedSession4 = sessionsForUser1[3]
         assertEquals(testUserID, retrievedSession4.userId)
-        assertEquals(testSessionDuration4, retrievedSession4.durationSeconds)
+        assertEquals(testSessionDuration4, retrievedSession4.durationMs)
         assertEquals(testSessionTimeStamp4, retrievedSession4.timeStamp)
         //
         val sessionsForUser2 = sessionsDao.getSessionsForUser(userId = testUserID2)
         assertEquals(3, sessionsForUser2.size)
         val retrievedSession5 = sessionsForUser2[0]
         assertEquals(testUserID2, retrievedSession5.userId)
-        assertEquals(testSessionDuration5, retrievedSession5.durationSeconds)
+        assertEquals(testSessionDuration5, retrievedSession5.durationMs)
         assertEquals(testSessionTimeStamp5, retrievedSession5.timeStamp)
         val retrievedSession6 = sessionsForUser2[1]
         assertEquals(testUserID2, retrievedSession6.userId)
-        assertEquals(testSessionDuration6, retrievedSession6.durationSeconds)
+        assertEquals(testSessionDuration6, retrievedSession6.durationMs)
         assertEquals(testSessionTimeStamp6, retrievedSession6.timeStamp)
         val retrievedSession7 = sessionsForUser2[2]
         assertEquals(testUserID2, retrievedSession7.userId)
-        assertEquals(testSessionDuration7, retrievedSession7.durationSeconds)
+        assertEquals(testSessionDuration7, retrievedSession7.durationMs)
         assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
     }
 
@@ -330,7 +330,7 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         sessionsDao.insert(listOf(testSession))
@@ -347,22 +347,22 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         val testSession2 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration2,
+            durationMs = testSessionDuration2,
             timeStamp = testSessionTimeStamp2
         )
         val testSession3 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration3,
+            durationMs = testSessionDuration3,
             timeStamp = testSessionTimeStamp3
         )
         val testSession4 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration4,
+            durationMs = testSessionDuration4,
             timeStamp = testSessionTimeStamp4
         )
         sessionsDao.insert(
@@ -388,37 +388,37 @@ class SessionsDaoTest {
         //
         val testSession = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration,
+            durationMs = testSessionDuration,
             timeStamp = testSessionTimeStamp
         )
         val testSession2 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration2,
+            durationMs = testSessionDuration2,
             timeStamp = testSessionTimeStamp2
         )
         val testSession3 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration3,
+            durationMs = testSessionDuration3,
             timeStamp = testSessionTimeStamp3
         )
         val testSession4 = SessionEntity(
             userId = testUserID,
-            durationSeconds = testSessionDuration4,
+            durationMs = testSessionDuration4,
             timeStamp = testSessionTimeStamp4
         )
         val testSession5 = SessionEntity(
             userId = testUserID2,
-            durationSeconds = testSessionDuration5,
+            durationMs = testSessionDuration5,
             timeStamp = testSessionTimeStamp5
         )
         val testSession6 = SessionEntity(
             userId = testUserID2,
-            durationSeconds = testSessionDuration6,
+            durationMs = testSessionDuration6,
             timeStamp = testSessionTimeStamp6
         )
         val testSession7 = SessionEntity(
             userId = testUserID2,
-            durationSeconds = testSessionDuration7,
+            durationMs = testSessionDuration7,
             timeStamp = testSessionTimeStamp7
         )
         sessionsDao.insert(
@@ -440,15 +440,15 @@ class SessionsDaoTest {
         assertEquals(3, sessionsForUser2.size)
         val retrievedSession5 = sessionsForUser2[0]
         assertEquals(testUserID2, retrievedSession5.userId)
-        assertEquals(testSessionDuration5, retrievedSession5.durationSeconds)
+        assertEquals(testSessionDuration5, retrievedSession5.durationMs)
         assertEquals(testSessionTimeStamp5, retrievedSession5.timeStamp)
         val retrievedSession6 = sessionsForUser2[1]
         assertEquals(testUserID2, retrievedSession6.userId)
-        assertEquals(testSessionDuration6, retrievedSession6.durationSeconds)
+        assertEquals(testSessionDuration6, retrievedSession6.durationMs)
         assertEquals(testSessionTimeStamp6, retrievedSession6.timeStamp)
         val retrievedSession7 = sessionsForUser2[2]
         assertEquals(testUserID2, retrievedSession7.userId)
-        assertEquals(testSessionDuration7, retrievedSession7.durationSeconds)
+        assertEquals(testSessionDuration7, retrievedSession7.durationMs)
         assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
     }
 

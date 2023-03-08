@@ -48,15 +48,15 @@ class GetStatsForUserUseCase @Inject constructor(
             UserStatistics(user = user)
         } else {
             val totalNumberOfSessions = sessions.size
-            val cumulatedTimeOfExerciseSeconds = sessions.sumOf { it.durationSeconds }
-            val averageSessionLengthSeconds =
-                (cumulatedTimeOfExerciseSeconds.toDouble() / totalNumberOfSessions.toDouble()).toInt()
+            val cumulatedTimeOfExerciseMs = sessions.sumOf { it.durationMs }
+            val averageSessionLengthMs =
+                (cumulatedTimeOfExerciseMs.toDouble() / totalNumberOfSessions.toDouble()).toLong()
             val timestampsList = sessions.map { it.timeStamp }
             UserStatistics(
                 user = user,
                 totalNumberOfSessions = totalNumberOfSessions,
-                cumulatedTimeOfExerciseSeconds = cumulatedTimeOfExerciseSeconds,
-                averageSessionLengthSeconds = averageSessionLengthSeconds,
+                cumulatedTimeOfExerciseMs = cumulatedTimeOfExerciseMs,
+                averageSessionLengthMs = averageSessionLengthMs,
                 longestStreakDays = calculateLongestStreakUseCase.execute(timestampsList, now),
                 currentStreakDays = calculateCurrentStreakUseCase.execute(timestampsList, now),
                 averageNumberOfSessionsPerWeek = calculateAverageSessionsPerWeekUseCase.execute(

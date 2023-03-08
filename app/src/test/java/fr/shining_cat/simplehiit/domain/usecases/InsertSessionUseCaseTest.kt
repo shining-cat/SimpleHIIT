@@ -22,7 +22,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
         val testValue = Session(
             id = 123L,
             timeStamp = 78696L,
-            durationSeconds = 345L,
+            durationMs = 345L,
             usersIds = listOf(1234L, 2345L)
         )
         val successFromRepo = Output.Success(2)
@@ -39,7 +39,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
         val testValue = Session(
             id = 123L,
             timeStamp = 78696L,
-            durationSeconds = 345L,
+            durationMs = 345L,
             usersIds = listOf(1234L, 2345L)
         )
         val exceptionMessage = "this is a test exception"
