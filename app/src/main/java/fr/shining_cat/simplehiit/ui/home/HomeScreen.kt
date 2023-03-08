@@ -91,7 +91,7 @@ private fun HomeScreen(
     //
     Scaffold(
         topBar = {
-            HomeTopBar(onNavigate)
+            HomeTopBar(onNavigate, viewState)
         },
         content = { paddingValues ->
             HomeContent(
@@ -113,7 +113,7 @@ private fun HomeScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeTopBar(navigateTo: (String) -> Unit = {}) {
+private fun HomeTopBar(navigateTo: (String) -> Unit = {}, screenViewState: HomeViewState) {
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         title = {
@@ -132,12 +132,14 @@ private fun HomeTopBar(navigateTo: (String) -> Unit = {}) {
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            IconButton(onClick = { navigateTo(Screen.Statistics.route) }) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
-                    contentDescription = stringResource(id = R.string.statistics_button_content_label),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
+            if(screenViewState is HomeNominal) {
+                IconButton(onClick = { navigateTo(Screen.Statistics.route) }) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
+                        contentDescription = stringResource(id = R.string.statistics_button_content_label),
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
         }
     )

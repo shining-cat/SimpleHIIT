@@ -135,12 +135,14 @@ private fun StatisticsTopBar(
             )
         },
         actions = {
-            IconButton(onClick = openUserPicker ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.people),
-                    contentDescription = stringResource(id = R.string.user_pick_button_content_label),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
+            if(screenViewState is StatisticsViewState.StatisticsNominal || screenViewState is StatisticsViewState.StatisticsError) {
+                IconButton(onClick = openUserPicker) {
+                    Icon(
+                        imageVector = ImageVector.vectorResource(R.drawable.people),
+                        contentDescription = stringResource(id = R.string.user_pick_button_content_label),
+                        tint = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
             }
         }
     )
@@ -171,7 +173,7 @@ private fun StatisticsContent(
                 deleteAllSessionsForUser = deleteAllSessionsForUser,
                 viewState = screenViewState
             )
-            StatisticsViewState.StatisticsNoUsers -> {/*TODO*/}
+            StatisticsViewState.StatisticsNoUsers -> StatisticsContentNoUsers()
             is StatisticsViewState.StatisticsError -> StatisticsContentErrorState(
                 user = screenViewState.user,
                 errorCode = screenViewState.errorCode,

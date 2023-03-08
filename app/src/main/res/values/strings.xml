@@ -86,6 +86,8 @@
     <string name="average_sessions_week">You have done on average %1$s sessions per week</string>
     <string name="user_pick_button_content_label">Users</string>
     <string name="user_pick_dialog_title">Pick a user</string>
+    <string name="doge_icon_content_description">Doge meme icon</string>
+    <string name="no_users_found_error_message">Wow, such empty!</string>
     <string name="reset_statistics_button_label">Delete all sessions stored for %1$s</string> <!-- insert user's name -->
     <string name="reset_statistics_confirmation_button_label">Click again to confirm. This will delete all sessions stored for %1$s</string> <!-- insert user's name -->
     <string name="error_irrecoverable_statistics">There was an error retrieving %1$s\'s statistics. Please try to kill the app and relaunch. If this persists, you\'ll have to try deleting %1$s\'s stored sessions</string>
