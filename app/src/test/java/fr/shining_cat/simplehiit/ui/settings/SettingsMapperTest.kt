@@ -27,7 +27,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
 
     @BeforeEach
     fun setUpMock() {
-        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any(), any(), any(), any(), any(), any()) } returns mockDurationString
+        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any()) } returns mockDurationString
     }
 
     @ParameterizedTest(name = "{index} -> should return {0}")
@@ -36,33 +36,19 @@ internal class SettingsMapperTest : AbstractMockkTest() {
         input: Output<GeneralSettings>,
         expectedOutput: SettingsViewState
     ) {
-        val result = testedMapper.map(
-            input,
-            formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-            formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-            formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-            formatStringMinutesSeconds = "formatStringMinutesSeconds",
-            formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-            formatStringSeconds = "formatStringSeconds")
+        val result = testedMapper.map(input, DurationStringFormatter())
         //
         assertEquals(expectedOutput, result)
         if (input is Output.Success) {
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = input.result.cycleLengthMs,
-                    formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-                    formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-                    formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-                    formatStringMinutesSeconds = "formatStringMinutesSeconds",
-                    formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-                    formatStringSeconds = "formatStringSeconds"
+                    durationStringFormatter = DurationStringFormatter()
                 )
             }
         } else {
             coVerify(exactly = 0) {
-                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    any()
-                )
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute( any(), any())
             }
         }
     }

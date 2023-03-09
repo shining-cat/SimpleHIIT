@@ -20,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
@@ -33,14 +34,15 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
     viewModel.logD("SettingsScreen", "INIT")
-    viewModel.init(
-        formatStringHoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-        formatStringHoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-        formatStringHoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-        formatStringMinutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-        formatStringMinutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-        formatStringSeconds = stringResource(id = R.string.seconds_short)
+    val durationsFormatter = DurationStringFormatter(
+        hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
+        hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
+        hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
+        minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
+        minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
+        seconds = stringResource(id = R.string.seconds_short)
     )
+    viewModel.init(durationsFormatter)
     val screenViewState = viewModel.screenViewState.collectAsState().value
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //

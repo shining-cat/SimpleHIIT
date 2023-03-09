@@ -1,8 +1,7 @@
 package fr.shining_cat.simplehiit.ui.statistics
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.models.UserStatistics
+import fr.shining_cat.simplehiit.domain.models.*
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.ui.settings.SettingsMapperTest
 import io.mockk.coEvery
@@ -27,7 +26,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
 
     @BeforeEach
     fun setUpMock() {
-        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any(), any(), any(), any(), any(), any()) } returns mockDurationString
+        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any()) } returns mockDurationString
     }
 
     @ParameterizedTest(name = "{index} -> should return {0}")
@@ -38,33 +37,19 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
     ) {
         val result = testedMapper.map(
             input,
-            formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-            formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-            formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-            formatStringMinutesSeconds = "formatStringMinutesSeconds",
-            formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-            formatStringSeconds = "formatStringSeconds")
+            DurationStringFormatter()
+        )
         //
         coVerify(exactly = 1) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = input.cumulatedTimeOfExerciseMs,
-                formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-                formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-                formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-                formatStringMinutesSeconds = "formatStringMinutesSeconds",
-                formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-                formatStringSeconds = "formatStringSeconds"
+                durationStringFormatter = DurationStringFormatter()
             )
         }
         coVerify(exactly = 1) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = input.averageSessionLengthMs,
-                formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-                formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-                formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-                formatStringMinutesSeconds = "formatStringMinutesSeconds",
-                formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-                formatStringSeconds = "formatStringSeconds"
+                durationStringFormatter = DurationStringFormatter()
             )
         }
         assertEquals(expectedOutput, result)
@@ -72,33 +57,13 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
     @Test
     fun `mapping statistics to correct viewstate when user has no sessions`() {
         val input = UserStatistics(user = User(name = "test user name 4"))
-        val expectedOutput = StatisticsViewState.StatisticsNominal(
-            user = User(name = "test user name 4"),
-            totalNumberOfSessions = 0,
-            cumulatedTimeOfExerciseFormatted = mockDurationString,
-            averageSessionLengthFormatted = mockDurationString,
-            longestStreakDays = 0,
-            currentStreakDays = 0,
-            averageNumberOfSessionsPerWeek = "0"
-        )
-        val result = testedMapper.map(
-            input,
-            formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-            formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-            formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-            formatStringMinutesSeconds = "formatStringMinutesSeconds",
-            formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-            formatStringSeconds = "formatStringSeconds")
+        val expectedOutput = StatisticsViewState.StatisticsNoSessions(user = User(name = "test user name 4"))
+        val result = testedMapper.map(input, DurationStringFormatter())
         //
         coVerify(exactly = 2) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = 0,
-                formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-                formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-                formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-                formatStringMinutesSeconds = "formatStringMinutesSeconds",
-                formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-                formatStringSeconds = "formatStringSeconds"
+                durationStringFormatter = DurationStringFormatter()
             )
         }
         assertEquals(expectedOutput, result)
@@ -123,12 +88,14 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                     ),
                     StatisticsViewState.StatisticsNominal(
                         user = User(name = "test user name 1"),
-                        totalNumberOfSessions = 8,
-                        cumulatedTimeOfExerciseFormatted = mockDurationString,
-                        averageSessionLengthFormatted = mockDurationString,
-                        longestStreakDays = 456,
-                        currentStreakDays = 678,
-                        averageNumberOfSessionsPerWeek = "1.7",
+                        listOf(
+                            DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic(mockDurationString, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic(mockDurationString, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("456", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("678", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("1.7", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                        )
                     )
                 ),
                 Arguments.of(
@@ -143,12 +110,14 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                     ),
                     StatisticsViewState.StatisticsNominal(
                         user = User(name = "test user name 2"),
-                        totalNumberOfSessions = 9,
-                        cumulatedTimeOfExerciseFormatted = mockDurationString,
-                        averageSessionLengthFormatted = mockDurationString,
-                        longestStreakDays = 654,
-                        currentStreakDays = 321,
-                        averageNumberOfSessionsPerWeek = "6.4"
+                        listOf(
+                            DisplayedStatistic("9", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic(mockDurationString, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic(mockDurationString, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("654", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("321", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("6.4", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                        )
                     )
                 ),
                 Arguments.of(
@@ -163,12 +132,14 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                     ),
                     StatisticsViewState.StatisticsNominal(
                         user = User(name = "test user name 3"),
-                        totalNumberOfSessions = 157,
-                        cumulatedTimeOfExerciseFormatted = mockDurationString,
-                        averageSessionLengthFormatted = mockDurationString,
-                        longestStreakDays = 876,
-                        currentStreakDays = 958,
-                        averageNumberOfSessionsPerWeek = "14.3"
+                        listOf(
+                            DisplayedStatistic("157", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic(mockDurationString, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic(mockDurationString, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("876", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("958", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("14.3", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                        )
                     )
                 )
             )

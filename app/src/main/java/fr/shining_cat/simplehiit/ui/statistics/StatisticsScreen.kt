@@ -19,6 +19,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.domain.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.domain.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -31,20 +34,15 @@ fun StatisticsScreen(
 ) {
     viewModel.logD("StatisticsScreen", "INIT")
     //
-    val formatStringHoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short)
-    val formatStringHoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short)
-    val formatStringHoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short)
-    val formatStringMinutesSeconds = stringResource(id = R.string.minutes_seconds_short)
-    val formatStringMinutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short)
-    val formatStringSeconds = stringResource(id = R.string.seconds_short)
-    viewModel.init(
-        formatStringHoursMinutesSeconds,
-        formatStringHoursMinutesNoSeconds,
-        formatStringHoursNoMinutesNoSeconds,
-        formatStringMinutesSeconds,
-        formatStringMinutesNoSeconds,
-        formatStringSeconds
+    val durationsFormatter = DurationStringFormatter(
+        hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
+        hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
+        hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
+        minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
+        minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
+        seconds = stringResource(id = R.string.seconds_short)
     )
+    viewModel.init(durationsFormatter)
     //
     val screenViewState = viewModel.screenViewState.collectAsState().value
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
@@ -125,15 +123,7 @@ private fun StatisticsTopBar(
             }
         },
         title = {
-            val title = when (screenViewState) {
-                is StatisticsViewState.StatisticsNominal -> stringResource(
-                    R.string.statistics_page_title_with_user_name,
-                    screenViewState.user.name
-                )
-                else -> stringResource(
-                    R.string.statistics_page_title
-                )
-            }
+            val title = stringResource(R.string.statistics_page_title)
             Text(
                 text = title,
                 color = MaterialTheme.colorScheme.onPrimary,
@@ -142,8 +132,10 @@ private fun StatisticsTopBar(
             )
         },
         actions = {
-            val shouldShowUserPickButton = screenViewState is StatisticsViewState.StatisticsError ||
-                    screenViewState is StatisticsViewState.StatisticsNominal
+            val shouldShowUserPickButton =
+                        screenViewState is StatisticsViewState.StatisticsError ||
+                        screenViewState is StatisticsViewState.StatisticsNominal ||
+                        screenViewState is StatisticsViewState.StatisticsNoSessions
             if (shouldShowUserPickButton) {
                 IconButton(onClick = openUserPicker) {
                     Icon(
@@ -185,6 +177,9 @@ private fun StatisticsContent(
                 deleteAllSessionsForUser = deleteAllSessionsForUser,
                 viewState = screenViewState
             )
+            is StatisticsViewState.StatisticsNoSessions -> StatisticsContentNoSessions(
+                screenViewState
+            )
             StatisticsViewState.StatisticsNoUsers -> StatisticsContentNoUsers()
             is StatisticsViewState.StatisticsError -> StatisticsContentErrorState(
                 user = screenViewState.user,
@@ -197,15 +192,16 @@ private fun StatisticsContent(
             )
         }
         when (dialogViewState) {
-            StatisticsDialog.None -> {/*Do nothing*/}
+            StatisticsDialog.None -> {/*Do nothing*/
+            }
             is StatisticsDialog.SelectUserDialog -> StatisticsPickUserDialog(
-                    users = dialogViewState.users,
-                    selectUser = {
-                        cancelDialog()
-                        selectUser(it)
-                     },
-                    dismissAction = cancelDialog
-                )
+                users = dialogViewState.users,
+                selectUser = {
+                    cancelDialog()
+                    selectUser(it)
+                },
+                dismissAction = cancelDialog
+            )
             is StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser -> ConfirmDialog(
                 message = stringResource(
                     id = R.string.reset_statistics_confirmation_button_label,
@@ -277,13 +273,19 @@ internal class StatisticsScreenPreviewParameterProvider :
             Pair(
                 StatisticsViewState.StatisticsNominal(
                     user = User(name = "Sven Svensson"),
-                    totalNumberOfSessions = 73,
-                    cumulatedTimeOfExerciseFormatted = "5h 23mn 64s",
-                    averageSessionLengthFormatted = "15mn 13s",
-                    longestStreakDays = 25,
-                    currentStreakDays = 7,
-                    averageNumberOfSessionsPerWeek = "3,5"
+                    listOf(
+                        DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                        DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                        DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                        DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                        DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                        DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                    )
                 ), StatisticsDialog.None
             ),
+            Pair(
+                StatisticsViewState.StatisticsNoSessions(user = User(name = "Sven Svensson")),
+                StatisticsDialog.None
+            )
         )
 }

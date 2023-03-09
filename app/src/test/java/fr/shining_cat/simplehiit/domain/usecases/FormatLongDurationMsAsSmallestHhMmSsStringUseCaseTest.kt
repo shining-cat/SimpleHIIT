@@ -1,6 +1,7 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -17,7 +18,7 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
         inputDurationMs: Long,
         expectedOutput: String
     ) {
-        val result = testedUseCase.execute(inputDurationMs)
+        val result = testedUseCase.execute(inputDurationMs, DurationStringFormatter())
         assertEquals(expectedOutput, result)
     }
 
@@ -27,20 +28,17 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
         inputDurationMs: Long,
         expectedOutput: String
     ) {
-        val hoursMinutesSecondsShort = "%1\$dh %2$02dmn %3$02ds"
-        val hoursMinutesNoSecondsShort = "%1\$dh %2$02dmn"
-        val hoursNoMinutesNoSecondsShort = "%1\$dh"
-        val minutesSecondsShort = "%1\$dmn %2\$02ds"
-        val minutesNoSecondsShort = "%1\$dmn"
-        val secondsShort = "%ds"
+        val durationsFormatter = DurationStringFormatter(
+            hoursMinutesSeconds = "%1\$dh %2$02dmn %3$02ds",
+            hoursMinutesNoSeconds = "%1\$dh %2$02dmn",
+            hoursNoMinutesNoSeconds = "%1\$dh",
+            minutesSeconds = "%1\$dmn %2\$02ds",
+            minutesNoSeconds = "%1\$dmn",
+            seconds = "%ds"
+        )
         val result = testedUseCase.execute(
             inputDurationMs,
-            hoursMinutesSecondsShort,
-            hoursMinutesNoSecondsShort,
-            hoursNoMinutesNoSecondsShort,
-            minutesSecondsShort,
-            minutesNoSecondsShort,
-            secondsShort
+            durationsFormatter
         )
         assertEquals(expectedOutput, result)
     }

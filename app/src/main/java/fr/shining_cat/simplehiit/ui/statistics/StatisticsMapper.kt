@@ -1,5 +1,8 @@
 package fr.shining_cat.simplehiit.ui.statistics
 
+import fr.shining_cat.simplehiit.domain.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.domain.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.UserStatistics
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.utils.HiitLogger
@@ -10,44 +13,30 @@ class StatisticsMapper @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
-
-    fun map(
-        userStats: UserStatistics,
-        formatStringHoursMinutesSeconds: String,
-        formatStringHoursMinutesNoSeconds: String,
-        formatStringHoursNoMinutesNoSeconds: String,
-        formatStringMinutesSeconds: String,
-        formatStringMinutesNoSeconds: String,
-        formatStringSeconds: String
-    ): StatisticsViewState {
+    fun map(userStats: UserStatistics, durationStringFormatter: DurationStringFormatter): StatisticsViewState {
+        if(userStats.totalNumberOfSessions == 0) return StatisticsViewState.StatisticsNoSessions(user = userStats.user)
+        //
         val cumulatedTimeOfExerciseFormatted =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 userStats.cumulatedTimeOfExerciseMs,
-                formatStringHoursMinutesSeconds,
-                formatStringHoursMinutesNoSeconds,
-                formatStringHoursNoMinutesNoSeconds,
-                formatStringMinutesSeconds,
-                formatStringMinutesNoSeconds,
-                formatStringSeconds
+                durationStringFormatter
             )
         val averageSessionLengthFormatted =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 userStats.averageSessionLengthMs,
-                formatStringHoursMinutesSeconds,
-                formatStringHoursMinutesNoSeconds,
-                formatStringHoursNoMinutesNoSeconds,
-                formatStringMinutesSeconds,
-                formatStringMinutesNoSeconds,
-                formatStringSeconds
+                durationStringFormatter
             )
+        val displayStatistics = listOf(
+            DisplayedStatistic(userStats.totalNumberOfSessions.toString(), DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+            DisplayedStatistic(cumulatedTimeOfExerciseFormatted, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+            DisplayedStatistic(averageSessionLengthFormatted, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+            DisplayedStatistic(userStats.longestStreakDays.toString(), DisplayStatisticType.LONGEST_STREAK),
+            DisplayedStatistic(userStats.currentStreakDays.toString(), DisplayStatisticType.CURRENT_STREAK),
+            DisplayedStatistic(userStats.averageNumberOfSessionsPerWeek, DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+        )
         return StatisticsViewState.StatisticsNominal(
             user = userStats.user,
-            totalNumberOfSessions = userStats.totalNumberOfSessions,
-            cumulatedTimeOfExerciseFormatted = cumulatedTimeOfExerciseFormatted,
-            averageSessionLengthFormatted = averageSessionLengthFormatted,
-            longestStreakDays = userStats.longestStreakDays,
-            currentStreakDays = userStats.currentStreakDays,
-            averageNumberOfSessionsPerWeek = userStats.averageNumberOfSessionsPerWeek
+            statistics = displayStatistics
         )
     }
 }

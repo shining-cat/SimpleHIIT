@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.ui.settings
 
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.GeneralSettings
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.SettingsError
@@ -15,27 +16,14 @@ class SettingsMapper @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
-    fun map(
-        generalSettingsOutput: Output<GeneralSettings>,
-        formatStringHoursMinutesSeconds: String,
-        formatStringHoursMinutesNoSeconds: String,
-        formatStringHoursNoMinutesNoSeconds: String,
-        formatStringMinutesSeconds: String,
-        formatStringMinutesNoSeconds: String,
-        formatStringSeconds: String
-    ): SettingsViewState {
+    fun map(generalSettingsOutput: Output<GeneralSettings>, durationStringFormatter: DurationStringFormatter): SettingsViewState {
         return when (generalSettingsOutput) {
             is Output.Success<GeneralSettings> -> {
                 val generalSettings = generalSettingsOutput.result
                 val cycleLengthDisplay =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         generalSettings.cycleLengthMs,
-                        formatStringHoursMinutesSeconds,
-                        formatStringHoursMinutesNoSeconds,
-                        formatStringHoursNoMinutesNoSeconds,
-                        formatStringMinutesSeconds,
-                        formatStringMinutesNoSeconds,
-                        formatStringSeconds
+                        durationStringFormatter
                     )
                 //these other values are only displayed as seconds to the user, as we don't expect any other format to be relevant
                 val workPeriodLengthAsSeconds =

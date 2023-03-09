@@ -1,6 +1,7 @@
 package fr.shining_cat.simplehiit.ui.home
 
 import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.HomeSettings
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.ui.home.HomeViewState.*
@@ -12,26 +13,13 @@ class HomeMapper @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
-    fun map(
-        homeSettingsOutput: Output<HomeSettings>,
-        formatStringHoursMinutesSeconds: String,
-        formatStringHoursMinutesNoSeconds: String,
-        formatStringHoursNoMinutesNoSeconds: String,
-        formatStringMinutesSeconds: String,
-        formatStringMinutesNoSeconds: String,
-        formatStringSeconds: String
-    ): HomeViewState {
+    fun map(homeSettingsOutput: Output<HomeSettings>, durationStringFormatter: DurationStringFormatter): HomeViewState {
         return when (homeSettingsOutput) {
             is Output.Success<HomeSettings> -> {
                 val cycleLengthDisplay =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         homeSettingsOutput.result.cycleLengthMs,
-                        formatStringHoursMinutesSeconds,
-                        formatStringHoursMinutesNoSeconds,
-                        formatStringHoursNoMinutesNoSeconds,
-                        formatStringMinutesSeconds,
-                        formatStringMinutesNoSeconds,
-                        formatStringSeconds
+                        durationStringFormatter
                     )
                 if (homeSettingsOutput.result.users.isEmpty()) {
                     HomeMissingUsers(

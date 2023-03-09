@@ -78,12 +78,12 @@
     <!-- STATISTICS PAGE -->
     <string name="statistics_page_title">Statistics</string> <!-- insert user's name -->
     <string name="statistics_page_title_with_user_name">%1$s\'s statistics</string> <!-- insert user's name -->
-    <string name="sessions_total">You have done a total of %1$d sessions</string>
-    <string name="time_total">You have exercised a total of %1$s</string> <!-- we'll format the total length as a string in XXdYYhZZmn-->
-    <string name="average">Your average session length is %1$s</string>
-    <string name="longest_streak">Your longest streak is %1$d days</string>
-    <string name="current_streak">Your current streak is %1$d days</string>
-    <string name="average_sessions_week">You have done on average %1$s sessions per week</string>
+    <string name="sessions_total">sessions</string>
+    <string name="time_total">cumulated time</string> <!-- we'll format the total length as a string in XXdYYhZZmn-->
+    <string name="average">average session length</string>
+    <string name="longest_streak">longest streak</string>
+    <string name="current_streak">current streak</string>
+    <string name="average_sessions_week">average sessions/week</string>
     <string name="user_pick_button_content_label">Users</string>
     <string name="user_pick_dialog_title">Pick a user</string>
     <string name="doge_icon_content_description">Doge meme icon</string>

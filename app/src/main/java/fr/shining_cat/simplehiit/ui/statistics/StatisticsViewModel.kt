@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.DeleteSessionsForUserUseCase
 import fr.shining_cat.simplehiit.domain.usecases.GetAllUsersUseCase
@@ -34,30 +35,13 @@ class StatisticsViewModel @Inject constructor(
     private val _dialogViewState = MutableStateFlow<StatisticsDialog>(StatisticsDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
-    private var isInitialized = false // TODO: discuss better way to prevent viewModel initialization on every Screen composable composition
+    private var isInitialized = false
 
-    private var formatStringHoursMinutesSeconds: String = ""
-    private var formatStringHoursMinutesNoSeconds: String = ""
-    private var formatStringHoursNoMinutesNoSeconds: String = ""
-    private var formatStringMinutesSeconds: String = ""
-    private var formatStringMinutesNoSeconds: String = ""
-    private var formatStringSeconds: String = ""
+    private var durationStringFormatter = DurationStringFormatter()
 
-    fun init(
-        formatStringHoursMinutesSeconds: String,
-        formatStringHoursMinutesNoSeconds: String,
-        formatStringHoursNoMinutesNoSeconds: String,
-        formatStringMinutesSeconds: String,
-        formatStringMinutesNoSeconds: String,
-        formatStringSeconds: String
-    ) {
-        if(!isInitialized) {
-            this.formatStringHoursMinutesSeconds = formatStringHoursMinutesSeconds
-            this.formatStringHoursMinutesNoSeconds = formatStringHoursMinutesNoSeconds
-            this.formatStringHoursNoMinutesNoSeconds = formatStringHoursNoMinutesNoSeconds
-            this.formatStringMinutesSeconds = formatStringMinutesSeconds
-            this.formatStringMinutesNoSeconds = formatStringMinutesNoSeconds
-            this.formatStringSeconds = formatStringSeconds
+    fun init(durationStringFormatter: DurationStringFormatter) {
+        if (!isInitialized) {
+            this.durationStringFormatter = durationStringFormatter
             //
             viewModelScope.launch {
                 getAllUsersUseCase.execute().collect() {
@@ -90,18 +74,20 @@ class StatisticsViewModel @Inject constructor(
             val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)
             when (statisticsOutput) {
                 is Output.Success -> {
-                    _screenViewState.emit(mapper.map(
-                        statisticsOutput.result,
-                        formatStringHoursMinutesSeconds,
-                        formatStringHoursMinutesNoSeconds,
-                        formatStringHoursNoMinutesNoSeconds,
-                        formatStringMinutesSeconds,
-                        formatStringMinutesNoSeconds,
-                        formatStringSeconds
-                    ))
+                    _screenViewState.emit(
+                        mapper.map(
+                            statisticsOutput.result,
+                            durationStringFormatter
+                        )
+                    )
                 }
                 is Output.Error -> { //failed retrieving statistics for selected user -> special error for this user
-                    _screenViewState.emit(StatisticsViewState.StatisticsError(statisticsOutput.errorCode.code, user))
+                    _screenViewState.emit(
+                        StatisticsViewState.StatisticsError(
+                            statisticsOutput.errorCode.code,
+                            user
+                        )
+                    )
                 }
             }
         }
@@ -109,16 +95,8 @@ class StatisticsViewModel @Inject constructor(
 
     fun openPickUser() {
         viewModelScope.launch {
-            val currentViewState = screenViewState.value
-            if (currentViewState is StatisticsViewState.StatisticsNominal) {
-                val users = allUsersViewState.value
-                _dialogViewState.emit(StatisticsDialog.SelectUserDialog(users))
-            } else {
-                hiitLogger.e(
-                    "StatisticsViewModel",
-                    "openPickUser:: current state does not allow this now"
-                )
-            }
+            val users = allUsersViewState.value
+            _dialogViewState.emit(StatisticsDialog.SelectUserDialog(users))
         }
     }
 
@@ -128,7 +106,9 @@ class StatisticsViewModel @Inject constructor(
             "deleteAllSessionsForUser::user = $user"
         )
         viewModelScope.launch {
-            _dialogViewState.emit(StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser(user))
+            _dialogViewState.emit(
+                StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser(user)
+            )
         }
     }
 

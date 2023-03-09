@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.ui.home
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.HomeSettings
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
@@ -25,7 +26,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
 
     @BeforeEach
     fun setUpMock() {
-        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any(), any(), any(), any(), any(), any()) } returns mockDurationString
+        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any()) } returns mockDurationString
     }
 
     @ParameterizedTest(name = "{index} -> called with {0} should return {1}")
@@ -36,31 +37,19 @@ internal class HomeMapperTest : AbstractMockkTest() {
     ) {
         val result = testedMapper.map(
             homeSettingsOutput = input,
-            formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-            formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-            formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-            formatStringMinutesSeconds = "formatStringMinutesSeconds",
-            formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-            formatStringSeconds = "formatStringSeconds"
+            durationStringFormatter = DurationStringFormatter()
         )
         //
         if (input is Output.Success) {
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = input.result.cycleLengthMs,
-                    formatStringHoursMinutesSeconds = "formatStringHoursMinutesSeconds",
-                    formatStringHoursMinutesNoSeconds = "formatStringHoursMinutesNoSeconds",
-                    formatStringHoursNoMinutesNoSeconds = "formatStringHoursNoMinutesNoSeconds",
-                    formatStringMinutesSeconds = "formatStringMinutesSeconds",
-                    formatStringMinutesNoSeconds = "formatStringMinutesNoSeconds",
-                    formatStringSeconds = "formatStringSeconds"
+                    durationStringFormatter = DurationStringFormatter()
                 )
             }
         } else {
             coVerify(exactly = 0) {
-                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    any()
-                )
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any())
             }
         }
         assertEquals(expectedOutput, result)

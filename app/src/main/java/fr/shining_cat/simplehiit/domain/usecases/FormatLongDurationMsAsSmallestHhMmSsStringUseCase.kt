@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -20,12 +21,7 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
      **/
     fun execute(
         durationMs: Long,
-        formatStringHoursMinutesSeconds: String = "%1\$02d:%2\$02d:%3\$02d",
-        formatStringHoursMinutesNoSeconds: String = formatStringHoursMinutesSeconds,
-        formatStringHoursNoMinutesNoSeconds: String = formatStringHoursMinutesSeconds,
-        formatStringMinutesSeconds: String = "%1\$02d:%2\$02d",
-        formatStringMinutesNoSeconds: String = formatStringMinutesSeconds,
-        formatStringSeconds: String = "%02d"
+        durationStringFormatter: DurationStringFormatter
     ): String {
 
         val hours = TimeUnit.MILLISECONDS.toHours(durationMs)
@@ -34,24 +30,24 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
 
         return when {
             // ex: 5s / 32s
-            hours == 0L && minutes == 0L -> formatStringSeconds.format(seconds)
+            hours == 0L && minutes == 0L -> durationStringFormatter.seconds.format(seconds)
             //
             hours == 0L && minutes > 0L -> when (seconds) {
                 // ex: 3mn / 13mn
                 0L -> try {
-                    formatStringMinutesNoSeconds.format(
+                    durationStringFormatter.minutesNoSeconds.format(
                         minutes
                     )
                 }
                 // the default String needs the 0 seconds argument to be formatted
                 catch (mae: MissingFormatArgumentException) {
-                    formatStringMinutesNoSeconds.format(
+                    durationStringFormatter.minutesNoSeconds.format(
                         minutes,
                         seconds
                     )
                 }
                 // ex: 2mn04s / 1mn43s / 23mn52s
-                else -> formatStringMinutesSeconds.format(
+                else -> durationStringFormatter.minutesSeconds.format(
                     minutes,
                     seconds
                 )
@@ -60,9 +56,9 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
                 0L -> try {
                     when (minutes) {
                         // ex: 1h / 23h
-                        0L -> formatStringHoursNoMinutesNoSeconds.format(hours)
+                        0L -> durationStringFormatter.hoursNoMinutesNoSeconds.format(hours)
                         // ex: 2h03mn / 3h45mn
-                        else -> formatStringHoursMinutesNoSeconds.format(
+                        else -> durationStringFormatter.hoursMinutesNoSeconds.format(
                             hours,
                             minutes
                         )
@@ -70,14 +66,14 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
                 }
                 // the default String needs the 0 minutes & 0 seconds arguments to be formatted
                 catch (mae: MissingFormatArgumentException) {
-                    formatStringHoursMinutesSeconds.format(
+                    durationStringFormatter.hoursMinutesSeconds.format(
                         hours,
                         minutes,
                         seconds
                     )
                 }
                 // ex: 3h04mn05s / 4h12mn34s / 12h34mn56s
-                else -> formatStringHoursMinutesSeconds.format(
+                else -> durationStringFormatter.hoursMinutesSeconds.format(
                     hours,
                     minutes,
                     seconds

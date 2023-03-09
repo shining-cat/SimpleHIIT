@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.ui.home
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
@@ -28,32 +29,18 @@ class HomeViewModel @Inject constructor(
     private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
-    private var isInitialized = false // TODO: discuss better way to prevent viewModel initialization on every Screen composable composition
+    private var isInitialized = false
 
-    fun init(
-        formatStringHoursMinutesSeconds: String,
-        formatStringHoursMinutesNoSeconds: String,
-        formatStringHoursNoMinutesNoSeconds: String,
-        formatStringMinutesSeconds: String,
-        formatStringMinutesNoSeconds: String,
-        formatStringSeconds: String
-    ) {
+    fun init(durationStringFormatter: DurationStringFormatter) {
         if(!isInitialized) {
             viewModelScope.launch {
                 getHomeSettingsUseCase.execute().collect() {
                     _screenViewState.emit(
-                        homeMapper.map(
-                            it,
-                            formatStringHoursMinutesSeconds,
-                            formatStringHoursMinutesNoSeconds,
-                            formatStringHoursNoMinutesNoSeconds,
-                            formatStringMinutesSeconds,
-                            formatStringMinutesNoSeconds,
-                            formatStringSeconds
-                        )
+                        homeMapper.map( it, durationStringFormatter)
                     )
                 }
             }
+            isInitialized = true
         }
     }
 
