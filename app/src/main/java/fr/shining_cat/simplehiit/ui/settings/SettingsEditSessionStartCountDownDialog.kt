@@ -14,7 +14,7 @@ import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 
 @Composable
-fun SettingsContentInputPeriodCountDownLengthDialog(
+fun SettingsEditSessionStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
     validateCountDownLengthInput: (String) -> Constants.InputError,
     countDownLengthSeconds: String,
@@ -26,7 +26,7 @@ fun SettingsContentInputPeriodCountDownLengthDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.period_start_countdown_length_setting_label),
+            dialogTitle = stringResource(id = R.string.session_start_countdown_length_setting_label),
             inputFieldValue = countDownLengthSeconds,
             inputFieldPostfix = stringResource(id = R.string.seconds),
             inputFieldSingleLine = true,
@@ -37,15 +37,14 @@ fun SettingsContentInputPeriodCountDownLengthDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateCountDownLengthInput,
-            pickErrorMessage = { setInputPeriodCountDownLengthErrorMessage(it) }
+            pickErrorMessage = { setInputSessionCountDownLengthErrorMessage(it) }
         )
     }
 }
 
-private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int {
+private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int {
     return when (error) {
         Constants.InputError.NONE -> -1
-        Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error
     }
 }

@@ -23,7 +23,7 @@ class HomeViewModel @Inject constructor(
     private val hiitLogger: HiitLogger
 ) : AbstractLoggerViewModel(hiitLogger) {
 
-    private val _screenViewState = MutableStateFlow<HomeViewState>(HomeViewState.HomeLoading)
+    private val _screenViewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
     val screenViewState = _screenViewState.asStateFlow()
 
     private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
@@ -54,7 +54,7 @@ class HomeViewModel @Inject constructor(
     fun openInputNumberCyclesDialog(currentValue: Int) {
         viewModelScope.launch {
             _dialogViewState.emit(
-                HomeDialog.HomeDialogInputNumberCycles(initialNumberOfCycles = currentValue)
+                HomeDialog.InputNumberCycles(initialNumberOfCycles = currentValue)
             )
         }
     }
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
 
     fun resetWholeApp() {
         viewModelScope.launch {
-            _dialogViewState.emit(HomeDialog.HomeDialogConfirmWholeReset)
+            _dialogViewState.emit(HomeDialog.ConfirmWholeReset)
         }
     }
 

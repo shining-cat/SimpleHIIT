@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings
+package fr.shining_cat.simplehiit.ui.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,10 +14,10 @@ import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 
 @Composable
-fun SettingsContentInputNumberCyclesDialog(
-    saveNumber: (String) -> Unit,
-    validateNumberCyclesInput: (String) -> Constants.InputError,
-    numberOfCycles: String,
+fun HomeInputNumberCyclesDialog(
+    saveInputNumberCycles: (String) -> Unit,
+    validateInputNumberCycles: (String) -> Constants.InputError,
+    numberOfCycles: Int,
     onCancel: () -> Unit
 ) {
     Column(
@@ -26,24 +26,24 @@ fun SettingsContentInputNumberCyclesDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.number_of_cycle_setting_title),
-            inputFieldValue = numberOfCycles,
-            inputFieldPostfix = stringResource(id = R.string.number_of_exercises_per_cycle),
+            dialogTitle = stringResource(id = R.string.input_number_cycles_dialog_title),
+            inputFieldValue = numberOfCycles.toString(),
+            inputFieldPostfix = stringResource(id = R.string.input_number_cycles_dialog_postfix),
             inputFieldSingleLine = true,
             inputFieldSize = InputDialogTextFieldSize.SMALL,
             primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
-            primaryAction = { saveNumber(it) },
+            primaryAction = { saveInputNumberCycles(it) },
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
-            validateInput = validateNumberCyclesInput,
-            pickErrorMessage = { setNumberCyclesErrorMessage(it) }
+            validateInput = validateInputNumberCycles,
+            pickErrorMessage = { setErrorMessage(it) }
         )
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
-    return when (error) {
+private fun setErrorMessage(error: Constants.InputError): Int{
+    return when(error){
         Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }

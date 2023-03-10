@@ -217,12 +217,12 @@ fun SettingsContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (screenViewState) {
-            SettingsViewState.SettingsLoading -> CircularProgressIndicator()
-            is SettingsViewState.SettingsError -> SettingsContentBrokenState(
+            SettingsViewState.Loading -> CircularProgressIndicator()
+            is SettingsViewState.Error -> SettingsErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetSettings = resetSettings
             )
-            is SettingsViewState.SettingsNominal -> SettingsContentNominal(
+            is SettingsViewState.Nominal -> SettingsNominalContent(
                 editWorkPeriodLength = editWorkPeriodLength,
                 editRestPeriodLength = editRestPeriodLength,
                 editNumberOfWorkPeriods = editNumberOfWorkPeriods,
@@ -239,62 +239,62 @@ fun SettingsContent(
         when (dialogViewState) {
             SettingsDialog.None -> {/*do nothing*/
             }
-            is SettingsDialog.SettingsDialogEditWorkPeriodLength -> SettingsContentInputWorkPeriodLengthDialog(
+            is SettingsDialog.EditWorkPeriodLength -> SettingsEditWorkPeriodLengthDialog(
                 saveWorkPeriodLength = saveWorkPeriodLength,
                 validateWorkPeriodLengthInput = validatePeriodLengthInput,
                 workPeriodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-            is SettingsDialog.SettingsDialogEditRestPeriodLength -> SettingsContentInputRestPeriodLengthDialog(
+            is SettingsDialog.EditRestPeriodLength -> SettingsEditRestPeriodLengthDialog(
                 saveRestPeriodLength = saveRestPeriodLength,
                 validateRestPeriodLengthInput = validatePeriodLengthInput,
                 restPeriodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-            is SettingsDialog.SettingsDialogEditNumberCycles -> SettingsContentInputNumberCyclesDialog(
+            is SettingsDialog.EditNumberCycles -> SettingsEditNumberCyclesDialog(
                 saveNumber = saveNumberOfWorkPeriod,
                 validateNumberCyclesInput = validateNumberOfWorkPeriodsInput,
                 numberOfCycles = dialogViewState.numberOfCycles,
                 onCancel = cancelDialog
             )
-            is SettingsDialog.SettingsDialogEditSessionStartCountDown -> SettingsContentInputSessionCountDownLengthDialog(
+            is SettingsDialog.EditSessionStartCountDown -> SettingsEditSessionStartCountDownDialog(
                 saveCountDownLength = saveSessionStartCountDown,
                 validateCountDownLengthInput = validateSessionCountDownLengthInput,
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog
             )
-            is SettingsDialog.SettingsDialogEditPeriodStartCountDown -> SettingsContentInputPeriodCountDownLengthDialog(
+            is SettingsDialog.EditPeriodStartCountDown -> SettingsEditPeriodStartCountDownDialog(
                 saveCountDownLength = savePeriodStartCountDown,
                 validateCountDownLengthInput = validatePeriodCountDownLengthInput,
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog
             )
-            is SettingsDialog.SettingsDialogAddUser -> SettingsContentCreateUserDialog(
+            is SettingsDialog.AddUser -> SettingsAddUserDialog(
                 saveUserName = { saveUser(User(name = it)) },
                 userName = dialogViewState.userName,
                 validateUserNameInput = { validateInputNameString(User(name = it))},
                 onCancel = cancelDialog
             )
-            is SettingsDialog.SettingsDialogEditUser -> SettingsContentEditUserDialog(
+            is SettingsDialog.EditUser -> SettingsEditUserDialog(
                 saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
                 deleteUser = { deleteUser(dialogViewState.user) },
                 validateUserNameInput = { validateInputNameString(dialogViewState.user.copy(name = it))},
                 userName = dialogViewState.user.name,
                 onCancel = cancelDialog
             )
-            is SettingsDialog.SettingsDialogConfirmDeleteUser -> ConfirmDialog(
+            is SettingsDialog.ConfirmDeleteUser -> ConfirmDialog(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 primaryButtonLabel = stringResource(id = R.string.delete_button_label),
                 primaryAction = { deleteUserConfirm(dialogViewState.user) },
                 dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
             )
-            SettingsDialog.SettingsDialogConfirmResetAllSettings -> ConfirmDialog(
+            SettingsDialog.ConfirmResetAllSettings -> ConfirmDialog(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
                 primaryButtonLabel = stringResource(id = R.string.reset_button_label),
                 primaryAction = resetSettingsConfirmation,
                 dismissAction = cancelDialog
             )
-            is SettingsDialog.SettingsDialogError -> ErrorDialog(
+            is SettingsDialog.Error -> ErrorDialog(
                 errorMessage = "",
                 errorCode = dialogViewState.errorCode,
                 dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
@@ -369,15 +369,15 @@ internal class SettingsScreenPreviewParameterProvider :
 
     override val values: Sequence<Pair<SettingsViewState, SettingsDialog>>
         get() = sequenceOf(
-            Pair(SettingsViewState.SettingsLoading, SettingsDialog.None),
+            Pair(SettingsViewState.Loading, SettingsDialog.None),
             Pair(
-                SettingsViewState.SettingsError(
+                SettingsViewState.Error(
                     errorCode = "this is an error code"
                 ),
                 SettingsDialog.None
             ),
             Pair(
-                SettingsViewState.SettingsNominal(
+                SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
                     restPeriodLengthAsSeconds = "5",
                     numberOfWorkPeriods = "4",
@@ -391,7 +391,7 @@ internal class SettingsScreenPreviewParameterProvider :
                 SettingsDialog.None
             ),
             Pair(
-                SettingsViewState.SettingsNominal(
+                SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
                     restPeriodLengthAsSeconds = "5",
                     numberOfWorkPeriods = "4",
@@ -405,7 +405,7 @@ internal class SettingsScreenPreviewParameterProvider :
                 SettingsDialog.None
             ),
             Pair(
-                SettingsViewState.SettingsNominal(
+                SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
                     restPeriodLengthAsSeconds = "5",
                     numberOfWorkPeriods = "4",
@@ -419,7 +419,7 @@ internal class SettingsScreenPreviewParameterProvider :
                 SettingsDialog.None
             ),
             Pair(
-                SettingsViewState.SettingsNominal(
+                SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
                     restPeriodLengthAsSeconds = "5",
                     numberOfWorkPeriods = "4",

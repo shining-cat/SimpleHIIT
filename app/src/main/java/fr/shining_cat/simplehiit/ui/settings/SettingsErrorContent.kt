@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 
 @Composable
-fun SettingsContentBrokenState(
+fun SettingsErrorContent(
     errorCode: String,
     resetSettings: () -> Unit = {}
 ) {

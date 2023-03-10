@@ -22,19 +22,19 @@ class HomeMapper @Inject constructor(
                         durationStringFormatter
                     )
                 if (homeSettingsOutput.result.users.isEmpty()) {
-                    HomeMissingUsers(
+                    MissingUsers(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
                         cycleLength = cycleLengthDisplay
                     )
                 } else {
-                    HomeNominal(
+                    Nominal(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
                         cycleLength = cycleLengthDisplay,
                         users = homeSettingsOutput.result.users
                     )
                 }
             }
-            is Output.Error -> HomeError(homeSettingsOutput.errorCode.code)
+            is Output.Error -> Error(homeSettingsOutput.errorCode.code)
         }
     }
 }

@@ -5,7 +5,6 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.ui.home.HomeMapperTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -81,7 +80,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
                         exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4)
                     )),
-                    SettingsViewState.SettingsNominal(
+                    SettingsViewState.Nominal(
                         workPeriodLengthAsSeconds = "15",
                         restPeriodLengthAsSeconds = "10",
                         numberOfWorkPeriods = "6",
@@ -105,7 +104,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                         users = listOf(testUser1, testUser2),
                         exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
                     )),
-                    SettingsViewState.SettingsNominal(
+                    SettingsViewState.Nominal(
                         workPeriodLengthAsSeconds = "21",
                         restPeriodLengthAsSeconds = "13",
                         numberOfWorkPeriods = "7",
@@ -119,11 +118,11 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     Output.Error(errorCode = Constants.Errors.NO_USERS_FOUND, exception = testException),
-                    SettingsViewState.SettingsError(Constants.Errors.NO_USERS_FOUND.code)
+                    SettingsViewState.Error(Constants.Errors.NO_USERS_FOUND.code)
                 ),
                 Arguments.of(
                     Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException),
-                    SettingsViewState.SettingsError(Constants.Errors.DATABASE_FETCH_FAILED.code)
+                    SettingsViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code)
                 ),
                 Arguments.of(
                     Output.Success(GeneralSettings(
@@ -137,7 +136,7 @@ internal class SettingsMapperTest : AbstractMockkTest() {
                         users = listOf(testUser1, testUser2),
                         exerciseTypes = listOf(testExerciseTypeSelected2, testExerciseTypeSelected3, testExerciseTypeSelected1)
                     )),
-                    SettingsViewState.SettingsNominal(
+                    SettingsViewState.Nominal(
                         workPeriodLengthAsSeconds = (Int.MAX_VALUE).toString(),
                         restPeriodLengthAsSeconds = "13",
                         numberOfWorkPeriods = "7",

@@ -4,8 +4,8 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
 
 sealed class SettingsViewState {
-    object SettingsLoading : SettingsViewState()
-    data class SettingsNominal(
+    object Loading : SettingsViewState()
+    data class Nominal(
         val workPeriodLengthAsSeconds: String,
         val restPeriodLengthAsSeconds: String,
         val numberOfWorkPeriods: String,
@@ -17,19 +17,19 @@ sealed class SettingsViewState {
         val exerciseTypes: List<ExerciseTypeSelected>
     ) : SettingsViewState()
 
-    data class SettingsError(val errorCode: String) : SettingsViewState()
+    data class Error(val errorCode: String) : SettingsViewState()
 }
 
 sealed class SettingsDialog {
     object None : SettingsDialog()
-    data class SettingsDialogEditWorkPeriodLength(val valueSeconds: String) : SettingsDialog()
-    data class SettingsDialogEditRestPeriodLength(val valueSeconds: String) : SettingsDialog()
-    data class SettingsDialogEditNumberCycles(val numberOfCycles: String) : SettingsDialog()
-    data class SettingsDialogEditSessionStartCountDown(val valueSeconds: String) : SettingsDialog()
-    data class SettingsDialogEditPeriodStartCountDown(val valueSeconds: String) : SettingsDialog()
-    data class SettingsDialogAddUser(val userName: String) : SettingsDialog()
-    data class SettingsDialogEditUser(val user: User) : SettingsDialog()
-    data class SettingsDialogConfirmDeleteUser(val user: User) : SettingsDialog()
-    object SettingsDialogConfirmResetAllSettings : SettingsDialog()
-    data class SettingsDialogError(val errorCode: String) : SettingsDialog()
+    data class EditWorkPeriodLength(val valueSeconds: String) : SettingsDialog()
+    data class EditRestPeriodLength(val valueSeconds: String) : SettingsDialog()
+    data class EditNumberCycles(val numberOfCycles: String) : SettingsDialog()
+    data class EditSessionStartCountDown(val valueSeconds: String) : SettingsDialog()
+    data class EditPeriodStartCountDown(val valueSeconds: String) : SettingsDialog()
+    data class AddUser(val userName: String) : SettingsDialog()
+    data class EditUser(val user: User) : SettingsDialog()
+    data class ConfirmDeleteUser(val user: User) : SettingsDialog()
+    object ConfirmResetAllSettings : SettingsDialog()
+    data class Error(val errorCode: String) : SettingsDialog()
 }

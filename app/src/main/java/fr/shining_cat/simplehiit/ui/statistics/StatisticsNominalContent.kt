@@ -26,9 +26,9 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
-fun StatisticsContentNominal(
+fun StatisticsNominalContent(
     deleteAllSessionsForUser: (User) -> Unit,
-    viewState: StatisticsViewState.StatisticsNominal,
+    viewState: StatisticsViewState.Nominal,
     hiitLogger: HiitLogger?
 ) {
     Column(
@@ -57,7 +57,7 @@ fun StatisticsContentNominal(
         ) {
             items(viewState.statistics.size) {
                 val displayStatistic = viewState.statistics[it]
-                StatisticCard(displayStatistic)
+                StatisticCardComponent(displayStatistic)
             }
             item(span = doubleSpan) {
                 Divider(
@@ -82,7 +82,7 @@ fun StatisticsContentNominal(
     }
 }
 
-class StickyFooterArrangement(
+internal class StickyFooterArrangement(
     private val verticalPadding: Dp,
     private val hiitLogger: HiitLogger?
     ) : Arrangement.Vertical {
@@ -109,7 +109,7 @@ class StickyFooterArrangement(
 }
 
 @Composable
-private fun StatisticCard(statistic: DisplayedStatistic) {
+private fun StatisticCardComponent(statistic: DisplayedStatistic) {
     val label = when (statistic.type) {
         DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(R.string.sessions_total)
         DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(R.string.time_total)
@@ -149,10 +149,10 @@ private fun StatisticCard(statistic: DisplayedStatistic) {
 )
 @Composable
 private fun StatisticsContentNominalPreview(
-    @PreviewParameter(StatisticsContentNominalPreviewParameterProvider::class) viewState: StatisticsViewState.StatisticsNominal
+    @PreviewParameter(StatisticsContentNominalPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
     SimpleHiitTheme {
-        StatisticsContentNominal(
+        StatisticsNominalContent(
             deleteAllSessionsForUser = {},
             viewState = viewState,
             hiitLogger = null
@@ -161,10 +161,10 @@ private fun StatisticsContentNominalPreview(
 }
 
 internal class StatisticsContentNominalPreviewParameterProvider :
-    PreviewParameterProvider<StatisticsViewState.StatisticsNominal> {
-    override val values: Sequence<StatisticsViewState.StatisticsNominal>
+    PreviewParameterProvider<StatisticsViewState.Nominal> {
+    override val values: Sequence<StatisticsViewState.Nominal>
         get() = sequenceOf(
-            StatisticsViewState.StatisticsNominal(
+            StatisticsViewState.Nominal(
                 user = User(name = "Sven Svensson"),
                 listOf(
                     DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
@@ -175,7 +175,7 @@ internal class StatisticsContentNominalPreviewParameterProvider :
                     DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
                 )
             ),
-            StatisticsViewState.StatisticsNominal(
+            StatisticsViewState.Nominal(
                 user = User(name = "Sven Svensson"),
                 listOf(
                     DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.home
+package fr.shining_cat.simplehiit.ui.statistics
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -17,11 +17,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.domain.models.User
 
 @Composable
-fun HomeContentBrokenState(
+fun StatisticsErrorContent(
+    user: User,
     errorCode: String,
-    resetWholeApp: () -> Unit = {}
+    deleteSessionsForUser: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -39,7 +41,7 @@ fun HomeContentBrokenState(
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
-            text = stringResource(id = R.string.error_irrecoverable_state),
+            text = stringResource(id = R.string.error_irrecoverable_statistics, user.name),
             style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
@@ -56,13 +58,13 @@ fun HomeContentBrokenState(
             modifier = Modifier
                 .padding(horizontal = 0.dp, vertical = 16.dp)
                 .align(Alignment.CenterHorizontally),
-            onClick = resetWholeApp,
+            onClick = deleteSessionsForUser,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,
                 contentColor = MaterialTheme.colorScheme.onError
             )
         ) {
-            Text(text = stringResource(id = R.string.reset_app_button_label))
+            Text(text = stringResource(id = R.string.delete_button_label))
         }
     }
 }

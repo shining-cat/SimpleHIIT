@@ -14,7 +14,7 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ToggleButton
 
 @Composable
-fun SelectUsersSection(users: List<User>, toggleSelectedUser: (User) -> Unit) {
+fun SelectUsersComponent(users: List<User>, toggleSelectedUser: (User) -> Unit) {
     Column(
         Modifier.fillMaxWidth().padding(vertical = 16.dp)
     ) {

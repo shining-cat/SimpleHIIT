@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.Constants
@@ -13,11 +14,10 @@ import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 
 @Composable
-fun SettingsContentEditUserDialog(
-    saveUserName: (String) -> Unit,
-    deleteUser: () -> Unit,
-    validateUserNameInput: (String) -> Constants.InputError,
-    userName: String,
+fun SettingsEditNumberCyclesDialog(
+    saveNumber: (String) -> Unit,
+    validateNumberCyclesInput: (String) -> Constants.InputError,
+    numberOfCycles: String,
     onCancel: () -> Unit
 ) {
     Column(
@@ -26,27 +26,25 @@ fun SettingsContentEditUserDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.edit_user_dialog_title),
-            inputFieldValue = userName,
-            inputFieldPostfix = "",
+            dialogTitle = stringResource(id = R.string.number_of_cycle_setting_title),
+            inputFieldValue = numberOfCycles,
+            inputFieldPostfix = stringResource(id = R.string.number_of_exercises_per_cycle),
             inputFieldSingleLine = true,
-            inputFieldSize = InputDialogTextFieldSize.LARGE,
+            inputFieldSize = InputDialogTextFieldSize.SMALL,
             primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
-            primaryAction = { saveUserName(it) },
-            secondaryButtonLabel = stringResource(id = R.string.delete_button_label),
-            secondaryAction = deleteUser,
+            primaryAction = { saveNumber(it) },
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
-            validateInput = validateUserNameInput,
-            pickErrorMessage = { setUserNameErrorMessage(it) }
+            keyboardType = KeyboardType.Number,
+            validateInput = validateNumberCyclesInput,
+            pickErrorMessage = { setNumberCyclesErrorMessage(it) }
         )
     }
 }
 
-private fun setUserNameErrorMessage(error: Constants.InputError): Int {
+private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
-        else -> -1
+        Constants.InputError.NONE -> -1
+        else -> R.string.invalid_input_error
     }
 }

@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 
 @Composable
-fun NumberCyclesSection(
+fun NumberCyclesComponent(
     openInputNumberCycles: (Int) -> Unit,
     numberOfCycles: Int,
     lengthOfCycle: String

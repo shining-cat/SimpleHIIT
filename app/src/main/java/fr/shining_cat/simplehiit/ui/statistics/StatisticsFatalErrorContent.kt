@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 
 @Composable
-fun StatisticsContentBrokenState(
+fun StatisticsFatalErrorContent(
     errorCode: String,
     resetWholeApp: () -> Unit = {}
 ) {

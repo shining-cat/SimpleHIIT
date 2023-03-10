@@ -5,8 +5,8 @@ import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.GeneralSettings
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.SettingsError
-import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.SettingsNominal
+import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.Error
+import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.Nominal
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -35,9 +35,9 @@ class SettingsMapper @Inject constructor(
                 val periodsStartCountDownLengthAsSeconds =
                     durationMsAsSeconds(generalSettings.periodsStartCountDownLengthMs)
                 if (workPeriodLengthAsSeconds == null || restPeriodLengthAsSeconds == null || sessionStartCountDownLengthAsSeconds == null || periodsStartCountDownLengthAsSeconds == null) {
-                    SettingsError(Constants.Errors.CONVERSION_ERROR.code)
+                    Error(Constants.Errors.CONVERSION_ERROR.code)
                 } else {
-                    SettingsNominal(
+                    Nominal(
                         workPeriodLengthAsSeconds = workPeriodLengthAsSeconds,
                         restPeriodLengthAsSeconds = restPeriodLengthAsSeconds,
                         numberOfWorkPeriods = generalSettings.numberOfWorkPeriods.toString(),
@@ -50,7 +50,7 @@ class SettingsMapper @Inject constructor(
                     )
                 }
             }
-            is Output.Error -> SettingsError(generalSettingsOutput.errorCode.code)
+            is Output.Error -> Error(generalSettingsOutput.errorCode.code)
         }
     }
 

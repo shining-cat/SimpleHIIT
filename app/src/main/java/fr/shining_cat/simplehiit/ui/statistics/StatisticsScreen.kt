@@ -131,9 +131,9 @@ private fun StatisticsTopBar(
         },
         actions = {
             val shouldShowUserPickButton =
-                screenViewState is StatisticsViewState.StatisticsError ||
-                        screenViewState is StatisticsViewState.StatisticsNominal ||
-                        screenViewState is StatisticsViewState.StatisticsNoSessions
+                screenViewState is StatisticsViewState.Error ||
+                        screenViewState is StatisticsViewState.Nominal ||
+                        screenViewState is StatisticsViewState.NoSessions
             if (shouldShowUserPickButton) {
                 IconButton(onClick = openUserPicker) {
                     Icon(
@@ -167,31 +167,31 @@ private fun StatisticsContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (screenViewState) {
-            StatisticsViewState.StatisticsLoading -> CircularProgressIndicator()
-            is StatisticsViewState.StatisticsNominal -> {
-                StatisticsContentNominal(
+            StatisticsViewState.Loading -> CircularProgressIndicator()
+            is StatisticsViewState.Nominal -> {
+                StatisticsNominalContent(
                     deleteAllSessionsForUser = deleteAllSessionsForUser,
                     viewState = screenViewState,
                     hiitLogger = hiitLogger
                 )
             }
-            is StatisticsViewState.StatisticsNoSessions -> StatisticsContentNoSessions(
+            is StatisticsViewState.NoSessions -> StatisticsNoSessionsContent(
                 screenViewState
             )
-            StatisticsViewState.StatisticsNoUsers -> StatisticsContentNoUsers()
-            is StatisticsViewState.StatisticsError -> StatisticsContentErrorState(
+            StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
+            is StatisticsViewState.Error -> StatisticsErrorContent(
                 user = screenViewState.user,
                 errorCode = screenViewState.errorCode,
                 deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) }
             )
-            is StatisticsViewState.StatisticsFatalError -> StatisticsContentBrokenState(
+            is StatisticsViewState.FatalError -> StatisticsFatalErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp
             )
         }
         when (dialogViewState) {
             StatisticsDialog.None -> {}/*Do nothing*/
-            is StatisticsDialog.SelectUserDialog -> StatisticsPickUserDialog(
+            is StatisticsDialog.SelectUser -> StatisticsSelectUserDialog(
                 users = dialogViewState.users,
                 selectUser = {
                     cancelDialog()
@@ -199,7 +199,7 @@ private fun StatisticsContent(
                 },
                 dismissAction = cancelDialog
             )
-            is StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser -> ConfirmDialog(
+            is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> ConfirmDialog(
                 message = stringResource(
                     id = R.string.reset_statistics_confirmation_button_label,
                     dialogViewState.user.name
@@ -208,7 +208,7 @@ private fun StatisticsContent(
                 primaryAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog
             )
-            StatisticsDialog.StatisticsDialogConfirmWholeReset -> ConfirmDialog(
+            StatisticsDialog.ConfirmWholeReset -> ConfirmDialog(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 primaryButtonLabel = stringResource(id = R.string.delete_button_label),
                 primaryAction = resetWholeAppConfirmation,
@@ -255,20 +255,20 @@ internal class StatisticsScreenPreviewParameterProvider :
     PreviewParameterProvider<Pair<StatisticsViewState, StatisticsDialog>> {
     override val values: Sequence<Pair<StatisticsViewState, StatisticsDialog>>
         get() = sequenceOf(
-            Pair(StatisticsViewState.StatisticsLoading, StatisticsDialog.None),
-            Pair(StatisticsViewState.StatisticsNoUsers, StatisticsDialog.None),
+            Pair(StatisticsViewState.Loading, StatisticsDialog.None),
+            Pair(StatisticsViewState.NoUsers, StatisticsDialog.None),
             Pair(
-                StatisticsViewState.StatisticsError(
+                StatisticsViewState.Error(
                     errorCode = "Error code",
                     user = User(name = "Sven Svensson")
                 ), StatisticsDialog.None
             ),
             Pair(
-                StatisticsViewState.StatisticsFatalError(errorCode = "Error code"),
+                StatisticsViewState.FatalError(errorCode = "Error code"),
                 StatisticsDialog.None
             ),
             Pair(
-                StatisticsViewState.StatisticsNominal(
+                StatisticsViewState.Nominal(
                     user = User(name = "Sven Svensson"),
                     listOf(
                         DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
@@ -281,7 +281,7 @@ internal class StatisticsScreenPreviewParameterProvider :
                 ), StatisticsDialog.None
             ),
             Pair(
-                StatisticsViewState.StatisticsNoSessions(user = User(name = "Sven Svensson")),
+                StatisticsViewState.NoSessions(user = User(name = "Sven Svensson")),
                 StatisticsDialog.None
             )
         )

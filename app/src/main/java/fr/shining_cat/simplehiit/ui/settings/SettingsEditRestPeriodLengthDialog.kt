@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.Constants
@@ -13,10 +14,10 @@ import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 
 @Composable
-fun SettingsContentCreateUserDialog(
-    saveUserName: (String) -> Unit,
-    userName: String,
-    validateUserNameInput: (String) -> Constants.InputError,
+fun SettingsEditRestPeriodLengthDialog(
+    saveRestPeriodLength: (String) -> Unit,
+    validateRestPeriodLengthInput: (String) -> Constants.InputError,
+    restPeriodLengthSeconds: String,
     onCancel: () -> Unit
 ) {
     Column(
@@ -25,25 +26,26 @@ fun SettingsContentCreateUserDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.create_user_dialog_title),
-            inputFieldValue = userName,
-            inputFieldPostfix = "",
+            dialogTitle = stringResource(id = R.string.rest_period_length_label),
+            inputFieldValue = restPeriodLengthSeconds,
+            inputFieldPostfix = stringResource(id = R.string.seconds),
             inputFieldSingleLine = true,
-            inputFieldSize = InputDialogTextFieldSize.LARGE,
+            inputFieldSize = InputDialogTextFieldSize.SMALL,
             primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
-            primaryAction = { saveUserName(it) },
+            primaryAction = { saveRestPeriodLength(it) },
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
-            validateInput = validateUserNameInput,
-            pickErrorMessage = { setUSerNameErrorMessage(it) }
+            keyboardType = KeyboardType.Number,
+            validateInput = validateRestPeriodLengthInput,
+            pickErrorMessage = { setInputPeriodLengthErrorMessage(it) }
         )
     }
 }
 
-private fun setUSerNameErrorMessage(error: Constants.InputError): Int {
+private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
-        else -> -1
+        Constants.InputError.NONE -> -1
+        Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
+        else -> R.string.invalid_input_error
     }
 }

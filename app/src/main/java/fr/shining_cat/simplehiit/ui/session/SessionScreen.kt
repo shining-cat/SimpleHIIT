@@ -44,7 +44,6 @@ fun SessionScreen(
         onNavigateUp = { navController.navigateUp() },
         pause = { viewModel.pause() },
         resume = { viewModel.resume() },
-        cancelDialog = { viewModel.cancelDialog() },
         dialogViewState = dialogViewState,
         screenViewState = screenViewState
     )
@@ -57,8 +56,7 @@ private fun SessionScreen(
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
     pause: () -> Unit,
-    resume: () -> Unit,
-    cancelDialog: () -> Unit
+    resume: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -164,7 +162,6 @@ private fun SessionScreenPreview(
     SimpleHiitTheme {
         SessionScreen(
             onNavigateUp = { true },
-            cancelDialog = {},
             pause = {},
             resume = {},
             screenViewState = viewStates.first,

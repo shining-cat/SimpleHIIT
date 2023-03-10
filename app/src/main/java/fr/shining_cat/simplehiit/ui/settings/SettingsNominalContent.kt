@@ -28,7 +28,7 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import kotlin.math.roundToInt
 
 @Composable
-fun SettingsContentNominal(
+fun SettingsNominalContent(
     editWorkPeriodLength: () -> Unit,
     editRestPeriodLength: () -> Unit,
     editNumberOfWorkPeriods: () -> Unit,
@@ -39,14 +39,14 @@ fun SettingsContentNominal(
     addUser: () -> Unit,
     toggleExerciseType: (ExerciseTypeSelected) -> Unit,
     resetSettings: () -> Unit,
-    viewState: SettingsViewState.SettingsNominal,
+    viewState: SettingsViewState.Nominal,
 ) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        SettingField(
+        SettingFieldComponent(
             label = stringResource(id = R.string.work_period_length_label),
             value = stringResource(
                 id = R.string.seconds_setting_value,
@@ -54,7 +54,7 @@ fun SettingsContentNominal(
             ),
             onClick = editWorkPeriodLength
         )
-        SettingField(
+        SettingFieldComponent(
             label = stringResource(id = R.string.rest_period_length_label),
             value = stringResource(
                 id = R.string.seconds_setting_value,
@@ -62,19 +62,19 @@ fun SettingsContentNominal(
             ),
             onClick = editRestPeriodLength
         )
-        SettingField(
+        SettingFieldComponent(
             label = stringResource(id = R.string.number_of_periods_label),
             value = viewState.numberOfWorkPeriods,
             secondaryLabel = stringResource(id = R.string.total_cycle_length_label),
             secondaryValue = viewState.totalCycleLength,
             onClick = editNumberOfWorkPeriods
         )
-        SettingToggle(
+        SettingToggleComponent(
             label = stringResource(id = R.string.beep_sound_setting_label),
             value = viewState.beepSoundCountDownActive,
             onToggle = toggleBeepSound
         )
-        SettingField(
+        SettingFieldComponent(
             label = stringResource(id = R.string.period_start_countdown_length_setting_label),
             value = stringResource(
                 id = R.string.seconds_setting_value, viewState.periodsStartCountDownLengthAsSeconds
@@ -82,7 +82,7 @@ fun SettingsContentNominal(
             secondaryLabel = stringResource(id = R.string.period_length_too_short_constraint),
             onClick = editPeriodStartCountDown
         )
-        SettingField(
+        SettingFieldComponent(
             label = stringResource(id = R.string.session_start_countdown_length_setting_label),
             value = stringResource(
                 id = R.string.seconds_setting_value, viewState.sessionStartCountDownLengthAsSeconds
@@ -94,13 +94,13 @@ fun SettingsContentNominal(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp), thickness = 1.dp
         )
-        SettingUsers(users = viewState.users, onClickUser = editUser, onAddUser = addUser)
+        SettingUsersComponent(users = viewState.users, onClickUser = editUser, onAddUser = addUser)
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp), thickness = 1.dp
         )
-        SettingExercisesSelected(exercises = viewState.exerciseTypes, onToggle = toggleExerciseType)
+        SettingExercisesSelectedComponent(exercises = viewState.exerciseTypes, onToggle = toggleExerciseType)
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -118,7 +118,7 @@ fun SettingsContentNominal(
 }
 
 @Composable
-private fun SettingField(
+private fun SettingFieldComponent(
     label: String,
     value: String,
     onClick: () -> Unit,
@@ -150,7 +150,7 @@ private fun SettingField(
 }
 
 @Composable
-private fun SettingToggle(
+private fun SettingToggleComponent(
     label: String,
     value: Boolean,
     onToggle: () -> Unit,
@@ -180,7 +180,7 @@ private fun SettingToggle(
 }
 
 @Composable
-private fun SettingUsers(
+private fun SettingUsersComponent(
     users: List<User>,
     onClickUser: (User) -> Unit,
     onAddUser: () -> Unit
@@ -235,7 +235,7 @@ private fun SettingUsers(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun SettingExercisesSelected(
+private fun SettingExercisesSelectedComponent(
     exercises: List<ExerciseTypeSelected>,
     onToggle: (ExerciseTypeSelected) -> Unit,
 ) {
@@ -284,10 +284,10 @@ private fun SettingExercisesSelected(
 )
 @Composable
 private fun SettingsContentNominalPreview(
-    @PreviewParameter(SettingsContentNominalPreviewParameterProvider::class) viewState: SettingsViewState.SettingsNominal
+    @PreviewParameter(SettingsContentNominalPreviewParameterProvider::class) viewState: SettingsViewState.Nominal
 ) {
     SimpleHiitTheme {
-        SettingsContentNominal(
+        SettingsNominalContent(
             editWorkPeriodLength = {},
             editRestPeriodLength = {},
             editNumberOfWorkPeriods = {},
@@ -304,7 +304,7 @@ private fun SettingsContentNominalPreview(
 }
 
 internal class SettingsContentNominalPreviewParameterProvider :
-    PreviewParameterProvider<SettingsViewState.SettingsNominal> {
+    PreviewParameterProvider<SettingsViewState.Nominal> {
 
     private val exerciseTypeSelectedAlltrue = ExerciseType.values().toList().map {
         ExerciseTypeSelected(
@@ -335,9 +335,9 @@ internal class SettingsContentNominalPreviewParameterProvider :
         User(name = "user 5")
     )
 
-    override val values: Sequence<SettingsViewState.SettingsNominal>
+    override val values: Sequence<SettingsViewState.Nominal>
         get() = sequenceOf(
-            SettingsViewState.SettingsNominal(
+            SettingsViewState.Nominal(
                 workPeriodLengthAsSeconds = "15",
                 restPeriodLengthAsSeconds = "5",
                 numberOfWorkPeriods = "4",
@@ -348,7 +348,7 @@ internal class SettingsContentNominalPreviewParameterProvider :
                 users = emptyList(),
                 exerciseTypes = exerciseTypeSelectedAlltrue
             ),
-            SettingsViewState.SettingsNominal(
+            SettingsViewState.Nominal(
                 workPeriodLengthAsSeconds = "15",
                 restPeriodLengthAsSeconds = "5",
                 numberOfWorkPeriods = "4",
@@ -359,7 +359,7 @@ internal class SettingsContentNominalPreviewParameterProvider :
                 users = listOfOneUser,
                 exerciseTypes = exerciseTypeSelectedAlltrue
             ),
-            SettingsViewState.SettingsNominal(
+            SettingsViewState.Nominal(
                 workPeriodLengthAsSeconds = "15",
                 restPeriodLengthAsSeconds = "5",
                 numberOfWorkPeriods = "4",
@@ -370,7 +370,7 @@ internal class SettingsContentNominalPreviewParameterProvider :
                 users = listOfTwoUser,
                 exerciseTypes = exerciseTypeSelectedAllfalse
             ),
-            SettingsViewState.SettingsNominal(
+            SettingsViewState.Nominal(
                 workPeriodLengthAsSeconds = "15",
                 restPeriodLengthAsSeconds = "5",
                 numberOfWorkPeriods = "4",

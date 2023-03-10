@@ -75,7 +75,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
                             users = listOf(testUser1, testUser3, testUser2, testUser4)
                         )
                     ),
-                    HomeViewState.HomeNominal(
+                    HomeViewState.Nominal(
                         numberCumulatedCycles = 3,
                         cycleLength = mockDurationString,
                         users = listOf(testUser1, testUser3, testUser2, testUser4)
@@ -89,7 +89,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
                             users = listOf(testUser1, testUser2)
                         )
                     ),
-                    HomeViewState.HomeNominal(
+                    HomeViewState.Nominal(
                         numberCumulatedCycles = 5,
                         cycleLength = mockDurationString,
                         users = listOf(testUser1, testUser2)
@@ -103,7 +103,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
                             users = listOf()
                         )
                     ),
-                    HomeViewState.HomeMissingUsers(
+                    HomeViewState.MissingUsers(
                         numberCumulatedCycles = 3,
                         cycleLength = mockDurationString
                     )
@@ -113,14 +113,14 @@ internal class HomeMapperTest : AbstractMockkTest() {
                         errorCode = Constants.Errors.NO_USERS_FOUND,
                         exception = testException
                     ),
-                    HomeViewState.HomeError(Constants.Errors.NO_USERS_FOUND.code)
+                    HomeViewState.Error(Constants.Errors.NO_USERS_FOUND.code)
                 ),
                 Arguments.of(
                     Output.Error(
                         errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
                         exception = testException
                     ),
-                    HomeViewState.HomeError(Constants.Errors.DATABASE_FETCH_FAILED.code)
+                    HomeViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code)
                 )
             )
     }

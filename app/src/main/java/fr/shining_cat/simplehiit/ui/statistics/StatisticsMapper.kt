@@ -14,7 +14,7 @@ class StatisticsMapper @Inject constructor(
 ) {
 
     fun map(userStats: UserStatistics, durationStringFormatter: DurationStringFormatter): StatisticsViewState {
-        if(userStats.totalNumberOfSessions == 0) return StatisticsViewState.StatisticsNoSessions(user = userStats.user)
+        if(userStats.totalNumberOfSessions == 0) return StatisticsViewState.NoSessions(user = userStats.user)
         //
         val cumulatedTimeOfExerciseFormatted =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
@@ -34,7 +34,7 @@ class StatisticsMapper @Inject constructor(
             DisplayedStatistic(averageSessionLengthFormatted, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
             DisplayedStatistic(userStats.averageNumberOfSessionsPerWeek, DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
         )
-        return StatisticsViewState.StatisticsNominal(
+        return StatisticsViewState.Nominal(
             user = userStats.user,
             statistics = displayStatistics
         )

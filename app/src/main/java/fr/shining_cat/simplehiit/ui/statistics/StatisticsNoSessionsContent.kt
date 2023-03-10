@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 
 @Composable
-fun StatisticsContentNoSessions(viewState: StatisticsViewState.StatisticsNoSessions) {
+fun StatisticsNoSessionsContent(viewState: StatisticsViewState.NoSessions) {
     Column(
         modifier = Modifier
             .padding(8.dp)

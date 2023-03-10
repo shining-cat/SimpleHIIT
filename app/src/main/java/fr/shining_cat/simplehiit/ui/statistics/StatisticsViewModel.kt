@@ -28,7 +28,7 @@ class StatisticsViewModel @Inject constructor(
 ) : AbstractLoggerViewModel(hiitLogger) {
 
     private val _screenViewState =
-        MutableStateFlow<StatisticsViewState>(StatisticsViewState.StatisticsLoading)
+        MutableStateFlow<StatisticsViewState>(StatisticsViewState.Loading)
     val screenViewState = _screenViewState.asStateFlow()
     private val _allUsersViewState = MutableStateFlow<List<User>>(emptyList())
     val allUsersViewState = _allUsersViewState.asStateFlow()
@@ -54,10 +54,10 @@ class StatisticsViewModel @Inject constructor(
                         is Output.Error -> {
                             if (it.errorCode == Constants.Errors.NO_USERS_FOUND) {
                                 //users list retrieved is empty -> no users yet. Special case
-                                _screenViewState.emit(StatisticsViewState.StatisticsNoUsers)
+                                _screenViewState.emit(StatisticsViewState.NoUsers)
                             } else {
                                 //failed retrieving users list -> fatal error
-                                _screenViewState.emit(StatisticsViewState.StatisticsFatalError(it.errorCode.code))
+                                _screenViewState.emit(StatisticsViewState.FatalError(it.errorCode.code))
                             }
                         }
                     }
@@ -83,7 +83,7 @@ class StatisticsViewModel @Inject constructor(
                 }
                 is Output.Error -> { //failed retrieving statistics for selected user -> special error for this user
                     _screenViewState.emit(
-                        StatisticsViewState.StatisticsError(
+                        StatisticsViewState.Error(
                             statisticsOutput.errorCode.code,
                             user
                         )
@@ -96,7 +96,7 @@ class StatisticsViewModel @Inject constructor(
     fun openPickUser() {
         viewModelScope.launch {
             val users = allUsersViewState.value
-            _dialogViewState.emit(StatisticsDialog.SelectUserDialog(users))
+            _dialogViewState.emit(StatisticsDialog.SelectUser(users))
         }
     }
 
@@ -107,7 +107,7 @@ class StatisticsViewModel @Inject constructor(
         )
         viewModelScope.launch {
             _dialogViewState.emit(
-                StatisticsDialog.SettingsDialogConfirmDeleteAllSessionsForUser(user)
+                StatisticsDialog.ConfirmDeleteAllSessionsForUser(user)
             )
         }
     }
@@ -121,7 +121,7 @@ class StatisticsViewModel @Inject constructor(
 
     fun resetWholeApp() {
         viewModelScope.launch {
-            _dialogViewState.emit(StatisticsDialog.StatisticsDialogConfirmWholeReset)
+            _dialogViewState.emit(StatisticsDialog.ConfirmWholeReset)
         }
     }
 

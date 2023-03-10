@@ -56,9 +56,4 @@ class SessionViewModel @Inject constructor(
         }
     }
 
-    fun cancelDialog() {
-        viewModelScope.launch {
-            _dialogViewState.emit(SessionDialog.None)
-        }
-    }
 }

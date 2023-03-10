@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.ui.statistics
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.models.*
 import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.ui.settings.SettingsMapperTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -57,7 +56,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
     @Test
     fun `mapping statistics to correct viewstate when user has no sessions`() {
         val input = UserStatistics(user = User(name = "test user name 4"))
-        val expectedOutput = StatisticsViewState.StatisticsNoSessions(user = User(name = "test user name 4"))
+        val expectedOutput = StatisticsViewState.NoSessions(user = User(name = "test user name 4"))
         val result = testedMapper.map(input, DurationStringFormatter())
         //
         coVerify(exactly = 2) {
@@ -86,7 +85,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         currentStreakDays = 678,
                         averageNumberOfSessionsPerWeek = "1.7",
                     ),
-                    StatisticsViewState.StatisticsNominal(
+                    StatisticsViewState.Nominal(
                         user = User(name = "test user name 1"),
                         listOf(
                             DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
@@ -108,7 +107,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         currentStreakDays = 321,
                         averageNumberOfSessionsPerWeek = "6.4"
                     ),
-                    StatisticsViewState.StatisticsNominal(
+                    StatisticsViewState.Nominal(
                         user = User(name = "test user name 2"),
                         listOf(
                             DisplayedStatistic("9", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
@@ -130,7 +129,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         currentStreakDays = 958,
                         averageNumberOfSessionsPerWeek = "14.3"
                     ),
-                    StatisticsViewState.StatisticsNominal(
+                    StatisticsViewState.Nominal(
                         user = User(name = "test user name 3"),
                         listOf(
                             DisplayedStatistic("157", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),

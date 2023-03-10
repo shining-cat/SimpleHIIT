@@ -24,7 +24,7 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
-fun StatisticsPickUserDialog(
+fun StatisticsSelectUserDialog(
     users: List<User>,
     selectUser: (User) -> Unit,
     dismissAction: () -> Unit
@@ -89,7 +89,7 @@ private fun StatisticsPickUserDialogPreview(
     @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>
 ) {
     SimpleHiitTheme {
-        StatisticsPickUserDialog(
+        StatisticsSelectUserDialog(
             users = users,
             selectUser = {},
             dismissAction = {}

@@ -30,7 +30,6 @@ import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
-import fr.shining_cat.simplehiit.ui.home.HomeViewState.*
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
@@ -134,7 +133,7 @@ private fun HomeTopBar(navigateTo: (String) -> Unit = {}, screenViewState: HomeV
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            if(screenViewState is HomeNominal) {
+            if(screenViewState is HomeViewState.Nominal) {
                 IconButton(onClick = { navigateTo(Screen.Statistics.route) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
@@ -174,18 +173,18 @@ private fun HomeContent(
             text = stringResource(id = R.string.hiit_description)
         )
         when (screenViewState) {
-            is HomeLoading -> CircularProgressIndicator()
-            is HomeError -> HomeContentBrokenState(
+            is HomeViewState.Loading -> CircularProgressIndicator()
+            is HomeViewState.Error -> HomeErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp
             )
-            is HomeMissingUsers -> HomeContentMissingUsers(
+            is HomeViewState.MissingUsers -> HomeMissingUsersContent(
                 openInputNumberCycles = openInputNumberCycles,
                 navigateToSettings = { navigateTo(Screen.Settings.route) },
                 numberOfCycles = screenViewState.numberCumulatedCycles,
                 lengthOfCycle = screenViewState.cycleLength
             )
-            is HomeNominal -> HomeContentNominal(
+            is HomeViewState.Nominal -> HomeNominalContent(
                 openInputNumberCycles = openInputNumberCycles,
                 numberOfCycles = screenViewState.numberCumulatedCycles,
                 lengthOfCycle = screenViewState.cycleLength,
@@ -195,102 +194,23 @@ private fun HomeContent(
             )
         }
         when (dialogViewState) {
-            is HomeDialog.HomeDialogConfirmWholeReset -> {
-                ConfirmDialog(
+            is HomeDialog.ConfirmWholeReset -> ConfirmDialog(
                     message = stringResource(id = R.string.error_confirm_whole_reset),
                     primaryButtonLabel = stringResource(id = R.string.delete_button_label),
                     primaryAction = resetWholeAppDeleteEverything,
                     dismissAction = cancelDialog
                 )
-            }
-            is HomeDialog.HomeDialogInputNumberCycles -> HomeContentInputNumberCyclesDialog(
+            is HomeDialog.InputNumberCycles -> HomeInputNumberCyclesDialog(
                 saveInputNumberCycles = saveInputNumberCycles,
                 validateInputNumberCycles = validateInputNumberCycles,
                 numberOfCycles = dialogViewState.initialNumberOfCycles,
                 onCancel = cancelDialog
             )
-            HomeDialog.None -> {/*do nothing*/
-            }
-        }
+            HomeDialog.None -> {}/*do nothing*/
+         }
     }
 }
 
-@Composable
-private fun HomeContentNominal(
-    openInputNumberCycles: (Int) -> Unit,
-    numberOfCycles: Int,
-    lengthOfCycle: String,
-    users: List<User>,
-    toggleSelectedUser: (User) -> Unit,
-    navigateToSession: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-    ) {
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
-        )
-        NumberCyclesSection(
-            openInputNumberCycles = openInputNumberCycles,
-            numberOfCycles = numberOfCycles,
-            lengthOfCycle = lengthOfCycle
-        )
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
-        )
-        SelectUsersSection(
-            users = users,
-            toggleSelectedUser = toggleSelectedUser
-        )
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Button(
-            modifier = Modifier
-                .height(56.dp)
-                .align(Alignment.CenterHorizontally),
-            onClick = navigateToSession,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            )
-        ) {
-            Text(text = stringResource(id = R.string.launch_session_label))
-        }
-        Spacer(modifier = Modifier.height(24.dp))
-    }
-}
-
-@Composable
-private fun HomeContentMissingUsers(
-    openInputNumberCycles: (Int) -> Unit,
-    navigateToSettings: () -> Unit,
-    numberOfCycles: Int,
-    lengthOfCycle: String
-) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        NumberCyclesSection(
-            openInputNumberCycles = openInputNumberCycles,
-            numberOfCycles = numberOfCycles,
-            lengthOfCycle = lengthOfCycle
-        )
-        SelectUsersSectionNoUsers(navigateToSettings)
-    }
-}
 
 // Previews
 @Preview(
@@ -322,13 +242,13 @@ internal class HomeScreenPreviewParameterProvider :
     PreviewParameterProvider<Pair<HomeViewState, HomeDialog>> {
     override val values: Sequence<Pair<HomeViewState, HomeDialog>>
         get() = sequenceOf(
-            Pair(HomeLoading, HomeDialog.None),
-            Pair(HomeError(errorCode = "12345"), HomeDialog.None),
-            Pair(HomeError(errorCode = "12345"), HomeDialog.HomeDialogConfirmWholeReset),
-            Pair(HomeMissingUsers(4, "4mn"), HomeDialog.None),
-            Pair(HomeMissingUsers(4, "4mn"), HomeDialog.HomeDialogInputNumberCycles(4)),
+            Pair(HomeViewState.Loading, HomeDialog.None),
+            Pair(HomeViewState.Error(errorCode = "12345"), HomeDialog.None),
+            Pair(HomeViewState.Error(errorCode = "12345"), HomeDialog.ConfirmWholeReset),
+            Pair(HomeViewState.MissingUsers(4, "4mn"), HomeDialog.None),
+            Pair(HomeViewState.MissingUsers(4, "4mn"), HomeDialog.InputNumberCycles(4)),
             Pair(
-                HomeNominal(
+                HomeViewState.Nominal(
                     4,
                     "4mn",
                     listOf(

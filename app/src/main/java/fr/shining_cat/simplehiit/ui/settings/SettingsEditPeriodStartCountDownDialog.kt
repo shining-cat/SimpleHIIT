@@ -14,10 +14,10 @@ import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 
 @Composable
-fun SettingsContentInputRestPeriodLengthDialog(
-    saveRestPeriodLength: (String) -> Unit,
-    validateRestPeriodLengthInput: (String) -> Constants.InputError,
-    restPeriodLengthSeconds: String,
+fun SettingsEditPeriodStartCountDownDialog(
+    saveCountDownLength: (String) -> Unit,
+    validateCountDownLengthInput: (String) -> Constants.InputError,
+    countDownLengthSeconds: String,
     onCancel: () -> Unit
 ) {
     Column(
@@ -26,26 +26,26 @@ fun SettingsContentInputRestPeriodLengthDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.rest_period_length_label),
-            inputFieldValue = restPeriodLengthSeconds,
+            dialogTitle = stringResource(id = R.string.period_start_countdown_length_setting_label),
+            inputFieldValue = countDownLengthSeconds,
             inputFieldPostfix = stringResource(id = R.string.seconds),
             inputFieldSingleLine = true,
             inputFieldSize = InputDialogTextFieldSize.SMALL,
             primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
-            primaryAction = { saveRestPeriodLength(it) },
+            primaryAction = { saveCountDownLength(it) },
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
-            validateInput = validateRestPeriodLengthInput,
-            pickErrorMessage = { setInputPeriodLengthErrorMessage(it) }
+            validateInput = validateCountDownLengthInput,
+            pickErrorMessage = { setInputPeriodCountDownLengthErrorMessage(it) }
         )
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int {
+private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int {
     return when (error) {
         Constants.InputError.NONE -> -1
-        Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
+        Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error
     }
 }

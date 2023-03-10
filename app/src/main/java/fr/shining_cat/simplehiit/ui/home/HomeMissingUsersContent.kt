@@ -2,10 +2,7 @@ package fr.shining_cat.simplehiit.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +15,29 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 
 @Composable
-fun SelectUsersSectionNoUsers(navigateToSettings: () -> Unit) {
+fun HomeMissingUsersContent(
+    openInputNumberCycles: (Int) -> Unit,
+    navigateToSettings: () -> Unit,
+    numberOfCycles: Int,
+    lengthOfCycle: String
+) {
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        NumberCyclesComponent(
+            openInputNumberCycles = openInputNumberCycles,
+            numberOfCycles = numberOfCycles,
+            lengthOfCycle = lengthOfCycle
+        )
+        SelectUsersNoUsersComponent(navigateToSettings)
+    }
+}
+
+@Composable
+private fun SelectUsersNoUsersComponent(navigateToSettings: () -> Unit) {
     Column(
         Modifier
             .fillMaxWidth()
