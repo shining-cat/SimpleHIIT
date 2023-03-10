@@ -29,9 +29,9 @@ class StatisticsMapper @Inject constructor(
         val displayStatistics = listOf(
             DisplayedStatistic(userStats.totalNumberOfSessions.toString(), DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
             DisplayedStatistic(cumulatedTimeOfExerciseFormatted, DisplayStatisticType.TOTAL_EXERCISE_TIME),
-            DisplayedStatistic(averageSessionLengthFormatted, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
             DisplayedStatistic(userStats.longestStreakDays.toString(), DisplayStatisticType.LONGEST_STREAK),
             DisplayedStatistic(userStats.currentStreakDays.toString(), DisplayStatisticType.CURRENT_STREAK),
+            DisplayedStatistic(averageSessionLengthFormatted, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
             DisplayedStatistic(userStats.averageNumberOfSessionsPerWeek, DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
         )
         return StatisticsViewState.StatisticsNominal(

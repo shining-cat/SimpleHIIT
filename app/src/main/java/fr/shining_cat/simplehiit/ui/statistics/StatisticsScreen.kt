@@ -2,8 +2,6 @@ package fr.shining_cat.simplehiit.ui.statistics
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -133,7 +131,7 @@ private fun StatisticsTopBar(
         },
         actions = {
             val shouldShowUserPickButton =
-                        screenViewState is StatisticsViewState.StatisticsError ||
+                screenViewState is StatisticsViewState.StatisticsError ||
                         screenViewState is StatisticsViewState.StatisticsNominal ||
                         screenViewState is StatisticsViewState.StatisticsNoSessions
             if (shouldShowUserPickButton) {
@@ -165,18 +163,18 @@ private fun StatisticsContent(
     Column(
         modifier = Modifier
             .fillMaxSize() //TODO: handle landscape layout
-            .padding(paddingValues = innerPadding)
-            .verticalScroll(rememberScrollState()),
+            .padding(paddingValues = innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        hiitLogger?.d("StatisticsContent", "screenViewState = $screenViewState")
-        hiitLogger?.d("StatisticsContent", "dialogViewState = $dialogViewState")
         when (screenViewState) {
             StatisticsViewState.StatisticsLoading -> CircularProgressIndicator()
-            is StatisticsViewState.StatisticsNominal -> StatisticsContentNominal(
-                deleteAllSessionsForUser = deleteAllSessionsForUser,
-                viewState = screenViewState
-            )
+            is StatisticsViewState.StatisticsNominal -> {
+                StatisticsContentNominal(
+                    deleteAllSessionsForUser = deleteAllSessionsForUser,
+                    viewState = screenViewState,
+                    hiitLogger = hiitLogger
+                )
+            }
             is StatisticsViewState.StatisticsNoSessions -> StatisticsContentNoSessions(
                 screenViewState
             )
