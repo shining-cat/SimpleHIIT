@@ -1,5 +1,10 @@
 
-* why do I see multiple initialization for all my screens?
+* rename composable so: main part is a "...screen". 
+  * It has an overload with the same name to allow for Preview to not have to provide everything as runtime
+  * this in turn contains a Scaffold that displays a "...topbar" and a "...content". Both live in the same file as the screen
+  * The content handles the screen states switch and calls the adequate "[state name]Content". These should be extracted as independent files
+  * below this composables should be called "...component", except if they have been moved to the _components_ package to be reused in more screens.
+  * The content also handles the dialog states and calls directly a component, as this should be rather small. It can be either a component from the components package or a custom one, in which case it should be extracted to its own file
 * fix broken layout in landscape
 * See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
 * fix test coverage task for instrumented tests not reporting any coverage

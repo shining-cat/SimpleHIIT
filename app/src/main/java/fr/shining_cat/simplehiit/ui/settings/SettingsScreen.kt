@@ -284,14 +284,14 @@ fun SettingsContent(
             )
             is SettingsDialog.SettingsDialogConfirmDeleteUser -> ConfirmDialog(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
-                buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
-                onConfirm = { deleteUserConfirm(dialogViewState.user) },
+                primaryButtonLabel = stringResource(id = R.string.delete_button_label),
+                primaryAction = { deleteUserConfirm(dialogViewState.user) },
                 dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
             )
             SettingsDialog.SettingsDialogConfirmResetAllSettings -> ConfirmDialog(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
-                buttonConfirmLabel = stringResource(id = R.string.reset_button_label),
-                onConfirm = resetSettingsConfirmation,
+                primaryButtonLabel = stringResource(id = R.string.reset_button_label),
+                primaryAction = resetSettingsConfirmation,
                 dismissAction = cancelDialog
             )
             is SettingsDialog.SettingsDialogError -> ErrorDialog(

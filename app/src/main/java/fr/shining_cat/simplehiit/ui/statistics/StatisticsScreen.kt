@@ -190,8 +190,7 @@ private fun StatisticsContent(
             )
         }
         when (dialogViewState) {
-            StatisticsDialog.None -> {/*Do nothing*/
-            }
+            StatisticsDialog.None -> {}/*Do nothing*/
             is StatisticsDialog.SelectUserDialog -> StatisticsPickUserDialog(
                 users = dialogViewState.users,
                 selectUser = {
@@ -205,14 +204,14 @@ private fun StatisticsContent(
                     id = R.string.reset_statistics_confirmation_button_label,
                     dialogViewState.user.name
                 ),
-                buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
-                onConfirm = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
+                primaryButtonLabel = stringResource(id = R.string.delete_button_label),
+                primaryAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog
             )
             StatisticsDialog.StatisticsDialogConfirmWholeReset -> ConfirmDialog(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
-                buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
-                onConfirm = resetWholeAppConfirmation,
+                primaryButtonLabel = stringResource(id = R.string.delete_button_label),
+                primaryAction = resetWholeAppConfirmation,
                 dismissAction = cancelDialog
             )
         }

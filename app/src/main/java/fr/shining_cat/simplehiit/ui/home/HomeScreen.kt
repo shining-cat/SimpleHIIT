@@ -198,8 +198,8 @@ private fun HomeContent(
             is HomeDialog.HomeDialogConfirmWholeReset -> {
                 ConfirmDialog(
                     message = stringResource(id = R.string.error_confirm_whole_reset),
-                    buttonConfirmLabel = stringResource(id = R.string.delete_button_label),
-                    onConfirm = resetWholeAppDeleteEverything,
+                    primaryButtonLabel = stringResource(id = R.string.delete_button_label),
+                    primaryAction = resetWholeAppDeleteEverything,
                     dismissAction = cancelDialog
                 )
             }
