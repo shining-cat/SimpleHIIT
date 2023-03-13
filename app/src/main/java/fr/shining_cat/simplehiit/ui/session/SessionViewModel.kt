@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.models.Exercise
 import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.domain.usecases.GetGeneralSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.GetHomeSettingsUseCase
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.ui.statistics.StatisticsDialog
@@ -18,6 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class SessionViewModel @Inject constructor(
     private val mapper: SessionMapper,
+    private val getGeneralSettingsUseCase: GetGeneralSettingsUseCase,
+    private val getHomeSettingsUseCase: GetHomeSettingsUseCase,
     private val hiitLogger: HiitLogger
 
 ) : AbstractLoggerViewModel(hiitLogger) {
@@ -31,12 +36,15 @@ class SessionViewModel @Inject constructor(
     private var isInitialized = false
 
     private var durationStringFormatter = DurationStringFormatter()
+    private var exercisesList: List<Exercise> = emptyList()
 
     fun init(durationStringFormatter: DurationStringFormatter) {
         if (!isInitialized) {
             this.durationStringFormatter = durationStringFormatter
             //
+            viewModelScope.launch {
 
+            }
             //
             isInitialized = true
         }

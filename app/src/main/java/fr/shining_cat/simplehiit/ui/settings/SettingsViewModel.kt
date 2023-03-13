@@ -28,7 +28,6 @@ class SettingsViewModel @Inject constructor(
     private val updateUserNameUseCase: UpdateUserNameUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val createUserUseCase: CreateUserUseCase,
-    private val checkIfAnotherUserUsesThatNameUseCase: CheckIfAnotherUserUsesThatNameUseCase,
     private val setSelectedExerciseTypesUseCase: SetSelectedExerciseTypesUseCase,
     private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
     private val mapper: SettingsMapper,
