@@ -1,5 +1,6 @@
 
 * fix broken layout in landscape
+* when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
 * See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
 * fix test coverage task for instrumented tests not reporting any coverage
 * add dependencies versions update check plugin

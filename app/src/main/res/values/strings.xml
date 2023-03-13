@@ -72,7 +72,7 @@
 
     <!-- FINISH PAGE -->
     <string name="finish_page_title">Congratulation!</string>
-    <string name="session_length_summary">You just did %1$d mn session of HIIT!</string>
+    <string name="session_length_summary">You just did a %1$s session of HIIT!</string>
     <string name="summary_session">Here\'s the list of exercises you have done:</string>
 
     <!-- STATISTICS PAGE -->
