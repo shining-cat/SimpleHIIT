@@ -113,7 +113,6 @@ class SessionViewModel @Inject constructor(
             val currentStep = immutableSession.steps[currentSessionStepIndex]
             val remainingSeconds = stepTimerState.secondsRemaining
             if (remainingSeconds == 0) {//step end
-//                stepTimer.stop()
                 stepTimerJob?.cancel()
                 if (immutableSession.steps.lastOrNull() == currentStep) {
                     emitSessionEndState()
@@ -261,7 +260,6 @@ class SessionViewModel @Inject constructor(
                 _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
             } else {
                 hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
-//                stepTimer.stop()
                 stepTimerJob?.cancel()
                 val currentStep = immutableSession.steps[currentSessionStepIndex]
                 if (currentStep is SessionStep.WorkStep) {
@@ -291,4 +289,10 @@ class SessionViewModel @Inject constructor(
             _dialogViewState.emit(SessionDialog.None)
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        stepTimerJob?.cancel()
+    }
+
 }
