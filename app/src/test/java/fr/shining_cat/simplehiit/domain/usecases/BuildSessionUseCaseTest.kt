@@ -123,7 +123,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         sessionStartCountDownLengthMs = 123L,
                         periodsStartCountDownLengthMs = 234L,
                         users = listOf(),//not used in this test
-                        exerciseTypes = listOf(),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
                         steps = listOf(
@@ -169,7 +169,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         sessionStartCountDownLengthMs = 345L,
                         periodsStartCountDownLengthMs = 456L,
                         users = listOf(),//not used in this test
-                        exerciseTypes = listOf(),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
                         steps = listOf(
@@ -238,7 +238,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 567L,
                         users = listOf(),//not used in this test
-                        exerciseTypes = listOf(),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
                         steps = listOf(
