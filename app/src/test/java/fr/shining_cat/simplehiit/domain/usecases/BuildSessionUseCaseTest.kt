@@ -6,6 +6,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -21,12 +22,6 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
     private val mockComposeExercisesListForSessionUseCase =
         mockk<ComposeExercisesListForSessionUseCase>()
-    private val testedUseCase =
-        BuildSessionUseCase(
-            formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-            composeExercisesListForSessionUseCase = mockComposeExercisesListForSessionUseCase,
-            hiitLogger = mockHiitLogger
-        )
     private val durationStringFormatter = DurationStringFormatter(
         hoursMinutesSeconds = "",
         hoursMinutesNoSeconds = "",
@@ -54,6 +49,13 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
         sessionSettings: SessionSettings,
         expectedSessionOutput: Session
     ) = runTest {
+        val testedUseCase =
+            BuildSessionUseCase(
+                formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+                composeExercisesListForSessionUseCase = mockComposeExercisesListForSessionUseCase,
+                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                hiitLogger = mockHiitLogger
+            )
         coEvery {
             mockComposeExercisesListForSessionUseCase.execute(
                 any(),

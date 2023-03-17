@@ -4,6 +4,7 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -13,13 +14,17 @@ import org.junit.jupiter.params.provider.ValueSource
 internal class SetTotalRepetitionsNumberUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = SetTotalRepetitionsNumberUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(ints = [1, 4, 53])
     fun `calls repo with corresponding value and returns repo success`(
         testValue: Int
     ) = runTest {
+        val testedUseCase = SetTotalRepetitionsNumberUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         coEvery { mockSimpleHiitRepository.setTotalRepetitionsNumber(any()) } just Runs
         //
         testedUseCase.execute(testValue)

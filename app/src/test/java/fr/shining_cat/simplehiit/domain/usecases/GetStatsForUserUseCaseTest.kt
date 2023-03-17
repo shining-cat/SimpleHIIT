@@ -11,6 +11,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -28,18 +29,18 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
     private val mockCalculateLongestStreakUseCase = mockk<CalculateLongestStreakUseCase>()
     private val mockCalculateAverageSessionsPerWeekUseCase = mockk<CalculateAverageSessionsPerWeekUseCase>()
 
-    private val testedUseCase = GetStatsForUserUseCase(
-        simpleHiitRepository = mockSimpleHiitRepository,
-        calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
-        calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
-        calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
-        simpleHiitLogger = mockHiitLogger
-    )
-
     private val testNow = 12345L
 
     @Test
     fun `return error when repo call fails`() = runTest {
+        val testedUseCase = GetStatsForUserUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
+            calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
+            calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val testException = Exception("this is a test exception")
         val testError = Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException)
         coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { testError}
@@ -52,6 +53,14 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `return default empty value when repo returns empty list`() = runTest {
+        val testedUseCase = GetStatsForUserUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
+            calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
+            calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val testSessionRecords = emptyList<SessionRecord>()
         coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { Output.Success(testSessionRecords)}
         coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns 0
@@ -78,6 +87,14 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         expectedCumulatedTimeOfExerciseSeconds: Long,
         expectedAverageSessionLengthSeconds: Long
     ) = runTest {
+        val testedUseCase = GetStatsForUserUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
+            calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
+            calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val testCurrentStreak = Random.nextInt(10,5000)
         val testLongestStreak = Random.nextInt(5000,10000)
         val testAverageWeek = (Random.nextInt(1,100).toDouble() / 100.toDouble()).toString()

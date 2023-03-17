@@ -4,6 +4,9 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -12,20 +15,22 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.random.Random
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
 
     private val mockConsecutiveDaysOrCloserUseCaseTest = mockk<ConsecutiveDaysOrCloserUseCase>()
-    private val testedUseCase = CalculateLongestStreakUseCase(
-        mockConsecutiveDaysOrCloserUseCaseTest,
-        mockHiitLogger
-    )
 
     @ParameterizedTest(name = "{index} -> should return {1}")
     @MethodSource("streakArguments")
     fun `finding longest streak length in days`(
         consecutivenessReturns: List<Consecutiveness>,
         expectedStreakLengthOutput: Int
-    ) {
+    ) = runTest {
+        val testedUseCase = CalculateLongestStreakUseCase(
+            consecutiveDaysOrCloserUseCase = mockConsecutiveDaysOrCloserUseCaseTest,
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         coEvery {
             mockConsecutiveDaysOrCloserUseCaseTest.execute(
                 any(),

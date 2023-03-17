@@ -2,9 +2,9 @@ package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -14,13 +14,17 @@ import org.junit.jupiter.params.provider.ValueSource
 internal class SetRestPeriodLengthUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = SetRestPeriodLengthUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(longs = [15000L, 20000L, 30000L])
     fun `calls repo with corresponding value and returns repo success`(
         testValue: Long
     ) = runTest {
+        val testedUseCase = SetRestPeriodLengthUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         coEvery { mockSimpleHiitRepository.setRestPeriodLength(any()) } just Runs
         //
         testedUseCase.execute(testValue)

@@ -1,22 +1,28 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
-
-    val testedUseCase = ConsecutiveDaysOrCloserUseCase(mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> given {0} should return {1}")
     @MethodSource("datesArguments")
     fun `checking if a pair of timestamps belong to two consecutive days, less, or more`(
         input: Pair<Long, Long>,
         expectedOutput: Consecutiveness
-    ) {
+    ) = runTest {
+        val testedUseCase = ConsecutiveDaysOrCloserUseCase(
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+            hiitLogger = mockHiitLogger
+        )
         val result = testedUseCase.execute(input.first, input.second)
         assertEquals(expectedOutput, result)
     }

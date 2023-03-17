@@ -7,6 +7,7 @@ import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -15,13 +16,17 @@ import org.junit.jupiter.api.Test
 internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = ToggleUserSelectedUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() = runTest {
+        val testedUseCase = ToggleUserSelectedUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val testValue = User(id = 123L, name = "test user name", selected = true)
         val successFromRepo = Output.Success(1)
-        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {successFromRepo}
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { successFromRepo }
         //
         val result = testedUseCase.execute(testValue)
         //
@@ -31,10 +36,15 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo error`() = runTest {
+        val testedUseCase = ToggleUserSelectedUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val testValue = User(id = 123L, name = "test user name", selected = true)
         val exceptionMessage = "this is a test exception"
         val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {errorFromRepo}
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { errorFromRepo }
         //
         val result = testedUseCase.execute(testValue)
         //

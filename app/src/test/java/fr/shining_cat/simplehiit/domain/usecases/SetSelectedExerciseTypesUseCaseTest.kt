@@ -6,6 +6,7 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -17,15 +18,18 @@ import java.util.stream.Stream
 internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase =
-        SetSelectedExerciseTypesUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @MethodSource("selectedExerciseTypesArguments")
     fun `calls repo with corresponding value and returns repo success`(
         testValue: List<ExerciseTypeSelected>,
-        expectedOutput:List<ExerciseType>
+        expectedOutput: List<ExerciseType>
     ) = runTest {
+        val testedUseCase = SetSelectedExerciseTypesUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+            )
         coEvery { mockSimpleHiitRepository.setExercisesTypesSelected(any()) } just Runs
         //
         testedUseCase.execute(testValue)
@@ -80,14 +84,14 @@ internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        ExerciseTypeSelected(ExerciseType.LUNGE,false),
-                        ExerciseTypeSelected(ExerciseType.LYING,false),
-                        ExerciseTypeSelected(ExerciseType.CRAB,false),
-                        ExerciseTypeSelected(ExerciseType.CAT,false),
-                        ExerciseTypeSelected(ExerciseType.SITTING,false),
-                        ExerciseTypeSelected(ExerciseType.SQUAT,false),
-                        ExerciseTypeSelected(ExerciseType.SITTING,false),
-                        ExerciseTypeSelected(ExerciseType.PLANK,false)
+                        ExerciseTypeSelected(ExerciseType.LUNGE, false),
+                        ExerciseTypeSelected(ExerciseType.LYING, false),
+                        ExerciseTypeSelected(ExerciseType.CRAB, false),
+                        ExerciseTypeSelected(ExerciseType.CAT, false),
+                        ExerciseTypeSelected(ExerciseType.SITTING, false),
+                        ExerciseTypeSelected(ExerciseType.SQUAT, false),
+                        ExerciseTypeSelected(ExerciseType.SITTING, false),
+                        ExerciseTypeSelected(ExerciseType.PLANK, false)
                     ),
                     emptyList<ExerciseType>()
                 )

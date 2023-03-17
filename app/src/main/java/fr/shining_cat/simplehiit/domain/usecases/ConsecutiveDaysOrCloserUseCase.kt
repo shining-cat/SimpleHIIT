@@ -1,6 +1,9 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -18,34 +21,42 @@ import javax.inject.Inject
 enum class Consecutiveness { SAME_DAY, CONSECUTIVE_DAYS, NON_CONSECUTIVE_DAYS }
 
 class ConsecutiveDaysOrCloserUseCase @Inject constructor(
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 ) {
 
-    fun execute(timeStamp1: Long, timeStamp2: Long): Consecutiveness {
-        return when (getNumberOfFullDaysBetween2Timestamps(timeStamp1, timeStamp2)) {
-            0 -> Consecutiveness.SAME_DAY
-            1 -> Consecutiveness.CONSECUTIVE_DAYS
-            else -> Consecutiveness.NON_CONSECUTIVE_DAYS
+    suspend fun execute(timeStamp1: Long, timeStamp2: Long): Consecutiveness {
+        return withContext(defaultDispatcher) {
+            when (getNumberOfFullDaysBetween2Timestamps(timeStamp1, timeStamp2)) {
+                0 -> Consecutiveness.SAME_DAY
+                1 -> Consecutiveness.CONSECUTIVE_DAYS
+                else -> Consecutiveness.NON_CONSECUTIVE_DAYS
+            }
         }
     }
 
-    private fun getNumberOfFullDaysBetween2Timestamps(
+    private suspend fun getNumberOfFullDaysBetween2Timestamps(
         timeStamp1: Long,
         timeStamp2: Long
     ): Int {
-        if (timeStamp1 == timeStamp2) return 0
-        val earlyTimestampCal = Calendar.getInstance()
-        earlyTimestampCal.timeInMillis = minOf(timeStamp1, timeStamp2)
-        val lateTimestampCal = Calendar.getInstance()
-        lateTimestampCal.timeInMillis = maxOf(timeStamp1, timeStamp2)
-        val lateAtMidnight = setTimePartOfDateToMidnight(lateTimestampCal)
-        val earlyAtMidnight = setTimePartOfDateToMidnight(earlyTimestampCal)
-        val result = TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
-        hiitLogger.d(
-            "ConsecutiveDaysOrCloserUseCase",
-            "getNumberOfFullDaysBetween2Timestamps::result = $result"
-        )
-        return TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
+        return withContext(defaultDispatcher) {
+            if (timeStamp1 == timeStamp2)  {
+                0
+            }else {
+                val earlyTimestampCal = Calendar.getInstance()
+                earlyTimestampCal.timeInMillis = minOf(timeStamp1, timeStamp2)
+                val lateTimestampCal = Calendar.getInstance()
+                lateTimestampCal.timeInMillis = maxOf(timeStamp1, timeStamp2)
+                val lateAtMidnight = setTimePartOfDateToMidnight(lateTimestampCal)
+                val earlyAtMidnight = setTimePartOfDateToMidnight(earlyTimestampCal)
+                val result = TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
+                hiitLogger.d(
+                    "ConsecutiveDaysOrCloserUseCase",
+                    "getNumberOfFullDaysBetween2Timestamps::result = $result"
+                )
+                TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
+            }
+        }
     }
 
     private fun setTimePartOfDateToMidnight(calendar: Calendar): Long {

@@ -1,6 +1,9 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -9,9 +12,8 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.random.Random
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() {
-
-    private val testedUseCase = CalculateAverageSessionsPerWeekUseCase(mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("averageArguments")
@@ -20,8 +22,13 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
         oldestTimestamp: Long,
         numberOfSessions: Int,
         expectedAverageOutput: String
-    ) {
-        val input = mutableListOf(oldestTimestamp) //ensure the first timestamp is actually our oldest one and not a random one
+    ) = runTest {
+        val testedUseCase = CalculateAverageSessionsPerWeekUseCase(
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
+        val input =
+            mutableListOf(oldestTimestamp) //ensure the first timestamp is actually our oldest one and not a random one
         input.addAll(List(numberOfSessions - 1) { Random.nextLong(oldestTimestamp, nowTimestamp) })
         val result = testedUseCase.execute(input, nowTimestamp)
         //
@@ -29,7 +36,11 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
     }
 
     @Test
-    fun `check if empty list returns 0`(){
+    fun `check if empty list returns 0`() = runTest {
+        val testedUseCase = CalculateAverageSessionsPerWeekUseCase(
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val result = testedUseCase.execute(emptyList(), 1676640515000)
         //
         assertEquals("0", result)

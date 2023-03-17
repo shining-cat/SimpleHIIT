@@ -9,6 +9,7 @@ import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
@@ -21,10 +22,14 @@ import java.util.stream.Stream
 internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = CheckIfAnotherUserUsesThatNameUseCase(mockSimpleHiitRepository, mockHiitLogger)
 
     @Test
     fun `calls repo and return error if repo returns error`() = runTest {
+        val testedUseCase = CheckIfAnotherUserUsesThatNameUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         val testUser = User(name = "this is a test name")
         val testException1 = Exception("this is a test exception 1")
         val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException1)
@@ -43,6 +48,11 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
         input: User,
         expectedResult: Boolean
     ) = runTest {
+        val testedUseCase = CheckIfAnotherUserUsesThatNameUseCase(
+            simpleHiitRepository = mockSimpleHiitRepository,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         coEvery { mockSimpleHiitRepository.getUsersList() } answers { Output.Success(usersList) }
         //
         val output = testedUseCase.execute(input)

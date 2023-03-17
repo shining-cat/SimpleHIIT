@@ -4,6 +4,9 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -11,13 +14,10 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 import kotlin.random.Random
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
 
     private val mockConsecutiveDaysOrCloserUseCaseTest = mockk<ConsecutiveDaysOrCloserUseCase>()
-    private val testedUseCase = CalculateCurrentStreakUseCase(
-        mockConsecutiveDaysOrCloserUseCaseTest,
-        mockHiitLogger
-    )
 
     @ParameterizedTest(name = "{index} -> should call ConsecutiveDaysOrCloserUseCase {1} time(s) and return {2}")
     @MethodSource("streakArguments")
@@ -25,7 +25,12 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
         consecutivenessReturns: List<Consecutiveness>,
         expectedCallsOnConsecutiveDaysOrCloserUseCase: Int,
         expectedStreakLengthOutput: Int
-    ) {
+    ) = runTest {
+        val testedUseCase = CalculateCurrentStreakUseCase(
+            consecutiveDaysOrCloserUseCase = mockConsecutiveDaysOrCloserUseCaseTest,
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+            simpleHiitLogger = mockHiitLogger
+        )
         coEvery {
             mockConsecutiveDaysOrCloserUseCaseTest.execute(
                 any(),
