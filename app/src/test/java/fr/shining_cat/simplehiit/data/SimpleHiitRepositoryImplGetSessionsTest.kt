@@ -16,6 +16,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -35,15 +36,6 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
-    private val simpleHiitRepository = SimpleHiitRepositoryImpl(
-        usersDao = mockUsersDao,
-        sessionRecordsDao = mockSessionRecordsDao,
-        userMapper = mockUserMapper,
-        sessionMapper = mockSessionMapper,
-        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-        hiitLogger = mockHiitLogger
-    )
-
     private val testDate = 2345L
     private val testSessionUserId1 = 345L
     private val testSessionUserModel =
@@ -57,6 +49,16 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
 
     @Test
     fun `get sessions for user returns error when dao get sessions throws exception`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         val thrownException = Exception("this is a test exception")
         coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
         //
@@ -80,6 +82,16 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
 
     @Test
     fun `get sessions for user rethrows CancellationException when it gets thrown`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws mockk<CancellationException>()
         //
         assertThrows<CancellationException> {
@@ -96,6 +108,16 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     fun `get sessions for user behaves correctly in happy cases`(
         daoAnswer: List<SessionEntity>
     ) = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } answers { daoAnswer }
         coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSessionRecord }
         //

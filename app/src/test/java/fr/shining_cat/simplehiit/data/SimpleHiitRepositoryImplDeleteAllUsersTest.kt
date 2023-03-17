@@ -11,6 +11,7 @@ import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -32,20 +33,21 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
     private val testUserEntity =
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
-    private val simpleHiitRepository = SimpleHiitRepositoryImpl(
-        usersDao = mockUsersDao,
-        sessionRecordsDao = mockSessionRecordsDao,
-        userMapper = mockUserMapper,
-        sessionMapper = mockSessionMapper,
-        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-        hiitLogger = mockHiitLogger
-    )
-
 //////////////
 //   DELETE USER
 
     @Test
     fun `delete all users returns error when usersDao delete all users throws exception`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         val thrownException = Exception("this is a test exception")
         coEvery { mockUsersDao.deleteAllUsers() } throws thrownException
         //
@@ -60,6 +62,16 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
     @Test
     fun `delete all users rethrows CancellationException when usersDao delete all users throws CancellationException`() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val thrownCancellationException = CancellationException()
             coEvery { mockUsersDao.deleteAllUsers() } throws thrownCancellationException
             //
@@ -73,6 +85,16 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
 
     @Test
     fun `delete all user returns nothing when usersDao delete all users succeeds`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUsersDao.deleteAllUsers() } just Runs
         //
         simpleHiitRepository.deleteAllUsers()

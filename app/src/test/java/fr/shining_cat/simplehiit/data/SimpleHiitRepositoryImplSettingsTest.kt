@@ -34,18 +34,19 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
-    private val simpleHiitRepository = SimpleHiitRepositoryImpl(
-        usersDao = mockUsersDao,
-        sessionRecordsDao = mockSessionRecordsDao,
-        userMapper = mockUserMapper,
-        sessionMapper = mockSessionMapper,
-        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-        hiitLogger = mockHiitLogger
-    )
-
     @Test
     fun `setWorkPeriodLength calls HiitDataStoreManager setWorkPeriodLength with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setWorkPeriodLength(any()) } just Runs
             //
@@ -57,6 +58,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setRestPeriodLength calls HiitDataStoreManager setRestPeriodLength with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setRestPeriodLength(any()) } just Runs
             //
@@ -68,6 +79,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setNumberOfWorkPeriods calls HiitDataStoreManager setNumberOfWorkPeriods with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = 123
             coEvery { mockSimpleHiitDataStoreManager.setNumberOfWorkPeriods(any()) } just Runs
             //
@@ -82,6 +103,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     fun `setBeepSound calls HiitDataStoreManager setBeepSound with correct value `(
         testValue: Boolean
     ) = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockSimpleHiitDataStoreManager.setBeepSound(any()) } just Runs
         //
         simpleHiitRepository.setBeepSound(testValue)
@@ -93,6 +124,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setSessionStartCountdown calls HiitDataStoreManager setSessionStartCountdown with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setSessionStartCountdown(any()) } just Runs
             //
@@ -108,6 +149,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setPeriodStartCountdown calls HiitDataStoreManager setPeriodStartCountdown with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = 123L
             coEvery { mockSimpleHiitDataStoreManager.setPeriodStartCountdown(any()) } just Runs
             //
@@ -119,6 +170,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setNumberOfCumulatedCycles calls HiitDataStoreManager setNumberOfCumulatedCycles with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = 123
             coEvery { mockSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(any()) } just Runs
             //
@@ -134,6 +195,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `setExercisesTypesSelected calls HiitDataStoreManager setExercisesTypesSelected with correct value `() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val testValue = listOf(CAT, CRAB, LUNGE, LYING, PLANK, SITTING, SQUAT, STANDING)
             coEvery { mockSimpleHiitDataStoreManager.setExercisesTypesSelected(any()) } just Runs
             //
@@ -149,6 +220,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `getGeneralSettings calls HiitDataStoreManager getGeneralSettings, return correct value and updates returned flow content`() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             val datastoreOutput1 =
                 SimpleHiitPreferences() //holds default values, should always be the fallback
             val datastoreOutput2 = SimpleHiitPreferences(
@@ -207,6 +288,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
 
     @Test
     fun `getGeneralSettings swallows datastore exception and returns default value`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         val defaultSettings =
             SimpleHiitPreferences() //holds default values, should always be the fallback
         val thrownException = Exception("this is a test exception")
@@ -234,6 +325,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
     @Test
     fun `getGeneralSettings rethrows CancellationException when it gets thrown by datastore`() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             coEvery { mockSimpleHiitDataStoreManager.getPreferences() } throws mockk<CancellationException>()
             //
             assertThrows<CancellationException> {
@@ -247,6 +348,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
 
     @Test
     fun `resetAllSettings calls HiitDataStoreManager clearAll`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockSimpleHiitDataStoreManager.clearAll() } just Runs
         //
         simpleHiitRepository.resetAllSettings()

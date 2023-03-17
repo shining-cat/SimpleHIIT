@@ -15,6 +15,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -37,19 +38,20 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
     private val testUserEntity =
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
-    private val simpleHiitRepository = SimpleHiitRepositoryImpl(
-        usersDao = mockUsersDao,
-        sessionRecordsDao = mockSessionRecordsDao,
-        userMapper = mockUserMapper,
-        sessionMapper = mockSessionMapper,
-        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-        hiitLogger = mockHiitLogger
-    )
-
     //////////////
 //   INSERT USER
     @Test
     fun `insert user returns success when dao insert succeeds`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
         coEvery { mockUsersDao.insert(any()) } answers { testUserId }
         //
@@ -63,6 +65,16 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
 
     @Test
     fun `insert user returns error when dao insert throws exception`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
         val thrownException = Exception("this is a test exception")
         coEvery { mockUsersDao.insert(any()) } throws thrownException
@@ -81,6 +93,16 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
 
     @Test
     fun `insert user rethrows CancellationException when it gets thrown`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
         val thrownException = mockk<CancellationException>()
         coEvery { mockUsersDao.insert(any()) } throws thrownException

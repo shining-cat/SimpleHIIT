@@ -15,6 +15,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -42,20 +43,21 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
     private val testUserEntity =
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
-    private val simpleHiitRepository = SimpleHiitRepositoryImpl(
-        usersDao = mockUsersDao,
-        sessionRecordsDao = mockSessionRecordsDao,
-        userMapper = mockUserMapper,
-        sessionMapper = mockSessionMapper,
-        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-        hiitLogger = mockHiitLogger
-    )
-
 //////////////
 //   DELETE USER
 
     @Test
     fun `delete user returns error when usersDao delete throws exception`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
         val thrownException = Exception("this is a test exception")
         coEvery { mockUsersDao.delete(any()) } throws thrownException
@@ -75,6 +77,16 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
     @Test
     fun `delete user rethrows CancellationException when usersDao delete throws CancellationException`() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
             coEvery { mockUsersDao.delete(any()) } throws mockk<CancellationException>()
             //
@@ -93,6 +105,16 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
         daoAnswer: Int,
         expectedOutput: Output.Error
     ) = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
         coEvery { mockUsersDao.delete(any()) } returns daoAnswer
         //
@@ -109,6 +131,16 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
 
     @Test
     fun `delete user returns success when usersDao delete succeeds`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
         coEvery { mockUsersDao.delete(any()) } returns 1
         //

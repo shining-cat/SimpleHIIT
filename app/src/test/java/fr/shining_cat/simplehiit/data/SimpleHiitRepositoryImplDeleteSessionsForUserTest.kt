@@ -13,6 +13,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -32,20 +33,21 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
 
     private val testUserId = 123L
 
-    private val simpleHiitRepository = SimpleHiitRepositoryImpl(
-        usersDao = mockUsersDao,
-        sessionRecordsDao = mockSessionRecordsDao,
-        userMapper = mockUserMapper,
-        sessionMapper = mockSessionMapper,
-        hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-        hiitLogger = mockHiitLogger
-    )
-
 //////////////
 //   DELETE SESSIONS FOR USER
 
     @Test
     fun `delete sessions for user returns error when sessionsDao delete throws exception`() = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         val thrownException = Exception("this is a test exception")
         coEvery { mockSessionRecordsDao.deleteForUser(any()) } throws thrownException
         //
@@ -63,6 +65,16 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
     @Test
     fun `delete sessions for user rethrows CancellationException when sessionsDao delete throws CancellationException`() =
         runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
             coEvery { mockSessionRecordsDao.deleteForUser(any()) } throws mockk<CancellationException>()
             //
             assertThrows<CancellationException> {
@@ -78,6 +90,16 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
     fun `delete sessions for user returns success when sessionsDao delete succeeds`(
         testValue: Int
     ) = runTest {
+        val simpleHiitRepository = SimpleHiitRepositoryImpl(
+            usersDao = mockUsersDao,
+            sessionRecordsDao = mockSessionRecordsDao,
+            userMapper = mockUserMapper,
+            sessionMapper = mockSessionMapper,
+            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+            hiitLogger = mockHiitLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
+        //
         coEvery { mockSessionRecordsDao.deleteForUser(any()) } returns testValue
         //
         val actual = simpleHiitRepository.deleteSessionRecordsForUser(testUserId)

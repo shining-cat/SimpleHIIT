@@ -7,7 +7,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
-class StepTimerUseCase @Inject constructor(private val hiitLogger: HiitLogger) {
+class StepTimerUseCase @Inject constructor(
+    private val hiitLogger: HiitLogger
+    ) {
     private var _timerStateFlow = MutableStateFlow(StepTimerState(-1))
     val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
 
