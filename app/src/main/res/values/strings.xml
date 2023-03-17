@@ -75,7 +75,7 @@
     <!-- FINISH PAGE -->
     <string name="finish_page_title">Congratulation!</string>
     <string name="session_length_summary">You just did a %1$s session of HIIT!</string>
-    <string name="session_finished_tips">Now is the time to stretch gently, and remember to hydrate!</string>
+    <string name="session_finished_tips">Now is the time to stretch gently. Remember to hydrate!</string>
     <string name="summary_session">Here\'s the list of exercises you have done:</string>
     <string name="exercise_side_left">Left side</string>
     <string name="exercise_side_right">Right side</string>

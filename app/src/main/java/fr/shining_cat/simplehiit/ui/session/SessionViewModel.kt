@@ -5,9 +5,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
-import fr.shining_cat.simplehiit.domain.usecases.*
+import fr.shining_cat.simplehiit.domain.usecases.BuildSessionUseCase
+import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.usecases.GetSessionSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.StepTimerUseCase
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -17,9 +21,9 @@ import javax.inject.Inject
 class SessionViewModel @Inject constructor(
     private val mapper: SessionMapper,
     private val getSessionSettingsUseCase: GetSessionSettingsUseCase,
-    private val composeExercisesListForSessionUseCase: ComposeExercisesListForSessionUseCase,
     private val buildSessionUseCase: BuildSessionUseCase,
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+    private val stepTimerUseCase: StepTimerUseCase,
     private val hiitLogger: HiitLogger
 
 ) : AbstractLoggerViewModel(hiitLogger) {
@@ -35,7 +39,7 @@ class SessionViewModel @Inject constructor(
     private var durationStringFormatter = DurationStringFormatter()
     private var session: Session? = null
     private var currentSessionStepIndex = 0
-    private val stepTimer = StepTimerUseCase(viewModelScope, hiitLogger)
+    private var stepTimerJob: Job? = null
 
     //
     private var sessionStartTimestamp = 0L
@@ -54,7 +58,7 @@ class SessionViewModel @Inject constructor(
 
     private fun setupTicker() {
         viewModelScope.launch {
-            stepTimer.timerStateFlow.collect() { stepTimerState ->
+            stepTimerUseCase.timerStateFlow.collect() { stepTimerState ->
                 hiitLogger.d(
                     "SessionViewModel",
                     "setupStepTimer::timerStateFlow::stepTimerState::secondsRemaining = ${stepTimerState.secondsRemaining}"
@@ -109,7 +113,8 @@ class SessionViewModel @Inject constructor(
             val currentStep = immutableSession.steps[currentSessionStepIndex]
             val remainingSeconds = stepTimerState.secondsRemaining
             if (remainingSeconds == 0) {//step end
-                stepTimer.stop()
+//                stepTimer.stop()
+                stepTimerJob?.cancel()
                 if (immutableSession.steps.lastOrNull() == currentStep) {
                     emitSessionEndState()
                 } else {
@@ -162,7 +167,7 @@ class SessionViewModel @Inject constructor(
                         countDown = countDown,
                     )
                     is SessionStep.PrepareStep -> {
-                        if(countDown == null){
+                        if (countDown == null) {
                             SessionViewState.Error(Constants.Errors.LAUNCH_SESSION.code)
                         } else {
                             SessionViewState.InitialCountDownSession(
@@ -198,22 +203,31 @@ class SessionViewModel @Inject constructor(
                     "SessionViewModel",
                     "emitSessionEndState::drift = ${totalElapsedTime - immutableSession.durationMs}"
                 )
-                val workingStepsDone = immutableSession.steps.take(currentSessionStepIndex)
-                    .filterIsInstance<SessionStep.WorkStep>()
-                    .map {
-                        SessionStepDisplay(
-                            exercise = it.exercise,
-                            side = it.side,
-                        )
-                    }
+                val stepsDone = immutableSession.steps.take(currentSessionStepIndex)
+                    .filter { it !is SessionStep.PrepareStep }
+                val restStepsDone = stepsDone.filterIsInstance<SessionStep.RestStep>()
+                val workingStepsDone = stepsDone.filterIsInstance<SessionStep.WorkStep>()
+                val actualSessionLength =
+                    restStepsDone.size.times(restStepsDone[0].durationMs).plus(
+                        workingStepsDone.size.times(workingStepsDone[0].durationMs)
+                    )
                 hiitLogger.d(
                     "SessionViewModel",
                     "emitSessionEndState::workingStepsDone = ${workingStepsDone.size}"
                 )
+                val actualSessionLengthFormatted =
+                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                        actualSessionLength, durationStringFormatter
+                    )
                 _screenViewState.emit(
                     SessionViewState.Finished(
-                        sessionDurationFormatted = immutableSession.durationFormatted,
-                        workingStepsDone = workingStepsDone
+                        sessionDurationFormatted = actualSessionLengthFormatted,
+                        workingStepsDone = workingStepsDone.map {
+                            SessionStepDisplay(
+                                exercise = it.exercise,
+                                side = it.side,
+                            )
+                        }
                     )
                 )
             }
@@ -234,7 +248,9 @@ class SessionViewModel @Inject constructor(
         }
         val stepToStart = immutableSession.steps[currentSessionStepIndex]
         val stepDurationS = stepToStart.durationMs.div(1000L).toInt()
-        stepTimer.start(stepDurationS)
+        stepTimerJob = viewModelScope.launch {
+            stepTimerUseCase.testStart(stepDurationS)
+        }
     }
 
     fun pause() {
@@ -245,10 +261,14 @@ class SessionViewModel @Inject constructor(
                 _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
             } else {
                 hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
-                stepTimer.stop()
+//                stepTimer.stop()
+                stepTimerJob?.cancel()
                 val currentStep = immutableSession.steps[currentSessionStepIndex]
                 if (currentStep is SessionStep.WorkStep) {
-                    hiitLogger.d("SessionViewModel", "pause::reset current WORK step to last REST step")
+                    hiitLogger.d(
+                        "SessionViewModel",
+                        "pause::reset current WORK step to last REST step"
+                    )
                     currentSessionStepIndex -= 1 //safe as the first step will always be a REST
                 }
                 _dialogViewState.emit(SessionDialog.Pause)
