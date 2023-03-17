@@ -1,11 +1,8 @@
 package fr.shining_cat.simplehiit.domain.models
 
-import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
-
-@ExcludeFromJacocoGeneratedReport
 data class Session(
-    val id:Long = 0L,
-    val timeStamp:Long,
-    val durationMs:Long,
-    val usersIds:List<Long>
+    val steps: List<SessionStep>,
+    val durationMs: Long,
+    val durationFormatted: String,
+    val beepSoundCountDownActive:Boolean
 )

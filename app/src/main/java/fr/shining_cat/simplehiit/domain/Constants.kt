@@ -28,6 +28,8 @@ object Constants {
         USER_NAME_TAKEN("0203"),
         EMPTY_RESULT("0301"),
         CONVERSION_ERROR("0401"),
+        LAUNCH_SESSION("0501"),
+        SESSION_NOT_FOUND("0502")
     }
 
     enum class InputError(){

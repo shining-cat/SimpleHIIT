@@ -2,7 +2,7 @@ package fr.shining_cat.simplehiit.data.mappers
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
@@ -17,7 +17,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
     @ParameterizedTest(name = "{index} -> given {0} should return {1}")
     @MethodSource("sessionMapperArguments")
     fun `converting from model to entity returns expected list of objects`(
-        input: Session,
+        input: SessionRecord,
         expectedOutput: List<SessionEntity>
     ) {
         val actual = sessionMapper.convert(input)
@@ -32,7 +32,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
             durationMs = 345L,
             userId = 1234L
         )
-        val expectedOutput = Session(
+        val expectedOutput = SessionRecord(
             id = 123L,
             timeStamp = 78696L,
             durationMs = 345L,
@@ -48,7 +48,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
         fun sessionMapperArguments() =
             Stream.of(
                 Arguments.of(
-                    Session(
+                    SessionRecord(
                         id = 123L,
                         timeStamp = 78696L,
                         durationMs = 345L,
@@ -64,7 +64,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
                     )
                 ),
                 Arguments.of(
-                    Session(
+                    SessionRecord(
                         id = 123L,
                         timeStamp = 78696L,
                         durationMs = 345L,

@@ -35,6 +35,15 @@
     <string name="exercise_lying_star_toe_touch_sit_up">Lying : Star to Toe Touch Sit Ups</string>
     <string name="exercise_lying_superman_twist">Lying : Superman Twist</string>
     <string name="exercise_lying_side_leg_lift">Lying : Side Leg Lift One Side</string>
+    <!--Planks-->
+    <string name="exercise_plank_mountain_climber_twist">Planks : Mountain climber twist</string>
+    <string name="exercise_plank_mountain_climber">Planks : Mountain climber</string>
+    <string name="exercise_plank_bird_dogs">Planks : Bird and Dog</string>
+    <string name="exercise_plank_shoulder_tap">Planks : Shoulder tap</string>
+    <string name="exercise_plank_reverse_leg_raise">Planks : Reverse Leg raise</string>
+    <string name="exercise_plank_spiderman">Planks : Spiderman</string>
+    <string name="exercise_plank_knee_to_elbow_kickback">Planks : Knee to elbow kickback</string>
+    <string name="exercise_plank_side_arm_rotation">Planks : Side rotation</string>
     <!--Sitting-->
     <string name="exercise_sitting_boat_twist">Sitting : Lifted Feet Twist Extended Arms to the Sides</string>
     <string name="exercise_sitting_knee_hugs">Sitting : Knee Hugs</string>

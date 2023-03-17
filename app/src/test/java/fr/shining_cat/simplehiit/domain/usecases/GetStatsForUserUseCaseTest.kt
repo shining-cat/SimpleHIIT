@@ -4,7 +4,7 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.models.UserStatistics
 import io.mockk.coEvery
@@ -42,25 +42,25 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
     fun `return error when repo call fails`() = runTest {
         val testException = Exception("this is a test exception")
         val testError = Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException)
-        coEvery { mockSimpleHiitRepository.getSessionsForUser(any()) } answers { testError}
+        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { testError}
         //
         val result = testedUseCase.execute(testUser, testNow)
         //
-        coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
+        coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
         assertEquals(testError, result)
     }
 
     @Test
     fun `return default empty value when repo returns empty list`() = runTest {
-        val testSessions = emptyList<Session>()
-        coEvery { mockSimpleHiitRepository.getSessionsForUser(any()) } answers { Output.Success(testSessions)}
+        val testSessionRecords = emptyList<SessionRecord>()
+        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { Output.Success(testSessionRecords)}
         coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns 0
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns 0
         coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns "0"
         //
         val output = testedUseCase.execute(testUser, testNow)
         //
-        coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
+        coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
         coVerify(exactly = 0) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
@@ -72,7 +72,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
     @ParameterizedTest(name = "{index} -> when called should return UserStatistics with {2} totalNumberOfSessions, {3} cumulatedTimeOfExerciseSeconds, {4} averageSessionLengthSeconds")
     @MethodSource("sessionsArguments")
     fun `return correct value when repo call succeeds`(
-        testSessions: List<Session>,
+        testSessionRecords: List<SessionRecord>,
         expectedNumberOfCallsSubUseCases: Int,
         expectedTotalNumberOfSessions: Int,
         expectedCumulatedTimeOfExerciseSeconds: Long,
@@ -81,14 +81,14 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         val testCurrentStreak = Random.nextInt(10,5000)
         val testLongestStreak = Random.nextInt(5000,10000)
         val testAverageWeek = (Random.nextInt(1,100).toDouble() / 100.toDouble()).toString()
-        coEvery { mockSimpleHiitRepository.getSessionsForUser(any()) } answers { Output.Success(testSessions)}
+        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { Output.Success(testSessionRecords)}
         coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns testCurrentStreak
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns testLongestStreak
         coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns testAverageWeek
         //
         val output = testedUseCase.execute(testUser, testNow)
         //
-        coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionsForUser(testUser) }
+        coVerify (exactly = 1){ mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
@@ -113,7 +113,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             Stream.of(
                 Arguments.of(
                     listOf(
-                        Session(
+                        SessionRecord(
                             id = 123L,
                             timeStamp = 1234L,
                             durationMs = 12345L,
@@ -127,25 +127,25 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        Session(
+                        SessionRecord(
                             id = 123L,
                             timeStamp = 1234L,
                             durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
-                        Session(
+                        SessionRecord(
                             id = 234L,
                             timeStamp = 2345L,
                             durationMs = 2700L,
                             usersIds = listOf(testUser.id)
                         ),
-                        Session(
+                        SessionRecord(
                             id = 345L,
                             timeStamp = 3456L,
                             durationMs = 1800L,
                             usersIds = listOf(testUser.id)
                         ),
-                        Session(
+                        SessionRecord(
                             id = 456L,
                             timeStamp = 4567L,
                             durationMs = 3000L,
@@ -159,19 +159,19 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        Session(
+                        SessionRecord(
                             id = 123L,
                             timeStamp = 1234L,
                             durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
-                        Session(
+                        SessionRecord(
                             id = 345L,
                             timeStamp = 3456L,
                             durationMs = 1500L,
                             usersIds = listOf(testUser.id)
                         ),
-                        Session(
+                        SessionRecord(
                             id = 456L,
                             timeStamp = 4567L,
                             durationMs = 1500L,

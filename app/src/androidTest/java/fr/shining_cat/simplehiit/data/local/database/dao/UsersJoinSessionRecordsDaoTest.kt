@@ -20,7 +20,7 @@ import javax.inject.Named
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
-class UsersJoinSessionsDaoTest {
+class UsersJoinSessionRecordsDaoTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)
@@ -32,13 +32,13 @@ class UsersJoinSessionsDaoTest {
     @Named("test_db")
     lateinit var database: SimpleHiitDatabase
     private lateinit var usersDao: UsersDao
-    private lateinit var sessionsDao: SessionsDao
+    private lateinit var sessionRecordsDao: SessionRecordsDao
 
     @Before
     fun setup() {
         hiltRule.inject()
         usersDao = database.userDao()
-        sessionsDao = database.sessionsDao()
+        sessionRecordsDao = database.sessionsDao()
     }
 
     @After
@@ -117,7 +117,7 @@ class UsersJoinSessionsDaoTest {
             timeStamp = testSessionTimeStamp7
         )
         launch {
-            sessionsDao.insert(
+            sessionRecordsDao.insert(
                 listOf(
                     testSession,
                     testSession2,
@@ -142,7 +142,7 @@ class UsersJoinSessionsDaoTest {
         assertEquals(testUserID2, usersTableContentBefore[1].userId)
         assertEquals(testUserName2, usersTableContentBefore[1].name)
         //assert that the expected user 1's sessions are stored in sessions table
-        val sessionsForUser1 = sessionsDao.getSessionsForUser(userId = testUserID)
+        val sessionsForUser1 = sessionRecordsDao.getSessionsForUser(userId = testUserID)
         assertEquals(4, sessionsForUser1.size)
         val retrievedSession1 = sessionsForUser1[0]
         assertEquals(testUserID, retrievedSession1.userId)
@@ -161,7 +161,7 @@ class UsersJoinSessionsDaoTest {
         assertEquals(testSessionDuration4, retrievedSession4.durationMs)
         assertEquals(testSessionTimeStamp4, retrievedSession4.timeStamp)
         //same for user 2's sessions
-        val sessionsForUser2 = sessionsDao.getSessionsForUser(userId = testUserID2)
+        val sessionsForUser2 = sessionRecordsDao.getSessionsForUser(userId = testUserID2)
         assertEquals(3, sessionsForUser2.size)
         val retrievedSession5 = sessionsForUser2[0]
         assertEquals(testUserID2, retrievedSession5.userId)
@@ -186,10 +186,10 @@ class UsersJoinSessionsDaoTest {
         assertEquals(1, retrievedUsersAfterDeletion.size)
         assertEquals(testUser2, retrievedUsersAfterDeletion[0])
         //assert no sessions are found in sessions table for user 1
-        val sessionsForUser1AfterDeletion = sessionsDao.getSessionsForUser(userId = testUserID)
+        val sessionsForUser1AfterDeletion = sessionRecordsDao.getSessionsForUser(userId = testUserID)
         assertEquals(0, sessionsForUser1AfterDeletion.size)
         //assert sessions for user 2 are still all there
-        val sessionsForUser2AfterDeletion = sessionsDao.getSessionsForUser(userId = testUserID2)
+        val sessionsForUser2AfterDeletion = sessionRecordsDao.getSessionsForUser(userId = testUserID2)
         assertEquals(3, sessionsForUser2AfterDeletion.size)
         //
         collectJob.cancel()
@@ -244,7 +244,7 @@ class UsersJoinSessionsDaoTest {
             timeStamp = testSessionTimeStamp7
         )
         launch {
-            sessionsDao.insert(
+            sessionRecordsDao.insert(
                 listOf(
                     testSession,
                     testSession2,
@@ -269,7 +269,7 @@ class UsersJoinSessionsDaoTest {
         assertEquals(testUserID2, usersTableContentBefore[1].userId)
         assertEquals(testUserName2, usersTableContentBefore[1].name)
         //assert that the expected user 1's sessions are stored in sessions table
-        val sessionsForUser1 = sessionsDao.getSessionsForUser(userId = testUserID)
+        val sessionsForUser1 = sessionRecordsDao.getSessionsForUser(userId = testUserID)
         assertEquals(4, sessionsForUser1.size)
         val retrievedSession1 = sessionsForUser1[0]
         assertEquals(testUserID, retrievedSession1.userId)
@@ -288,7 +288,7 @@ class UsersJoinSessionsDaoTest {
         assertEquals(testSessionDuration4, retrievedSession4.durationMs)
         assertEquals(testSessionTimeStamp4, retrievedSession4.timeStamp)
         //same for user 2's sessions
-        val sessionsForUser2 = sessionsDao.getSessionsForUser(userId = testUserID2)
+        val sessionsForUser2 = sessionRecordsDao.getSessionsForUser(userId = testUserID2)
         assertEquals(3, sessionsForUser2.size)
         val retrievedSession5 = sessionsForUser2[0]
         assertEquals(testUserID2, retrievedSession5.userId)
@@ -310,10 +310,10 @@ class UsersJoinSessionsDaoTest {
         val retrievedUsersAfterDeletion = usersFlowAsList[1]
         assertTrue(retrievedUsersAfterDeletion.isEmpty())
         //assert no sessions are found in sessions table for user 1
-        val sessionsForUser1AfterDeletion = sessionsDao.getSessionsForUser(userId = testUserID)
+        val sessionsForUser1AfterDeletion = sessionRecordsDao.getSessionsForUser(userId = testUserID)
         assertTrue(sessionsForUser1AfterDeletion.isEmpty())
         //assert no sessions are found in sessions table for user 2
-        val sessionsForUser2AfterDeletion = sessionsDao.getSessionsForUser(userId = testUserID2)
+        val sessionsForUser2AfterDeletion = sessionRecordsDao.getSessionsForUser(userId = testUserID2)
         assertTrue(sessionsForUser2AfterDeletion.isEmpty())
         //
         collectJob.cancel()

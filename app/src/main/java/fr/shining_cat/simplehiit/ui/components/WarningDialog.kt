@@ -18,12 +18,10 @@ import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
-fun ConfirmDialog(
-    message: String,
-    primaryButtonLabel: String,
-    primaryAction: () -> Unit,
-    secondaryButtonLabel: String = "",
-    secondaryAction: () -> Unit = {},
+fun WarningDialog(
+    message: String = "",
+    proceedButtonLabel: String,
+    proceedAction: () -> Unit,
     dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
     dismissAction: () -> Unit
 ) {
@@ -57,18 +55,13 @@ fun ConfirmDialog(
                         .padding(horizontal = 0.dp, vertical = 24.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    if (secondaryButtonLabel.isNotBlank()) {
-                        TextButton(onClick = secondaryAction) {
-                            Text(text = secondaryButtonLabel)
-                        }
-                    }
                     if (dismissButtonLabel.isNotBlank()) {
                         OutlinedButton(onClick = dismissAction) {
                             Text(text = dismissButtonLabel)
                         }
                     }
-                    Button(onClick = primaryAction) {
-                        Text(text = primaryButtonLabel)
+                    Button(onClick = proceedAction) {
+                        Text(text = proceedButtonLabel)
                     }
                 }
             }
@@ -92,11 +85,10 @@ fun ConfirmDialog(
 @Composable
 private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
-        ConfirmDialog(
+        WarningDialog(
             message = "This will erase all users, all stored sessions, and all settings",
-            primaryButtonLabel = "Yeah",
-            primaryAction = {},
-            secondaryButtonLabel = "Maybe",
+            proceedButtonLabel = "Yeah",
+            proceedAction = {},
             dismissButtonLabel = "Nope",
             dismissAction = {}
         )

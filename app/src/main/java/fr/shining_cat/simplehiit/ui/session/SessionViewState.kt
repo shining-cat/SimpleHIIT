@@ -1,31 +1,50 @@
 package fr.shining_cat.simplehiit.ui.session
 
 import fr.shining_cat.simplehiit.domain.models.Exercise
+import fr.shining_cat.simplehiit.domain.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.models.SessionStepDisplay
 
-sealed class SessionViewState{
-    object SessionLoading:SessionViewState()
-    data class SessionWorkNominal(
+sealed class SessionViewState {
+    object Loading : SessionViewState()
+    data class InitialCountDownSession(
+        val countDown: CountDown
+    ) : SessionViewState()
+
+    data class WorkNominal(
         val currentExercise: Exercise,
-        val exerciseRemainingTime:String,
-        val exerciseProgress:Int,
-        val sessionRemainingTime:String,
-        val sessionProgress:Int
-    ):SessionViewState()
-    data class SessionRestNominal(
+        val side: ExerciseSide,
+        val exerciseRemainingTime: String,
+        val exerciseProgress: Float,
+        val sessionRemainingTime: String,
+        val sessionProgress: Float,
+        val countDown: CountDown? = null
+    ) : SessionViewState()
+
+    data class RestNominal(
         val nextExercise: Exercise,
-        val restRemainingTime:String,
-        val restProgress:Int,
-        val sessionRemainingTime:String,
-        val sessionProgress:Int
-    ):SessionViewState()
-    data class SessionFinished(
+        val side: ExerciseSide,
+        val restRemainingTime: String,
+        val restProgress: Float,
+        val sessionRemainingTime: String,
+        val sessionProgress: Float,
+        val countDown: CountDown? = null
+    ) : SessionViewState()
+
+    data class Finished(
         val sessionDurationFormatted: String,
-        val exercisesDone: List<String>
-    ):SessionViewState()
-    data class SessionErrorState(val errorCode: String):SessionViewState()
+        val workingStepsDone: List<SessionStepDisplay>
+    ) : SessionViewState()
+
+    data class Error(val errorCode: String) : SessionViewState()
 }
+
+data class CountDown(
+    val secondsDisplay: String,
+    val progress: Float,
+    val playBeep: Boolean
+)
 
 sealed class SessionDialog() {
     object None : SessionDialog()
-    object PauseDialog: SessionDialog()
+    object Pause : SessionDialog()
 }

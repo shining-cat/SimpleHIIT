@@ -1,4 +1,5 @@
 
+* loading screens are broken, progress indicator is stuck at the top of screen
 * fix broken layout in landscape
 * when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
 * See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?

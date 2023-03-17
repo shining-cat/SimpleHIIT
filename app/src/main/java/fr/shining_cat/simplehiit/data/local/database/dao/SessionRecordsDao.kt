@@ -4,7 +4,7 @@ import androidx.room.*
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 
 @Dao
-abstract class SessionsDao {
+abstract class SessionRecordsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(sessions: List<SessionEntity>): List<Long>

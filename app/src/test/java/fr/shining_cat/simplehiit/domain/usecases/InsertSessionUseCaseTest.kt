@@ -4,7 +4,7 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -19,24 +19,24 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() = runTest {
-        val testValue = Session(
+        val testValue = SessionRecord(
             id = 123L,
             timeStamp = 78696L,
             durationMs = 345L,
             usersIds = listOf(1234L, 2345L)
         )
         val successFromRepo = Output.Success(2)
-        coEvery { mockSimpleHiitRepository.insertSession(any()) } answers {successFromRepo}
+        coEvery { mockSimpleHiitRepository.insertSessionRecord(any()) } answers {successFromRepo}
         //
         val result = testedUseCase.execute(testValue)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.insertSession(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.insertSessionRecord(testValue) }
         assertEquals(successFromRepo, result)
     }
 
     @Test
     fun `calls repo with corresponding value and returns repo error`() = runTest {
-        val testValue = Session(
+        val testValue = SessionRecord(
             id = 123L,
             timeStamp = 78696L,
             durationMs = 345L,
@@ -44,11 +44,11 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
         )
         val exceptionMessage = "this is a test exception"
         val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-        coEvery { mockSimpleHiitRepository.insertSession(any()) } answers {errorFromRepo}
+        coEvery { mockSimpleHiitRepository.insertSessionRecord(any()) } answers {errorFromRepo}
         //
         val result = testedUseCase.execute(testValue)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.insertSession(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.insertSessionRecord(testValue) }
         assertEquals(errorFromRepo, result)
     }
 }

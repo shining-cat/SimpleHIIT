@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.data
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
@@ -29,14 +29,14 @@ import kotlin.random.Random
 internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
 
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionsDao = mockk<SessionsDao>()
+    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
     private val simpleHiitRepository = SimpleHiitRepositoryImpl(
         usersDao = mockUsersDao,
-        sessionsDao = mockSessionsDao,
+        sessionRecordsDao = mockSessionRecordsDao,
         userMapper = mockUserMapper,
         sessionMapper = mockSessionMapper,
         hiitDataStoreManager = mockSimpleHiitDataStoreManager,

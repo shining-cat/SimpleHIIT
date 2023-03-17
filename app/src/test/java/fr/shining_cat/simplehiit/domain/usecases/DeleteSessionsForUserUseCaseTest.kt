@@ -4,7 +4,6 @@ import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -24,11 +23,11 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo success`() = runTest {
         val testValue = 123L
         val successFromRepo = Output.Success(1)
-        coEvery { mockSimpleHiitRepository.deleteSessionsForUser(any()) } answers {successFromRepo}
+        coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers {successFromRepo}
         //
         val result = testedUseCase.execute(testValue)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionsForUser(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionRecordsForUser(testValue) }
         assertEquals(successFromRepo, result)
     }
 
@@ -37,11 +36,11 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
         val testValue = 123L
         val exceptionMessage = "this is a test exception"
         val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-        coEvery { mockSimpleHiitRepository.deleteSessionsForUser(any()) } answers {errorFromRepo}
+        coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers {errorFromRepo}
         //
         val result = testedUseCase.execute(testValue)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionsForUser(testValue) }
+        coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionRecordsForUser(testValue) }
         assertEquals(errorFromRepo, result)
     }
 

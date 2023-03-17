@@ -29,7 +29,7 @@ import fr.shining_cat.simplehiit.Screen
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
+import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
@@ -194,10 +194,10 @@ private fun HomeContent(
             )
         }
         when (dialogViewState) {
-            is HomeDialog.ConfirmWholeReset -> ConfirmDialog(
+            is HomeDialog.ConfirmWholeReset -> WarningDialog(
                     message = stringResource(id = R.string.error_confirm_whole_reset),
-                    primaryButtonLabel = stringResource(id = R.string.delete_button_label),
-                    primaryAction = resetWholeAppDeleteEverything,
+                    proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                    proceedAction = resetWholeAppDeleteEverything,
                     dismissAction = cancelDialog
                 )
             is HomeDialog.InputNumberCycles -> HomeInputNumberCyclesDialog(

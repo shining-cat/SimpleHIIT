@@ -6,6 +6,6 @@ import javax.inject.Inject
 class SessionMapper @Inject constructor(private val hiitLogger: HiitLogger) {
 
     fun map(): SessionViewState {
-        return SessionViewState.SessionLoading
+        return SessionViewState.Loading
     }
 }

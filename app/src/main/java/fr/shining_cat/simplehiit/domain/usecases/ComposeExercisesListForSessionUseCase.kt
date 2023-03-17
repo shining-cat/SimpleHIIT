@@ -79,7 +79,7 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
         val numberOfAsymmetricalExercises = exercisesList.filter { it.asymmetrical }.size
         val numberOfSymmetricalExercises = exercisesList.filter { !it.asymmetrical }.size
         val realTotalNumberOfAvailableExercises =
-            numberOfSymmetricalExercises + 2 * numberOfAsymmetricalExercises
+            numberOfSymmetricalExercises.plus(2.times(numberOfAsymmetricalExercises))
         return realTotalNumberOfAvailableExercises
     }
 

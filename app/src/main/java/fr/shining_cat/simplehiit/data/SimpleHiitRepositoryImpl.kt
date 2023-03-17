@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.data
 
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
@@ -9,7 +9,7 @@ import fr.shining_cat.simplehiit.domain.Constants.Errors
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.utils.HiitLogger
@@ -21,7 +21,7 @@ import kotlin.coroutines.cancellation.CancellationException
 
 class SimpleHiitRepositoryImpl @Inject constructor(
     private val usersDao: UsersDao,
-    private val sessionsDao: SessionsDao,
+    private val sessionRecordsDao: SessionRecordsDao,
     private val userMapper: UserMapper,
     private val sessionMapper: SessionMapper,
     private val hiitDataStoreManager: SimpleHiitDataStoreManager,
@@ -149,8 +149,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun insertSession(session: Session): Output<Int> {
-        if (session.usersIds.isEmpty()) {
+    override suspend fun insertSessionRecord(sessionRecord: SessionRecord): Output<Int> {
+        if (sessionRecord.usersIds.isEmpty()) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "insertSession::Error - no user provided")
             return Output.Error(
                 errorCode = Errors.NO_USER_PROVIDED,
@@ -158,8 +158,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
             )
         }
         return try {
-            val sessionEntities = sessionMapper.convert(session)
-            val insertedIds = sessionsDao.insert(sessionEntities)
+            val sessionEntities = sessionMapper.convert(sessionRecord)
+            val insertedIds = sessionRecordsDao.insert(sessionEntities)
             Output.Success(insertedIds.size)
         } catch (cancellationException: CancellationException) {
             throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
@@ -171,9 +171,9 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSessionsForUser(user: User): Output<List<Session>> {
+    override suspend fun getSessionRecordsForUser(user: User): Output<List<SessionRecord>> {
         return try {
-            val sessions = sessionsDao.getSessionsForUser(user.id)
+            val sessions = sessionRecordsDao.getSessionsForUser(user.id)
             hiitLogger.d(
                 "SimpleHiitRepositoryImpl",
                 "getSessionsForUser::found ${sessions.size} sessions"
@@ -190,9 +190,9 @@ class SimpleHiitRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteSessionsForUser(userId: Long): Output<Int> {
+    override suspend fun deleteSessionRecordsForUser(userId: Long): Output<Int> {
         return try {
-            val deletedCount = sessionsDao.deleteForUser(userId)
+            val deletedCount = sessionRecordsDao.deleteForUser(userId)
             Output.Success(result = deletedCount)
         } catch (cancellationException: CancellationException) {
             throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow

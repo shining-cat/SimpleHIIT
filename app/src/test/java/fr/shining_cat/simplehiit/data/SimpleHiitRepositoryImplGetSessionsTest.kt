@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.data
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
@@ -9,7 +9,7 @@ import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -30,14 +30,14 @@ import java.util.stream.Stream
 internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
 
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionsDao = mockk<SessionsDao>()
+    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
     private val simpleHiitRepository = SimpleHiitRepositoryImpl(
         usersDao = mockUsersDao,
-        sessionsDao = mockSessionsDao,
+        sessionRecordsDao = mockSessionRecordsDao,
         userMapper = mockUserMapper,
         sessionMapper = mockSessionMapper,
         hiitDataStoreManager = mockSimpleHiitDataStoreManager,
@@ -49,8 +49,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     private val testSessionUserModel =
         User(id = testSessionUserId1, name = "test user name", selected = true)
     private val testDuration = 123L
-    private val testSession =
-        Session(timeStamp = testDate, durationMs = testDuration, usersIds = listOf(testSessionUserId1))
+    private val testSessionRecord =
+        SessionRecord(timeStamp = testDate, durationMs = testDuration, usersIds = listOf(testSessionUserId1))
 
 //////////////
 //   GET SESSIONS FOR USER
@@ -58,11 +58,11 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     @Test
     fun `get sessions for user returns error when dao get sessions throws exception`() = runTest {
         val thrownException = Exception("this is a test exception")
-        coEvery { mockSessionsDao.getSessionsForUser(any()) } throws thrownException
+        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
         //
-        val actual = simpleHiitRepository.getSessionsForUser(testSessionUserModel)
+        val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
         //
-        coVerify(exactly = 1) { mockSessionsDao.getSessionsForUser(userId = testSessionUserId1) }
+        coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
         coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
         coVerify(exactly = 1) {
             mockHiitLogger.e(
@@ -80,13 +80,13 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
 
     @Test
     fun `get sessions for user rethrows CancellationException when it gets thrown`() = runTest {
-        coEvery { mockSessionsDao.getSessionsForUser(any()) } throws mockk<CancellationException>()
+        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws mockk<CancellationException>()
         //
         assertThrows<CancellationException> {
-            simpleHiitRepository.getSessionsForUser(testSessionUserModel)
+            simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
         }
         //
-        coVerify(exactly = 1) { mockSessionsDao.getSessionsForUser(userId = testSessionUserId1) }
+        coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
         coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
         coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
     }
@@ -96,12 +96,12 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     fun `get sessions for user behaves correctly in happy cases`(
         daoAnswer: List<SessionEntity>
     ) = runTest {
-        coEvery { mockSessionsDao.getSessionsForUser(any()) } answers { daoAnswer }
-        coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSession }
+        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } answers { daoAnswer }
+        coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSessionRecord }
         //
-        val actual = simpleHiitRepository.getSessionsForUser(testSessionUserModel)
+        val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
         //
-        coVerify(exactly = 1) { mockSessionsDao.getSessionsForUser(userId = testSessionUserId1) }
+        coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
         val numberOfSessionsResult = daoAnswer.size
         coVerify(exactly = numberOfSessionsResult) { mockSessionMapper.convert(any<SessionEntity>()) }
         assertTrue(actual is Output.Success)

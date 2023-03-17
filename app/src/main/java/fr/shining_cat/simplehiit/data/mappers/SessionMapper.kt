@@ -1,13 +1,13 @@
 package fr.shining_cat.simplehiit.data.mappers
 
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import javax.inject.Inject
 
 class SessionMapper @Inject constructor() {
 
-    fun convert(sessionEntity: SessionEntity): Session {
-        return Session(
+    fun convert(sessionEntity: SessionEntity): SessionRecord {
+        return SessionRecord(
             id = sessionEntity.sessionId,
             timeStamp = sessionEntity.timeStamp,
             durationMs = sessionEntity.durationMs,
@@ -15,13 +15,13 @@ class SessionMapper @Inject constructor() {
         )
     }
 
-    fun convert(sessionModel: Session): List<SessionEntity> {
-        return sessionModel.usersIds.map { userId ->
+    fun convert(sessionRecordModel: SessionRecord): List<SessionEntity> {
+        return sessionRecordModel.usersIds.map { userId ->
             SessionEntity(
-                sessionId = sessionModel.id,
+                sessionId = sessionRecordModel.id,
                 userId = userId,
-                timeStamp = sessionModel.timeStamp,
-                durationMs = sessionModel.durationMs
+                timeStamp = sessionRecordModel.timeStamp,
+                durationMs = sessionRecordModel.durationMs
             )
         }
     }

@@ -1,33 +1,25 @@
 package fr.shining_cat.simplehiit.data
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.*
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.MethodSource
-import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() {
 
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionsDao = mockk<SessionsDao>()
+    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
@@ -42,7 +34,7 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
 
     private val simpleHiitRepository = SimpleHiitRepositoryImpl(
         usersDao = mockUsersDao,
-        sessionsDao = mockSessionsDao,
+        sessionRecordsDao = mockSessionRecordsDao,
         userMapper = mockUserMapper,
         sessionMapper = mockSessionMapper,
         hiitDataStoreManager = mockSimpleHiitDataStoreManager,

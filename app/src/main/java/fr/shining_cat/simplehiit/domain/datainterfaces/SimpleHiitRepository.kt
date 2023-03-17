@@ -17,9 +17,9 @@ interface SimpleHiitRepository {
     suspend fun deleteAllUsers(): Unit
 
     //
-    suspend fun insertSession(session: Session): Output<Int>
-    suspend fun getSessionsForUser(user: User): Output<List<Session>>
-    suspend fun deleteSessionsForUser(userId: Long): Output<Int>
+    suspend fun insertSessionRecord(sessionRecord: SessionRecord): Output<Int>
+    suspend fun getSessionRecordsForUser(user: User): Output<List<SessionRecord>>
+    suspend fun deleteSessionRecordsForUser(userId: Long): Output<Int>
 
     //
     fun getPreferences(): Flow<SimpleHiitPreferences>

@@ -1,6 +1,5 @@
 package fr.shining_cat.simplehiit.data.local.di
 
-import android.app.Application
 import android.content.Context
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
@@ -12,7 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase.Companion.SimpleHiitDatabaseName
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.datastore.SIMPLE_HIIT_DATASTORE_FILENAME
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
@@ -30,7 +29,7 @@ class LocalDataModule {
     }
 
     @Provides
-    fun provideSessionsDao(simpleHiitDatabase: SimpleHiitDatabase): SessionsDao {
+    fun provideSessionsDao(simpleHiitDatabase: SimpleHiitDatabase): SessionRecordsDao {
         return simpleHiitDatabase.sessionsDao()
     }
 

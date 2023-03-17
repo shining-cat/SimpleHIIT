@@ -13,7 +13,7 @@ class CalculateCurrentStreakUseCase @Inject constructor(
         // if the original list is empty, the expected current streak length is 0
         // So if we check on the same day, or before the end of the following day of the last session, the current streak is not considered broken
         // On the contrary: if "now" is evaluated as NON_CONSECUTIVE_DAYS with the last actual session the expected current streak length is 0
-        val timestampsIncludingNow = timestamps + now
+        val timestampsIncludingNow = timestamps.plus(now)
         val sortedTimestampsFromLast = timestampsIncludingNow.sortedByDescending { it }
         var streakCounter = 0
         streakLoop@ for ((index, timestamp) in sortedTimestampsFromLast.withIndex()) {

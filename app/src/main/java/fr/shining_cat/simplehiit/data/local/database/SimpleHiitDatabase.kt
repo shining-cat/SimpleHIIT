@@ -3,7 +3,7 @@ package fr.shining_cat.simplehiit.data.local.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import fr.shining_cat.simplehiit.ExcludeFromJacocoGeneratedReport
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
@@ -17,7 +17,7 @@ abstract class SimpleHiitDatabase : RoomDatabase() {
 
     abstract fun userDao(): UsersDao
 
-    abstract fun sessionsDao(): SessionsDao
+    abstract fun sessionsDao(): SessionRecordsDao
 
     @ExcludeFromJacocoGeneratedReport
     companion object {

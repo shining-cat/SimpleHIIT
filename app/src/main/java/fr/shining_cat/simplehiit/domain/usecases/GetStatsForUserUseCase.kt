@@ -2,7 +2,7 @@ package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.models.UserStatistics
 import fr.shining_cat.simplehiit.utils.HiitLogger
@@ -17,7 +17,7 @@ class GetStatsForUserUseCase @Inject constructor(
 ) {
 
     suspend fun execute(user: User, now: Long): Output<UserStatistics> {
-        val sessionsForUserOutput = simpleHiitRepository.getSessionsForUser(user)
+        val sessionsForUserOutput = simpleHiitRepository.getSessionRecordsForUser(user)
         return when (sessionsForUserOutput) {
             is Output.Error -> {
                 simpleHiitLogger.e(
@@ -29,9 +29,9 @@ class GetStatsForUserUseCase @Inject constructor(
             }
             is Output.Success -> {
                 Output.Success(
-                    mapListOfSessionsToStatistics(
+                    mapListOfSessionRecordsToStatistics(
                         user = user,
-                        sessions = sessionsForUserOutput.result,
+                        sessionRecords = sessionsForUserOutput.result,
                         now = now
                     )
                 )
@@ -39,22 +39,22 @@ class GetStatsForUserUseCase @Inject constructor(
         }
     }
 
-    private fun mapListOfSessionsToStatistics(
+    private fun mapListOfSessionRecordsToStatistics(
         user: User,
-        sessions: List<Session>,
+        sessionRecords: List<SessionRecord>,
         now: Long
     ): UserStatistics {
-        return if (sessions.isEmpty()) {
+        return if (sessionRecords.isEmpty()) {
             UserStatistics(user = user)
         } else {
-            val totalNumberOfSessions = sessions.size
-            val cumulatedTimeOfExerciseMs = sessions.sumOf { it.durationMs }
+            val totalNumberOfSessionRecords = sessionRecords.size
+            val cumulatedTimeOfExerciseMs = sessionRecords.sumOf { it.durationMs }
             val averageSessionLengthMs =
-                (cumulatedTimeOfExerciseMs.toDouble() / totalNumberOfSessions.toDouble()).toLong()
-            val timestampsList = sessions.map { it.timeStamp }
+                (cumulatedTimeOfExerciseMs.toDouble() / totalNumberOfSessionRecords.toDouble()).toLong()
+            val timestampsList = sessionRecords.map { it.timeStamp }
             UserStatistics(
                 user = user,
-                totalNumberOfSessions = totalNumberOfSessions,
+                totalNumberOfSessions = totalNumberOfSessionRecords,
                 cumulatedTimeOfExerciseMs = cumulatedTimeOfExerciseMs,
                 averageSessionLengthMs = averageSessionLengthMs,
                 longestStreakDays = calculateLongestStreakUseCase.execute(timestampsList, now),

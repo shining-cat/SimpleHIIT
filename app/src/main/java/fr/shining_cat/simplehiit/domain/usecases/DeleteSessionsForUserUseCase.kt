@@ -11,6 +11,6 @@ class DeleteSessionsForUserUseCase @Inject constructor(
 ) {
 
     suspend fun execute(userId: Long): Output<Int> {
-        return simpleHiitRepository.deleteSessionsForUser(userId)
+        return simpleHiitRepository.deleteSessionRecordsForUser(userId)
     }
 }

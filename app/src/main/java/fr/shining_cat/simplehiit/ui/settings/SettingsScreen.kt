@@ -24,8 +24,8 @@ import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
 import fr.shining_cat.simplehiit.ui.components.ErrorDialog
+import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
@@ -282,16 +282,16 @@ fun SettingsContent(
                 userName = dialogViewState.user.name,
                 onCancel = cancelDialog
             )
-            is SettingsDialog.ConfirmDeleteUser -> ConfirmDialog(
+            is SettingsDialog.ConfirmDeleteUser -> WarningDialog(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
-                primaryButtonLabel = stringResource(id = R.string.delete_button_label),
-                primaryAction = { deleteUserConfirm(dialogViewState.user) },
+                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                proceedAction = { deleteUserConfirm(dialogViewState.user) },
                 dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
             )
-            SettingsDialog.ConfirmResetAllSettings -> ConfirmDialog(
+            SettingsDialog.ConfirmResetAllSettings -> WarningDialog(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
-                primaryButtonLabel = stringResource(id = R.string.reset_button_label),
-                primaryAction = resetSettingsConfirmation,
+                proceedButtonLabel = stringResource(id = R.string.reset_button_label),
+                proceedAction = resetSettingsConfirmation,
                 dismissAction = cancelDialog
             )
             is SettingsDialog.Error -> ErrorDialog(

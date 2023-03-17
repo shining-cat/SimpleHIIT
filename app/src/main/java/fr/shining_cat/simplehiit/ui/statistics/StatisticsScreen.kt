@@ -21,7 +21,7 @@ import fr.shining_cat.simplehiit.domain.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.domain.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.ui.components.ConfirmDialog
+import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
 
@@ -199,19 +199,19 @@ private fun StatisticsContent(
                 },
                 dismissAction = cancelDialog
             )
-            is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> ConfirmDialog(
+            is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> WarningDialog(
                 message = stringResource(
                     id = R.string.reset_statistics_confirmation_button_label,
                     dialogViewState.user.name
                 ),
-                primaryButtonLabel = stringResource(id = R.string.delete_button_label),
-                primaryAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
+                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog
             )
-            StatisticsDialog.ConfirmWholeReset -> ConfirmDialog(
+            StatisticsDialog.ConfirmWholeReset -> WarningDialog(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
-                primaryButtonLabel = stringResource(id = R.string.delete_button_label),
-                primaryAction = resetWholeAppConfirmation,
+                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                proceedAction = resetWholeAppConfirmation,
                 dismissAction = cancelDialog
             )
         }

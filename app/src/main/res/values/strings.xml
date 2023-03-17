@@ -62,8 +62,10 @@
     <!-- SESSION PAGE -->
     <string name="session_work_page_title">Work</string>
     <string name="session_rest_page_title">Rest</string>
+    <string name="abort_session_button_label">End session</string>
     <string name="exit_button_label">Exit</string>
     <string name="pause">Pause…</string>
+    <string name="pause_explanation">You can either end the session here or resume it. Resuming will take you back to the start of the rest period preceding the current exercise, so you\'ll have time to get ready.</string>
     <string name="resume_button_label">Resume</string>
     <string name="next_rest_in_s">Next rest in %1$d s</string>
     <string name="session_time_remaining">Session time remaining</string>
@@ -73,7 +75,10 @@
     <!-- FINISH PAGE -->
     <string name="finish_page_title">Congratulation!</string>
     <string name="session_length_summary">You just did a %1$s session of HIIT!</string>
+    <string name="session_finished_tips">Now is the time to stretch gently, and remember to hydrate!</string>
     <string name="summary_session">Here\'s the list of exercises you have done:</string>
+    <string name="exercise_side_left">Left side</string>
+    <string name="exercise_side_right">Right side</string>
 
     <!-- STATISTICS PAGE -->
     <string name="statistics_page_title">Statistics</string> <!-- insert user's name -->

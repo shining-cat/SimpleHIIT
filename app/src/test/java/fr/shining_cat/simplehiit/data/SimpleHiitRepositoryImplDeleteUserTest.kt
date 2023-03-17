@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.data
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.data.local.database.dao.SessionsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
@@ -29,7 +29,7 @@ import java.util.stream.Stream
 internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
 
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionsDao = mockk<SessionsDao>()
+    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
@@ -44,7 +44,7 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
 
     private val simpleHiitRepository = SimpleHiitRepositoryImpl(
         usersDao = mockUsersDao,
-        sessionsDao = mockSessionsDao,
+        sessionRecordsDao = mockSessionRecordsDao,
         userMapper = mockUserMapper,
         sessionMapper = mockSessionMapper,
         hiitDataStoreManager = mockSimpleHiitDataStoreManager,
