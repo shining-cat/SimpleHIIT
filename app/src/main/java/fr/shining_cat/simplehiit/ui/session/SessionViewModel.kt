@@ -203,10 +203,9 @@ class SessionViewModel @Inject constructor(
                     "SessionViewModel",
                     "emitSessionEndState::drift = ${totalElapsedTime - immutableSession.durationMs}"
                 )
-                val stepsDone = immutableSession.steps.take(currentSessionStepIndex)
-                    .filter { it !is SessionStep.PrepareStep }
-                val restStepsDone = stepsDone.filterIsInstance<SessionStep.RestStep>()
-                val workingStepsDone = stepsDone.filterIsInstance<SessionStep.WorkStep>()
+                val restStepsDone = immutableSession.steps.filterIsInstance<SessionStep.RestStep>()
+                val workingStepsDone =
+                    immutableSession.steps.filterIsInstance<SessionStep.WorkStep>()
                 val actualSessionLength =
                     restStepsDone.size.times(restStepsDone[0].durationMs).plus(
                         workingStepsDone.size.times(workingStepsDone[0].durationMs)
@@ -219,15 +218,16 @@ class SessionViewModel @Inject constructor(
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         actualSessionLength, durationStringFormatter
                     )
+                val workingStepsDoneDisplay = workingStepsDone.map {
+                    SessionStepDisplay(
+                        exercise = it.exercise,
+                        side = it.side,
+                    )
+                }
                 _screenViewState.emit(
                     SessionViewState.Finished(
                         sessionDurationFormatted = actualSessionLengthFormatted,
-                        workingStepsDone = workingStepsDone.map {
-                            SessionStepDisplay(
-                                exercise = it.exercise,
-                                side = it.side,
-                            )
-                        }
+                        workingStepsDone = workingStepsDoneDisplay
                     )
                 )
             }

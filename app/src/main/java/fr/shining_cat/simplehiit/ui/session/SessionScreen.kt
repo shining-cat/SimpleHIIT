@@ -84,6 +84,7 @@ private fun SessionTopBar(
     val title = when (screenViewState) {
         is SessionViewState.RestNominal -> stringResource(R.string.session_rest_page_title)
         is SessionViewState.WorkNominal -> stringResource(R.string.session_work_page_title)
+        is SessionViewState.InitialCountDownSession -> stringResource(id = R.string.session_prepare_page_title)
         else -> ""
     }
     TopAppBar(

@@ -60,6 +60,7 @@
     <string name="delete_confirmation_button_label">Click again to confirm. Deleting the user will delete associated sessions.</string>
 
     <!-- SESSION PAGE -->
+    <string name="session_prepare_page_title">Get ready!</string>
     <string name="session_work_page_title">Work</string>
     <string name="session_rest_page_title">Rest</string>
     <string name="abort_session_button_label">End session</string>
