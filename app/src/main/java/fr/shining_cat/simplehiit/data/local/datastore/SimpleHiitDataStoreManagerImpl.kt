@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.data.local.datastore
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import fr.shining_cat.simplehiit.di.IoDispatcher
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shining_cat.simplehiit.domain.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
@@ -15,76 +16,97 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class SimpleHiitDataStoreManagerImpl(
     private val dataStore: DataStore<Preferences>,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 ) : SimpleHiitDataStoreManager {
 
     override suspend fun clearAll() {
         hiitLogger.d("SimpleHiitDataStoreManager", "clearAll")
-        dataStore.edit { preferences ->
-            preferences.clear()
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences.clear()
+            }
         }
     }
 
     override suspend fun setWorkPeriodLength(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setWorkPeriodLength:: $durationMs")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS] = durationMs
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS] = durationMs
+            }
         }
     }
 
     override suspend fun setRestPeriodLength(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setRestPeriodLength:: $durationMs")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS] = durationMs
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS] = durationMs
+            }
         }
     }
 
     override suspend fun setNumberOfWorkPeriods(number: Int) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setNumberOfWorkPeriods:: $number")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.NUMBER_WORK_PERIODS] = number
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.NUMBER_WORK_PERIODS] = number
+            }
         }
     }
 
     override suspend fun setBeepSound(active: Boolean) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setBeepSound:: $active")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.BEEP_SOUND_ACTIVE] = active
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.BEEP_SOUND_ACTIVE] = active
+            }
         }
     }
 
     override suspend fun setSessionStartCountdown(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setSessionStartCountdown:: $durationMs")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
+            }
         }
     }
 
     override suspend fun setPeriodStartCountdown(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setPeriodStartCountdown:: $durationMs")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
+            }
         }
     }
 
     override suspend fun setNumberOfCumulatedCycles(number: Int) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setNumberOfCumulatedCycles:: $number")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES] = number
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES] = number
+            }
         }
     }
 
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
         val setOfStringExerciseTypes = exercisesTypes.map{it.name}.toSet()
         hiitLogger.d("SimpleHiitDataStoreManager", "setExercisesTypesSelected:: $setOfStringExerciseTypes")
-        dataStore.edit { preferences ->
-            preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED] = setOfStringExerciseTypes
+        withContext(ioDispatcher){
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED] = setOfStringExerciseTypes
+            }
         }
     }
 
@@ -141,7 +163,7 @@ class SimpleHiitDataStoreManagerImpl(
             )
         }
         if (setOfStringExerciseTypes.isEmpty()) {
-            //TODO: Should display warning to user that at least one must be selected
+            //TODO? display warning to user that at least one must be selected
         }
         return listOfExerciseTypeSelected.toList()
     }

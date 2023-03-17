@@ -69,13 +69,13 @@ internal class SimpleHiitDataStoreManagerImplTest {
         testCoroutineScope.cancel()
     }
 
-    private val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-        dataStore = testDataStore,
-        hiitLogger = testLogger
-    )
-
     @Test
     fun checkSetWorkPeriodLengthIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefLong(SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS).toList(
@@ -99,6 +99,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetRestPeriodLengthIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefLong(SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS).toList(
@@ -122,6 +127,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetNumberOfWorkPeriodsIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Int>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefInt(SimpleHiitDataStoreManager.Keys.NUMBER_WORK_PERIODS).toList(
@@ -145,6 +155,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetBeepSoundIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Boolean>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefBool(SimpleHiitDataStoreManager.Keys.BEEP_SOUND_ACTIVE).toList(
@@ -168,6 +183,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetSessionStartCountdownIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefLong(SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS).toList(
@@ -191,6 +211,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetPeriodStartCountdownIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Long>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefLong(SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).toList(
@@ -214,6 +239,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetNumberOfCumulatedCyclesIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Int>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefInt(SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES).toList(
@@ -237,6 +267,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkSetExercisesTypesSelectedIsStoringInPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val valueFlowAsList = mutableListOf<Set<String>>()
         val collectJob = launch(UnconfinedTestDispatcher()) {
             retrievePrefStringSet(SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED).toList(
@@ -261,6 +296,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkCallingClearClearsPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val exercisesSelectedFlowAsList = mutableListOf<Set<String>>()
         val collectJobExercisesSelected = launch(UnconfinedTestDispatcher()) {
             retrievePrefStringSet(SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED).toList(
@@ -359,6 +399,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkGetPreferencesPrefDataStore() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val exercisesSelectedFlowAsList = mutableListOf<Set<String>>()
         val collectJobExercisesSelected = launch(UnconfinedTestDispatcher()) {
             retrievePrefStringSet(SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED).toList(
@@ -478,6 +523,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
     }
     @Test
     fun checkGetPreferencesPrefDataStoreEmptyReturnAllDefaults() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val exercisesSelectedFlowAsList = mutableListOf<Set<String>>()
         val collectJobExercisesSelected = launch(UnconfinedTestDispatcher()) {
             retrievePrefStringSet(SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED).toList(
@@ -576,6 +626,11 @@ internal class SimpleHiitDataStoreManagerImplTest {
 
     @Test
     fun checkGetPreferencesPrefDataStoreAbsentValuesReturnDefaults() = runTest {
+        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
+            dataStore = testDataStore,
+            hiitLogger = testLogger,
+            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+        )
         val exercisesSelectedFlowAsList = mutableListOf<Set<String>>()
         val collectJobExercisesSelected = launch(UnconfinedTestDispatcher()) {
             retrievePrefStringSet(SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED).toList(

@@ -16,7 +16,9 @@ import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.datastore.SIMPLE_HIIT_DATASTORE_FILENAME
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManagerImpl
+import fr.shining_cat.simplehiit.di.IoDispatcher
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 @Module
@@ -47,6 +49,7 @@ class LocalDataModule {
     @Singleton
     fun provideSimpleHiitDataStoreManager(
         @ApplicationContext appContext: Context,
+        @IoDispatcher ioDispatcher: CoroutineDispatcher,
         hiitLogger: HiitLogger
     ): SimpleHiitDataStoreManager {
         val datastore = PreferenceDataStoreFactory.create(
@@ -54,7 +57,7 @@ class LocalDataModule {
                 appContext.preferencesDataStoreFile(SIMPLE_HIIT_DATASTORE_FILENAME)
             }
         )
-        return SimpleHiitDataStoreManagerImpl(datastore, hiitLogger)
+        return SimpleHiitDataStoreManagerImpl(datastore, ioDispatcher, hiitLogger)
     }
 
 }
