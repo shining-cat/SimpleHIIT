@@ -249,7 +249,7 @@ class SessionViewModel @Inject constructor(
         val stepToStart = immutableSession.steps[currentSessionStepIndex]
         val stepDurationS = stepToStart.durationMs.div(1000L).toInt()
         stepTimerJob = viewModelScope.launch {
-            stepTimerUseCase.testStart(stepDurationS)
+            stepTimerUseCase.start(stepDurationS)
         }
     }
 

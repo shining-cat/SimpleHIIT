@@ -18,7 +18,7 @@ class StepTimerUseCase @Inject constructor(
     private var _timerStateFlow = MutableStateFlow(StepTimerState(-1))
     val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
 
-    suspend fun testStart(totalSeconds: Int) {
+    suspend fun start(totalSeconds: Int) {
         return withContext(defaultDispatcher) {
             initTimer(totalSeconds)
                 .onCompletion {
