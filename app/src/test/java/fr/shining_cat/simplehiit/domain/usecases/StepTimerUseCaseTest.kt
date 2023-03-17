@@ -9,6 +9,5 @@ import org.junit.jupiter.api.Assertions.*
 internal class StepTimerUseCaseTest: AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = StepTimerUseCase(mockHiitLogger)
 
 }

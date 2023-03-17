@@ -1,20 +1,25 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.domain.models.StepTimerState
 import fr.shining_cat.simplehiit.utils.HiitLogger
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class StepTimerUseCase @Inject constructor(
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
-    ) {
+) {
+
+    //TODO: the timer is drifting: I got a cumulated drift of 39785ms (40s) for a session of 720000ms (12mn)
     private var _timerStateFlow = MutableStateFlow(StepTimerState(-1))
     val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
 
     suspend fun testStart(totalSeconds: Int) {
-        return coroutineScope {
+        return withContext(defaultDispatcher) {
             initTimer(totalSeconds)
                 .onCompletion {
                     hiitLogger.d("StepTimerUseCase", "onCompletion")
