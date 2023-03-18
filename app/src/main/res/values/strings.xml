@@ -60,6 +60,7 @@
     <string name="delete_confirmation_button_label">Click again to confirm. Deleting the user will delete associated sessions.</string>
 
     <!-- SESSION PAGE -->
+    <string name="session_loading_page_topBar">Building session…</string>
     <string name="session_prepare_page_title">Get ready!</string>
     <string name="session_work_page_title">Work</string>
     <string name="session_rest_page_title">Rest</string>
@@ -74,6 +75,7 @@
     <string name="next_exercise_in_s">Next exercise in %1$d s</string>
 
     <!-- FINISH PAGE -->
+    <string name="finish_page_topbar">Finished</string>
     <string name="finish_page_title">Congratulation!</string>
     <string name="session_length_summary">You just did a %1$s session of HIIT!</string>
     <string name="session_finished_tips">Now is the time to stretch gently. Remember to hydrate!</string>

@@ -202,13 +202,18 @@ class SessionViewModel @Inject constructor(
                     "SessionViewModel",
                     "emitSessionEndState::drift = ${totalElapsedTime - immutableSession.durationMs}"
                 )
-                val restStepsDone = immutableSession.steps.filterIsInstance<SessionStep.RestStep>()
-                val workingStepsDone =
-                    immutableSession.steps.filterIsInstance<SessionStep.WorkStep>()
+                val restStepsDone = immutableSession.steps
+                    .take(currentSessionStepIndex)
+                    .filterIsInstance<SessionStep.RestStep>()
+                val workingStepsDone = immutableSession.steps
+                    .take(currentSessionStepIndex)
+                    .filterIsInstance<SessionStep.WorkStep>()
                 val actualSessionLength =
-                    restStepsDone.size.times(restStepsDone[0].durationMs).plus(
-                        workingStepsDone.size.times(workingStepsDone[0].durationMs)
-                    )
+                    if (restStepsDone.isNotEmpty() && workingStepsDone.isNotEmpty()) {
+                        restStepsDone.size.times(restStepsDone[0].durationMs).plus(
+                            workingStepsDone.size.times(workingStepsDone[0].durationMs)
+                        )
+                    } else 0L
                 hiitLogger.d(
                     "SessionViewModel",
                     "emitSessionEndState::workingStepsDone = ${workingStepsDone.size}"

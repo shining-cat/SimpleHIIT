@@ -44,6 +44,7 @@ fun SessionScreen(
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },
         pause = { viewModel.pause() },
+        navigateUp = { navController.navigateUp() },
         resume = { viewModel.resume() },
         dialogViewState = dialogViewState,
         screenViewState = screenViewState
@@ -57,11 +58,12 @@ private fun SessionScreen(
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
     pause: () -> Unit,
-    resume: () -> Unit
+    resume: () -> Unit,
+    navigateUp: () -> Boolean,
 ) {
     Scaffold(
         topBar = {
-            SessionTopBar(pause = pause, screenViewState = screenViewState)
+            SessionTopBar(pause = pause, navigateUp = navigateUp, screenViewState = screenViewState)
         },
         content = { paddingValues ->
             SessionContent(
@@ -69,7 +71,8 @@ private fun SessionScreen(
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
                 resume = resume,
-                onAbortSession = onAbortSession
+                onAbortSession = onAbortSession,
+                navigateUp = navigateUp
             )
         }
     )
@@ -79,18 +82,21 @@ private fun SessionScreen(
 @Composable
 private fun SessionTopBar(
     pause: () -> Unit,
-    screenViewState: SessionViewState
+    screenViewState: SessionViewState,
+    navigateUp: () -> Boolean
 ) {
-    val title = when (screenViewState) {
-        is SessionViewState.RestNominal -> stringResource(R.string.session_rest_page_title)
-        is SessionViewState.WorkNominal -> stringResource(R.string.session_work_page_title)
-        is SessionViewState.InitialCountDownSession -> stringResource(id = R.string.session_prepare_page_title)
-        else -> ""
+    val (title, clickOnButton) = when (screenViewState) {
+        is SessionViewState.RestNominal -> Pair(stringResource(R.string.session_rest_page_title), pause)
+        is SessionViewState.WorkNominal -> Pair(stringResource(R.string.session_work_page_title), pause)
+        is SessionViewState.InitialCountDownSession -> Pair(stringResource(id = R.string.session_prepare_page_title), pause)
+        is SessionViewState.Finished -> Pair(stringResource(id = R.string.finish_page_topbar), navigateUp)
+        is SessionViewState.Error -> Pair(stringResource(id = R.string.error), navigateUp)
+        SessionViewState.Loading -> Pair(stringResource(id = R.string.session_loading_page_topBar), navigateUp)
     }
     TopAppBar(
         colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
-            IconButton(onClick = pause) {
+            IconButton(onClick = { clickOnButton() }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
                     contentDescription = stringResource(id = R.string.back_button_content_label),
@@ -115,7 +121,8 @@ private fun SessionContent(
     screenViewState: SessionViewState,
     dialogViewState: SessionDialog,
     onAbortSession: () -> Unit,
-    resume: () -> Unit
+    resume: () -> Unit,
+    navigateUp: () -> Boolean
 ) {
     Column(
         modifier = Modifier
@@ -129,7 +136,13 @@ private fun SessionContent(
             is SessionViewState.InitialCountDownSession -> SessionPrepareContent(screenViewState)
             is SessionViewState.RestNominal -> SessionRestNominalContent(screenViewState)
             is SessionViewState.WorkNominal -> SessionWorkNominalContent(screenViewState)
-            is SessionViewState.Finished -> SessionFinishedContent(screenViewState)
+            is SessionViewState.Finished -> {
+                if(screenViewState.workingStepsDone.isEmpty()){
+                    navigateUp()
+                }else {
+                    SessionFinishedContent(screenViewState)
+                }
+            }
         }
         when (dialogViewState) {
             SessionDialog.None -> {}/*Do nothing*/
@@ -166,10 +179,11 @@ private fun SessionScreenPreview(
     SimpleHiitTheme {
         SessionScreen(
             onAbortSession = {},
+            dialogViewState = viewStates.second,
+            screenViewState = viewStates.first,
             pause = {},
             resume = {},
-            screenViewState = viewStates.first,
-            dialogViewState = viewStates.second
+            navigateUp = {true}
         )
     }
 }
