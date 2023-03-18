@@ -15,7 +15,7 @@ class StepTimerUseCase @Inject constructor(
 ) {
 
     //TODO: the timer is drifting: I got a cumulated drift of 39785ms (40s) for a session of 720000ms (12mn)
-    private var _timerStateFlow = MutableStateFlow(StepTimerState(-1))
+    private var _timerStateFlow = MutableStateFlow(StepTimerState())
     val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
 
     suspend fun start(totalSeconds: Int) {
@@ -23,7 +23,6 @@ class StepTimerUseCase @Inject constructor(
             initTimer(totalSeconds)
                 .onCompletion {
                     hiitLogger.d("StepTimerUseCase", "onCompletion")
-                    //_timerStateFlow.emit(StepTimerState(0)) //emitting 0 here causes erratic behaviour
                 }
                 .collect { _timerStateFlow.emit(it) }
         }
@@ -33,12 +32,11 @@ class StepTimerUseCase @Inject constructor(
         (totalSeconds - 1 downTo 0).asFlow() // Emit total - 1 because the first will be emitted onStart
             .onEach { delay(1000L) } // Each second later emit a number
             .onStart {
-                hiitLogger.d("StepTimerUseCase", "transform:totalSeconds = $totalSeconds")
                 emit(totalSeconds)
-            } // Emit total seconds immediately
-            .conflate() // In case the operation onTick takes some time, conflate keeps the time ticking separately
+            } // Emit total seconds immediately, without waiting the specified delay in onEach
+            .conflate() // In case the operation in onTransform takes some time, conflate keeps the time ticking separately
             .transform { remainingSeconds: Int ->
-                hiitLogger.d("StepTimerUseCase", "transform:remainingSeconds = $remainingSeconds")
                 emit(StepTimerState(remainingSeconds, totalSeconds))
             }
+            .flowOn(defaultDispatcher)//actually ensure the operation will flow on the provided dispatcher. This mostly allows testing the usecase by manipulating it
 }
