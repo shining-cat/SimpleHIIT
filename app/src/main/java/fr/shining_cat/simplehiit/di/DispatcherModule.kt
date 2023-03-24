@@ -16,6 +16,10 @@ object DispatcherModule {
     @Provides
     fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
 
+    @TimerDispatcher
+    @Provides
+    fun providesTimerDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
     @IoDispatcher
     @Provides
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
@@ -36,3 +40,7 @@ annotation class MainDispatcher
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class DefaultDispatcher
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class TimerDispatcher

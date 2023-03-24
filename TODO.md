@@ -7,7 +7,7 @@
 * fix test coverage task for instrumented tests not reporting any coverage
 * add dependencies versions update check plugin
 * setup KTLINT
-* CI github actions: run tests + linter before merge
+* CI github actions: run tests + linter before merge, see https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254?source=rss------android_development-5
 * discuss filtering out CancellationException: how relevant is it to do it multiple times in a flow of data
 * add plugin to check dependencies updates
 * discuss: split clean arch layers to modules to allow for future multiple form factor builds
@@ -20,3 +20,5 @@
 * we handle system black/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
 * form factor UX differences: phone should maybe not offer multi-users?
+* Nice to have and study case: particles animation: https://meet.google.com/nhv-zjop-mac
+* performance study case: https://meet.google.com/nhv-zjop-mac

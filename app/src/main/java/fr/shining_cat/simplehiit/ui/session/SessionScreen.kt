@@ -27,6 +27,7 @@ fun SessionScreen(
     viewModel: SessionViewModel = hiltViewModel()
 ) {
     //TODO: we want to capture BACK navigation to open pause dialog!
+    //TODO: we need to pause the session in onResume equivalent (then, when coming back the state will be paused with dialog open so we should need nothing for the "coming back" part)
     viewModel.logD("SessionScreen", "INIT")
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
@@ -194,6 +195,13 @@ internal class SessionScreenPreviewParameterProvider :
         get() = sequenceOf(
             Pair(SessionViewState.Loading, SessionDialog.None),
             Pair(SessionViewState.Error("Blabla error code"), SessionDialog.None),
+            Pair(SessionViewState.InitialCountDownSession(
+                countDown = CountDown(
+                    secondsDisplay = "3",
+                    progress = .5f,
+                    playBeep = true
+                )
+            ), SessionDialog.None),
             Pair(
                 SessionViewState.RestNominal(
                     nextExercise = Exercise.CatBackLegLift,
