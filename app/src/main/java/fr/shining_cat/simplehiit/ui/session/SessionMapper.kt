@@ -71,6 +71,7 @@ class SessionMapper @Inject constructor(
                 )
                 is SessionStep.PrepareStep -> {
                     if (countDown == null) {
+                        //TODO:  This should not be an error, but we need a way to enforce the countdown to be the same length as the Prepare step, as that step makes no sense without a countdown
                         SessionViewState.Error(Constants.Errors.LAUNCH_SESSION.code)
                     } else {
                         SessionViewState.InitialCountDownSession(

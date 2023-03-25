@@ -217,7 +217,14 @@ fun SettingsContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (screenViewState) {
-            SettingsViewState.Loading -> CircularProgressIndicator()
+            SettingsViewState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
             is SettingsViewState.Error -> SettingsErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetSettings = resetSettings

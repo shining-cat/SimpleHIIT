@@ -40,7 +40,7 @@ internal class StepTimerUseCaseTest : AbstractMockkTest() {
         // time has not moved yet, so the state will in effect be the default value StepTimerState()
         // This doesn't affect real life use, as time wouldn't be suspended while calling StepTimerUseCase.start()
         assertEquals(StepTimerState(), stepTimerStatesAsList.last())
-        // advance virtual time by stepTimer
+        // advance virtual time by a tiny bit to check the first state emitted when timer starts
         testDispatcher.scheduler.advanceTimeBy(firstCheckDelay)
         //check state just after calling start and moving time less than a timerStep: firstCheckDelay
         assertEquals(1, stepTimerStatesAsList.size)

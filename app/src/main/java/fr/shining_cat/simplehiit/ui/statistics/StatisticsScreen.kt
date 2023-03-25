@@ -167,7 +167,14 @@ private fun StatisticsContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (screenViewState) {
-            StatisticsViewState.Loading -> CircularProgressIndicator()
+            StatisticsViewState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
             is StatisticsViewState.Nominal -> {
                 StatisticsNominalContent(
                     deleteAllSessionsForUser = deleteAllSessionsForUser,

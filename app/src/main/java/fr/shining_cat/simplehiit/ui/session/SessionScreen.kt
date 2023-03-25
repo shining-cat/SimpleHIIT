@@ -132,7 +132,14 @@ private fun SessionContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         when (screenViewState) {
-            SessionViewState.Loading -> CircularProgressIndicator()
+            SessionViewState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
             is SessionViewState.Error -> SessionErrorStateContent(screenViewState)
             is SessionViewState.InitialCountDownSession -> SessionPrepareContent(screenViewState)
             is SessionViewState.RestNominal -> SessionRestNominalContent(screenViewState)

@@ -173,7 +173,14 @@ private fun HomeContent(
             text = stringResource(id = R.string.hiit_description)
         )
         when (screenViewState) {
-            is HomeViewState.Loading -> CircularProgressIndicator()
+            is HomeViewState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
             is HomeViewState.Error -> HomeErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp
