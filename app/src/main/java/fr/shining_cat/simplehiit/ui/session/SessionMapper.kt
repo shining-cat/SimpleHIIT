@@ -21,21 +21,21 @@ class SessionMapper @Inject constructor(
     suspend fun buildState(
         session: Session,
         currentSessionStepIndex: Int,
-        currentState: StepTimerState,
+        currentStepTimerState: StepTimerState,
         durationStringFormatter: DurationStringFormatter
     ): SessionViewState {
         return withContext(defaultDispatcher) {
             val currentStep = session.steps[currentSessionStepIndex]
-            val remainingSeconds = currentState.secondsRemaining
+            val remainingSeconds = currentStepTimerState.secondsRemaining
             val countdownS = currentStep.countDownLengthMs.div(1000).toInt()
             val countDown = if (remainingSeconds <= countdownS) {
                 CountDown(
-                    secondsDisplay = currentState.secondsRemaining.toString(),//not formatting the countdown value
+                    secondsDisplay = currentStepTimerState.secondsRemaining.toString(),//not formatting the countdown value
                     progress = remainingSeconds.div(countdownS.toFloat()),
                     playBeep = session.beepSoundCountDownActive
                 )
             } else null
-            val stepRemainingAsMs = currentState.secondsRemaining.times(1000L)
+            val stepRemainingAsMs = currentStepTimerState.secondsRemaining.times(1000L)
             val stepRemainingFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = stepRemainingAsMs,
@@ -55,16 +55,16 @@ class SessionMapper @Inject constructor(
                     currentExercise = currentStep.exercise,
                     side = currentStep.side,
                     exerciseRemainingTime = stepRemainingFormatted,
-                    exerciseProgress = currentState.remainingPercentage,
+                    exerciseRemainingPercentage = currentStepTimerState.remainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
-                    sessionProgress = sessionRemainingPercentage,
+                    sessionRemainingPercentage = sessionRemainingPercentage,
                     countDown = countDown,
                 )
                 is SessionStep.RestStep -> SessionViewState.RestNominal(
                     nextExercise = currentStep.exercise,
                     side = currentStep.side,
                     restRemainingTime = stepRemainingFormatted,
-                    restProgress = currentState.remainingPercentage,
+                    restProgress = currentStepTimerState.remainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
                     sessionProgress = sessionRemainingPercentage,
                     countDown = countDown,

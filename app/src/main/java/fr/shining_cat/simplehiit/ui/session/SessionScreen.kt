@@ -252,9 +252,9 @@ internal class SessionScreenPreviewParameterProvider :
                     currentExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.NONE,
                     exerciseRemainingTime = "3s",
-                    exerciseProgress = .7f,
+                    exerciseRemainingPercentage = .7f,
                     sessionRemainingTime = "5mn 12s",
-                    sessionProgress = .3f
+                    sessionRemainingPercentage = .3f
                 ),
                 SessionDialog.None
             ),
@@ -263,9 +263,9 @@ internal class SessionScreenPreviewParameterProvider :
                     currentExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.NONE,
                     exerciseRemainingTime = "3s",
-                    exerciseProgress = .7f,
+                    exerciseRemainingPercentage = .7f,
                     sessionRemainingTime = "5mn 12s",
-                    sessionProgress = .3f,
+                    sessionRemainingPercentage = .3f,
                     countDown = CountDown(
                         secondsDisplay = "5",
                         progress = 0f,
@@ -279,9 +279,9 @@ internal class SessionScreenPreviewParameterProvider :
                     currentExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.LEFT,
                     exerciseRemainingTime = "3s",
-                    exerciseProgress = .5f,
+                    exerciseRemainingPercentage = .5f,
                     sessionRemainingTime = "5mn 12s",
-                    sessionProgress = .2f
+                    sessionRemainingPercentage = .2f
                 ),
                 SessionDialog.Pause
             ),

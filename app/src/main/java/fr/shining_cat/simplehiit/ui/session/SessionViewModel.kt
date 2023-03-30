@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.ui.session
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.di.DefaultDispatcher
-import fr.shining_cat.simplehiit.di.IoDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
@@ -151,7 +150,7 @@ class SessionViewModel @Inject constructor(
                     val currentState = mapper.buildState(
                         session = immutableSession,
                         currentSessionStepIndex = currentSessionStepIndex,
-                        currentState = stepTimerState,
+                        currentStepTimerState = stepTimerState,
                         durationStringFormatter = durationStringFormatter
                     )
                     //logDriftAnalysis("tick::normal ticking - mapper.buildState END -> viewstate emission")

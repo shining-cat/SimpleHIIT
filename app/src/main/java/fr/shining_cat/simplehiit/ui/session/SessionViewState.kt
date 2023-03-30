@@ -14,9 +14,9 @@ sealed class SessionViewState {
         val currentExercise: Exercise,
         val side: ExerciseSide,
         val exerciseRemainingTime: String,
-        val exerciseProgress: Float,
+        val exerciseRemainingPercentage: Float,
         val sessionRemainingTime: String,
-        val sessionProgress: Float,
+        val sessionRemainingPercentage: Float,
         val countDown: CountDown? = null
     ) : SessionViewState()
 
