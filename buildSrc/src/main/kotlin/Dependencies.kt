@@ -23,6 +23,8 @@ object Deps {
     val coroutinesTest      by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}" }
     val archCoreTesting     by lazy { "androidx.arch.core:core-testing:${Versions.core_testing}" }
     val testRunner          by lazy { "androidx.test:runner:${Versions.test_runner}" }
+    val coil                by lazy { "io.coil-kt:coil-compose:${Versions.coil}" }
+    val coilGif                by lazy { "io.coil-kt:coil-gif:${Versions.coil}" }
 }
 
 object HiltDeps{

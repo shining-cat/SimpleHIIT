@@ -107,6 +107,9 @@ dependencies {
     //
     testImplementation(Deps.mockk)
     testImplementation(Deps.coroutinesTest)
+    //
+    implementation(Deps.coil)
+    implementation(Deps.coilGif)
 }
 
  //Allow references to generated code

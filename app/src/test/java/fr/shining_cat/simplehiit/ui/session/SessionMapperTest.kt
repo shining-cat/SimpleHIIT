@@ -316,9 +316,9 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         nextExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
                         restRemainingTime = mockDurationString, // verify formatter is called with 7000L,
-                        restProgress = .2f,
+                        restRemainingPercentage = .2f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 7000L)
-                        sessionProgress = .6025f, // (475000L + 7000L) / 800000L = 0.75625
+                        sessionRemainingPercentage = .6025f, // (475000L + 7000L) / 800000L = 0.75625
                         countDown = null
                     )
                 ),
@@ -336,9 +336,9 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         nextExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
                         restRemainingTime = mockDurationString, // verify formatter is called with 5000L,
-                        restProgress = .1f,
+                        restRemainingPercentage = .1f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 5000L)
-                        sessionProgress = .6f, // (475000L + 5000L) / 800000L =
+                        sessionRemainingPercentage = .6f, // (475000L + 5000L) / 800000L =
                         countDown = CountDown(
                             secondsDisplay = "5",
                             progress = 1f, // 5/5 to float

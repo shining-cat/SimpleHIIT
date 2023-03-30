@@ -64,9 +64,9 @@ class SessionMapper @Inject constructor(
                     nextExercise = currentStep.exercise,
                     side = currentStep.side,
                     restRemainingTime = stepRemainingFormatted,
-                    restProgress = currentStepTimerState.remainingPercentage,
+                    restRemainingPercentage = currentStepTimerState.remainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
-                    sessionProgress = sessionRemainingPercentage,
+                    sessionRemainingPercentage = sessionRemainingPercentage,
                     countDown = countDown,
                 )
                 is SessionStep.PrepareStep -> {

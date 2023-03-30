@@ -214,9 +214,9 @@ internal class SessionScreenPreviewParameterProvider :
                     nextExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
                     restRemainingTime = "25s",
-                    restProgress = .53f,
+                    restRemainingPercentage = .53f,
                     sessionRemainingTime = "16mn 23s",
-                    sessionProgress = .24f
+                    sessionRemainingPercentage = .24f
                 ),
                 SessionDialog.None
             ),
@@ -225,9 +225,9 @@ internal class SessionScreenPreviewParameterProvider :
                     nextExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
                     restRemainingTime = "25s",
-                    restProgress = .53f,
+                    restRemainingPercentage = .53f,
                     sessionRemainingTime = "16mn 23s",
-                    sessionProgress = .24f,
+                    sessionRemainingPercentage = .24f,
                     countDown = CountDown(
                         secondsDisplay = "3",
                         progress = .5f,
@@ -241,9 +241,9 @@ internal class SessionScreenPreviewParameterProvider :
                     nextExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
                     restRemainingTime = "25s",
-                    restProgress = .23f,
+                    restRemainingPercentage = .23f,
                     sessionRemainingTime = "16mn 23s",
-                    sessionProgress = .57f
+                    sessionRemainingPercentage = .57f
                 ),
                 SessionDialog.Pause
             ),

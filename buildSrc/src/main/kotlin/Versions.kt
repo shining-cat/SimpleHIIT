@@ -15,4 +15,5 @@ object Versions {
     const val coroutines = "1.6"
     const val core_testing = "2.1.0"
     const val test_runner = "1.5.2"
+    const val coil = "2.3.0"
 }
