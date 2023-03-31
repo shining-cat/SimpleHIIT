@@ -2,12 +2,10 @@ package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
@@ -46,33 +44,13 @@ fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal) {
                 CountDownComponent(size = 48.dp, countDown = viewState.countDown)
             }
         }
-        val exerciseNameResMapper = ExerciseDisplayNameMapper()
-        val exerciseName = stringResource(id = exerciseNameResMapper.map(viewState.currentExercise))
-        Text(
-            text = exerciseName,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth()
-        )
-        if(viewState.side != ExerciseSide.NONE){
-            Text(
-                text = when(viewState.side){
-                    ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
-                    ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
-                    else -> "" //unreachable
-                },
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+        ExerciseDescriptionComponent(exercise = viewState.currentExercise, side = viewState.side )
         Spacer(modifier = Modifier.weight(1f))
         RemainingPercentageComponent(
             modifier = Modifier
                 .padding(horizontal = 64.dp)
                 .height(100.dp),
-            label = stringResource(id = R.string.next_rest_in_s, viewState.exerciseRemainingTime),
+            label = stringResource(id = R.string.exercise_remaining_in_s, viewState.exerciseRemainingTime),
             percentage = viewState.exerciseRemainingPercentage,
             thickness = 16.dp,
             bicolor = false

@@ -69,10 +69,10 @@
     <string name="pause">Pause…</string>
     <string name="pause_explanation">You can either end the session here or resume it. Resuming will take you back to the start of the rest period preceding the current exercise, so you\'ll have time to get ready.</string>
     <string name="resume_button_label">Resume</string>
-    <string name="next_rest_in_s">Next rest in %1$s</string>
-    <string name="session_time_remaining">Session time remaining: %1$s</string>
+    <string name="exercise_remaining_in_s">Give it all for %1$s !</string>
+    <string name="session_time_remaining">Session end in: %1$s</string>
     <string name="coming_next">Coming next:</string>
-    <string name="next_exercise_in_s">Next exercise in %1$s</string>
+    <string name="rest_remaining_in_s">Rest for %1$s</string>
 
     <!-- FINISH PAGE -->
     <string name="finish_page_topbar">Finished</string>
