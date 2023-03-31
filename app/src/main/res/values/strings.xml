@@ -1,19 +1,122 @@
-<!--
-  ~ Copyright (C) 2022 The Android Open Source Project
-  ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
 <resources>
     <string name="app_name">SimpleHIIT</string>
+    <string name="back_button_content_label">Back</string>
+    <string name="close_button_content_label">Close</string>
+    <string name="error_title">Whoops!</string>
+    <string name="error_notice">Something bad happened.</string>
+    <string name="error_code">Error code: %1$s</string>
+    <string name="warning_icon_content_description">Warning symbol</string>
+    <string name="delete_button_label">DELETE</string>
+    <string name="reset_button_label">RESET</string>
+    <string name="cancel_button_label">Cancel</string>
+    <string name="error">Error</string>
+    <string name="invalid_input_error">Invalid input</string>
+    <string name="ok">OK</string>
+
+    <!-- HOME PAGE -->
+    <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over a 4mn cycle.</string>
+    <string name="short_instruction">Here you can quickly select how many of cycles you want to chain in your session. In the settings, you can refine the cycle structure itself.</string>
+    <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
+    <string name="reset_app_button_label">Reset the whole app</string>
+    <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
+    <string name="number_of_cycle_setting_title">Select a number of cycles</string>
+    <string name="number_of_cycle_setting">x %1$s</string>
+    <string name="settings_button_content_label">Settings</string>
+    <string name="statistics_button_content_label">Statistics</string>
+    <string name="selected_users_setting_title">Select user(s)</string>
+    <string name="launch_session_label">Launch session</string>
+    <string name="input_number_cycles_dialog_title">Number of repetitions</string>
+    <string name="input_number_cycles_dialog_postfix">cycle(s)</string>
+    <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>
+    <string name="warning_no_user_exist">Please create your first user in the settings to start</string>
+
+    <!-- SETTINGS PAGE -->
+    <string name="settings_page_title">Settings</string>
+    <string name="work_period_length_label">Work period length</string>
+    <string name="seconds">seconds</string>
+    <string name="seconds_setting_value">%1$s s</string>
+    <string name="rest_period_length_label">Rest period length</string>
+    <string name="number_of_periods_label">Number of work period</string>
+    <string name="number_of_exercises_per_cycle">Exercises per cycle</string>
+    <string name="total_cycle_length_label">Total cycle length</string>
+    <string name="beep_sound_setting_label">Beep sound countdown</string>
+    <string name="session_start_countdown_length_setting_label">Session start countdown</string>
+    <string name="period_start_countdown_length_setting_label">Period start countdown</string>
+    <string name="period_length_too_short_constraint">This can\'t be shorter than the countdown length</string>
+    <string name="period_start_countdown_length_too_long_error">This can\'t be longer than a period length</string>
+    <string name="users_list_setting_label">Manage users</string>
+    <string name="add_user_button_label">Add a user</string>
+    <string name="create_user_dialog_title">Pick a name</string>
+    <string name="user_name_taken_error">This name is taken already</string>
+    <string name="edit_user_dialog_title">Pick an other name or delete the user</string>
+    <string name="error_irrecoverable_state_settings">There was an error retrieving settings. Please try to kill the app and relaunch. If this persists, you\'ll have to try resetting the settings to the default values</string>
+    <string name="user_name_too_long_error">This name is too long</string>
+    <string name="selected_exercise_types_list_setting_label">Exercises types to pick from</string>
+    <string name="reset_settings_button_label">Reset Settings to default values</string>
+    <string name="reset_settings_confirmation_button_label">Click again to confirm. This will NOT delete registered users or their stored sessions.</string>
+    <string name="save_settings_button_label">Save</string>
+    <string name="create_user_field_hint">Enter a user name</string>
+    <string name="seconds_settings_button_label">s</string>
+    <string name="delete_confirmation_button_label">Click again to confirm. Deleting the user will delete associated sessions.</string>
+
+    <!-- SESSION PAGE -->
+    <string name="session_loading_page_topBar">Building session…</string>
+    <string name="session_prepare_page_title">Get ready!</string>
+    <string name="session_work_page_title">Work</string>
+    <string name="session_rest_page_title">Rest</string>
+    <string name="abort_session_button_label">End session</string>
+    <string name="exit_button_label">Exit</string>
+    <string name="pause">Pause…</string>
+    <string name="pause_explanation">You can either end the session here or resume it. Resuming will take you back to the start of the rest period preceding the current exercise, so you\'ll have time to get ready.</string>
+    <string name="resume_button_label">Resume</string>
+    <string name="next_rest_in_s">Next rest in %1$s</string>
+    <string name="session_time_remaining">Session time remaining: %1$s</string>
+    <string name="coming_next">Coming next:</string>
+    <string name="next_exercise_in_s">Next exercise in %1$s</string>
+
+    <!-- FINISH PAGE -->
+    <string name="finish_page_topbar">Finished</string>
+    <string name="finish_page_title">Congratulation!</string>
+    <string name="session_length_summary">You just did a %1$s session of HIIT!</string>
+    <string name="session_finished_tips">Now is the time to stretch gently. Remember to hydrate!</string>
+    <string name="summary_session">Here\'s the list of exercises you have done:</string>
+    <string name="exercise_side_left">Left side</string>
+    <string name="exercise_side_right">Right side</string>
+
+    <!-- STATISTICS PAGE -->
+    <string name="statistics_page_title">Statistics</string> <!-- insert user's name -->
+    <string name="statistics_page_title_with_user_name">%1$s\'s statistics</string> <!-- insert user's name -->
+    <string name="sessions_total">sessions</string>
+    <string name="time_total">cumulated time</string> <!-- we'll format the total length as a string in XXdYYhZZmn-->
+    <string name="average">average session length</string>
+    <string name="longest_streak">longest streak</string>
+    <string name="current_streak">current streak</string>
+    <string name="average_sessions_week">average sessions/week</string>
+    <string name="user_pick_button_content_label">Users</string>
+    <string name="user_pick_dialog_title">Pick a user</string>
+    <string name="doge_icon_content_description">Doge meme icon</string>
+    <string name="no_users_found_error_message">Wow, such empty!</string>
+    <string name="reset_statistics_button_label">Delete all sessions stored for %1$s</string> <!-- insert user's name -->
+    <string name="reset_statistics_confirmation_button_label">Click again to confirm. This will delete all sessions stored for %1$s</string> <!-- insert user's name -->
+    <string name="error_irrecoverable_statistics">There was an error retrieving %1$s\'s statistics. Please try to kill the app and relaunch. If this persists, you\'ll have to try deleting %1$s\'s stored sessions</string>
+
+
+    <!-- EXERCISES TYPES-->
+    <string name="exercise_type_standing">Standing</string>
+    <string name="exercise_type_squat">Squat</string>
+    <string name="exercise_type_cat">Cat</string>
+    <string name="exercise_type_plank">Plank</string>
+    <string name="exercise_type_sitting">Sitting</string>
+    <string name="exercise_type_crab">Crab</string>
+    <string name="exercise_type_lunge">Lunge</string>
+    <string name="exercise_type_lying">Lying</string>
+
+    <!-- DURATION DISPLAY FORMATTING STRINGS-->
+    <string name="hours_minutes_seconds_short">%1\$dh %2$02dmn %3$02ds</string>
+    <string name="hours_minutes_no_seconds_short">%1\$dh %2$02dmn</string>
+    <string name="hours_no_minutes_no_seconds_short">%1\$dh</string>
+    <string name="minutes_seconds_short">%1\$dmn %2\$02ds</string>
+    <string name="minutes_no_seconds_short">%1\$dmn</string>
+    <string name="seconds_short">%ds</string>
+
 </resources>
