@@ -6,10 +6,7 @@ import fr.shining_cat.simplehiit.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
-import fr.shining_cat.simplehiit.domain.usecases.BuildSessionUseCase
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.domain.usecases.GetSessionSettingsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.StepTimerUseCase
+import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.CoroutineDispatcher
@@ -26,6 +23,7 @@ class SessionViewModel @Inject constructor(
     private val buildSessionUseCase: BuildSessionUseCase,
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
     private val stepTimerUseCase: StepTimerUseCase,
+    private val insertSessionUseCase: InsertSessionUseCase,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 
@@ -215,6 +213,14 @@ class SessionViewModel @Inject constructor(
                         side = it.side,
                     )
                 }
+                //record session done
+                val sessionRecord = SessionRecord(
+                    timeStamp = System.currentTimeMillis(),
+                            durationMs = actualSessionLength,
+                            usersIds = session?.users?.map { it.id } ?: emptyList()
+                )
+                hiitLogger.d("SessionViewModel","sessionRecord: $sessionRecord")
+                insertSessionUseCase.execute(sessionRecord)
                 //logDriftAnalysis("emitSessionEndState END -> viewstate emission")
                 _screenViewState.emit(
                     SessionViewState.Finished(

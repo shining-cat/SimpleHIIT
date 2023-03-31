@@ -116,6 +116,7 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch {
             deleteSessionsForUserUseCase.execute(user.id)
             _dialogViewState.emit(StatisticsDialog.None)
+            //TODO: missing refresh of the screen
         }
     }
 

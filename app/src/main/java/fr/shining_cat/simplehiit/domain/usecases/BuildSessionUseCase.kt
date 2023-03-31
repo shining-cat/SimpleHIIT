@@ -39,7 +39,8 @@ class BuildSessionUseCase @Inject constructor(
                 steps = steps,
                 durationMs = totalSessionLengthMs,
                 durationFormatted = totalSessionLengthFormatted,
-                beepSoundCountDownActive = sessionSettings.beepSoundCountDownActive
+                beepSoundCountDownActive = sessionSettings.beepSoundCountDownActive,
+                users = sessionSettings.users
             )
         }
     }

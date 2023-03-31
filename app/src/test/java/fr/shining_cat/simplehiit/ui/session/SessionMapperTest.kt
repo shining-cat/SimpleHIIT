@@ -222,7 +222,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
             ),
             durationMs = 800000L,
             durationFormatted = mockDurationString,
-            beepSoundCountDownActive = true
+            beepSoundCountDownActive = true,
+            users = listOf(User(name = "user test 1"), User(name = "user test 2"))
         )
 
         @JvmStatic

@@ -56,7 +56,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         val usersList1 = Output.Success(listOf(user1, user3))
         val usersList2 = Output.Success(listOf(user1, user2, user4))
         val usersFlow = MutableSharedFlow<Output<List<User>>>()
-        coEvery { mockSimpleHiitRepository.getUsers() } answers { usersFlow }
+        coEvery { mockSimpleHiitRepository.getSelectedUsers() } answers { usersFlow }
         //
         val generalSettingsFlowAsList = mutableListOf<Output<SessionSettings>>()
         val collectJob = launch {
@@ -153,7 +153,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         val testException = Exception("this is a test exception")
         val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException)
         val usersFlow = MutableSharedFlow<Output<List<User>>>()
-        coEvery { mockSimpleHiitRepository.getUsers() } answers { usersFlow }
+        coEvery { mockSimpleHiitRepository.getSelectedUsers() } answers { usersFlow }
         //
         val generalSettingsFlowAsList = mutableListOf<Output<SessionSettings>>()
         val collectJob = launch {

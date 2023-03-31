@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
@@ -18,7 +19,8 @@ import coil.size.Size
 fun GifImage(
     modifier: Modifier = Modifier,
     @DrawableRes
-    gifResId: Int
+    gifResId: Int,
+    mirrored: Boolean = false
 ) {
     val context = LocalContext.current
     val imageLoader = ImageLoader.Builder(context)
@@ -30,6 +32,11 @@ fun GifImage(
             }
         }
         .build()
+    val imageModifier = if(mirrored){
+        modifier.graphicsLayer { rotationY = 180f }
+    } else{
+        modifier
+    }
     Image(
         painter = rememberAsyncImagePainter(
             ImageRequest.Builder(context).data(data = gifResId).apply(block = {
@@ -37,6 +44,6 @@ fun GifImage(
             }).build(), imageLoader = imageLoader
         ),
         contentDescription = null,
-        modifier = modifier.fillMaxWidth(),
+        modifier = imageModifier.fillMaxWidth(),
     )
 }

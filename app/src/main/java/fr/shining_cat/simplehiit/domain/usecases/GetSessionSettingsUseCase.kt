@@ -16,7 +16,7 @@ class GetSessionSettingsUseCase @Inject constructor(
 ) {
 
     fun execute(): Flow<Output<SessionSettings>> {
-        val usersFlow = simpleHiitRepository.getUsers()
+        val usersFlow = simpleHiitRepository.getSelectedUsers()
         val settingsFlow = simpleHiitRepository.getPreferences()
         return usersFlow.combineTransform(settingsFlow) { usersOutput, settings ->
             if (usersOutput is Output.Error) {

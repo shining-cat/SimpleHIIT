@@ -93,6 +93,8 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
 
     private companion object {
         private const val mockDurationString = "This is a test duration string"
+        private val userTest1 = User(name = "user 1")
+        private val userTest2 = User(name = "user 2")
 
         @JvmStatic
         fun sessionArguments() =
@@ -108,10 +110,10 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         beepSoundCountDownActive = true,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
-                        users = listOf(),//not used in this test
+                        users = listOf(userTest1),
                         exerciseTypes = listOf(),//this input is not used as we mock the secondary usecase which relies on it
                     ),
-                    Session(emptyList(), 0L, mockDurationString, true)
+                    Session(emptyList(), 0L, mockDurationString, true, listOf(userTest1))
                 ),
                 Arguments.of(
                     listOf(Exercise.LyingSupermanTwist),
@@ -124,7 +126,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthMs = 123L,
                         periodsStartCountDownLengthMs = 234L,
-                        users = listOf(),//not used in this test
+                        users = listOf(userTest1, userTest2),
                         exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
@@ -153,7 +155,8 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         ),
                         durationMs = 720000L,
                         durationFormatted = mockDurationString,
-                        beepSoundCountDownActive = false
+                        beepSoundCountDownActive = false,
+                        users = listOf(userTest1, userTest2)
                     )
                 ),
                 Arguments.of(
@@ -170,7 +173,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         beepSoundCountDownActive = true,
                         sessionStartCountDownLengthMs = 345L,
                         periodsStartCountDownLengthMs = 456L,
-                        users = listOf(),//not used in this test
+                        users = listOf(userTest2),
                         exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
@@ -215,7 +218,8 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         ),
                         durationMs = 800000L,
                         durationFormatted = mockDurationString,
-                        beepSoundCountDownActive = true
+                        beepSoundCountDownActive = true,
+                        users = listOf(userTest2)
                     )
                 ),
                 Arguments.of(
@@ -239,7 +243,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 567L,
-                        users = listOf(),//not used in this test
+                        users = listOf(userTest2, userTest1),
                         exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
@@ -391,7 +395,8 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         ),
                         durationMs = 3400000L,
                         durationFormatted = mockDurationString,
-                        beepSoundCountDownActive = false
+                        beepSoundCountDownActive = false,
+                        users = listOf(userTest2, userTest1)
                     )
                 )
             )

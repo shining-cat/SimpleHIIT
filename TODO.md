@@ -1,4 +1,5 @@
 
+* there are nested columns that seems redundant between screens and content composables. Check and remove accordingly
 * inject dispatchers everywhere needed and handle thread choice from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe 
 * loading screens are broken, progress indicator is stuck at the top of screen
 * fix broken layout in landscape

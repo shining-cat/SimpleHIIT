@@ -75,6 +75,12 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
                     354, // total number of sessions
                     "2.39"
                 ),
+                Arguments.of(
+                    1680259247000, //"now" Friday, 31 March 2023 12:40:47 GMT+02:00 DST
+                    1679744447000, //"oldest session" Saturday, 25 March 2023 12:40:47 GMT+01:00 ... diff less than a week
+                    3, // total number of sessions
+                    "3" // returning total number of sessions
+                )
             )
 
     }

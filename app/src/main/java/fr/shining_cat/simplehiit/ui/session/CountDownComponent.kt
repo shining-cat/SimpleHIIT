@@ -22,13 +22,13 @@ fun CountDownComponent(size: Dp, countDown: CountDown) {
     ) {
         //this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
         CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center).fillMaxSize(),
             progress = 1f,
             strokeWidth = 5.dp,
             color = MaterialTheme.colorScheme.primary
         )
         CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center),
+            modifier = Modifier.align(Alignment.Center).fillMaxSize(),
             progress = countDown.progress,
             strokeWidth = 5.dp,
             color = MaterialTheme.colorScheme.secondary

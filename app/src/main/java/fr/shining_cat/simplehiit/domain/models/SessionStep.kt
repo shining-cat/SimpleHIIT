@@ -2,9 +2,8 @@ package fr.shining_cat.simplehiit.domain.models
 
 enum class ExerciseSide { NONE, LEFT, RIGHT }
 enum class AsymmetricalExerciseSideOrder(val side: ExerciseSide) {
-    FIRST(ExerciseSide.RIGHT), SECOND(
-        ExerciseSide.LEFT
-    )
+    FIRST(ExerciseSide.RIGHT),
+    SECOND(ExerciseSide.LEFT)
 }
 
 enum class SessionStepType { WORK, REST, PREPARE }
