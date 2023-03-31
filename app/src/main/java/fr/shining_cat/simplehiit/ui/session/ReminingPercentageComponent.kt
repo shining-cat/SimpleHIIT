@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.components
+package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -32,7 +32,9 @@ fun RemainingPercentageComponent(
             style = MaterialTheme.typography.titleLarge
         )
         LinearProgressIndicator(
-            modifier = Modifier.height(thickness).fillMaxWidth(),
+            modifier = Modifier
+                .height(thickness)
+                .fillMaxWidth(),
             progress = percentage,
             color = MaterialTheme.colorScheme.secondary,
             trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
@@ -62,21 +64,27 @@ private fun RemainingPercentageComponentPreview() {
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             RemainingPercentageComponent(
-                modifier = Modifier.padding(horizontal = 64.dp).height(100.dp),
+                modifier = Modifier
+                    .padding(horizontal = 64.dp)
+                    .height(100.dp),
                 label = "Next exercise in 3s",
                 percentage = .3f,
                 thickness = 8.dp,
                 bicolor = false,
             )
             RemainingPercentageComponent(
-                modifier = Modifier.padding(horizontal = 64.dp).height(100.dp),
+                modifier = Modifier
+                    .padding(horizontal = 64.dp)
+                    .height(100.dp),
                 label = "Next rest in 23s",
                 percentage = .8f,
                 thickness = 8.dp,
                 bicolor = false,
             )
             RemainingPercentageComponent(
-                modifier = Modifier.padding(horizontal = 64.dp).height(100.dp),
+                modifier = Modifier
+                    .padding(horizontal = 64.dp)
+                    .height(100.dp),
                 label = "Total remaining: 20mn 37s",
                 percentage = .79f,
                 thickness = 16.dp,

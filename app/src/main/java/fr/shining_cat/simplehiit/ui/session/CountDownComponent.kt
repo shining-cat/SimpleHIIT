@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.components
+package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
