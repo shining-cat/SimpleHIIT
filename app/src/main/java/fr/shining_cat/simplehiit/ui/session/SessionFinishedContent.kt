@@ -54,6 +54,7 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
             style = MaterialTheme.typography.headlineLarge,
             text = stringResource(id = R.string.finish_page_title)
         )
+        //TODO? add list of participating users?
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
