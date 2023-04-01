@@ -16,9 +16,7 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.domain.models.Exercise
-import fr.shining_cat.simplehiit.domain.models.ExerciseSide
 import fr.shining_cat.simplehiit.ui.components.GifImage
-import fr.shining_cat.simplehiit.ui.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
@@ -51,7 +49,7 @@ fun SessionRestNominalContent(viewState: SessionViewState.RestNominal) {
                 CountDownComponent(size = 48.dp, countDown = viewState.countDown)
             }
         }
-        ExerciseDescriptionComponent(exercise = viewState.nextExercise, side = viewState.side )
+        ExerciseDescriptionComponent(exercise = viewState.nextExercise, side = viewState.side)
         Spacer(modifier = Modifier.weight(1f))
         RemainingPercentageComponent(
             modifier = Modifier
