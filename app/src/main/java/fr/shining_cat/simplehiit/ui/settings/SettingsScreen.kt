@@ -222,7 +222,7 @@ fun SettingsContent(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CircularProgressIndicator()
+                    CircularProgressIndicator() //TODO: this loading is stuck at the top because the parent column is scrollable, then this child can't fillMaxHeight
                 }
             }
             is SettingsViewState.Error -> SettingsErrorContent(

@@ -2,8 +2,6 @@ package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,9 +15,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.AsymmetricalExerciseSideOrder
-import fr.shining_cat.simplehiit.domain.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.models.Exercise
 import fr.shining_cat.simplehiit.ui.components.GifImage
-import fr.shining_cat.simplehiit.ui.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
@@ -30,54 +27,35 @@ fun SessionRestNominalContent(viewState: SessionViewState.RestNominal) {
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        val exerciseGifResMapper = ExerciseGifMapper()
-        val exerciseGifRes = exerciseGifResMapper.map(viewState.nextExercise)
-        Text(
-            text = stringResource(id = R.string.coming_next),
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth()
-        )
-        val exerciseNameResMapper = ExerciseDisplayNameMapper()
-        val exerciseName = stringResource(id = exerciseNameResMapper.map(viewState.nextExercise))
-        Text(
-            text = exerciseName,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth()
-        )
-        if(viewState.side != ExerciseSide.NONE){
-            Text(
-                text = when(viewState.side){
-                    ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
-                    ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
-                    else -> "" //unreachable
-                },
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 24.dp)
         ) {
+            val exerciseGifResMapper = ExerciseGifMapper()
+            val exerciseGifRes = exerciseGifResMapper.map(viewState.nextExercise)
             GifImage(
                 gifResId = exerciseGifRes,
                 mirrored = viewState.side == AsymmetricalExerciseSideOrder.SECOND.side
+            )
+            Text(
+                text = stringResource(id = R.string.coming_next),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.fillMaxWidth()
             )
             if (viewState.countDown != null) {
                 CountDownComponent(size = 48.dp, countDown = viewState.countDown)
             }
         }
+        ExerciseDescriptionComponent(exercise = viewState.nextExercise, side = viewState.side)
         Spacer(modifier = Modifier.weight(1f))
         RemainingPercentageComponent(
             modifier = Modifier
                 .padding(horizontal = 64.dp)
                 .height(100.dp),
-            label = stringResource(id = R.string.next_exercise_in_s, viewState.restRemainingTime),
+            label = stringResource(id = R.string.rest_remaining_in_s, viewState.restRemainingTime),
             percentage = viewState.restRemainingPercentage,
             thickness = 16.dp,
             bicolor = false
@@ -128,6 +106,27 @@ internal class SessionRestNominalContentPreviewParameterProvider :
     PreviewParameterProvider<SessionViewState.RestNominal> {
     override val values: Sequence<SessionViewState.RestNominal>
         get() = sequenceOf(
-
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.LungesSideToCurtsy,
+                side = AsymmetricalExerciseSideOrder.SECOND.side,
+                restRemainingTime = "25s",
+                restRemainingPercentage = .2f,
+                sessionRemainingTime = "3mn 25s",
+                sessionRemainingPercentage = .75f,
+                countDown = null
+            ),
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.LungesSideToCurtsy,
+                side = AsymmetricalExerciseSideOrder.SECOND.side,
+                restRemainingTime = "3s",
+                restRemainingPercentage = .02f,
+                sessionRemainingTime = "3mn 3s",
+                sessionRemainingPercentage = .745f,
+                countDown = CountDown(
+                    secondsDisplay = "3",
+                    progress = .2f,
+                    playBeep = true
+                )
+            )
         )
 }

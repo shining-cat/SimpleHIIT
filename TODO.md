@@ -1,25 +1,47 @@
+# SimpleHIIT ToDo list
 
-* there are nested columns that seems redundant between screens and content composables. Check and remove accordingly
-* inject dispatchers everywhere needed and handle thread choice from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe 
-* loading screens are broken, progress indicator is stuck at the top of screen
+## Code refactoring: layouts
+* Fix layouts composition:
+  * there are nested columns that seem redundant between screens and content composables. Check and remove accordingly
+  * the fact that settings screen is scrollable is probably what messes up the position of its loading indicator
 * fix broken layout in landscape
-* when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
-* See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
-* fix test coverage task for instrumented tests not reporting any coverage
-* add dependencies versions update check plugin
-* setup KTLINT
-* CI github actions: run tests + linter before merge, see https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254?source=rss------android_development-5
-* discuss filtering out CancellationException: how relevant is it to do it multiple times in a flow of data
-* add plugin to check dependencies updates
-* discuss: split clean arch layers to modules to allow for future multiple form factor builds
-* if splitting into modules, add inter-modules dependencies graph generator plugin: 
+
+## Code refactoring: architecture
+* inject dispatchers everywhere needed and handle thread choice from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe 
+* split clean arch layers to modules to allow for future multiple form factor builds
+* if splitting into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
-* check https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp
-* TODO? if we want a complete evaluation of streaks, we need to store the locale at the time of recording alongside the timestamp for the session date. Then we can provide it to the usecase for evaluation.
-* translate to FR and SV. Maybe add language selection in settings to be able to demo it?
-* we handle system black/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
+
+## Assets production
+* when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
+* refine statistics cards design and find icons for each
+  * longest streak: icon of a cup and a calendar showing checked days
+  * current streak: icon of a calendar showing checked days - IF current streak == longest, switch to same icon as longest streak to make it more clear
+  * average session length: icon of the app above a clock
+  * total time : icon of a clock
+  * average session count per week: icon of the app above a calendar
+  * total sessions count: laurels crown
+
+## General technical improvements
+* add dependencies versions update check plugin
+* fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
+* CI github actions: run tests + linter (KTlint) before merge, see https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254?source=rss------android_development-5
+* we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
+
+## Form factors (phone - AndroidTV - smartWatch)
+* check https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp
 * form factor UX differences: phone should maybe not offer multi-users?
+
+## Miscellaneous
+* translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * Nice to have and study case: particles animation: https://meet.google.com/nhv-zjop-mac
 * performance study case: https://meet.google.com/nhv-zjop-mac
+
+## Discuss with others
+* How to handle building the different app form factors
+* See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
+* discuss filtering out CancellationException: how relevant is it to do it multiple times in a flow of data
+
+

@@ -12,3 +12,6 @@ build a single-module app following clean-architecture principles
 * Compose for UI
 * handle device form-factor variation (TV / mobile) in the same project
 * experiment with github actions
+
+## This is a WIP: see current TODO list
+https://github.com/shining-cat/SimpleHIIT/blob/master/TODO.md
