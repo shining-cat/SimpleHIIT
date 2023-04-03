@@ -26,7 +26,6 @@
 
 ## General technical improvements
 * write tests on Viewmodels, maybe extract some more logic out of them
-* add dependencies versions update check plugin
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254)
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
