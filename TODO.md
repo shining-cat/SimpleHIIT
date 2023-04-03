@@ -7,7 +7,6 @@
 * fix broken layout in landscape
 
 ## Code refactoring: architecture
-* inject dispatchers everywhere needed and handle thread choice from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe 
 * split clean arch layers to modules to allow for future multiple form factor builds
 * if splitting into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
