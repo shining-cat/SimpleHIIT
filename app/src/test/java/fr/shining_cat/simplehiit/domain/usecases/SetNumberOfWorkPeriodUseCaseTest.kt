@@ -22,7 +22,7 @@ internal class SetNumberOfWorkPeriodUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetNumberOfWorkPeriodsUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.setNumberOfWorkPeriods(any()) } just Runs

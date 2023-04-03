@@ -22,7 +22,7 @@ internal class SetPeriodStartCountDownUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetPeriodStartCountDownUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.setPeriodStartCountdown(any()) } just Runs
