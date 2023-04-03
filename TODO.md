@@ -10,6 +10,7 @@
 * check that dispatchers are injected everywhere needed and thread choice is handled from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe
 * inject dispatchers in ViewModels and use them to launch viewmodelscopes where needed
 * split clean arch layers to modules to allow for future multiple form factor builds
+* split off the statistics section as a feature module to experiment with optional feature management as android module
 * if splitting into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
