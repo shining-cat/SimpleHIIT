@@ -42,7 +42,9 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        //see https://developer.android.com/jetpack/androidx/releases/compose-compiler for released versions.
+        // this is what limits the kotlin version. As of today, 1.4.4 is only compatible with kotlin 1.8.10
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
 
     kotlinOptions {
@@ -65,7 +67,7 @@ dependencies {
     //This is to prevent the older version pulled by AGP to override the newer needed by Hilt
     //implementation("com.squareup:javapoet:1.13.0") //seems to not be needed here but only in project build.gradle and buildSrc one
     //
-    val composeBom = platform("androidx.compose:compose-bom:2022.12.00")
+    val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //
