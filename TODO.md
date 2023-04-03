@@ -7,13 +7,15 @@
 * fix broken layout in landscape
 
 ## Code refactoring: architecture
-* inject dispatchers everywhere needed and handle thread choice from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe 
+* check that dispatchers are injected everywhere needed and thread choice is handled from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe
+* inject dispatchers in ViewModels and use them to launch viewmodelscopes where needed
 * split clean arch layers to modules to allow for future multiple form factor builds
 * if splitting into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
 
 ## Assets production
+* create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
 * when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
 * refine statistics cards design and find icons for each
   * longest streak: icon of a cup and a calendar showing checked days
@@ -24,6 +26,7 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* write tests on Viewmodels, maybe extract some more logic out of them
 * add dependencies versions update check plugin
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
 * CI github actions: run tests + linter (KTlint) before merge, see https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254?source=rss------android_development-5
