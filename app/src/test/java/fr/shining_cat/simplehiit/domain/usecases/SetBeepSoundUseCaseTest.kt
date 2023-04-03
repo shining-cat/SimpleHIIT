@@ -22,7 +22,7 @@ internal class SetBeepSoundUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetBeepSoundUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.setBeepSound(any()) } just Runs

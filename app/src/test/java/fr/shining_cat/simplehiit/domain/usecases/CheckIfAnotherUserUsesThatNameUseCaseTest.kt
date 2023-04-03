@@ -27,7 +27,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
     fun `calls repo and return error if repo returns error`() = runTest {
         val testedUseCase = CheckIfAnotherUserUsesThatNameUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testUser = User(name = "this is a test name")
@@ -50,7 +50,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = CheckIfAnotherUserUsesThatNameUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.getUsersList() } answers { Output.Success(usersList) }

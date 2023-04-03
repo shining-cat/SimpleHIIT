@@ -18,7 +18,7 @@ internal class ResetAllSettingsUseCaseTest : AbstractMockkTest() {
     fun `calls resetAllSettings repo`() = runTest {
         val testedUseCase = ResetAllSettingsUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.resetAllSettings() } just Runs

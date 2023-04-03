@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.di.IoDispatcher
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
@@ -11,12 +12,12 @@ import javax.inject.Inject
 
 class DeleteUserUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val simpleHiitLogger: HiitLogger
 ) {
 
     suspend fun execute(user: User): Output<Int> {
-        return withContext(ioDispatcher) {
+        return withContext(defaultDispatcher) {
             simpleHiitRepository.deleteUser(user)
         }
     }

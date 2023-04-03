@@ -27,7 +27,7 @@ internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetSelectedExerciseTypesUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
             )
         coEvery { mockSimpleHiitRepository.setExercisesTypesSelected(any()) } just Runs
