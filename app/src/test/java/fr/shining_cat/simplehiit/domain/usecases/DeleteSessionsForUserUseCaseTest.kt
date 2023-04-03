@@ -25,7 +25,7 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo success`() = runTest {
         val testedUseCase = DeleteSessionsForUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = 123L
@@ -42,7 +42,7 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo error`() = runTest {
         val testedUseCase = DeleteSessionsForUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = 123L

@@ -22,7 +22,7 @@ internal class SetRestPeriodLengthUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetRestPeriodLengthUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.setRestPeriodLength(any()) } just Runs

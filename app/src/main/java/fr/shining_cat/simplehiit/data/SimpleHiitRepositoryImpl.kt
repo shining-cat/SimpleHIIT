@@ -250,7 +250,9 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setNumberOfWorkPeriods(number: Int) {
-        hiitDataStoreManager.setNumberOfWorkPeriods(number)
+        withContext(ioDispatcher) {
+            hiitDataStoreManager.setNumberOfWorkPeriods(number)
+        }
     }
 
     override suspend fun setBeepSound(active: Boolean) {
@@ -266,7 +268,9 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setPeriodStartCountdown(durationMs: Long) {
-        hiitDataStoreManager.setPeriodStartCountdown(durationMs)
+        withContext(ioDispatcher) {
+            hiitDataStoreManager.setPeriodStartCountdown(durationMs)
+        }
     }
 
     override suspend fun setTotalRepetitionsNumber(number: Int) {

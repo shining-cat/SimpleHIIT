@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.di.IoDispatcher
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.datainterfaces.SimpleHiitRepository
@@ -16,12 +17,12 @@ class GetStatsForUserUseCase @Inject constructor(
     private val calculateCurrentStreakUseCase: CalculateCurrentStreakUseCase,
     private val calculateLongestStreakUseCase: CalculateLongestStreakUseCase,
     private val calculateAverageSessionsPerWeekUseCase: CalculateAverageSessionsPerWeekUseCase,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val simpleHiitLogger: HiitLogger
 ) {
 
     suspend fun execute(user: User, now: Long): Output<UserStatistics> {
-        return withContext(ioDispatcher) {
+        return withContext(defaultDispatcher) {
             val sessionsForUserOutput = simpleHiitRepository.getSessionRecordsForUser(user)
             when (sessionsForUserOutput) {
                 is Output.Error -> {
@@ -50,7 +51,7 @@ class GetStatsForUserUseCase @Inject constructor(
         sessionRecords: List<SessionRecord>,
         now: Long
     ): UserStatistics {
-        return withContext(ioDispatcher){
+        return withContext(defaultDispatcher){
             if (sessionRecords.isEmpty()) {
                 UserStatistics(user = user)
             } else {

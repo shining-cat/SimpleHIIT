@@ -22,7 +22,7 @@ internal class SetTotalRepetitionsNumberUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetTotalRepetitionsNumberUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.setTotalRepetitionsNumber(any()) } just Runs

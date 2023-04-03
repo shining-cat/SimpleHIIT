@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.domain.usecases
 
+import fr.shining_cat.simplehiit.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.di.IoDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
@@ -13,12 +14,12 @@ import javax.inject.Inject
 class CreateUserUseCase @Inject constructor(
     private val simpleHiitRepository: SimpleHiitRepository,
     private val checkIfAnotherUserUsesThatNameUseCase: CheckIfAnotherUserUsesThatNameUseCase,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
     private val simpleHiitLogger: HiitLogger
 ) {
 
     suspend fun execute(user: User): Output<Long> {
-        return withContext(ioDispatcher) {
+        return withContext(defaultDispatcher) {
             val anotherUserUsesThatNameOutput = checkIfAnotherUserUsesThatNameUseCase.execute(user)
             when (anotherUserUsesThatNameOutput) {
                 is Output.Error -> anotherUserUsesThatNameOutput

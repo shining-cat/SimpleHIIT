@@ -21,7 +21,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo success`() = runTest {
         val testedUseCase = InsertSessionUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = SessionRecord(
@@ -43,7 +43,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo error`() = runTest {
         val testedUseCase = InsertSessionUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = SessionRecord(

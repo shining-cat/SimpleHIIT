@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.ui.settings
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
@@ -10,6 +11,7 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -31,6 +33,7 @@ class SettingsViewModel @Inject constructor(
     private val setSelectedExerciseTypesUseCase: SetSelectedExerciseTypesUseCase,
     private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
     private val mapper: SettingsMapper,
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 
 ) : AbstractLoggerViewModel(hiitLogger) {
@@ -46,7 +49,7 @@ class SettingsViewModel @Inject constructor(
 
     fun init(durationStringFormatter: DurationStringFormatter) {
         if(!isInitialized) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 getGeneralSettingsUseCase.execute().collect() {
                     _screenViewState.emit(
                         mapper.map(it, durationStringFormatter)
@@ -60,7 +63,7 @@ class SettingsViewModel @Inject constructor(
     fun editWorkPeriodLength() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 val currentValueAsSeconds = currentViewState.workPeriodLengthAsSeconds
                 _dialogViewState.emit(
                     SettingsDialog.EditWorkPeriodLength(currentValueAsSeconds)
@@ -76,7 +79,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setWorkPeriodLength(inputSecondsAsString: String) {
         if (validatePeriodLength(inputSecondsAsString) == Constants.InputError.NONE) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setWorkPeriodLengthUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
             }
@@ -107,7 +110,7 @@ class SettingsViewModel @Inject constructor(
     fun editRestPeriodLength() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 val currentValueAsSeconds = currentViewState.restPeriodLengthAsSeconds
                 _dialogViewState.emit(
                     SettingsDialog.EditRestPeriodLength(currentValueAsSeconds)
@@ -123,7 +126,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setRestPeriodLength(inputSecondsAsString: String) {
         if (validatePeriodLength(inputSecondsAsString) == Constants.InputError.NONE) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setRestPeriodLengthUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
             }
@@ -138,7 +141,7 @@ class SettingsViewModel @Inject constructor(
     fun editNumberOfWorkPeriods() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 val currentValue = currentViewState.numberOfWorkPeriods
                 _dialogViewState.emit(SettingsDialog.EditNumberCycles(currentValue))
             }
@@ -152,7 +155,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setNumberOfWorkPeriods(value: String) {
         if (validateNumberOfWorkPeriods(value) == Constants.InputError.NONE) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setNumberOfWorkPeriodsUseCase.execute(value.toInt())
                 _dialogViewState.emit(SettingsDialog.None)
             }
@@ -173,7 +176,7 @@ class SettingsViewModel @Inject constructor(
     fun toggleBeepSound() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setBeepSoundUseCase.execute(!currentViewState.beepSoundCountDownActive)
             }
         } else {
@@ -184,7 +187,7 @@ class SettingsViewModel @Inject constructor(
     fun editSessionStartCountDown() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 val currentValueAsSeconds = currentViewState.sessionStartCountDownLengthAsSeconds
                 _dialogViewState.emit(
                     SettingsDialog.EditSessionStartCountDown(currentValueAsSeconds)
@@ -200,7 +203,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setSessionStartCountDown(inputSecondsAsString: String) {
         if (validateInputSessionStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setSessionStartCountDownUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
             }
@@ -221,7 +224,7 @@ class SettingsViewModel @Inject constructor(
     fun editPeriodStartCountDown() {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 val currentValueAsSeconds = currentViewState.periodsStartCountDownLengthAsSeconds
                 _dialogViewState.emit(
                     SettingsDialog.EditPeriodStartCountDown(currentValueAsSeconds)
@@ -237,7 +240,7 @@ class SettingsViewModel @Inject constructor(
 
     fun setPeriodStartCountDown(inputSecondsAsString: String) {
         if (validateInputPeriodStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setPeriodStartCountDownUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
             }
@@ -266,13 +269,13 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun addUser(userName: String = "") {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(SettingsDialog.AddUser(userName = userName))
         }
     }
 
     fun editUser(user: User) {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(SettingsDialog.EditUser(user))
         }
     }
@@ -282,7 +285,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun createUser(user: User) {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             val result = createUserUseCase.execute(user)
             when (result) {
                 is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
@@ -299,7 +302,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     private fun updateUser(user: User) {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             val result = updateUserNameUseCase.execute(user)
             when (result) {
                 is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
@@ -316,13 +319,13 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun deleteUser(user: User) {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(SettingsDialog.ConfirmDeleteUser(user))
         }
     }
 
     fun deleteUserConfirmation(user: User) {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             val result = deleteUserUseCase.execute(user)
             when (result) {
                 is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
@@ -346,7 +349,7 @@ class SettingsViewModel @Inject constructor(
                 if (it.type == exerciseTypeToggled.type) it.copy(selected = !it.selected)
                 else it
             }
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setSelectedExerciseTypesUseCase.execute(toggledList)
             }
         } else {
@@ -358,13 +361,13 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun resetAllSettings() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(SettingsDialog.ConfirmResetAllSettings)
         }
     }
 
     fun resetAllSettingsConfirmation() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             resetAllSettingsUseCase.execute()
             _dialogViewState.emit(SettingsDialog.None)
         }
@@ -384,7 +387,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun cancelDialog() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(SettingsDialog.None)
         }
     }

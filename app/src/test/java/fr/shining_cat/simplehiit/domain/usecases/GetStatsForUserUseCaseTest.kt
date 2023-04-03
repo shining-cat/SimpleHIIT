@@ -38,7 +38,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
             calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
             calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testException = Exception("this is a test exception")
@@ -58,7 +58,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
             calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
             calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testSessionRecords = emptyList<SessionRecord>()
@@ -92,7 +92,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
             calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
             calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testCurrentStreak = Random.nextInt(10,5000)

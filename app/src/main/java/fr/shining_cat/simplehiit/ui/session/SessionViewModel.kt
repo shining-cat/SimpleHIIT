@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.ui.session
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.di.DefaultDispatcher
+import fr.shining_cat.simplehiit.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.*
@@ -24,7 +25,7 @@ class SessionViewModel @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
     private val stepTimerUseCase: StepTimerUseCase,
     private val insertSessionUseCase: InsertSessionUseCase,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 
 ) : AbstractLoggerViewModel(hiitLogger) {
@@ -68,7 +69,7 @@ class SessionViewModel @Inject constructor(
         }
     }
     private fun setupTicker() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             stepTimerUseCase.timerStateFlow.collect() { stepTimerState ->
                 /*hiitLogger.d(
                     "SessionViewModel",
@@ -84,7 +85,7 @@ class SessionViewModel @Inject constructor(
 
     private fun retrieveSettingsAndProceed() {
         logDriftAnalysis("retrieveSettingsAndProceed START")
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             getSessionSettingsUseCase.execute().collect() { sessionSettingsOutput ->
                 when (sessionSettingsOutput) {
                     is Output.Error -> {
@@ -124,7 +125,7 @@ class SessionViewModel @Inject constructor(
         val immutableSession = session
         if (immutableSession == null) {
             hiitLogger.e("SessionViewModel", "tick::session is NULL!")
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
             }
         } else {
@@ -143,7 +144,7 @@ class SessionViewModel @Inject constructor(
                     launchSessionStep()
                 }
             } else {//build running step state and emit
-                viewModelScope.launch {
+                viewModelScope.launch(context = mainDispatcher) {
                     //logDriftAnalysis("tick::normal ticking - mapper.buildState START")
                     val currentState = mapper.buildState(
                         session = immutableSession,
@@ -159,7 +160,7 @@ class SessionViewModel @Inject constructor(
     }
 
     private fun emitSessionEndState() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             //logDriftAnalysis("emitSessionEndState START")
             val immutableSession = session
             if (immutableSession == null) {
@@ -245,7 +246,7 @@ class SessionViewModel @Inject constructor(
         )*/
         val immutableSession = session
         if (immutableSession == null) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
             }
             return
@@ -253,7 +254,7 @@ class SessionViewModel @Inject constructor(
         val stepToStart = immutableSession.steps[currentSessionStepIndex]
         logDriftAnalysis("launchSessionStep START ${stepToStart::class.java.simpleName}")
         val stepDurationS = stepToStart.durationMs.div(1000L).toInt()
-        stepTimerJob = viewModelScope.launch {
+        stepTimerJob = viewModelScope.launch(context = mainDispatcher) {
             //logDriftAnalysis("launchSessionStep::stepTimerUseCase.start")
             stepTimerUseCase.start(stepDurationS)
         }
@@ -261,7 +262,7 @@ class SessionViewModel @Inject constructor(
 
     fun pause() {
         hiitLogger.d("SessionViewModel", "pause")
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             val immutableSession = session
             if (immutableSession == null) {
                 _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
@@ -283,7 +284,7 @@ class SessionViewModel @Inject constructor(
 
     fun resume() {
 //        hiitLogger.d("SessionViewModel", "resume")
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             launchSessionStep()
             _dialogViewState.emit(SessionDialog.None)
         }
@@ -291,7 +292,7 @@ class SessionViewModel @Inject constructor(
 
     fun abortSession() {
 //        hiitLogger.d("SessionViewModel", "abortSession")
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             emitSessionEndState()
             _dialogViewState.emit(SessionDialog.None)
         }

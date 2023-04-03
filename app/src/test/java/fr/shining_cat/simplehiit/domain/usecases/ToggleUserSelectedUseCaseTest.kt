@@ -21,7 +21,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo success`() = runTest {
         val testedUseCase = ToggleUserSelectedUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = User(id = 123L, name = "test user name", selected = true)
@@ -38,7 +38,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo error`() = runTest {
         val testedUseCase = ToggleUserSelectedUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = User(id = 123L, name = "test user name", selected = true)

@@ -25,7 +25,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val testedUseCase = CreateUserUseCase(
                 simpleHiitRepository = mockSimpleHiitRepository,
                 checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                 simpleHiitLogger = mockHiitLogger
             )
             val testValue = User(id = 123L, name = "test user name", selected = true)
@@ -46,7 +46,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         val testedUseCase = CreateUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = User(id = 123L, name = "test user name", selected = true)
@@ -66,7 +66,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         val testedUseCase = CreateUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = User(id = 123L, name = "test user name", selected = true)
@@ -91,7 +91,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val testedUseCase = CreateUserUseCase(
                 simpleHiitRepository = mockSimpleHiitRepository,
                 checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                 simpleHiitLogger = mockHiitLogger
             )
             val testValue = User(id = 123L, name = "test user name", selected = true)

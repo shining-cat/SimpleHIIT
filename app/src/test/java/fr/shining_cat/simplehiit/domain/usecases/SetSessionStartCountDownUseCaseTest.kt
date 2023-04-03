@@ -22,7 +22,7 @@ internal class SetSessionStartCountDownUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase = SetSessionStartCountDownUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
         )
         coEvery { mockSimpleHiitRepository.setSessionStartCountdown(any()) } just Runs

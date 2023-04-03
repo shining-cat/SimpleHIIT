@@ -8,11 +8,13 @@
 
 ## Code refactoring: architecture
 * split clean arch layers to modules to allow for future multiple form factor builds
+* split off the statistics section as a feature module to experiment with optional feature management as android module
 * if splitting into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
 
 ## Assets production
+* create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
 * when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
 * refine statistics cards design and find icons for each
   * longest streak: icon of a cup and a calendar showing checked days
@@ -23,9 +25,10 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* write tests on Viewmodels, maybe extract some more logic out of them
 * add dependencies versions update check plugin
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
-* CI github actions: run tests + linter (KTlint) before merge,[ see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254)
+* CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254)
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
 
