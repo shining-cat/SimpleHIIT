@@ -7,8 +7,6 @@
 * fix broken layout in landscape
 
 ## Code refactoring: architecture
-* check that dispatchers are injected everywhere needed and thread choice is handled from inside every suspend method. See https://developer.android.com/kotlin/coroutines/coroutines-best-practices#main-safe
-* inject dispatchers in ViewModels and use them to launch viewmodelscopes where needed
 * split clean arch layers to modules to allow for future multiple form factor builds
 * split off the statistics section as a feature module to experiment with optional feature management as android module
 * if splitting into modules, add inter-modules dependencies graph generator plugin:
@@ -30,18 +28,18 @@
 * write tests on Viewmodels, maybe extract some more logic out of them
 * add dependencies versions update check plugin
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
-* CI github actions: run tests + linter (KTlint) before merge, see https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254?source=rss------android_development-5
+* CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254)
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
 
 ## Form factors (phone - AndroidTV - smartWatch)
-* check https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp
+* check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 * form factor UX differences: phone should maybe not offer multi-users?
 
 ## Miscellaneous
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
-* Nice to have and study case: particles animation: https://meet.google.com/nhv-zjop-mac
-* performance study case: https://meet.google.com/nhv-zjop-mac
+* Nice to have and study case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)
+* [performance study case](https://proandroiddev.com/jetpack-compose-tutorial-improving-performance-in-dribbble-audio-app-b19848cf12e3)
 
 ## Discuss with others
 * How to handle building the different app form factors
