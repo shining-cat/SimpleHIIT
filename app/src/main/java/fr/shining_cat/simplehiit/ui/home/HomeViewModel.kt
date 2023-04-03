@@ -2,12 +2,14 @@ package fr.shining_cat.simplehiit.ui.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,6 +22,7 @@ class HomeViewModel @Inject constructor(
     private val toggleUserSelectedUseCase: ToggleUserSelectedUseCase,
     private val resetWholeAppUseCase: ResetWholeAppUseCase,
     private val homeMapper: HomeMapper,
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 ) : AbstractLoggerViewModel(hiitLogger) {
 
@@ -33,7 +36,7 @@ class HomeViewModel @Inject constructor(
 
     fun init(durationStringFormatter: DurationStringFormatter) {
         if(!isInitialized) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 getHomeSettingsUseCase.execute().collect() {
                     _screenViewState.emit(
                         homeMapper.map( it, durationStringFormatter)
@@ -46,13 +49,13 @@ class HomeViewModel @Inject constructor(
 
     fun cancelDialog() {
         logD("HomeViewModel", "cancelDialog")
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(HomeDialog.None)
         }
     }
 
     fun openInputNumberCyclesDialog(currentValue: Int) {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(
                 HomeDialog.InputNumberCycles(initialNumberOfCycles = currentValue)
             )
@@ -65,7 +68,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateNumberCumulatedCycles(value: String) {
         if(validateInputNumberCycles(value) == Constants.InputError.NONE) {
-            viewModelScope.launch {
+            viewModelScope.launch(context = mainDispatcher) {
                 setTotalRepetitionsNumberUseCase.execute(value.toInt())
                 _dialogViewState.emit(HomeDialog.None)
             }
@@ -76,19 +79,19 @@ class HomeViewModel @Inject constructor(
 
     fun toggleSelectedUser(user: User) {
         logD("HomeViewModel","toggleSelectedUser::user:: was selected = ${user.selected}, toggling to ${!user.selected}")
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             toggleUserSelectedUseCase.execute(user.copy(selected = !user.selected))
         }
     }
 
     fun resetWholeApp() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(HomeDialog.ConfirmWholeReset)
         }
     }
 
     fun resetWholeAppConfirmationDeleteEverything() {
-        viewModelScope.launch {
+        viewModelScope.launch(context = mainDispatcher) {
             resetWholeAppUseCase.execute()
         }
     }
