@@ -14,6 +14,7 @@ import fr.shining_cat.simplehiit.domain.usecases.GetStatsForUserUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.TimeProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,6 +29,7 @@ class StatisticsViewModel @Inject constructor(
     private val resetWholeAppUseCase: ResetWholeAppUseCase,
     private val mapper: StatisticsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
+    private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger
 ) : AbstractLoggerViewModel(hiitLogger) {
 
@@ -74,7 +76,7 @@ class StatisticsViewModel @Inject constructor(
     fun retrieveStatsForUser(user: User) {
         hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
         viewModelScope.launch(context = mainDispatcher) {
-            val now = System.currentTimeMillis()
+            val now = timeProvider.getCurrentTimeMillis()
             val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)
             when (statisticsOutput) {
                 is Output.Success -> {

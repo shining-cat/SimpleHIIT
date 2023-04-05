@@ -3,12 +3,14 @@ package fr.shining_cat.simplehiit.domain.usecases
 import fr.shining_cat.simplehiit.di.TimerDispatcher
 import fr.shining_cat.simplehiit.domain.models.StepTimerState
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.TimeProvider
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 class StepTimerUseCase @Inject constructor(
     @TimerDispatcher private val timerDispatcher: CoroutineDispatcher,
+    private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger
 ) {
 
@@ -19,7 +21,7 @@ class StepTimerUseCase @Inject constructor(
     private var nextTickTimeStamp = 0L
 
     suspend fun start(totalMilliSeconds: Long) {
-        startTimeStamp = System.currentTimeMillis()
+        startTimeStamp = timeProvider.getCurrentTimeMillis()
         return withContext(timerDispatcher) {
             initTimer(totalMilliSeconds)//any work done in that Flow will be cancelled if the coroutine is cancelled
                 .collect {
@@ -31,7 +33,7 @@ class StepTimerUseCase @Inject constructor(
     private val oneSecondAsMs = 1000L
 
     private fun initTimer(totalMilliSeconds: Long): Flow<StepTimerState> = flow {
-        startTimeStamp = System.currentTimeMillis()
+        startTimeStamp = timeProvider.getCurrentTimeMillis()
         val expectedEndTimeMillis = startTimeStamp + totalMilliSeconds
         //emit starting state
         emit(
@@ -43,10 +45,10 @@ class StepTimerUseCase @Inject constructor(
         var totalReached = false
         var remainingMilliSeconds = totalMilliSeconds
         while (!totalReached) {
-            nextTickTimeStamp = System.currentTimeMillis() + oneSecondAsMs
+            nextTickTimeStamp = timeProvider.getCurrentTimeMillis() + oneSecondAsMs
             var secondComplete = false
             while (!secondComplete) {
-                secondComplete = System.currentTimeMillis() >= nextTickTimeStamp
+                secondComplete = timeProvider.getCurrentTimeMillis() >= nextTickTimeStamp
             }
             remainingMilliSeconds -= oneSecondAsMs
             //emit every second
@@ -56,7 +58,7 @@ class StepTimerUseCase @Inject constructor(
                     totalMilliSeconds = totalMilliSeconds
                 )
             )
-            totalReached = System.currentTimeMillis() >= expectedEndTimeMillis
+            totalReached = timeProvider.getCurrentTimeMillis() >= expectedEndTimeMillis
         }
         //emit finish state
         emit(

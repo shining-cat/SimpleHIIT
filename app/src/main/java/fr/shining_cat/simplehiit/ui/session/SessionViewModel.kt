@@ -9,6 +9,7 @@ import fr.shining_cat.simplehiit.domain.models.*
 import fr.shining_cat.simplehiit.domain.usecases.*
 import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
 import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.TimeProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +26,7 @@ class SessionViewModel @Inject constructor(
     private val stepTimerUseCase: StepTimerUseCase,
     private val insertSessionUseCase: InsertSessionUseCase,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
+    private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger
 
 ) : AbstractLoggerViewModel(hiitLogger) {
@@ -197,7 +199,7 @@ class SessionViewModel @Inject constructor(
                 }
                 //record session done
                 val sessionRecord = SessionRecord(
-                    timeStamp = System.currentTimeMillis(),
+                    timeStamp = timeProvider.getCurrentTimeMillis(),
                     durationMs = actualSessionLength,
                     usersIds = session?.users?.map { it.id } ?: emptyList()
                 )
