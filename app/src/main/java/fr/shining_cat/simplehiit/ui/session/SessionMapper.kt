@@ -26,16 +26,16 @@ class SessionMapper @Inject constructor(
     ): SessionViewState {
         return withContext(defaultDispatcher) {
             val currentStep = session.steps[currentSessionStepIndex]
-            val remainingSeconds = currentStepTimerState.secondsRemaining
+            val remainingSeconds = currentStepTimerState.milliSecondsRemaining
             val countdownS = currentStep.countDownLengthMs.div(1000).toInt()
             val countDown = if (remainingSeconds <= countdownS) {
                 CountDown(
-                    secondsDisplay = currentStepTimerState.secondsRemaining.toString(),//not formatting the countdown value
+                    secondsDisplay = currentStepTimerState.milliSecondsRemaining.toString(),//not formatting the countdown value
                     progress = remainingSeconds.div(countdownS.toFloat()),
                     playBeep = session.beepSoundCountDownActive
                 )
             } else null
-            val stepRemainingAsMs = currentStepTimerState.secondsRemaining.times(1000L)
+            val stepRemainingAsMs = currentStepTimerState.milliSecondsRemaining.times(1000L)
             val stepRemainingFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = stepRemainingAsMs,
@@ -76,9 +76,68 @@ class SessionMapper @Inject constructor(
                         // Test cases though might encounter this error
                         SessionViewState.Error("${Constants.Errors.LAUNCH_SESSION.code} - The countdown length is shorter than the prepare step?")
                     } else {
-                        SessionViewState.InitialCountDownSession(
-                            countDown = countDown
-                        )
+                        SessionViewState.InitialCountDownSession(countDown = countDown)
+                    }
+                }
+            }
+        }
+    }
+
+    suspend fun buildStateWholeSession(
+        session: Session,
+        currentSessionStepIndex: Int,
+        currentState: StepTimerState,
+        durationStringFormatter: DurationStringFormatter
+    ): SessionViewState {
+        return withContext(defaultDispatcher) {
+            val currentStep = session.steps[currentSessionStepIndex]
+            val stepRemainingMilliSeconds = currentState.milliSecondsRemaining.minus(currentStep.remainingSessionDurationMsAfterMe)
+            val stepRemainingFormatted = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                durationMs = stepRemainingMilliSeconds,
+                durationStringFormatter = durationStringFormatter
+            )
+            val stepRemainingPercentage = stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())
+            //
+            val countdownMillis = currentStep.countDownLengthMs
+            val countDown = if (stepRemainingMilliSeconds <= countdownMillis) {
+                val countDownAsSecondsString = stepRemainingMilliSeconds.div(1000L).toInt().toString()
+                CountDown(
+                    secondsDisplay = countDownAsSecondsString,
+                    progress = stepRemainingMilliSeconds.div(countdownMillis.toFloat()),
+                    playBeep = session.beepSoundCountDownActive
+                )
+            } else null
+            //
+            val sessionRemainingMilliSeconds = currentState.milliSecondsRemaining
+            val sessionRemainingFormatted = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                durationMs = sessionRemainingMilliSeconds,
+                durationStringFormatter = durationStringFormatter
+            )
+            //
+            when (currentStep) {
+                is SessionStep.WorkStep -> SessionViewState.WorkNominal(
+                    currentExercise = currentStep.exercise,
+                    side = currentStep.side,
+                    exerciseRemainingTime = stepRemainingFormatted,
+                    exerciseRemainingPercentage = stepRemainingPercentage,
+                    sessionRemainingTime = sessionRemainingFormatted,
+                    sessionRemainingPercentage = currentState.remainingPercentage,
+                    countDown = countDown,
+                )
+                is SessionStep.RestStep -> SessionViewState.RestNominal(
+                    nextExercise = currentStep.exercise,
+                    side = currentStep.side,
+                    restRemainingTime = stepRemainingFormatted,
+                    restRemainingPercentage = stepRemainingPercentage,
+                    sessionRemainingTime = sessionRemainingFormatted,
+                    sessionRemainingPercentage = currentState.remainingPercentage,
+                    countDown = countDown,
+                )
+                is SessionStep.PrepareStep -> {
+                    if (countDown == null) {
+                        SessionViewState.Error("The countdown length is shorter than the prepare step?")
+                    } else {
+                        SessionViewState.InitialCountDownSession(countDown = countDown)
                     }
                 }
             }

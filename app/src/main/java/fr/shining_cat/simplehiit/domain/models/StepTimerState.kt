@@ -1,10 +1,10 @@
 package fr.shining_cat.simplehiit.domain.models
 
 data class StepTimerState(
-    val secondsRemaining: Int = -1,
-    val totalSeconds: Int = -1,
+    val milliSecondsRemaining: Long = -1,
+    val totalMilliSeconds: Long = -1,
 ) {
 
-    val remainingPercentage: Float = secondsRemaining / totalSeconds.toFloat()
+    val remainingPercentage: Float = milliSecondsRemaining / totalMilliSeconds.toFloat()
 
 }
