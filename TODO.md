@@ -29,6 +29,7 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out remember for state in composables and implement
 * write tests on Viewmodels, maybe extract some more logic out of them
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp

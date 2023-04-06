@@ -21,9 +21,10 @@ class StepTimerUseCase @Inject constructor(
     private var nextTickTimeStamp = 0L
 
     suspend fun start(totalMilliSeconds: Long) {
-        startTimeStamp = timeProvider.getCurrentTimeMillis()
+        hiitLogger.d("StepTimerUseCase","start::totalMilliSeconds = $totalMilliSeconds")
         return withContext(timerDispatcher) {
             initTimer(totalMilliSeconds)//any work done in that Flow will be cancelled if the coroutine is cancelled
+                .flowOn(timerDispatcher)
                 .collect {
                     _timerStateFlow.emit(it)
                 }
