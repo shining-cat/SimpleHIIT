@@ -10,6 +10,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
+import fr.shining_cat.simplehiit.utils.TimeProvider
+import fr.shining_cat.simplehiit.utils.TimeProviderImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -20,6 +22,11 @@ object UtilsModule {
         val isDebug: Boolean =
             (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         return HiitLoggerImpl(isDebug)
+    }
+
+    @Provides
+    fun provideTimeProvider(): TimeProvider {
+        return TimeProviderImpl()
     }
 
 }

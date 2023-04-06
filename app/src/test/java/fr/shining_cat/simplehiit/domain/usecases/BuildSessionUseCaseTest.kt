@@ -75,7 +75,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                 any()
             )
         }
-        val expectedNumberOfCalls = exercisesList.size.times(2).plus(1)
+        val expectedNumberOfCalls = exercisesList.size.times(2)
         coVerify(exactly = expectedNumberOfCalls) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 any(),
@@ -113,7 +113,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         users = listOf(userTest1),
                         exerciseTypes = listOf(),//this input is not used as we mock the secondary usecase which relies on it
                     ),
-                    Session(emptyList(), 0L, mockDurationString, true, listOf(userTest1))
+                    Session(emptyList(), 0L, true, listOf(userTest1))
                 ),
                 Arguments.of(
                     listOf(Exercise.LyingSupermanTwist),
@@ -153,8 +153,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                 countDownLengthMs = 234L
                             )
                         ),
-                        durationMs = 720000L,
-                        durationFormatted = mockDurationString,
+                        durationMs = 720123L,
                         beepSoundCountDownActive = false,
                         users = listOf(userTest1, userTest2)
                     )
@@ -216,8 +215,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                 countDownLengthMs = 456L
                             )
                         ),
-                        durationMs = 800000L,
-                        durationFormatted = mockDurationString,
+                        durationMs = 800345L,
                         beepSoundCountDownActive = true,
                         users = listOf(userTest2)
                     )
@@ -394,7 +392,6 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                             )
                         ),
                         durationMs = 3400000L,
-                        durationFormatted = mockDurationString,
                         beepSoundCountDownActive = false,
                         users = listOf(userTest2, userTest1)
                     )

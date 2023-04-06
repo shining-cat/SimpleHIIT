@@ -221,7 +221,6 @@ internal class SessionMapperTest : AbstractMockkTest() {
                 )
             ),
             durationMs = 800000L,
-            durationFormatted = mockDurationString,
             beepSoundCountDownActive = true,
             users = listOf(User(name = "user test 1"), User(name = "user test 2"))
         )
@@ -235,8 +234,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 0,
                         currentStepTimerState = StepTimerState(
-                            secondsRemaining = 9,
-                            totalSeconds = 10
+                            milliSecondsRemaining = 9,
+                            totalMilliSeconds = 10
                         )
                     ),
                     SessionViewState.Error(errorCode="0501 - The countdown length is shorter than the prepare step?")
@@ -247,8 +246,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 0,
                         currentStepTimerState = StepTimerState(
-                            secondsRemaining = 4,
-                            totalSeconds = 5
+                            milliSecondsRemaining = 4,
+                            totalMilliSeconds = 5
                         )
                     ),
                     InitialCountDownSession(
@@ -265,8 +264,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 4,
                         currentStepTimerState = StepTimerState(
-                            secondsRemaining = 10,
-                            totalSeconds = 50
+                            milliSecondsRemaining = 10,
+                            totalMilliSeconds = 50
                         )
                     ),
                     SessionViewState.WorkNominal(
@@ -285,8 +284,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 4,
                         currentStepTimerState = StepTimerState(
-                            secondsRemaining = 1,
-                            totalSeconds = 50
+                            milliSecondsRemaining = 1,
+                            totalMilliSeconds = 50
                         )
                     ),
                     SessionViewState.WorkNominal(
@@ -309,8 +308,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 7,
                         currentStepTimerState = StepTimerState(
-                            secondsRemaining = 7,
-                            totalSeconds = 35
+                            milliSecondsRemaining = 7,
+                            totalMilliSeconds = 35
                         )
                     ),
                     SessionViewState.RestNominal(
@@ -329,8 +328,8 @@ internal class SessionMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 7,
                         currentStepTimerState = StepTimerState(
-                            secondsRemaining = 5,
-                            totalSeconds = 50
+                            milliSecondsRemaining = 5,
+                            totalMilliSeconds = 50
                         )
                     ),
                     SessionViewState.RestNominal(

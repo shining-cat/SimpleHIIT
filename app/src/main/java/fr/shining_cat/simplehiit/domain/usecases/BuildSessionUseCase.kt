@@ -21,11 +21,7 @@ class BuildSessionUseCase @Inject constructor(
         return withContext(defaultDispatcher) {
             val totalSessionLengthMs =
                 sessionSettings.cycleLengthMs.times(sessionSettings.numberCumulatedCycles)
-            val totalSessionLengthFormatted =
-                formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    totalSessionLengthMs,
-                    durationStringFormatter
-                )
+                    .plus(sessionSettings.sessionStartCountDownLengthMs)
             val exercisesList = getSelectedExercisesTypesList(sessionSettings)
             val steps = buildStepsList(
                 exercisesList = exercisesList,
@@ -38,7 +34,6 @@ class BuildSessionUseCase @Inject constructor(
             Session(
                 steps = steps,
                 durationMs = totalSessionLengthMs,
-                durationFormatted = totalSessionLengthFormatted,
                 beepSoundCountDownActive = sessionSettings.beepSoundCountDownActive,
                 users = sessionSettings.users
             )

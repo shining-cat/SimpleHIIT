@@ -1,12 +1,10 @@
-import Versions.nav_version
-import Versions.room_version
 
 /**
  * To define plugins
  */
 object BuildPlugins {
     val android by lazy { "com.android.tools.build:gradle:${Versions.gradlePlugin}" }
-    val kotlin by lazy { "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}" }
+    val kotlin  by lazy { "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}" }
 }
 
 /**
@@ -20,11 +18,11 @@ object Deps {
     val constraintLayout    by lazy { "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}" }
     val jupiter             by lazy { "org.junit.jupiter:junit-jupiter:${Versions.jupiter}" }
     val mockk               by lazy { "io.mockk:mockk:${Versions.mockkVersion}" }
-    val coroutinesTest      by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}" }
+    val coroutinesTest      by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesTest}" }
     val archCoreTesting     by lazy { "androidx.arch.core:core-testing:${Versions.core_testing}" }
     val testRunner          by lazy { "androidx.test:runner:${Versions.test_runner}" }
     val coil                by lazy { "io.coil-kt:coil-compose:${Versions.coil}" }
-    val coilGif                by lazy { "io.coil-kt:coil-gif:${Versions.coil}" }
+    val coilGif             by lazy { "io.coil-kt:coil-gif:${Versions.coil}" }
 }
 
 object HiltDeps{
@@ -39,13 +37,13 @@ object HiltDeps{
 }
 
 object RoomDeps{
-    val roomRuntime         by lazy { "androidx.room:room-runtime:$room_version"}
+    val roomRuntime         by lazy { "androidx.room:room-runtime:${Versions.room_version}"}
     // To use Kotlin annotation processing tool (kapt)
-    val roomKaptCompiler    by lazy { "androidx.room:room-compiler:$room_version"}
+    val roomKaptCompiler    by lazy { "androidx.room:room-compiler:${Versions.room_version}"}
     // optional - Kotlin Extensions and Coroutines support for Room
-    val roomCoroutinesExtensions by lazy { "androidx.room:room-ktx:$room_version"}
+    val roomCoroutinesExtensions by lazy { "androidx.room:room-ktx:${Versions.room_version}"}
     // optional - Test helpers
-    val roomTestHelpers     by lazy { "androidx.room:room-testing:$room_version"}
+    val roomTestHelpers     by lazy { "androidx.room:room-testing:${Versions.room_version}"}
 }
 
 object ComposeDeps{
@@ -58,7 +56,7 @@ object ComposeDeps{
     val composeUiTests      by lazy { "androidx.compose.ui:ui-test-junit4"}
     val composeUiTestsDebug by lazy { "androidx.compose.ui:ui-test-manifest"}
     // Integration with activities
-    val composeActivities   by lazy {"androidx.activity:activity-compose:1.5.1"}
+    val composeActivities   by lazy {"androidx.activity:activity-compose:${Versions.activityCompose}"}
     // Integration with ViewModels
     val composeViewModels   by lazy {"androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"}
     // Integration with LiveData
@@ -67,11 +65,11 @@ object ComposeDeps{
 
 object Navigation{
     // Kotlin
-    val navFragments    by lazy {"androidx.navigation:navigation-fragment-ktx:$nav_version"}
-    val navUi           by lazy {"androidx.navigation:navigation-ui-ktx:$nav_version"}
+    val navFragments    by lazy {"androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"}
+    val navUi           by lazy {"androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"}
     // Testing Navigation
-    val navTesting      by lazy {"androidx.navigation:navigation-testing:$nav_version"}
+    val navTesting      by lazy {"androidx.navigation:navigation-testing:${Versions.nav_version}"}
     // Jetpack Compose Integration
-    val navCompose      by lazy {"androidx.navigation:navigation-compose:$nav_version"}
+    val navCompose      by lazy {"androidx.navigation:navigation-compose:${Versions.nav_version}"}
 
 }
