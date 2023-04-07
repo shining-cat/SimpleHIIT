@@ -1,17 +1,23 @@
 package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
+import android.media.MediaPlayer
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
+import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
@@ -20,15 +26,22 @@ fun CountDownComponent(size: Dp, countDown: CountDown) {
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(size)
     ) {
+        if (countDown.playBeep) {
+            BeepPlayer(countDown)
+        }
         //this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
         CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center).fillMaxSize(),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize(),
             progress = 1f,
             strokeWidth = 5.dp,
             color = MaterialTheme.colorScheme.primary
         )
         CircularProgressIndicator(
-            modifier = Modifier.align(Alignment.Center).fillMaxSize(),
+            modifier = Modifier
+                .align(Alignment.Center)
+                .fillMaxSize(),
             progress = countDown.progress,
             strokeWidth = 5.dp,
             color = MaterialTheme.colorScheme.secondary
@@ -39,6 +52,19 @@ fun CountDownComponent(size: Dp, countDown: CountDown) {
             style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.secondary
         )
+    }
+}
+
+@Composable
+fun BeepPlayer(countDown: CountDown, lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
+    val player = MediaPlayer.create(LocalContext.current, R.raw.sound_beep)
+    countDown.secondsDisplay.onEach {
+        player.start()
+    }
+    DisposableEffect(lifecycleOwner) {
+        onDispose {
+            player.release()
+        }
     }
 }
 
