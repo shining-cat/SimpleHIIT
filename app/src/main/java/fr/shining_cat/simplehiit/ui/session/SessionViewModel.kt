@@ -61,7 +61,7 @@ class SessionViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             stepTimerUseCase.timerStateFlow.collect() { stepTimerState ->
                 if (stepTimerState != StepTimerState()) { //excluding first emission with default value
-                    tickWhole(stepTimerState)
+                    tick(stepTimerState)
                 }
             }
         }
@@ -89,14 +89,14 @@ class SessionViewModel @Inject constructor(
                             sessionSettings = sessionSettingsResult,
                             durationStringFormatter = durationStringFormatter
                         )
-                        launchWholeSession()
+                        launchSession()
                     }
                 }
             }
         }
     }
 
-    private fun launchWholeSession() {
+    private fun launchSession() {
         val immutableSession = session
         if (immutableSession == null) {
             hiitLogger.e("SessionViewModel", "tick::session is NULL!")
@@ -111,7 +111,7 @@ class SessionViewModel @Inject constructor(
         }
     }
 
-    private fun tickWhole(stepTimerState: StepTimerState) {
+    private fun tick(stepTimerState: StepTimerState) {
         val immutableSession = session
         if (immutableSession == null) {
             hiitLogger.e("SessionViewModel", "tick::session is NULL!")
@@ -154,6 +154,10 @@ class SessionViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun playBeep(){
+
     }
 
     private fun emitSessionEndState() {

@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features
-* implement beep sound playback for countdown
 
 ## Code refactoring: layouts
 * Fix layouts composition:
@@ -17,7 +16,6 @@
 * split off the statistics section as a feature module to experiment with optional feature management as android module
 
 ## Assets production
-* countdown beep sound
 * create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
 * when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
 * refine statistics cards design and find icons for each
@@ -42,6 +40,7 @@
 * form factor UX differences: phone should maybe not offer multi-users?
 
 ## Miscellaneous / nice to have
+* when pausing running session, the gif behind the dialog keeps moving... find a nice way to freeze this
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * Nice to have and study case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)
 * [performance study case](https://proandroiddev.com/jetpack-compose-tutorial-improving-performance-in-dribbble-audio-app-b19848cf12e3)
