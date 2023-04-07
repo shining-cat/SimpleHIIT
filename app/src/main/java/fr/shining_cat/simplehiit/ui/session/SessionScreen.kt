@@ -1,6 +1,7 @@
 package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -62,6 +63,9 @@ private fun SessionScreen(
     resume: () -> Unit,
     navigateUp: () -> Boolean,
 ) {
+    BackHandler {
+        pause()
+    }
     Scaffold(
         topBar = {
             SessionTopBar(pause = pause, navigateUp = navigateUp, screenViewState = screenViewState)
