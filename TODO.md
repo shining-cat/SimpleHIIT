@@ -15,6 +15,7 @@
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
 * split off the statistics section as a feature module to experiment with optional feature management as android module
+* check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
 
 ## Assets production
 * countdown beep sound
