@@ -42,6 +42,7 @@
 * form factor UX differences: phone should maybe not offer multi-users?
 
 ## Miscellaneous / nice to have
+* when pausing running session, the gif behind the dialog keeps moving... find a nice way to freeze this
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
