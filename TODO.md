@@ -33,11 +33,9 @@
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out remember for state in composables and implement
 * write tests on Viewmodels, maybe extract some more logic out of them
-* fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
+* fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
-* we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
-* add home screen shortcut launchers for start session and statistics
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
@@ -45,9 +43,10 @@
 
 ## Miscellaneous / nice to have
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
+* we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
+* add home screen shortcut launchers for start session and statistics
 * Nice to have and study case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)
 * [performance study case](https://proandroiddev.com/jetpack-compose-tutorial-improving-performance-in-dribbble-audio-app-b19848cf12e3)
-* check, see if interesting compared to github actions: [githooks to display warning on forgotten todos in commit, for example](https://betterprogramming.pub/want-to-avoid-forgotten-todos-in-your-project-lets-do-it-with-git-hooks-6a1835f26cf5?source=rss----d0b105d10f0a---4)
 
 ## Discuss with others
 * How to handle building the different app form factors, maybe[ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
