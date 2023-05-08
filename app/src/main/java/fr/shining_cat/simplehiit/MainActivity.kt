@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import fr.shining_cat.simplehiit.ui.SimpleHiitNavigation
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
@@ -18,7 +17,7 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     @Inject
-    lateinit var hiitLog: HiitLogger
+    lateinit var hiitLogger: HiitLogger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +25,14 @@ class MainActivity : ComponentActivity() {
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
         )
-        hiitLog.d("MainActivity", "onCreate!!")
+        hiitLogger.d("MainActivity", "onCreate!!")
         setContent {
             SimpleHiitTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SimpleHiitNavigation()
+                    SimpleHiitNavigation(hiitLogger)
                 }
             }
         }

@@ -28,9 +28,10 @@ import fr.shining_cat.simplehiit.utils.HiitLogger
 @Composable
 fun StatisticsScreen(
     navController: NavController,
+    hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    viewModel.logD("StatisticsScreen", "INIT")
+    hiitLogger.d("StatisticsScreen", "INIT")
     //
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
@@ -56,7 +57,7 @@ fun StatisticsScreen(
         resetWholeAppConfirmation = { viewModel.resetWholeAppConfirmationDeleteEverything() },
         screenViewState = screenViewState,
         dialogViewState = dialogViewState,
-        hiitLogger = viewModel.getLogger()
+        hiitLogger = hiitLogger
     )
 }
 

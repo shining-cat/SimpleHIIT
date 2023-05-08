@@ -27,13 +27,15 @@ import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ErrorDialog
 import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
 fun SettingsScreen(
     navController: NavController,
+    hiitLogger: HiitLogger,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    viewModel.logD("SettingsScreen", "INIT")
+    hiitLogger.d("SettingsScreen", "INIT")
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
         hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
