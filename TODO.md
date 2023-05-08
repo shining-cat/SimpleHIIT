@@ -1,7 +1,7 @@
 # SimpleHIIT ToDo list
 
-## Missing features
-* implement beep sound playback for countdown
+## Missing features / issues
+* beep sound playback for countdown is not very well synced with timer
 
 ## Code refactoring: layouts
 * Fix layouts composition:
@@ -34,6 +34,7 @@
 * check out remember for state in composables and implement
 * write tests on Viewmodels, maybe extract some more logic out of them
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp
+* switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
