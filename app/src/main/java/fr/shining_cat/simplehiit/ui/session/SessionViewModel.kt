@@ -1,13 +1,22 @@
 package fr.shining_cat.simplehiit.ui.session
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.*
-import fr.shining_cat.simplehiit.domain.usecases.*
-import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
+import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.models.Session
+import fr.shining_cat.simplehiit.domain.models.SessionRecord
+import fr.shining_cat.simplehiit.domain.models.SessionStep
+import fr.shining_cat.simplehiit.domain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.domain.models.StepTimerState
+import fr.shining_cat.simplehiit.domain.usecases.BuildSessionUseCase
+import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.usecases.GetSessionSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.InsertSessionUseCase
+import fr.shining_cat.simplehiit.domain.usecases.StepTimerUseCase
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import fr.shining_cat.simplehiit.utils.TimeProvider
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,8 +37,7 @@ class SessionViewModel @Inject constructor(
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger
-
-) : AbstractLoggerViewModel(hiitLogger) {
+) : ViewModel() {
 
     private val _screenViewState =
         MutableStateFlow<SessionViewState>(SessionViewState.Loading)
@@ -83,6 +91,7 @@ class SessionViewModel @Inject constructor(
                             )
                         )
                     }
+
                     is Output.Success -> {
                         val sessionSettingsResult = sessionSettingsOutput.result
                         session = buildSessionUseCase.execute(
@@ -156,7 +165,7 @@ class SessionViewModel @Inject constructor(
         }
     }
 
-    private fun playBeep(){
+    private fun playBeep() {
 
     }
 
@@ -246,7 +255,8 @@ class SessionViewModel @Inject constructor(
             return
         }
         val stepToStart = immutableSession.steps[currentSessionStepIndex]
-        val remainingTotalTimeToLaunch = stepToStart.durationMs.plus(stepToStart.remainingSessionDurationMsAfterMe)
+        val remainingTotalTimeToLaunch =
+            stepToStart.durationMs.plus(stepToStart.remainingSessionDurationMsAfterMe)
         stepTimerJob = viewModelScope.launch(context = mainDispatcher) {
             stepTimerUseCase.start(totalMilliSeconds = remainingTotalTimeToLaunch)
         }

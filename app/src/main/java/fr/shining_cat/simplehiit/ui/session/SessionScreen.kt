@@ -20,15 +20,17 @@ import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.*
 import fr.shining_cat.simplehiit.ui.components.ChoiceDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
 
 @Composable
 fun SessionScreen(
     navController: NavController,
+    hiitLogger: HiitLogger,
     viewModel: SessionViewModel = hiltViewModel()
 ) {
-    //TODO: we want to capture BACK navigation to open pause dialog!
     //TODO: we need to pause the session in onResume equivalent (then, when coming back the state will be paused with dialog open so we should need nothing for the "coming back" part)
-    viewModel.logD("SessionScreen", "INIT")
+    hiitLogger.d("SessionScreen", "INIT")
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
         hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
@@ -48,7 +50,8 @@ fun SessionScreen(
         navigateUp = { navController.navigateUp() },
         resume = { viewModel.resume() },
         dialogViewState = dialogViewState,
-        screenViewState = screenViewState
+        screenViewState = screenViewState,
+        hiitLogger = hiitLogger
     )
 }
 
@@ -61,6 +64,7 @@ private fun SessionScreen(
     pause: () -> Unit,
     resume: () -> Unit,
     navigateUp: () -> Boolean,
+    hiitLogger: HiitLogger? = null
 ) {
     Scaffold(
         topBar = {
@@ -73,7 +77,8 @@ private fun SessionScreen(
                 screenViewState = screenViewState,
                 resume = resume,
                 onAbortSession = onAbortSession,
-                navigateUp = navigateUp
+                navigateUp = navigateUp,
+                hiitLogger = hiitLogger
             )
         }
     )
@@ -123,7 +128,8 @@ private fun SessionContent(
     dialogViewState: SessionDialog,
     onAbortSession: () -> Unit,
     resume: () -> Unit,
-    navigateUp: () -> Boolean
+    navigateUp: () -> Boolean,
+    hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
@@ -140,15 +146,15 @@ private fun SessionContent(
                     CircularProgressIndicator()
                 }
             }
-            is SessionViewState.Error -> SessionErrorStateContent(screenViewState)
-            is SessionViewState.InitialCountDownSession -> SessionPrepareContent(screenViewState)
-            is SessionViewState.RestNominal -> SessionRestNominalContent(screenViewState)
-            is SessionViewState.WorkNominal -> SessionWorkNominalContent(screenViewState)
+            is SessionViewState.Error -> SessionErrorStateContent(screenViewState, hiitLogger)
+            is SessionViewState.InitialCountDownSession -> SessionPrepareContent(screenViewState, hiitLogger)
+            is SessionViewState.RestNominal -> SessionRestNominalContent(screenViewState, hiitLogger)
+            is SessionViewState.WorkNominal -> SessionWorkNominalContent(screenViewState, hiitLogger)
             is SessionViewState.Finished -> {
                 if(screenViewState.workingStepsDone.isEmpty()){
                     navigateUp()
                 }else {
-                    SessionFinishedContent(screenViewState)
+                    SessionFinishedContent(screenViewState, hiitLogger)
                 }
             }
         }

@@ -1,5 +1,6 @@
 package fr.shining_cat.simplehiit.ui.settings
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.di.MainDispatcher
@@ -8,8 +9,18 @@ import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.*
-import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
+import fr.shining_cat.simplehiit.domain.usecases.CreateUserUseCase
+import fr.shining_cat.simplehiit.domain.usecases.DeleteUserUseCase
+import fr.shining_cat.simplehiit.domain.usecases.GetGeneralSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.ResetAllSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetBeepSoundUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetNumberOfWorkPeriodsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetPeriodStartCountDownUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetRestPeriodLengthUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetSelectedExerciseTypesUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetSessionStartCountDownUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetWorkPeriodLengthUseCase
+import fr.shining_cat.simplehiit.domain.usecases.UpdateUserNameUseCase
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -35,8 +46,7 @@ class SettingsViewModel @Inject constructor(
     private val mapper: SettingsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
-
-) : AbstractLoggerViewModel(hiitLogger) {
+) : ViewModel() {
 
     private val _screenViewState =
         MutableStateFlow<SettingsViewState>(SettingsViewState.Loading)
@@ -48,7 +58,7 @@ class SettingsViewModel @Inject constructor(
     private var isInitialized = false
 
     fun init(durationStringFormatter: DurationStringFormatter) {
-        if(!isInitialized) {
+        if (!isInitialized) {
             viewModelScope.launch(context = mainDispatcher) {
                 getGeneralSettingsUseCase.execute().collect() {
                     _screenViewState.emit(
@@ -84,7 +94,7 @@ class SettingsViewModel @Inject constructor(
                 _dialogViewState.emit(SettingsDialog.None)
             }
         } else {
-            logD(
+            hiitLogger.d(
                 "SettingsViewModel",
                 "setWorkPeriodLength:: invalid input, this should never happen"
             )
@@ -131,7 +141,7 @@ class SettingsViewModel @Inject constructor(
                 _dialogViewState.emit(SettingsDialog.None)
             }
         } else {
-            logD(
+            hiitLogger.d(
                 "SettingsViewModel",
                 "setRestPeriodLength:: invalid input, this should never happen"
             )
@@ -160,7 +170,7 @@ class SettingsViewModel @Inject constructor(
                 _dialogViewState.emit(SettingsDialog.None)
             }
         } else {
-            logD(
+            hiitLogger.d(
                 "SettingsViewModel",
                 "setNumberOfWorkPeriods:: invalid input, this should never happen"
             )
@@ -208,7 +218,7 @@ class SettingsViewModel @Inject constructor(
                 _dialogViewState.emit(SettingsDialog.None)
             }
         } else {
-            logD(
+            hiitLogger.d(
                 "SettingsViewModel",
                 "setSessionStartCountDown:: invalid input, this should never happen"
             )
@@ -245,7 +255,7 @@ class SettingsViewModel @Inject constructor(
                 _dialogViewState.emit(SettingsDialog.None)
             }
         } else {
-            logD(
+            hiitLogger.d(
                 "SettingsViewModel",
                 "setPeriodStartCountDown:: invalid input, this should never happen"
             )
@@ -376,7 +386,7 @@ class SettingsViewModel @Inject constructor(
     fun validateInputUserNameString(user: User): Constants.InputError {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            if (currentViewState.users.find { it.name == user.name && it.id != user.id} != null) return Constants.InputError.VALUE_ALREADY_TAKEN
+            if (currentViewState.users.find { it.name == user.name && it.id != user.id } != null) return Constants.InputError.VALUE_ALREADY_TAKEN
         } else {
             hiitLogger.e(
                 "SettingsViewModel",

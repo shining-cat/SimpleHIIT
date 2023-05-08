@@ -19,9 +19,11 @@ import fr.shining_cat.simplehiit.domain.models.Exercise
 import fr.shining_cat.simplehiit.ui.components.GifImage
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
 
 @Composable
-fun SessionRestNominalContent(viewState: SessionViewState.RestNominal) {
+fun SessionRestNominalContent(viewState: SessionViewState.RestNominal, hiitLogger: HiitLogger? = null) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -46,7 +48,11 @@ fun SessionRestNominalContent(viewState: SessionViewState.RestNominal) {
                 modifier = Modifier.fillMaxWidth()
             )
             if (viewState.countDown != null) {
-                CountDownComponent(size = 48.dp, countDown = viewState.countDown)
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = viewState.countDown,
+                    hiitLogger = hiitLogger
+                )
             }
         }
         ExerciseDescriptionComponent(exercise = viewState.nextExercise, side = viewState.side)
@@ -96,9 +102,7 @@ private fun SessionRestNominalContentPreview(
     @PreviewParameter(SessionRestNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RestNominal
 ) {
     SimpleHiitTheme {
-        SessionRestNominalContent(
-            viewState = viewState
-        )
+        SessionRestNominalContent(viewState = viewState)
     }
 }
 
