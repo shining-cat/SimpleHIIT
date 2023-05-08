@@ -1,13 +1,16 @@
 package fr.shining_cat.simplehiit.ui.home
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.*
-import fr.shining_cat.simplehiit.ui.AbstractLoggerViewModel
+import fr.shining_cat.simplehiit.domain.usecases.GetHomeSettingsUseCase
+import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SetTotalRepetitionsNumberUseCase
+import fr.shining_cat.simplehiit.domain.usecases.ToggleUserSelectedUseCase
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,7 +27,7 @@ class HomeViewModel @Inject constructor(
     private val homeMapper: HomeMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
-) : AbstractLoggerViewModel(hiitLogger) {
+) : ViewModel() {
 
     private val _screenViewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
     val screenViewState = _screenViewState.asStateFlow()
@@ -35,11 +38,11 @@ class HomeViewModel @Inject constructor(
     private var isInitialized = false
 
     fun init(durationStringFormatter: DurationStringFormatter) {
-        if(!isInitialized) {
+        if (!isInitialized) {
             viewModelScope.launch(context = mainDispatcher) {
                 getHomeSettingsUseCase.execute().collect() {
                     _screenViewState.emit(
-                        homeMapper.map( it, durationStringFormatter)
+                        homeMapper.map(it, durationStringFormatter)
                     )
                 }
             }
@@ -48,7 +51,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun cancelDialog() {
-        logD("HomeViewModel", "cancelDialog")
+        hiitLogger.d("HomeViewModel", "cancelDialog")
         viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(HomeDialog.None)
         }
@@ -62,23 +65,29 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun validateInputNumberCycles(input: String):Constants.InputError{
+    fun validateInputNumberCycles(input: String): Constants.InputError {
         return if (input.length < 3 && input.toIntOrNull() is Int) Constants.InputError.NONE else Constants.InputError.WRONG_FORMAT
     }
 
     fun updateNumberCumulatedCycles(value: String) {
-        if(validateInputNumberCycles(value) == Constants.InputError.NONE) {
+        if (validateInputNumberCycles(value) == Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
                 setTotalRepetitionsNumberUseCase.execute(value.toInt())
                 _dialogViewState.emit(HomeDialog.None)
             }
-        } else{
-            logD("HomeViewModel", "updateNumberCumulatedCycles:: invalid input, this should never happen")
+        } else {
+            hiitLogger.d(
+                "HomeViewModel",
+                "updateNumberCumulatedCycles:: invalid input, this should never happen"
+            )
         }
     }
 
     fun toggleSelectedUser(user: User) {
-        logD("HomeViewModel","toggleSelectedUser::user:: was selected = ${user.selected}, toggling to ${!user.selected}")
+        hiitLogger.d(
+            "HomeViewModel",
+            "toggleSelectedUser::user:: was selected = ${user.selected}, toggling to ${!user.selected}"
+        )
         viewModelScope.launch(context = mainDispatcher) {
             toggleUserSelectedUseCase.execute(user.copy(selected = !user.selected))
         }

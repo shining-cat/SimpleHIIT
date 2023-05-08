@@ -31,13 +31,15 @@ import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
 fun HomeScreen(
     navController: NavController,
+    hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    viewModel.logD("HomeScreen", "INIT")
+    hiitLogger.d("HomeScreen", "INIT")
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
         hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),

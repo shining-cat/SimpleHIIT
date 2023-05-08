@@ -2,6 +2,7 @@
 
 ## Missing features / issues
 * beep sound playback for countdown is not very well synced with timer
+* SessionErrorStateContent is empty
 
 ## Code refactoring: layouts
 * Fix layouts composition:
@@ -18,7 +19,6 @@
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
 
 ## Assets production
-* countdown beep sound
 * create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
 * when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
 * refine statistics cards design and find icons for each

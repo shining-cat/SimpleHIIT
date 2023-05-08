@@ -21,9 +21,11 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseSide
 import fr.shining_cat.simplehiit.domain.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
 
 @Composable
-fun SessionFinishedContent(viewState: SessionViewState.Finished) {
+fun SessionFinishedContent(viewState: SessionViewState.Finished, hiitLogger: HiitLogger? = null) {
     LazyColumn(
         modifier = Modifier
             .padding(16.dp)
@@ -132,9 +134,7 @@ private fun SessionFinishedContentPreview(
     @PreviewParameter(SessionFinishedContentPreviewParameterProvider::class) viewState: SessionViewState.Finished
 ) {
     SimpleHiitTheme {
-        SessionFinishedContent(
-            viewState = viewState
-        )
+        SessionFinishedContent(viewState = viewState)
     }
 }
 

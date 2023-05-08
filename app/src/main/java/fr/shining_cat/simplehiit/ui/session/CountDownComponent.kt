@@ -19,15 +19,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
-fun CountDownComponent(size: Dp, countDown: CountDown) {
+fun CountDownComponent(size: Dp, countDown: CountDown, hiitLogger: HiitLogger? = null) {
+    hiitLogger?.d("CountDownComponent","INIT:${countDown.secondsDisplay}")
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(size)
     ) {
         if (countDown.playBeep) {
-            BeepPlayer(countDown)
+            BeepPlayer(countDown = countDown, hiitLogger = hiitLogger)
         }
         //this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
         CircularProgressIndicator(
@@ -56,7 +58,12 @@ fun CountDownComponent(size: Dp, countDown: CountDown) {
 }
 
 @Composable
-fun BeepPlayer(countDown: CountDown, lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current) {
+fun BeepPlayer(
+    countDown: CountDown,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+    hiitLogger: HiitLogger? = null
+) {
+    hiitLogger?.d("BeepPlayer","INIT:${countDown.secondsDisplay}")
     val player = MediaPlayer.create(LocalContext.current, R.raw.sound_beep)
     countDown.secondsDisplay.onEach {
         player.start()

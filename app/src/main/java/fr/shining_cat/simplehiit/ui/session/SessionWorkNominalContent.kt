@@ -2,12 +2,9 @@ package fr.shining_cat.simplehiit.ui.session
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -16,14 +13,14 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.domain.models.Exercise
-import fr.shining_cat.simplehiit.domain.models.ExerciseSide
 import fr.shining_cat.simplehiit.ui.components.GifImage
-import fr.shining_cat.simplehiit.ui.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
 
 @Composable
-fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal) {
+fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal, hiitLogger: HiitLogger? = null) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -41,7 +38,11 @@ fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal) {
                 mirrored = viewState.side == AsymmetricalExerciseSideOrder.SECOND.side
             )
             if (viewState.countDown != null) {
-                CountDownComponent(size = 48.dp, countDown = viewState.countDown)
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = viewState.countDown,
+                    hiitLogger = hiitLogger
+                )
             }
         }
         ExerciseDescriptionComponent(exercise = viewState.currentExercise, side = viewState.side )
@@ -90,9 +91,7 @@ private fun SessionWorkNominalContentPreview(
     @PreviewParameter(SessionWorkNominalContentPreviewParameterProvider::class) viewState: SessionViewState.WorkNominal
 ) {
     SimpleHiitTheme {
-        SessionWorkNominalContent(
-            viewState = viewState
-        )
+        SessionWorkNominalContent(viewState = viewState)
     }
 }
 
