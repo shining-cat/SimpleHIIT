@@ -30,6 +30,7 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* replace [CancellationException rethrows with coroutineContext.ensureActive](https://betterprogramming.pub/the-silent-killer-thats-crashing-your-coroutines-9171d1e8f79b)
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out remember for state in composables and implement
 * write tests on Viewmodels, maybe extract some more logic out of them
