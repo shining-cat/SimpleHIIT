@@ -12,6 +12,7 @@
 
 ## Code refactoring: architecture
 * split to modules. [See article about how to split](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23?source=rss-8f0052074f18------2)
+  * see [also this article](https://developer.android.com/topic/modularization/patterns). ![](modules_matrix.png)_Note the Matrix combining features and arch layers to get the modules in the video_
 * once split into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"

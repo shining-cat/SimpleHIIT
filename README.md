@@ -1,7 +1,7 @@
 # SimpleHIIT
 This is a simple HIIT Android App for Android TV and mobile devices
 
-![image](https://user-images.githubusercontent.com/19568399/217567163-ca5502e0-60ce-406c-8835-71e41011d023.png)
+![Features and UX description](simpleHIIT_UX_description.png)
 
 ## objectives: 
 build a single-module (probably switch to multi-module later) app following clean-architecture principles
