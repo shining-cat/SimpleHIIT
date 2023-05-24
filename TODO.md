@@ -18,7 +18,7 @@
   * apply plugin: "com.vanniktech.dependency.graph.generator"
 * split off the statistics section as a feature module to experiment with optional feature management as android module
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
-* check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions)
+* check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
 
 ## Assets production
 * create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
