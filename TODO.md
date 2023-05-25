@@ -1,7 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* beep sound playback for countdown is not very well synced with timer
+* beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency)
 * SessionErrorStateContent is empty
 
 ## Code refactoring: layouts
