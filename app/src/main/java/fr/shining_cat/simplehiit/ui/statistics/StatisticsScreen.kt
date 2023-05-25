@@ -22,6 +22,12 @@ import fr.shining_cat.simplehiit.domain.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.WarningDialog
+import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsErrorContent
+import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsFatalErrorContent
+import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsNoSessionsContent
+import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsNoUsersContent
+import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsNominalContent
+import fr.shining_cat.simplehiit.ui.statistics.dialogs.StatisticsSelectUserDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
 

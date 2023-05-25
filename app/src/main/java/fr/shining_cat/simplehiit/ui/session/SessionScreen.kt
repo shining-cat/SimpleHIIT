@@ -20,9 +20,13 @@ import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.domain.models.*
 import fr.shining_cat.simplehiit.ui.components.ChoiceDialog
+import fr.shining_cat.simplehiit.ui.session.components.SessionErrorStateContent
+import fr.shining_cat.simplehiit.ui.session.components.SessionFinishedContent
+import fr.shining_cat.simplehiit.ui.session.components.SessionPrepareContent
+import fr.shining_cat.simplehiit.ui.session.components.SessionRestNominalContent
+import fr.shining_cat.simplehiit.ui.session.components.SessionWorkNominalContent
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
-import fr.shining_cat.simplehiit.utils.HiitLoggerImpl
 
 @Composable
 fun SessionScreen(
