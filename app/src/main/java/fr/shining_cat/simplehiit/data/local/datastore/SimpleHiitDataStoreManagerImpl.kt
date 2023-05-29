@@ -114,7 +114,6 @@ class SimpleHiitDataStoreManagerImpl(
         dataStore.data.catch { exception ->
             // dataStore.data throws an IOException when an error is encountered when reading data
             hiitLogger.e("SimpleHiitDataStoreManager", "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception")
-           //TODO: should we also filter out CancellationException to avoid blocking the natural handling of cancellation by the coroutine flow
             clearAll()
             SimpleHiitPreferences()
         }.map { preferences ->

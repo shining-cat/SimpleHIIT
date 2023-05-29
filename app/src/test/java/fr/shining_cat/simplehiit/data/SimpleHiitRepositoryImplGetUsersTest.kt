@@ -176,29 +176,6 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
         collectJob.cancel()
     }
 
-    @Test
-    fun `get users rethrows CancellationException when it gets thrown`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        coEvery { mockUsersDao.getUsers() } throws mockk<CancellationException>()
-        //
-        assertThrows<CancellationException> {
-            simpleHiitRepository.getUsers()
-        }
-        //
-        coVerify(exactly = 1) { mockUsersDao.getUsers() }
-        coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
-        coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
-    }
-
 //////////////
 //   GET SELECTED USERS
 
@@ -334,29 +311,6 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
         )
         assertEquals(expectedOutput, result)
         collectJob.cancel()
-    }
-
-    @Test
-    fun `get selected users rethrows CancellationException when it gets thrown`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        coEvery { mockUsersDao.getSelectedUsers() } throws mockk<CancellationException>()
-        //
-        assertThrows<CancellationException> {
-            simpleHiitRepository.getSelectedUsers()
-        }
-        //
-        coVerify(exactly = 1) { mockUsersDao.getSelectedUsers() }
-        coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
-        coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
     }
 
     ////////////////////////

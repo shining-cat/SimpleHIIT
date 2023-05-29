@@ -15,12 +15,12 @@ import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 
 class SimpleHiitRepositoryImpl @Inject constructor(
     private val usersDao: UsersDao,
@@ -33,13 +33,12 @@ class SimpleHiitRepositoryImpl @Inject constructor(
 ) : SimpleHiitRepository {
 
     override suspend fun insertUser(user: User): Output<Long> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val insertedId = usersDao.insert(userMapper.convert(user))
                 Output.Success(result = insertedId)
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
+                this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed inserting user", exception)
                 Output.Error(
                     errorCode = Errors.DATABASE_INSERT_FAILED, exception = exception
@@ -58,8 +57,6 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                     }
                 )
             }
-        } catch (cancellationException: CancellationException) {
-            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting users", exception)
             flowOf(
@@ -69,14 +66,13 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUsersList(): Output<List<User>> {
-        return  withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 Output.Success(result = usersDao.getUsersList().map { user ->
                     userMapper.convert(user)
                 })
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
+                this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting users as List", exception)
                 Output.Error(errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception)
             }
@@ -93,8 +89,6 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                     }
                 )
             }
-        } catch (cancellationException: CancellationException) {
-            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting selected users", exception)
             flowOf(
@@ -104,7 +98,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUser(user: User): Output<Int> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val numberOfUpdates = usersDao.update(userMapper.convert(user))
                 if (numberOfUpdates == 1) {
@@ -116,9 +110,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                         exception = Exception("failed updating user")
                     )
                 }
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
+                this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed updating user", exception)
                 Output.Error(
                     errorCode = Errors.DATABASE_UPDATE_FAILED, exception = exception
@@ -131,7 +124,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
      * this will trigger deletion of sessions linked to the user thanks to the foreign-key and the cascade delete
      */
     override suspend fun deleteUser(user: User): Output<Int> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val deletedCount = usersDao.delete(userMapper.convert(user))
                 if (deletedCount == 1) {
@@ -143,9 +136,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                         exception = Exception("failed deleting user")
                     )
                 }
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
+                this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting user", exception)
                 Output.Error(errorCode = Errors.DATABASE_DELETE_FAILED, exception = exception)
             }
@@ -153,10 +145,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteAllUsers() {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             try {
                 usersDao.deleteAllUsers()
             } catch (exception: Exception) {
+                //we never wait for any result from here, so we can simply rethrow any eventual exception
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting All Users", exception)
                 throw exception
             }
@@ -171,14 +164,13 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 exception = Exception("No user provided when trying to insert session")
             )
         }
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val sessionEntities = sessionMapper.convert(sessionRecord)
                 val insertedIds = sessionRecordsDao.insert(sessionEntities)
                 Output.Success(insertedIds.size)
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
+                this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed inserting session", exception)
                 Output.Error(
                     errorCode = Errors.DATABASE_INSERT_FAILED, exception = exception
@@ -188,7 +180,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSessionRecordsForUser(user: User): Output<List<SessionRecord>> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val sessions = sessionRecordsDao.getSessionsForUser(user.id)
                 hiitLogger.d(
@@ -197,9 +189,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 )
                 val sessionsModels = sessions.map { sessionMapper.convert(it) }
                 Output.Success(sessionsModels)
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
+                this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting sessions", exception)
                 Output.Error(
                     errorCode = Errors.DATABASE_FETCH_FAILED, exception = exception
@@ -209,14 +200,17 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteSessionRecordsForUser(userId: Long): Output<Int> {
-        return withContext(ioDispatcher){
+        return withContext(ioDispatcher) {
             try {
                 val deletedCount = sessionRecordsDao.deleteForUser(userId)
                 Output.Success(result = deletedCount)
-            } catch (cancellationException: CancellationException) {
-                throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
             } catch (exception: Exception) {
-                hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting sessions for user", exception)
+                this.coroutineContext.ensureActive()
+                hiitLogger.e(
+                    "SimpleHiitRepositoryImpl",
+                    "failed deleting sessions for user",
+                    exception
+                )
                 Output.Error(errorCode = Errors.DATABASE_DELETE_FAILED, exception = exception)
             }
         }
@@ -225,8 +219,6 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override fun getPreferences(): Flow<SimpleHiitPreferences> {
         return try {
             hiitDataStoreManager.getPreferences()
-        } catch (cancellationException: CancellationException) {
-            throw cancellationException //filter out this exception to avoid blocking the natural handling of cancellation by the coroutine flow
         } catch (exception: Exception) {
             hiitLogger.e(
                 "SimpleHiitRepositoryImpl",
@@ -238,13 +230,13 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setWorkPeriodLength(durationMs: Long) {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.setWorkPeriodLength(durationMs)
         }
     }
 
     override suspend fun setRestPeriodLength(durationMs: Long) {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.setRestPeriodLength(durationMs)
         }
     }
@@ -256,13 +248,13 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setBeepSound(active: Boolean) {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.setBeepSound(active)
         }
     }
 
     override suspend fun setSessionStartCountdown(durationMs: Long) {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.setSessionStartCountdown(durationMs)
         }
     }
@@ -274,19 +266,19 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     }
 
     override suspend fun setTotalRepetitionsNumber(number: Int) {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.setNumberOfCumulatedCycles(number = number)
         }
     }
 
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
         }
     }
 
     override suspend fun resetAllSettings() {
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             hiitDataStoreManager.clearAll()
         }
     }
