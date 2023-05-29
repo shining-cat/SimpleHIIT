@@ -77,8 +77,7 @@ class StatisticsViewModel @Inject constructor(
         hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
         viewModelScope.launch(context = mainDispatcher) {
             val now = timeProvider.getCurrentTimeMillis()
-            val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)
-            when (statisticsOutput) {
+            when (val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)) {
                 is Output.Success -> {
                     _screenViewState.emit(
                         mapper.map(
@@ -123,7 +122,8 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             deleteSessionsForUserUseCase.execute(user.id)
             _dialogViewState.emit(StatisticsDialog.None)
-            //TODO: missing refresh of the screen
+            //refetch to force refresh:
+            retrieveStatsForUser(user = user)
         }
     }
 
