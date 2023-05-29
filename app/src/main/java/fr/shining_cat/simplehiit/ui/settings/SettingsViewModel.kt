@@ -23,6 +23,7 @@ import fr.shining_cat.simplehiit.domain.usecases.SetWorkPeriodLengthUseCase
 import fr.shining_cat.simplehiit.domain.usecases.UpdateUserNameUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ValidateInputPeriodStartCountdownUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ValidateInputSessionStartCountdownUseCase
+import fr.shining_cat.simplehiit.domain.usecases.ValidateInputUserNameUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ValidateNumberOfWorkPeriodsUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ValidatePeriodLengthUseCase
 import fr.shining_cat.simplehiit.utils.HiitLogger
@@ -51,6 +52,7 @@ class SettingsViewModel @Inject constructor(
     private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
     private val validateInputSessionStartCountdownUseCase: ValidateInputSessionStartCountdownUseCase,
     private val validateInputPeriodStartCountdownUseCase: ValidateInputPeriodStartCountdownUseCase,
+    private val validateInputUserNameUseCase: ValidateInputUserNameUseCase,
     private val mapper: SettingsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
@@ -110,7 +112,6 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun validatePeriodLengthInput(input: String): Constants.InputError {
-        //todo: extract to usecase:
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
             return validatePeriodLengthUseCase.execute(
@@ -382,17 +383,15 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun validateInputUserNameString(user: User): Constants.InputError {
-        //todo: extract to usecase:
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            if (currentViewState.users.find { it.name == user.name && it.id != user.id } != null) return Constants.InputError.VALUE_ALREADY_TAKEN
-        } else {
-            hiitLogger.e(
-                "SettingsViewModel",
-                "validateInputNameString::current state does not allow this now"
+            return validateInputUserNameUseCase.execute(
+                user = user,
+                existingUsers = currentViewState.users
             )
         }
-        return if (user.name.length < 25) Constants.InputError.NONE else Constants.InputError.TOO_LONG
+        //we don't really expect to be able to land in here if current state is not Nominal
+        return Constants.InputError.NONE
     }
 
     fun cancelDialog() {
