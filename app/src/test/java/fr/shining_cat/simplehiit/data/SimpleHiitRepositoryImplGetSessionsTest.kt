@@ -16,6 +16,10 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -81,7 +85,50 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     }
 
     @Test
-    fun `get sessions for user rethrows CancellationException when it gets thrown`() = runTest {
+    fun `get sessions for user throws CancellationException when job is cancelled`() =
+        runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
+            coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSessionRecord }
+            coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } coAnswers {
+                println("inserting delay in DAO call to allow for job cancellation before result is returned")
+                delay(100L)
+                listOf(
+                    SessionEntity(
+                        sessionId = 456L,
+                        timeStamp = 123L,
+                        durationMs = 234L,
+                        userId = 345L
+                    )
+                )
+            }
+            //
+            val job = Job()
+            launch(job){
+                assertThrows<CancellationException> {
+                    simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
+                }
+            }
+            delay(50L)
+            println("canceling job")
+            job.cancelAndJoin()
+            //
+            coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
+            coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }//this would happen after cancellation
+            coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
+        }
+
+
+    @Test
+    fun `get sessions for user catches rogue CancellationException`() = runTest {
         val simpleHiitRepository = SimpleHiitRepositoryImpl(
             usersDao = mockUsersDao,
             sessionRecordsDao = mockSessionRecordsDao,
@@ -92,15 +139,25 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
             ioDispatcher = UnconfinedTestDispatcher(testScheduler)
         )
         //
-        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws mockk<CancellationException>()
+        val thrownException = CancellationException()
+        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
         //
-        assertThrows<CancellationException> {
-            simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
-        }
+        val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
         //
         coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
         coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
-        coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
+        coVerify(exactly = 1) {
+            mockHiitLogger.e(
+                any(),
+                "failed getting sessions",
+                thrownException
+            )
+        }
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+            exception = thrownException
+        )
+        assertEquals(expectedOutput, actual)
     }
 
     @ParameterizedTest(name = "{index} -> when getting sessions {0} should insert {1} through DAO and return dao insert result size")

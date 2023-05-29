@@ -15,6 +15,10 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -99,7 +103,46 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
     }
 
     @Test
-    fun `get users as list rethrows CancellationException when it gets thrown`() = runTest {
+    fun `get users as list throws CancellationException when job is cancelled`() =
+        runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
+            val mappedUser = User(name = "user name test")
+            coEvery { mockUserMapper.convert(any<UserEntity>()) } returns mappedUser
+            coEvery { mockUsersDao.getUsersList() } coAnswers {
+                println("inserting delay in DAO call to allow for job cancellation before result is returned")
+                delay(100L)
+                listOf(
+                    UserEntity(userId = 123L, name = "user test name 1", selected = true)
+                )
+            }
+            //
+            val job = Job()
+            launch(job){
+                assertThrows<CancellationException> {
+                    simpleHiitRepository.getUsersList()
+                }
+            }
+            delay(50L)
+            println("canceling job")
+            job.cancelAndJoin()
+            //
+            coVerify(exactly = 1) { mockUsersDao.getUsersList() }
+            coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) } //this would happen after cancellation
+            coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
+        }
+
+
+    @Test
+    fun `get users as list catches rogue CancellationException`() = runTest {
         val simpleHiitRepository = SimpleHiitRepositoryImpl(
             usersDao = mockUsersDao,
             sessionRecordsDao = mockSessionRecordsDao,
@@ -110,17 +153,19 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
             ioDispatcher = UnconfinedTestDispatcher(testScheduler)
         )
         //
-        coEvery { mockUsersDao.getUsersList() } throws mockk<CancellationException>()
+        val thrownException = CancellationException()
+        coEvery { mockUsersDao.getUsersList() } throws thrownException
         //
-        assertThrows<CancellationException> {
-            simpleHiitRepository.getUsersList()
-        }
+        val actual = simpleHiitRepository.getUsersList()
         //
         coVerify(exactly = 1) { mockUsersDao.getUsersList() }
         coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
-        coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
+        coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed getting users as List", thrownException) }
+        assertTrue(actual is Output.Error)
+        actual as Output.Error
+        assertEquals(Constants.Errors.DATABASE_FETCH_FAILED, actual.errorCode)
+        assertEquals(thrownException, actual.exception)
     }
-
 
 ////////////////////////
 

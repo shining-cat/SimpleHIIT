@@ -322,28 +322,6 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
         collectJob.cancel()
     }
 
-    @Test
-    fun `getGeneralSettings rethrows CancellationException when it gets thrown by datastore`() =
-        runTest {
-            val simpleHiitRepository = SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
-                sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
-                sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                hiitLogger = mockHiitLogger,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
-            //
-            coEvery { mockSimpleHiitDataStoreManager.getPreferences() } throws mockk<CancellationException>()
-            //
-            assertThrows<CancellationException> {
-                simpleHiitRepository.getPreferences()
-            }
-            coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.getPreferences() }
-            coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
-        }
-
 //////////////////
 
     @Test
