@@ -1,7 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency)
+* beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency) [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
 * SessionErrorStateContent is empty
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
 
