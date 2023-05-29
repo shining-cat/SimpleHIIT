@@ -15,6 +15,11 @@ import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import coil.size.Size
 
+/**
+ * This will load and display a DrawableRes as a Gif, and play it in loop
+ * @param gifResId: the gif resource pointer
+ * @param mirrored: whether to reverse the display along the left-right middle axis
+ */
 @Composable
 fun GifImage(
     modifier: Modifier = Modifier,

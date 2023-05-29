@@ -1,10 +1,14 @@
-package fr.shining_cat.simplehiit.ui.session.components
+package fr.shining_cat.simplehiit.ui.session.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -17,26 +21,36 @@ import fr.shining_cat.simplehiit.ui.components.GifImage
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.ui.session.SessionViewState
+import fr.shining_cat.simplehiit.ui.session.components.CountDownComponent
+import fr.shining_cat.simplehiit.ui.session.components.ExerciseDescriptionComponent
+import fr.shining_cat.simplehiit.ui.session.components.RemainingPercentageComponent
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
-fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal, hiitLogger: HiitLogger? = null) {
+fun SessionRestNominalContent(viewState: SessionViewState.RestNominal, hiitLogger: HiitLogger? = null) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        val exerciseGifResMapper = ExerciseGifMapper()
-        val exerciseGifRes = exerciseGifResMapper.map(viewState.currentExercise)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 24.dp)
         ) {
+            val exerciseGifResMapper = ExerciseGifMapper()
+            val exerciseGifRes = exerciseGifResMapper.map(viewState.nextExercise)
             GifImage(
                 gifResId = exerciseGifRes,
                 mirrored = viewState.side == AsymmetricalExerciseSideOrder.SECOND.side
+            )
+            Text(
+                text = stringResource(id = R.string.coming_next),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary,
+                modifier = Modifier.fillMaxWidth()
             )
             if (viewState.countDown != null) {
                 CountDownComponent(
@@ -46,14 +60,14 @@ fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal, hiitLogge
                 )
             }
         }
-        ExerciseDescriptionComponent(exercise = viewState.currentExercise, side = viewState.side )
+        ExerciseDescriptionComponent(exercise = viewState.nextExercise, side = viewState.side)
         Spacer(modifier = Modifier.weight(1f))
         RemainingPercentageComponent(
             modifier = Modifier
                 .padding(horizontal = 64.dp)
                 .height(100.dp),
-            label = stringResource(id = R.string.exercise_remaining_in_s, viewState.exerciseRemainingTime),
-            percentage = viewState.exerciseRemainingPercentage,
+            label = stringResource(id = R.string.rest_remaining_in_s, viewState.restRemainingTime),
+            percentage = viewState.restRemainingPercentage,
             thickness = 16.dp,
             bicolor = false
         )
@@ -74,46 +88,45 @@ fun SessionWorkNominalContent(viewState: SessionViewState.WorkNominal, hiitLogge
     }
 }
 
+
 // Previews
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun SessionWorkNominalContentPreview(
-    @PreviewParameter(SessionWorkNominalContentPreviewParameterProvider::class) viewState: SessionViewState.WorkNominal
+private fun SessionRestNominalContentPreview(
+    @PreviewParameter(SessionRestNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RestNominal
 ) {
     SimpleHiitTheme {
-        SessionWorkNominalContent(viewState = viewState)
+        Surface{
+            SessionRestNominalContent(viewState = viewState)
+        }
     }
 }
 
-internal class SessionWorkNominalContentPreviewParameterProvider :
-    PreviewParameterProvider<SessionViewState.WorkNominal> {
-    override val values: Sequence<SessionViewState.WorkNominal>
+internal class SessionRestNominalContentPreviewParameterProvider :
+    PreviewParameterProvider<SessionViewState.RestNominal> {
+    override val values: Sequence<SessionViewState.RestNominal>
         get() = sequenceOf(
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.LungesSideToCurtsy,
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.LungesSideToCurtsy,
                 side = AsymmetricalExerciseSideOrder.SECOND.side,
-                exerciseRemainingTime = "25s",
-                exerciseRemainingPercentage = .2f,
+                restRemainingTime = "25s",
+                restRemainingPercentage = .2f,
                 sessionRemainingTime = "3mn 25s",
                 sessionRemainingPercentage = .75f,
                 countDown = null
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.LungesSideToCurtsy,
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.LungesSideToCurtsy,
                 side = AsymmetricalExerciseSideOrder.SECOND.side,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .02f,
+                restRemainingTime = "3s",
+                restRemainingPercentage = .02f,
                 sessionRemainingTime = "3mn 3s",
                 sessionRemainingPercentage = .745f,
                 countDown = CountDown(

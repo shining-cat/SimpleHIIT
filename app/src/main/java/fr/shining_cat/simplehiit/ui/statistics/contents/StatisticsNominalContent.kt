@@ -138,14 +138,10 @@ private fun StatisticCardComponent(statistic: DisplayedStatistic) {
 // Previews
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -153,11 +149,13 @@ private fun StatisticsContentNominalPreview(
     @PreviewParameter(StatisticsContentNominalPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
     SimpleHiitTheme {
-        StatisticsNominalContent(
-            deleteAllSessionsForUser = {},
-            viewState = viewState,
-            hiitLogger = null
-        )
+        Surface{
+            StatisticsNominalContent(
+                deleteAllSessionsForUser = {},
+                viewState = viewState,
+                hiitLogger = null
+            )
+        }
     }
 }
 

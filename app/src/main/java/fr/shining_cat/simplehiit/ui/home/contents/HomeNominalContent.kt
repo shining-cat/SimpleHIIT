@@ -10,6 +10,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -79,22 +80,30 @@ fun HomeNominalContent(
 }
 
 // Previews
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun HomeNominalContentPreview() {
     SimpleHiitTheme {
-        HomeNominalContent(
-            openInputNumberCycles = {},
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            users = listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User 2", selected = false),
-                User(345L, "User 3", selected = true)
-            ),
-            toggleSelectedUser = {},
-            navigateToSession = {}
-        )
+        Surface{
+            HomeNominalContent(
+                openInputNumberCycles = {},
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                users = listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                    User(345L, "User 3", selected = true)
+                ),
+                toggleSelectedUser = {},
+                navigateToSession = {}
+            )
+        }
     }
 }

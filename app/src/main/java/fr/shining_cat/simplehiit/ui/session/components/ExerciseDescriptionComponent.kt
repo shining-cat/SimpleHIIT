@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -50,27 +51,25 @@ fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
 // Previews
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun CountDownCircularProgressPreview() {
     SimpleHiitTheme {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            ExerciseDescriptionComponent(Exercise.LungesBackKick, ExerciseSide.NONE)
-            ExerciseDescriptionComponent(Exercise.CrabKicks, AsymmetricalExerciseSideOrder.FIRST.side)
-            ExerciseDescriptionComponent(Exercise.CrabKicks, AsymmetricalExerciseSideOrder.SECOND.side)
+        Surface{
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ExerciseDescriptionComponent(Exercise.LungesBackKick, ExerciseSide.NONE)
+                ExerciseDescriptionComponent(Exercise.CrabKicks, AsymmetricalExerciseSideOrder.FIRST.side)
+                ExerciseDescriptionComponent(Exercise.CrabKicks, AsymmetricalExerciseSideOrder.SECOND.side)
+            }
         }
     }
 }

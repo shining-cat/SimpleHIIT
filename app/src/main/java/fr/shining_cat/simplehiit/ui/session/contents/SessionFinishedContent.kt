@@ -1,16 +1,16 @@
-package fr.shining_cat.simplehiit.ui.session.components
+package fr.shining_cat.simplehiit.ui.session.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -39,7 +39,8 @@ fun SessionFinishedContent(viewState: SessionViewState.Finished, hiitLogger: Hii
         val exerciseNameResMapper = ExerciseDisplayNameMapper()
         items(viewState.workingStepsDone.size) {
             val step = viewState.workingStepsDone[it]
-            val exerciseNameRes = exerciseNameResMapper.map(step.exercise) // todo: we also want to add the side to the display
+            val exerciseNameRes =
+                exerciseNameResMapper.map(step.exercise) // todo: we also want to add the side to the display
             SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
         }
     }
@@ -95,17 +96,18 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
 
 @Composable
 fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: ExerciseSide) {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 4.dp, horizontal = 16.dp)
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 16.dp)
     ) {
         var displayText = stringResource(id = exerciseDoneRes)
-        val displaySideRes = when(side){
+        val displaySideRes = when (side) {
             ExerciseSide.NONE -> null
             ExerciseSide.LEFT -> R.string.exercise_side_left
             ExerciseSide.RIGHT -> R.string.exercise_side_right
         }
-        if(displaySideRes != null) {
+        if (displaySideRes != null) {
             displayText += " - " + stringResource(id = displaySideRes)
         }
         Text(
@@ -119,14 +121,10 @@ fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: Exercis
 // Previews
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -134,7 +132,9 @@ private fun SessionFinishedContentPreview(
     @PreviewParameter(SessionFinishedContentPreviewParameterProvider::class) viewState: SessionViewState.Finished
 ) {
     SimpleHiitTheme {
-        SessionFinishedContent(viewState = viewState)
+        Surface {
+            SessionFinishedContent(viewState = viewState)
+        }
     }
 }
 

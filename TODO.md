@@ -1,8 +1,10 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* back navigation on session summary sreen opens same pause dialog as running session. should exit like "up" nav button
 * beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency)
 * SessionErrorStateContent is empty
+* replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
 
 ## Code refactoring: layouts
 * Fix layouts composition:

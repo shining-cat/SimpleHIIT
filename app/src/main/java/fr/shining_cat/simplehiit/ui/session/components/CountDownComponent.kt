@@ -2,9 +2,14 @@ package fr.shining_cat.simplehiit.ui.session.components
 
 import android.content.res.Configuration
 import android.media.MediaPlayer
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -24,7 +29,7 @@ import fr.shining_cat.simplehiit.utils.HiitLogger
 
 @Composable
 fun CountDownComponent(size: Dp, countDown: CountDown, hiitLogger: HiitLogger? = null) {
-    hiitLogger?.d("CountDownComponent","INIT:${countDown.secondsDisplay}")
+    hiitLogger?.d("CountDownComponent", "INIT:${countDown.secondsDisplay}")
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(size)
@@ -64,7 +69,7 @@ fun BeepPlayer(
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
     hiitLogger: HiitLogger? = null
 ) {
-    hiitLogger?.d("BeepPlayer","INIT:${countDown.secondsDisplay}")
+    hiitLogger?.d("BeepPlayer", "INIT:${countDown.secondsDisplay}")
     val player = MediaPlayer.create(LocalContext.current, R.raw.sound_beep)
     countDown.secondsDisplay.onEach {
         player.start()
@@ -77,58 +82,57 @@ fun BeepPlayer(
 }
 
 // Previews
+//TODO: Preview seems broken
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun CountDownCircularProgressPreview() {
     SimpleHiitTheme {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly
-        ) {
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "35", progress = 1f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "21", progress = .9f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "17", progress = .7f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "9", progress = .5f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "4", progress = .3f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "3", progress = .2f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true)
-            )
-            CountDownComponent(
-                size = 48.dp,
-                countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true)
-            )
+        Surface{
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceEvenly
+            ) {
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "35", progress = 1f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "21", progress = .9f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "17", progress = .7f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "9", progress = .5f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "4", progress = .3f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "3", progress = .2f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true)
+                )
+                CountDownComponent(
+                    size = 48.dp,
+                    countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true)
+                )
+            }
         }
     }
 }
