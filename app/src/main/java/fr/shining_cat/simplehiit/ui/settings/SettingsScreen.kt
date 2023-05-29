@@ -26,6 +26,14 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.User
 import fr.shining_cat.simplehiit.ui.components.ErrorDialog
 import fr.shining_cat.simplehiit.ui.components.WarningDialog
+import fr.shining_cat.simplehiit.ui.settings.contents.SettingsErrorContent
+import fr.shining_cat.simplehiit.ui.settings.contents.SettingsNominalContent
+import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsAddUserDialog
+import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditNumberCyclesDialog
+import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditPeriodLengthDialog
+import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditPeriodStartCountDownDialog
+import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
+import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditUserDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.utils.HiitLogger
 
@@ -248,16 +256,18 @@ fun SettingsContent(
         when (dialogViewState) {
             SettingsDialog.None -> {/*do nothing*/
             }
-            is SettingsDialog.EditWorkPeriodLength -> SettingsEditWorkPeriodLengthDialog(
-                saveWorkPeriodLength = saveWorkPeriodLength,
-                validateWorkPeriodLengthInput = validatePeriodLengthInput,
-                workPeriodLengthSeconds = dialogViewState.valueSeconds,
+            is SettingsDialog.EditWorkPeriodLength -> SettingsEditPeriodLengthDialog(
+                dialogTitle = stringResource(id = R.string.work_period_length_label),
+                savePeriodLength = saveWorkPeriodLength,
+                validatePeriodLengthInput = validatePeriodLengthInput,
+                periodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-            is SettingsDialog.EditRestPeriodLength -> SettingsEditRestPeriodLengthDialog(
-                saveRestPeriodLength = saveRestPeriodLength,
-                validateRestPeriodLengthInput = validatePeriodLengthInput,
-                restPeriodLengthSeconds = dialogViewState.valueSeconds,
+            is SettingsDialog.EditRestPeriodLength -> SettingsEditPeriodLengthDialog(
+                dialogTitle = stringResource(id = R.string.rest_period_length_label),
+                savePeriodLength = saveRestPeriodLength,
+                validatePeriodLengthInput = validatePeriodLengthInput,
+                periodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
             is SettingsDialog.EditNumberCycles -> SettingsEditNumberCyclesDialog(

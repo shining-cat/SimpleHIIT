@@ -1,8 +1,9 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* beep sound playback for countdown is not very well synced with timer
+* beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency)
 * SessionErrorStateContent is empty
+* replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
 
 ## Code refactoring: layouts
 * Fix layouts composition:
@@ -12,11 +13,13 @@
 
 ## Code refactoring: architecture
 * split to modules. [See article about how to split](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23?source=rss-8f0052074f18------2)
+  * see [also this article](https://developer.android.com/topic/modularization/patterns). ![](modules_matrix.png)_Note the Matrix combining features and arch layers to get the modules in the video_
 * once split into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
 * split off the statistics section as a feature module to experiment with optional feature management as android module
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
+* check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
 
 ## Assets production
 * create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
@@ -30,6 +33,7 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* replace [CancellationException rethrows with coroutineContext.ensureActive](https://betterprogramming.pub/the-silent-killer-thats-crashing-your-coroutines-9171d1e8f79b)
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out remember for state in composables and implement
 * write tests on Viewmodels, maybe extract some more logic out of them
