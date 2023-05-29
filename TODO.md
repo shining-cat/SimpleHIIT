@@ -4,6 +4,9 @@
 * beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency) [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
 * SessionErrorStateContent is empty
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
+* design for statistics needs some love
+* design for session summary needs some love
+* create a About section, in which to add credits for PoseMy.Art
 
 ## Code refactoring: layouts
 * Fix layouts composition:
@@ -17,14 +20,12 @@
 * once split into modules, add inter-modules dependencies graph generator plugin:
   * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
   * apply plugin: "com.vanniktech.dependency.graph.generator"
-* split off the statistics section as a feature module to experiment with optional feature management as android module
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
 * check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
+* wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
 
 ## Assets production
-* create GIFs for exercises with https://app.posemy.art/ (start by listing all the ones we have, then compose steps, probably 2 per exercises and export, then make gifs from that with Photoshop) _remember that exercises from the same family might often use the same base position_
-* when making pictures for GIFS, insert watermark "@SimpleHIIT by Shining-cat" on body for each one
-* refine statistics cards design and find icons for each
+* refine statistics cards design and find/create icons for each
   * longest streak: icon of a cup and a calendar showing checked days
   * current streak: icon of a calendar showing checked days - IF current streak == longest, switch to same icon as longest streak to make it more clear
   * average session length: icon of the app above a clock
@@ -33,10 +34,10 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
-* replace [CancellationException rethrows with coroutineContext.ensureActive](https://betterprogramming.pub/the-silent-killer-thats-crashing-your-coroutines-9171d1e8f79b)
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
-* check out remember for state in composables and implement
-* write tests on Viewmodels, maybe extract some more logic out of them
+* check out `remember` for state in composables and implement
+* extract all that can still be from `viewmodels` to usecases
+* write tests on `Viewmodels`
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
@@ -56,6 +57,5 @@
 ## Discuss with others
 * How to handle building the different app form factors, maybe[ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 * See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
-* discuss filtering out CancellationException: how relevant is it to do it multiple times in a flow of data
 
 

@@ -44,9 +44,11 @@ fun GifImage(
     }
     Image(
         painter = rememberAsyncImagePainter(
-            ImageRequest.Builder(context).data(data = gifResId).apply(block = {
-                size(Size.ORIGINAL)
-            }).build(), imageLoader = imageLoader
+            model = ImageRequest.Builder(context)
+                .data(data = gifResId)
+                .apply(block = {size(Size.ORIGINAL)})
+                .build(),
+            imageLoader = imageLoader
         ),
         contentDescription = null,
         modifier = imageModifier.fillMaxWidth(),

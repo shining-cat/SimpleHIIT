@@ -15,6 +15,10 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -75,7 +79,7 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
     }
 
     @Test
-    fun `delete user rethrows CancellationException when usersDao delete throws CancellationException`() =
+    fun `delete user throws CancellationException when job is cancelled`() =
         runTest {
             val simpleHiitRepository = SimpleHiitRepositoryImpl(
                 usersDao = mockUsersDao,
@@ -88,15 +92,55 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
             )
             //
             coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
-            coEvery { mockUsersDao.delete(any()) } throws mockk<CancellationException>()
-            //
-            assertThrows<CancellationException> {
-                simpleHiitRepository.deleteUser(testUserModel)
+            coEvery { mockUsersDao.delete(any()) } coAnswers {
+                println("inserting delay in DAO call to allow for job cancellation before result is returned")
+                delay(100L)
+                2
             }
+            //
+            val job = Job()
+            launch(job){
+                assertThrows<CancellationException> {
+                    simpleHiitRepository.deleteUser(testUserModel)
+                }
+            }
+            delay(50L)
+            println("canceling job")
+            job.cancelAndJoin()
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
             coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
             coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
+        }
+
+
+    @Test
+    fun `delete user catches rogue CancellationException`() =
+        runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
+            coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
+            val thrownException = CancellationException()
+            coEvery { mockUsersDao.delete(any()) } throws thrownException
+            //
+            val actual = simpleHiitRepository.deleteUser(testUserModel)
+            //
+            coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
+            coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
+            coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
+            val expectedOutput = Output.Error(
+                errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                exception = thrownException
+            )
+            assertEquals(expectedOutput, actual)
         }
 
     @ParameterizedTest(name = "{index} -> when DAO update user returns {0} should return error")

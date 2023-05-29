@@ -17,6 +17,10 @@ import io.mockk.mockk
 import io.mockk.slot
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -80,7 +84,49 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     }
 
     @Test
-    fun `insert session rethrows CancellationException when it gets thrown`() = runTest {
+    fun `insert session throws CancellationException when job is cancelled`() =
+        runTest {
+            val simpleHiitRepository = SimpleHiitRepositoryImpl(
+                usersDao = mockUsersDao,
+                sessionRecordsDao = mockSessionRecordsDao,
+                userMapper = mockUserMapper,
+                sessionMapper = mockSessionMapper,
+                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                hiitLogger = mockHiitLogger,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
+            )
+            //
+            coEvery { mockSessionMapper.convert(any<SessionRecord>()) } answers {
+                listOf(SessionEntity(
+                    sessionId = 456L,
+                    timeStamp = 123L,
+                    durationMs = 234L,
+                    userId = 345L
+            )) }
+            coEvery { mockSessionRecordsDao.insert(any()) } coAnswers {
+                println("inserting delay in DAO call to allow for job cancellation before result is returned")
+                delay(100L)
+                listOf(321L)
+            }
+            //
+            val job = Job()
+            launch(job){
+                assertThrows<CancellationException> {
+                    simpleHiitRepository.insertSessionRecord(testSessionRecord)
+                }
+            }
+            delay(50L)
+            println("canceling job")
+            job.cancelAndJoin()
+            //
+            coVerify(exactly = 1) { mockSessionMapper.convert(testSessionRecord) }
+            val entityListSlot = slot<List<SessionEntity>>()
+            coVerify(exactly = 1) { mockSessionRecordsDao.insert(capture(entityListSlot)) }
+            coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
+        }
+
+    @Test
+    fun `insert session catches rogue CancellationException`() =runTest {
         val simpleHiitRepository = SimpleHiitRepositoryImpl(
             usersDao = mockUsersDao,
             sessionRecordsDao = mockSessionRecordsDao,
@@ -92,16 +138,19 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         )
         //
         coEvery { mockSessionMapper.convert(any<SessionRecord>()) } answers { listOf(testSessionEntity) }
-        val thrownException = mockk<CancellationException>()
+        val thrownException = CancellationException()
         coEvery { mockSessionRecordsDao.insert(any()) } throws thrownException
         //
-        assertThrows<CancellationException> {
-            simpleHiitRepository.insertSessionRecord(testSessionRecord)
-        }
+        val actual = simpleHiitRepository.insertSessionRecord(testSessionRecord)
         //
         coVerify(exactly = 1) { mockSessionMapper.convert(testSessionRecord) }
         coVerify(exactly = 1) { mockSessionRecordsDao.insert(listOf(testSessionEntity)) }
-        coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), thrownException) }
+        coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+            exception = thrownException
+        )
+        assertEquals(expectedOutput, actual)
     }
 
     @Test
