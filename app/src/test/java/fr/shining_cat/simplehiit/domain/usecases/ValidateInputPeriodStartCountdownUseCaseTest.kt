@@ -2,7 +2,6 @@ package fr.shining_cat.simplehiit.domain.usecases
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.domain.Constants
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -10,17 +9,22 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-@OptIn(ExperimentalCoroutinesApi::class)
-internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
+internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest() {
 
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         input: String,
+        workPeriodLengthSeconds: Long,
+        restPeriodLengthSeconds: Long,
         expectedOutput: Constants.InputError
     ) = runTest {
-        val testedUseCase = ValidateInputNumberCyclesUseCase(hiitLogger = mockHiitLogger)
-        val result = testedUseCase.execute(input)
+        val testedUseCase = ValidateInputPeriodStartCountdownUseCase(hiitLogger = mockHiitLogger)
+        val result = testedUseCase.execute(
+            input = input,
+            workPeriodLengthSeconds = workPeriodLengthSeconds,
+            restPeriodLengthSeconds = restPeriodLengthSeconds
+        )
         //
         assertEquals(expectedOutput, result)
     }
@@ -30,10 +34,10 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
         @JvmStatic
         fun numberCyclesTestArguments() =
             Stream.of(
-                Arguments.of("3", Constants.InputError.NONE),
-                Arguments.of("369", Constants.InputError.WRONG_FORMAT),
-                Arguments.of("36945", Constants.InputError.WRONG_FORMAT),
-                Arguments.of("three", Constants.InputError.WRONG_FORMAT),
+                Arguments.of("three", 20L, 10L, Constants.InputError.WRONG_FORMAT),
+                Arguments.of("3", 20L, 10L, Constants.InputError.NONE),
+                Arguments.of("15", 20L, 10L, Constants.InputError.VALUE_TOO_BIG),
+                Arguments.of("25", 20L, 10L, Constants.InputError.VALUE_TOO_BIG),
             )
     }
 }

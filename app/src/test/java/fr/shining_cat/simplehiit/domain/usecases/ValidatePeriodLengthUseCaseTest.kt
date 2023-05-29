@@ -11,16 +11,17 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
+internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
 
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         input: String,
+        periodCountDownLengthSeconds: Long,
         expectedOutput: Constants.InputError
     ) = runTest {
-        val testedUseCase = ValidateInputNumberCyclesUseCase(hiitLogger = mockHiitLogger)
-        val result = testedUseCase.execute(input)
+        val testedUseCase = ValidatePeriodLengthUseCase(hiitLogger = mockHiitLogger)
+        val result = testedUseCase.execute(input, periodCountDownLengthSeconds)
         //
         assertEquals(expectedOutput, result)
     }
@@ -30,10 +31,10 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
         @JvmStatic
         fun numberCyclesTestArguments() =
             Stream.of(
-                Arguments.of("3", Constants.InputError.NONE),
-                Arguments.of("369", Constants.InputError.WRONG_FORMAT),
-                Arguments.of("36945", Constants.InputError.WRONG_FORMAT),
-                Arguments.of("three", Constants.InputError.WRONG_FORMAT),
+                Arguments.of("three", 123L, Constants.InputError.WRONG_FORMAT),
+                Arguments.of("10", 5L, Constants.InputError.NONE),
+                Arguments.of("5", 5L, Constants.InputError.NONE),
+                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL),
             )
     }
 }
