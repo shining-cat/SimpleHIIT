@@ -1,8 +1,12 @@
 package fr.shining_cat.simplehiit.ui.statistics
 
-import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.domain.models.*
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.commondomain.models.UserStatistics
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -25,7 +29,12 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
 
     @BeforeEach
     fun setUpMock() {
-        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any()) } returns mockDurationString
+        coEvery {
+            mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                any(),
+                any()
+            )
+        } returns mockDurationString
     }
 
     @ParameterizedTest(name = "{index} -> should return {0}")
@@ -53,6 +62,7 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
         }
         assertEquals(expectedOutput, result)
     }
+
     @Test
     fun `mapping statistics to correct viewstate when user has no sessions`() {
         val input = UserStatistics(user = User(name = "test user name 4"))
@@ -86,11 +96,20 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         user = User(name = "test user name 1"),
                         listOf(
                             DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic(mockDurationString, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME
+                            ),
                             DisplayedStatistic("456", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("678", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic(mockDurationString, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                            DisplayedStatistic("1.7", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+                            ),
+                            DisplayedStatistic(
+                                "1.7",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+                            )
                         )
                     )
                 ),
@@ -108,11 +127,20 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         user = User(name = "test user name 2"),
                         listOf(
                             DisplayedStatistic("9", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic(mockDurationString, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME
+                            ),
                             DisplayedStatistic("654", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("321", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic(mockDurationString, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                            DisplayedStatistic("6.4", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+                            ),
+                            DisplayedStatistic(
+                                "6.4",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+                            )
                         )
                     )
                 ),
@@ -130,11 +158,20 @@ internal class StatisticsMapperTest : AbstractMockkTest() {
                         user = User(name = "test user name 3"),
                         listOf(
                             DisplayedStatistic("157", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic(mockDurationString, DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME
+                            ),
                             DisplayedStatistic("876", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("958", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic(mockDurationString, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                            DisplayedStatistic("14.3", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+                            ),
+                            DisplayedStatistic(
+                                "14.3",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+                            )
                         )
                     )
                 )

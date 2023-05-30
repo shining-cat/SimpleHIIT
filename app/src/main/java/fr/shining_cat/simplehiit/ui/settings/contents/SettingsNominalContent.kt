@@ -20,9 +20,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.components.ToggleButton
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme

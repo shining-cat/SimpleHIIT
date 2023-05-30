@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.ui.home
 
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.models.User
 
 sealed class HomeViewState{
     object Loading:HomeViewState()

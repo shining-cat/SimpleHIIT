@@ -3,22 +3,22 @@ package fr.shining_cat.simplehiit.ui.session
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.Output
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.Session
+import fr.shining_cat.simplehiit.commondomain.models.SessionRecord
+import fr.shining_cat.simplehiit.commondomain.models.SessionStep
+import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.commondomain.models.StepTimerState
+import fr.shining_cat.simplehiit.commondomain.usecases.BuildSessionUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.GetSessionSettingsUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.InsertSessionUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.StepTimerUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.TimeProvider
 import fr.shining_cat.simplehiit.di.MainDispatcher
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.Session
-import fr.shining_cat.simplehiit.domain.models.SessionRecord
-import fr.shining_cat.simplehiit.domain.models.SessionStep
-import fr.shining_cat.simplehiit.domain.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.domain.models.StepTimerState
-import fr.shining_cat.simplehiit.domain.usecases.BuildSessionUseCase
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.domain.usecases.GetSessionSettingsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.InsertSessionUseCase
-import fr.shining_cat.simplehiit.domain.usecases.StepTimerUseCase
-import fr.shining_cat.simplehiit.utils.HiitLogger
-import fr.shining_cat.simplehiit.utils.TimeProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,7 +67,7 @@ class SessionViewModel @Inject constructor(
 
     private fun setupTicker() {
         viewModelScope.launch(context = mainDispatcher) {
-            stepTimerUseCase.timerStateFlow.collect() { stepTimerState ->
+            stepTimerUseCase.timerStateFlow.collect { stepTimerState ->
                 if (stepTimerState != StepTimerState()) { //excluding first emission with default value
                     tick(stepTimerState)
                 }
@@ -77,7 +77,7 @@ class SessionViewModel @Inject constructor(
 
     private fun retrieveSettingsAndProceed() {
         viewModelScope.launch(context = mainDispatcher) {
-            getSessionSettingsUseCase.execute().collect() { sessionSettingsOutput ->
+            getSessionSettingsUseCase.execute().collect { sessionSettingsOutput ->
                 when (sessionSettingsOutput) {
                     is Output.Error -> {
                         hiitLogger.e(
@@ -163,10 +163,6 @@ class SessionViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun playBeep() {
-
     }
 
     private fun emitSessionEndState() {

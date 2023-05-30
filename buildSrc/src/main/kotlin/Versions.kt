@@ -19,4 +19,5 @@ object Versions {
     const val benManesDependenciesVersionPlugin = "0.46.0"
     const val composeBom = "2023.03.00"
     const val activityCompose = "1.7.0"
+    const val vanniktechInterModulesDependenciesGraphGenerator = "0.8.0"
 }

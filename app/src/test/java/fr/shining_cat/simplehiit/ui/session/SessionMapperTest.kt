@@ -1,8 +1,15 @@
 package fr.shining_cat.simplehiit.ui.session
 
-import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.domain.models.*
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commondomain.models.AsymmetricalExerciseSideOrder
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.Exercise
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
+import fr.shining_cat.simplehiit.commondomain.models.Session
+import fr.shining_cat.simplehiit.commondomain.models.SessionStep
+import fr.shining_cat.simplehiit.commondomain.models.StepTimerState
+import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import fr.shining_cat.simplehiit.ui.session.SessionViewState.InitialCountDownSession
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -238,7 +245,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
                             totalMilliSeconds = 10
                         )
                     ),
-                    SessionViewState.Error(errorCode="0501 - The countdown length is shorter than the prepare step?")
+                    SessionViewState.Error(errorCode = "0501 - The countdown length is shorter than the prepare step?")
                 ),
                 //normal ongoing prepare step
                 Arguments.of(

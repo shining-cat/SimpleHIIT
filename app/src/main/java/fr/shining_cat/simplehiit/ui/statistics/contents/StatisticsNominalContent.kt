@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -19,12 +18,12 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.models.DisplayStatisticType
-import fr.shining_cat.simplehiit.domain.models.DisplayedStatistic
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun StatisticsNominalContent(

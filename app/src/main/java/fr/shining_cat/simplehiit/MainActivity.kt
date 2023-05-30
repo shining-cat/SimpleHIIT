@@ -10,7 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import javax.inject.Inject
 
 @AndroidEntryPoint

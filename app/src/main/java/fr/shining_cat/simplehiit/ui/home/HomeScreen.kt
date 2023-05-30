@@ -26,16 +26,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.Screen
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.home.contents.HomeErrorContent
 import fr.shining_cat.simplehiit.ui.home.dialogs.HomeInputNumberCyclesDialog
 import fr.shining_cat.simplehiit.ui.home.contents.HomeMissingUsersContent
 import fr.shining_cat.simplehiit.ui.home.contents.HomeNominalContent
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun HomeScreen(
@@ -78,7 +78,7 @@ private fun HomeScreen(
     onResetWholeAppDeleteEverything: () -> Unit = {},
     openInputNumberCycles: (Int) -> Unit = {},
     saveInputNumberCycles: (String) -> Unit = {},
-    validateInputNumberCycles: (String) -> Constants.InputError,
+    validateInputNumberCycles: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     toggleSelectedUser: (User) -> Unit = {},
     cancelDialog: () -> Unit = {},
     viewState: HomeViewState,
@@ -160,7 +160,7 @@ private fun HomeContent(
     resetWholeAppDeleteEverything: () -> Unit,
     openInputNumberCycles: (Int) -> Unit,
     saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> Constants.InputError,
+    validateInputNumberCycles: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     toggleSelectedUser: (User) -> Unit,
     cancelDialog: () -> Unit,
     screenViewState: HomeViewState,
@@ -244,7 +244,7 @@ private fun HomeScreenPreview(
 ) {
     SimpleHiitTheme {
         HomeScreen(
-            validateInputNumberCycles = { Constants.InputError.NONE },
+            validateInputNumberCycles = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
             viewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
         )

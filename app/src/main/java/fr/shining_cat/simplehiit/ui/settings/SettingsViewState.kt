@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.ui.settings
 
-import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.commondomain.models.User
 
 sealed class SettingsViewState {
     object Loading : SettingsViewState()

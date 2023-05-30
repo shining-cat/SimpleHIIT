@@ -47,13 +47,13 @@ android {
         kotlinCompilerExtensionVersion = "1.4.4"
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 
 }
@@ -97,11 +97,6 @@ dependencies {
     implementation(ComposeDeps.composeViewModels)
     implementation(ComposeDeps.composeLiveData)
     //
-    implementation(RoomDeps.roomRuntime)
-    kapt(RoomDeps.roomKaptCompiler)
-    implementation(RoomDeps.roomCoroutinesExtensions)
-    testImplementation(RoomDeps.roomTestHelpers)
-    //
     implementation(Navigation.navCompose)
     implementation(Navigation.navFragments)
     implementation(Navigation.navUi)
@@ -112,9 +107,14 @@ dependencies {
     //
     implementation(Deps.coil)
     implementation(Deps.coilGif)
+    //
+    implementation(project(":commonDomain"))
+    implementation(project(":commonUtils"))
+    testImplementation(project(":testUtils"))
+    implementation(project(":data"))
 }
 
- //Allow references to generated code
+//Allow references to generated code
 kapt {
     correctErrorTypes = true
 }
