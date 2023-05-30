@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.data
+package fr.shining_cat.simplehiit.data.repositories
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
@@ -11,7 +11,6 @@ import fr.shining_cat.simplehiit.domain.models.ExerciseType.*
 import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.models.SimpleHiitPreferences
 import io.mockk.*
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.toList
@@ -20,7 +19,6 @@ import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.random.Random

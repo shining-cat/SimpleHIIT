@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.data
+package fr.shining_cat.simplehiit.data.repositories
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
@@ -7,6 +7,7 @@ import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
+import fr.shining_cat.simplehiit.data.repositories.SimpleHiitRepositoryImpl
 import fr.shining_cat.simplehiit.domain.Constants
 import fr.shining_cat.simplehiit.domain.Output
 import fr.shining_cat.simplehiit.domain.models.SessionRecord

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.data
+package fr.shining_cat.simplehiit.data.repositories
 
 import fr.shining_cat.simplehiit.AbstractMockkTest
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
@@ -7,9 +7,9 @@ import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
+import fr.shining_cat.simplehiit.data.repositories.SimpleHiitRepositoryImpl
 import fr.shining_cat.simplehiit.domain.models.User
 import io.mockk.*
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest

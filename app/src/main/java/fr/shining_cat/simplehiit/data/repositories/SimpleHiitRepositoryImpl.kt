@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.data
+package fr.shining_cat.simplehiit.data.repositories
 
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
