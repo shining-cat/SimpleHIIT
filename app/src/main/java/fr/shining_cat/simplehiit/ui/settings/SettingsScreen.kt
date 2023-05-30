@@ -62,7 +62,7 @@ fun SettingsScreen(
         saveWorkPeriodLength = { viewModel.setWorkPeriodLength(it) },
         editRestPeriodLength = { viewModel.editRestPeriodLength() },
         saveRestPeriodLength = { viewModel.setRestPeriodLength(it) },
-        validatePeriodLengthInput = { viewModel.validatePeriodLength(it) },
+        validatePeriodLengthInput = { viewModel.validatePeriodLengthInput(it) },
         editNumberOfWorkPeriod = { viewModel.editNumberOfWorkPeriods() },
         validateNumberOfWorkPeriodsInput = { viewModel.validateNumberOfWorkPeriods(it) },
         saveNumberOfWorkPeriod = { viewModel.setNumberOfWorkPeriods(it) },
