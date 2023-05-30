@@ -17,9 +17,10 @@ import fr.shining_cat.simplehiit.domain.usecases.SetBeepSoundUseCase
 import fr.shining_cat.simplehiit.domain.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shining_cat.simplehiit.domain.usecases.SetPeriodStartCountDownUseCase
 import fr.shining_cat.simplehiit.domain.usecases.SetRestPeriodLengthUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetSelectedExerciseTypesUseCase
+import fr.shining_cat.simplehiit.domain.usecases.SaveSelectedExerciseTypesUseCase
 import fr.shining_cat.simplehiit.domain.usecases.SetSessionStartCountDownUseCase
 import fr.shining_cat.simplehiit.domain.usecases.SetWorkPeriodLengthUseCase
+import fr.shining_cat.simplehiit.domain.usecases.ToggleExerciseTypeInListUseCase
 import fr.shining_cat.simplehiit.domain.usecases.UpdateUserNameUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ValidateInputPeriodStartCountdownUseCase
 import fr.shining_cat.simplehiit.domain.usecases.ValidateInputSessionStartCountdownUseCase
@@ -46,13 +47,14 @@ class SettingsViewModel @Inject constructor(
     private val updateUserNameUseCase: UpdateUserNameUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val createUserUseCase: CreateUserUseCase,
-    private val setSelectedExerciseTypesUseCase: SetSelectedExerciseTypesUseCase,
+    private val saveSelectedExerciseTypesUseCase: SaveSelectedExerciseTypesUseCase,
     private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
     private val validatePeriodLengthUseCase: ValidatePeriodLengthUseCase,
     private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
     private val validateInputSessionStartCountdownUseCase: ValidateInputSessionStartCountdownUseCase,
     private val validateInputPeriodStartCountdownUseCase: ValidateInputPeriodStartCountdownUseCase,
     private val validateInputUserNameUseCase: ValidateInputUserNameUseCase,
+    private val toggleExerciseTypeInListUseCase: ToggleExerciseTypeInListUseCase,
     private val mapper: SettingsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
@@ -352,14 +354,12 @@ class SettingsViewModel @Inject constructor(
     fun toggleSelectedExercise(exerciseTypeToggled: ExerciseTypeSelected) {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            //todo: extract to usecase :
-            val currentList: List<ExerciseTypeSelected> = currentViewState.exerciseTypes
-            val toggledList: List<ExerciseTypeSelected> = currentList.map {
-                if (it.type == exerciseTypeToggled.type) it.copy(selected = !it.selected)
-                else it
-            }
+            val toggledList = toggleExerciseTypeInListUseCase.execute(
+                currentList = currentViewState.exerciseTypes,
+                exerciseTypeToToggle = exerciseTypeToggled
+            )
             viewModelScope.launch(context = mainDispatcher) {
-                setSelectedExerciseTypesUseCase.execute(toggledList)
+                saveSelectedExerciseTypesUseCase.execute(toggledList)
             }
         } else {
             hiitLogger.e(

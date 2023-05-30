@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
+internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
 
@@ -25,7 +25,7 @@ internal class SetSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
         testValue: List<ExerciseTypeSelected>,
         expectedOutput: List<ExerciseType>
     ) = runTest {
-        val testedUseCase = SetSelectedExerciseTypesUseCase(
+        val testedUseCase = SaveSelectedExerciseTypesUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger

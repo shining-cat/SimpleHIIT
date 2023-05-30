@@ -47,6 +47,8 @@
 * form factor UX differences: phone should maybe not offer multi-users?
 
 ## Miscellaneous / nice to have
+* instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
+* add total length of session below the number of repetitions so user knows how long it will last
 * when pausing running session, the gif behind the dialog keeps moving... find a nice way to freeze this
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
