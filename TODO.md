@@ -36,7 +36,6 @@
 ## General technical improvements
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out `remember` for state in composables and implement
-* extract all that can still be from `viewmodels` to usecases
 * write tests on `Viewmodels`
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
