@@ -49,21 +49,14 @@ repositories {
 }
 
 dependencies {
-    //
+    //the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
     implementation(Deps.kotlin)
-    implementation(Deps.datastore)
-    testImplementation(Deps.jupiter)
-    androidTestImplementation(Deps.archCoreTesting)
-    androidTestImplementation(Deps.testRunner)
-    //
+    implementation(Deps.testRunner)
     implementation(HiltDeps.hiltAndroid)
-    implementation(HiltDeps.hiltNavigation)
     kapt(HiltDeps.hiltAndroidCompiler)
-    testImplementation(HiltDeps.hiltTestAndroid)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
+    implementation(HiltDeps.hiltTestAndroid)
     //
+    testImplementation(Deps.jupiter)
     testImplementation(Deps.mockk)
     testImplementation(Deps.coroutinesTest)
 }
