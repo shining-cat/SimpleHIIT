@@ -31,7 +31,6 @@ plugins {
     // ./gradlew dependencyUpdates
     // for some reason the task is not added to the gradle tasks list in the IDE
     id("com.github.ben-manes.versions") version Versions.benManesDependenciesVersionPlugin
-    id("com.vanniktech.dependency.graph.generator") version Versions.vanniktechInterModulesDependenciesGraphGenerator
 }
 
 fun String.isNonStable(): Boolean {

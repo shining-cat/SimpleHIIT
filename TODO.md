@@ -17,9 +17,7 @@
 ## Code refactoring: architecture
 * split to modules. [See article about how to split](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23?source=rss-8f0052074f18------2)
   * see [also this article](https://developer.android.com/topic/modularization/patterns). ![](modules_matrix.png)_Note the Matrix combining features and arch layers to get the modules in the video_
-* once split into modules, add inter-modules dependencies graph generator plugin:
-  * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
-  * apply plugin: "com.vanniktech.dependency.graph.generator"
+* once split into modules, add inter-modules [dependencies graph generator plugin](https://github.com/vanniktech/gradle-dependency-graph-generator-plugin)
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
 * check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
 * wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
