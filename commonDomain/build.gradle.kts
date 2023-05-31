@@ -16,7 +16,7 @@ android {
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
 
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.HiltTestRunner"
+        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -49,27 +49,19 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":commonUtils"))
+    testImplementation(project(":testUtils"))
     //
     implementation(Deps.kotlin)
-    implementation(Deps.datastore)
-    testImplementation(Deps.jupiter)
-    androidTestImplementation(Deps.archCoreTesting)
-    androidTestImplementation(Deps.testRunner)
-    //
     implementation(HiltDeps.hiltAndroid)
-    implementation(HiltDeps.hiltNavigation)
     kapt(HiltDeps.hiltAndroidCompiler)
-    testImplementation(HiltDeps.hiltTestAndroid)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
     //
+    testImplementation(HiltDeps.hiltTestAndroid)
+    testImplementation(Deps.testRunner)
+    testImplementation(Deps.jupiter)
     testImplementation(Deps.mockk)
     testImplementation(Deps.coroutinesTest)
-    //
-    implementation(project(":commonUtils"))
-    testImplementation(project(":commonUtils"))
-    testImplementation(project(":testUtils"))
+    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 
 //Allow references to generated code

@@ -51,11 +51,11 @@ repositories {
 dependencies {
     //the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
     implementation(Deps.kotlin)
-    implementation(Deps.testRunner)
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)
-    implementation(HiltDeps.hiltTestAndroid)
     //
+    testImplementation(HiltDeps.hiltTestAndroid)
+    testImplementation(Deps.testRunner)
     testImplementation(Deps.jupiter)
     testImplementation(Deps.mockk)
     testImplementation(Deps.coroutinesTest)
