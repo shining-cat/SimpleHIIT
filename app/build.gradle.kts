@@ -19,7 +19,7 @@ android {
         versionCode = ConfigData.versionCode
         versionName = ConfigData.versionName
 
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.HiltTestRunner"
+        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
     }
 
     buildTypes {
@@ -93,9 +93,6 @@ dependencies {
     debugImplementation(ComposeDeps.composePreviewDebug)
     androidTestImplementation(ComposeDeps.composeUiTests)
     debugImplementation(ComposeDeps.composeUiTestsDebug)
-    implementation(ComposeDeps.composeActivities)
-    implementation(ComposeDeps.composeViewModels)
-    implementation(ComposeDeps.composeLiveData)
     //
     implementation(Navigation.navCompose)
     implementation(Navigation.navFragments)

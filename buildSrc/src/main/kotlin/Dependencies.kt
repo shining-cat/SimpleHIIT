@@ -55,12 +55,6 @@ object ComposeDeps{
     // UI Tests
     val composeUiTests      by lazy { "androidx.compose.ui:ui-test-junit4"}
     val composeUiTestsDebug by lazy { "androidx.compose.ui:ui-test-manifest"}
-    // Integration with activities
-    val composeActivities   by lazy {"androidx.activity:activity-compose:${Versions.activityCompose}"}
-    // Integration with ViewModels
-    val composeViewModels   by lazy {"androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"}
-    // Integration with LiveData
-    val composeLiveData     by lazy {"androidx.compose.runtime:runtime-livedata"}
 }
 
 object Navigation{

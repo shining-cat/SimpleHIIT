@@ -49,23 +49,19 @@ repositories {
 }
 
 dependencies {
-    //
+    /**
+     * This whole module is here to be added as a testImplementation dependency only
+     * there is no way as of now to inherit from classes defined in the test folder of a module from other modules,
+     * so the only workaround is to define it in the main sourceset, adding the test dependencies needed for it as
+     * "normal" dependencies (using implementation calls instead of testImplementations)
+     */
     implementation(Deps.kotlin)
-    implementation(Deps.datastore)
     implementation(Deps.jupiter)
-    androidTestImplementation(Deps.archCoreTesting)
-    androidTestImplementation(Deps.testRunner)
-    //
+    implementation(Deps.testRunner)
     implementation(HiltDeps.hiltAndroid)
-    implementation(HiltDeps.hiltNavigation)
     kapt(HiltDeps.hiltAndroidCompiler)
     implementation(HiltDeps.hiltTestAndroid)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    //
     implementation(Deps.mockk)
-    implementation(Deps.coroutinesTest)
     //
     implementation(project(":commonUtils"))
 }
