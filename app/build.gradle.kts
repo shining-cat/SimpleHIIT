@@ -44,16 +44,16 @@ android {
     composeOptions {
         //see https://developer.android.com/jetpack/androidx/releases/compose-compiler for released versions.
         // this is what limits the kotlin version. As of today, 1.4.4 is only compatible with kotlin 1.8.10
-        kotlinCompilerExtensionVersion = "1.4.4"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 }
 
