@@ -16,7 +16,7 @@ android {
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
 
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.HiltTestRunner"
+        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -49,33 +49,30 @@ repositories {
 }
 
 dependencies {
-    //
-    implementation(Deps.kotlin)
-    implementation(Deps.datastore)
-    testImplementation(Deps.jupiter)
-    androidTestImplementation(Deps.archCoreTesting)
-    androidTestImplementation(Deps.testRunner)
-    //
-    implementation(HiltDeps.hiltAndroid)
-    implementation(HiltDeps.hiltNavigation)
-    kapt(HiltDeps.hiltAndroidCompiler)
-    testImplementation(HiltDeps.hiltTestAndroid)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    //
-    implementation(RoomDeps.roomRuntime)
-    kapt(RoomDeps.roomKaptCompiler)
-    implementation(RoomDeps.roomCoroutinesExtensions)
-    testImplementation(RoomDeps.roomTestHelpers)
-    //
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.coroutinesTest)
-    androidTestImplementation(Deps.coroutinesTest)
-    //
     implementation(project(":commonDomain"))
     implementation(project(":commonUtils"))
     testImplementation(project(":testUtils"))
+    //
+    implementation(Deps.kotlin)
+    implementation(HiltDeps.hiltAndroid)
+    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(Deps.datastore)
+    implementation(RoomDeps.roomRuntime)
+    implementation(RoomDeps.roomCoroutinesExtensions)
+    kapt(RoomDeps.roomKaptCompiler)
+    //
+    testImplementation(Deps.mockk)
+    testImplementation(Deps.coroutinesTest)
+    testImplementation(HiltDeps.hiltTestAndroid)
+    testImplementation(RoomDeps.roomTestHelpers)
+    testImplementation(Deps.jupiter)
+    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
+    //
+    androidTestImplementation(Deps.coroutinesTest)
+    androidTestImplementation(HiltDeps.hiltTestAndroid)
+    androidTestImplementation(Deps.archCoreTesting)
+    androidTestImplementation(Deps.testRunner)
+    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 
 //Allow references to generated code

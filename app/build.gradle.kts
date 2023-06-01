@@ -64,8 +64,10 @@ repositories {
 }
 
 dependencies {
-    //This is to prevent the older version pulled by AGP to override the newer needed by Hilt
-    //implementation("com.squareup:javapoet:1.13.0") //seems to not be needed here but only in project build.gradle and buildSrc one
+    implementation(project(":commonDomain"))
+    implementation(project(":commonUtils"))
+    testImplementation(project(":testUtils"))
+    implementation(project(":data"))
     //
     val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
     implementation(composeBom)
@@ -76,39 +78,32 @@ dependencies {
     implementation(Deps.datastore)
     implementation(Deps.materialDesign)
     implementation(Deps.constraintLayout)
-    testImplementation(Deps.jupiter)
-    androidTestImplementation(Deps.archCoreTesting)
-    androidTestImplementation(Deps.testRunner)
-    //
     implementation(HiltDeps.hiltAndroid)
     implementation(HiltDeps.hiltNavigation)
-    kapt(HiltDeps.hiltAndroidCompiler)
-    testImplementation(HiltDeps.hiltTestAndroid)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    //
     implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composePreview)
-    debugImplementation(ComposeDeps.composePreviewDebug)
-    androidTestImplementation(ComposeDeps.composeUiTests)
-    debugImplementation(ComposeDeps.composeUiTestsDebug)
-    //
     implementation(Navigation.navCompose)
     implementation(Navigation.navFragments)
     implementation(Navigation.navUi)
-    testImplementation(Navigation.navTesting)
-    //
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.coroutinesTest)
-    //
     implementation(Deps.coil)
     implementation(Deps.coilGif)
+    kapt(HiltDeps.hiltAndroidCompiler)
     //
-    implementation(project(":commonDomain"))
-    implementation(project(":commonUtils"))
-    testImplementation(project(":testUtils"))
-    implementation(project(":data"))
+    debugImplementation(ComposeDeps.composePreviewDebug)
+    debugImplementation(ComposeDeps.composeUiTestsDebug)
+    //
+    testImplementation(HiltDeps.hiltTestAndroid)
+    testImplementation(Navigation.navTesting)
+    testImplementation(Deps.mockk)
+    testImplementation(Deps.coroutinesTest)
+    testImplementation(Deps.jupiter)
+    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
+    //
+    androidTestImplementation(Deps.archCoreTesting)
+    androidTestImplementation(ComposeDeps.composeUiTests)
+    androidTestImplementation(Deps.testRunner)
+    androidTestImplementation(HiltDeps.hiltTestAndroid)
+    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 
 //Allow references to generated code
