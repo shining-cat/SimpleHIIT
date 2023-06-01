@@ -14,9 +14,6 @@ android {
 
     defaultConfig {
         minSdk = ConfigData.minSdkVersion
-        targetSdk = ConfigData.targetSdkVersion
-
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
