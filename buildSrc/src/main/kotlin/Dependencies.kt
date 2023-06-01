@@ -28,7 +28,8 @@ object HiltDeps{
     val hiltAndroidCompiler by lazy { "com.google.dagger:hilt-compiler:${Versions.hilt}"}
     // For tests
     val hiltTestAndroid     by lazy { "com.google.dagger:hilt-android-testing:${Versions.hilt}"}
-    val hiltAndroidTestAnnotationProcessor by lazy { "com.google.dagger:hilt-compiler:${Versions.hilt}"}
+//    val hiltAndroidTestAnnotationProcessor by lazy { "com.google.dagger:hilt-compiler:${Versions.hilt}"}
+    val hiltAndroidTestAnnotationProcessor by lazy { "com.google.dagger:hilt-android-compiler:${Versions.hilt}"}
 
     //hilt and navigation
     val hiltNavigation      by lazy {"androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"}

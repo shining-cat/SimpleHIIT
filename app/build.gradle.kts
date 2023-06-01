@@ -41,6 +41,17 @@ android {
         compose = true
     }
 
+    packaging {
+        resources {
+            excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+                )
+            )
+        }
+    }
+
     composeOptions {
         //see https://developer.android.com/jetpack/androidx/releases/compose-compiler for released versions.
         // this is what limits the kotlin version. As of today, 1.4.4 is only compatible with kotlin 1.8.10
@@ -95,12 +106,11 @@ dependencies {
     testImplementation(Deps.mockk)
     testImplementation(Deps.coroutinesTest)
     testImplementation(Deps.jupiter)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
     //
+    androidTestImplementation(HiltDeps.hiltTestAndroid)
     androidTestImplementation(Deps.archCoreTesting)
     androidTestImplementation(ComposeDeps.composeUiTests)
     androidTestImplementation(Deps.testRunner)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
     kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 

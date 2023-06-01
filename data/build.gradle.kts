@@ -29,6 +29,7 @@ android {
             )
         }
         getByName("debug") {
+            isMinifyEnabled = false
             enableUnitTestCoverage = true
         }
     }
@@ -40,6 +41,8 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+        freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
+        verbose = true
     }
 
 }
@@ -66,7 +69,6 @@ dependencies {
     testImplementation(Deps.coroutinesTest)
     testImplementation(Deps.mockk)
     testImplementation(Deps.jupiter)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
     //
     androidTestImplementation(HiltDeps.hiltTestAndroid)
     androidTestImplementation(Deps.coroutinesTest)
