@@ -27,9 +27,10 @@ plugins {
     // article : https://medium.com/@gmazzo65/generating-android-jvm-aggregated-coverage-reports-53e912b2e63c
     //  source : https://github.com/gmazzo/android-jacoco-aggregated-demo
     coverage
+    // https://github.com/ben-manes/gradle-versions-plugin
     // to launch analysis of external dependencies versions, enter in the terminal
     // ./gradlew dependencyUpdates
-    // for some reason the task is not added to the gradle tasks list in the IDE
+    // the task is also listed in the gradle window under SImpleHIIT>help>dependencyUpdates
     id("com.github.ben-manes.versions") version Versions.benManesDependenciesVersionPlugin
 }
 

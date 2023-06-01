@@ -52,7 +52,6 @@ dependencies {
     implementation(project(":commonUtils"))
     testImplementation(project(":testUtils"))
     //
-    implementation(Deps.kotlin)
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)
     //

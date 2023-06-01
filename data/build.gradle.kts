@@ -41,6 +41,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 repositories {
@@ -52,8 +53,8 @@ dependencies {
     implementation(project(":commonDomain"))
     implementation(project(":commonUtils"))
     testImplementation(project(":testUtils"))
+    androidTestImplementation(project(":testUtils"))
     //
-    implementation(Deps.kotlin)
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)
     implementation(Deps.datastore)
@@ -61,15 +62,15 @@ dependencies {
     implementation(RoomDeps.roomCoroutinesExtensions)
     kapt(RoomDeps.roomKaptCompiler)
     //
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.coroutinesTest)
     testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(RoomDeps.roomTestHelpers)
+    testImplementation(Deps.coroutinesTest)
+    testImplementation(Deps.mockk)
     testImplementation(Deps.jupiter)
     kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
     //
-    androidTestImplementation(Deps.coroutinesTest)
     androidTestImplementation(HiltDeps.hiltTestAndroid)
+    androidTestImplementation(Deps.coroutinesTest)
+    androidTestImplementation(RoomDeps.roomTestHelpers)
     androidTestImplementation(Deps.archCoreTesting)
     androidTestImplementation(Deps.testRunner)
     kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)

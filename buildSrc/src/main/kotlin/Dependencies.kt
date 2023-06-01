@@ -13,9 +13,7 @@ object BuildPlugins {
 object Deps {
     val appCompat           by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
     val datastore           by lazy { "androidx.datastore:datastore-preferences:${Versions.datastore}" }
-    val kotlin              by lazy { "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}" }
     val materialDesign      by lazy { "com.google.android.material:material:${Versions.material}" }
-    val constraintLayout    by lazy { "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}" }
     val jupiter             by lazy { "org.junit.jupiter:junit-jupiter:${Versions.jupiter}" }
     val mockk               by lazy { "io.mockk:mockk:${Versions.mockkVersion}" }
     val coroutinesTest      by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesTest}" }

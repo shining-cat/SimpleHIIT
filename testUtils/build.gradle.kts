@@ -55,7 +55,6 @@ dependencies {
      * so the only workaround is to define it in the main sourceset, adding the test dependencies needed for it as
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
-    implementation(Deps.kotlin)
     implementation(Deps.jupiter)
     implementation(Deps.testRunner)
     implementation(HiltDeps.hiltAndroid)

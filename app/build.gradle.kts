@@ -7,10 +7,10 @@ plugins {
 }
 
 android {
+    namespace = "fr.shining_cat.simplehiit"
+
     compileSdk = ConfigData.compileSdkVersion
     buildToolsVersion = ConfigData.buildToolsVersion
-
-    namespace = "fr.shining_cat.simplehiit"
 
     defaultConfig {
         applicationId = "fr.shining_cat.simplehiit"
@@ -55,7 +55,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-
 }
 
 repositories {
@@ -66,18 +65,17 @@ repositories {
 dependencies {
     implementation(project(":commonDomain"))
     implementation(project(":commonUtils"))
-    testImplementation(project(":testUtils"))
     implementation(project(":data"))
+    testImplementation(project(":testUtils"))
+    androidTestImplementation(project(":testUtils"))
     //
     val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //
-    implementation(Deps.kotlin)
     implementation(Deps.appCompat)
     implementation(Deps.datastore)
     implementation(Deps.materialDesign)
-    implementation(Deps.constraintLayout)
     implementation(HiltDeps.hiltAndroid)
     implementation(HiltDeps.hiltNavigation)
     implementation(ComposeDeps.composeMaterial3)
