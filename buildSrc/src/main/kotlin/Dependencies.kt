@@ -14,25 +14,29 @@ object Deps {
     val appCompat           by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
     val datastore           by lazy { "androidx.datastore:datastore-preferences:${Versions.datastore}" }
     val materialDesign      by lazy { "com.google.android.material:material:${Versions.material}" }
-    val jupiter             by lazy { "org.junit.jupiter:junit-jupiter:${Versions.jupiter}" }
-    val mockk               by lazy { "io.mockk:mockk:${Versions.mockkVersion}" }
-    val coroutinesTest      by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesTest}" }
-    val archCoreTesting     by lazy { "androidx.arch.core:core-testing:${Versions.core_testing}" }
-    val testRunner          by lazy { "androidx.test:runner:${Versions.test_runner}" }
+    val androidXCoreKtx     by lazy { "androidx.core:core-ktx:${Versions.androidXcoreKtx}" }
     val coil                by lazy { "io.coil-kt:coil-compose:${Versions.coil}" }
     val coilGif             by lazy { "io.coil-kt:coil-gif:${Versions.coil}" }
+}
+
+object TestDeps{
+    val testRunner          by lazy { "androidx.test:runner:${Versions.test_runner}" }
+    val jupiter             by lazy { "org.junit.jupiter:junit-jupiter:${Versions.jupiter}" }
+    val mockk               by lazy { "io.mockk:mockk:${Versions.mockkVersion}" }
+    val junit               by lazy { "androidx.test.ext:junit:${Versions.junit}" }
+    val coroutinesTest      by lazy { "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutinesTest}" }
+    val archCoreTesting     by lazy { "androidx.arch.core:core-testing:${Versions.core_testing}" }
+
 }
 
 object HiltDeps{
     val hiltAndroid         by lazy { "com.google.dagger:hilt-android:${Versions.hilt}"}
     val hiltAndroidCompiler by lazy { "com.google.dagger:hilt-compiler:${Versions.hilt}"}
-    // For tests
-    val hiltTestAndroid     by lazy { "com.google.dagger:hilt-android-testing:${Versions.hilt}"}
-//    val hiltAndroidTestAnnotationProcessor by lazy { "com.google.dagger:hilt-compiler:${Versions.hilt}"}
     val hiltAndroidTestAnnotationProcessor by lazy { "com.google.dagger:hilt-android-compiler:${Versions.hilt}"}
-
     //hilt and navigation
     val hiltNavigation      by lazy {"androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"}
+    // For tests
+    val hiltTestAndroid     by lazy { "com.google.dagger:hilt-android-testing:${Versions.hilt}"}
 }
 
 object RoomDeps{
@@ -60,9 +64,9 @@ object Navigation{
     // Kotlin
     val navFragments    by lazy {"androidx.navigation:navigation-fragment-ktx:${Versions.nav_version}"}
     val navUi           by lazy {"androidx.navigation:navigation-ui-ktx:${Versions.nav_version}"}
-    // Testing Navigation
-    val navTesting      by lazy {"androidx.navigation:navigation-testing:${Versions.nav_version}"}
     // Jetpack Compose Integration
     val navCompose      by lazy {"androidx.navigation:navigation-compose:${Versions.nav_version}"}
+    // Testing Navigation
+    val navTesting      by lazy {"androidx.navigation:navigation-testing:${Versions.nav_version}"}
 
 }

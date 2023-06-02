@@ -103,14 +103,14 @@ dependencies {
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(Navigation.navTesting)
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.coroutinesTest)
-    testImplementation(Deps.jupiter)
+    testImplementation(TestDeps.mockk)
+    testImplementation(TestDeps.coroutinesTest)
+    testImplementation(TestDeps.jupiter)
     //
     androidTestImplementation(HiltDeps.hiltTestAndroid)
-    androidTestImplementation(Deps.archCoreTesting)
+    androidTestImplementation(TestDeps.archCoreTesting)
     androidTestImplementation(ComposeDeps.composeUiTests)
-    androidTestImplementation(Deps.testRunner)
+    androidTestImplementation(TestDeps.testRunner)
     kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 

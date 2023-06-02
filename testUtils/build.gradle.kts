@@ -52,12 +52,12 @@ dependencies {
      * so the only workaround is to define it in the main sourceset, adding the test dependencies needed for it as
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
-    implementation(Deps.jupiter)
-    implementation(Deps.testRunner)
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)
     implementation(HiltDeps.hiltTestAndroid)
-    implementation(Deps.mockk)
+    implementation(TestDeps.jupiter)
+    implementation(TestDeps.testRunner)
+    implementation(TestDeps.mockk)
     //
     implementation(project(":commonUtils"))
 }

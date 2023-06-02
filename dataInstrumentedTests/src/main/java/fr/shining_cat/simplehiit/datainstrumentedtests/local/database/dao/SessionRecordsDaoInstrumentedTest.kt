@@ -1,10 +1,12 @@
-package fr.shining_cat.simplehiit.data.local.database.dao
+package fr.shining_cat.simplehiit.datainstrumentedtests.local.database.dao
 
 import android.database.sqlite.SQLiteConstraintException
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
+import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
+import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,7 +23,7 @@ import javax.inject.Named
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
-class SessionRecordsDaoTest {
+class SessionRecordsDaoInstrumentedTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

@@ -1,9 +1,10 @@
-package fr.shining_cat.simplehiit.data.local.database.dao
+package fr.shining_cat.simplehiit.datainstrumentedtests.local.database.dao
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import fr.shining_cat.simplehiit.data.local.database.SimpleHiitDatabase
+import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
@@ -23,7 +24,7 @@ import javax.inject.Named
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
-class UsersDaoTest {
+class UsersDaoInstrumentedTest {
 
     @get:Rule
     var hiltRule = HiltAndroidRule(this)

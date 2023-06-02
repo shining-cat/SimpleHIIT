@@ -51,10 +51,10 @@ dependencies {
     kapt(HiltDeps.hiltAndroidCompiler)
     //
     testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(Deps.testRunner)
-    testImplementation(Deps.jupiter)
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.coroutinesTest)
+    testImplementation(TestDeps.testRunner)
+    testImplementation(TestDeps.jupiter)
+    testImplementation(TestDeps.mockk)
+    testImplementation(TestDeps.coroutinesTest)
 }
 
 //Allow references to generated code

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.data.testdi
+package fr.shining_cat.simplehiit.datainstrumentedtests.local.database.testdi
 
 import android.content.Context
 import androidx.room.Room
@@ -12,7 +12,7 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object TestDataModule {
+object TestDataBaseModule {
 
     @Provides
     @Named("test_db")

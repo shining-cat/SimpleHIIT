@@ -6,6 +6,8 @@ object Versions {
     const val datastore = "1.0.0"
     const val material = "1.3.0"
     const val jupiter = "5.9.3"
+    const val junit = "1.1.5"
+    const val androidXcoreKtx = "1.10.1"
     const val hilt = "2.46.1"
     const val hiltNavigation = "1.0.0"
     const val room_version = "2.5.1"

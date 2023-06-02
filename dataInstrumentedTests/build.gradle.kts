@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.library")
+    id("com.android.test")
     kotlin("android")
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
@@ -14,21 +14,26 @@ android {
 
     defaultConfig {
         minSdk = ConfigData.minSdkVersion
-        consumerProguardFiles("consumer-rules.pro")
         testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
     }
 
+    targetProjectPath = ":app"
+
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
         getByName("debug") {
             isMinifyEnabled = false
             enableUnitTestCoverage = true
+        }
+    }
+
+    packaging {
+        resources {
+            excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+                )
+            )
         }
     }
 
@@ -39,6 +44,9 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
+        //these 2 below were added in an attempt to get more logs about the instrumented tests failure
+        freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
+        verbose = true
     }
 
 }
@@ -51,8 +59,8 @@ repositories {
 dependencies {
     implementation(project(":commonDomain"))
     implementation(project(":commonUtils"))
-    testImplementation(project(":testUtils"))
-    androidTestImplementation(project(":testUtils"))
+    implementation(project(":testUtils"))
+    implementation(project(":data"))
     //
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)
@@ -61,10 +69,14 @@ dependencies {
     implementation(RoomDeps.roomCoroutinesExtensions)
     kapt(RoomDeps.roomKaptCompiler)
     //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(TestDeps.coroutinesTest)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.jupiter)
+    implementation(HiltDeps.hiltTestAndroid)
+    implementation(TestDeps.coroutinesTest)
+    implementation(RoomDeps.roomTestHelpers)
+    implementation(TestDeps.archCoreTesting)
+    implementation(TestDeps.testRunner)
+    implementation(TestDeps.junit)
+    kapt(HiltDeps.hiltAndroidTestAnnotationProcessor)
+
 }
 
 //Allow references to generated code
