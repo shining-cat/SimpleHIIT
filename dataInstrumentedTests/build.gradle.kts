@@ -44,9 +44,9 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
-        //these 2 below were added in an attempt to get more logs about the instrumented tests failure
-        freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
-        verbose = true
+        //uncomment 2 lines below when wanting a (really) verbose gradle output:
+        //freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
+        //verbose = true
     }
 
 }
