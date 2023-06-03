@@ -9,14 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.models.AsymmetricalExerciseSideOrder
-import fr.shining_cat.simplehiit.domain.models.Exercise
+import fr.shining_cat.simplehiit.commondomain.models.AsymmetricalExerciseSideOrder
+import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.ui.components.GifImage
 import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.session.CountDown
@@ -25,7 +24,7 @@ import fr.shining_cat.simplehiit.ui.session.components.CountDownComponent
 import fr.shining_cat.simplehiit.ui.session.components.ExerciseDescriptionComponent
 import fr.shining_cat.simplehiit.ui.session.components.RemainingPercentageComponent
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun SessionRestNominalContent(viewState: SessionViewState.RestNominal, hiitLogger: HiitLogger? = null) {

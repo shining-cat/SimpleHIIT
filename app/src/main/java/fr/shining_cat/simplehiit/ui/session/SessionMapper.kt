@@ -1,13 +1,13 @@
 package fr.shining_cat.simplehiit.ui.session
 
-import fr.shining_cat.simplehiit.di.DefaultDispatcher
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.Session
-import fr.shining_cat.simplehiit.domain.models.SessionStep
-import fr.shining_cat.simplehiit.domain.models.StepTimerState
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.Session
+import fr.shining_cat.simplehiit.commondomain.models.SessionStep
+import fr.shining_cat.simplehiit.commondomain.models.StepTimerState
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.di.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -60,6 +60,7 @@ class SessionMapper @Inject constructor(
                     sessionRemainingPercentage = sessionRemainingPercentage,
                     countDown = countDown,
                 )
+
                 is SessionStep.RestStep -> SessionViewState.RestNominal(
                     nextExercise = currentStep.exercise,
                     side = currentStep.side,
@@ -69,6 +70,7 @@ class SessionMapper @Inject constructor(
                     sessionRemainingPercentage = sessionRemainingPercentage,
                     countDown = countDown,
                 )
+
                 is SessionStep.PrepareStep -> {
                     if (countDown == null) {
                         //will never happen in real settings as we pick the same value for this
@@ -91,16 +93,19 @@ class SessionMapper @Inject constructor(
     ): SessionViewState {
         return withContext(defaultDispatcher) {
             val currentStep = session.steps[currentSessionStepIndex]
-            val stepRemainingMilliSeconds = currentState.milliSecondsRemaining.minus(currentStep.remainingSessionDurationMsAfterMe)
+            val stepRemainingMilliSeconds =
+                currentState.milliSecondsRemaining.minus(currentStep.remainingSessionDurationMsAfterMe)
             val stepRemainingFormatted = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = stepRemainingMilliSeconds,
                 durationStringFormatter = durationStringFormatter
             )
-            val stepRemainingPercentage = stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())
+            val stepRemainingPercentage =
+                stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())
             //
             val countdownMillis = currentStep.countDownLengthMs
             val countDown = if (stepRemainingMilliSeconds <= countdownMillis) {
-                val countDownAsSecondsString = stepRemainingMilliSeconds.div(1000L).toInt().toString()
+                val countDownAsSecondsString =
+                    stepRemainingMilliSeconds.div(1000L).toInt().toString()
                 CountDown(
                     secondsDisplay = countDownAsSecondsString,
                     progress = stepRemainingMilliSeconds.div(countdownMillis.toFloat()),
@@ -109,10 +114,11 @@ class SessionMapper @Inject constructor(
             } else null
             //
             val sessionRemainingMilliSeconds = currentState.milliSecondsRemaining
-            val sessionRemainingFormatted = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                durationMs = sessionRemainingMilliSeconds,
-                durationStringFormatter = durationStringFormatter
-            )
+            val sessionRemainingFormatted =
+                formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    durationMs = sessionRemainingMilliSeconds,
+                    durationStringFormatter = durationStringFormatter
+                )
             //
             when (currentStep) {
                 is SessionStep.WorkStep -> SessionViewState.WorkNominal(
@@ -124,6 +130,7 @@ class SessionMapper @Inject constructor(
                     sessionRemainingPercentage = currentState.remainingPercentage,
                     countDown = countDown,
                 )
+
                 is SessionStep.RestStep -> SessionViewState.RestNominal(
                     nextExercise = currentStep.exercise,
                     side = currentStep.side,
@@ -133,6 +140,7 @@ class SessionMapper @Inject constructor(
                     sessionRemainingPercentage = currentState.remainingPercentage,
                     countDown = countDown,
                 )
+
                 is SessionStep.PrepareStep -> {
                     if (countDown == null) {
                         SessionViewState.Error("The countdown length is shorter than the prepare step?")

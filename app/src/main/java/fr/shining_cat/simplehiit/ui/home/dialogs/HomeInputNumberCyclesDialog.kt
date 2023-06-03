@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -20,7 +20,7 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 @Composable
 fun HomeInputNumberCyclesDialog(
     saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> Constants.InputError,
+    validateInputNumberCycles: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     numberOfCycles: Int,
     onCancel: () -> Unit
 ) {
@@ -46,9 +46,9 @@ fun HomeInputNumberCyclesDialog(
     }
 }
 
-private fun setErrorMessage(error: Constants.InputError): Int {
+private fun setErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.NONE -> -1
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
 }
@@ -71,7 +71,7 @@ private fun HomeInputNumberCyclesDialogPreview() {
     SimpleHiitTheme {
         HomeInputNumberCyclesDialog(
             saveInputNumberCycles = {},
-            validateInputNumberCycles = { _ -> Constants.InputError.TOO_LONG },
+            validateInputNumberCycles = { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.TOO_LONG },
             numberOfCycles = 3000,
             onCancel = {}
         )

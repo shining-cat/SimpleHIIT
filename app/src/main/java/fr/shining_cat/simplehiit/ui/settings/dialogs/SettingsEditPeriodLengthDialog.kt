@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -21,7 +21,7 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 fun SettingsEditPeriodLengthDialog(
     dialogTitle: String,
     savePeriodLength: (String) -> Unit,
-    validatePeriodLengthInput: (String) -> Constants.InputError,
+    validatePeriodLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     periodLengthSeconds: String,
     onCancel: () -> Unit
 ) {
@@ -47,10 +47,10 @@ fun SettingsEditPeriodLengthDialog(
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int {
+private fun setInputPeriodLengthErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.NONE -> -1
-        Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE -> -1
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
         else -> R.string.invalid_input_error
     }
 }
@@ -74,7 +74,7 @@ private fun SettingsEditPeriodLengthDialogPreview() {
         SettingsEditPeriodLengthDialog(
             dialogTitle = "Some period length",
             savePeriodLength = {},
-            validatePeriodLengthInput = { _ -> Constants.InputError.NONE },
+            validatePeriodLengthInput = { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
             periodLengthSeconds = "15",
             onCancel = {}
         )

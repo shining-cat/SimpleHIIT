@@ -17,7 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -25,7 +24,7 @@ import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.R
 import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun CountDownComponent(size: Dp, countDown: CountDown, hiitLogger: HiitLogger? = null) {

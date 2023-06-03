@@ -1,11 +1,11 @@
 package fr.shining_cat.simplehiit.ui.statistics
 
-import fr.shining_cat.simplehiit.domain.models.DisplayStatisticType
-import fr.shining_cat.simplehiit.domain.models.DisplayedStatistic
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.UserStatistics
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.UserStatistics
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import javax.inject.Inject
 
 class StatisticsMapper @Inject constructor(
@@ -13,8 +13,11 @@ class StatisticsMapper @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
-    fun map(userStats: UserStatistics, durationStringFormatter: DurationStringFormatter): StatisticsViewState {
-        if(userStats.totalNumberOfSessions == 0) return StatisticsViewState.NoSessions(user = userStats.user)
+    fun map(
+        userStats: UserStatistics,
+        durationStringFormatter: DurationStringFormatter
+    ): StatisticsViewState {
+        if (userStats.totalNumberOfSessions == 0) return StatisticsViewState.NoSessions(user = userStats.user)
         //
         val cumulatedTimeOfExerciseFormatted =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
@@ -27,12 +30,30 @@ class StatisticsMapper @Inject constructor(
                 durationStringFormatter
             )
         val displayStatistics = listOf(
-            DisplayedStatistic(userStats.totalNumberOfSessions.toString(), DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-            DisplayedStatistic(cumulatedTimeOfExerciseFormatted, DisplayStatisticType.TOTAL_EXERCISE_TIME),
-            DisplayedStatistic(userStats.longestStreakDays.toString(), DisplayStatisticType.LONGEST_STREAK),
-            DisplayedStatistic(userStats.currentStreakDays.toString(), DisplayStatisticType.CURRENT_STREAK),
-            DisplayedStatistic(averageSessionLengthFormatted, DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-            DisplayedStatistic(userStats.averageNumberOfSessionsPerWeek, DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+            DisplayedStatistic(
+                userStats.totalNumberOfSessions.toString(),
+                DisplayStatisticType.TOTAL_SESSIONS_NUMBER
+            ),
+            DisplayedStatistic(
+                cumulatedTimeOfExerciseFormatted,
+                DisplayStatisticType.TOTAL_EXERCISE_TIME
+            ),
+            DisplayedStatistic(
+                userStats.longestStreakDays.toString(),
+                DisplayStatisticType.LONGEST_STREAK
+            ),
+            DisplayedStatistic(
+                userStats.currentStreakDays.toString(),
+                DisplayStatisticType.CURRENT_STREAK
+            ),
+            DisplayedStatistic(
+                averageSessionLengthFormatted,
+                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+            ),
+            DisplayedStatistic(
+                userStats.averageNumberOfSessionsPerWeek,
+                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+            ),
         )
         return StatisticsViewState.Nominal(
             user = userStats.user,

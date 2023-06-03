@@ -3,16 +3,16 @@ package fr.shining_cat.simplehiit.ui.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.commondomain.usecases.GetHomeSettingsUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ResetWholeAppUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetTotalRepetitionsNumberUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ToggleUserSelectedUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ValidateInputNumberCyclesUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.di.MainDispatcher
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.GetHomeSettingsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetTotalRepetitionsNumberUseCase
-import fr.shining_cat.simplehiit.domain.usecases.ToggleUserSelectedUseCase
-import fr.shining_cat.simplehiit.domain.usecases.ValidateInputNumberCyclesUseCase
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
     fun init(durationStringFormatter: DurationStringFormatter) {
         if (!isInitialized) {
             viewModelScope.launch(context = mainDispatcher) {
-                getHomeSettingsUseCase.execute().collect() {
+                getHomeSettingsUseCase.execute().collect {
                     _screenViewState.emit(
                         homeMapper.map(it, durationStringFormatter)
                     )

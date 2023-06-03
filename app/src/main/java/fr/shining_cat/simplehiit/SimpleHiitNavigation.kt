@@ -8,7 +8,7 @@ import fr.shining_cat.simplehiit.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.ui.session.SessionScreen
 import fr.shining_cat.simplehiit.ui.settings.SettingsScreen
 import fr.shining_cat.simplehiit.ui.statistics.StatisticsScreen
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun SimpleHiitNavigation(

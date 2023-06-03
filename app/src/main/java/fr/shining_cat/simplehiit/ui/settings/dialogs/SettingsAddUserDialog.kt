@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -20,7 +20,7 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
     userName: String,
-    validateUserNameInput: (String) -> Constants.InputError,
+    validateUserNameInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     onCancel: () -> Unit
 ) {
     Column(
@@ -44,10 +44,10 @@ fun SettingsAddUserDialog(
     }
 }
 
-private fun setUSerNameErrorMessage(error: Constants.InputError): Int {
+private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 }
@@ -71,7 +71,7 @@ private fun SettingsAddUserDialogPreview() {
         SettingsAddUserDialog(
             saveUserName = {},
             userName = "The User's name",
-            validateUserNameInput = { _ -> Constants.InputError.NONE },
+            validateUserNameInput = { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
             onCancel = {},
         )
     }

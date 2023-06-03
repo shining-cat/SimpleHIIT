@@ -1,12 +1,12 @@
 package fr.shining_cat.simplehiit.ui.home
 
-import fr.shining_cat.simplehiit.AbstractMockkTest
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.HomeSettings
-import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.Output
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.HomeSettings
+import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -26,7 +26,12 @@ internal class HomeMapperTest : AbstractMockkTest() {
 
     @BeforeEach
     fun setUpMock() {
-        coEvery { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any()) } returns mockDurationString
+        coEvery {
+            mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                any(),
+                any()
+            )
+        } returns mockDurationString
     }
 
     @ParameterizedTest(name = "{index} -> called with {0} should return {1}")
