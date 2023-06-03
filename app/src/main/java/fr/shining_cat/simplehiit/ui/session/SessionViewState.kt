@@ -1,8 +1,8 @@
 package fr.shining_cat.simplehiit.ui.session
 
-import fr.shining_cat.simplehiit.domain.models.Exercise
-import fr.shining_cat.simplehiit.domain.models.ExerciseSide
-import fr.shining_cat.simplehiit.domain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.commondomain.models.Exercise
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
+import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
 
 sealed class SessionViewState {
     object Loading : SessionViewState()

@@ -3,25 +3,29 @@ package fr.shining_cat.simplehiit.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.commondomain.usecases.CreateUserUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.DeleteUserUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.GetGeneralSettingsUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ResetAllSettingsUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SaveSelectedExerciseTypesUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetBeepSoundUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetNumberOfWorkPeriodsUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetPeriodStartCountDownUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetRestPeriodLengthUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetSessionStartCountDownUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.SetWorkPeriodLengthUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ToggleExerciseTypeInListUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.UpdateUserNameUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ValidateInputPeriodStartCountdownUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ValidateInputSessionStartCountdownUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ValidateInputUserNameUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ValidateNumberOfWorkPeriodsUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ValidatePeriodLengthUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.di.MainDispatcher
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.CreateUserUseCase
-import fr.shining_cat.simplehiit.domain.usecases.DeleteUserUseCase
-import fr.shining_cat.simplehiit.domain.usecases.GetGeneralSettingsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.ResetAllSettingsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetBeepSoundUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetNumberOfWorkPeriodsUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetPeriodStartCountDownUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetRestPeriodLengthUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetSelectedExerciseTypesUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetSessionStartCountDownUseCase
-import fr.shining_cat.simplehiit.domain.usecases.SetWorkPeriodLengthUseCase
-import fr.shining_cat.simplehiit.domain.usecases.UpdateUserNameUseCase
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,8 +45,14 @@ class SettingsViewModel @Inject constructor(
     private val updateUserNameUseCase: UpdateUserNameUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
     private val createUserUseCase: CreateUserUseCase,
-    private val setSelectedExerciseTypesUseCase: SetSelectedExerciseTypesUseCase,
+    private val saveSelectedExerciseTypesUseCase: SaveSelectedExerciseTypesUseCase,
     private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
+    private val validatePeriodLengthUseCase: ValidatePeriodLengthUseCase,
+    private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
+    private val validateInputSessionStartCountdownUseCase: ValidateInputSessionStartCountdownUseCase,
+    private val validateInputPeriodStartCountdownUseCase: ValidateInputPeriodStartCountdownUseCase,
+    private val validateInputUserNameUseCase: ValidateInputUserNameUseCase,
+    private val toggleExerciseTypeInListUseCase: ToggleExerciseTypeInListUseCase,
     private val mapper: SettingsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
@@ -88,7 +98,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setWorkPeriodLength(inputSecondsAsString: String) {
-        if (validatePeriodLength(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validatePeriodLengthInput(inputSecondsAsString) == fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
                 setWorkPeriodLengthUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -101,20 +111,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun validatePeriodLength(input: String): Constants.InputError {
-        if ((input.toLongOrNull() is Long).not()) {
-            return Constants.InputError.WRONG_FORMAT
-        }
+    fun validatePeriodLengthInput(input: String): fr.shining_cat.simplehiit.commondomain.Constants.InputError {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            val periodLengthSeconds = input.toLong()
-            val periodCountDownLengthSeconds =
+            return validatePeriodLengthUseCase.execute(
+                input,
                 currentViewState.periodsStartCountDownLengthAsSeconds.toLong()
-            if (periodLengthSeconds < periodCountDownLengthSeconds) {
-                return Constants.InputError.VALUE_TOO_SMALL
-            }
+            )
         }
-        return Constants.InputError.NONE
+        //we don't really expect to be able to land in here if current state is not Nominal
+        return fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE
     }
 
     fun editRestPeriodLength() {
@@ -135,7 +141,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setRestPeriodLength(inputSecondsAsString: String) {
-        if (validatePeriodLength(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validatePeriodLengthInput(inputSecondsAsString) == fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
                 setRestPeriodLengthUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -164,7 +170,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setNumberOfWorkPeriods(value: String) {
-        if (validateNumberOfWorkPeriods(value) == Constants.InputError.NONE) {
+        if (validateNumberOfWorkPeriods(value) == fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
                 setNumberOfWorkPeriodsUseCase.execute(value.toInt())
                 _dialogViewState.emit(SettingsDialog.None)
@@ -177,10 +183,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun validateNumberOfWorkPeriods(input: String): Constants.InputError {
-        return if ((input.toIntOrNull() is Int).not()) {
-            Constants.InputError.WRONG_FORMAT
-        } else Constants.InputError.NONE
+    fun validateNumberOfWorkPeriods(input: String): fr.shining_cat.simplehiit.commondomain.Constants.InputError {
+        return validateNumberOfWorkPeriodsUseCase.execute(input)
     }
 
     fun toggleBeepSound() {
@@ -212,7 +216,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setSessionStartCountDown(inputSecondsAsString: String) {
-        if (validateInputSessionStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validateInputSessionStartCountdown(inputSecondsAsString) == fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
                 setSessionStartCountDownUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -225,10 +229,8 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun validateInputSessionStartCountdown(input: String): Constants.InputError {
-        return if ((input.toLongOrNull() is Long).not()) {
-            Constants.InputError.WRONG_FORMAT
-        } else Constants.InputError.NONE
+    fun validateInputSessionStartCountdown(input: String): fr.shining_cat.simplehiit.commondomain.Constants.InputError {
+        return validateInputSessionStartCountdownUseCase.execute(input)
     }
 
     fun editPeriodStartCountDown() {
@@ -249,7 +251,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun setPeriodStartCountDown(inputSecondsAsString: String) {
-        if (validateInputPeriodStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validateInputPeriodStartCountdown(inputSecondsAsString) == fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
                 setPeriodStartCountDownUseCase.execute(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -262,20 +264,17 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun validateInputPeriodStartCountdown(input: String): Constants.InputError {
-        if ((input.toLongOrNull() is Long).not()) {
-            return Constants.InputError.WRONG_FORMAT
-        }
+    fun validateInputPeriodStartCountdown(input: String): fr.shining_cat.simplehiit.commondomain.Constants.InputError {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            val workPeriodLengthSeconds = currentViewState.workPeriodLengthAsSeconds.toLong()
-            val restPeriodLengthSeconds = currentViewState.restPeriodLengthAsSeconds.toLong()
-            val periodCountDownLengthSeconds = input.toLong()
-            if (workPeriodLengthSeconds < periodCountDownLengthSeconds || restPeriodLengthSeconds < periodCountDownLengthSeconds) {
-                return Constants.InputError.VALUE_TOO_BIG
-            }
+            return validateInputPeriodStartCountdownUseCase.execute(
+                input = input,
+                workPeriodLengthSeconds = currentViewState.workPeriodLengthAsSeconds.toLong(),
+                restPeriodLengthSeconds = currentViewState.restPeriodLengthAsSeconds.toLong()
+            )
         }
-        return Constants.InputError.NONE
+        //we don't really expect to be able to land in here if current state is not Nominal
+        return fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE
     }
 
     fun addUser(userName: String = "") {
@@ -298,8 +297,11 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             val result = createUserUseCase.execute(user)
             when (result) {
-                is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
-                is Output.Error -> {
+                is fr.shining_cat.simplehiit.commondomain.Output.Success -> _dialogViewState.emit(
+                    SettingsDialog.None
+                )
+
+                is fr.shining_cat.simplehiit.commondomain.Output.Error -> {
                     hiitLogger.e(
                         "SettingsViewModel",
                         "createUser::error happened:${result.errorCode}",
@@ -315,8 +317,11 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             val result = updateUserNameUseCase.execute(user)
             when (result) {
-                is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
-                is Output.Error -> {
+                is fr.shining_cat.simplehiit.commondomain.Output.Success -> _dialogViewState.emit(
+                    SettingsDialog.None
+                )
+
+                is fr.shining_cat.simplehiit.commondomain.Output.Error -> {
                     hiitLogger.e(
                         "SettingsViewModel",
                         "updateUser::error happened:${result.errorCode}",
@@ -338,8 +343,11 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             val result = deleteUserUseCase.execute(user)
             when (result) {
-                is Output.Success -> _dialogViewState.emit(SettingsDialog.None)
-                is Output.Error -> {
+                is fr.shining_cat.simplehiit.commondomain.Output.Success -> _dialogViewState.emit(
+                    SettingsDialog.None
+                )
+
+                is fr.shining_cat.simplehiit.commondomain.Output.Error -> {
                     hiitLogger.e(
                         "SettingsViewModel",
                         "deleteUserConfirmation::error happened:${result.errorCode}",
@@ -354,13 +362,12 @@ class SettingsViewModel @Inject constructor(
     fun toggleSelectedExercise(exerciseTypeToggled: ExerciseTypeSelected) {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            val currentList: List<ExerciseTypeSelected> = currentViewState.exerciseTypes
-            val toggledList: List<ExerciseTypeSelected> = currentList.map {
-                if (it.type == exerciseTypeToggled.type) it.copy(selected = !it.selected)
-                else it
-            }
+            val toggledList = toggleExerciseTypeInListUseCase.execute(
+                currentList = currentViewState.exerciseTypes,
+                exerciseTypeToToggle = exerciseTypeToggled
+            )
             viewModelScope.launch(context = mainDispatcher) {
-                setSelectedExerciseTypesUseCase.execute(toggledList)
+                saveSelectedExerciseTypesUseCase.execute(toggledList)
             }
         } else {
             hiitLogger.e(
@@ -383,17 +390,16 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun validateInputUserNameString(user: User): Constants.InputError {
+    fun validateInputUserNameString(user: User): fr.shining_cat.simplehiit.commondomain.Constants.InputError {
         val currentViewState = screenViewState.value
         if (currentViewState is SettingsViewState.Nominal) {
-            if (currentViewState.users.find { it.name == user.name && it.id != user.id } != null) return Constants.InputError.VALUE_ALREADY_TAKEN
-        } else {
-            hiitLogger.e(
-                "SettingsViewModel",
-                "validateInputNameString::current state does not allow this now"
+            return validateInputUserNameUseCase.execute(
+                user = user,
+                existingUsers = currentViewState.users
             )
         }
-        return if (user.name.length < 25) Constants.InputError.NONE else Constants.InputError.TOO_LONG
+        //we don't really expect to be able to land in here if current state is not Nominal
+        return fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE
     }
 
     fun cancelDialog() {

@@ -3,17 +3,16 @@ package fr.shining_cat.simplehiit.ui.statistics
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.commondomain.Output
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.commondomain.usecases.DeleteSessionsForUserUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.GetAllUsersUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.GetStatsForUserUseCase
+import fr.shining_cat.simplehiit.commondomain.usecases.ResetWholeAppUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.TimeProvider
 import fr.shining_cat.simplehiit.di.MainDispatcher
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.User
-import fr.shining_cat.simplehiit.domain.usecases.DeleteSessionsForUserUseCase
-import fr.shining_cat.simplehiit.domain.usecases.GetAllUsersUseCase
-import fr.shining_cat.simplehiit.domain.usecases.GetStatsForUserUseCase
-import fr.shining_cat.simplehiit.domain.usecases.ResetWholeAppUseCase
-import fr.shining_cat.simplehiit.utils.HiitLogger
-import fr.shining_cat.simplehiit.utils.TimeProvider
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -58,7 +57,7 @@ class StatisticsViewModel @Inject constructor(
                         }
 
                         is Output.Error -> {
-                            if (it.errorCode == Constants.Errors.NO_USERS_FOUND) {
+                            if (it.errorCode == fr.shining_cat.simplehiit.commondomain.Constants.Errors.NO_USERS_FOUND) {
                                 //users list retrieved is empty -> no users yet. Special case
                                 _screenViewState.emit(StatisticsViewState.NoUsers)
                             } else {
@@ -77,8 +76,7 @@ class StatisticsViewModel @Inject constructor(
         hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
         viewModelScope.launch(context = mainDispatcher) {
             val now = timeProvider.getCurrentTimeMillis()
-            val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)
-            when (statisticsOutput) {
+            when (val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)) {
                 is Output.Success -> {
                     _screenViewState.emit(
                         mapper.map(
@@ -123,7 +121,8 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             deleteSessionsForUserUseCase.execute(user.id)
             _dialogViewState.emit(StatisticsDialog.None)
-            //TODO: missing refresh of the screen
+            //refetch to force refresh:
+            retrieveStatsForUser(user = user)
         }
     }
 

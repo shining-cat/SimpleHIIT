@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 
@@ -53,8 +53,8 @@ fun InputDialog(
     dismissButtonLabel: String = "",
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
-    validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
-    pickErrorMessage: (Constants.InputError) -> Int = { -1 }
+    validateInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+    pickErrorMessage: (fr.shining_cat.simplehiit.commondomain.Constants.InputError) -> Int = { -1 }
 ) {
 
     //TODO: auto-focus on input field when opening dialog
@@ -64,7 +64,7 @@ fun InputDialog(
     //TODO: set cursor position at end of inputFieldValue in input field when auto-focusing. Only affect this position once on dialog opening
 
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
-    val isError = rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
+    val isError = rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE) }
     val errorMessageStringRes = rememberSaveable {mutableStateOf(pickErrorMessage(validateInput(inputFieldValue)))}
 
     Dialog(onDismissRequest = dismissAction) {
@@ -102,7 +102,7 @@ fun InputDialog(
                             input.value = it
                             val validationResult = validateInput(it)
                             val errorStringRes = pickErrorMessage(validationResult)
-                            isError.value = validationResult != Constants.InputError.NONE // updating the error state Boolean
+                            isError.value = validationResult != fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE // updating the error state Boolean
                             errorMessageStringRes.value = errorStringRes // updating the eventual error message String resource pointer
                         },
                         isError = isError.value,
@@ -233,7 +233,7 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
                     errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
@@ -244,7 +244,7 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.MEDIUM,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
                     errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
@@ -255,7 +255,7 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
                     errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
@@ -266,7 +266,7 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
                     errorMessage = { -1 }
                 ),
                 InputDialogPreviewObject(
@@ -277,7 +277,7 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { Constants.InputError.WRONG_FORMAT },
+                    validateInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.WRONG_FORMAT },
                     errorMessage = { R.string.invalid_input_error }
                 ),
                 InputDialogPreviewObject(
@@ -288,7 +288,7 @@ internal class ChoiceDialogPreviewParameterProvider :
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { Constants.InputError.WRONG_FORMAT },
+                    validateInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.WRONG_FORMAT },
                     errorMessage = { R.string.invalid_input_error }
                 ),
             )
@@ -304,6 +304,6 @@ internal data class InputDialogPreviewObject(
     val secondaryButtonLabel: String,
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
-    val validateInput: (String) -> Constants.InputError,
-    val errorMessage: (Constants.InputError) -> Int
+    val validateInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
+    val errorMessage: (fr.shining_cat.simplehiit.commondomain.Constants.InputError) -> Int
 )

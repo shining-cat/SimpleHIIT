@@ -1,13 +1,13 @@
 package fr.shining_cat.simplehiit.ui.settings
 
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.Output
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.GeneralSettings
-import fr.shining_cat.simplehiit.domain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.Output
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.GeneralSettings
+import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.Error
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.Nominal
-import fr.shining_cat.simplehiit.utils.HiitLogger
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -16,7 +16,10 @@ class SettingsMapper @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
-    fun map(generalSettingsOutput: Output<GeneralSettings>, durationStringFormatter: DurationStringFormatter): SettingsViewState {
+    fun map(
+        generalSettingsOutput: Output<GeneralSettings>,
+        durationStringFormatter: DurationStringFormatter
+    ): SettingsViewState {
         return when (generalSettingsOutput) {
             is Output.Success<GeneralSettings> -> {
                 val generalSettings = generalSettingsOutput.result
@@ -50,6 +53,7 @@ class SettingsMapper @Inject constructor(
                     )
                 }
             }
+
             is Output.Error -> Error(generalSettingsOutput.errorCode.code)
         }
     }

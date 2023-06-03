@@ -1,6 +1,8 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* group packaging android gradle exclusions declaration in a single [common place to avoid repeating it everywhere.](https://medium.com/capital-one-tech/sharing-gradle-configuration-in-multi-module-android-projects-370602f526a7)
+* [raised issue about gmazzo's plugin failing build](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32) since the creation of the test-module dataInstrumentedTests
 * beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency) [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
 * SessionErrorStateContent is empty
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
@@ -17,9 +19,7 @@
 ## Code refactoring: architecture
 * split to modules. [See article about how to split](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23?source=rss-8f0052074f18------2)
   * see [also this article](https://developer.android.com/topic/modularization/patterns). ![](modules_matrix.png)_Note the Matrix combining features and arch layers to get the modules in the video_
-* once split into modules, add inter-modules dependencies graph generator plugin:
-  * classpath "com.vanniktech:gradle-dependency-graph-generator-plugin:0.8.0"
-  * apply plugin: "com.vanniktech.dependency.graph.generator"
+* once split into modules, add inter-modules [dependencies graph generator plugin](https://github.com/vanniktech/gradle-dependency-graph-generator-plugin)
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
 * check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
 * wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
@@ -36,7 +36,6 @@
 ## General technical improvements
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out `remember` for state in composables and implement
-* extract all that can still be from `viewmodels` to usecases
 * write tests on `Viewmodels`
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
@@ -47,6 +46,8 @@
 * form factor UX differences: phone should maybe not offer multi-users?
 
 ## Miscellaneous / nice to have
+* instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
+* add total length of session below the number of repetitions so user knows how long it will last
 * when pausing running session, the gif behind the dialog keeps moving... find a nice way to freeze this
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)

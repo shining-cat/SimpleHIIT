@@ -7,10 +7,10 @@ plugins {
 }
 
 android {
+    namespace = "fr.shining_cat.simplehiit"
+
     compileSdk = ConfigData.compileSdkVersion
     buildToolsVersion = ConfigData.buildToolsVersion
-
-    namespace = "fr.shining_cat.simplehiit"
 
     defaultConfig {
         applicationId = "fr.shining_cat.simplehiit"
@@ -19,7 +19,7 @@ android {
         versionCode = ConfigData.versionCode
         versionName = ConfigData.versionName
 
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.HiltTestRunner"
+        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
     }
 
     buildTypes {
@@ -41,21 +41,31 @@ android {
         compose = true
     }
 
+    packaging {
+        resources {
+            excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+                )
+            )
+        }
+    }
+
     composeOptions {
         //see https://developer.android.com/jetpack/androidx/releases/compose-compiler for released versions.
         // this is what limits the kotlin version. As of today, 1.4.4 is only compatible with kotlin 1.8.10
-        kotlinCompilerExtensionVersion = "1.4.4"
-    }
-
-    kotlinOptions {
-        jvmTarget = "1.8"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
+    kotlinOptions {
+        jvmTarget = "17"
+    }
 }
 
 repositories {
@@ -64,57 +74,47 @@ repositories {
 }
 
 dependencies {
-    //This is to prevent the older version pulled by AGP to override the newer needed by Hilt
-    //implementation("com.squareup:javapoet:1.13.0") //seems to not be needed here but only in project build.gradle and buildSrc one
+    implementation(project(":commonDomain"))
+    implementation(project(":commonUtils"))
+    implementation(project(":data"))
+    testImplementation(project(":testUtils"))
+    androidTestImplementation(project(":testUtils"))
     //
     val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //
-    implementation(Deps.kotlin)
     implementation(Deps.appCompat)
     implementation(Deps.datastore)
     implementation(Deps.materialDesign)
-    implementation(Deps.constraintLayout)
-    testImplementation(Deps.jupiter)
-    androidTestImplementation(Deps.archCoreTesting)
-    androidTestImplementation(Deps.testRunner)
-    //
     implementation(HiltDeps.hiltAndroid)
     implementation(HiltDeps.hiltNavigation)
-    kapt(HiltDeps.hiltAndroidCompiler)
-    testImplementation(HiltDeps.hiltTestAndroid)
-    kaptTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
-    //
     implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composePreview)
-    debugImplementation(ComposeDeps.composePreviewDebug)
-    androidTestImplementation(ComposeDeps.composeUiTests)
-    debugImplementation(ComposeDeps.composeUiTestsDebug)
-    implementation(ComposeDeps.composeActivities)
-    implementation(ComposeDeps.composeViewModels)
-    implementation(ComposeDeps.composeLiveData)
-    //
-    implementation(RoomDeps.roomRuntime)
-    kapt(RoomDeps.roomKaptCompiler)
-    implementation(RoomDeps.roomCoroutinesExtensions)
-    testImplementation(RoomDeps.roomTestHelpers)
-    //
     implementation(Navigation.navCompose)
     implementation(Navigation.navFragments)
     implementation(Navigation.navUi)
-    testImplementation(Navigation.navTesting)
-    //
-    testImplementation(Deps.mockk)
-    testImplementation(Deps.coroutinesTest)
-    //
     implementation(Deps.coil)
     implementation(Deps.coilGif)
+    kapt(HiltDeps.hiltAndroidCompiler)
+    //
+    debugImplementation(ComposeDeps.composePreviewDebug)
+    debugImplementation(ComposeDeps.composeUiTestsDebug)
+    //
+    testImplementation(HiltDeps.hiltTestAndroid)
+    testImplementation(Navigation.navTesting)
+    testImplementation(TestDeps.mockk)
+    testImplementation(TestDeps.coroutinesTest)
+    testImplementation(TestDeps.jupiter)
+    //
+    androidTestImplementation(HiltDeps.hiltTestAndroid)
+    androidTestImplementation(TestDeps.archCoreTesting)
+    androidTestImplementation(ComposeDeps.composeUiTests)
+    androidTestImplementation(TestDeps.testRunner)
+    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 
- //Allow references to generated code
+//Allow references to generated code
 kapt {
     correctErrorTypes = true
 }

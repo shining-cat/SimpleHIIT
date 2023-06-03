@@ -20,9 +20,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.components.ToggleButton
 import fr.shining_cat.simplehiit.ui.settings.SettingsViewState
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -101,7 +101,7 @@ fun SettingsNominalContent(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp), thickness = 1.dp
         )
-        SettingExercisesSelectedComponent(exercises = viewState.exerciseTypes, onToggle = toggleExerciseType)
+        SettingExercisesSelectedComponent(exerciseTypes = viewState.exerciseTypes, onToggle = toggleExerciseType)
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -237,7 +237,7 @@ private fun SettingUsersComponent(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun SettingExercisesSelectedComponent(
-    exercises: List<ExerciseTypeSelected>,
+    exerciseTypes: List<ExerciseTypeSelected>,
     onToggle: (ExerciseTypeSelected) -> Unit,
 ) {
     Column {
@@ -251,7 +251,7 @@ private fun SettingExercisesSelectedComponent(
         val itemHeight = 56.dp
         val numberOfColumns = 3
         val spacing = 8.dp
-        val rowsCount = (exercises.size.toFloat() / numberOfColumns.toFloat()).roundToInt()
+        val rowsCount = (exerciseTypes.size.toFloat() / numberOfColumns.toFloat()).roundToInt()
         val gridHeight = (itemHeight + spacing) * rowsCount
         LazyVerticalGrid(
             modifier = Modifier.height(gridHeight),
@@ -260,8 +260,8 @@ private fun SettingExercisesSelectedComponent(
             horizontalArrangement = Arrangement.spacedBy(spacing),
             userScrollEnabled = false
         ) {
-            items(exercises.size) {
-                val exerciseTypeSelected = exercises[it]
+            items(exerciseTypes.size) {
+                val exerciseTypeSelected = exerciseTypes[it]
                 ToggleButton(
                     modifier = Modifier.height(itemHeight),
                     label = exerciseTypeSelected.type.name,

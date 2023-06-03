@@ -19,11 +19,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.Constants
-import fr.shining_cat.simplehiit.domain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.domain.models.User
+import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
+import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.components.ErrorDialog
 import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.settings.contents.SettingsErrorContent
@@ -35,7 +35,7 @@ import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditPeriodStartCoun
 import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
 import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditUserDialog
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun SettingsScreen(
@@ -62,7 +62,7 @@ fun SettingsScreen(
         saveWorkPeriodLength = { viewModel.setWorkPeriodLength(it) },
         editRestPeriodLength = { viewModel.editRestPeriodLength() },
         saveRestPeriodLength = { viewModel.setRestPeriodLength(it) },
-        validatePeriodLengthInput = { viewModel.validatePeriodLength(it) },
+        validatePeriodLengthInput = { viewModel.validatePeriodLengthInput(it) },
         editNumberOfWorkPeriod = { viewModel.editNumberOfWorkPeriods() },
         validateNumberOfWorkPeriodsInput = { viewModel.validateNumberOfWorkPeriods(it) },
         saveNumberOfWorkPeriod = { viewModel.setNumberOfWorkPeriods(it) },
@@ -97,16 +97,16 @@ private fun SettingsScreen(
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
     saveRestPeriodLength: (String) -> Unit = {},
-    validatePeriodLengthInput: (String) -> Constants.InputError,
+    validatePeriodLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     editNumberOfWorkPeriod: () -> Unit = {},
-    validateNumberOfWorkPeriodsInput: (String) -> Constants.InputError,
+    validateNumberOfWorkPeriodsInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     saveNumberOfWorkPeriod: (String) -> Unit = {},
     toggleBeepSound: () -> Unit = {},
     editSessionStartCountDown: () -> Unit = {},
-    validateSessionCountDownLengthInput: (String) -> Constants.InputError,
+    validateSessionCountDownLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     saveSessionStartCountDown: (String) -> Unit = {},
     editPeriodStartCountDown: () -> Unit = {},
-    validatePeriodCountDownLengthInput: (String) -> Constants.InputError,
+    validatePeriodCountDownLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     savePeriodStartCountDown: (String) -> Unit = {},
     editUser: (User) -> Unit = {},
     addUser: () -> Unit = {},
@@ -115,7 +115,7 @@ private fun SettingsScreen(
     deleteUserCancel: (User) -> Unit,
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
-    validateInputNameString: (User) -> Constants.InputError,
+    validateInputNameString: (User) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -194,16 +194,16 @@ fun SettingsContent(
     saveWorkPeriodLength: (String) -> Unit,
     editRestPeriodLength: () -> Unit,
     saveRestPeriodLength: (String) -> Unit,
-    validatePeriodLengthInput: (String) -> Constants.InputError,
+    validatePeriodLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     editNumberOfWorkPeriods: () -> Unit,
-    validateNumberOfWorkPeriodsInput: (String) -> Constants.InputError,
+    validateNumberOfWorkPeriodsInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     saveNumberOfWorkPeriod: (String) -> Unit,
     toggleBeepSound: () -> Unit,
     editSessionStartCountDown: () -> Unit,
-    validateSessionCountDownLengthInput: (String) -> Constants.InputError,
+    validateSessionCountDownLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     saveSessionStartCountDown: (String) -> Unit,
     editPeriodStartCountDown: () -> Unit,
-    validatePeriodCountDownLengthInput: (String) -> Constants.InputError,
+    validatePeriodCountDownLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     savePeriodStartCountDown: (String) -> Unit,
     editUser: (User) -> Unit,
     addUser: () -> Unit,
@@ -212,7 +212,7 @@ fun SettingsContent(
     deleteUserCancel: (User) -> Unit,
     deleteUserConfirm: (User) -> Unit,
     toggleExerciseType: (ExerciseTypeSelected) -> Unit,
-    validateInputNameString: (User) -> Constants.InputError,
+    validateInputNameString: (User) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     resetSettings: () -> Unit,
     resetSettingsConfirmation: () -> Unit,
     cancelDialog: () -> Unit,
@@ -342,12 +342,12 @@ private fun SettingsScreenPreview(
 ) {
     SimpleHiitTheme {
         SettingsScreen(
-            validatePeriodLengthInput = { Constants.InputError.NONE },
-            validateNumberOfWorkPeriodsInput = { Constants.InputError.NONE },
-            validateSessionCountDownLengthInput = { Constants.InputError.NONE },
-            validatePeriodCountDownLengthInput = { Constants.InputError.NONE },
+            validatePeriodLengthInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            validateNumberOfWorkPeriodsInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            validateSessionCountDownLengthInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            validatePeriodCountDownLengthInput = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
             deleteUserCancel = {},
-            validateInputNameString = { Constants.InputError.NONE },
+            validateInputNameString = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
             screenViewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
         )

@@ -1,11 +1,11 @@
 package fr.shining_cat.simplehiit.ui.helpers
 
-import fr.shining_cat.simplehiit.domain.models.Exercise
+import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.R
 
 class ExerciseGifMapper {
 
-    fun map(exercise:Exercise):Int{
+    fun map(exercise: Exercise):Int{
         return when(exercise){
             Exercise.CatBirdDogs -> R.raw.exercise_cat_bird_dogs
             Exercise.CatKneeAndElbowPressUp -> R.raw.exercise_cat_knee_and_elbow_pressup

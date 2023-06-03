@@ -13,7 +13,7 @@ import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.ui.session.components.CountDownComponent
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.utils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun SessionPrepareContent(

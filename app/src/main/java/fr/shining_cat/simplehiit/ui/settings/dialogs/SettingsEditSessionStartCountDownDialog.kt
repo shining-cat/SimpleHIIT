@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.domain.Constants
+import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.ui.components.InputDialog
 import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
@@ -20,7 +20,7 @@ import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 @Composable
 fun SettingsEditSessionStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
-    validateCountDownLengthInput: (String) -> Constants.InputError,
+    validateCountDownLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     countDownLengthSeconds: String,
     onCancel: () -> Unit
 ) {
@@ -46,9 +46,9 @@ fun SettingsEditSessionStartCountDownDialog(
     }
 }
 
-private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int {
+private fun setInputSessionCountDownLengthErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.NONE -> -1
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
 }
@@ -71,7 +71,7 @@ private fun SettingsEditSessionStartCountDownDialogPreview() {
     SimpleHiitTheme {
         SettingsEditSessionStartCountDownDialog(
             saveCountDownLength = {},
-            validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
+            validateCountDownLengthInput = { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
             countDownLengthSeconds = "5",
             onCancel = {}
         )
