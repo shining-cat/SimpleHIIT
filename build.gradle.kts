@@ -30,8 +30,8 @@ plugins {
     // see below testAggregation block for included modules declaration
     // launch with: jacocoTestReport (for coverage) and testAggregateTestReport (for results) in SimpleHIIT>Tasks>verification
     //TODO: deactivated the plugin when adding the external instrumented tests module, make this work again! see also testAggregation below
-    //id("io.github.gmazzo.test.aggregation.coverage") version Versions.gmazzoJacocoReportAggregationPlugin
-    //id("io.github.gmazzo.test.aggregation.results") version Versions.gmazzoJacocoReportAggregationPlugin
+    id("io.github.gmazzo.test.aggregation.coverage") version Versions.gmazzoJacocoReportAggregationPlugin
+    id("io.github.gmazzo.test.aggregation.results") version Versions.gmazzoJacocoReportAggregationPlugin
     ////////////////////////////////
     // Dependencies' new versions detection plugin by Ben Mannes: https://github.com/ben-manes/gradle-versions-plugin
     // to launch analysis of external dependencies versions, enter in the terminal ./gradlew dependencyUpdates
@@ -53,12 +53,13 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
     }
 }
 
-/*testAggregation {
+testAggregation {
     modules {
-        include(project(":app"))
-        include(project(":commonDomain"))
-        include(project(":commonUtils"))
-        include(project(":data"))
+        //we can either explicitly declare everything (include and excludes) or simply the exclusion. The latter seems more straightforward
+//        include(project(":app"))
+//        include(project(":commonDomain"))
+//        include(project(":commonUtils"))
+//        include(project(":data"))
         exclude(project(":dataInstrumentedTests"))
     }
-}*/
+}
