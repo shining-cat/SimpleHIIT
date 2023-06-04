@@ -34,6 +34,8 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp)
+* see [moving from dsl to toml](https://developer.android.com/build/migrate-to-catalogs)
 * check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out `remember` for state in composables and implement
 * write tests on `Viewmodels`
