@@ -18,7 +18,7 @@ object Versions {
     const val test_runner = "1.5.2"
     const val coil = "2.4.0"
     const val benManesDependenciesVersionPlugin = "0.46.0"
-    const val gmazzoJacocoReportAggregationPlugin = "1.1.0"
+    const val gmazzoJacocoReportAggregationPlugin = "1.1.1"
     const val composeBom = "2023.05.01"
     const val activityCompose = "1.7.0"
 }
