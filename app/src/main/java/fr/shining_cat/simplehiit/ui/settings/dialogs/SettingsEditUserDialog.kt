@@ -10,17 +10,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.InputDialog
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.InputDialogTextFieldSize
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.ui.components.InputDialog
-import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
 fun SettingsEditUserDialog(
     saveUserName: (String) -> Unit,
     deleteUser: () -> Unit,
-    validateUserNameInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
+    validateUserNameInput: (String) -> Constants.InputError,
     userName: String,
     onCancel: () -> Unit
 ) {
@@ -47,10 +47,10 @@ fun SettingsEditUserDialog(
     }
 }
 
-private fun setUserNameErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
+private fun setUserNameErrorMessage(error: Constants.InputError): Int {
     return when (error) {
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
+        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 }
@@ -72,9 +72,9 @@ private fun setUserNameErrorMessage(error: fr.shining_cat.simplehiit.commondomai
 private fun SettingsEditUserDialogPreview() {
     SimpleHiitTheme {
         SettingsEditUserDialog(
-            saveUserName= {},
-            deleteUser= {},
-            validateUserNameInput= { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            saveUserName = {},
+            deleteUser = {},
+            validateUserNameInput = { _ -> Constants.InputError.NONE },
             userName = "The user's name",
             onCancel = {}
         )

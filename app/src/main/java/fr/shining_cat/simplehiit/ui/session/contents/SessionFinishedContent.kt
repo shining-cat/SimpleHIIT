@@ -15,13 +15,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
 import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.ui.helpers.ExerciseDisplayNameMapper
+import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.ui.session.SessionViewState
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

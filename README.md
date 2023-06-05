@@ -51,7 +51,9 @@ This screenshot from the Google article's video shows the idea I'll aim for: ![]
 ### Process
 
 I started by extracting the whole **_domain_** layer, as it is the one that all others depend on, and that will allow extracting the others without creating a circular dependency from them on the app module.
-On the long term, I think the domain module will be split further, only retaining common domain-related objects, while all features-related code will be extracted to smaller feature-dedicated domain modules.
+On the long term, I think the domain module will be split further, only retaining common domain-related objects, while all features-related code will be extracted to smaller feature-dedicated domain modules.<br/>
+**Note on creating new module from AS ide**: AS will add these two plugins to the main build.gradle.kts, and that will fail the build. simply remove them: `id("com.android.library") version
+id("org.jetbrains.kotlin.android")`
 
 The _**data**_ layer has been extracted as a single module, although it might be split further too. This is less certain though, as we only have little data management, and only two sources for it: Room and DataStore. The databases for users and sessions are joined, so splitting them appart to follow the features' separation would mean losing the benefit of this joint.<br/>
 **Note on Instrumented tests for the data layer**: while extracting the data layer from the app module, I lost the ability to run the instrumented tests. For some reason I wasn't able to understand, I never managed to get them working, when they still worked fine if placed back in the app module.

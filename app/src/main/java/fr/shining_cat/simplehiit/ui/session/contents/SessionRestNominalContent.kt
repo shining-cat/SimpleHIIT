@@ -13,17 +13,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.GifImage
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
-import fr.shining_cat.simplehiit.ui.components.GifImage
-import fr.shining_cat.simplehiit.ui.helpers.ExerciseGifMapper
+import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.ui.session.components.CountDownComponent
 import fr.shining_cat.simplehiit.ui.session.components.ExerciseDescriptionComponent
 import fr.shining_cat.simplehiit.ui.session.components.RemainingPercentageComponent
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
@@ -102,7 +102,7 @@ private fun SessionRestNominalContentPreview(
     @PreviewParameter(SessionRestNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RestNominal
 ) {
     SimpleHiitTheme {
-        Surface{
+        Surface {
             SessionRestNominalContent(viewState = viewState)
         }
     }

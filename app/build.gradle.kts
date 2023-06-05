@@ -76,6 +76,8 @@ repositories {
 dependencies {
     implementation(project(":commonDomain"))
     implementation(project(":commonUtils"))
+    implementation(project(":commonResources"))
+    implementation(project(":android:mobile:commonUI"))
     implementation(project(":data"))
     testImplementation(project(":testUtils"))
     androidTestImplementation(project(":testUtils"))

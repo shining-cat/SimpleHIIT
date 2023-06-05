@@ -18,11 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.home.components.NumberCyclesComponent
 import fr.shining_cat.simplehiit.ui.home.components.SelectUsersComponent
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
 fun HomeNominalContent(
@@ -91,7 +91,7 @@ fun HomeNominalContent(
 @Composable
 private fun HomeNominalContentPreview() {
     SimpleHiitTheme {
-        Surface{
+        Surface {
             HomeNominalContent(
                 openInputNumberCycles = {},
                 numberOfCycles = 5,

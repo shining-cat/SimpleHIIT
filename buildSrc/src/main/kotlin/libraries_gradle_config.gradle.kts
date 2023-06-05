@@ -5,6 +5,11 @@ plugins {
     jacoco
 }
 
+repositories {
+    google()
+    mavenCentral()
+}
+
 android {
     compileSdk = ConfigData.compileSdkVersion
     buildToolsVersion = ConfigData.buildToolsVersion

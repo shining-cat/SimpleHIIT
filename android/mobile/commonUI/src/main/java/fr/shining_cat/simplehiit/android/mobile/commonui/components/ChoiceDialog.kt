@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.components
+package fr.shining_cat.simplehiit.android.mobile.commonui.components
 
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
@@ -16,8 +16,8 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 
 @Composable
 fun ChoiceDialog(

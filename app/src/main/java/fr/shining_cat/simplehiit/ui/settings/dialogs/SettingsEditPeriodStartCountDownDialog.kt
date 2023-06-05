@@ -11,16 +11,16 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.InputDialog
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.InputDialogTextFieldSize
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.ui.components.InputDialog
-import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
 fun SettingsEditPeriodStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
-    validateCountDownLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
+    validateCountDownLengthInput: (String) -> Constants.InputError,
     countDownLengthSeconds: String,
     onCancel: () -> Unit
 ) {
@@ -46,10 +46,10 @@ fun SettingsEditPeriodStartCountDownDialog(
     }
 }
 
-private fun setInputPeriodCountDownLengthErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
+private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int {
     return when (error) {
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE -> -1
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
+        Constants.InputError.NONE -> -1
+        Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error
     }
 }
@@ -72,7 +72,7 @@ private fun SettingsEditPeriodStartCountDownDialogPreview() {
     SimpleHiitTheme {
         SettingsEditPeriodStartCountDownDialog(
             saveCountDownLength = {},
-            validateCountDownLengthInput = { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
             countDownLengthSeconds = "5",
             onCancel = {}
         )
