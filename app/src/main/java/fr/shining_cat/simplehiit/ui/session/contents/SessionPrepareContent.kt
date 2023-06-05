@@ -9,7 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.ui.session.components.CountDownComponent

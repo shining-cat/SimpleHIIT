@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.android.mobile.commonui.components.GifImage
-import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.common.components.GifImage
+import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseGifMapper

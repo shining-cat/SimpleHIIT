@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.ui.session.CountDown
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
