@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings
+package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
 import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.commondomain.Output
@@ -6,8 +6,8 @@ import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.commondomain.models.GeneralSettings
 import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.Error
-import fr.shining_cat.simplehiit.ui.settings.SettingsViewState.Nominal
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState.Error
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState.Nominal
 import javax.inject.Inject
 import kotlin.math.roundToInt
 

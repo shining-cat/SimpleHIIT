@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings
+package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

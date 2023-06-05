@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings
+package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
 import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.commondomain.Output

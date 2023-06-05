@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings.contents
+package fr.shining_cat.simplehiit.android.mobile.ui.settings.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -25,7 +25,7 @@ import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.settings.SettingsViewState
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import kotlin.math.roundToInt
 
 @Composable

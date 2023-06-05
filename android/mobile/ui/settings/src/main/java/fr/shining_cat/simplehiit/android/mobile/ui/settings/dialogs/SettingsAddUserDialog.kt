@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings.dialogs
+package fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -17,11 +17,10 @@ import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.Constants
 
 @Composable
-fun SettingsEditUserDialog(
+fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
-    deleteUser: () -> Unit,
-    validateUserNameInput: (String) -> Constants.InputError,
     userName: String,
+    validateUserNameInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
     onCancel: () -> Unit
 ) {
     Column(
@@ -30,27 +29,25 @@ fun SettingsEditUserDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.edit_user_dialog_title),
+            dialogTitle = stringResource(id = R.string.create_user_dialog_title),
             inputFieldValue = userName,
             inputFieldPostfix = "",
             inputFieldSingleLine = true,
             inputFieldSize = InputDialogTextFieldSize.LARGE,
             primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
             primaryAction = { saveUserName(it) },
-            secondaryButtonLabel = stringResource(id = R.string.delete_button_label),
-            secondaryAction = deleteUser,
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
             validateInput = validateUserNameInput,
-            pickErrorMessage = { setUserNameErrorMessage(it) }
+            pickErrorMessage = { setUSerNameErrorMessage(it) }
         )
     }
 }
 
-private fun setUserNameErrorMessage(error: Constants.InputError): Int {
+private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
     return when (error) {
-        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
+        fr.shining_cat.simplehiit.commondomain.Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 }
@@ -69,14 +66,13 @@ private fun setUserNameErrorMessage(error: Constants.InputError): Int {
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun SettingsEditUserDialogPreview() {
+private fun SettingsAddUserDialogPreview() {
     SimpleHiitTheme {
-        SettingsEditUserDialog(
+        SettingsAddUserDialog(
             saveUserName = {},
-            deleteUser = {},
+            userName = "The User's name",
             validateUserNameInput = { _ -> Constants.InputError.NONE },
-            userName = "The user's name",
-            onCancel = {}
+            onCancel = {},
         )
     }
 }

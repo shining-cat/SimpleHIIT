@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings
+package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -27,14 +27,14 @@ import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.settings.contents.SettingsErrorContent
-import fr.shining_cat.simplehiit.ui.settings.contents.SettingsNominalContent
-import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsAddUserDialog
-import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditNumberCyclesDialog
-import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditPeriodLengthDialog
-import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditPeriodStartCountDownDialog
-import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
-import fr.shining_cat.simplehiit.ui.settings.dialogs.SettingsEditUserDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsErrorContent
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsNominalContent
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsAddUserDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditNumberCyclesDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditPeriodLengthDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditPeriodStartCountDownDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditUserDialog
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

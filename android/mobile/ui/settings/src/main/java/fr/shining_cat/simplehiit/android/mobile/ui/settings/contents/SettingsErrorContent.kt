@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings.contents
+package fr.shining_cat.simplehiit.android.mobile.ui.settings.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.settings.dialogs
+package fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -18,10 +18,10 @@ import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.Constants
 
 @Composable
-fun SettingsEditNumberCyclesDialog(
-    saveNumber: (String) -> Unit,
-    validateNumberCyclesInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
-    numberOfCycles: String,
+fun SettingsEditSessionStartCountDownDialog(
+    saveCountDownLength: (String) -> Unit,
+    validateCountDownLengthInput: (String) -> Constants.InputError,
+    countDownLengthSeconds: String,
     onCancel: () -> Unit
 ) {
     Column(
@@ -30,23 +30,23 @@ fun SettingsEditNumberCyclesDialog(
             .fillMaxWidth()
     ) {
         InputDialog(
-            dialogTitle = stringResource(id = R.string.number_of_cycle_setting_title),
-            inputFieldValue = numberOfCycles,
-            inputFieldPostfix = stringResource(id = R.string.number_of_exercises_per_cycle),
+            dialogTitle = stringResource(id = R.string.session_start_countdown_length_setting_label),
+            inputFieldValue = countDownLengthSeconds,
+            inputFieldPostfix = stringResource(id = R.string.seconds),
             inputFieldSingleLine = true,
             inputFieldSize = InputDialogTextFieldSize.SMALL,
             primaryButtonLabel = stringResource(id = R.string.save_settings_button_label),
-            primaryAction = { saveNumber(it) },
+            primaryAction = { saveCountDownLength(it) },
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
-            validateInput = validateNumberCyclesInput,
-            pickErrorMessage = { setNumberCyclesErrorMessage(it) }
+            validateInput = validateCountDownLengthInput,
+            pickErrorMessage = { setInputSessionCountDownLengthErrorMessage(it) }
         )
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
+private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int {
     return when (error) {
         Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
@@ -67,13 +67,13 @@ private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun SettingsEditNumberCyclesDialogPreview() {
+private fun SettingsEditSessionStartCountDownDialogPreview() {
     SimpleHiitTheme {
-        SettingsEditNumberCyclesDialog(
-            saveNumber = {},
-            validateNumberCyclesInput = { _ -> Constants.InputError.NONE },
-            numberOfCycles = "5",
-            onCancel = {},
+        SettingsEditSessionStartCountDownDialog(
+            saveCountDownLength = {},
+            validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
+            countDownLengthSeconds = "5",
+            onCancel = {}
         )
     }
 }
