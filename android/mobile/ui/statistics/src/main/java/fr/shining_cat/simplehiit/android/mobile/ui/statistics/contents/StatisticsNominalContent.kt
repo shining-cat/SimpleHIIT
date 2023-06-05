@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics.contents
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,7 @@ import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.statistics.StatisticsViewState
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

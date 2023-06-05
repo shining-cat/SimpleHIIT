@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
 import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.commondomain.models.User
@@ -17,7 +17,7 @@ sealed class StatisticsViewState {
 }
 sealed class StatisticsDialog(){
     object None: StatisticsDialog()
-    data class SelectUser(val users: List<User>):StatisticsDialog()
+    data class SelectUser(val users: List<User>): StatisticsDialog()
     data class ConfirmDeleteAllSessionsForUser(val user: User) : StatisticsDialog()
     object ConfirmWholeReset : StatisticsDialog()
 }

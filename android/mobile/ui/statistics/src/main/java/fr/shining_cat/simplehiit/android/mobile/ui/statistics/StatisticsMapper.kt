@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
 import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic

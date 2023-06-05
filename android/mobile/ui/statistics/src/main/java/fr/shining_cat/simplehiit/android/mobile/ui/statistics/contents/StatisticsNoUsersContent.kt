@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics.contents
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -16,25 +16,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.statistics.StatisticsViewState
 
 @Composable
-fun StatisticsNoSessionsContent(
-    viewState: StatisticsViewState.NoSessions
-) {
+fun StatisticsNoUsersContent() {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineLarge,
-            text = viewState.user.name
-        )
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.doge),
             contentDescription = stringResource(id = R.string.doge_icon_content_description),
@@ -61,15 +51,10 @@ fun StatisticsNoSessionsContent(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun StatisticsNoSessionsContentPreview() {
+private fun StatisticsNoUsersContentPreview() {
     SimpleHiitTheme {
         Surface {
-            StatisticsNoSessionsContent(
-                viewState = StatisticsViewState.NoSessions(
-                    User(name = "Georges")
-                )
-            )
+            StatisticsNoUsersContent()
         }
     }
 }
-

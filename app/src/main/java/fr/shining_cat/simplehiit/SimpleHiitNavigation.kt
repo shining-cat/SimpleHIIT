@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui
+package fr.shining_cat.simplehiit
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -8,7 +8,7 @@ import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.android.mobile.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionScreen
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsScreen
-import fr.shining_cat.simplehiit.ui.statistics.StatisticsScreen
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsScreen
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

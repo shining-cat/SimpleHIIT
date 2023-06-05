@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics.dialogs
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*

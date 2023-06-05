@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.statistics
+package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -23,12 +23,12 @@ import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsErrorContent
-import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsFatalErrorContent
-import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsNoSessionsContent
-import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsNoUsersContent
-import fr.shining_cat.simplehiit.ui.statistics.contents.StatisticsNominalContent
-import fr.shining_cat.simplehiit.ui.statistics.dialogs.StatisticsSelectUserDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsErrorContent
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsFatalErrorContent
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNoSessionsContent
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNoUsersContent
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNominalContent
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.dialogs.StatisticsSelectUserDialog
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

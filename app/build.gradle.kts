@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":android:mobile:ui:home"))
     implementation(project(":android:mobile:ui:session"))
     implementation(project(":android:mobile:ui:settings"))
+    implementation(project(":android:mobile:ui:statistics"))
     implementation(project(":data"))
     testImplementation(project(":testUtils"))
     androidTestImplementation(project(":testUtils"))
