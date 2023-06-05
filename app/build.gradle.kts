@@ -74,50 +74,25 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":commonDomain"))
-    implementation(project(":commonUtils"))
-    implementation(project(":commonResources"))
     implementation(project(":android:mobile:ui:common"))
     implementation(project(":android:mobile:ui:home"))
     implementation(project(":android:mobile:ui:session"))
     implementation(project(":android:mobile:ui:settings"))
     implementation(project(":android:mobile:ui:statistics"))
+    implementation(project(":commonDomain"))
+    implementation(project(":commonUtils"))
+    implementation(project(":commonResources"))
     implementation(project(":data"))
-    testImplementation(project(":testUtils"))
-    androidTestImplementation(project(":testUtils"))
     //
     val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //
     implementation(Deps.appCompat)
-    implementation(Deps.datastore)
-    implementation(Deps.materialDesign)
     implementation(HiltDeps.hiltAndroid)
-    implementation(HiltDeps.hiltNavigation)
     implementation(ComposeDeps.composeMaterial3)
-    implementation(ComposeDeps.composePreview)
     implementation(Navigation.navCompose)
-    implementation(Navigation.navFragments)
-    implementation(Navigation.navUi)
-    implementation(Deps.coil)
-    implementation(Deps.coilGif)
     kapt(HiltDeps.hiltAndroidCompiler)
-    //
-    debugImplementation(ComposeDeps.composePreviewDebug)
-    debugImplementation(ComposeDeps.composeUiTestsDebug)
-    //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(Navigation.navTesting)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.coroutinesTest)
-    testImplementation(TestDeps.jupiter)
-    //
-    androidTestImplementation(HiltDeps.hiltTestAndroid)
-    androidTestImplementation(TestDeps.archCoreTesting)
-    androidTestImplementation(ComposeDeps.composeUiTests)
-    androidTestImplementation(TestDeps.testRunner)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
 }
 
 //Allow references to generated code
