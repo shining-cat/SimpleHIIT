@@ -18,7 +18,7 @@ import fr.shining_cat.simplehiit.commondomain.usecases.InsertSessionUseCase
 import fr.shining_cat.simplehiit.commondomain.usecases.StepTimerUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
-import fr.shining_cat.simplehiit.di.MainDispatcher
+import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow

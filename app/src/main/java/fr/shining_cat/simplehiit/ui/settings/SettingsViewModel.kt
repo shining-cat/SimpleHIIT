@@ -25,7 +25,7 @@ import fr.shining_cat.simplehiit.commondomain.usecases.ValidateInputUserNameUseC
 import fr.shining_cat.simplehiit.commondomain.usecases.ValidateNumberOfWorkPeriodsUseCase
 import fr.shining_cat.simplehiit.commondomain.usecases.ValidatePeriodLengthUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.di.MainDispatcher
+import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

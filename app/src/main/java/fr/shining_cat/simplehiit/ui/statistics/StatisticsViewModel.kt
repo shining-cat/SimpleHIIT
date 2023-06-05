@@ -12,7 +12,7 @@ import fr.shining_cat.simplehiit.commondomain.usecases.GetStatsForUserUseCase
 import fr.shining_cat.simplehiit.commondomain.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
-import fr.shining_cat.simplehiit.di.MainDispatcher
+import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
