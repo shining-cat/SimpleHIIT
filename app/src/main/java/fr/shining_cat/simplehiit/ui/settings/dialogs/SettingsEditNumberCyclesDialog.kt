@@ -11,11 +11,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.InputDialog
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.InputDialogTextFieldSize
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.ui.components.InputDialog
-import fr.shining_cat.simplehiit.ui.components.InputDialogTextFieldSize
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
 fun SettingsEditNumberCyclesDialog(
@@ -46,9 +46,9 @@ fun SettingsEditNumberCyclesDialog(
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
+private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
     return when (error) {
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE -> -1
+        Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
 }
@@ -71,7 +71,7 @@ private fun SettingsEditNumberCyclesDialogPreview() {
     SimpleHiitTheme {
         SettingsEditNumberCyclesDialog(
             saveNumber = {},
-            validateNumberCyclesInput = { _ -> fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            validateNumberCyclesInput = { _ -> Constants.InputError.NONE },
             numberOfCycles = "5",
             onCancel = {},
         )

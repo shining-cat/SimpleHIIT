@@ -9,7 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import javax.inject.Inject
 

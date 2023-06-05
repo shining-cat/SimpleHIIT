@@ -9,11 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 
 @Composable
 fun RemainingPercentageComponent(
@@ -55,7 +54,7 @@ fun RemainingPercentageComponent(
 @Composable
 private fun RemainingPercentageComponentPreview() {
     SimpleHiitTheme {
-        Surface{
+        Surface {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,

@@ -1,7 +1,7 @@
-package fr.shining_cat.simplehiit.ui.helpers
+package fr.shining_cat.simplehiit.commonresources.helpers
 
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
 
 class ExerciseGifMapper {
 

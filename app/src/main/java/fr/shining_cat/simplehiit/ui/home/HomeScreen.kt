@@ -24,17 +24,17 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.Screen
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.WarningDialog
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.Constants
 import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.components.WarningDialog
 import fr.shining_cat.simplehiit.ui.home.contents.HomeErrorContent
 import fr.shining_cat.simplehiit.ui.home.dialogs.HomeInputNumberCyclesDialog
 import fr.shining_cat.simplehiit.ui.home.contents.HomeMissingUsersContent
 import fr.shining_cat.simplehiit.ui.home.contents.HomeNominalContent
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
@@ -208,11 +208,11 @@ private fun HomeContent(
         }
         when (dialogViewState) {
             is HomeDialog.ConfirmWholeReset -> WarningDialog(
-                    message = stringResource(id = R.string.error_confirm_whole_reset),
-                    proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                    proceedAction = resetWholeAppDeleteEverything,
-                    dismissAction = cancelDialog
-                )
+                message = stringResource(id = R.string.error_confirm_whole_reset),
+                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                proceedAction = resetWholeAppDeleteEverything,
+                dismissAction = cancelDialog
+            )
             is HomeDialog.InputNumberCycles -> HomeInputNumberCyclesDialog(
                 saveInputNumberCycles = saveInputNumberCycles,
                 validateInputNumberCycles = validateInputNumberCycles,
@@ -244,7 +244,7 @@ private fun HomeScreenPreview(
 ) {
     SimpleHiitTheme {
         HomeScreen(
-            validateInputNumberCycles = { fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE },
+            validateInputNumberCycles = { Constants.InputError.NONE },
             viewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
         )

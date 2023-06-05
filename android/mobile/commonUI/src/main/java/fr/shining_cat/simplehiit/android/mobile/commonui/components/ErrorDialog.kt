@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.components
+package fr.shining_cat.simplehiit.android.mobile.commonui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
@@ -14,15 +14,14 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import fr.shining_cat.simplehiit.R
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 
 @Composable
-fun WarningDialog(
-    message: String = "",
-    proceedButtonLabel: String,
-    proceedAction: () -> Unit,
-    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
+fun ErrorDialog(
+    errorMessage: String,
+    errorCode: String,
+    dismissButtonLabel: String = "",
     dismissAction: () -> Unit
 ) {
     Dialog(onDismissRequest = dismissAction) {
@@ -35,6 +34,12 @@ fun WarningDialog(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
+                Text(
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 4.dp),
+                    text = stringResource(id = R.string.error_title),
+                    style = MaterialTheme.typography.headlineSmall
+                )
                 Image(
                     modifier = Modifier
                         .size(120.dp)
@@ -45,24 +50,27 @@ fun WarningDialog(
                 )
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
-                    text = message,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
+                    text = stringResource(id = R.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    if (dismissButtonLabel.isNotBlank()) {
-                        OutlinedButton(onClick = dismissAction) {
-                            Text(text = dismissButtonLabel)
-                        }
-                    }
-                    Button(onClick = proceedAction) {
-                        Text(text = proceedButtonLabel)
-                    }
+                if(errorMessage.isNotBlank()) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(horizontal = 0.dp, vertical = 8.dp),
+                        text = errorMessage,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Text(
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
+                    text = stringResource(id = R.string.error_code, errorCode),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                TextButton(onClick = dismissAction) {
+                    Text(text = dismissButtonLabel)
                 }
             }
         }
@@ -85,12 +93,11 @@ fun WarningDialog(
 @Composable
 private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
-        WarningDialog(
-            message = "This will erase all users, all stored sessions, and all settings",
-            proceedButtonLabel = "Yeah",
-            proceedAction = {},
-            dismissButtonLabel = "Nope",
-            dismissAction = {}
+        ErrorDialog(
+            errorMessage = "A balloon is floating above the country",
+            errorCode = "1234",
+            dismissAction = {},
+            dismissButtonLabel = "OK"
         )
     }
 }

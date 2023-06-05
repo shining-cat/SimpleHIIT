@@ -15,12 +15,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
-import fr.shining_cat.simplehiit.ui.helpers.ExerciseDisplayNameMapper
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 
 @Composable
 fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
@@ -60,15 +60,21 @@ fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
 @Composable
 private fun CountDownCircularProgressPreview() {
     SimpleHiitTheme {
-        Surface{
+        Surface {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 ExerciseDescriptionComponent(Exercise.LungesBackKick, ExerciseSide.NONE)
-                ExerciseDescriptionComponent(Exercise.CrabKicks, AsymmetricalExerciseSideOrder.FIRST.side)
-                ExerciseDescriptionComponent(Exercise.CrabKicks, AsymmetricalExerciseSideOrder.SECOND.side)
+                ExerciseDescriptionComponent(
+                    Exercise.CrabKicks,
+                    AsymmetricalExerciseSideOrder.FIRST.side
+                )
+                ExerciseDescriptionComponent(
+                    Exercise.CrabKicks,
+                    AsymmetricalExerciseSideOrder.SECOND.side
+                )
             }
         }
     }

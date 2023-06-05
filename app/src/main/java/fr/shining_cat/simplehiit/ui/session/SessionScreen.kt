@@ -17,18 +17,18 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.ChoiceDialog
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
 import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.ui.components.ChoiceDialog
 import fr.shining_cat.simplehiit.ui.session.contents.SessionErrorStateContent
 import fr.shining_cat.simplehiit.ui.session.contents.SessionFinishedContent
 import fr.shining_cat.simplehiit.ui.session.contents.SessionPrepareContent
 import fr.shining_cat.simplehiit.ui.session.contents.SessionRestNominalContent
 import fr.shining_cat.simplehiit.ui.session.contents.SessionWorkNominalContent
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

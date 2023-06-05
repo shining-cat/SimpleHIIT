@@ -12,10 +12,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.components.ToggleButton
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.ui.components.ToggleButton
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 
 @Composable
 fun SelectUsersComponent(
@@ -62,7 +62,7 @@ fun SelectUsersComponent(
 @Composable
 private fun SelectUsersComponentPreview() {
     SimpleHiitTheme {
-        Surface{
+        Surface {
             SelectUsersComponent(
                 users = listOf(
                     User(123L, "User 1", selected = true),

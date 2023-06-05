@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.components
+package fr.shining_cat.simplehiit.android.mobile.commonui.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 
 @Composable
 fun ToggleButton(

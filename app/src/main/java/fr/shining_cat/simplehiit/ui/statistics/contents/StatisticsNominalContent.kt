@@ -17,12 +17,12 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.R
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.android.mobile.commonui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.commondomain.models.User
 import fr.shining_cat.simplehiit.ui.statistics.StatisticsViewState
-import fr.shining_cat.simplehiit.ui.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
@@ -148,7 +148,7 @@ private fun StatisticsContentNominalPreview(
     @PreviewParameter(StatisticsContentNominalPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
     SimpleHiitTheme {
-        Surface{
+        Surface {
             StatisticsNominalContent(
                 deleteAllSessionsForUser = {},
                 viewState = viewState,

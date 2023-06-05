@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.theme
+package fr.shining_cat.simplehiit.android.mobile.commonui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
