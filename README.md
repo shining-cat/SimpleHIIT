@@ -46,7 +46,10 @@ Lastly, the _Domain_ layer, as the central point of the clean architecture, also
 This project started as a single-module architecture, and I decided later to split it into modules.
 Reading [this article](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23) and [these updated recommendations from Google](https://developer.android.com/topic/modularization/patterns), I have decided to split the project into modules.
 I'll aim for a matrix-like structure, where columns would be close to what features would be (here, Home, Settings, Session, Statistics) and rows would be close to the architectural layers (presentation, domain, and data)
-This screenshot from the Google article's video shows the idea I'll aim for: ![](modules_matrix.png)
+This screenshot from the Google article's video shows the idea that got me started: ![](modules_matrix.png)
+
+Current state of the inter-modules relations, generated with [Savvas Dalkitsis' plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
+![](module_graph_20230605.png)
 
 ### Process
 
@@ -60,7 +63,6 @@ The _**data**_ layer has been extracted as a single module, although it might be
 I always had build failures claiming I was missing a dependency on coroutines.test, which I had added.
 This led me to an workaround, as I didn't want to keep those tests in the app module, inspired by [this article about dedicating modules to tests](https://proandroiddev.com/effective-testing-with-android-test-only-modules-3164ed9b20a0) and [this short mention in the Google's doc](https://developer.android.com/studio/test/advanced-test-setup#use-separate-test-modules-for-instrumented-tests).
 This is the origin story of the test-module _dataInstrumentedTests_. <br/>
-**Note:** this new test-module seems to have broken [gmazzo's coverage plugin](https://developer.android.com/studio/test/advanced-test-setup#use-separate-test-modules-for-instrumented-tests), as it was working fine before, and is now failing the build. -> [see todo](https://github.com/shining-cat/SimpleHIIT/blob/master/TODO.md)
 
 ### Extracting common gradle code
 
@@ -78,6 +80,7 @@ All exercise pictures were made with the help of the awesome [PoseMyArt](https:/
 
 * [Ben Mannes' Gradle version plugin](https://github.com/ben-manes/gradle-versions-plugin#gradle-versions-plugin)
 * [GMazzo's jacoco test coverage aggregation gradle plugin](https://github.com/gmazzo/gradle-android-test-aggregation-plugin#gradle-android-test-aggregation-plugin)
+* [Savvas Dalkitsis' Inter-modules dependencies graph generator plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
 * [Mockk library](https://mockk.io/)
 * [Coil image loading library](https://coil-kt.github.io/coil/)
 

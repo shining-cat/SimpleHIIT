@@ -1,6 +1,8 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [discussion ongoing with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
+* check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency) [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
 * SessionErrorStateContent is empty
@@ -16,9 +18,6 @@
 * fix broken layout in landscape
 
 ## Code refactoring: architecture
-* **WIP:** split to modules. [See article about how to split](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23?source=rss-8f0052074f18------2)
-  * see [also this article](https://developer.android.com/topic/modularization/patterns). ![](modules_matrix.png)_Note the Matrix combining features and arch layers to get the modules in the video_
-* once split into modules, add inter-modules [dependencies graph generator plugin](https://github.com/vanniktech/gradle-dependency-graph-generator-plugin)
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
 * check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
 * wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
@@ -35,11 +34,11 @@
 ## General technical improvements
 * see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp)
 * see [moving from dsl to toml](https://developer.android.com/build/migrate-to-catalogs)
-* check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * check out `remember` for state in composables and implement
 * write tests on `Viewmodels`
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
+* check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-readme-file-e52dcadafa7a)
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
 
 ## Form factors (phone - AndroidTV - smartWatch)
@@ -49,7 +48,7 @@
 ## Miscellaneous / nice to have
 * instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
 * add total length of session below the number of repetitions so user knows how long it will last
-* when pausing running session, the gif behind the dialog keeps moving... find a nice way to freeze this
+* when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this if possible
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
@@ -58,6 +57,4 @@
 
 ## Discuss with others
 * How to handle building the different app form factors, maybe[ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
-* See SimpleHiitDataStoreManagerImplTest -> how to trigger throwing exception from test dataStore?
-
 
