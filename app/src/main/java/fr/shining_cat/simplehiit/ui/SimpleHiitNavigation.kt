@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.android.mobile.common.Screen
-import fr.shining_cat.simplehiit.ui.session.SessionScreen
+import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionScreen
 import fr.shining_cat.simplehiit.ui.settings.SettingsScreen
 import fr.shining_cat.simplehiit.ui.statistics.StatisticsScreen
 import fr.shining_cat.simplehiit.commonutils.HiitLogger

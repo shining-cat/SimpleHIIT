@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.session.components
+package fr.shining_cat.simplehiit.android.mobile.ui.session.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*

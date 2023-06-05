@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.session
+package fr.shining_cat.simplehiit.android.mobile.ui.session
 
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide

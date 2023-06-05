@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.session.components
+package fr.shining_cat.simplehiit.android.mobile.ui.session.components
 
 import android.content.res.Configuration
 import android.media.MediaPlayer
@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.ui.session.CountDown
+import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

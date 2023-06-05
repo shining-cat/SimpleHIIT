@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.session
+package fr.shining_cat.simplehiit.android.mobile.ui.session
 
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
@@ -24,11 +24,11 @@ import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
 import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.ui.session.contents.SessionErrorStateContent
-import fr.shining_cat.simplehiit.ui.session.contents.SessionFinishedContent
-import fr.shining_cat.simplehiit.ui.session.contents.SessionPrepareContent
-import fr.shining_cat.simplehiit.ui.session.contents.SessionRestNominalContent
-import fr.shining_cat.simplehiit.ui.session.contents.SessionWorkNominalContent
+import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
+import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionFinishedContent
+import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionPrepareContent
+import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionRestNominalContent
+import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionWorkNominalContent
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

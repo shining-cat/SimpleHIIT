@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.session.contents
+package fr.shining_cat.simplehiit.android.mobile.ui.session.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -21,7 +21,7 @@ import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
 import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
-import fr.shining_cat.simplehiit.ui.session.SessionViewState
+import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable

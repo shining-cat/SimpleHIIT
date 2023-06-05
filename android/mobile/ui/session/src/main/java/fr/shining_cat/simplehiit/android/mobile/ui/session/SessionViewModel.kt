@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.ui.session
+package fr.shining_cat.simplehiit.android.mobile.ui.session
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
