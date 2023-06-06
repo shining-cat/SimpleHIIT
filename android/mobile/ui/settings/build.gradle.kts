@@ -18,6 +18,7 @@ android {
 
 dependencies {
     implementation(project(":domain:common"))
+    implementation(project(":domain:settings"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))
     implementation(project(":android:mobile:ui:common"))
