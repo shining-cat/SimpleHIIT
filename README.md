@@ -41,6 +41,21 @@ Thus all suspend methods in the _SimpleHiitRepository_ include a thread switch t
 
 Lastly, the _Domain_ layer, as the central point of the clean architecture, also exposes some suspend methods to the _Presentation_ layer. Some of those methods do include some computation work, while others simply call and handle _Data_ layer suspend methods. As the _Data_ layer is responsible for picking the adequate thread to use in its own suspend methods, I feel like the _Domain_ layer has nothing to do with the _IO_ thread. Thus, I will only inject the _Default_ dispatcher in this layer, to be used by suspend methods in the usecases. 
 
+## Notes on UseCases
+
+My usecases follow a common convention:
+* They are named [action]+"UseCase"
+* They expose a single public method named "execute", suspending or not, with various input parameters, as needed<br/>
+
+[While I like the idea of replacing the `execute` method by an override of the `invoke` operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/), I found out that it has 2 main drawbacks:
+1. First, and that is a big issue in my mind, overriding the `invoke` operator is mostly interesting because it allows one to shorten the call site code, by simply _invoking_ the usecase.
+   Now that last point in my opinion comes with a steep decrease in discoverability, as **it will break the IDE's ability to find usages of the invoke method**, thus greatly hindering navigation around the code.
+2. Removing the "Usecase" suffix makes the task of finding names harder, as the usecase is usually invoked from inside a viewmodel's method. Now this method could very well have the same name, and the "Usecase" suffix allows keeping the same name for both:
+   UserManagementViewModel:createUser(user) can call createUserUseCase(user). If your usecase is also named CreateUser, troubles won't be long coming
+
+These are the reasons why I'll keep using the "traditional" regarding usecases, as I value discoverability and clarity more than conciseness and clever tricks.
+
+
 ## Modularization
 
 This project started as a single-module architecture, and I decided later to split it into modules.
