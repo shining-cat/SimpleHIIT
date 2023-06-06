@@ -20,10 +20,10 @@ import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.Exercise
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
-import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionFinishedContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionPrepareContent

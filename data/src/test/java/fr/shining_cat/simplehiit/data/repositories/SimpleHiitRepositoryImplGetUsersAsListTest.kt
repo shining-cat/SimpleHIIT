@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
@@ -64,8 +64,8 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
             //
             val output = simpleHiitRepository.getUsersList()
             //
-            assertTrue(output is fr.shining_cat.simplehiit.commondomain.Output.Success)
-            output as fr.shining_cat.simplehiit.commondomain.Output.Success
+            assertTrue(output is fr.shining_cat.simplehiit.domain.common.Output.Success)
+            output as fr.shining_cat.simplehiit.domain.common.Output.Success
             assertEquals(daoOutput.size, output.result.size)
             for(input in daoOutput){
                 coVerify (exactly = 1){ mockUserMapper.convert(input) }
@@ -92,9 +92,9 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
         coVerify(exactly = 1) { mockUsersDao.getUsersList() }
         coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed getting users as List", thrownException) }
-        assertTrue(output is fr.shining_cat.simplehiit.commondomain.Output.Error)
-        output as fr.shining_cat.simplehiit.commondomain.Output.Error
-        assertEquals(fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_FETCH_FAILED, output.errorCode)
+        assertTrue(output is fr.shining_cat.simplehiit.domain.common.Output.Error)
+        output as fr.shining_cat.simplehiit.domain.common.Output.Error
+        assertEquals(fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED, output.errorCode)
         assertEquals(thrownException, output.exception)
     }
 
@@ -157,9 +157,9 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
         coVerify(exactly = 1) { mockUsersDao.getUsersList() }
         coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed getting users as List", thrownException) }
-        assertTrue(actual is fr.shining_cat.simplehiit.commondomain.Output.Error)
-        actual as fr.shining_cat.simplehiit.commondomain.Output.Error
-        assertEquals(fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_FETCH_FAILED, actual.errorCode)
+        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Error)
+        actual as fr.shining_cat.simplehiit.domain.common.Output.Error
+        assertEquals(fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED, actual.errorCode)
         assertEquals(thrownException, actual.exception)
     }
 

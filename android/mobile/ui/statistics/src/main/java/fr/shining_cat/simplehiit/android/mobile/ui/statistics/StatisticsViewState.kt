@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
-import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport

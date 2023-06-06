@@ -1,15 +1,14 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.shining_cat.simplehiit.commondomain.Output
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.commondomain.usecases.DeleteSessionsForUserUseCase
-import fr.shining_cat.simplehiit.commondomain.usecases.GetAllUsersUseCase
-import fr.shining_cat.simplehiit.commondomain.usecases.GetStatsForUserUseCase
-import fr.shining_cat.simplehiit.commondomain.usecases.ResetWholeAppUseCase
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.User
+import fr.shining_cat.simplehiit.domain.statistics.usecases.DeleteSessionsForUserUseCase
+import fr.shining_cat.simplehiit.domain.statistics.usecases.GetAllUsersUseCase
+import fr.shining_cat.simplehiit.domain.statistics.usecases.GetStatsForUserUseCase
+import fr.shining_cat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
 import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
@@ -57,7 +56,7 @@ class StatisticsViewModel @Inject constructor(
                         }
 
                         is Output.Error -> {
-                            if (it.errorCode == fr.shining_cat.simplehiit.commondomain.Constants.Errors.NO_USERS_FOUND) {
+                            if (it.errorCode == fr.shining_cat.simplehiit.domain.common.Constants.Errors.NO_USERS_FOUND) {
                                 //users list retrieved is empty -> no users yet. Special case
                                 _screenViewState.emit(StatisticsViewState.NoUsers)
                             } else {

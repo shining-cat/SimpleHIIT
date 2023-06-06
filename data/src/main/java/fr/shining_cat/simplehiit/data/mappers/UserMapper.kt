@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.data.mappers
 
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import javax.inject.Inject
 

@@ -1,12 +1,12 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.commondomain.Output
-import fr.shining_cat.simplehiit.commondomain.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
-import fr.shining_cat.simplehiit.commondomain.models.SessionRecord
-import fr.shining_cat.simplehiit.commondomain.models.SimpleHiitPreferences
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
+import fr.shining_cat.simplehiit.domain.common.models.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.data.di.IoDispatcher
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao

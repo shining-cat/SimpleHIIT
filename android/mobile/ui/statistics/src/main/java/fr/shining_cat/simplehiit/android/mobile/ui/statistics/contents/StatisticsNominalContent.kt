@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
-import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
