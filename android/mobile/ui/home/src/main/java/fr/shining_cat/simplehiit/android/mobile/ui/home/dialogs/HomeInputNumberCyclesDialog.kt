@@ -15,12 +15,12 @@ import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.InputDialog
 import fr.shining_cat.simplehiit.android.mobile.common.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.domain.common.Constants
 
 @Composable
 fun HomeInputNumberCyclesDialog(
     saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
+    validateInputNumberCycles: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
     numberOfCycles: Int,
     onCancel: () -> Unit
 ) {
@@ -46,9 +46,9 @@ fun HomeInputNumberCyclesDialog(
     }
 }
 
-private fun setErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
+private fun setErrorMessage(error: fr.shining_cat.simplehiit.domain.common.Constants.InputError): Int {
     return when (error) {
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.NONE -> -1
+        fr.shining_cat.simplehiit.domain.common.Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
 }

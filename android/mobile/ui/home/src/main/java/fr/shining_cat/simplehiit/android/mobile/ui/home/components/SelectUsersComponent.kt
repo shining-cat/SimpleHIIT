@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.ToggleButton
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun SelectUsersComponent(

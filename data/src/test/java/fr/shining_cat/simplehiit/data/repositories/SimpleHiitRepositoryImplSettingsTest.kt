@@ -1,8 +1,8 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseType.*
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.commondomain.models.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType.*
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.domain.common.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager

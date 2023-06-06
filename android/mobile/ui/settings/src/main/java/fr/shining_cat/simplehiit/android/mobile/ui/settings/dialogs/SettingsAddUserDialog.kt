@@ -14,13 +14,13 @@ import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.InputDialog
 import fr.shining_cat.simplehiit.android.mobile.common.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.domain.common.Constants
 
 @Composable
 fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
     userName: String,
-    validateUserNameInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
+    validateUserNameInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
     onCancel: () -> Unit
 ) {
     Column(
@@ -44,10 +44,10 @@ fun SettingsAddUserDialog(
     }
 }
 
-private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
+private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.domain.common.Constants.InputError): Int {
     return when (error) {
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        fr.shining_cat.simplehiit.commondomain.Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        fr.shining_cat.simplehiit.domain.common.Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
+        fr.shining_cat.simplehiit.domain.common.Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 }

@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.data.mappers
 
-import fr.shining_cat.simplehiit.commondomain.models.SessionRecord
+import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import org.junit.jupiter.api.Assertions.*

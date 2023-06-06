@@ -1,9 +1,9 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.home
 
-import fr.shining_cat.simplehiit.commondomain.Output
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.HomeSettings
-import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.HomeSettings
+import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Error
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.MissingUsers

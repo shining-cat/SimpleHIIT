@@ -79,7 +79,7 @@ dependencies {
     implementation(project(":android:mobile:ui:session"))
     implementation(project(":android:mobile:ui:settings"))
     implementation(project(":android:mobile:ui:statistics"))
-    implementation(project(":commonDomain"))
+    implementation(project(":domain:common"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))
     implementation(project(":data"))

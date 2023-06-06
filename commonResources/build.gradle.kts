@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":commonDomain"))
+    implementation(project(":domain:common"))
     //
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)

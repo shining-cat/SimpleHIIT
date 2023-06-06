@@ -1,8 +1,8 @@
 package fr.shining_cat.simplehiit.data.local.datastore
 
 import androidx.datastore.preferences.core.*
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
-import fr.shining_cat.simplehiit.commondomain.models.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.flow.Flow
 
 const val SIMPLE_HIIT_DATASTORE_FILENAME = "simple_hiit_datastore_filename"

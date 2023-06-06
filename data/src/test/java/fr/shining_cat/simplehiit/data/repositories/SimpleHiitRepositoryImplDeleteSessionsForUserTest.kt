@@ -57,8 +57,8 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
         //
         coVerify(exactly = 1) { mockSessionRecordsDao.deleteForUser(testUserId) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-        val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_DELETE_FAILED,
+        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
+            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -117,8 +117,8 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
             //
             coVerify(exactly = 1) { mockSessionRecordsDao.deleteForUser(testUserId) }
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-            val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Error(
-                errorCode = fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_DELETE_FAILED,
+            val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
+                errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
                 exception = thrownException
             )
             assertEquals(expectedOutput, actual)
@@ -144,8 +144,8 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
         val actual = simpleHiitRepository.deleteSessionRecordsForUser(testUserId)
         //
         coVerify(exactly = 1) { mockSessionRecordsDao.deleteForUser(testUserId) }
-        assertTrue(actual is fr.shining_cat.simplehiit.commondomain.Output.Success)
-        actual as fr.shining_cat.simplehiit.commondomain.Output.Success
+        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Success)
+        actual as fr.shining_cat.simplehiit.domain.common.Output.Success
         assertEquals(testValue, actual.result)
     }
 }

@@ -1,10 +1,10 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")//TODO: find out if we can include this in libraries_gradle_config: it causes a resolution error...
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.commondomain"
+    namespace = "fr.shining_cat.simplehiit.domain.home"
 }
 
 dependencies {

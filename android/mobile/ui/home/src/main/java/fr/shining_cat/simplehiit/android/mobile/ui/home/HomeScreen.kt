@@ -28,9 +28,9 @@ import fr.shining_cat.simplehiit.android.mobile.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeErrorContent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.dialogs.HomeInputNumberCyclesDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeMissingUsersContent

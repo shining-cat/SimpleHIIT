@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.NumberCyclesComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.SelectUsersComponent
 

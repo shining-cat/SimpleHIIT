@@ -22,9 +22,9 @@ import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.ToggleButton
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import kotlin.math.roundToInt
 

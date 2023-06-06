@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.commondomain.models.SessionRecord
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
@@ -75,8 +75,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_FETCH_FAILED,
+        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
+            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -151,8 +151,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_FETCH_FAILED,
+        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
+            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -181,8 +181,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
         val numberOfSessionsResult = daoAnswer.size
         coVerify(exactly = numberOfSessionsResult) { mockSessionMapper.convert(any<SessionEntity>()) }
-        assertTrue(actual is fr.shining_cat.simplehiit.commondomain.Output.Success)
-        actual as fr.shining_cat.simplehiit.commondomain.Output.Success
+        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Success)
+        actual as fr.shining_cat.simplehiit.domain.common.Output.Success
         assertEquals(numberOfSessionsResult, actual.result.size)
     }
 

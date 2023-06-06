@@ -1,8 +1,8 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
-import fr.shining_cat.simplehiit.commondomain.models.Exercise
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
-import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
