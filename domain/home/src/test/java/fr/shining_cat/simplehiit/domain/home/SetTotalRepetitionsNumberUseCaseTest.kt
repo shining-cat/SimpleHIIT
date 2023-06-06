@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.home
 
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
@@ -20,7 +20,7 @@ internal class SetTotalRepetitionsNumberUseCaseTest : AbstractMockkTest() {
     fun `calls repo with corresponding value and returns repo success`(
         testValue: Int
     ) = runTest {
-        val testedUseCase = SetTotalRepetitionsNumberUseCase(
+        val testedUseCase = fr.shining_cat.simplehiit.domain.home.SetTotalRepetitionsNumberUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger

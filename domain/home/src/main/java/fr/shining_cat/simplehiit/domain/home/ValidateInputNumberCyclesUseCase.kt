@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.home
 
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.commonutils.HiitLogger

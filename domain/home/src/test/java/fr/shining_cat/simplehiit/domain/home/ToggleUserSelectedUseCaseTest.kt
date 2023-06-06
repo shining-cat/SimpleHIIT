@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.home
 
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.User
@@ -17,7 +17,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() = runTest {
-        val testedUseCase = ToggleUserSelectedUseCase(
+        val testedUseCase = fr.shining_cat.simplehiit.domain.home.ToggleUserSelectedUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
@@ -34,7 +34,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo error`() = runTest {
-        val testedUseCase = ToggleUserSelectedUseCase(
+        val testedUseCase = fr.shining_cat.simplehiit.domain.home.ToggleUserSelectedUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger

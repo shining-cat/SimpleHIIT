@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.home
 
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -18,7 +18,8 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
         input: String,
         expectedOutput: fr.shining_cat.simplehiit.domain.common.Constants.InputError
     ) = runTest {
-        val testedUseCase = ValidateInputNumberCyclesUseCase(hiitLogger = mockHiitLogger)
+        val testedUseCase =
+            fr.shining_cat.simplehiit.domain.home.ValidateInputNumberCyclesUseCase(hiitLogger = mockHiitLogger)
         val result = testedUseCase.execute(input)
         //
         assertEquals(expectedOutput, result)

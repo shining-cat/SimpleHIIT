@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.home
 
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
@@ -23,7 +23,10 @@ import kotlin.random.Random
 internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = GetHomeSettingsUseCase(mockSimpleHiitRepository, mockHiitLogger)
+    private val testedUseCase = fr.shining_cat.simplehiit.domain.home.GetHomeSettingsUseCase(
+        mockSimpleHiitRepository,
+        mockHiitLogger
+    )
 
     @Test
     fun `calls repo and return success with correct order of values`() = runTest(UnconfinedTestDispatcher()) {
