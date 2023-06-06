@@ -17,9 +17,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.models.Exercise
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
-import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.commonutils.HiitLogger

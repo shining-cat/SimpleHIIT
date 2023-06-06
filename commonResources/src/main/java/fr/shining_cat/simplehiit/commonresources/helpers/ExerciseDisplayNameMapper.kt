@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.commonresources.helpers
 
-import fr.shining_cat.simplehiit.commondomain.models.Exercise
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
 import fr.shining_cat.simplehiit.commonresources.R
 
 class ExerciseDisplayNameMapper {

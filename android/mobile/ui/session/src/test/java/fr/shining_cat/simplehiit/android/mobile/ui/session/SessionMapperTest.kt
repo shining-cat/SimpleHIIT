@@ -1,14 +1,14 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
-import fr.shining_cat.simplehiit.commondomain.models.AsymmetricalExerciseSideOrder
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.Exercise
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
-import fr.shining_cat.simplehiit.commondomain.models.Session
-import fr.shining_cat.simplehiit.commondomain.models.SessionStep
-import fr.shining_cat.simplehiit.commondomain.models.StepTimerState
-import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.common.models.Session
+import fr.shining_cat.simplehiit.domain.common.models.SessionStep
+import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
+import fr.shining_cat.simplehiit.domain.common.models.User
+import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState.InitialCountDownSession
 import io.mockk.coEvery

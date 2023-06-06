@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.test.core.app.ApplicationProvider
-import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.commondomain.models.SimpleHiitPreferences
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.domain.common.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.commonutils.HiitLoggerImpl
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManagerImpl

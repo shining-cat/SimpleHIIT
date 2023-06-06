@@ -1,11 +1,11 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
-import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.Session
-import fr.shining_cat.simplehiit.commondomain.models.SessionStep
-import fr.shining_cat.simplehiit.commondomain.models.StepTimerState
-import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.Session
+import fr.shining_cat.simplehiit.domain.common.models.SessionStep
+import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
+import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.di.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher

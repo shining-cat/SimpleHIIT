@@ -1,11 +1,11 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
-import fr.shining_cat.simplehiit.commondomain.models.DisplayStatisticType
-import fr.shining_cat.simplehiit.commondomain.models.DisplayedStatistic
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.commondomain.models.UserStatistics
-import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.User
+import fr.shining_cat.simplehiit.domain.common.models.UserStatistics
+import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify

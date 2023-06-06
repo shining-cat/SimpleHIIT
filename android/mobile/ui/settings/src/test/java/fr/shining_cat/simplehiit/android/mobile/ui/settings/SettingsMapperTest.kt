@@ -1,13 +1,13 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
-import fr.shining_cat.simplehiit.commondomain.Constants
-import fr.shining_cat.simplehiit.commondomain.Output
-import fr.shining_cat.simplehiit.commondomain.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseType
-import fr.shining_cat.simplehiit.commondomain.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.commondomain.models.GeneralSettings
-import fr.shining_cat.simplehiit.commondomain.models.User
-import fr.shining_cat.simplehiit.commondomain.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.domain.common.models.GeneralSettings
+import fr.shining_cat.simplehiit.domain.common.models.User
+import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify

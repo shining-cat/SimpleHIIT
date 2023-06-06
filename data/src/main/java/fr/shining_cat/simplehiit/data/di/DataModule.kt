@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import fr.shining_cat.simplehiit.commondomain.datainterfaces.SimpleHiitRepository
+import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.data.repositories.SimpleHiitRepositoryImpl
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

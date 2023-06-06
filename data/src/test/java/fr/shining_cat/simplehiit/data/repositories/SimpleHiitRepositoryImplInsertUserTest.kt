@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.commondomain.models.User
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
@@ -61,7 +61,7 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
         coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
-        val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Success(result = testUserId)
+        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Success(result = testUserId)
         assertEquals(expectedOutput, actual)
     }
 
@@ -120,8 +120,8 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
         coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed inserting user", thrownException) }
-        val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_INSERT_FAILED,
+        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
+            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_INSERT_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -148,8 +148,8 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
         coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed inserting user", thrownException) }
-        val expectedOutput = fr.shining_cat.simplehiit.commondomain.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.commondomain.Constants.Errors.DATABASE_INSERT_FAILED,
+        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
+            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_INSERT_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)

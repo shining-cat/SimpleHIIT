@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":commonDomain"))
+    implementation(project(":domain:common"))
     implementation(project(":commonUtils"))
     implementation(project(":testUtils"))
     implementation(project(":data"))

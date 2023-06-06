@@ -15,13 +15,13 @@ import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.InputDialog
 import fr.shining_cat.simplehiit.android.mobile.common.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commondomain.Constants
+import fr.shining_cat.simplehiit.domain.common.Constants
 
 @Composable
 fun SettingsEditPeriodLengthDialog(
     dialogTitle: String,
     savePeriodLength: (String) -> Unit,
-    validatePeriodLengthInput: (String) -> fr.shining_cat.simplehiit.commondomain.Constants.InputError,
+    validatePeriodLengthInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
     periodLengthSeconds: String,
     onCancel: () -> Unit
 ) {
@@ -47,7 +47,7 @@ fun SettingsEditPeriodLengthDialog(
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: fr.shining_cat.simplehiit.commondomain.Constants.InputError): Int {
+private fun setInputPeriodLengthErrorMessage(error: fr.shining_cat.simplehiit.domain.common.Constants.InputError): Int {
     return when (error) {
         Constants.InputError.NONE -> -1
         Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
