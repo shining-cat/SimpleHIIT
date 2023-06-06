@@ -3,12 +3,14 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session
 import fr.shining_cat.simplehiit.commondomain.models.Exercise
 import fr.shining_cat.simplehiit.commondomain.models.ExerciseSide
 import fr.shining_cat.simplehiit.commondomain.models.SessionStepDisplay
+import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 
-sealed class SessionViewState {
-    object Loading : SessionViewState()
+@ExcludeFromJacocoGeneratedReport
+sealed interface SessionViewState {
+    object Loading : SessionViewState
     data class InitialCountDownSession(
         val countDown: CountDown
-    ) : SessionViewState()
+    ) : SessionViewState
 
     data class WorkNominal(
         val currentExercise: Exercise,
@@ -18,7 +20,7 @@ sealed class SessionViewState {
         val sessionRemainingTime: String,
         val sessionRemainingPercentage: Float,
         val countDown: CountDown? = null
-    ) : SessionViewState()
+    ) : SessionViewState
 
     data class RestNominal(
         val nextExercise: Exercise,
@@ -28,23 +30,25 @@ sealed class SessionViewState {
         val sessionRemainingTime: String,
         val sessionRemainingPercentage: Float,
         val countDown: CountDown? = null
-    ) : SessionViewState()
+    ) : SessionViewState
 
     data class Finished(
         val sessionDurationFormatted: String,
         val workingStepsDone: List<SessionStepDisplay>
-    ) : SessionViewState()
+    ) : SessionViewState
 
-    data class Error(val errorCode: String) : SessionViewState()
+    data class Error(val errorCode: String) : SessionViewState
 }
 
+@ExcludeFromJacocoGeneratedReport
 data class CountDown(
     val secondsDisplay: String,
     val progress: Float,
     val playBeep: Boolean
 )
 
-sealed class SessionDialog() {
-    object None : SessionDialog()
-    object Pause : SessionDialog()
+@ExcludeFromJacocoGeneratedReport
+sealed interface SessionDialog {
+    object None : SessionDialog
+    object Pause : SessionDialog
 }
