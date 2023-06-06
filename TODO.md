@@ -19,7 +19,8 @@
 
 ## Code refactoring: architecture
 * check this about [replacing sealed classes with interfaces](https://jorgecastillo.dev/sealed-interfaces-kotlin)
-* check [this about reducing amount of code](https://kotlinlang.org/docs/fun-interfaces.html#sam-conversions), using [the invoke operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/)
+* split domain module into feature-specific like the platform ui modules are
+* rename the current app module into androidMobileApp, then maybe move it to the android>mobile folder?
 * wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
 
 ## Assets production
