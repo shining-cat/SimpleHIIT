@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.statistics
 
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository

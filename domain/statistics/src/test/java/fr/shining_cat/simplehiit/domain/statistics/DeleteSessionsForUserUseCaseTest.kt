@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.statistics
 
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
@@ -21,11 +21,12 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
     @ParameterizedTest(name = "{index} -> when repo returns {0} should return success with {0}")
     @ValueSource(ints = [0, 1, 5, 9, 23, 64])
     fun `calls repo with corresponding value and returns repo success`() = runTest {
-        val testedUseCase = DeleteSessionsForUserUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
+        val testedUseCase =
+            fr.shining_cat.simplehiit.domain.statistics.DeleteSessionsForUserUseCase(
+                simpleHiitRepository = mockSimpleHiitRepository,
+                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                simpleHiitLogger = mockHiitLogger
+            )
         val testValue = 123L
         val successFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Success(1)
         coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers { successFromRepo }
@@ -38,11 +39,12 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo error`() = runTest {
-        val testedUseCase = DeleteSessionsForUserUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
+        val testedUseCase =
+            fr.shining_cat.simplehiit.domain.statistics.DeleteSessionsForUserUseCase(
+                simpleHiitRepository = mockSimpleHiitRepository,
+                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                simpleHiitLogger = mockHiitLogger
+            )
         val testValue = 123L
         val exceptionMessage = "this is a test exception"
         val errorFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))

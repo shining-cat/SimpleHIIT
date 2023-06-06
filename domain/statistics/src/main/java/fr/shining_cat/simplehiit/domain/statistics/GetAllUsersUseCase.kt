@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.statistics
 
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Constants.NO_RESULTS_FOUND

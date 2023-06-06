@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.statistics
 
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.User
@@ -18,7 +18,10 @@ import org.junit.jupiter.api.Test
 internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
-    private val testedUseCase = GetAllUsersUseCase(mockSimpleHiitRepository, mockHiitLogger)
+    private val testedUseCase = fr.shining_cat.simplehiit.domain.statistics.GetAllUsersUseCase(
+        mockSimpleHiitRepository,
+        mockHiitLogger
+    )
 
     @Test
     fun `calls repo and return corresponding values in order`() = runTest {

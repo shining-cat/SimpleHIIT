@@ -1,9 +1,12 @@
-package fr.shining_cat.simplehiit.domain.common.usecases
+package fr.shining_cat.simplehiit.domain.statistics
 
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.domain.common.models.UserStatistics
+import fr.shining_cat.simplehiit.domain.common.usecases.CalculateAverageSessionsPerWeekUseCase
+import fr.shining_cat.simplehiit.domain.common.usecases.CalculateCurrentStreakUseCase
+import fr.shining_cat.simplehiit.domain.common.usecases.CalculateLongestStreakUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -31,7 +34,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `return error when repo call fails`() = runTest {
-        val testedUseCase = GetStatsForUserUseCase(
+        val testedUseCase = fr.shining_cat.simplehiit.domain.statistics.GetStatsForUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
             calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
@@ -51,7 +54,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `return default empty value when repo returns empty list`() = runTest {
-        val testedUseCase = GetStatsForUserUseCase(
+        val testedUseCase = fr.shining_cat.simplehiit.domain.statistics.GetStatsForUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
             calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
@@ -85,7 +88,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         expectedCumulatedTimeOfExerciseSeconds: Long,
         expectedAverageSessionLengthSeconds: Long
     ) = runTest {
-        val testedUseCase = GetStatsForUserUseCase(
+        val testedUseCase = fr.shining_cat.simplehiit.domain.statistics.GetStatsForUserUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
             calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
