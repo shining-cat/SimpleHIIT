@@ -11,11 +11,11 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.common.models.SessionStep
 import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
-import fr.shining_cat.simplehiit.domain.common.usecases.BuildSessionUseCase
+import fr.shining_cat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.domain.common.usecases.GetSessionSettingsUseCase
-import fr.shining_cat.simplehiit.domain.common.usecases.InsertSessionUseCase
-import fr.shining_cat.simplehiit.domain.common.usecases.StepTimerUseCase
+import fr.shining_cat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
+import fr.shining_cat.simplehiit.domain.session.usecases.InsertSessionUseCase
+import fr.shining_cat.simplehiit.domain.session.usecases.StepTimerUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
 import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher

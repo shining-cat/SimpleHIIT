@@ -9,10 +9,10 @@ import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
-import fr.shining_cat.simplehiit.domain.home.GetHomeSettingsUseCase
-import fr.shining_cat.simplehiit.domain.home.SetTotalRepetitionsNumberUseCase
-import fr.shining_cat.simplehiit.domain.home.ToggleUserSelectedUseCase
-import fr.shining_cat.simplehiit.domain.home.ValidateInputNumberCyclesUseCase
+import fr.shining_cat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
+import fr.shining_cat.simplehiit.domain.home.usecases.SetTotalRepetitionsNumberUseCase
+import fr.shining_cat.simplehiit.domain.home.usecases.ToggleUserSelectedUseCase
+import fr.shining_cat.simplehiit.domain.home.usecases.ValidateInputNumberCyclesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

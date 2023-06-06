@@ -5,9 +5,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.domain.statistics.DeleteSessionsForUserUseCase
-import fr.shining_cat.simplehiit.domain.statistics.GetAllUsersUseCase
-import fr.shining_cat.simplehiit.domain.statistics.GetStatsForUserUseCase
+import fr.shining_cat.simplehiit.domain.statistics.usecases.DeleteSessionsForUserUseCase
+import fr.shining_cat.simplehiit.domain.statistics.usecases.GetAllUsersUseCase
+import fr.shining_cat.simplehiit.domain.statistics.usecases.GetStatsForUserUseCase
 import fr.shining_cat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
