@@ -18,7 +18,6 @@
 * fix broken layout in landscape
 
 ## Code refactoring: architecture
-* split domain module into feature-specific like the platform ui modules are
 * rename the current app module into androidMobileApp, then maybe move it to the android>mobile folder?
 * wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
 
