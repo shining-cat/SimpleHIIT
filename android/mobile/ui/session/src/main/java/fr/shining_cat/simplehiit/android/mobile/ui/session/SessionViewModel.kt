@@ -3,6 +3,9 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.TimeProvider
+import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
@@ -11,14 +14,6 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.common.models.SessionStep
 import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
-import fr.shining_cat.simplehiit.domain.session.usecases.BuildSessionUseCase
-import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
-import fr.shining_cat.simplehiit.domain.session.usecases.InsertSessionUseCase
-import fr.shining_cat.simplehiit.domain.session.usecases.StepTimerUseCase
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.commonutils.TimeProvider
-import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
