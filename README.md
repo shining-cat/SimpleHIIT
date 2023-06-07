@@ -55,7 +55,6 @@ My usecases follow a common convention:
 
 These are the reasons why I'll keep using the "traditional" regarding usecases, as I value discoverability and clarity more than conciseness and clever tricks.
 
-
 ## Modularization
 
 This project started as a single-module architecture, and I decided later to split it into modules.
