@@ -55,6 +55,12 @@ My usecases follow a common convention:
 
 These are the reasons why I'll keep using the "traditional" regarding usecases, as I value discoverability and clarity more than conciseness and clever tricks.
 
+## Notes on ViewModels
+
+ViewModels are provided with a dedicated `Interactor`, which is a simple convenience wrapper around all the usecases the viewmodel needs.
+This is mostly to reduce the list of constructor parameters in the ViewModel, and simplify the addition of any new usecase to it.<br/>
+Since the group of usecases needed might vary between platforms and their dedicated presentation layer, the `interactor` is part of the presentation layer too.
+
 ## Modularization
 
 This project started as a single-module architecture, and I decided later to split it into modules.
