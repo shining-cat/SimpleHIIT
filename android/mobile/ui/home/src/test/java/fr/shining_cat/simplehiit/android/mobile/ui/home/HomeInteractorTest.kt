@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.android.mobile.ui.home
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.HomeSettings
-import fr.shining_cat.simplehiit.domain.common.models.SimpleHiitPreferences
 import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
@@ -26,7 +25,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class HomeInteractorImplTest : AbstractMockkTest() {
+internal class HomeInteractorTest : AbstractMockkTest() {
 
     private val mockGetHomeSettingsUseCase = mockk<GetHomeSettingsUseCase>()
     private val mockSetTotalRepetitionsNumberUseCase = mockk<SetTotalRepetitionsNumberUseCase>()
