@@ -18,8 +18,6 @@
 
 ## Code refactoring: architecture
 * rename the current app module into androidMobileApp, then maybe move it to the android>mobile folder?
-* wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
-* add unit tests on interactors
 
 ## Assets production
 * refine statistics cards design and find/create icons for each
