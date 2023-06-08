@@ -1,13 +1,11 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
-import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.Session
 import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.common.models.SessionSettings
 import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
-import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shining_cat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
@@ -34,7 +32,8 @@ internal class SessionInteractorTest : AbstractMockkTest() {
 
     private val mockGetSessionSettingsUseCase = mockk<GetSessionSettingsUseCase>()
     private val mockBuildSessionUseCase = mockk<BuildSessionUseCase>()
-    private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase = mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
+    private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
+        mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
     private val mockStepTimerUseCase = mockk<StepTimerUseCase>()
     private val mockInsertSessionUseCase = mockk<InsertSessionUseCase>()
 
@@ -57,56 +56,80 @@ internal class SessionInteractorTest : AbstractMockkTest() {
 
     @BeforeEach
     fun setUpMock() {
-        coEvery {mockGetSessionSettingsUseCase.execute()} answers {settingsFlow}
-        coEvery {mockBuildSessionUseCase.execute(any(), any())} returns mockSession
-        coEvery {mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any())} returns testFormattedDuration
-        coEvery {mockStepTimerUseCase.start(any())} just Runs
-        coEvery {mockStepTimerUseCase.timerStateFlow} answers {stepTimerState}
-        coEvery {mockInsertSessionUseCase.execute(any())} returns Output.Success(testReturnInt)
+        coEvery { mockGetSessionSettingsUseCase.execute() } answers { settingsFlow }
+        coEvery { mockBuildSessionUseCase.execute(any(), any()) } returns mockSession
+        coEvery {
+            mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                any(),
+                any()
+            )
+        } returns testFormattedDuration
+        coEvery { mockStepTimerUseCase.start(any()) } just Runs
+        coEvery { mockStepTimerUseCase.timerStateFlow } answers { stepTimerState }
+        coEvery { mockInsertSessionUseCase.execute(any()) } returns Output.Success(testReturnInt)
     }
 
     @Test
-    fun `calls on interactor getSessionSettings calls GetSessionSettingsUseCase`() = runTest(UnconfinedTestDispatcher()) {
-        val result = testedInteractor.getSessionSettings()
-        coVerify(exactly = 1) { mockGetSessionSettingsUseCase.execute() }
-        assertEquals(settingsFlow, result)
-    }
+    fun `calls on interactor getSessionSettings calls GetSessionSettingsUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val result = testedInteractor.getSessionSettings()
+            coVerify(exactly = 1) { mockGetSessionSettingsUseCase.execute() }
+            assertEquals(settingsFlow, result)
+        }
 
     @Test
-    fun `calls on interactor buildSession calls SetTotalRepetitionsNumberUseCase`() = runTest(UnconfinedTestDispatcher()) {
-        val result = testedInteractor.buildSession(mockSessionSettings, testDurationStringFormatter)
-        coVerify(exactly = 1) { mockBuildSessionUseCase.execute(mockSessionSettings, testDurationStringFormatter) }
-        assertEquals(mockSession, result)
-    }
+    fun `calls on interactor buildSession calls BuildSessionUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val result =
+                testedInteractor.buildSession(mockSessionSettings, testDurationStringFormatter)
+            coVerify(exactly = 1) {
+                mockBuildSessionUseCase.execute(
+                    mockSessionSettings,
+                    testDurationStringFormatter
+                )
+            }
+            assertEquals(mockSession, result)
+        }
 
     @Test
-    fun `calls on interactor formatLongDurationMsAsSmallestHhMmSsString calls FormatLongDurationMsAsSmallestHhMmSsStringUseCase`() = runTest(UnconfinedTestDispatcher()) {
-        val result = testedInteractor.formatLongDurationMsAsSmallestHhMmSsString(123L, testDurationStringFormatter)
-        coVerify(exactly = 1) { mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(123L, testDurationStringFormatter) }
-        assertEquals(testFormattedDuration, result)
-    }
+    fun `calls on interactor formatLongDurationMsAsSmallestHhMmSsString calls FormatLongDurationMsAsSmallestHhMmSsStringUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val result = testedInteractor.formatLongDurationMsAsSmallestHhMmSsString(
+                123L,
+                testDurationStringFormatter
+            )
+            coVerify(exactly = 1) {
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    123L,
+                    testDurationStringFormatter
+                )
+            }
+            assertEquals(testFormattedDuration, result)
+        }
 
     @Test
-    fun `calls on interactor startStepTimer calls StepTimerUseCase start`() = runTest(UnconfinedTestDispatcher()) {
-        testedInteractor.startStepTimer(567L)
-        coVerify(exactly = 1) { mockStepTimerUseCase.start(567L) }
-    }
+    fun `calls on interactor startStepTimer calls StepTimerUseCase start`() =
+        runTest(UnconfinedTestDispatcher()) {
+            testedInteractor.startStepTimer(567L)
+            coVerify(exactly = 1) { mockStepTimerUseCase.start(567L) }
+        }
 
     @Test
-    fun `calls on interactor getStepTimerState calls StepTimerUseCase timerStateFlow`() = runTest(UnconfinedTestDispatcher()) {
-        val result = testedInteractor.getStepTimerState()
-        coVerify(exactly = 1) { mockStepTimerUseCase.timerStateFlow }
-        assertEquals(stepTimerState, result)
-    }
-
+    fun `calls on interactor getStepTimerState calls StepTimerUseCase timerStateFlow`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val result = testedInteractor.getStepTimerState()
+            coVerify(exactly = 1) { mockStepTimerUseCase.timerStateFlow }
+            assertEquals(stepTimerState, result)
+        }
 
     @Test
-    fun `calls on interactor toggleUserSelected calls GetHomeSettingsUseCase`() = runTest(UnconfinedTestDispatcher()) {
-        val result = testedInteractor.insertSession(mockSessionRecord)
-        coVerify(exactly = 1) { mockInsertSessionUseCase.execute(mockSessionRecord) }
-        assertTrue(result is Output.Success)
-        result as Output.Success
-        assertEquals(testReturnInt, result.result)
-    }
+    fun `calls on interactor insertSession calls InsertSessionUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val result = testedInteractor.insertSession(mockSessionRecord)
+            coVerify(exactly = 1) { mockInsertSessionUseCase.execute(mockSessionRecord) }
+            assertTrue(result is Output.Success)
+            result as Output.Success
+            assertEquals(testReturnInt, result.result)
+        }
 
 }
