@@ -2,7 +2,6 @@
 
 ## Missing features / issues
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [discussion ongoing with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
-* check what this flooding error is and fix if possible: _Attempt to update InputPolicyFlags without permission ACCESS_SURFACE_FLINGER_
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency) [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
 * SessionErrorStateContent is empty
@@ -20,6 +19,7 @@
 ## Code refactoring: architecture
 * rename the current app module into androidMobileApp, then maybe move it to the android>mobile folder?
 * wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
+* add unit tests on interactors
 
 ## Assets production
 * refine statistics cards design and find/create icons for each
@@ -43,6 +43,7 @@
 ## Form factors (phone - AndroidTV - smartWatch)
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 * form factor UX differences: phone should maybe not offer multi-users?
+* see also [ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
 * instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
@@ -53,7 +54,4 @@
 * add home screen shortcut launchers for start session and statistics
 * Nice to have and study case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)
 * [performance study case](https://proandroiddev.com/jetpack-compose-tutorial-improving-performance-in-dribbble-audio-app-b19848cf12e3)
-
-## Discuss with others
-* How to handle building the different app form factors, maybe[ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 

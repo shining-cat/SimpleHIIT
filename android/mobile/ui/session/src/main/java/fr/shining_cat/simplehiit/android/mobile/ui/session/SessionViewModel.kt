@@ -3,6 +3,9 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.TimeProvider
+import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
@@ -11,14 +14,6 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.common.models.SessionStep
 import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
-import fr.shining_cat.simplehiit.domain.session.usecases.BuildSessionUseCase
-import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
-import fr.shining_cat.simplehiit.domain.session.usecases.InsertSessionUseCase
-import fr.shining_cat.simplehiit.domain.session.usecases.StepTimerUseCase
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.commonutils.TimeProvider
-import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -28,12 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SessionViewModel @Inject constructor(
+    private val sessionInteractor: SessionInteractor,
     private val mapper: SessionMapper,
-    private val getSessionSettingsUseCase: GetSessionSettingsUseCase,
-    private val buildSessionUseCase: BuildSessionUseCase,
-    private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-    private val stepTimerUseCase: StepTimerUseCase,
-    private val insertSessionUseCase: InsertSessionUseCase,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger
@@ -67,7 +58,7 @@ class SessionViewModel @Inject constructor(
 
     private fun setupTicker() {
         viewModelScope.launch(context = mainDispatcher) {
-            stepTimerUseCase.timerStateFlow.collect { stepTimerState ->
+            sessionInteractor.getStepTimerState().collect { stepTimerState ->
                 if (stepTimerState != StepTimerState()) { //excluding first emission with default value
                     tick(stepTimerState)
                 }
@@ -77,7 +68,7 @@ class SessionViewModel @Inject constructor(
 
     private fun retrieveSettingsAndProceed() {
         viewModelScope.launch(context = mainDispatcher) {
-            getSessionSettingsUseCase.execute().collect { sessionSettingsOutput ->
+            sessionInteractor.getSessionSettings().collect { sessionSettingsOutput ->
                 when (sessionSettingsOutput) {
                     is Output.Error -> {
                         hiitLogger.e(
@@ -94,7 +85,7 @@ class SessionViewModel @Inject constructor(
 
                     is Output.Success -> {
                         val sessionSettingsResult = sessionSettingsOutput.result
-                        session = buildSessionUseCase.execute(
+                        session = sessionInteractor.buildSession(
                             sessionSettings = sessionSettingsResult,
                             durationStringFormatter = durationStringFormatter
                         )
@@ -115,7 +106,7 @@ class SessionViewModel @Inject constructor(
         } else {
             val wholeSessionDuration = immutableSession.durationMs
             stepTimerJob = viewModelScope.launch {
-                stepTimerUseCase.start(totalMilliSeconds = wholeSessionDuration)
+                sessionInteractor.startStepTimer(totalMilliSeconds = wholeSessionDuration)
             }
         }
     }
@@ -197,7 +188,7 @@ class SessionViewModel @Inject constructor(
                     "emitSessionEndState::actualSessionLength = $actualSessionLength"
                 )
                 val actualSessionLengthFormatted =
-                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(
                         actualSessionLength, durationStringFormatter
                     )
                 val workingStepsDoneDisplay = workingStepsDone.map {
@@ -213,7 +204,7 @@ class SessionViewModel @Inject constructor(
                     usersIds = session?.users?.map { it.id } ?: emptyList()
                 )
                 hiitLogger.d("SessionViewModel", "sessionRecord: $sessionRecord")
-                insertSessionUseCase.execute(sessionRecord)
+                sessionInteractor.insertSession(sessionRecord)
                 _screenViewState.emit(
                     SessionViewState.Finished(
                         sessionDurationFormatted = actualSessionLengthFormatted,
@@ -254,7 +245,7 @@ class SessionViewModel @Inject constructor(
         val remainingTotalTimeToLaunch =
             stepToStart.durationMs.plus(stepToStart.remainingSessionDurationMsAfterMe)
         stepTimerJob = viewModelScope.launch(context = mainDispatcher) {
-            stepTimerUseCase.start(totalMilliSeconds = remainingTotalTimeToLaunch)
+            sessionInteractor.startStepTimer(totalMilliSeconds = remainingTotalTimeToLaunch)
         }
         viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(SessionDialog.None)

@@ -1,17 +1,14 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import fr.shining_cat.simplehiit.domain.common.Output
-import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.domain.statistics.usecases.DeleteSessionsForUserUseCase
-import fr.shining_cat.simplehiit.domain.statistics.usecases.GetAllUsersUseCase
-import fr.shining_cat.simplehiit.domain.statistics.usecases.GetStatsForUserUseCase
-import fr.shining_cat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
 import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,10 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    private val getAllUsersUseCase: GetAllUsersUseCase,
-    private val getStatsForUserUseCase: GetStatsForUserUseCase,
-    private val deleteSessionsForUserUseCase: DeleteSessionsForUserUseCase,
-    private val resetWholeAppUseCase: ResetWholeAppUseCase,
+    private val statisticsInteractor: StatisticsInteractor,
     private val mapper: StatisticsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val timeProvider: TimeProvider,
@@ -47,7 +41,7 @@ class StatisticsViewModel @Inject constructor(
             this.durationStringFormatter = durationStringFormatter
             //
             viewModelScope.launch(context = mainDispatcher) {
-                getAllUsersUseCase.execute().collect() {
+                statisticsInteractor.getAllUsers().collect() {
                     when (it) {
                         is Output.Success -> {
                             //nominal case
@@ -75,7 +69,8 @@ class StatisticsViewModel @Inject constructor(
         hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
         viewModelScope.launch(context = mainDispatcher) {
             val now = timeProvider.getCurrentTimeMillis()
-            when (val statisticsOutput = getStatsForUserUseCase.execute(user = user, now = now)) {
+            when (val statisticsOutput =
+                statisticsInteractor.getStatsForUser(user = user, now = now)) {
                 is Output.Success -> {
                     _screenViewState.emit(
                         mapper.map(
@@ -118,7 +113,7 @@ class StatisticsViewModel @Inject constructor(
 
     fun deleteAllSessionsForUserConfirmation(user: User) {
         viewModelScope.launch(context = mainDispatcher) {
-            deleteSessionsForUserUseCase.execute(user.id)
+            statisticsInteractor.deleteSessionsForUser(user.id)
             _dialogViewState.emit(StatisticsDialog.None)
             //refetch to force refresh:
             retrieveStatsForUser(user = user)
@@ -133,7 +128,7 @@ class StatisticsViewModel @Inject constructor(
 
     fun resetWholeAppConfirmationDeleteEverything() {
         viewModelScope.launch(context = mainDispatcher) {
-            resetWholeAppUseCase.execute()
+            statisticsInteractor.resetWholeApp()
         }
     }
 
