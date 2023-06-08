@@ -22,7 +22,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
     private val testedMapper =
-        fr.shining_cat.simplehiit.android.mobile.ui.home.HomeMapper(
+        HomeMapper(
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
             mockHiitLogger
         )

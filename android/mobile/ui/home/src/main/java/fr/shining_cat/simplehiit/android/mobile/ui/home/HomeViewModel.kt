@@ -8,11 +8,6 @@ import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
-import fr.shining_cat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
-import fr.shining_cat.simplehiit.domain.home.usecases.SetTotalRepetitionsNumberUseCase
-import fr.shining_cat.simplehiit.domain.home.usecases.ToggleUserSelectedUseCase
-import fr.shining_cat.simplehiit.domain.home.usecases.ValidateInputNumberCyclesUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,11 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getHomeSettingsUseCase: GetHomeSettingsUseCase,
-    private val setTotalRepetitionsNumberUseCase: SetTotalRepetitionsNumberUseCase,
-    private val toggleUserSelectedUseCase: ToggleUserSelectedUseCase,
-    private val resetWholeAppUseCase: ResetWholeAppUseCase,
-    private val validateInputNumberCyclesUseCase: ValidateInputNumberCyclesUseCase,
+    private val homeInteractor: HomeInteractor,
     private val homeMapper: HomeMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
@@ -42,7 +33,7 @@ class HomeViewModel @Inject constructor(
     fun init(durationStringFormatter: DurationStringFormatter) {
         if (!isInitialized) {
             viewModelScope.launch(context = mainDispatcher) {
-                getHomeSettingsUseCase.execute().collect {
+                homeInteractor.getHomeSettings().collect {
                     _screenViewState.emit(
                         homeMapper.map(it, durationStringFormatter)
                     )
@@ -68,13 +59,13 @@ class HomeViewModel @Inject constructor(
     }
 
     fun validateInputNumberCycles(input: String): Constants.InputError {
-        return validateInputNumberCyclesUseCase.execute(input)
+        return homeInteractor.validateInputNumberCycles(input)
     }
 
     fun updateNumberCumulatedCycles(value: String) {
         if (validateInputNumberCycles(value) == Constants.InputError.NONE) {
             viewModelScope.launch(context = mainDispatcher) {
-                setTotalRepetitionsNumberUseCase.execute(value.toInt())
+                homeInteractor.setTotalRepetitionsNumber(value.toInt())
                 _dialogViewState.emit(HomeDialog.None)
             }
         } else {
@@ -91,7 +82,7 @@ class HomeViewModel @Inject constructor(
             "toggleSelectedUser::user:: was selected = ${user.selected}, toggling to ${!user.selected}"
         )
         viewModelScope.launch(context = mainDispatcher) {
-            toggleUserSelectedUseCase.execute(user.copy(selected = !user.selected))
+            homeInteractor.toggleUserSelected(user.copy(selected = !user.selected))
         }
     }
 
@@ -103,7 +94,7 @@ class HomeViewModel @Inject constructor(
 
     fun resetWholeAppConfirmationDeleteEverything() {
         viewModelScope.launch(context = mainDispatcher) {
-            resetWholeAppUseCase.execute()
+            homeInteractor.resetWholeApp()
         }
     }
 

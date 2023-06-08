@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
-    private val hiitLogger: fr.shining_cat.simplehiit.commonutils.HiitLogger
+    private val hiitLogger: HiitLogger
 ) {
 
     /**
