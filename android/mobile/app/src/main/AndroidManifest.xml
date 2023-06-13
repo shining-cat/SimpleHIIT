@@ -11,10 +11,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleHIIT"
-        android:name=".SimpleHIITApplication"
+        android:name=".mobile.SimpleHIITApplication"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".mobile.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.SimpleHIIT">
             <intent-filter>
