@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit
+package fr.shining_cat.simplehiit.mobile
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost

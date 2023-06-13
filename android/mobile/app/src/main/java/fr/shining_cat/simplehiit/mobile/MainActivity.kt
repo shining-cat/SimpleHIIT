@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit
+package fr.shining_cat.simplehiit.mobile
 
 import android.os.Bundle
 import android.view.WindowManager
