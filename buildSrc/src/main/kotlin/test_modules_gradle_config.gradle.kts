@@ -14,7 +14,7 @@ android {
         testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
     }
 
-    targetProjectPath = ":app"
+    targetProjectPath = ":android:mobile:app"
 
     buildTypes {
         getByName("debug") {

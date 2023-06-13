@@ -3,7 +3,7 @@
 ## Missing features / issues
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [discussion ongoing with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
-* beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency) [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
+* beep sound playback for countdown is not very well synced with timer. Check [audio latency](https://developer.android.com/ndk/guides/audio/audio-latency), and [check this example](https://github.com/o4oren/android-kotlin-metronome/blob/master/app/src/main/java/geva/oren/android_kotlin_metronome/services/MetronomeService.kt), using [Soundpool](https://developer.android.com/reference/android/media/SoundPool?hl=en)
 * SessionErrorStateContent is empty
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
 * design for statistics needs some love
@@ -17,9 +17,7 @@
 * fix broken layout in landscape
 
 ## Code refactoring: architecture
-* rename the current app module into androidMobileApp, then maybe move it to the android>mobile folder?
-* wrap usecases in _interactors_ objects to reduce number of parameters in `viewmodels`' constructors
-* add unit tests on interactors
+* 
 
 ## Assets production
 * refine statistics cards design and find/create icons for each
@@ -31,14 +29,12 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
-* see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp)
-* see [moving from dsl to toml](https://developer.android.com/build/migrate-to-catalogs)
 * check out `remember` for state in composables and implement
-* write tests on `Viewmodels`
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
 * check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-readme-file-e52dcadafa7a)
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
+* BLOCKED: see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp), but check [first that HILT has moved to ksp](https://kotlinlang.org/docs/ksp-overview.html#resources)
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
