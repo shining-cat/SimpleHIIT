@@ -4,11 +4,13 @@ import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -19,17 +21,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.common.models.Exercise
-import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
-import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionFinishedContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionPrepareContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionRestNominalContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionWorkNominalContent
+import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
+import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 
 @Composable
 fun SessionScreen(
@@ -37,8 +39,6 @@ fun SessionScreen(
     hiitLogger: HiitLogger,
     viewModel: SessionViewModel = hiltViewModel()
 ) {
-    //TODO: we need to pause the session in onResume equivalent (then, when coming back the state will be paused with dialog open so we should need nothing for the "coming back" part)
-    hiitLogger.d("SessionScreen", "INIT")
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
         hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
@@ -48,17 +48,28 @@ fun SessionScreen(
         seconds = stringResource(id = R.string.seconds_short)
     )
     viewModel.init(durationsFormatter)
+    if(viewModel.noSoundLoadingRequestedYet) {
+        hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
+        //we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
+        val beepSoundLoadedInPool = viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
+        viewModel.noSoundLoadingRequestedYet = false
+        if(beepSoundLoadedInPool == null){
+            hiitLogger.e("SessionScreen", "beepSoundLoadedInPool is null, no sound will be played")
+        } else {
+            viewModel.setLoadedSound(beepSoundLoadedInPool)
+        }
+    }
     //
-    val screenViewState = viewModel.screenViewState.collectAsState().value
-    val dialogViewState = viewModel.dialogViewState.collectAsState().value
+    val screenViewState by viewModel.screenViewState.collectAsState()
+    val dialogViewState by viewModel.dialogViewState.collectAsState()
     //
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },
-        pause = { viewModel.pause() },
-        navigateUp = { navController.navigateUp() },
-        resume = { viewModel.resume() },
         dialogViewState = dialogViewState,
         screenViewState = screenViewState,
+        pause = { viewModel.pause() },
+        resume = { viewModel.resume() },
+        navigateUp = { navController.navigateUp() },
         hiitLogger = hiitLogger
     )
 }
@@ -69,6 +80,7 @@ private fun SessionScreen(
     onAbortSession: () -> Unit,
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
+    onCountDownBeep: () -> Unit = {},
     pause: () -> Unit,
     resume: () -> Unit,
     navigateUp: () -> Boolean,
@@ -115,7 +127,7 @@ private fun SessionTopBar(
 
         is SessionViewState.InitialCountDownSession -> Pair(
             stringResource(id = R.string.session_prepare_page_title),
-            pause
+            navigateUp
         )
 
         is SessionViewState.Finished -> Pair(
@@ -177,27 +189,31 @@ private fun SessionContent(
                 }
             }
 
-            is SessionViewState.Error -> SessionErrorStateContent(screenViewState, hiitLogger)
+            is SessionViewState.Error -> SessionErrorStateContent(
+                screenViewState = screenViewState,
+                hiitLogger = hiitLogger
+            )
+
             is SessionViewState.InitialCountDownSession -> SessionPrepareContent(
-                screenViewState,
-                hiitLogger
+                viewState = screenViewState,
+                hiitLogger = hiitLogger
             )
 
             is SessionViewState.RestNominal -> SessionRestNominalContent(
-                screenViewState,
-                hiitLogger
+                viewState = screenViewState,
+                hiitLogger = hiitLogger
             )
 
             is SessionViewState.WorkNominal -> SessionWorkNominalContent(
-                screenViewState,
-                hiitLogger
+                viewState = screenViewState,
+                hiitLogger = hiitLogger
             )
 
             is SessionViewState.Finished -> {
                 if (screenViewState.workingStepsDone.isEmpty()) {
                     navigateUp()
                 } else {
-                    SessionFinishedContent(screenViewState, hiitLogger)
+                    SessionFinishedContent(viewState = screenViewState, hiitLogger = hiitLogger)
                 }
             }
         }
@@ -214,6 +230,10 @@ private fun SessionContent(
             )
         }
     }
+}
+
+private fun prepareSoundPool() {
+
 }
 
 // Previews

@@ -27,10 +27,6 @@ class CalculateCurrentStreakUseCase @Inject constructor(
                 val timeStamp2 = sortedTimestampsFromLast[index + 1]
                 val areConsecutiveDaysOrLess =
                     consecutiveDaysOrCloserUseCase.execute(timestamp, timeStamp2)
-                simpleHiitLogger.d(
-                    "CalculateCurrentStreakUseCase",
-                    "execute::areConsecutiveDaysOrLess = $areConsecutiveDaysOrLess"
-                )
                 when (areConsecutiveDaysOrLess) {
                     Consecutiveness.SAME_DAY -> {
                         if (index == 0) {

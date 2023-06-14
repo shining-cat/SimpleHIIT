@@ -37,7 +37,6 @@ fun StatisticsScreen(
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
-    hiitLogger.d("StatisticsScreen", "INIT")
     //
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),

@@ -44,7 +44,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun cancelDialog() {
-        hiitLogger.d("HomeViewModel", "cancelDialog")
         viewModelScope.launch(context = mainDispatcher) {
             _dialogViewState.emit(HomeDialog.None)
         }

@@ -21,9 +21,12 @@ fun SessionPrepareContent(
     hiitLogger: HiitLogger? = null
 ) {
     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        CountDownComponent(size = 64.dp, countDown = viewState.countDown, hiitLogger = hiitLogger)
+        CountDownComponent(
+            size = 64.dp,
+            countDown = viewState.countDown,
+            hiitLogger = hiitLogger
+        )
     }
-
 }
 
 // Previews
