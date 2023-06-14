@@ -48,11 +48,6 @@ class ConsecutiveDaysOrCloserUseCase @Inject constructor(
                 lateTimestampCal.timeInMillis = maxOf(timeStamp1, timeStamp2)
                 val lateAtMidnight = setTimePartOfDateToMidnight(lateTimestampCal)
                 val earlyAtMidnight = setTimePartOfDateToMidnight(earlyTimestampCal)
-                val result = TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
-                hiitLogger.d(
-                    "ConsecutiveDaysOrCloserUseCase",
-                    "getNumberOfFullDaysBetween2Timestamps::result = $result"
-                )
                 TimeUnit.MILLISECONDS.toDays(lateAtMidnight - earlyAtMidnight).toInt()
             }
         }
