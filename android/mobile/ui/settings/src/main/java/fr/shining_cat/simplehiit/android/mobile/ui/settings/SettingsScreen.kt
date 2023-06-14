@@ -43,7 +43,6 @@ fun SettingsScreen(
     hiitLogger: HiitLogger,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    hiitLogger.d("SettingsScreen", "INIT")
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
         hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),

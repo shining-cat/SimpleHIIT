@@ -81,7 +81,7 @@ class BuildSessionUseCase @Inject constructor(
                 allSteps.add(prepareStep)
             }
             for ((index, exercise) in exercisesList.withIndex()) {
-                hiitLogger.d("BuildSessionUseCase", "buildStepsList::index = $index")
+//                hiitLogger.d("BuildSessionUseCase", "buildStepsList::index = $index")
                 //we're not checking the asymmetrical attribute here as it has already been taking into consideration while building this exercisesList by adding asymmetrical exercises twice.
                 val stepExerciseSide = when (exercise) {
                     exercisesList.getOrNull(index - 1) -> {//if previous exercise was the same, then we are handling an asymmetrical for the second side
@@ -98,10 +98,7 @@ class BuildSessionUseCase @Inject constructor(
                 }
                 //
                 val remainingExercisesAfterStep = totalSteps.minus(index).minus(1)
-                hiitLogger.d(
-                    "BuildSessionUseCase",
-                    "buildStepsList::remainingExercises = $remainingExercisesAfterStep"
-                )
+//                hiitLogger.d("BuildSessionUseCase","buildStepsList::remainingExercises = $remainingExercisesAfterStep")
                 val restStepDurationFormatted =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         restPeriodLengthMs,
@@ -116,16 +113,10 @@ class BuildSessionUseCase @Inject constructor(
                     (remainingExercisesAfterStep.plus(1)).times(workPeriodLengthMs) + (remainingExercisesAfterStep).times(
                         restPeriodLengthMs
                     )
-                hiitLogger.d(
-                    "BuildSessionUseCase",
-                    "buildStepsList::remainingSessionDurationMsAfterRest = $remainingSessionDurationMsAfterRest"
-                )
+//                hiitLogger.d("BuildSessionUseCase","buildStepsList::remainingSessionDurationMsAfterRest = $remainingSessionDurationMsAfterRest")
                 val remainingSessionDurationMsAfterWork =
                     remainingExercisesAfterStep.times(workPeriodLengthMs.plus(restPeriodLengthMs))
-                hiitLogger.d(
-                    "BuildSessionUseCase",
-                    "buildStepsList::remainingSessionDurationMsAfterWork = $remainingSessionDurationMsAfterWork"
-                )
+//                hiitLogger.d("BuildSessionUseCase","buildStepsList::remainingSessionDurationMsAfterWork = $remainingSessionDurationMsAfterWork")
                 //
                 val restStep = SessionStep.RestStep(
                     exercise = exercise,
