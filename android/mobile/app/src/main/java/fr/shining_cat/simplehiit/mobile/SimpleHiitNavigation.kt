@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.android.mobile.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionScreen
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsScreen
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsScreen
@@ -29,6 +29,11 @@ fun SimpleHiitNavigation(
         }
         composable(route = Screen.Settings.route) { SettingsScreen(navController, hiitLogger) }
         composable(route = Screen.Statistics.route) { StatisticsScreen(navController, hiitLogger) }
-        composable(route = Screen.Session.route) { SessionScreen(navController, hiitLogger) }
+        composable(route = Screen.Session.route) {
+            SessionScreen(
+                { navController.navigateUp() },
+                hiitLogger
+            )
+        }
     }
 }
