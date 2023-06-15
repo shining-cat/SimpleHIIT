@@ -5,12 +5,18 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -18,6 +24,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
@@ -36,7 +45,8 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 fun SessionScreen(
     navigateUp: () -> Boolean,
     hiitLogger: HiitLogger,
-    viewModel: SessionViewModel = hiltViewModel()
+    viewModel: SessionViewModel = hiltViewModel(),
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
     val durationsFormatter = DurationStringFormatter(
         hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
@@ -47,6 +57,7 @@ fun SessionScreen(
         seconds = stringResource(id = R.string.seconds_short)
     )
     viewModel.init(durationsFormatter)
+    // Handling the sound loading in the viewModel's soundPool:
     if (viewModel.noSoundLoadingRequestedYet) {
         hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
         //we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
@@ -57,6 +68,27 @@ fun SessionScreen(
             hiitLogger.e("SessionScreen", "beepSoundLoadedInPool is null, no sound will be played")
         } else {
             viewModel.setLoadedSound(beepSoundLoadedInPool)
+        }
+    }
+    // Setting up a LifeCycle observer to catch the onPause event of the Android Lifecycle so we can pause the session
+    var lifecycleEvent by remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
+    DisposableEffect(lifecycleOwner) {
+        val lifecycleObserver = LifecycleEventObserver { _, event ->
+            lifecycleEvent = event
+        }
+
+        lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
+
+        onDispose {
+            // Don't forget to clean up the LifeCyle observer when we're disposed
+            lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
+        }
+    }
+
+    LaunchedEffect(lifecycleEvent) {
+        hiitLogger.d("SessionScreen","lifecycleEvent:: $lifecycleEvent")
+        if (lifecycleEvent == Lifecycle.Event.ON_PAUSE) {
+            viewModel.pause()
         }
     }
     //
