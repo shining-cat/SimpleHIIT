@@ -86,7 +86,6 @@ fun SessionScreen(
     }
 
     LaunchedEffect(lifecycleEvent) {
-        hiitLogger.d("SessionScreen","lifecycleEvent:: $lifecycleEvent")
         if (lifecycleEvent == Lifecycle.Event.ON_PAUSE) {
             viewModel.pause()
         }
