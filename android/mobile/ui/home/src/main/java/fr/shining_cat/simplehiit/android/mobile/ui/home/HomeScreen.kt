@@ -23,23 +23,22 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.android.mobile.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeErrorContent
+import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeMissingUsersContent
+import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeNominalContent
+import fr.shining_cat.simplehiit.android.mobile.ui.home.dialogs.HomeInputNumberCyclesDialog
 import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeErrorContent
-import fr.shining_cat.simplehiit.android.mobile.ui.home.dialogs.HomeInputNumberCyclesDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeMissingUsersContent
-import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeNominalContent
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    navigateTo: (String) -> Unit = {},
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -56,7 +55,7 @@ fun HomeScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
     HomeScreen(
-        onNavigate = { navController.navigate(it) },
+        navigateTo = navigateTo,
         onResetWholeApp = { viewModel.resetWholeApp() },
         onResetWholeAppDeleteEverything = { viewModel.resetWholeAppConfirmationDeleteEverything() },
         openInputNumberCycles = { viewModel.openInputNumberCyclesDialog(it) },
@@ -72,7 +71,7 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(
-    onNavigate: (String) -> Unit = {},
+    navigateTo: (String) -> Unit = {},
     onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
     openInputNumberCycles: (Int) -> Unit = {},
@@ -97,12 +96,12 @@ private fun HomeScreen(
     //
     Scaffold(
         topBar = {
-            HomeTopBar(onNavigate, viewState)
+            HomeTopBar(navigateTo, viewState)
         },
         content = { paddingValues ->
             HomeContent(
                 innerPadding = paddingValues,
-                navigateTo = onNavigate,
+                navigateTo = navigateTo,
                 resetWholeApp = onResetWholeApp,
                 resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
                 openInputNumberCycles = openInputNumberCycles,
@@ -138,7 +137,7 @@ private fun HomeTopBar(navigateTo: (String) -> Unit = {}, screenViewState: HomeV
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }
-            if(screenViewState is HomeViewState.Nominal) {
+            if (screenViewState is HomeViewState.Nominal) {
                 IconButton(onClick = { navigateTo(Screen.Statistics.route) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
@@ -186,16 +185,19 @@ private fun HomeContent(
                     CircularProgressIndicator()
                 }
             }
+
             is HomeViewState.Error -> HomeErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp
             )
+
             is HomeViewState.MissingUsers -> HomeMissingUsersContent(
                 openInputNumberCycles = openInputNumberCycles,
                 navigateToSettings = { navigateTo(Screen.Settings.route) },
                 numberOfCycles = screenViewState.numberCumulatedCycles,
                 lengthOfCycle = screenViewState.cycleLength
             )
+
             is HomeViewState.Nominal -> HomeNominalContent(
                 openInputNumberCycles = openInputNumberCycles,
                 numberOfCycles = screenViewState.numberCumulatedCycles,
@@ -212,14 +214,16 @@ private fun HomeContent(
                 proceedAction = resetWholeAppDeleteEverything,
                 dismissAction = cancelDialog
             )
+
             is HomeDialog.InputNumberCycles -> HomeInputNumberCyclesDialog(
                 saveInputNumberCycles = saveInputNumberCycles,
                 validateInputNumberCycles = validateInputNumberCycles,
                 numberOfCycles = dialogViewState.initialNumberOfCycles,
                 onCancel = cancelDialog
             )
+
             HomeDialog.None -> {}/*do nothing*/
-         }
+        }
     }
 }
 

@@ -17,16 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.android.mobile.common.components.ErrorDialog
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.Constants
-import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
-import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsErrorContent
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsNominalContent
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsAddUserDialog
@@ -35,11 +28,17 @@ import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEdit
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditPeriodStartCountDownDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditUserDialog
+import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
+import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun SettingsScreen(
-    navController: NavController,
+    navigateUp: () -> Boolean,
     hiitLogger: HiitLogger,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
@@ -56,7 +55,7 @@ fun SettingsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
     SettingsScreen(
-        onNavigateUp = { navController.navigateUp() },
+        onNavigateUp = navigateUp,
         editWorkPeriodLength = { viewModel.editWorkPeriodLength() },
         saveWorkPeriodLength = { viewModel.setWorkPeriodLength(it) },
         editRestPeriodLength = { viewModel.editRestPeriodLength() },
@@ -234,10 +233,12 @@ fun SettingsContent(
                     CircularProgressIndicator() //TODO: this loading is stuck at the top because the parent column is scrollable, then this child can't fillMaxHeight
                 }
             }
+
             is SettingsViewState.Error -> SettingsErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetSettings = resetSettings
             )
+
             is SettingsViewState.Nominal -> SettingsNominalContent(
                 editWorkPeriodLength = editWorkPeriodLength,
                 editRestPeriodLength = editRestPeriodLength,
@@ -255,6 +256,7 @@ fun SettingsContent(
         when (dialogViewState) {
             SettingsDialog.None -> {/*do nothing*/
             }
+
             is SettingsDialog.EditWorkPeriodLength -> SettingsEditPeriodLengthDialog(
                 dialogTitle = stringResource(id = R.string.work_period_length_label),
                 savePeriodLength = saveWorkPeriodLength,
@@ -262,6 +264,7 @@ fun SettingsContent(
                 periodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
+
             is SettingsDialog.EditRestPeriodLength -> SettingsEditPeriodLengthDialog(
                 dialogTitle = stringResource(id = R.string.rest_period_length_label),
                 savePeriodLength = saveRestPeriodLength,
@@ -269,49 +272,57 @@ fun SettingsContent(
                 periodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
+
             is SettingsDialog.EditNumberCycles -> SettingsEditNumberCyclesDialog(
                 saveNumber = saveNumberOfWorkPeriod,
                 validateNumberCyclesInput = validateNumberOfWorkPeriodsInput,
                 numberOfCycles = dialogViewState.numberOfCycles,
                 onCancel = cancelDialog
             )
+
             is SettingsDialog.EditSessionStartCountDown -> SettingsEditSessionStartCountDownDialog(
                 saveCountDownLength = saveSessionStartCountDown,
                 validateCountDownLengthInput = validateSessionCountDownLengthInput,
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog
             )
+
             is SettingsDialog.EditPeriodStartCountDown -> SettingsEditPeriodStartCountDownDialog(
                 saveCountDownLength = savePeriodStartCountDown,
                 validateCountDownLengthInput = validatePeriodCountDownLengthInput,
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog
             )
+
             is SettingsDialog.AddUser -> SettingsAddUserDialog(
                 saveUserName = { saveUser(User(name = it)) },
                 userName = dialogViewState.userName,
-                validateUserNameInput = { validateInputNameString(User(name = it))},
+                validateUserNameInput = { validateInputNameString(User(name = it)) },
                 onCancel = cancelDialog
             )
+
             is SettingsDialog.EditUser -> SettingsEditUserDialog(
                 saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
                 deleteUser = { deleteUser(dialogViewState.user) },
-                validateUserNameInput = { validateInputNameString(dialogViewState.user.copy(name = it))},
+                validateUserNameInput = { validateInputNameString(dialogViewState.user.copy(name = it)) },
                 userName = dialogViewState.user.name,
                 onCancel = cancelDialog
             )
+
             is SettingsDialog.ConfirmDeleteUser -> WarningDialog(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = { deleteUserConfirm(dialogViewState.user) },
                 dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
             )
+
             SettingsDialog.ConfirmResetAllSettings -> WarningDialog(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.reset_button_label),
                 proceedAction = resetSettingsConfirmation,
                 dismissAction = cancelDialog
             )
+
             is SettingsDialog.Error -> ErrorDialog(
                 errorMessage = "",
                 errorCode = dialogViewState.errorCode,
