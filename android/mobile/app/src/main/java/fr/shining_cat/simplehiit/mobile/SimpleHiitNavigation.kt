@@ -23,7 +23,7 @@ fun SimpleHiitNavigation(
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(
-                navController,
+                { navController.navigate(it) },
                 hiitLogger
             )
         }
