@@ -15,25 +15,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
-import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
-import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
-import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsErrorContent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsFatalErrorContent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNoSessionsContent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNoUsersContent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNominalContent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.dialogs.StatisticsSelectUserDialog
+import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
+import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
+import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsScreen(
-    navController: NavController,
+    onNavigateUp: () -> Boolean = { false },
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
@@ -52,7 +51,7 @@ fun StatisticsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
     StatisticsScreen(
-        onNavigateUp = { navController.navigateUp() },
+        onNavigateUp = onNavigateUp,
         openUserPicker = { viewModel.openPickUser() },
         selectUser = { viewModel.retrieveStatsForUser(it) },
         deleteAllSessionsForUser = { viewModel.deleteAllSessionsForUser(it) },
@@ -181,6 +180,7 @@ private fun StatisticsContent(
                     CircularProgressIndicator()
                 }
             }
+
             is StatisticsViewState.Nominal -> {
                 StatisticsNominalContent(
                     deleteAllSessionsForUser = deleteAllSessionsForUser,
@@ -188,15 +188,18 @@ private fun StatisticsContent(
                     hiitLogger = hiitLogger
                 )
             }
+
             is StatisticsViewState.NoSessions -> StatisticsNoSessionsContent(
                 screenViewState
             )
+
             StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
             is StatisticsViewState.Error -> StatisticsErrorContent(
                 user = screenViewState.user,
                 errorCode = screenViewState.errorCode,
                 deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) }
             )
+
             is StatisticsViewState.FatalError -> StatisticsFatalErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp
@@ -212,6 +215,7 @@ private fun StatisticsContent(
                 },
                 dismissAction = cancelDialog
             )
+
             is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> WarningDialog(
                 message = stringResource(
                     id = R.string.reset_statistics_confirmation_button_label,
@@ -221,6 +225,7 @@ private fun StatisticsContent(
                 proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog
             )
+
             StatisticsDialog.ConfirmWholeReset -> WarningDialog(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),

@@ -33,7 +33,12 @@ fun SimpleHiitNavigation(
                 hiitLogger
             )
         }
-        composable(route = Screen.Statistics.route) { StatisticsScreen(navController, hiitLogger) }
+        composable(route = Screen.Statistics.route) {
+            StatisticsScreen(
+                { navController.navigateUp() },
+                hiitLogger
+            )
+        }
         composable(route = Screen.Session.route) {
             SessionScreen(
                 { navController.navigateUp() },
