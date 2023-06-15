@@ -12,7 +12,6 @@
 
 ## Code refactoring: architecture
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
-* remove the NavController parameter in the screens, [as per this answer](https://stackoverflow.com/a/69060224/3585796), only pass lambdas down
 
 ## Assets production
 * refine statistics cards design and find/create icons for each

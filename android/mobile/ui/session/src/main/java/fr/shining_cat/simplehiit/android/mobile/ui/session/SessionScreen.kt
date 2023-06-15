@@ -4,9 +4,9 @@ import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -18,7 +18,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
@@ -35,7 +34,7 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 
 @Composable
 fun SessionScreen(
-    navController: NavController,
+    navigateUp: () -> Boolean,
     hiitLogger: HiitLogger,
     viewModel: SessionViewModel = hiltViewModel()
 ) {
@@ -48,12 +47,13 @@ fun SessionScreen(
         seconds = stringResource(id = R.string.seconds_short)
     )
     viewModel.init(durationsFormatter)
-    if(viewModel.noSoundLoadingRequestedYet) {
+    if (viewModel.noSoundLoadingRequestedYet) {
         hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
         //we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
-        val beepSoundLoadedInPool = viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
+        val beepSoundLoadedInPool =
+            viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
         viewModel.noSoundLoadingRequestedYet = false
-        if(beepSoundLoadedInPool == null){
+        if (beepSoundLoadedInPool == null) {
             hiitLogger.e("SessionScreen", "beepSoundLoadedInPool is null, no sound will be played")
         } else {
             viewModel.setLoadedSound(beepSoundLoadedInPool)
@@ -69,7 +69,7 @@ fun SessionScreen(
         screenViewState = screenViewState,
         pause = { viewModel.pause() },
         resume = { viewModel.resume() },
-        navigateUp = { navController.navigateUp() },
+        navigateUp = navigateUp,
         hiitLogger = hiitLogger
     )
 }
@@ -80,7 +80,6 @@ private fun SessionScreen(
     onAbortSession: () -> Unit,
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
-    onCountDownBeep: () -> Unit = {},
     pause: () -> Unit,
     resume: () -> Unit,
     navigateUp: () -> Boolean,
