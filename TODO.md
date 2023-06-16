@@ -22,14 +22,13 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
-* remove the NavController parameter in the screens, [as per this answer](https://stackoverflow.com/a/69060224/3585796), only pass lambdas down
+* check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * optimize composition trees by checking where state hoisting could be leveraged and various states level down the tree eventually remembered -> **NON-CRITICAL** as we already have all the state hoisting moved to the ViewModels.
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
-* check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-readme-file-e52dcadafa7a)
 * CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
 * BLOCKED: see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp), but check [first that HILT has moved to ksp](https://kotlinlang.org/docs/ksp-overview.html#resources)
 
