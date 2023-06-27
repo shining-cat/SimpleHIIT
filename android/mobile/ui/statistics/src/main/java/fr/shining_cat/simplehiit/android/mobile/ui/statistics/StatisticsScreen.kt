@@ -115,7 +115,7 @@ private fun StatisticsTopBar(
     hiitLogger: HiitLogger?
 ) {
     TopAppBar(
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
             IconButton(onClick = { onNavigateUp() }) {
                 Icon(

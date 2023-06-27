@@ -1,7 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* SessionErrorStateContent is empty
+* SessionMapper.buildStateWholeSession is not tested, SessionMapper.buildState is not used anymore
 
 ## Code refactoring: layouts
 * Fix layouts composition:

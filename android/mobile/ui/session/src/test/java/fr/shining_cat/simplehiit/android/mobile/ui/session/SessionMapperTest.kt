@@ -235,18 +235,6 @@ internal class SessionMapperTest : AbstractMockkTest() {
         @JvmStatic
         fun mapToViewStateArguments() =
             Stream.of(
-                //countdown length shorter than prepare step length
-                Arguments.of(
-                    SessionMapperTestParameter(
-                        session = testSession,
-                        currentSessionStepIndex = 0,
-                        currentStepTimerState = StepTimerState(
-                            milliSecondsRemaining = 9,
-                            totalMilliSeconds = 10
-                        )
-                    ),
-                    SessionViewState.Error(errorCode = "0501 - The countdown length is shorter than the prepare step?")
-                ),
                 //normal ongoing prepare step
                 Arguments.of(
                     SessionMapperTestParameter(
