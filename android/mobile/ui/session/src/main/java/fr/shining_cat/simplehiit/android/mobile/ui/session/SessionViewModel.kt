@@ -26,7 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SessionViewModel @Inject constructor(
     private val sessionInteractor: SessionInteractor,
-    private val mapper: SessionMapper,
+    private val mapper: SessionViewStateMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger
@@ -180,7 +180,7 @@ class SessionViewModel @Inject constructor(
                     val currentState = mapper.buildStateWholeSession(
                         session = immutableSession,
                         currentSessionStepIndex = currentSessionStepIndex,
-                        currentState = stepTimerState,
+                        currentStepTimerState = stepTimerState,
                         durationStringFormatter = durationStringFormatter
                     )
                     maybePlayBeepSound(currentState = currentState)

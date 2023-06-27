@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
-    private val mapper: SettingsMapper,
+    private val mapper: SettingsViewStateMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 ) : ViewModel() {

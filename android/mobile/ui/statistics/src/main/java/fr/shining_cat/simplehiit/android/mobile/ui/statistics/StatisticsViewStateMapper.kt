@@ -1,15 +1,16 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.UserStatistics
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import javax.inject.Inject
 
-class StatisticsMapper @Inject constructor(
+class StatisticsViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+    @Suppress("unused")
     private val hiitLogger: HiitLogger
 ) {
 
