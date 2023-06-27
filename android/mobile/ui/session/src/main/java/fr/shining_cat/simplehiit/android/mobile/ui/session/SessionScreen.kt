@@ -172,7 +172,7 @@ private fun SessionTopBar(
         )
     }
     TopAppBar(
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
             IconButton(onClick = { clickOnButton() }) {
                 Icon(
@@ -262,10 +262,6 @@ private fun SessionContent(
             )
         }
     }
-}
-
-private fun prepareSoundPool() {
-
 }
 
 // Previews

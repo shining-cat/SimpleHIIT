@@ -120,7 +120,7 @@ private fun HomeScreen(
 @Composable
 private fun HomeTopBar(navigateTo: (String) -> Unit = {}, screenViewState: HomeViewState) {
     TopAppBar(
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         title = {
             Text(
                 text = stringResource(R.string.app_name),
