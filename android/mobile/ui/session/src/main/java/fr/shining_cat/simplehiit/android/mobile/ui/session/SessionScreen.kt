@@ -80,13 +80,12 @@ fun SessionScreen(
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
 
         onDispose {
-            // Don't forget to clean up the LifeCyle observer when we're disposed
+            // Don't forget to clean up the LifeCycle observer when we're disposed
             lifecycleOwner.lifecycle.removeObserver(lifecycleObserver)
         }
     }
 
     LaunchedEffect(lifecycleEvent) {
-        hiitLogger.d("SessionScreen","lifecycleEvent:: $lifecycleEvent")
         if (lifecycleEvent == Lifecycle.Event.ON_PAUSE) {
             viewModel.pause()
         }
@@ -129,8 +128,8 @@ private fun SessionScreen(
                 innerPadding = paddingValues,
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
-                resume = resume,
                 onAbortSession = onAbortSession,
+                resume = resume,
                 navigateUp = navigateUp,
                 hiitLogger = hiitLogger
             )
@@ -173,7 +172,7 @@ private fun SessionTopBar(
         )
     }
     TopAppBar(
-        colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
             IconButton(onClick = { clickOnButton() }) {
                 Icon(
@@ -197,8 +196,8 @@ private fun SessionTopBar(
 @Composable
 private fun SessionContent(
     innerPadding: PaddingValues,
-    screenViewState: SessionViewState,
     dialogViewState: SessionDialog,
+    screenViewState: SessionViewState,
     onAbortSession: () -> Unit,
     resume: () -> Unit,
     navigateUp: () -> Boolean,
@@ -222,6 +221,8 @@ private fun SessionContent(
 
             is SessionViewState.Error -> SessionErrorStateContent(
                 screenViewState = screenViewState,
+                navigateUp = navigateUp,
+                onAbort = onAbortSession,
                 hiitLogger = hiitLogger
             )
 
@@ -261,10 +262,6 @@ private fun SessionContent(
             )
         }
     }
-}
-
-private fun prepareSoundPool() {
-
 }
 
 // Previews
