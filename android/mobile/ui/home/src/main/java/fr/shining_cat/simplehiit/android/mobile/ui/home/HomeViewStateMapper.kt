@@ -1,17 +1,18 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.home
 
+import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Error
+import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.MissingUsers
+import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Nominal
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.HomeSettings
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Error
-import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.MissingUsers
-import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Nominal
 import javax.inject.Inject
 
-class HomeMapper @Inject constructor(
+class HomeViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+    @Suppress("unused")
     private val hiitLogger: HiitLogger
 ) {
 

@@ -1,23 +1,24 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.commonutils.di.DefaultDispatcher
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.Session
 import fr.shining_cat.simplehiit.domain.common.models.SessionStep
 import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.commonutils.di.DefaultDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SessionMapper @Inject constructor(
+class SessionViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+    @Suppress("unused")
     private val hiitLogger: HiitLogger
 ) {
 
-    suspend fun buildState(
+    suspend fun buildStateWholeSession(
         session: Session,
         currentSessionStepIndex: Int,
         currentStepTimerState: StepTimerState,
@@ -25,73 +26,8 @@ class SessionMapper @Inject constructor(
     ): SessionViewState {
         return withContext(defaultDispatcher) {
             val currentStep = session.steps[currentSessionStepIndex]
-            val remainingSeconds = currentStepTimerState.milliSecondsRemaining
-            val countdownS = currentStep.countDownLengthMs.div(1000).toInt()
-            val periodCountDown = if (remainingSeconds <= countdownS) {
-                CountDown(
-                    secondsDisplay = currentStepTimerState.milliSecondsRemaining.toString(),//not formatting the countdown value
-                    progress = remainingSeconds.div(countdownS.toFloat()),
-                    playBeep = session.beepSoundCountDownActive
-                )
-            } else null
-            val stepRemainingAsMs = currentStepTimerState.milliSecondsRemaining.times(1000L)
-            val stepRemainingFormatted =
-                formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    durationMs = stepRemainingAsMs,
-                    durationStringFormatter = durationStringFormatter
-                )
-            val sessionRemaining =
-                stepRemainingAsMs + currentStep.remainingSessionDurationMsAfterMe
-            val sessionRemainingFormatted =
-                formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    durationMs = sessionRemaining,
-                    durationStringFormatter = durationStringFormatter
-                )
-            val sessionRemainingPercentage =
-                sessionRemaining.div(session.durationMs.toFloat())
-            when (currentStep) {
-                is SessionStep.WorkStep -> SessionViewState.WorkNominal(
-                    currentExercise = currentStep.exercise,
-                    side = currentStep.side,
-                    exerciseRemainingTime = stepRemainingFormatted,
-                    exerciseRemainingPercentage = currentStepTimerState.remainingPercentage,
-                    sessionRemainingTime = sessionRemainingFormatted,
-                    sessionRemainingPercentage = sessionRemainingPercentage,
-                    countDown = periodCountDown,
-                )
-
-                is SessionStep.RestStep -> SessionViewState.RestNominal(
-                    nextExercise = currentStep.exercise,
-                    side = currentStep.side,
-                    restRemainingTime = stepRemainingFormatted,
-                    restRemainingPercentage = currentStepTimerState.remainingPercentage,
-                    sessionRemainingTime = sessionRemainingFormatted,
-                    sessionRemainingPercentage = sessionRemainingPercentage,
-                    countDown = periodCountDown,
-                )
-
-                is SessionStep.PrepareStep -> {
-                    val sessionCountDown = CountDown(
-                        secondsDisplay = currentStepTimerState.milliSecondsRemaining.toString(),//not formatting the countdown value
-                        progress = remainingSeconds.div(countdownS.toFloat()),
-                        playBeep = session.beepSoundCountDownActive
-                    )
-                    SessionViewState.InitialCountDownSession(countDown = sessionCountDown)
-                }
-            }
-        }
-    }
-
-    suspend fun buildStateWholeSession(
-        session: Session,
-        currentSessionStepIndex: Int,
-        currentState: StepTimerState,
-        durationStringFormatter: DurationStringFormatter
-    ): SessionViewState {
-        return withContext(defaultDispatcher) {
-            val currentStep = session.steps[currentSessionStepIndex]
             val stepRemainingMilliSeconds =
-                currentState.milliSecondsRemaining.minus(currentStep.remainingSessionDurationMsAfterMe)
+                currentStepTimerState.milliSecondsRemaining.minus(currentStep.remainingSessionDurationMsAfterMe)
             val stepRemainingFormatted = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = stepRemainingMilliSeconds,
                 durationStringFormatter = durationStringFormatter
@@ -111,7 +47,7 @@ class SessionMapper @Inject constructor(
                 )
             } else null
             //
-            val sessionRemainingMilliSeconds = currentState.milliSecondsRemaining
+            val sessionRemainingMilliSeconds = currentStepTimerState.milliSecondsRemaining
             val sessionRemainingFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = sessionRemainingMilliSeconds,
@@ -136,7 +72,7 @@ class SessionMapper @Inject constructor(
                     restRemainingTime = stepRemainingFormatted,
                     restRemainingPercentage = stepRemainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
-                    sessionRemainingPercentage = currentState.remainingPercentage,
+                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                     countDown = periodCountDown,
                 )
 
@@ -146,7 +82,7 @@ class SessionMapper @Inject constructor(
                     exerciseRemainingTime = stepRemainingFormatted,
                     exerciseRemainingPercentage = stepRemainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
-                    sessionRemainingPercentage = currentState.remainingPercentage,
+                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                     countDown = periodCountDown,
                 )
 
