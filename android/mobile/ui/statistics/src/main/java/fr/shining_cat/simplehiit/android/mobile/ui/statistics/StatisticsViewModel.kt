@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val statisticsInteractor: StatisticsInteractor,
-    private val mapper: StatisticsViewStateMapper,
+    private val mapper: StatisticsMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val timeProvider: TimeProvider,
     private val hiitLogger: HiitLogger

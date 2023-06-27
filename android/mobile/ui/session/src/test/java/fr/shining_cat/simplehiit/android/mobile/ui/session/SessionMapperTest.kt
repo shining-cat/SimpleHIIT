@@ -1,6 +1,5 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
-import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState.InitialCountDownSession
 import fr.shining_cat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.Exercise
@@ -11,6 +10,7 @@ import fr.shining_cat.simplehiit.domain.common.models.StepTimerState
 import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
+import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState.InitialCountDownSession
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +24,7 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SessionViewStateMapperTest : AbstractMockkTest() {
+internal class SessionMapperTest : AbstractMockkTest() {
 
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
@@ -55,13 +55,13 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
         expectedViewStateOutput: SessionViewState
     ) = runTest {
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val testedMapper = SessionViewStateMapper(
+        val testedMapper = SessionMapper(
             formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
             defaultDispatcher = testDispatcher,
             hiitLogger = mockHiitLogger
         )
         //
-        val result = testedMapper.buildStateWholeSession(
+        val result = testedMapper.buildState(
             session = sessionMapperTestParameter.session,
             currentSessionStepIndex = sessionMapperTestParameter.currentSessionStepIndex,
             currentStepTimerState = sessionMapperTestParameter.currentStepTimerState,
@@ -241,8 +241,8 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 0,
                         currentStepTimerState = StepTimerState(
-                            milliSecondsRemaining = 769000L,
-                            totalMilliSeconds = 800000L
+                            milliSecondsRemaining = 4,
+                            totalMilliSeconds = 5
                         )
                     ),
                     InitialCountDownSession(
@@ -259,8 +259,8 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 4,
                         currentStepTimerState = StepTimerState(
-                            milliSecondsRemaining = 605000L,
-                            totalMilliSeconds = 800000L
+                            milliSecondsRemaining = 10,
+                            totalMilliSeconds = 50
                         )
                     ),
                     SessionViewState.WorkNominal(
@@ -269,7 +269,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         exerciseRemainingTime = mockDurationString, // verify formatter is called with 10000L,
                         exerciseRemainingPercentage = .2f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (595000L + 10000L)
-                        sessionRemainingPercentage = .75625f, // 605000L / 800000L = 0.75625
+                        sessionRemainingPercentage = .75625f, // (595000L + 10000L) / 800000L = 0.75625
                         countDown = null
                     )
                 ),
@@ -279,8 +279,8 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 4,
                         currentStepTimerState = StepTimerState(
-                            milliSecondsRemaining = 596000L,
-                            totalMilliSeconds = 800000L
+                            milliSecondsRemaining = 1,
+                            totalMilliSeconds = 50
                         )
                     ),
                     SessionViewState.WorkNominal(
@@ -289,7 +289,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         exerciseRemainingTime = mockDurationString, // verify formatter is called with 1000L,
                         exerciseRemainingPercentage = .02f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (595000L + 1000L)
-                        sessionRemainingPercentage = .745f, // 596000L / 800000L
+                        sessionRemainingPercentage = .745f, // (595000L + 1000L) / 800000L =
                         countDown = CountDown(
                             secondsDisplay = "1",
                             progress = .2f, // 1/5 to float
@@ -303,8 +303,8 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 7,
                         currentStepTimerState = StepTimerState(
-                            milliSecondsRemaining = 482000L,
-                            totalMilliSeconds = 800000L
+                            milliSecondsRemaining = 7,
+                            totalMilliSeconds = 35
                         )
                     ),
                     SessionViewState.RestNominal(
@@ -313,7 +313,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         restRemainingTime = mockDurationString, // verify formatter is called with 7000L,
                         restRemainingPercentage = .2f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 7000L)
-                        sessionRemainingPercentage = .6025f, // 482000L / 800000L
+                        sessionRemainingPercentage = .6025f, // (475000L + 7000L) / 800000L = 0.75625
                         countDown = null
                     )
                 ),
@@ -323,17 +323,17 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         session = testSession,
                         currentSessionStepIndex = 7,
                         currentStepTimerState = StepTimerState(
-                            milliSecondsRemaining = 480000L,
-                            totalMilliSeconds = 800000L
+                            milliSecondsRemaining = 5,
+                            totalMilliSeconds = 50
                         )
                     ),
                     SessionViewState.RestNominal(
                         nextExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
                         restRemainingTime = mockDurationString, // verify formatter is called with 5000L,
-                        restRemainingPercentage = .14285715f,
+                        restRemainingPercentage = .1f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 5000L)
-                        sessionRemainingPercentage = .6f, // 480000L / 800000L
+                        sessionRemainingPercentage = .6f, // (475000L + 5000L) / 800000L =
                         countDown = CountDown(
                             secondsDisplay = "5",
                             progress = 1f, // 5/5 to float

@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val homeInteractor: HomeInteractor,
-    private val homeViewStateMapper: HomeViewStateMapper,
+    private val homeMapper: HomeMapper,
     @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger
 ) : ViewModel() {
@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
             viewModelScope.launch(context = mainDispatcher) {
                 homeInteractor.getHomeSettings().collect {
                     _screenViewState.emit(
-                        homeViewStateMapper.map(it, durationStringFormatter)
+                        homeMapper.map(it, durationStringFormatter)
                     )
                 }
             }

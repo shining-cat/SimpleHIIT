@@ -18,11 +18,11 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
+internal class StatisticsMapperTest : AbstractMockkTest() {
 
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
-    private val testedMapper = StatisticsViewStateMapper(
+    private val testedMapper = StatisticsMapper(
         formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
         hiitLogger = mockHiitLogger
     )

@@ -1,17 +1,17 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
-import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState.Error
-import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState.Nominal
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.GeneralSettings
 import fr.shining_cat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState.Error
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState.Nominal
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class SettingsViewStateMapper @Inject constructor(
+class SettingsMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
     private val hiitLogger: HiitLogger
 ) {
