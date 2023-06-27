@@ -17,12 +17,12 @@ import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-internal class HomeMapperTest : AbstractMockkTest() {
+internal class HomeViewStateMapperTest : AbstractMockkTest() {
 
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
     private val testedMapper =
-        HomeMapper(
+        HomeViewStateMapper(
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
             mockHiitLogger
         )
@@ -41,7 +41,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
     @MethodSource("homeSettingsArguments")
     fun `mapping homeSettings to correct viewstate`(
         input: Output<HomeSettings>,
-        expectedOutput: fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
+        expectedOutput: HomeViewState
     ) {
         val result = testedMapper.map(
             homeSettingsOutput = input,
@@ -83,7 +83,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
                             users = listOf(testUser1, testUser3, testUser2, testUser4)
                         )
                     ),
-                    fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Nominal(
+                    HomeViewState.Nominal(
                         numberCumulatedCycles = 3,
                         cycleLength = mockDurationString,
                         users = listOf(testUser1, testUser3, testUser2, testUser4)
@@ -97,7 +97,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
                             users = listOf(testUser1, testUser2)
                         )
                     ),
-                    fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Nominal(
+                    HomeViewState.Nominal(
                         numberCumulatedCycles = 5,
                         cycleLength = mockDurationString,
                         users = listOf(testUser1, testUser2)
@@ -111,7 +111,7 @@ internal class HomeMapperTest : AbstractMockkTest() {
                             users = listOf()
                         )
                     ),
-                    fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.MissingUsers(
+                    HomeViewState.MissingUsers(
                         numberCumulatedCycles = 3,
                         cycleLength = mockDurationString
                     )
@@ -121,14 +121,14 @@ internal class HomeMapperTest : AbstractMockkTest() {
                         errorCode = Constants.Errors.NO_USERS_FOUND,
                         exception = testException
                     ),
-                    fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Error(Constants.Errors.NO_USERS_FOUND.code)
+                    HomeViewState.Error(Constants.Errors.NO_USERS_FOUND.code)
                 ),
                 Arguments.of(
                     Output.Error(
                         errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
                         exception = testException
                     ),
-                    fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code)
+                    HomeViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code)
                 )
             )
     }
