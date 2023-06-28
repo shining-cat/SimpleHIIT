@@ -2,7 +2,9 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,9 +20,15 @@ import fr.shining_cat.simplehiit.commonutils.HiitLogger
 @Composable
 fun SessionPrepareContent(
     viewState: SessionViewState.InitialCountDownSession,
+    paddingValues: PaddingValues,
     hiitLogger: HiitLogger? = null
 ) {
-    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .padding(paddingValues = paddingValues),
+        contentAlignment = Alignment.Center
+    ) {
         CountDownComponent(
             size = 64.dp,
             countDown = viewState.countDown,
@@ -49,7 +57,8 @@ private fun SessionPrepareContentPreview() {
                         progress = .9f,
                         playBeep = false
                     )
-                )
+                ),
+                paddingValues = PaddingValues(0.dp)
             )
         }
     }

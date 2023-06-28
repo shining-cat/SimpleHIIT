@@ -41,8 +41,8 @@
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
 * add total length of session below the number of repetitions so user knows how long it will last
 * design for statistics needs some love
-* design for session summary needs some love
-* create a _About_ section, in which to add credits for PoseMy.Art
+* design for session summary needs some love, add list of participating users, add the side to the display for exercises...
+* create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the short description at the top of HomeScreen. Then we could remove the main Column there like in other screens
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this if possible
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)

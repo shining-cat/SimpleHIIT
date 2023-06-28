@@ -203,64 +203,67 @@ private fun SessionContent(
     navigateUp: () -> Boolean,
     hiitLogger: HiitLogger? = null
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize() //TODO: handle landscape layout
-            .padding(paddingValues = innerPadding),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        when (screenViewState) {
-            SessionViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is SessionViewState.Error -> SessionErrorStateContent(
-                screenViewState = screenViewState,
-                navigateUp = navigateUp,
-                onAbort = onAbortSession,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.InitialCountDownSession -> SessionPrepareContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.RestNominal -> SessionRestNominalContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.WorkNominal -> SessionWorkNominalContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.Finished -> {
-                if (screenViewState.workingStepsDone.isEmpty()) {
-                    navigateUp()
-                } else {
-                    SessionFinishedContent(viewState = screenViewState, hiitLogger = hiitLogger)
-                }
+    when (screenViewState) {
+        SessionViewState.Loading -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues = innerPadding),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
         }
-        when (dialogViewState) {
-            SessionDialog.None -> {}/*Do nothing*/
-            SessionDialog.Pause -> ChoiceDialog(
-                title = stringResource(id = R.string.pause),
-                message = stringResource(id = R.string.pause_explanation),
-                primaryButtonLabel = stringResource(id = R.string.resume_button_label),
-                primaryAction = resume,
-                secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
-                secondaryAction = onAbortSession,
-                dismissAction = resume
-            )
+
+        is SessionViewState.Error -> SessionErrorStateContent(
+            screenViewState = screenViewState,
+            navigateUp = navigateUp,
+            onAbort = onAbortSession,
+            paddingValues = innerPadding,
+            hiitLogger = hiitLogger
+        )
+
+        is SessionViewState.InitialCountDownSession -> SessionPrepareContent(
+            viewState = screenViewState,
+            paddingValues = innerPadding,
+            hiitLogger = hiitLogger
+        )
+
+        is SessionViewState.RestNominal -> SessionRestNominalContent(
+            viewState = screenViewState,
+            paddingValues = innerPadding,
+            hiitLogger = hiitLogger
+        )
+
+        is SessionViewState.WorkNominal -> SessionWorkNominalContent(
+            viewState = screenViewState,
+            paddingValues = innerPadding,
+            hiitLogger = hiitLogger
+        )
+
+        is SessionViewState.Finished -> {
+            if (screenViewState.workingStepsDone.isEmpty()) {
+                navigateUp()
+            } else {
+                SessionFinishedContent(
+                    viewState = screenViewState,
+                    paddingValues = innerPadding,
+                    hiitLogger = hiitLogger
+                )
+            }
         }
+    }
+    when (dialogViewState) {
+        SessionDialog.None -> {}/*Do nothing*/
+        SessionDialog.Pause -> ChoiceDialog(
+            title = stringResource(id = R.string.pause),
+            message = stringResource(id = R.string.pause_explanation),
+            primaryButtonLabel = stringResource(id = R.string.resume_button_label),
+            primaryAction = resume,
+            secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
+            secondaryAction = onAbortSession,
+            dismissAction = resume
+        )
     }
 }
 

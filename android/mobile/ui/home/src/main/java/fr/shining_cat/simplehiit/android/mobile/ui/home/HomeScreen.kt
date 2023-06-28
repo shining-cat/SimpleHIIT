@@ -166,8 +166,7 @@ private fun HomeContent(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize() //TODO: handle landscape layout
-            //.verticalScroll(rememberScrollState())
+            .fillMaxSize()
             .padding(paddingValues = innerPadding),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

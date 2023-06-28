@@ -3,6 +3,7 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session.contents
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -32,17 +33,19 @@ fun SessionErrorStateContent(
     screenViewState: SessionViewState.Error,
     navigateUp: () -> Boolean,
     onAbort: () -> Unit,
+    paddingValues: PaddingValues,
     hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
                 .size(120.dp)
-                .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description)
@@ -61,8 +64,7 @@ fun SessionErrorStateContent(
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
-                    .align(Alignment.CenterHorizontally),
+                    .padding(horizontal = 0.dp, vertical = 16.dp),
                 text = stringResource(id = R.string.error_code, screenViewState.errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
@@ -76,8 +78,7 @@ fun SessionErrorStateContent(
         }
         Button(
             modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
+                .padding(horizontal = 0.dp, vertical = 16.dp),
             onClick = clickAction,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,
@@ -114,7 +115,8 @@ private fun SessionErrorStateContentPreview(
             SessionErrorStateContent(
                 screenViewState = sessionViewState,
                 navigateUp = { true },
-                onAbort = {}
+                onAbort = {},
+                paddingValues = PaddingValues(0.dp)
             )
         }
     }
