@@ -3,8 +3,6 @@
 ## Missing features / issues
 
 ## Code refactoring: layouts
-* Fix layouts composition:
-  * the fact that settings screen is scrollable is probably what messes up the position of its loading indicator
 * fix broken layout in landscape
 
 ## Assets production
