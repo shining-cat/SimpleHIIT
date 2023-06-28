@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -17,24 +18,27 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun StatisticsNominalContent(
     deleteAllSessionsForUser: (User) -> Unit,
     viewState: StatisticsViewState.Nominal,
+    paddingValues: PaddingValues,
     hiitLogger: HiitLogger?
 ) {
     Column(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(8.dp)
-            .fillMaxSize()
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //we don't want the name to scroll along with the grid (sticky header)
         Text(
@@ -152,7 +156,8 @@ private fun StatisticsContentNominalPreview(
             StatisticsNominalContent(
                 deleteAllSessionsForUser = {},
                 viewState = viewState,
-                hiitLogger = null
+                hiitLogger = null,
+                paddingValues = PaddingValues(0.dp)
             )
         }
     }

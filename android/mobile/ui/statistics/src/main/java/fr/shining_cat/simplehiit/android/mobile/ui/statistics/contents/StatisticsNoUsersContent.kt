@@ -1,7 +1,12 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,9 +23,10 @@ import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
-fun StatisticsNoUsersContent() {
+fun StatisticsNoUsersContent(paddingValues: PaddingValues) {
     Column(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
@@ -54,7 +60,7 @@ fun StatisticsNoUsersContent() {
 private fun StatisticsNoUsersContentPreview() {
     SimpleHiitTheme {
         Surface {
-            StatisticsNoUsersContent()
+            StatisticsNoUsersContent(paddingValues = PaddingValues(0.dp))
         }
     }
 }

@@ -165,74 +165,73 @@ private fun StatisticsContent(
     dialogViewState: StatisticsDialog,
     hiitLogger: HiitLogger?
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize() //TODO: handle landscape layout
-            .padding(paddingValues = innerPadding),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        when (screenViewState) {
-            StatisticsViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
+    when (screenViewState) {
+        StatisticsViewState.Loading -> {
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues = innerPadding)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
+        }
 
-            is StatisticsViewState.Nominal -> {
-                StatisticsNominalContent(
-                    deleteAllSessionsForUser = deleteAllSessionsForUser,
-                    viewState = screenViewState,
-                    hiitLogger = hiitLogger
-                )
-            }
-
-            is StatisticsViewState.NoSessions -> StatisticsNoSessionsContent(
-                screenViewState
-            )
-
-            StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
-            is StatisticsViewState.Error -> StatisticsErrorContent(
-                user = screenViewState.user,
-                errorCode = screenViewState.errorCode,
-                deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) }
-            )
-
-            is StatisticsViewState.FatalError -> StatisticsFatalErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetWholeApp = resetWholeApp
+        is StatisticsViewState.Nominal -> {
+            StatisticsNominalContent(
+                deleteAllSessionsForUser = deleteAllSessionsForUser,
+                viewState = screenViewState,
+                paddingValues = innerPadding,
+                hiitLogger = hiitLogger
             )
         }
-        when (dialogViewState) {
-            StatisticsDialog.None -> {}/*Do nothing*/
-            is StatisticsDialog.SelectUser -> StatisticsSelectUserDialog(
-                users = dialogViewState.users,
-                selectUser = {
-                    cancelDialog()
-                    selectUser(it)
-                },
-                dismissAction = cancelDialog
-            )
 
-            is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> WarningDialog(
-                message = stringResource(
-                    id = R.string.reset_statistics_confirmation_button_label,
-                    dialogViewState.user.name
-                ),
-                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
-                dismissAction = cancelDialog
-            )
+        is StatisticsViewState.NoSessions -> StatisticsNoSessionsContent(
+            screenViewState,
+            paddingValues = innerPadding
+        )
 
-            StatisticsDialog.ConfirmWholeReset -> WarningDialog(
-                message = stringResource(id = R.string.error_confirm_whole_reset),
-                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                proceedAction = resetWholeAppConfirmation,
-                dismissAction = cancelDialog
-            )
-        }
+        StatisticsViewState.NoUsers -> StatisticsNoUsersContent(paddingValues = innerPadding)
+        is StatisticsViewState.Error -> StatisticsErrorContent(
+            user = screenViewState.user,
+            errorCode = screenViewState.errorCode,
+            deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) },
+            paddingValues = innerPadding
+        )
+
+        is StatisticsViewState.FatalError -> StatisticsFatalErrorContent(
+            errorCode = screenViewState.errorCode,
+            resetWholeApp = resetWholeApp,
+            paddingValues = innerPadding
+        )
+    }
+    when (dialogViewState) {
+        StatisticsDialog.None -> {}/*Do nothing*/
+        is StatisticsDialog.SelectUser -> StatisticsSelectUserDialog(
+            users = dialogViewState.users,
+            selectUser = {
+                cancelDialog()
+                selectUser(it)
+            },
+            dismissAction = cancelDialog
+        )
+
+        is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> WarningDialog(
+            message = stringResource(
+                id = R.string.reset_statistics_confirmation_button_label,
+                dialogViewState.user.name
+            ),
+            proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+            proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
+            dismissAction = cancelDialog
+        )
+
+        StatisticsDialog.ConfirmWholeReset -> WarningDialog(
+            message = stringResource(id = R.string.error_confirm_whole_reset),
+            proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+            proceedAction = resetWholeAppConfirmation,
+            dismissAction = cancelDialog
+        )
     }
 }
 
