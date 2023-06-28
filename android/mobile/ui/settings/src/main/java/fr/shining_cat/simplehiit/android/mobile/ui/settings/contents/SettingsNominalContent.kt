@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
@@ -19,13 +21,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.ToggleButton
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
+import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import kotlin.math.roundToInt
 
 @Composable
@@ -41,12 +43,16 @@ fun SettingsNominalContent(
     toggleExerciseType: (ExerciseTypeSelected) -> Unit,
     resetSettings: () -> Unit,
     viewState: SettingsViewState.Nominal,
+    paddingValues: PaddingValues,
 ) {
     Column(
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+            .padding(paddingValues = paddingValues)
+            .padding(horizontal = 8.dp)
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
+        Spacer(modifier = Modifier.height(8.dp))
         SettingFieldComponent(
             label = stringResource(id = R.string.work_period_length_label),
             value = stringResource(
@@ -299,7 +305,8 @@ private fun SettingsContentNominalPreview(
             addUser = {},
             toggleExerciseType = {},
             resetSettings = {},
-            viewState = viewState
+            viewState = viewState,
+            paddingValues = PaddingValues(0.dp)
         )
     }
 }

@@ -4,7 +4,6 @@
 
 ## Code refactoring: layouts
 * Fix layouts composition:
-  * there are nested columns that seem redundant between screens and content composables. Check and remove accordingly
   * the fact that settings screen is scrollable is probably what messes up the position of its loading indicator
 * fix broken layout in landscape
 
