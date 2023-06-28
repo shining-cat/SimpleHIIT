@@ -2,7 +2,9 @@ package fr.shining_cat.simplehiit.android.mobile.ui.settings.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,18 +21,21 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
 fun SettingsErrorContent(
     errorCode: String,
-    resetSettings: () -> Unit = {}
+    resetSettings: () -> Unit = {},
+    paddingValues: PaddingValues
 ) {
     Column(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center
     ) {
         Image(
             modifier = Modifier
@@ -85,7 +90,8 @@ private fun SettingsErrorContentPreview() {
     SimpleHiitTheme {
         Surface {
             SettingsErrorContent(
-                errorCode = "ABCD-123"
+                errorCode = "ABCD-123",
+                paddingValues = PaddingValues(0.dp)
             )
         }
     }

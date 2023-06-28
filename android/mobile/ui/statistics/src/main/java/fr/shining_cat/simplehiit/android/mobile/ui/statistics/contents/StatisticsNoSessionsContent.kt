@@ -1,7 +1,12 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -15,16 +20,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsNoSessionsContent(
-    viewState: StatisticsViewState.NoSessions
+    viewState: StatisticsViewState.NoSessions,
+    paddingValues: PaddingValues
 ) {
     Column(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
@@ -67,7 +74,8 @@ private fun StatisticsNoSessionsContentPreview() {
             StatisticsNoSessionsContent(
                 viewState = StatisticsViewState.NoSessions(
                     User(name = "Georges")
-                )
+                ),
+                paddingValues = PaddingValues(0.dp)
             )
         }
     }

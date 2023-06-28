@@ -2,8 +2,6 @@ package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -217,119 +215,115 @@ fun SettingsContent(
     screenViewState: SettingsViewState,
     dialogViewState: SettingsDialog
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize() //TODO: handle landscape layout
-            .padding(paddingValues = innerPadding)
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        when (screenViewState) {
-            SettingsViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator() //TODO: this loading is stuck at the top because the parent column is scrollable, then this child can't fillMaxHeight
-                }
+    when (screenViewState) {
+        SettingsViewState.Loading -> {
+            Box(
+                modifier = Modifier
+                    .padding(paddingValues = innerPadding)
+                    .fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
             }
-
-            is SettingsViewState.Error -> SettingsErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetSettings = resetSettings
-            )
-
-            is SettingsViewState.Nominal -> SettingsNominalContent(
-                editWorkPeriodLength = editWorkPeriodLength,
-                editRestPeriodLength = editRestPeriodLength,
-                editNumberOfWorkPeriods = editNumberOfWorkPeriods,
-                toggleBeepSound = toggleBeepSound,
-                editSessionStartCountDown = editSessionStartCountDown,
-                editPeriodStartCountDown = editPeriodStartCountDown,
-                editUser = editUser,
-                addUser = addUser,
-                toggleExerciseType = toggleExerciseType,
-                resetSettings = resetSettings,
-                viewState = screenViewState
-            )
         }
-        when (dialogViewState) {
-            SettingsDialog.None -> {/*do nothing*/
-            }
 
-            is SettingsDialog.EditWorkPeriodLength -> SettingsEditPeriodLengthDialog(
-                dialogTitle = stringResource(id = R.string.work_period_length_label),
-                savePeriodLength = saveWorkPeriodLength,
-                validatePeriodLengthInput = validatePeriodLengthInput,
-                periodLengthSeconds = dialogViewState.valueSeconds,
-                onCancel = cancelDialog,
-            )
+        is SettingsViewState.Error -> SettingsErrorContent(
+            errorCode = screenViewState.errorCode,
+            resetSettings = resetSettings,
+            paddingValues = innerPadding
+        )
 
-            is SettingsDialog.EditRestPeriodLength -> SettingsEditPeriodLengthDialog(
-                dialogTitle = stringResource(id = R.string.rest_period_length_label),
-                savePeriodLength = saveRestPeriodLength,
-                validatePeriodLengthInput = validatePeriodLengthInput,
-                periodLengthSeconds = dialogViewState.valueSeconds,
-                onCancel = cancelDialog,
-            )
-
-            is SettingsDialog.EditNumberCycles -> SettingsEditNumberCyclesDialog(
-                saveNumber = saveNumberOfWorkPeriod,
-                validateNumberCyclesInput = validateNumberOfWorkPeriodsInput,
-                numberOfCycles = dialogViewState.numberOfCycles,
-                onCancel = cancelDialog
-            )
-
-            is SettingsDialog.EditSessionStartCountDown -> SettingsEditSessionStartCountDownDialog(
-                saveCountDownLength = saveSessionStartCountDown,
-                validateCountDownLengthInput = validateSessionCountDownLengthInput,
-                countDownLengthSeconds = dialogViewState.valueSeconds,
-                onCancel = cancelDialog
-            )
-
-            is SettingsDialog.EditPeriodStartCountDown -> SettingsEditPeriodStartCountDownDialog(
-                saveCountDownLength = savePeriodStartCountDown,
-                validateCountDownLengthInput = validatePeriodCountDownLengthInput,
-                countDownLengthSeconds = dialogViewState.valueSeconds,
-                onCancel = cancelDialog
-            )
-
-            is SettingsDialog.AddUser -> SettingsAddUserDialog(
-                saveUserName = { saveUser(User(name = it)) },
-                userName = dialogViewState.userName,
-                validateUserNameInput = { validateInputNameString(User(name = it)) },
-                onCancel = cancelDialog
-            )
-
-            is SettingsDialog.EditUser -> SettingsEditUserDialog(
-                saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
-                deleteUser = { deleteUser(dialogViewState.user) },
-                validateUserNameInput = { validateInputNameString(dialogViewState.user.copy(name = it)) },
-                userName = dialogViewState.user.name,
-                onCancel = cancelDialog
-            )
-
-            is SettingsDialog.ConfirmDeleteUser -> WarningDialog(
-                message = stringResource(id = R.string.delete_confirmation_button_label),
-                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                proceedAction = { deleteUserConfirm(dialogViewState.user) },
-                dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
-            )
-
-            SettingsDialog.ConfirmResetAllSettings -> WarningDialog(
-                message = stringResource(id = R.string.reset_settings_confirmation_button_label),
-                proceedButtonLabel = stringResource(id = R.string.reset_button_label),
-                proceedAction = resetSettingsConfirmation,
-                dismissAction = cancelDialog
-            )
-
-            is SettingsDialog.Error -> ErrorDialog(
-                errorMessage = "",
-                errorCode = dialogViewState.errorCode,
-                dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
-                dismissAction = cancelDialog
-            )
+        is SettingsViewState.Nominal -> SettingsNominalContent(
+            editWorkPeriodLength = editWorkPeriodLength,
+            editRestPeriodLength = editRestPeriodLength,
+            editNumberOfWorkPeriods = editNumberOfWorkPeriods,
+            toggleBeepSound = toggleBeepSound,
+            editSessionStartCountDown = editSessionStartCountDown,
+            editPeriodStartCountDown = editPeriodStartCountDown,
+            editUser = editUser,
+            addUser = addUser,
+            toggleExerciseType = toggleExerciseType,
+            resetSettings = resetSettings,
+            viewState = screenViewState,
+            paddingValues = innerPadding
+        )
+    }
+    when (dialogViewState) {
+        SettingsDialog.None -> {/*do nothing*/
         }
+
+        is SettingsDialog.EditWorkPeriodLength -> SettingsEditPeriodLengthDialog(
+            dialogTitle = stringResource(id = R.string.work_period_length_label),
+            savePeriodLength = saveWorkPeriodLength,
+            validatePeriodLengthInput = validatePeriodLengthInput,
+            periodLengthSeconds = dialogViewState.valueSeconds,
+            onCancel = cancelDialog,
+        )
+
+        is SettingsDialog.EditRestPeriodLength -> SettingsEditPeriodLengthDialog(
+            dialogTitle = stringResource(id = R.string.rest_period_length_label),
+            savePeriodLength = saveRestPeriodLength,
+            validatePeriodLengthInput = validatePeriodLengthInput,
+            periodLengthSeconds = dialogViewState.valueSeconds,
+            onCancel = cancelDialog,
+        )
+
+        is SettingsDialog.EditNumberCycles -> SettingsEditNumberCyclesDialog(
+            saveNumber = saveNumberOfWorkPeriod,
+            validateNumberCyclesInput = validateNumberOfWorkPeriodsInput,
+            numberOfCycles = dialogViewState.numberOfCycles,
+            onCancel = cancelDialog
+        )
+
+        is SettingsDialog.EditSessionStartCountDown -> SettingsEditSessionStartCountDownDialog(
+            saveCountDownLength = saveSessionStartCountDown,
+            validateCountDownLengthInput = validateSessionCountDownLengthInput,
+            countDownLengthSeconds = dialogViewState.valueSeconds,
+            onCancel = cancelDialog
+        )
+
+        is SettingsDialog.EditPeriodStartCountDown -> SettingsEditPeriodStartCountDownDialog(
+            saveCountDownLength = savePeriodStartCountDown,
+            validateCountDownLengthInput = validatePeriodCountDownLengthInput,
+            countDownLengthSeconds = dialogViewState.valueSeconds,
+            onCancel = cancelDialog
+        )
+
+        is SettingsDialog.AddUser -> SettingsAddUserDialog(
+            saveUserName = { saveUser(User(name = it)) },
+            userName = dialogViewState.userName,
+            validateUserNameInput = { validateInputNameString(User(name = it)) },
+            onCancel = cancelDialog
+        )
+
+        is SettingsDialog.EditUser -> SettingsEditUserDialog(
+            saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
+            deleteUser = { deleteUser(dialogViewState.user) },
+            validateUserNameInput = { validateInputNameString(dialogViewState.user.copy(name = it)) },
+            userName = dialogViewState.user.name,
+            onCancel = cancelDialog
+        )
+
+        is SettingsDialog.ConfirmDeleteUser -> WarningDialog(
+            message = stringResource(id = R.string.delete_confirmation_button_label),
+            proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+            proceedAction = { deleteUserConfirm(dialogViewState.user) },
+            dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
+        )
+
+        SettingsDialog.ConfirmResetAllSettings -> WarningDialog(
+            message = stringResource(id = R.string.reset_settings_confirmation_button_label),
+            proceedButtonLabel = stringResource(id = R.string.reset_button_label),
+            proceedAction = resetSettingsConfirmation,
+            dismissAction = cancelDialog
+        )
+
+        is SettingsDialog.Error -> ErrorDialog(
+            errorMessage = "",
+            errorCode = dialogViewState.errorCode,
+            dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
+            dismissAction = cancelDialog
+        )
     }
 }
 

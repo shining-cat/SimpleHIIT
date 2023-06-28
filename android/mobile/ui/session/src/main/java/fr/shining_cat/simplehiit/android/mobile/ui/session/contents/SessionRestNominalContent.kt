@@ -6,6 +6,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -13,25 +14,31 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.components.GifImage
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
-import fr.shining_cat.simplehiit.domain.common.models.Exercise
-import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.session.components.CountDownComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.components.ExerciseDescriptionComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.components.RemainingPercentageComponent
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseGifMapper
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
+import fr.shining_cat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
+import fr.shining_cat.simplehiit.domain.common.models.Exercise
 
 @Composable
-fun SessionRestNominalContent(viewState: SessionViewState.RestNominal, hiitLogger: HiitLogger? = null) {
+fun SessionRestNominalContent(
+    viewState: SessionViewState.RestNominal,
+    paddingValues: PaddingValues,
+    hiitLogger: HiitLogger? = null,
+) {
     Column(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier = Modifier
@@ -103,7 +110,10 @@ private fun SessionRestNominalContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionRestNominalContent(viewState = viewState)
+            SessionRestNominalContent(
+                viewState = viewState,
+                paddingValues = PaddingValues(0.dp)
+            )
         }
     }
 }

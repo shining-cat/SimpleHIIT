@@ -15,19 +15,24 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
+import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.Exercise
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
 import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
-import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
-fun SessionFinishedContent(viewState: SessionViewState.Finished, hiitLogger: HiitLogger? = null) {
+fun SessionFinishedContent(
+    viewState: SessionViewState.Finished,
+    paddingValues: PaddingValues,
+    hiitLogger: HiitLogger? = null
+) {
     LazyColumn(
         modifier = Modifier
+            .padding(paddingValues = paddingValues)
             .padding(16.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -40,7 +45,7 @@ fun SessionFinishedContent(viewState: SessionViewState.Finished, hiitLogger: Hii
         items(viewState.workingStepsDone.size) {
             val step = viewState.workingStepsDone[it]
             val exerciseNameRes =
-                exerciseNameResMapper.map(step.exercise) // todo: we also want to add the side to the display
+                exerciseNameResMapper.map(step.exercise)
             SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
         }
     }
@@ -57,7 +62,6 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
             style = MaterialTheme.typography.headlineLarge,
             text = stringResource(id = R.string.finish_page_title)
         )
-        //TODO? add list of participating users?
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
@@ -133,7 +137,10 @@ private fun SessionFinishedContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionFinishedContent(viewState = viewState)
+            SessionFinishedContent(
+                viewState = viewState,
+                paddingValues = PaddingValues(0.dp)
+            )
         }
     }
 }
