@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import fr.shining_cat.simplehiit.android.mobile.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeErrorContent
@@ -38,7 +39,8 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun HomeScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (String) -> Unit,
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -63,6 +65,7 @@ fun HomeScreen(
         validateInputNumberCycles = { viewModel.validateInputNumberCycles(it) },
         toggleSelectedUser = { viewModel.toggleSelectedUser(it) },
         cancelDialog = { viewModel.cancelDialog() },
+        uiArrangement = uiArrangement,
         viewState = viewState,
         dialogViewState = dialogViewState
     )
@@ -79,6 +82,7 @@ private fun HomeScreen(
     validateInputNumberCycles: (String) -> Constants.InputError,
     toggleSelectedUser: (User) -> Unit = {},
     cancelDialog: () -> Unit = {},
+    uiArrangement: UiArrangement,
     viewState: HomeViewState,
     dialogViewState: HomeDialog
 ) {
@@ -232,20 +236,75 @@ private fun HomeContent(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
 )
 @Composable
-private fun HomeScreenPreview(
+private fun HomeScreenPreviewPhonePortrait(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) pairOfStates: Pair<HomeViewState, HomeDialog>
 ) {
     SimpleHiitTheme {
         HomeScreen(
+            uiArrangement = UiArrangement.VERTICAL,
+            validateInputNumberCycles = { Constants.InputError.NONE },
+            viewState = pairOfStates.first,
+            dialogViewState = pairOfStates.second
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun HomeScreenPreviewTabletLandscape(
+    @PreviewParameter(HomeScreenPreviewParameterProvider::class) pairOfStates: Pair<HomeViewState, HomeDialog>
+) {
+    SimpleHiitTheme {
+        HomeScreen(
+            uiArrangement = UiArrangement.HORIZONTAL,
+            validateInputNumberCycles = { Constants.InputError.NONE },
+            viewState = pairOfStates.first,
+            dialogViewState = pairOfStates.second
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun HomeScreenPreviewPhoneLandscape(
+    @PreviewParameter(HomeScreenPreviewParameterProvider::class) pairOfStates: Pair<HomeViewState, HomeDialog>
+) {
+    SimpleHiitTheme {
+        HomeScreen(
+            uiArrangement = UiArrangement.HORIZONTAL,
             validateInputNumberCycles = { Constants.InputError.NONE },
             viewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
@@ -259,9 +318,7 @@ internal class HomeScreenPreviewParameterProvider :
         get() = sequenceOf(
             Pair(HomeViewState.Loading, HomeDialog.None),
             Pair(HomeViewState.Error(errorCode = "12345"), HomeDialog.None),
-            Pair(HomeViewState.Error(errorCode = "12345"), HomeDialog.ConfirmWholeReset),
             Pair(HomeViewState.MissingUsers(4, "4mn"), HomeDialog.None),
-            Pair(HomeViewState.MissingUsers(4, "4mn"), HomeDialog.InputNumberCycles(4)),
             Pair(
                 HomeViewState.Nominal(
                     4,

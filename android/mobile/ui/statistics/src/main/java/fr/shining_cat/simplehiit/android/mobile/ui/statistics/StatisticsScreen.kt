@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsErrorContent
@@ -33,6 +34,7 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 @Composable
 fun StatisticsScreen(
     onNavigateUp: () -> Boolean = { false },
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
@@ -59,6 +61,7 @@ fun StatisticsScreen(
         cancelDialog = { viewModel.cancelDialog() },
         resetWholeApp = { viewModel.resetWholeApp() },
         resetWholeAppConfirmation = { viewModel.resetWholeAppConfirmationDeleteEverything() },
+        uiArrangement = uiArrangement,
         screenViewState = screenViewState,
         dialogViewState = dialogViewState,
         hiitLogger = hiitLogger
@@ -76,6 +79,7 @@ private fun StatisticsScreen(
     cancelDialog: () -> Unit,
     resetWholeApp: () -> Unit,
     resetWholeAppConfirmation: () -> Unit,
+    uiArrangement: UiArrangement,
     screenViewState: StatisticsViewState,
     dialogViewState: StatisticsDialog,
     hiitLogger: HiitLogger? = null
@@ -240,16 +244,18 @@ private fun StatisticsContent(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
 )
 @Composable
-private fun StatisticsScreenPreview(
+private fun StatisticsScreenPreviewPhonePortrait(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
 ) {
     SimpleHiitTheme {
@@ -262,6 +268,73 @@ private fun StatisticsScreenPreview(
             cancelDialog = {},
             resetWholeApp = {},
             resetWholeAppConfirmation = {},
+            uiArrangement = UiArrangement.VERTICAL,
+            screenViewState = viewStates.first,
+            dialogViewState = viewStates.second
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun StatisticsScreenPreviewTabletLandscape(
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
+) {
+    SimpleHiitTheme {
+        StatisticsScreen(
+            onNavigateUp = { true },
+            openUserPicker = {},
+            selectUser = {},
+            deleteAllSessionsForUser = {},
+            deleteAllSessionsForUserConfirm = {},
+            cancelDialog = {},
+            resetWholeApp = {},
+            resetWholeAppConfirmation = {},
+            uiArrangement = UiArrangement.HORIZONTAL,
+            screenViewState = viewStates.first,
+            dialogViewState = viewStates.second
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun StatisticsScreenPreviewPhoneLandscape(
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
+) {
+    SimpleHiitTheme {
+        StatisticsScreen(
+            onNavigateUp = { true },
+            openUserPicker = {},
+            selectUser = {},
+            deleteAllSessionsForUser = {},
+            deleteAllSessionsForUserConfirm = {},
+            cancelDialog = {},
+            resetWholeApp = {},
+            resetWholeAppConfirmation = {},
+            uiArrangement = UiArrangement.HORIZONTAL,
             screenViewState = viewStates.first,
             dialogViewState = viewStates.second
         )

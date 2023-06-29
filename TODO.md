@@ -34,8 +34,8 @@
 * see also [ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
-* instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
+* instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
 * add total length of session below the number of repetitions so user knows how long it will last
 * design for statistics needs some love
 * design for session summary needs some love, add list of participating users, add the side to the display for exercises...

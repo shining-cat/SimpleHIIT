@@ -27,6 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
@@ -44,6 +45,7 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 @Composable
 fun SessionScreen(
     navigateUp: () -> Boolean,
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: SessionViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
@@ -96,6 +98,7 @@ fun SessionScreen(
     //
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },
+        uiArrangement = uiArrangement,
         dialogViewState = dialogViewState,
         screenViewState = screenViewState,
         pause = { viewModel.pause() },
@@ -109,6 +112,7 @@ fun SessionScreen(
 @Composable
 private fun SessionScreen(
     onAbortSession: () -> Unit,
+    uiArrangement: UiArrangement,
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
     pause: () -> Unit,
@@ -272,16 +276,18 @@ private fun SessionContent(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
 )
 @Composable
-private fun SessionScreenPreview(
+private fun SessionScreenPreviewPhonePortrait(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
 ) {
     SimpleHiitTheme {
@@ -291,6 +297,65 @@ private fun SessionScreenPreview(
             screenViewState = viewStates.first,
             pause = {},
             resume = {},
+            uiArrangement = UiArrangement.VERTICAL,
+            navigateUp = { true }
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun SessionScreenPreviewTabletLandscape(
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
+) {
+    SimpleHiitTheme {
+        SessionScreen(
+            onAbortSession = {},
+            dialogViewState = viewStates.second,
+            screenViewState = viewStates.first,
+            pause = {},
+            resume = {},
+            uiArrangement = UiArrangement.HORIZONTAL,
+            navigateUp = { true }
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun SessionScreenPreviewPhoneLandscape(
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
+) {
+    SimpleHiitTheme {
+        SessionScreen(
+            onAbortSession = {},
+            dialogViewState = viewStates.second,
+            screenViewState = viewStates.first,
+            pause = {},
+            resume = {},
+            uiArrangement = UiArrangement.HORIZONTAL,
             navigateUp = { true }
         )
     }

@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.common.components.ErrorDialog
 import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
@@ -37,6 +38,7 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 @Composable
 fun SettingsScreen(
     navigateUp: () -> Boolean,
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
@@ -80,6 +82,7 @@ fun SettingsScreen(
         resetSettings = { viewModel.resetAllSettings() },
         resetSettingsConfirmation = { viewModel.resetAllSettingsConfirmation() },
         cancelDialog = { viewModel.cancelDialog() },
+        uiArrangement = uiArrangement,
         screenViewState = screenViewState,
         dialogViewState = dialogViewState
     )
@@ -115,6 +118,7 @@ private fun SettingsScreen(
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
+    uiArrangement: UiArrangement,
     screenViewState: SettingsViewState,
     dialogViewState: SettingsDialog
 ) {
@@ -332,16 +336,18 @@ fun SettingsContent(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
 )
 @Composable
-private fun SettingsScreenPreview(
+private fun SettingsScreenPreviewPhonePortrait(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) pairOfStates: Pair<SettingsViewState, SettingsDialog>
 ) {
     SimpleHiitTheme {
@@ -352,6 +358,69 @@ private fun SettingsScreenPreview(
             validatePeriodCountDownLengthInput = { Constants.InputError.NONE },
             deleteUserCancel = {},
             validateInputNameString = { Constants.InputError.NONE },
+            uiArrangement = UiArrangement.VERTICAL,
+            screenViewState = pairOfStates.first,
+            dialogViewState = pairOfStates.second
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun SettingsScreenPreviewTabletLandscape(
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) pairOfStates: Pair<SettingsViewState, SettingsDialog>
+) {
+    SimpleHiitTheme {
+        SettingsScreen(
+            validatePeriodLengthInput = { Constants.InputError.NONE },
+            validateNumberOfWorkPeriodsInput = { Constants.InputError.NONE },
+            validateSessionCountDownLengthInput = { Constants.InputError.NONE },
+            validatePeriodCountDownLengthInput = { Constants.InputError.NONE },
+            deleteUserCancel = {},
+            validateInputNameString = { Constants.InputError.NONE },
+            uiArrangement = UiArrangement.HORIZONTAL,
+            screenViewState = pairOfStates.first,
+            dialogViewState = pairOfStates.second
+        )
+    }
+}
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun SettingsScreenPreviewPhoneLandscape(
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) pairOfStates: Pair<SettingsViewState, SettingsDialog>
+) {
+    SimpleHiitTheme {
+        SettingsScreen(
+            validatePeriodLengthInput = { Constants.InputError.NONE },
+            validateNumberOfWorkPeriodsInput = { Constants.InputError.NONE },
+            validateSessionCountDownLengthInput = { Constants.InputError.NONE },
+            validatePeriodCountDownLengthInput = { Constants.InputError.NONE },
+            deleteUserCancel = {},
+            validateInputNameString = { Constants.InputError.NONE },
+            uiArrangement = UiArrangement.HORIZONTAL,
             screenViewState = pairOfStates.first,
             dialogViewState = pairOfStates.second
         )
