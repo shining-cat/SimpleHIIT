@@ -348,7 +348,7 @@ fun SettingsContent(
 )
 @Composable
 private fun SettingsScreenPreviewPhonePortrait(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) pairOfStates: Pair<SettingsViewState, SettingsDialog>
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
     SimpleHiitTheme {
         SettingsScreen(
@@ -359,11 +359,12 @@ private fun SettingsScreenPreviewPhonePortrait(
             deleteUserCancel = {},
             validateInputNameString = { Constants.InputError.NONE },
             uiArrangement = UiArrangement.VERTICAL,
-            screenViewState = pairOfStates.first,
-            dialogViewState = pairOfStates.second
+            screenViewState = viewState,
+            dialogViewState = SettingsDialog.None
         )
     }
 }
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -378,7 +379,7 @@ private fun SettingsScreenPreviewPhonePortrait(
 )
 @Composable
 private fun SettingsScreenPreviewTabletLandscape(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) pairOfStates: Pair<SettingsViewState, SettingsDialog>
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
     SimpleHiitTheme {
         SettingsScreen(
@@ -389,11 +390,12 @@ private fun SettingsScreenPreviewTabletLandscape(
             deleteUserCancel = {},
             validateInputNameString = { Constants.InputError.NONE },
             uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = pairOfStates.first,
-            dialogViewState = pairOfStates.second
+            screenViewState = viewState,
+            dialogViewState = SettingsDialog.None
         )
     }
 }
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -410,7 +412,7 @@ private fun SettingsScreenPreviewTabletLandscape(
 )
 @Composable
 private fun SettingsScreenPreviewPhoneLandscape(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) pairOfStates: Pair<SettingsViewState, SettingsDialog>
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
     SimpleHiitTheme {
         SettingsScreen(
@@ -421,14 +423,14 @@ private fun SettingsScreenPreviewPhoneLandscape(
             deleteUserCancel = {},
             validateInputNameString = { Constants.InputError.NONE },
             uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = pairOfStates.first,
-            dialogViewState = pairOfStates.second
+            screenViewState = viewState,
+            dialogViewState = SettingsDialog.None
         )
     }
 }
 
 internal class SettingsScreenPreviewParameterProvider :
-    PreviewParameterProvider<Pair<SettingsViewState, SettingsDialog>> {
+    PreviewParameterProvider<SettingsViewState> {
 
     private val exerciseTypeSelectedAlltrue = ExerciseType.values().toList().map {
         ExerciseTypeSelected(
@@ -459,70 +461,55 @@ internal class SettingsScreenPreviewParameterProvider :
         User(name = "user 5")
     )
 
-    override val values: Sequence<Pair<SettingsViewState, SettingsDialog>>
+    override val values: Sequence<SettingsViewState>
         get() = sequenceOf(
-            Pair(SettingsViewState.Loading, SettingsDialog.None),
-            Pair(
-                SettingsViewState.Error(
-                    errorCode = "this is an error code"
-                ),
-                SettingsDialog.None
+            SettingsViewState.Loading,
+            SettingsViewState.Error(
+                errorCode = "this is an error code"
             ),
-            Pair(
-                SettingsViewState.Nominal(
-                    workPeriodLengthAsSeconds = "15",
-                    restPeriodLengthAsSeconds = "5",
-                    numberOfWorkPeriods = "4",
-                    totalCycleLength = "3mn 20s",
-                    beepSoundCountDownActive = true,
-                    sessionStartCountDownLengthAsSeconds = "20",
-                    periodsStartCountDownLengthAsSeconds = "5",
-                    users = emptyList(),
-                    exerciseTypes = exerciseTypeSelectedAlltrue
-                ),
-                SettingsDialog.None
+            SettingsViewState.Nominal(
+                workPeriodLengthAsSeconds = "15",
+                restPeriodLengthAsSeconds = "5",
+                numberOfWorkPeriods = "4",
+                totalCycleLength = "3mn 20s",
+                beepSoundCountDownActive = true,
+                sessionStartCountDownLengthAsSeconds = "20",
+                periodsStartCountDownLengthAsSeconds = "5",
+                users = emptyList(),
+                exerciseTypes = exerciseTypeSelectedAlltrue
             ),
-            Pair(
-                SettingsViewState.Nominal(
-                    workPeriodLengthAsSeconds = "15",
-                    restPeriodLengthAsSeconds = "5",
-                    numberOfWorkPeriods = "4",
-                    totalCycleLength = "3mn 20s",
-                    beepSoundCountDownActive = false,
-                    sessionStartCountDownLengthAsSeconds = "20",
-                    periodsStartCountDownLengthAsSeconds = "5",
-                    users = listOfOneUser,
-                    exerciseTypes = exerciseTypeSelectedAlltrue
-                ),
-                SettingsDialog.None
+            SettingsViewState.Nominal(
+                workPeriodLengthAsSeconds = "15",
+                restPeriodLengthAsSeconds = "5",
+                numberOfWorkPeriods = "4",
+                totalCycleLength = "3mn 20s",
+                beepSoundCountDownActive = false,
+                sessionStartCountDownLengthAsSeconds = "20",
+                periodsStartCountDownLengthAsSeconds = "5",
+                users = listOfOneUser,
+                exerciseTypes = exerciseTypeSelectedAlltrue
             ),
-            Pair(
-                SettingsViewState.Nominal(
-                    workPeriodLengthAsSeconds = "15",
-                    restPeriodLengthAsSeconds = "5",
-                    numberOfWorkPeriods = "4",
-                    totalCycleLength = "3mn 20s",
-                    beepSoundCountDownActive = true,
-                    sessionStartCountDownLengthAsSeconds = "20",
-                    periodsStartCountDownLengthAsSeconds = "5",
-                    users = listOfTwoUser,
-                    exerciseTypes = exerciseTypeSelectedAllfalse
-                ),
-                SettingsDialog.None
+            SettingsViewState.Nominal(
+                workPeriodLengthAsSeconds = "15",
+                restPeriodLengthAsSeconds = "5",
+                numberOfWorkPeriods = "4",
+                totalCycleLength = "3mn 20s",
+                beepSoundCountDownActive = true,
+                sessionStartCountDownLengthAsSeconds = "20",
+                periodsStartCountDownLengthAsSeconds = "5",
+                users = listOfTwoUser,
+                exerciseTypes = exerciseTypeSelectedAllfalse
             ),
-            Pair(
-                SettingsViewState.Nominal(
-                    workPeriodLengthAsSeconds = "15",
-                    restPeriodLengthAsSeconds = "5",
-                    numberOfWorkPeriods = "4",
-                    totalCycleLength = "3mn 20s",
-                    beepSoundCountDownActive = false,
-                    sessionStartCountDownLengthAsSeconds = "20",
-                    periodsStartCountDownLengthAsSeconds = "5",
-                    users = listOfMoreUser,
-                    exerciseTypes = exerciseTypeSelectedMixed
-                ),
-                SettingsDialog.None
+            SettingsViewState.Nominal(
+                workPeriodLengthAsSeconds = "15",
+                restPeriodLengthAsSeconds = "5",
+                numberOfWorkPeriods = "4",
+                totalCycleLength = "3mn 20s",
+                beepSoundCountDownActive = false,
+                sessionStartCountDownLengthAsSeconds = "20",
+                periodsStartCountDownLengthAsSeconds = "5",
+                users = listOfMoreUser,
+                exerciseTypes = exerciseTypeSelectedMixed
             ),
         )
 }

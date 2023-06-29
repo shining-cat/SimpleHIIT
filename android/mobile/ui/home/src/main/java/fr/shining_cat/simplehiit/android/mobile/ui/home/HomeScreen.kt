@@ -248,14 +248,14 @@ private fun HomeContent(
 )
 @Composable
 private fun HomeScreenPreviewPhonePortrait(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) pairOfStates: Pair<HomeViewState, HomeDialog>
+    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTheme {
         HomeScreen(
             uiArrangement = UiArrangement.VERTICAL,
             validateInputNumberCycles = { Constants.InputError.NONE },
-            viewState = pairOfStates.first,
-            dialogViewState = pairOfStates.second
+            viewState = viewState,
+            dialogViewState = HomeDialog.None
         )
     }
 }
@@ -273,14 +273,14 @@ private fun HomeScreenPreviewPhonePortrait(
 )
 @Composable
 private fun HomeScreenPreviewTabletLandscape(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) pairOfStates: Pair<HomeViewState, HomeDialog>
+    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTheme {
         HomeScreen(
             uiArrangement = UiArrangement.HORIZONTAL,
             validateInputNumberCycles = { Constants.InputError.NONE },
-            viewState = pairOfStates.first,
-            dialogViewState = pairOfStates.second
+            viewState = viewState,
+            dialogViewState = HomeDialog.None
         )
     }
 }
@@ -300,27 +300,26 @@ private fun HomeScreenPreviewTabletLandscape(
 )
 @Composable
 private fun HomeScreenPreviewPhoneLandscape(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) pairOfStates: Pair<HomeViewState, HomeDialog>
+    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTheme {
         HomeScreen(
             uiArrangement = UiArrangement.HORIZONTAL,
             validateInputNumberCycles = { Constants.InputError.NONE },
-            viewState = pairOfStates.first,
-            dialogViewState = pairOfStates.second
+            viewState = viewState,
+            dialogViewState = HomeDialog.None
         )
     }
 }
 
 internal class HomeScreenPreviewParameterProvider :
-    PreviewParameterProvider<Pair<HomeViewState, HomeDialog>> {
-    override val values: Sequence<Pair<HomeViewState, HomeDialog>>
+    PreviewParameterProvider<HomeViewState> {
+    override val values: Sequence<HomeViewState>
         get() = sequenceOf(
-            Pair(HomeViewState.Loading, HomeDialog.None),
-            Pair(HomeViewState.Error(errorCode = "12345"), HomeDialog.None),
-            Pair(HomeViewState.MissingUsers(4, "4mn"), HomeDialog.None),
-            Pair(
-                HomeViewState.Nominal(
+            HomeViewState.Loading,
+            HomeViewState.Error(errorCode = "12345"),
+            HomeViewState.MissingUsers(4, "4mn"),
+            HomeViewState.Nominal(
                     4,
                     "4mn",
                     listOf(
@@ -328,9 +327,8 @@ internal class HomeScreenPreviewParameterProvider :
                         User(234L, "User 2", selected = false),
                         User(345L, "User 3", selected = true)
                     )
-                ),
-                HomeDialog.None
-            )
+                )
+
         )
 }
 

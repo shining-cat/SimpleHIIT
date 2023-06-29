@@ -256,7 +256,7 @@ private fun StatisticsContent(
 )
 @Composable
 private fun StatisticsScreenPreviewPhonePortrait(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
         StatisticsScreen(
@@ -269,8 +269,8 @@ private fun StatisticsScreenPreviewPhonePortrait(
             resetWholeApp = {},
             resetWholeAppConfirmation = {},
             uiArrangement = UiArrangement.VERTICAL,
-            screenViewState = viewStates.first,
-            dialogViewState = viewStates.second
+            screenViewState = viewState,
+            dialogViewState = StatisticsDialog.None
         )
     }
 }
@@ -288,7 +288,7 @@ private fun StatisticsScreenPreviewPhonePortrait(
 )
 @Composable
 private fun StatisticsScreenPreviewTabletLandscape(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
         StatisticsScreen(
@@ -301,8 +301,8 @@ private fun StatisticsScreenPreviewTabletLandscape(
             resetWholeApp = {},
             resetWholeAppConfirmation = {},
             uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = viewStates.first,
-            dialogViewState = viewStates.second
+            screenViewState = viewState,
+            dialogViewState = StatisticsDialog.None
         )
     }
 }
@@ -322,7 +322,7 @@ private fun StatisticsScreenPreviewTabletLandscape(
 )
 @Composable
 private fun StatisticsScreenPreviewPhoneLandscape(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
         StatisticsScreen(
@@ -335,29 +335,23 @@ private fun StatisticsScreenPreviewPhoneLandscape(
             resetWholeApp = {},
             resetWholeAppConfirmation = {},
             uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = viewStates.first,
-            dialogViewState = viewStates.second
+            screenViewState = viewState,
+            dialogViewState = StatisticsDialog.None
         )
     }
 }
 
 internal class StatisticsScreenPreviewParameterProvider :
-    PreviewParameterProvider<Pair<StatisticsViewState, StatisticsDialog>> {
-    override val values: Sequence<Pair<StatisticsViewState, StatisticsDialog>>
+    PreviewParameterProvider<StatisticsViewState> {
+    override val values: Sequence<StatisticsViewState>
         get() = sequenceOf(
-            Pair(StatisticsViewState.Loading, StatisticsDialog.None),
-            Pair(StatisticsViewState.NoUsers, StatisticsDialog.None),
-            Pair(
+            StatisticsViewState.Loading,
+            StatisticsViewState.NoUsers,
                 StatisticsViewState.Error(
                     errorCode = "Error code",
                     user = User(name = "Sven Svensson")
-                ), StatisticsDialog.None
-            ),
-            Pair(
+                ),
                 StatisticsViewState.FatalError(errorCode = "Error code"),
-                StatisticsDialog.None
-            ),
-            Pair(
                 StatisticsViewState.Nominal(
                     user = User(name = "Sven Svensson"),
                     listOf(
@@ -368,11 +362,7 @@ internal class StatisticsScreenPreviewParameterProvider :
                         DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
                         DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
                     )
-                ), StatisticsDialog.None
-            ),
-            Pair(
-                StatisticsViewState.NoSessions(user = User(name = "Sven Svensson")),
-                StatisticsDialog.None
-            )
+                ),
+                StatisticsViewState.NoSessions(user = User(name = "Sven Svensson"))
         )
 }

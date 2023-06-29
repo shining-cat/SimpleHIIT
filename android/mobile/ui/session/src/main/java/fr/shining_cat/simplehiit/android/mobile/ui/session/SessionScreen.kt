@@ -288,13 +288,13 @@ private fun SessionContent(
 )
 @Composable
 private fun SessionScreenPreviewPhonePortrait(
-    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
         SessionScreen(
             onAbortSession = {},
-            dialogViewState = viewStates.second,
-            screenViewState = viewStates.first,
+            dialogViewState = SessionDialog.None,
+            screenViewState = viewState,
             pause = {},
             resume = {},
             uiArrangement = UiArrangement.VERTICAL,
@@ -316,13 +316,13 @@ private fun SessionScreenPreviewPhonePortrait(
 )
 @Composable
 private fun SessionScreenPreviewTabletLandscape(
-    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
         SessionScreen(
             onAbortSession = {},
-            dialogViewState = viewStates.second,
-            screenViewState = viewStates.first,
+            dialogViewState = SessionDialog.None,
+            screenViewState = viewState,
             pause = {},
             resume = {},
             uiArrangement = UiArrangement.HORIZONTAL,
@@ -346,13 +346,13 @@ private fun SessionScreenPreviewTabletLandscape(
 )
 @Composable
 private fun SessionScreenPreviewPhoneLandscape(
-    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
         SessionScreen(
             onAbortSession = {},
-            dialogViewState = viewStates.second,
-            screenViewState = viewStates.first,
+            dialogViewState = SessionDialog.None,
+            screenViewState = viewState,
             pause = {},
             resume = {},
             uiArrangement = UiArrangement.HORIZONTAL,
@@ -362,21 +362,18 @@ private fun SessionScreenPreviewPhoneLandscape(
 }
 
 internal class SessionScreenPreviewParameterProvider :
-    PreviewParameterProvider<Pair<SessionViewState, SessionDialog>> {
-    override val values: Sequence<Pair<SessionViewState, SessionDialog>>
+    PreviewParameterProvider<SessionViewState> {
+    override val values: Sequence<SessionViewState>
         get() = sequenceOf(
-            Pair(SessionViewState.Loading, SessionDialog.None),
-            Pair(SessionViewState.Error("Blabla error code"), SessionDialog.None),
-            Pair(
+            SessionViewState.Loading,
+            SessionViewState.Error("Blabla error code"),
                 SessionViewState.InitialCountDownSession(
                     countDown = CountDown(
                         secondsDisplay = "3",
                         progress = .5f,
                         playBeep = true
                     )
-                ), SessionDialog.None
-            ),
-            Pair(
+                ),
                 SessionViewState.RestNominal(
                     nextExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
@@ -385,9 +382,6 @@ internal class SessionScreenPreviewParameterProvider :
                     sessionRemainingTime = "16mn 23s",
                     sessionRemainingPercentage = .24f
                 ),
-                SessionDialog.None
-            ),
-            Pair(
                 SessionViewState.RestNominal(
                     nextExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
@@ -401,9 +395,6 @@ internal class SessionScreenPreviewParameterProvider :
                         playBeep = true
                     )
                 ),
-                SessionDialog.None
-            ),
-            Pair(
                 SessionViewState.RestNominal(
                     nextExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
@@ -412,9 +403,6 @@ internal class SessionScreenPreviewParameterProvider :
                     sessionRemainingTime = "16mn 23s",
                     sessionRemainingPercentage = .57f
                 ),
-                SessionDialog.Pause
-            ),
-            Pair(
                 SessionViewState.WorkNominal(
                     currentExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.NONE,
@@ -423,9 +411,6 @@ internal class SessionScreenPreviewParameterProvider :
                     sessionRemainingTime = "5mn 12s",
                     sessionRemainingPercentage = .3f
                 ),
-                SessionDialog.None
-            ),
-            Pair(
                 SessionViewState.WorkNominal(
                     currentExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.NONE,
@@ -439,9 +424,6 @@ internal class SessionScreenPreviewParameterProvider :
                         playBeep = false
                     )
                 ),
-                SessionDialog.None
-            ),
-            Pair(
                 SessionViewState.WorkNominal(
                     currentExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.LEFT,
@@ -450,9 +432,6 @@ internal class SessionScreenPreviewParameterProvider :
                     sessionRemainingTime = "5mn 12s",
                     sessionRemainingPercentage = .2f
                 ),
-                SessionDialog.Pause
-            ),
-            Pair(
                 SessionViewState.Finished(
                     "16mn",
                     workingStepsDone = listOf(
@@ -471,7 +450,6 @@ internal class SessionScreenPreviewParameterProvider :
                         SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
                         SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
                     )
-                ), SessionDialog.None
-            ),
+                ),
         )
 }
