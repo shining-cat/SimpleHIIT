@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.mobile.common.components
+package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -26,9 +26,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 
 enum class InputDialogTextFieldSize(val width: Dp) {
     SMALL(56.dp), MEDIUM(112.dp), LARGE(224.dp)

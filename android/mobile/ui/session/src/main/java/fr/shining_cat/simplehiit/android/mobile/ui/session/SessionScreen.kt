@@ -27,9 +27,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ChoiceDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionFinishedContent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionPrepareContent

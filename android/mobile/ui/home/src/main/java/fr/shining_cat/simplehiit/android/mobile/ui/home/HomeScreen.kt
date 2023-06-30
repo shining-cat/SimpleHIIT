@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.android.mobile.ui.home
 
 import android.app.Activity
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -23,10 +24,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.common.Screen
-import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.SideBarItem
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeErrorContent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeMissingUsersContent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeNominalContent
@@ -98,13 +100,24 @@ private fun HomeScreen(
         }
     }
     //
-    Scaffold(
-        topBar = {
-            HomeTopBar(navigateTo, viewState)
-        },
-        content = { paddingValues ->
+    Row(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
+            HomeSideBar(
+                navigateTo = navigateTo,
+                screenViewState = viewState
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
+                HomeTopBar(
+                    navigateTo = navigateTo,
+                    screenViewState = viewState
+                )
+            }
             HomeContent(
-                innerPadding = paddingValues,
                 navigateTo = navigateTo,
                 resetWholeApp = onResetWholeApp,
                 resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
@@ -113,16 +126,20 @@ private fun HomeScreen(
                 validateInputNumberCycles = validateInputNumberCycles,
                 toggleSelectedUser = toggleSelectedUser,
                 cancelDialog = cancelDialog,
+                uiArrangement = uiArrangement,
                 screenViewState = viewState,
                 dialogViewState = dialogViewState
             )
         }
-    )
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeTopBar(navigateTo: (String) -> Unit = {}, screenViewState: HomeViewState) {
+private fun HomeTopBar(
+    navigateTo: (String) -> Unit = {},
+    screenViewState: HomeViewState
+) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         title = {
@@ -155,8 +172,46 @@ private fun HomeTopBar(navigateTo: (String) -> Unit = {}, screenViewState: HomeV
 }
 
 @Composable
+private fun HomeSideBar(
+    navigateTo: (String) -> Unit = {},
+    screenViewState: HomeViewState
+) {
+    NavigationRail(
+        modifier = Modifier.fillMaxHeight(),
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.onPrimary,
+        header = {
+            Text(
+                text = stringResource(R.string.app_name),
+                color = MaterialTheme.colorScheme.onPrimary,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+    ) {
+        SideBarItem(
+            onClick = {navigateTo(Screen.Statistics.route)},
+            icon = R.drawable.home,
+            label = R.string.home_page_title,
+            selected = true
+        )
+        SideBarItem(
+            onClick = {navigateTo(Screen.Settings.route)},
+            icon = R.drawable.cog,
+            label = R.string.settings_button_content_label
+        )
+        if (screenViewState is HomeViewState.Nominal) {
+            SideBarItem(
+                onClick = {navigateTo(Screen.Statistics.route)},
+                icon = R.drawable.bar_chart,
+                label = R.string.statistics_button_content_label
+            )
+        }
+    }
+}
+
+@Composable
 private fun HomeContent(
-    innerPadding: PaddingValues,
     navigateTo: (String) -> Unit,
     resetWholeApp: () -> Unit,
     resetWholeAppDeleteEverything: () -> Unit,
@@ -165,13 +220,13 @@ private fun HomeContent(
     validateInputNumberCycles: (String) -> Constants.InputError,
     toggleSelectedUser: (User) -> Unit,
     cancelDialog: () -> Unit,
+    uiArrangement: UiArrangement,
     screenViewState: HomeViewState,
     dialogViewState: HomeDialog
 ) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(paddingValues = innerPadding),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
@@ -230,7 +285,6 @@ private fun HomeContent(
     }
 }
 
-
 // Previews
 @Preview(
     showBackground = true,
@@ -259,6 +313,7 @@ private fun HomeScreenPreviewPhonePortrait(
         )
     }
 }
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -284,6 +339,7 @@ private fun HomeScreenPreviewTabletLandscape(
         )
     }
 }
+
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -320,14 +376,14 @@ internal class HomeScreenPreviewParameterProvider :
             HomeViewState.Error(errorCode = "12345"),
             HomeViewState.MissingUsers(4, "4mn"),
             HomeViewState.Nominal(
-                    4,
-                    "4mn",
-                    listOf(
-                        User(123L, "User 1", selected = true),
-                        User(234L, "User 2", selected = false),
-                        User(345L, "User 3", selected = true)
-                    )
+                4,
+                "4mn",
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                    User(345L, "User 3", selected = true)
                 )
+            )
 
         )
 }

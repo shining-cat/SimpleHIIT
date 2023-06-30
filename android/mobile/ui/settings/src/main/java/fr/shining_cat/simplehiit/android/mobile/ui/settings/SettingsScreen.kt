@@ -15,10 +15,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.common.components.ErrorDialog
-import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ErrorDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsErrorContent
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsNominalContent
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsAddUserDialog

@@ -1,9 +1,18 @@
-package fr.shining_cat.simplehiit.android.mobile.common.components
+package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,14 +23,15 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 
 @Composable
-fun ErrorDialog(
-    errorMessage: String,
-    errorCode: String,
-    dismissButtonLabel: String = "",
+fun WarningDialog(
+    message: String = "",
+    proceedButtonLabel: String,
+    proceedAction: () -> Unit,
+    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
     dismissAction: () -> Unit
 ) {
     Dialog(onDismissRequest = dismissAction) {
@@ -34,12 +44,6 @@ fun ErrorDialog(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
-                Text(
-                    textAlign = TextAlign.Left,
-                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 4.dp),
-                    text = stringResource(id = R.string.error_title),
-                    style = MaterialTheme.typography.headlineSmall
-                )
                 Image(
                     modifier = Modifier
                         .size(120.dp)
@@ -50,27 +54,24 @@ fun ErrorDialog(
                 )
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
-                    text = stringResource(id = R.string.error_notice),
+                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+                    text = message,
                     style = MaterialTheme.typography.bodyMedium
                 )
-                if(errorMessage.isNotBlank()) {
-                    Text(
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = 8.dp),
-                        text = errorMessage,
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-                Text(
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
-                    text = stringResource(id = R.string.error_code, errorCode),
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                TextButton(onClick = dismissAction) {
-                    Text(text = dismissButtonLabel)
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp, vertical = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    if (dismissButtonLabel.isNotBlank()) {
+                        OutlinedButton(onClick = dismissAction) {
+                            Text(text = dismissButtonLabel)
+                        }
+                    }
+                    Button(onClick = proceedAction) {
+                        Text(text = proceedButtonLabel)
+                    }
                 }
             }
         }
@@ -93,11 +94,12 @@ fun ErrorDialog(
 @Composable
 private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
-        ErrorDialog(
-            errorMessage = "A balloon is floating above the country",
-            errorCode = "1234",
-            dismissAction = {},
-            dismissButtonLabel = "OK"
+        WarningDialog(
+            message = "This will erase all users, all stored sessions, and all settings",
+            proceedButtonLabel = "Yeah",
+            proceedAction = {},
+            dismissButtonLabel = "Nope",
+            dismissAction = {}
         )
     }
 }

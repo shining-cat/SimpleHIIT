@@ -14,6 +14,7 @@
     <string name="ok">OK</string>
 
     <!-- HOME PAGE -->
+    <string name="home_page_title">Home</string>
     <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over a 4mn cycle.</string>
     <string name="short_instruction">Here you can quickly select how many of cycles you want to chain in your session. In the settings, you can refine the cycle structure itself.</string>
     <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
