@@ -9,30 +9,21 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.SideBarItem
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeErrorContent
-import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeMissingUsersContent
-import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeNominalContent
-import fr.shining_cat.simplehiit.android.mobile.ui.home.dialogs.HomeInputNumberCyclesDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeSideBar
+import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBar
+import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.Constants
@@ -117,7 +108,7 @@ private fun HomeScreen(
                     screenViewState = viewState
                 )
             }
-            HomeContent(
+            HomeContentHolder(
                 navigateTo = navigateTo,
                 resetWholeApp = onResetWholeApp,
                 resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
@@ -130,157 +121,6 @@ private fun HomeScreen(
                 screenViewState = viewState,
                 dialogViewState = dialogViewState
             )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun HomeTopBar(
-    navigateTo: (String) -> Unit = {},
-    screenViewState: HomeViewState
-) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
-        title = {
-            Text(
-                text = stringResource(R.string.app_name),
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.titleLarge
-            )
-        },
-        actions = {
-            IconButton(onClick = { navigateTo(Screen.Settings.route) }) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.cog),
-                    contentDescription = stringResource(id = R.string.settings_button_content_label),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-            if (screenViewState is HomeViewState.Nominal) {
-                IconButton(onClick = { navigateTo(Screen.Statistics.route) }) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
-                        contentDescription = stringResource(id = R.string.statistics_button_content_label),
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            }
-        }
-    )
-}
-
-@Composable
-private fun HomeSideBar(
-    navigateTo: (String) -> Unit = {},
-    screenViewState: HomeViewState
-) {
-    NavigationRail(
-        modifier = Modifier.fillMaxHeight(),
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
-        header = {
-            Text(
-                text = stringResource(R.string.app_name),
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    ) {
-        SideBarItem(
-            onClick = {navigateTo(Screen.Statistics.route)},
-            icon = R.drawable.home,
-            label = R.string.home_page_title,
-            selected = true
-        )
-        SideBarItem(
-            onClick = {navigateTo(Screen.Settings.route)},
-            icon = R.drawable.cog,
-            label = R.string.settings_button_content_label
-        )
-        if (screenViewState is HomeViewState.Nominal) {
-            SideBarItem(
-                onClick = {navigateTo(Screen.Statistics.route)},
-                icon = R.drawable.bar_chart,
-                label = R.string.statistics_button_content_label
-            )
-        }
-    }
-}
-
-@Composable
-private fun HomeContent(
-    navigateTo: (String) -> Unit,
-    resetWholeApp: () -> Unit,
-    resetWholeAppDeleteEverything: () -> Unit,
-    openInputNumberCycles: (Int) -> Unit,
-    saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> Constants.InputError,
-    toggleSelectedUser: (User) -> Unit,
-    cancelDialog: () -> Unit,
-    uiArrangement: UiArrangement,
-    screenViewState: HomeViewState,
-    dialogViewState: HomeDialog
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 24.dp),
-            text = stringResource(id = R.string.hiit_description)
-        )
-        when (screenViewState) {
-            is HomeViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is HomeViewState.Error -> HomeErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetWholeApp = resetWholeApp
-            )
-
-            is HomeViewState.MissingUsers -> HomeMissingUsersContent(
-                openInputNumberCycles = openInputNumberCycles,
-                navigateToSettings = { navigateTo(Screen.Settings.route) },
-                numberOfCycles = screenViewState.numberCumulatedCycles,
-                lengthOfCycle = screenViewState.cycleLength
-            )
-
-            is HomeViewState.Nominal -> HomeNominalContent(
-                openInputNumberCycles = openInputNumberCycles,
-                numberOfCycles = screenViewState.numberCumulatedCycles,
-                lengthOfCycle = screenViewState.cycleLength,
-                users = screenViewState.users,
-                toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = { navigateTo(Screen.Session.route) }
-            )
-        }
-        when (dialogViewState) {
-            is HomeDialog.ConfirmWholeReset -> WarningDialog(
-                message = stringResource(id = R.string.error_confirm_whole_reset),
-                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                proceedAction = resetWholeAppDeleteEverything,
-                dismissAction = cancelDialog
-            )
-
-            is HomeDialog.InputNumberCycles -> HomeInputNumberCyclesDialog(
-                saveInputNumberCycles = saveInputNumberCycles,
-                validateInputNumberCycles = validateInputNumberCycles,
-                numberOfCycles = dialogViewState.initialNumberOfCycles,
-                onCancel = cancelDialog
-            )
-
-            HomeDialog.None -> {}/*do nothing*/
         }
     }
 }
