@@ -28,6 +28,7 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 fun SessionFinishedContent(
     viewState: SessionViewState.Finished,
     paddingValues: PaddingValues,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     LazyColumn(

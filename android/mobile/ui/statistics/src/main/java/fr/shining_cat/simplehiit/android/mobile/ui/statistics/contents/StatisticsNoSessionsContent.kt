@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,12 +25,11 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsNoSessionsContent(
-    viewState: StatisticsViewState.NoSessions,
-    paddingValues: PaddingValues
+    openUserPicker: () -> Unit = {},
+    viewState: StatisticsViewState.NoSessions
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
@@ -72,10 +70,7 @@ private fun StatisticsNoSessionsContentPreview() {
     SimpleHiitTheme {
         Surface {
             StatisticsNoSessionsContent(
-                viewState = StatisticsViewState.NoSessions(
-                    User(name = "Georges")
-                ),
-                paddingValues = PaddingValues(0.dp)
+                viewState = StatisticsViewState.NoSessions(User(name = "Georges"))
             )
         }
     }

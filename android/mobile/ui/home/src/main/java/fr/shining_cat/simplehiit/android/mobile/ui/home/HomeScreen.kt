@@ -19,9 +19,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeSideBar
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBar
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
@@ -34,6 +35,7 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 fun HomeScreen(
     navigateTo: (String) -> Unit,
     uiArrangement: UiArrangement,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
@@ -93,9 +95,10 @@ private fun HomeScreen(
     //
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
-            HomeSideBar(
+            NavigationSideBar(
                 navigateTo = navigateTo,
-                screenViewState = viewState
+                currentDestination = Screen.Home,
+                showStatisticsButton = viewState is HomeViewState.Nominal
             )
         }
         Column(

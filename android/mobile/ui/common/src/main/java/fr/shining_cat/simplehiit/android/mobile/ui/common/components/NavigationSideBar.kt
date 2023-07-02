@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.mobile.ui.home.components
+package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -10,14 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.SideBarItem
-import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
-fun HomeSideBar(
-    navigateTo: (String) -> Unit = {},
-    screenViewState: HomeViewState
+fun NavigationSideBar(
+    navigateTo: (String) -> Unit,
+    currentDestination: Screen,
+    showStatisticsButton: Boolean
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
@@ -33,21 +32,23 @@ fun HomeSideBar(
         }
     ) {
         SideBarItem(
-            onClick = { navigateTo(Screen.Statistics.route) },
+            onClick = { navigateTo(Screen.Home.route) },
             icon = R.drawable.home,
             label = R.string.home_page_title,
-            selected = true
+            selected = currentDestination == Screen.Home
         )
         SideBarItem(
             onClick = { navigateTo(Screen.Settings.route) },
             icon = R.drawable.cog,
-            label = R.string.settings_button_content_label
+            label = R.string.settings_button_content_label,
+            selected = currentDestination == Screen.Settings
         )
-        if (screenViewState is HomeViewState.Nominal) {
+        if (showStatisticsButton) {
             SideBarItem(
                 onClick = { navigateTo(Screen.Statistics.route) },
                 icon = R.drawable.bar_chart,
-                label = R.string.statistics_button_content_label
+                label = R.string.statistics_button_content_label,
+                selected = currentDestination == Screen.Statistics
             )
         }
     }

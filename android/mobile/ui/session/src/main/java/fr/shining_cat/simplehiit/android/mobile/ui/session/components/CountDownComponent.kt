@@ -24,6 +24,7 @@ import fr.shining_cat.simplehiit.commonutils.HiitLogger
 fun CountDownComponent(
     size: Dp,
     countDown: CountDown,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Box(

@@ -1,10 +1,8 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.home.contents
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,6 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
@@ -47,14 +46,7 @@ fun HomeContentHolder(
             text = stringResource(id = R.string.hiit_description)
         )
         when (screenViewState) {
-            is HomeViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
+            is HomeViewState.Loading -> BasicLoading()
 
             is HomeViewState.Error -> HomeErrorContent(
                 errorCode = screenViewState.errorCode,

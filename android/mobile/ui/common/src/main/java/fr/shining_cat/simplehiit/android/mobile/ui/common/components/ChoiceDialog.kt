@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,7 +34,7 @@ import fr.shining_cat.simplehiit.commonresources.R
 fun ChoiceDialog(
     title: String = "",
     @DrawableRes image: Int = -1,
-    imageContentDescription: String = "",
+    @StringRes imageContentDescription: Int = -1,
     message: String = "",
     primaryButtonLabel: String,
     primaryAction: () -> Unit,
@@ -68,7 +69,7 @@ fun ChoiceDialog(
                             .align(Alignment.CenterHorizontally)
                             .padding(horizontal = 0.dp, vertical = 24.dp),
                         painter = painterResource(id = image),
-                        contentDescription = stringResource(id = R.string.warning_icon_content_description)
+                        contentDescription = stringResource(id = imageContentDescription)
                     )
                 }
                 Text(

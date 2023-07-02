@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class HomeViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     private val hiitLogger: HiitLogger
 ) {
 

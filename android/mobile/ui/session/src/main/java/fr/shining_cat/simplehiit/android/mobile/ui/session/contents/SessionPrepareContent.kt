@@ -21,6 +21,7 @@ import fr.shining_cat.simplehiit.commonutils.HiitLogger
 fun SessionPrepareContent(
     viewState: SessionViewState.InitialCountDownSession,
     paddingValues: PaddingValues,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Box(

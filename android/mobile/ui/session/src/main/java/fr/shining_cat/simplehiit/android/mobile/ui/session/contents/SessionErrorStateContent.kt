@@ -34,6 +34,7 @@ fun SessionErrorStateContent(
     navigateUp: () -> Boolean,
     onAbort: () -> Unit,
     paddingValues: PaddingValues,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Column(

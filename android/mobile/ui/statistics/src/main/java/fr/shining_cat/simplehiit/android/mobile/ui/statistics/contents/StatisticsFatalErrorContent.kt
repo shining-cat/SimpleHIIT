@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,12 +26,10 @@ import fr.shining_cat.simplehiit.commonresources.R
 @Composable
 fun StatisticsFatalErrorContent(
     errorCode: String,
-    resetWholeApp: () -> Unit = {},
-    paddingValues: PaddingValues
+    resetWholeApp: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Center
@@ -89,10 +86,7 @@ fun StatisticsFatalErrorContent(
 private fun StatisticsFatalErrorContentPreview() {
     SimpleHiitTheme {
         Surface {
-            StatisticsFatalErrorContent(
-                errorCode = "ABCD-123",
-                paddingValues = PaddingValues(0.dp)
-            )
+            StatisticsFatalErrorContent(errorCode = "ABCD-123")
         }
     }
 }

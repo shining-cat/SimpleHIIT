@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -28,6 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
@@ -118,6 +118,7 @@ private fun SessionScreen(
     pause: () -> Unit,
     resume: () -> Unit,
     navigateUp: () -> Boolean,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     BackHandler(enabled = screenViewState is SessionViewState.WorkNominal || screenViewState is SessionViewState.RestNominal) {
@@ -205,19 +206,11 @@ private fun SessionContent(
     onAbortSession: () -> Unit,
     resume: () -> Unit,
     navigateUp: () -> Boolean,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     when (screenViewState) {
-        SessionViewState.Loading -> {
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(paddingValues = innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        }
+        SessionViewState.Loading -> BasicLoading()
 
         is SessionViewState.Error -> SessionErrorStateContent(
             screenViewState = screenViewState,

@@ -28,14 +28,13 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsNominalContent(
-    deleteAllSessionsForUser: (User) -> Unit,
+    openUserPicker: () -> Unit = {},
+    deleteAllSessionsForUser: (User) -> Unit = {},
     viewState: StatisticsViewState.Nominal,
-    paddingValues: PaddingValues,
-    hiitLogger: HiitLogger?
+    hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -89,7 +88,7 @@ fun StatisticsNominalContent(
 internal class StickyFooterArrangement(
     private val verticalPadding: Dp,
     private val hiitLogger: HiitLogger?
-    ) : Arrangement.Vertical {
+) : Arrangement.Vertical {
 
     //for some reason, if the resulting height of the grid is bigger than the visible space available (ie, if it needs to be scrollable)
     // then spacing will be used to render the padding between items and the rows' y value we set in Density.arrange will be ignored
@@ -153,12 +152,7 @@ private fun StatisticsContentNominalPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            StatisticsNominalContent(
-                deleteAllSessionsForUser = {},
-                viewState = viewState,
-                hiitLogger = null,
-                paddingValues = PaddingValues(0.dp)
-            )
+            StatisticsNominalContent(viewState = viewState)
         }
     }
 }
@@ -217,8 +211,7 @@ internal class StatisticsContentNominalPreviewParameterProvider :
                     DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
                     DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
                     DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-
-                    )
+                )
             )
         )
 }

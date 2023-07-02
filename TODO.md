@@ -1,6 +1,8 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* switch user button has been removed from statistics topbar, include it besides the user's name in the statistics content screen. Only show the button if there are more than one user
+* we may not need anymore the StickyFooterArrangement, as we expect the scrolling screen to not be necessary anymore once the layout rebuilding is done (store it as a gist on github)
 
 ## Code refactoring: layouts
 * fix broken layout in landscape

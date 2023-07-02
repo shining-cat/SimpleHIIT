@@ -32,22 +32,20 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SettingsNominalContent(
-    editWorkPeriodLength: () -> Unit,
-    editRestPeriodLength: () -> Unit,
-    editNumberOfWorkPeriods: () -> Unit,
-    toggleBeepSound: () -> Unit,
-    editSessionStartCountDown: () -> Unit,
-    editPeriodStartCountDown: () -> Unit,
-    editUser: (User) -> Unit,
-    addUser: () -> Unit,
-    toggleExerciseType: (ExerciseTypeSelected) -> Unit,
-    resetSettings: () -> Unit,
-    viewState: SettingsViewState.Nominal,
-    paddingValues: PaddingValues,
+    editWorkPeriodLength: () -> Unit = {},
+    editRestPeriodLength: () -> Unit = {},
+    editNumberOfWorkPeriods: () -> Unit = {},
+    toggleBeepSound: () -> Unit = {},
+    editSessionStartCountDown: () -> Unit = {},
+    editPeriodStartCountDown: () -> Unit = {},
+    editUser: (User) -> Unit = {},
+    addUser: () -> Unit = {},
+    toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
+    resetSettings: () -> Unit = {},
+    viewState: SettingsViewState.Nominal
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(horizontal = 8.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -294,20 +292,7 @@ private fun SettingsContentNominalPreview(
     @PreviewParameter(SettingsContentNominalPreviewParameterProvider::class) viewState: SettingsViewState.Nominal
 ) {
     SimpleHiitTheme {
-        SettingsNominalContent(
-            editWorkPeriodLength = {},
-            editRestPeriodLength = {},
-            editNumberOfWorkPeriods = {},
-            toggleBeepSound = {},
-            editSessionStartCountDown = {},
-            editPeriodStartCountDown = {},
-            editUser = {},
-            addUser = {},
-            toggleExerciseType = {},
-            resetSettings = {},
-            viewState = viewState,
-            paddingValues = PaddingValues(0.dp)
-        )
+        SettingsNominalContent(viewState = viewState)
     }
 }
 

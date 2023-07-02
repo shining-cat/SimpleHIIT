@@ -31,6 +31,7 @@ import fr.shining_cat.simplehiit.domain.common.models.Exercise
 fun SessionRestNominalContent(
     viewState: SessionViewState.RestNominal,
     paddingValues: PaddingValues,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
     Column(
