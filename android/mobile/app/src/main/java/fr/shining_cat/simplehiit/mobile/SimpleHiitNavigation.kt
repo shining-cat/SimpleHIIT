@@ -32,7 +32,6 @@ fun SimpleHiitNavigation(
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(
-                navigateUp = { navController.navigateUp() },
                 navigateTo = { navController.navigate(it) },
                 uiArrangement = uiArrangement,
                 hiitLogger = hiitLogger
@@ -40,7 +39,6 @@ fun SimpleHiitNavigation(
         }
         composable(route = Screen.Statistics.route) {
             StatisticsScreen(
-                navigateUp = { navController.navigateUp() },
                 navigateTo = { navController.navigate(it) },
                 uiArrangement = uiArrangement,
                 hiitLogger = hiitLogger

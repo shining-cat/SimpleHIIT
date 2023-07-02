@@ -27,13 +27,11 @@ import fr.shining_cat.simplehiit.domain.common.models.Exercise
 @Composable
 fun SessionWorkNominalContent(
     viewState: SessionViewState.WorkNominal,
-    paddingValues: PaddingValues,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -100,10 +98,7 @@ private fun SessionWorkNominalContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionWorkNominalContent(
-                viewState = viewState,
-                paddingValues = PaddingValues(0.dp)
-            )
+            SessionWorkNominalContent(viewState = viewState)
         }
     }
 }

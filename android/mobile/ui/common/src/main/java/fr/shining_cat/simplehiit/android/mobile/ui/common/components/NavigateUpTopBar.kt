@@ -21,7 +21,9 @@ import fr.shining_cat.simplehiit.commonresources.R
 fun NavigateUpTopBar(
     navigateUp: () -> Boolean,
     @StringRes
-    title: Int
+    title: Int,
+    @StringRes
+    overrideBackLabel: Int = -1
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -29,7 +31,11 @@ fun NavigateUpTopBar(
             IconButton(onClick = { navigateUp() }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(id = R.string.back_button_content_label),
+                    contentDescription = if (overrideBackLabel == -1) {
+                        stringResource(id = R.string.back_button_content_label)
+                    } else {
+                        stringResource(id = overrideBackLabel)
+                    },
                     tint = MaterialTheme.colorScheme.onPrimary
                 )
             }

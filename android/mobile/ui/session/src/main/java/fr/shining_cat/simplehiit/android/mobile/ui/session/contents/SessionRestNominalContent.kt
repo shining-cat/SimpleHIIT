@@ -30,13 +30,11 @@ import fr.shining_cat.simplehiit.domain.common.models.Exercise
 @Composable
 fun SessionRestNominalContent(
     viewState: SessionViewState.RestNominal,
-    paddingValues: PaddingValues,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -111,10 +109,7 @@ private fun SessionRestNominalContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionRestNominalContent(
-                viewState = viewState,
-                paddingValues = PaddingValues(0.dp)
-            )
+            SessionRestNominalContent(viewState = viewState)
         }
     }
 }

@@ -27,13 +27,11 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 @Composable
 fun SessionFinishedContent(
     viewState: SessionViewState.Finished,
-    paddingValues: PaddingValues,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(16.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -138,10 +136,7 @@ private fun SessionFinishedContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionFinishedContent(
-                viewState = viewState,
-                paddingValues = PaddingValues(0.dp)
-            )
+            SessionFinishedContent(viewState = viewState)
         }
     }
 }

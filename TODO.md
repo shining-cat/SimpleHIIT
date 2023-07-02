@@ -3,6 +3,7 @@
 ## Missing features / issues
 * switch user button has been removed from statistics topbar, include it besides the user's name in the statistics content screen. Only show the button if there are more than one user
 * we may not need anymore the StickyFooterArrangement, as we expect the scrolling screen to not be necessary anymore once the layout rebuilding is done (store it as a gist on github)
+* try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, this might allow it to not be recomposed when switching between the states and avoid ugly jumps
 
 ## Code refactoring: layouts
 * fix broken layout in landscape

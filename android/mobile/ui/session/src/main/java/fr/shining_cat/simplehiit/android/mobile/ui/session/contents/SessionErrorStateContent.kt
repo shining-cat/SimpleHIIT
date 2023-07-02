@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session.contents
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -33,13 +32,11 @@ fun SessionErrorStateContent(
     screenViewState: SessionViewState.Error,
     navigateUp: () -> Boolean,
     onAbort: () -> Unit,
-    paddingValues: PaddingValues,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -116,8 +113,7 @@ private fun SessionErrorStateContentPreview(
             SessionErrorStateContent(
                 screenViewState = sessionViewState,
                 navigateUp = { true },
-                onAbort = {},
-                paddingValues = PaddingValues(0.dp)
+                onAbort = {}
             )
         }
     }

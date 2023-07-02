@@ -29,7 +29,6 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun SettingsScreen(
-    navigateUp: () -> Boolean,
     navigateTo: (String) -> Unit,
     uiArrangement: UiArrangement,
     viewModel: SettingsViewModel = hiltViewModel(),
@@ -49,7 +48,6 @@ fun SettingsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
     SettingsScreen(
-        navigateUp = navigateUp,
         navigateTo = navigateTo,
         editWorkPeriodLength = { viewModel.editWorkPeriodLength() },
         saveWorkPeriodLength = { viewModel.setWorkPeriodLength(it) },
@@ -83,10 +81,8 @@ fun SettingsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SettingsScreen(
-    navigateUp: () -> Boolean = { false },
     navigateTo: (String) -> Unit = {},
     editWorkPeriodLength: () -> Unit = {},
     saveWorkPeriodLength: (String) -> Unit = {},
@@ -132,7 +128,7 @@ private fun SettingsScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = navigateUp,
+                    navigateUp = {navigateTo(Screen.Home.route); true}, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     title = R.string.settings_page_title
                 )
             }

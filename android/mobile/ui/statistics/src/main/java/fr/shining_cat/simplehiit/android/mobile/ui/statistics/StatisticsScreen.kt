@@ -28,7 +28,6 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsScreen(
-    navigateUp: () -> Boolean,
     navigateTo: (String) -> Unit,
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
@@ -49,7 +48,6 @@ fun StatisticsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
     StatisticsScreen(
-        navigateUp = navigateUp,
         navigateTo = navigateTo,
         openUserPicker = { viewModel.openPickUser() },
         selectUser = { viewModel.retrieveStatsForUser(it) },
@@ -65,10 +63,8 @@ fun StatisticsScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StatisticsScreen(
-    navigateUp: () -> Boolean = {true},
     navigateTo: (String) -> Unit = {},
     openUserPicker: () -> Unit = {},
     selectUser: (User) -> Unit = {},
@@ -96,7 +92,7 @@ private fun StatisticsScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = navigateUp,
+                    navigateUp = {navigateTo(Screen.Home.route); true}, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     title = R.string.statistics_page_title
                 )
             }
