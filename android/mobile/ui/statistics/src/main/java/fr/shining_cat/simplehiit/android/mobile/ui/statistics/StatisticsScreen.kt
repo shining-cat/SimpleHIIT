@@ -92,7 +92,7 @@ private fun StatisticsScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = {navigateTo(Screen.Home.route); true}, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
+                    navigateUp = { navigateTo(Screen.Home.route); true }, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     title = R.string.statistics_page_title
                 )
             }
@@ -200,20 +200,46 @@ internal class StatisticsScreenPreviewParameterProvider :
             StatisticsViewState.NoUsers,
             StatisticsViewState.Error(
                 errorCode = "Error code",
-                user = User(name = "Sven Svensson")
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = true
+            ),
+            StatisticsViewState.Error(
+                errorCode = "Error code",
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = false
             ),
             StatisticsViewState.FatalError(errorCode = "Error code"),
             StatisticsViewState.Nominal(
                 user = User(name = "Sven Svensson"),
-                listOf(
+                statistics = listOf(
                     DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                     DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
                     DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
                     DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                     DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
                     DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
-                )
+                ),
+                showUsersSwitch = true
             ),
-            StatisticsViewState.NoSessions(user = User(name = "Sven Svensson"))
+            StatisticsViewState.Nominal(
+                user = User(name = "Sven Svensson"),
+                statistics = listOf(
+                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                ),
+                showUsersSwitch = false
+            ),
+            StatisticsViewState.NoSessions(
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = true
+            ),
+            StatisticsViewState.NoSessions(
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = false
+            )
         )
 }

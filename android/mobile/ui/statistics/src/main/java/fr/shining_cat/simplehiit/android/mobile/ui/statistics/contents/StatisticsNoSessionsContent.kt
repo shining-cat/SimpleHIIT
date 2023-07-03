@@ -19,14 +19,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeader
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsNoSessionsContent(
-    openUserPicker: () -> Unit = {},
-    viewState: StatisticsViewState.NoSessions
+    userName: String,
+    showUsersSwitch: Boolean,
+    openUserPicker: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -34,12 +34,12 @@ fun StatisticsNoSessionsContent(
             .fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineLarge,
-            text = viewState.user.name
+        StatisticsHeader(
+            openUserPicker = openUserPicker,
+            currentUserName = userName,
+            showUsersSwitch = showUsersSwitch
         )
+
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.doge),
             contentDescription = stringResource(id = R.string.doge_icon_content_description),
@@ -70,7 +70,8 @@ private fun StatisticsNoSessionsContentPreview() {
     SimpleHiitTheme {
         Surface {
             StatisticsNoSessionsContent(
-                viewState = StatisticsViewState.NoSessions(User(name = "Georges"))
+                userName = "Georges",
+                showUsersSwitch = true
             )
         }
     }

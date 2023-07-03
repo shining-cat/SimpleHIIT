@@ -37,15 +37,18 @@ fun StatisticsContentHolder(
         }
 
         is StatisticsViewState.NoSessions -> StatisticsNoSessionsContent(
-            openUserPicker = openUserPicker,
-            viewState = screenViewState
+            userName = screenViewState.user.name,
+            showUsersSwitch = screenViewState.showUsersSwitch,
+            openUserPicker = openUserPicker
         )
 
         StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
         is StatisticsViewState.Error -> StatisticsErrorContent(
-            user = screenViewState.user,
+            userName = screenViewState.user.name,
             errorCode = screenViewState.errorCode,
-            deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) }
+            deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) },
+            showUsersSwitch = screenViewState.showUsersSwitch,
+            openUserPicker = openUserPicker
         )
 
         is StatisticsViewState.FatalError -> StatisticsFatalErrorContent(

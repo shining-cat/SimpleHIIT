@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeader
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
@@ -40,11 +41,10 @@ fun StatisticsNominalContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //we don't want the name to scroll along with the grid (sticky header)
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineLarge,
-            text = viewState.user.name
+        StatisticsHeader(
+            openUserPicker = openUserPicker,
+            currentUserName = viewState.user.name,
+            showUsersSwitch = viewState.showUsersSwitch
         )
         //
         val columnsCount = 2
@@ -163,18 +163,31 @@ internal class StatisticsContentNominalPreviewParameterProvider :
         get() = sequenceOf(
             StatisticsViewState.Nominal(
                 user = User(name = "Sven Svensson"),
-                listOf(
+                statistics = listOf(
                     DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                     DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
                     DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                     DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
                     DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
                     DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
-                )
+                ),
+                showUsersSwitch = true
             ),
             StatisticsViewState.Nominal(
                 user = User(name = "Sven Svensson"),
-                listOf(
+                statistics = listOf(
+                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                ),
+                showUsersSwitch = false
+            ),
+            StatisticsViewState.Nominal(
+                user = User(name = "Sven Svensson"),
+                statistics = listOf(
                     DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                     DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
                     DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
@@ -211,7 +224,8 @@ internal class StatisticsContentNominalPreviewParameterProvider :
                     DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
                     DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
                     DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-                )
+                ),
+                showUsersSwitch = true
             )
         )
 }
