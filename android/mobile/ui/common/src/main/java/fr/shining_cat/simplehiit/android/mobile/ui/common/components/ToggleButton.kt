@@ -4,31 +4,51 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToggleButton(
     label: String,
     selected: Boolean,
-    onToggle: () -> Unit,
-    modifier: Modifier = Modifier
+    onToggle: () -> Unit
 ) {
-    if (selected) {
-        Button(modifier = modifier, onClick = onToggle) {
-            Text(text = label)
+    FilterChip(
+        modifier = Modifier.height(48.dp),
+        selected = selected,
+        onClick = { onToggle() },
+        label = { Text(text = label) },
+        colors = FilterChipDefaults.filterChipColors(
+            containerColor = MaterialTheme.colorScheme.surface,
+            selectedContainerColor = MaterialTheme.colorScheme.primary
+        ),
+        leadingIcon = if (selected) {
+            {
+                Icon(
+                    imageVector = Icons.Filled.Done,
+                    contentDescription = "Localized Description",
+                    modifier = Modifier.size(FilterChipDefaults.IconSize)
+                )
+            }
+        } else {
+            null
         }
-    } else {
-        OutlinedButton(modifier = modifier, onClick = onToggle) {
-            Text(text = label)
-        }
-    }
+    )
 }
 
 // Previews

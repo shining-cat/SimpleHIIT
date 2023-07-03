@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
-import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
@@ -49,31 +48,32 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun openInputNumberCyclesDialog(currentValue: Int) {
-        viewModelScope.launch(context = mainDispatcher) {
-            _dialogViewState.emit(
-                HomeDialog.InputNumberCycles(initialNumberOfCycles = currentValue)
-            )
+    fun modifyNumberCycles(modification: NumberCycleModification){
+        val change = when(modification){
+            NumberCycleModification.INCREASE -> +1
+            NumberCycleModification.DECREASE -> -1
         }
-    }
-
-    fun validateInputNumberCycles(input: String): Constants.InputError {
-        return homeInteractor.validateInputNumberCycles(input)
-    }
-
-    fun updateNumberCumulatedCycles(value: String) {
-        if (validateInputNumberCycles(value) == Constants.InputError.NONE) {
+        val currentViewState = screenViewState.value
+        if (currentViewState is HomeViewState.Nominal) {
             viewModelScope.launch(context = mainDispatcher) {
-                homeInteractor.setTotalRepetitionsNumber(value.toInt())
-                _dialogViewState.emit(HomeDialog.None)
+                val currentNumberCycles = currentViewState.numberCumulatedCycles
+                if(currentNumberCycles + change > 0) {
+                    homeInteractor.setTotalRepetitionsNumber(currentNumberCycles + change)
+                }else{
+                    hiitLogger.e(
+                        "HomeViewModel",
+                        "modifyNumberCycles::can't reach negative values"
+                    )
+                }
             }
         } else {
-            hiitLogger.d(
+            hiitLogger.e(
                 "HomeViewModel",
-                "updateNumberCumulatedCycles:: invalid input, this should never happen"
+                "modifyNumberCycles::current state does not allow this now"
             )
         }
     }
+    enum class NumberCycleModification{INCREASE,DECREASE}
 
     fun toggleSelectedUser(user: User) {
         hiitLogger.d(

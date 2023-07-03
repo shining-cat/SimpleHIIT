@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,13 +23,16 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.User
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectUsersComponent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit
 ) {
     Column(
-        Modifier.fillMaxWidth().padding(vertical = 16.dp)
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -38,7 +42,7 @@ fun SelectUsersComponent(
         )
         LazyRow(
             modifier = Modifier
-                .padding(vertical=16.dp)
+                .padding(vertical = 16.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {

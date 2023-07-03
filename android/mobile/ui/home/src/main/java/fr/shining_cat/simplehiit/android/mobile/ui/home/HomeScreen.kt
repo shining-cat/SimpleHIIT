@@ -27,7 +27,6 @@ import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBar
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
-import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
 
@@ -55,9 +54,8 @@ fun HomeScreen(
         navigateTo = navigateTo,
         onResetWholeApp = { viewModel.resetWholeApp() },
         onResetWholeAppDeleteEverything = { viewModel.resetWholeAppConfirmationDeleteEverything() },
-        openInputNumberCycles = { viewModel.openInputNumberCyclesDialog(it) },
-        saveInputNumberCycles = { viewModel.updateNumberCumulatedCycles(it) },
-        validateInputNumberCycles = { viewModel.validateInputNumberCycles(it) },
+        decreaseNumberOfCycles = {viewModel.modifyNumberCycles(HomeViewModel.NumberCycleModification.DECREASE)},
+        increaseNumberOfCycles = {viewModel.modifyNumberCycles(HomeViewModel.NumberCycleModification.INCREASE)},
         toggleSelectedUser = { viewModel.toggleSelectedUser(it) },
         cancelDialog = { viewModel.cancelDialog() },
         uiArrangement = uiArrangement,
@@ -71,9 +69,8 @@ private fun HomeScreen(
     navigateTo: (String) -> Unit = {},
     onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
-    openInputNumberCycles: (Int) -> Unit = {},
-    saveInputNumberCycles: (String) -> Unit = {},
-    validateInputNumberCycles: (String) -> Constants.InputError,
+    decreaseNumberOfCycles: () -> Unit = {},
+    increaseNumberOfCycles: () -> Unit = {},
     toggleSelectedUser: (User) -> Unit = {},
     cancelDialog: () -> Unit = {},
     uiArrangement: UiArrangement,
@@ -114,9 +111,8 @@ private fun HomeScreen(
                 navigateTo = navigateTo,
                 resetWholeApp = onResetWholeApp,
                 resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
-                openInputNumberCycles = openInputNumberCycles,
-                saveInputNumberCycles = saveInputNumberCycles,
-                validateInputNumberCycles = validateInputNumberCycles,
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
                 toggleSelectedUser = toggleSelectedUser,
                 cancelDialog = cancelDialog,
                 uiArrangement = uiArrangement,
@@ -149,7 +145,6 @@ private fun HomeScreenPreviewPhonePortrait(
     SimpleHiitTheme {
         HomeScreen(
             uiArrangement = UiArrangement.VERTICAL,
-            validateInputNumberCycles = { Constants.InputError.NONE },
             viewState = viewState,
             dialogViewState = HomeDialog.None
         )
@@ -175,7 +170,6 @@ private fun HomeScreenPreviewTabletLandscape(
     SimpleHiitTheme {
         HomeScreen(
             uiArrangement = UiArrangement.HORIZONTAL,
-            validateInputNumberCycles = { Constants.InputError.NONE },
             viewState = viewState,
             dialogViewState = HomeDialog.None
         )
@@ -203,7 +197,6 @@ private fun HomeScreenPreviewPhoneLandscape(
     SimpleHiitTheme {
         HomeScreen(
             uiArrangement = UiArrangement.HORIZONTAL,
-            validateInputNumberCycles = { Constants.InputError.NONE },
             viewState = viewState,
             dialogViewState = HomeDialog.None
         )
@@ -216,15 +209,20 @@ internal class HomeScreenPreviewParameterProvider :
         get() = sequenceOf(
             HomeViewState.Loading,
             HomeViewState.Error(errorCode = "12345"),
-            HomeViewState.MissingUsers(4, "4mn"),
+            HomeViewState.MissingUsers(
+                numberCumulatedCycles = 5,
+                cycleLength = "4mn",
+                totalSessionLengthFormatted = "total time: 20mn"
+            ),
             HomeViewState.Nominal(
-                4,
-                "4mn",
-                listOf(
+                numberCumulatedCycles = 5,
+                cycleLength = "4mn",
+                users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
                     User(345L, "User 3", selected = true)
-                )
+                ),
+                totalSessionLengthFormatted = "total time: 20mn"
             )
 
         )

@@ -86,7 +86,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 3,
                         cycleLength = mockDurationString,
-                        users = listOf(testUser1, testUser3, testUser2, testUser4)
+                        users = listOf(testUser1, testUser3, testUser2, testUser4),
+                        totalSessionLengthFormatted = totalSessionLengthFormatted
                     )
                 ),
                 Arguments.of(
@@ -100,7 +101,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 5,
                         cycleLength = mockDurationString,
-                        users = listOf(testUser1, testUser2)
+                        users = listOf(testUser1, testUser2),
+                        totalSessionLengthFormatted = totalSessionLengthFormatted
                     )
                 ),
                 Arguments.of(
@@ -113,7 +115,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     ),
                     HomeViewState.MissingUsers(
                         numberCumulatedCycles = 3,
-                        cycleLength = mockDurationString
+                        cycleLength = mockDurationString,
+                        totalSessionLengthFormatted = totalSessionLengthFormatted
                     )
                 ),
                 Arguments.of(

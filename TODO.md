@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* settings screen is not scrollable anymore, it needs to be in both orientations
 * try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, this might allow it to not be recomposed when switching between the states and avoid ugly jumps
 
 ## Code refactoring: layouts
@@ -39,9 +38,10 @@
 * replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
 * instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
 * add total length of session below the number of repetitions so user knows how long it will last
-* design for statistics needs some love
-* design for session summary needs some love, add list of participating users, add the side to the display for exercises...
-* create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the short description at the top of HomeScreen. Then we could remove the main Column there like in other screens
+* design for statistics needs some love, see assets creation
+* design for session summary needs some love: add list of participating users, add the side to the display for exercises...
+* create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the short description at the top of HomeScreen.
+* create an onboarding feature, including hiit_description, the user creation then selection and the multiple cycles mechanics
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this if possible
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)

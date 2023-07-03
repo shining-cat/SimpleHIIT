@@ -16,21 +16,18 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoadin
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
-import fr.shining_cat.simplehiit.android.mobile.ui.home.dialogs.HomeInputNumberCyclesDialog
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun HomeContentHolder(
-    navigateTo: (String) -> Unit,
-    resetWholeApp: () -> Unit,
-    resetWholeAppDeleteEverything: () -> Unit,
-    openInputNumberCycles: (Int) -> Unit,
-    saveInputNumberCycles: (String) -> Unit,
-    validateInputNumberCycles: (String) -> Constants.InputError,
-    toggleSelectedUser: (User) -> Unit,
-    cancelDialog: () -> Unit,
+    navigateTo: (String) -> Unit = {},
+    resetWholeApp: () -> Unit = {},
+    resetWholeAppDeleteEverything: () -> Unit = {},
+    decreaseNumberOfCycles: () -> Unit = {},
+    increaseNumberOfCycles: () -> Unit = {},
+    toggleSelectedUser: (User) -> Unit = {},
+    cancelDialog: () -> Unit = {},
     uiArrangement: UiArrangement,
     screenViewState: HomeViewState,
     dialogViewState: HomeDialog
@@ -54,16 +51,20 @@ fun HomeContentHolder(
             )
 
             is HomeViewState.MissingUsers -> HomeMissingUsersContent(
-                openInputNumberCycles = openInputNumberCycles,
-                navigateToSettings = { navigateTo(Screen.Settings.route) },
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
                 numberOfCycles = screenViewState.numberCumulatedCycles,
-                lengthOfCycle = screenViewState.cycleLength
+                lengthOfCycle = screenViewState.cycleLength,
+                totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
+                navigateToSettings = { navigateTo(Screen.Settings.route) }
             )
 
             is HomeViewState.Nominal -> HomeNominalContent(
-                openInputNumberCycles = openInputNumberCycles,
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
                 numberOfCycles = screenViewState.numberCumulatedCycles,
                 lengthOfCycle = screenViewState.cycleLength,
+                totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
                 users = screenViewState.users,
                 toggleSelectedUser = toggleSelectedUser,
                 navigateToSession = { navigateTo(Screen.Session.route) }
@@ -75,13 +76,6 @@ fun HomeContentHolder(
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppDeleteEverything,
                 dismissAction = cancelDialog
-            )
-
-            is HomeDialog.InputNumberCycles -> HomeInputNumberCyclesDialog(
-                saveInputNumberCycles = saveInputNumberCycles,
-                validateInputNumberCycles = validateInputNumberCycles,
-                numberOfCycles = dialogViewState.initialNumberOfCycles,
-                onCancel = cancelDialog
             )
 
             HomeDialog.None -> {}/*do nothing*/

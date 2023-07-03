@@ -26,10 +26,12 @@ import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
 fun HomeMissingUsersContent(
-    openInputNumberCycles: (Int) -> Unit,
-    navigateToSettings: () -> Unit,
+    decreaseNumberOfCycles: () -> Unit = {},
+    increaseNumberOfCycles: () -> Unit = {},
     numberOfCycles: Int,
-    lengthOfCycle: String
+    lengthOfCycle: String,
+    totalLengthFormatted: String,
+    navigateToSettings: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -38,9 +40,11 @@ fun HomeMissingUsersContent(
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
         NumberCyclesComponent(
-            openInputNumberCycles = openInputNumberCycles,
+            decreaseNumberOfCycles = decreaseNumberOfCycles,
+            increaseNumberOfCycles = increaseNumberOfCycles,
             numberOfCycles = numberOfCycles,
-            lengthOfCycle = lengthOfCycle
+            lengthOfCycle = lengthOfCycle,
+            totalLengthFormatted = totalLengthFormatted
         )
         SelectUsersNoUsersComponent(navigateToSettings)
     }
@@ -92,10 +96,9 @@ private fun HomeMissingUsersContentPreview() {
     SimpleHiitTheme {
         Surface {
             HomeMissingUsersContent(
-                openInputNumberCycles = {},
                 numberOfCycles = 5,
                 lengthOfCycle = "4mn",
-                navigateToSettings = {}
+                totalLengthFormatted = "20mn"
             )
         }
     }

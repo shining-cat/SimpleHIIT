@@ -1,7 +1,6 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.home.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,44 +11,56 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
 fun NumberCyclesComponent(
-    openInputNumberCycles: (Int) -> Unit,
+    decreaseNumberOfCycles: () -> Unit = {},
+    increaseNumberOfCycles: () -> Unit = {},
     numberOfCycles: Int,
-    lengthOfCycle: String
+    lengthOfCycle: String,
+    totalLengthFormatted: String
 ) {
     Column(
-        Modifier
-            .fillMaxWidth()
-            .clickable { openInputNumberCycles(numberOfCycles) }
+        Modifier.fillMaxWidth()
     ) {
-
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineLarge,
             text = stringResource(id = R.string.number_of_cycle_setting_title)
         )
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 16.dp),
-            text = stringResource(id = R.string.short_instruction)
-        )
         Row(
             Modifier
                 .padding(horizontal = 0.dp, vertical = 24.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            TextButton(
+                enabled = numberOfCycles > 1,
+                modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+                onClick = decreaseNumberOfCycles
+            ) {
+                Text(
+                    text = stringResource(id = R.string.minus),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 44.sp,
+                    lineHeight = 28.sp
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = numberOfCycles.toString(),
                 style = MaterialTheme.typography.headlineMedium
@@ -59,8 +70,25 @@ fun NumberCyclesComponent(
                 text = stringResource(id = R.string.number_of_cycle_setting, lengthOfCycle),
                 style = MaterialTheme.typography.headlineMedium
             )
+            Spacer(modifier = Modifier.width(16.dp))
+            TextButton(
+                modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+                onClick = increaseNumberOfCycles
+            ) {
+                Text(
+                    text = stringResource(id = R.string.plus),
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 44.sp,
+                    lineHeight = 28.sp
+                )
+            }
         }
-        //TODO maybe? add mention to tell total length of session
+        Text(
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(id = R.string.total_length, totalLengthFormatted),
+            style = MaterialTheme.typography.headlineSmall
+        )
     }
 }
 
@@ -78,9 +106,9 @@ private fun NumberCyclesComponentPreview() {
     SimpleHiitTheme {
         Surface {
             NumberCyclesComponent(
-                openInputNumberCycles = {},
                 numberOfCycles = 5,
-                lengthOfCycle = "4mn"
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn"
             )
         }
     }

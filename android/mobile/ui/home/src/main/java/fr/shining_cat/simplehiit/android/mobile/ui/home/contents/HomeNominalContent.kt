@@ -26,28 +26,21 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun HomeNominalContent(
-    openInputNumberCycles: (Int) -> Unit,
+    decreaseNumberOfCycles: () -> Unit = {},
+    increaseNumberOfCycles: () -> Unit = {},
     numberOfCycles: Int,
     lengthOfCycle: String,
+    totalLengthFormatted: String,
     users: List<User>,
-    toggleSelectedUser: (User) -> Unit,
-    navigateToSession: () -> Unit
+    toggleSelectedUser: (User) -> Unit = {},
+    navigateToSession: () -> Unit = {}
 ) {
+    val canLaunchSession = users.any { it.selected }
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth(),
     ) {
-        Divider(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
-        )
-        NumberCyclesComponent(
-            openInputNumberCycles = openInputNumberCycles,
-            numberOfCycles = numberOfCycles,
-            lengthOfCycle = lengthOfCycle
-        )
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -62,8 +55,21 @@ fun HomeNominalContent(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp), thickness = 1.dp
         )
+        NumberCyclesComponent(
+            decreaseNumberOfCycles = decreaseNumberOfCycles,
+            increaseNumberOfCycles = increaseNumberOfCycles,
+            numberOfCycles = numberOfCycles,
+            lengthOfCycle = lengthOfCycle,
+            totalLengthFormatted = totalLengthFormatted
+        )
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp), thickness = 1.dp
+        )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
+            enabled = canLaunchSession,
             modifier = Modifier
                 .height(56.dp)
                 .align(Alignment.CenterHorizontally),
@@ -73,7 +79,11 @@ fun HomeNominalContent(
                 contentColor = MaterialTheme.colorScheme.onSecondary
             )
         ) {
-            Text(text = stringResource(id = R.string.launch_session_label))
+            if(canLaunchSession){
+                Text(text = stringResource(id = R.string.launch_session_label))
+            } else{
+                Text(text = stringResource(id = R.string.cannot_launch_session_label))
+            }
         }
         Spacer(modifier = Modifier.height(24.dp))
     }
@@ -93,16 +103,14 @@ private fun HomeNominalContentPreview() {
     SimpleHiitTheme {
         Surface {
             HomeNominalContent(
-                openInputNumberCycles = {},
                 numberOfCycles = 5,
                 lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
                 users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
                     User(345L, "User 3", selected = true)
-                ),
-                toggleSelectedUser = {},
-                navigateToSession = {}
+                )
             )
         }
     }
