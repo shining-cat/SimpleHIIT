@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -20,6 +19,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticCardComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeader
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -108,32 +108,6 @@ internal class StickyFooterArrangement(
             val lastIndex = outPositions.lastIndex
             outPositions[lastIndex] = totalSize - sizes.last()
         }
-    }
-}
-
-@Composable
-private fun StatisticCardComponent(statistic: DisplayedStatistic) {
-    val label = when (statistic.type) {
-        DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(R.string.sessions_total)
-        DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(R.string.time_total)
-        DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(R.string.average)
-        DisplayStatisticType.LONGEST_STREAK -> stringResource(R.string.longest_streak)
-        DisplayStatisticType.CURRENT_STREAK -> stringResource(R.string.current_streak)
-        DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(R.string.average_sessions_week)
-    }
-    Card() {
-        Text(
-            text = statistic.displayValue,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            text = label,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineSmall
-        )
     }
 }
 
