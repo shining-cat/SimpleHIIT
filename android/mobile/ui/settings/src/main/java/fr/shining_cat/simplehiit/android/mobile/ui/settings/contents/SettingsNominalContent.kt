@@ -267,10 +267,10 @@ private fun SettingExercisesSelectedComponent(
             items(exerciseTypes.size) {
                 val exerciseTypeSelected = exerciseTypes[it]
                 ToggleButton(
-                    modifier = Modifier.height(itemHeight),
                     label = exerciseTypeSelected.type.name,
                     selected = exerciseTypeSelected.selected,
-                    onToggle = { onToggle(exerciseTypeSelected) }
+                    onToggle = { onToggle(exerciseTypeSelected) },
+                    modifier = Modifier.height(itemHeight)
                 )
             }
         }

@@ -22,7 +22,7 @@ class HomeViewStateMapper @Inject constructor(
     ): HomeViewState {
         return when (homeSettingsOutput) {
             is Output.Success<HomeSettings> -> {
-                val cycleLengthDisplay =
+                val cycleLengthFormatted =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         homeSettingsOutput.result.cycleLengthMs,
                         durationStringFormatter
@@ -36,13 +36,13 @@ class HomeViewStateMapper @Inject constructor(
                 if (homeSettingsOutput.result.users.isEmpty()) {
                     MissingUsers(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
-                        cycleLength = cycleLengthDisplay,
+                        cycleLength = cycleLengthFormatted,
                         totalSessionLengthFormatted = totalSessionLengthFormatted
                     )
                 } else {
                     Nominal(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
-                        cycleLength = cycleLengthDisplay,
+                        cycleLength = cycleLengthFormatted,
                         users = homeSettingsOutput.result.users,
                         totalSessionLengthFormatted = totalSessionLengthFormatted
                     )

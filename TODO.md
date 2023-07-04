@@ -35,15 +35,13 @@
 * see also [ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
-* replace toggle buttons' design with the one with a toggle check from Material, to make it more clear for the user
-* instead of a dialog for the total number of repetitions see if a + and - buttons wouldn't be better
-* add total length of session below the number of repetitions so user knows how long it will last
+* replace user button in Settings with one more similar to the one we use now for the toggle button
 * design for statistics needs some love, see assets creation
 * design for session summary needs some love: add list of participating users, add the side to the display for exercises...
-* create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the short description at the top of HomeScreen.
-* create an onboarding feature, including hiit_description, the user creation then selection and the multiple cycles mechanics
-* when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this if possible
+* create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
+* create an onboarding feature, including the user creation then selection and the multiple cycles mechanics
+* when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this if possible
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user decide? (follow system (would be default), force dark, force light)
 * add home screen shortcut launchers for start session and statistics
 * Nice to have and study case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)

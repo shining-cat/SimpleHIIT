@@ -26,10 +26,11 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 fun ToggleButton(
     label: String,
     selected: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier.height(48.dp)
 ) {
     FilterChip(
-        modifier = Modifier.height(48.dp),
+        modifier = modifier,
         selected = selected,
         onClick = { onToggle() },
         label = { Text(text = label) },
