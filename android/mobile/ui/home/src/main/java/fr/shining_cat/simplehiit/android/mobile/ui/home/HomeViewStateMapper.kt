@@ -27,11 +27,13 @@ class HomeViewStateMapper @Inject constructor(
                         homeSettingsOutput.result.cycleLengthMs,
                         durationStringFormatter
                     )
-                val totalSessionLength = homeSettingsOutput.result.cycleLengthMs.times(homeSettingsOutput.result.numberCumulatedCycles)
-                val totalSessionLengthFormatted = formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    totalSessionLength,
-                    durationStringFormatter
-                )
+                val totalSessionLength =
+                    homeSettingsOutput.result.cycleLengthMs.times(homeSettingsOutput.result.numberCumulatedCycles)
+                val totalSessionLengthFormatted =
+                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                        totalSessionLength,
+                        durationStringFormatter
+                    )
 
                 if (homeSettingsOutput.result.users.isEmpty()) {
                     MissingUsers(

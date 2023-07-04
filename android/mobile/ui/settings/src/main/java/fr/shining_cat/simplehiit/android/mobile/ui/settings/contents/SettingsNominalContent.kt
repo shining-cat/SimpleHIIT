@@ -20,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ToggleButton
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
@@ -97,19 +98,19 @@ fun SettingsNominalContent(
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
+                .padding(vertical = 8.dp), thickness = Dp.Hairline
         )
         SettingUsersComponent(users = viewState.users, onClickUser = editUser, onAddUser = addUser)
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
+                .padding(vertical = 8.dp), thickness = Dp.Hairline
         )
         SettingExercisesSelectedComponent(exerciseTypes = viewState.exerciseTypes, onToggle = toggleExerciseType)
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = 1.dp
+                .padding(vertical = 8.dp), thickness = Dp.Hairline
         )
         TextButton(
             modifier = Modifier

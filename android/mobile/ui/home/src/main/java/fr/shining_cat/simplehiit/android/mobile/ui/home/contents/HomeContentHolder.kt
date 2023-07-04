@@ -38,6 +38,7 @@ fun HomeContentHolder(
             numberOfCycles = screenViewState.numberCumulatedCycles,
             lengthOfCycle = screenViewState.cycleLength,
             totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
+            uiArrangement = uiArrangement,
             navigateToSettings = { navigateTo(Screen.Settings.route) }
         )
 
@@ -47,6 +48,7 @@ fun HomeContentHolder(
             numberOfCycles = screenViewState.numberCumulatedCycles,
             lengthOfCycle = screenViewState.cycleLength,
             totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
+            uiArrangement = uiArrangement,
             users = screenViewState.users,
             toggleSelectedUser = toggleSelectedUser,
             navigateToSession = { navigateTo(Screen.Session.route) }

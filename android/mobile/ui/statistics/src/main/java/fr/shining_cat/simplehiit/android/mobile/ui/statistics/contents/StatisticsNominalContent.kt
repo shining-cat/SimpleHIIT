@@ -66,7 +66,7 @@ fun StatisticsNominalContent(
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp), thickness = 1.dp
+                        .padding(vertical = 8.dp), thickness = Dp.Hairline
                 )
                 TextButton(
                     modifier = Modifier

@@ -48,8 +48,8 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun modifyNumberCycles(modification: NumberCycleModification){
-        val change = when(modification){
+    fun modifyNumberCycles(modification: NumberCycleModification) {
+        val change = when (modification) {
             NumberCycleModification.INCREASE -> +1
             NumberCycleModification.DECREASE -> -1
         }
@@ -57,9 +57,9 @@ class HomeViewModel @Inject constructor(
         if (currentViewState is HomeViewState.Nominal) {
             viewModelScope.launch(context = mainDispatcher) {
                 val currentNumberCycles = currentViewState.numberCumulatedCycles
-                if(currentNumberCycles + change > 0) {
+                if (currentNumberCycles + change > 0) {
                     homeInteractor.setTotalRepetitionsNumber(currentNumberCycles + change)
-                }else{
+                } else {
                     hiitLogger.e(
                         "HomeViewModel",
                         "modifyNumberCycles::can't reach negative values"
@@ -73,7 +73,8 @@ class HomeViewModel @Inject constructor(
             )
         }
     }
-    enum class NumberCycleModification{INCREASE,DECREASE}
+
+    enum class NumberCycleModification { INCREASE, DECREASE }
 
     fun toggleSelectedUser(user: User) {
         hiitLogger.d(

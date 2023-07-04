@@ -26,6 +26,7 @@ import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
 fun NumberCyclesComponent(
+    modifier: Modifier = Modifier,
     decreaseNumberOfCycles: () -> Unit = {},
     increaseNumberOfCycles: () -> Unit = {},
     numberOfCycles: Int,
@@ -33,7 +34,8 @@ fun NumberCyclesComponent(
     totalLengthFormatted: String
 ) {
     Column(
-        Modifier.fillMaxWidth()
+        modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             textAlign = TextAlign.Center,
@@ -43,43 +45,42 @@ fun NumberCyclesComponent(
         )
         Row(
             Modifier
-                .padding(horizontal = 0.dp, vertical = 24.dp)
+                .padding(horizontal = 0.dp, vertical = 16.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(
                 enabled = numberOfCycles > 1,
-                modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+                modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = decreaseNumberOfCycles
             ) {
                 Text(
                     text = stringResource(id = R.string.minus),
                     fontWeight = FontWeight.Bold,
                     fontSize = 44.sp,
-                    lineHeight = 28.sp
+//                    lineHeight = 28.sp
                 )
             }
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = numberOfCycles.toString(),
+                text = stringResource(
+                    id = R.string.number_of_cycle_setting,
+                    numberOfCycles,
+                    lengthOfCycle
+                ),
                 style = MaterialTheme.typography.headlineMedium
             )
-            Spacer(modifier = Modifier.width(4.dp))
-            Text(
-                text = stringResource(id = R.string.number_of_cycle_setting, lengthOfCycle),
-                style = MaterialTheme.typography.headlineMedium
-            )
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
             TextButton(
-                modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+                modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = increaseNumberOfCycles
             ) {
                 Text(
                     text = stringResource(id = R.string.plus),
                     fontWeight = FontWeight.Bold,
                     fontSize = 44.sp,
-                    lineHeight = 28.sp
+//                    lineHeight = 28.sp
                 )
             }
         }

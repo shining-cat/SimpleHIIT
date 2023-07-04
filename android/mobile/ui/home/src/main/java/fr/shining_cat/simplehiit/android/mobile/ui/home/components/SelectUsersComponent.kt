@@ -7,7 +7,8 @@ import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,13 +27,13 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectUsersComponent(
+    modifier: Modifier = Modifier,
     users: List<User>,
     toggleSelectedUser: (User) -> Unit
 ) {
     Column(
-        Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .padding(vertical = 16.dp)
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -40,16 +41,20 @@ fun SelectUsersComponent(
             text = stringResource(id = R.string.selected_users_setting_title),
             style = MaterialTheme.typography.headlineLarge
         )
-        LazyRow(
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
             modifier = Modifier
-                .padding(vertical = 16.dp)
+                .padding(top = 16.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(users.size) {
                 val user = users[it]
                 ToggleButton(
-                    modifier = Modifier.height(56.dp).defaultMinSize(minWidth = 112.dp),
+                    modifier = Modifier
+                        .height(56.dp)
+                        .defaultMinSize(minWidth = 112.dp),
                     label = user.name,
                     selected = user.selected,
                     onToggle = { toggleSelectedUser(user) }
@@ -76,7 +81,8 @@ private fun SelectUsersComponentPreview() {
                 users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
-                    User(345L, "User 3", selected = true)
+                    User(345L, "User 3", selected = true),
+                    User(345L, "User 3 hase a very long name", selected = true),
                 ),
                 toggleSelectedUser = {}
             )

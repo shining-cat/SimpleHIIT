@@ -36,6 +36,7 @@
 
 ## Miscellaneous / nice to have
 * replace user button in Settings with one more similar to the one we use now for the toggle button
+* change SettingUsersComponent on settings screen to a LazyGrid component instead of a horizontal scrolling one
 * design for statistics needs some love, see assets creation
 * design for session summary needs some love: add list of participating users, add the side to the display for exercises...
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
