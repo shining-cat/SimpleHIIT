@@ -28,7 +28,7 @@ import androidx.lifecycle.LifecycleOwner
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.session.components.SessionSideBar
+import fr.shining_cat.simplehiit.android.mobile.ui.session.components.SessionSideBarComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -157,7 +157,7 @@ private fun SessionScreen(
     }
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
-            SessionSideBar(
+            SessionSideBarComponent(
                 title = title,
                 onBackButtonClick = { clickOnButton.invoke() },
                 backButtonLabel = buttonLabel
@@ -177,6 +177,7 @@ private fun SessionScreen(
             SessionContentHolder(
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
+                uiArrangement = uiArrangement,
                 onAbortSession = onAbortSession,
                 resume = resume,
                 navigateUp = navigateUp,
@@ -188,14 +189,12 @@ private fun SessionScreen(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     widthDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -206,22 +205,22 @@ private fun SessionScreenPreviewPhonePortrait(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
-        SessionScreen(
-            dialogViewState = SessionDialog.None,
-            screenViewState = viewState,
-            uiArrangement = UiArrangement.VERTICAL,
-        )
+        Surface {
+            SessionScreen(
+                dialogViewState = SessionDialog.None,
+                screenViewState = viewState,
+                uiArrangement = UiArrangement.VERTICAL,
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -231,23 +230,23 @@ private fun SessionScreenPreviewTabletLandscape(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
-        SessionScreen(
-            dialogViewState = SessionDialog.None,
-            screenViewState = viewState,
-            uiArrangement = UiArrangement.HORIZONTAL,
-        )
+        Surface {
+            SessionScreen(
+                dialogViewState = SessionDialog.None,
+                screenViewState = viewState,
+                uiArrangement = UiArrangement.HORIZONTAL,
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     heightDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -258,11 +257,13 @@ private fun SessionScreenPreviewPhoneLandscape(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
-        SessionScreen(
-            dialogViewState = SessionDialog.None,
-            screenViewState = viewState,
-            uiArrangement = UiArrangement.HORIZONTAL,
-        )
+        Surface {
+            SessionScreen(
+                dialogViewState = SessionDialog.None,
+                screenViewState = viewState,
+                uiArrangement = UiArrangement.HORIZONTAL,
+            )
+        }
     }
 }
 

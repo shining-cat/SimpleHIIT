@@ -183,42 +183,42 @@ fun errorTrailingIcon(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun ChoiceDialogPreview(
-    @PreviewParameter(ChoiceDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject
+private fun InputDialogPreview(
+    @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject
 ) {
     SimpleHiitTheme {
-        InputDialog(
-            dialogTitle = "Duration of WORK periods",
-            inputFieldValue = inputDialogPreviewObject.inputFieldValue,
-            inputFieldPostfix = inputDialogPreviewObject.postfix,
-            inputFieldSize = inputDialogPreviewObject.inputFieldSize,
-            inputFieldSingleLine = inputDialogPreviewObject.singleLine,
-            primaryButtonLabel = inputDialogPreviewObject.primaryButtonLabel,
-            primaryAction = {},
-            secondaryButtonLabel = inputDialogPreviewObject.secondaryButtonLabel,
-            secondaryAction = {},
-            dismissButtonLabel = inputDialogPreviewObject.dismissButtonLabel,
-            dismissAction = {},
-            keyboardType = KeyboardType.Number,
-            validateInput = inputDialogPreviewObject.validateInput,
-            pickErrorMessage = inputDialogPreviewObject.errorMessage,
-        )
+        Surface {
+            InputDialog(
+                dialogTitle = "Duration of WORK periods",
+                inputFieldValue = inputDialogPreviewObject.inputFieldValue,
+                inputFieldPostfix = inputDialogPreviewObject.postfix,
+                inputFieldSize = inputDialogPreviewObject.inputFieldSize,
+                inputFieldSingleLine = inputDialogPreviewObject.singleLine,
+                primaryButtonLabel = inputDialogPreviewObject.primaryButtonLabel,
+                primaryAction = {},
+                secondaryButtonLabel = inputDialogPreviewObject.secondaryButtonLabel,
+                secondaryAction = {},
+                dismissButtonLabel = inputDialogPreviewObject.dismissButtonLabel,
+                dismissAction = {},
+                keyboardType = KeyboardType.Number,
+                validateInput = inputDialogPreviewObject.validateInput,
+                pickErrorMessage = inputDialogPreviewObject.errorMessage,
+            )
+        }
     }
 }
 
-internal class ChoiceDialogPreviewParameterProvider :
+internal class InputDialogPreviewParameterProvider :
     PreviewParameterProvider<InputDialogPreviewObject> {
     override val values: Sequence<InputDialogPreviewObject>
         get() {

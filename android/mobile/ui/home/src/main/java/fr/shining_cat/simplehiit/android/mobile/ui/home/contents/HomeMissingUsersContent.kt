@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -153,14 +154,12 @@ private fun SelectUsersNoUsersComponent(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     widthDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -169,23 +168,23 @@ private fun SelectUsersNoUsersComponent(
 @Composable
 private fun HomeMissingUsersContentPreviewPhonePortrait() {
     SimpleHiitTheme {
-        HomeMissingUsersContent(
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            totalLengthFormatted = "20mn",
-            uiArrangement = UiArrangement.HORIZONTAL
-        )
+        Surface {
+            HomeMissingUsersContent(
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
+                uiArrangement = UiArrangement.HORIZONTAL
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -193,24 +192,24 @@ private fun HomeMissingUsersContentPreviewPhonePortrait() {
 @Composable
 private fun HomeMissingUsersContentPreviewTabletLandscape() {
     SimpleHiitTheme {
-        HomeMissingUsersContent(
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            totalLengthFormatted = "20mn",
-            uiArrangement = UiArrangement.HORIZONTAL
-        )
+        Surface {
+            HomeMissingUsersContent(
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
+                uiArrangement = UiArrangement.HORIZONTAL
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     heightDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -219,11 +218,13 @@ private fun HomeMissingUsersContentPreviewTabletLandscape() {
 @Composable
 private fun HomeMissingUsersContentPreviewPhoneLandscape() {
     SimpleHiitTheme {
-        HomeMissingUsersContent(
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            totalLengthFormatted = "20mn",
-            uiArrangement = UiArrangement.HORIZONTAL
-        )
+        Surface {
+            HomeMissingUsersContent(
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
+                uiArrangement = UiArrangement.HORIZONTAL
+            )
+        }
     }
 }

@@ -1,6 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* fix previews containing subcomponents all showing dark background and black text (not smallest components though)
 * try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, this might allow it to not be recomposed when switching between the states and avoid ugly jumps
 
 ## Code refactoring: layouts

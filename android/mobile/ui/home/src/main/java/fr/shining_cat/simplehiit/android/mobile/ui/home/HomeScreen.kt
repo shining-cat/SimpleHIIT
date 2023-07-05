@@ -23,7 +23,7 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBar
+import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -89,50 +89,48 @@ private fun HomeScreen(
         }
     }
     //
-    Row(modifier = Modifier.fillMaxSize()) {
-        AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
-            NavigationSideBar(
-                navigateTo = navigateTo,
-                currentDestination = Screen.Home,
-                showStatisticsButton = viewState is HomeViewState.Nominal
-            )
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
-                HomeTopBar(
-                    navigateTo = navigateTo,
-                    screenViewState = viewState
-                )
-            }
-            HomeContentHolder(
-                navigateTo = navigateTo,
-                resetWholeApp = onResetWholeApp,
-                resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
-                decreaseNumberOfCycles = decreaseNumberOfCycles,
-                increaseNumberOfCycles = increaseNumberOfCycles,
-                toggleSelectedUser = toggleSelectedUser,
-                cancelDialog = cancelDialog,
-                uiArrangement = uiArrangement,
-                screenViewState = viewState,
-                dialogViewState = dialogViewState
-            )
-        }
-    }
+      Row(modifier = Modifier.fillMaxSize()) {
+          AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
+              NavigationSideBar(
+                  navigateTo = navigateTo,
+                  currentDestination = Screen.Home,
+                  showStatisticsButton = viewState is HomeViewState.Nominal
+              )
+          }
+          Column(
+              modifier = Modifier
+                  .fillMaxSize()
+          ) {
+              AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
+                  HomeTopBarComponent(
+                      navigateTo = navigateTo,
+                      screenViewState = viewState
+                  )
+              }
+              HomeContentHolder(
+                  navigateTo = navigateTo,
+                  resetWholeApp = onResetWholeApp,
+                  resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
+                  decreaseNumberOfCycles = decreaseNumberOfCycles,
+                  increaseNumberOfCycles = increaseNumberOfCycles,
+                  toggleSelectedUser = toggleSelectedUser,
+                  cancelDialog = cancelDialog,
+                  uiArrangement = uiArrangement,
+                  screenViewState = viewState,
+                  dialogViewState = dialogViewState
+              )
+          }
+      }
 }
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     widthDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -143,11 +141,13 @@ private fun HomeScreenPreviewPhonePortrait(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTheme {
-        HomeScreen(
-            uiArrangement = UiArrangement.VERTICAL,
-            viewState = viewState,
-            dialogViewState = HomeDialog.None
-        )
+        Surface {
+            HomeScreen(
+                uiArrangement = UiArrangement.VERTICAL,
+                viewState = viewState,
+                dialogViewState = HomeDialog.None
+            )
+        }
     }
 }
 
@@ -168,11 +168,13 @@ private fun HomeScreenPreviewTabletLandscape(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTheme {
-        HomeScreen(
-            uiArrangement = UiArrangement.HORIZONTAL,
-            viewState = viewState,
-            dialogViewState = HomeDialog.None
-        )
+        Surface {
+            HomeScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                viewState = viewState,
+                dialogViewState = HomeDialog.None
+            )
+        }
     }
 }
 
@@ -195,11 +197,13 @@ private fun HomeScreenPreviewPhoneLandscape(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTheme {
-        HomeScreen(
-            uiArrangement = UiArrangement.HORIZONTAL,
-            viewState = viewState,
-            dialogViewState = HomeDialog.None
-        )
+        Surface {
+            HomeScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                viewState = viewState,
+                dialogViewState = HomeDialog.None
+            )
+        }
     }
 }
 
@@ -227,4 +231,3 @@ internal class HomeScreenPreviewParameterProvider :
 
         )
 }
-

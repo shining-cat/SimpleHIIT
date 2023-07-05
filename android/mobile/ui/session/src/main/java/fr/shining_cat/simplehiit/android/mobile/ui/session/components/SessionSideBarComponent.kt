@@ -1,6 +1,7 @@
-package fr.shining_cat.simplehiit.android.mobile.ui.common.components
+package fr.shining_cat.simplehiit.android.mobile.ui.session.components
 
 import android.content.res.Configuration
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.SideBarItem
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
-fun NavigationSideBar(
-    navigateTo: (String) -> Unit = {},
-    currentDestination: Screen,
-    showStatisticsButton: Boolean
+fun SessionSideBarComponent(
+    @StringRes title: Int,
+    onBackButtonClick: () -> Unit = {},
+    @StringRes backButtonLabel: Int,
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
@@ -28,7 +29,7 @@ fun NavigationSideBar(
         contentColor = MaterialTheme.colorScheme.onPrimary,
         header = {
             Text(
-                text = stringResource(R.string.app_name),
+                text = stringResource(title),
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(16.dp)
@@ -36,25 +37,11 @@ fun NavigationSideBar(
         }
     ) {
         SideBarItem(
-            onClick = { navigateTo(Screen.Home.route) },
-            icon = R.drawable.home,
-            label = R.string.home_page_title,
-            selected = currentDestination == Screen.Home
+            onClick = onBackButtonClick,
+            icon = R.drawable.arrow_back,
+            label = backButtonLabel,
+            selected = false
         )
-        SideBarItem(
-            onClick = { navigateTo(Screen.Settings.route) },
-            icon = R.drawable.cog,
-            label = R.string.settings_button_content_label,
-            selected = currentDestination == Screen.Settings
-        )
-        if (showStatisticsButton) {
-            SideBarItem(
-                onClick = { navigateTo(Screen.Statistics.route) },
-                icon = R.drawable.bar_chart,
-                label = R.string.statistics_button_content_label,
-                selected = currentDestination == Screen.Statistics
-            )
-        }
     }
 }
 
@@ -66,12 +53,12 @@ fun NavigationSideBar(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun NavigationSideBarPreview() {
+private fun SessionSideBarComponentPreview() {
     SimpleHiitTheme {
         Surface {
-            NavigationSideBar(
-                currentDestination = Screen.Settings,
-                showStatisticsButton = true
+            SessionSideBarComponent(
+                title = R.string.session_work_page_title,
+                backButtonLabel = R.string.pause
             )
         }
     }

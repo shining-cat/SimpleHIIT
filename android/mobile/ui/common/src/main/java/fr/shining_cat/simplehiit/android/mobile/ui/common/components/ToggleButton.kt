@@ -2,9 +2,7 @@ package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -16,11 +14,11 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
@@ -58,21 +56,16 @@ fun ToggleButton(
 
 // Previews
 @Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
+
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
-        Column(Modifier.fillMaxSize()) {
+        Surface {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -87,13 +80,13 @@ private fun ChoiceDialogPreview() {
                     selected = false,
                     onToggle = {}
                 )
+                ToggleButton(
+                    modifier = Modifier.width(86.dp), //causing a truncation
+                    label = "I'm NOT selected",
+                    selected = false,
+                    onToggle = {}
+                )
             }
-            ToggleButton(
-                modifier = Modifier.width(86.dp),
-                label = "I'm NOT selected",
-                selected = false,
-                onToggle = {}
-            )
         }
     }
 }

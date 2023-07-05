@@ -11,8 +11,7 @@ sealed interface HomeViewState {
         val cycleLength: String,
         val users: List<User>,
         val totalSessionLengthFormatted: String
-    ) :
-        HomeViewState
+    ) : HomeViewState
 
     data class MissingUsers(
         val numberCumulatedCycles: Int,

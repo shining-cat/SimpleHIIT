@@ -105,13 +105,11 @@ fun ChoiceDialog(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -119,13 +117,15 @@ fun ChoiceDialog(
 @Composable
 private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
-        ChoiceDialog(
-            message = "This will erase all users, all stored sessions, and all settings",
-            primaryButtonLabel = "Yeah",
-            primaryAction = {},
-            secondaryButtonLabel = "Maybe",
-            dismissButtonLabel = "Nope",
-            dismissAction = {}
-        )
+        Surface {
+            ChoiceDialog(
+                message = "This will erase all users, all stored sessions, and all settings",
+                primaryButtonLabel = "Yeah",
+                primaryAction = {},
+                secondaryButtonLabel = "Maybe",
+                dismissButtonLabel = "Nope",
+                dismissAction = {}
+            )
+        }
     }
 }

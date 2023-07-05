@@ -11,16 +11,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticCardComponent
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeader
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
@@ -32,6 +34,7 @@ fun StatisticsNominalContent(
     openUserPicker: () -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
     viewState: StatisticsViewState.Nominal,
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger? = null
 ) {
     Column(
@@ -41,7 +44,7 @@ fun StatisticsNominalContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //we don't want the name to scroll along with the grid (sticky header)
-        StatisticsHeader(
+        StatisticsHeaderComponent(
             openUserPicker = openUserPicker,
             currentUserName = viewState.user.name,
             showUsersSwitch = viewState.showUsersSwitch
@@ -113,25 +116,82 @@ internal class StickyFooterArrangement(
 
 // Previews
 @Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    showSystemUi = true,
+    device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
 )
 @Preview(
-    showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    showSystemUi = true,
+    device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
 )
 @Composable
-private fun StatisticsContentNominalPreview(
-    @PreviewParameter(StatisticsContentNominalPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
+private fun StatisticsNominalContentPreviewPhonePortrait(
+    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
     SimpleHiitTheme {
         Surface {
-            StatisticsNominalContent(viewState = viewState)
+            StatisticsNominalContent(
+                uiArrangement = UiArrangement.VERTICAL,
+                viewState = viewState
+            )
         }
     }
 }
 
-internal class StatisticsContentNominalPreviewParameterProvider :
+@Preview(
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun StatisticsNominalContentPreviewTabletLandscape(
+    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
+) {
+    SimpleHiitTheme {
+        Surface {
+            StatisticsNominalContent(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                viewState = viewState
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun StatisticsNominalContentPreviewPhoneLandscape(
+    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
+) {
+    SimpleHiitTheme {
+        Surface {
+            StatisticsNominalContent(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                viewState = viewState
+            )
+        }
+    }
+}
+
+internal class StatisticsNominalContentPreviewParameterProvider :
     PreviewParameterProvider<StatisticsViewState.Nominal> {
     override val values: Sequence<StatisticsViewState.Nominal>
         get() = sequenceOf(

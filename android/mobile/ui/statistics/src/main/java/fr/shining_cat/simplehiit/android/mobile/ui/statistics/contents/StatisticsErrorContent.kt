@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeader
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -38,7 +38,7 @@ fun StatisticsErrorContent(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Center
     ) {
-        StatisticsHeader(
+        StatisticsHeaderComponent(
             openUserPicker = openUserPicker,
             currentUserName = userName,
             showUsersSwitch = showUsersSwitch
@@ -85,11 +85,9 @@ fun StatisticsErrorContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable

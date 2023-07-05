@@ -73,21 +73,21 @@ fun HomeErrorContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeErrorContentPreview() {
     SimpleHiitTheme {
         Surface {
-            HomeErrorContent(
-                errorCode = "An error happened",
-                resetWholeApp = {}
-            )
+            Surface {
+                HomeErrorContent(
+                    errorCode = "An error happened",
+                    resetWholeApp = {}
+                )
+            }
         }
     }
 }

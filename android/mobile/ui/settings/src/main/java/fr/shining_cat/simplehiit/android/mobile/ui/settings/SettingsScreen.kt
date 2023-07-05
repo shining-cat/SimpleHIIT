@@ -159,6 +159,7 @@ private fun SettingsScreen(
                 resetSettings = resetSettings,
                 resetSettingsConfirmation = resetSettingsConfirmation,
                 cancelDialog = cancelDialog,
+                uiArrangement = uiArrangement,
                 screenViewState = screenViewState,
                 dialogViewState = dialogViewState
             )
@@ -168,14 +169,12 @@ private fun SettingsScreen(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     widthDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -186,22 +185,22 @@ private fun SettingsScreenPreviewPhonePortrait(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
     SimpleHiitTheme {
-        SettingsScreen(
-            uiArrangement = UiArrangement.VERTICAL,
-            screenViewState = viewState,
-            dialogViewState = SettingsDialog.None
-        )
+        Surface {
+            SettingsScreen(
+                uiArrangement = UiArrangement.VERTICAL,
+                screenViewState = viewState,
+                dialogViewState = SettingsDialog.None
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -211,23 +210,23 @@ private fun SettingsScreenPreviewTabletLandscape(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
     SimpleHiitTheme {
-        SettingsScreen(
-            uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = viewState,
-            dialogViewState = SettingsDialog.None
-        )
+        Surface {
+            SettingsScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                screenViewState = viewState,
+                dialogViewState = SettingsDialog.None
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     heightDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -238,11 +237,13 @@ private fun SettingsScreenPreviewPhoneLandscape(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
     SimpleHiitTheme {
-        SettingsScreen(
-            uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = viewState,
-            dialogViewState = SettingsDialog.None
-        )
+        Surface {
+            SettingsScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                screenViewState = viewState,
+                dialogViewState = SettingsDialog.None
+            )
+        }
     }
 }
 

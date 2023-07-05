@@ -28,7 +28,7 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsScreen(
-    navigateTo: (String) -> Unit,
+    navigateTo: (String) -> Unit = {},
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel()
@@ -104,6 +104,7 @@ private fun StatisticsScreen(
                 cancelDialog = cancelDialog,
                 resetWholeApp = resetWholeApp,
                 resetWholeAppConfirmation = resetWholeAppConfirmation,
+                uiArrangement = uiArrangement,
                 screenViewState = screenViewState,
                 dialogViewState = dialogViewState,
                 hiitLogger = hiitLogger
@@ -114,14 +115,12 @@ private fun StatisticsScreen(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     widthDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -132,22 +131,22 @@ private fun StatisticsScreenPreviewPhonePortrait(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
-        StatisticsScreen(
-            uiArrangement = UiArrangement.VERTICAL,
-            screenViewState = viewState,
-            dialogViewState = StatisticsDialog.None
-        )
+        Surface {
+            StatisticsScreen(
+                uiArrangement = UiArrangement.VERTICAL,
+                screenViewState = viewState,
+                dialogViewState = StatisticsDialog.None
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -157,23 +156,23 @@ private fun StatisticsScreenPreviewTabletLandscape(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
-        StatisticsScreen(
-            uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = viewState,
-            dialogViewState = StatisticsDialog.None
-        )
+        Surface {
+            StatisticsScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                screenViewState = viewState,
+                dialogViewState = StatisticsDialog.None
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     heightDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -184,11 +183,13 @@ private fun StatisticsScreenPreviewPhoneLandscape(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
-        StatisticsScreen(
-            uiArrangement = UiArrangement.HORIZONTAL,
-            screenViewState = viewState,
-            dialogViewState = StatisticsDialog.None
-        )
+        Surface {
+            StatisticsScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                screenViewState = viewState,
+                dialogViewState = StatisticsDialog.None
+            )
+        }
     }
 }
 

@@ -26,7 +26,7 @@ import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
-fun StatisticsHeader(
+fun StatisticsHeaderComponent(
     openUserPicker: () -> Unit = {},
     currentUserName: String,
     showUsersSwitch: Boolean,
@@ -60,18 +60,16 @@ fun StatisticsHeader(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun StatisticsHeaderPreview() {
     SimpleHiitTheme {
         Surface {
-            StatisticsHeader(
+            StatisticsHeaderComponent(
                 currentUserName = "Charles-Antoine",
                 showUsersSwitch = true
             )

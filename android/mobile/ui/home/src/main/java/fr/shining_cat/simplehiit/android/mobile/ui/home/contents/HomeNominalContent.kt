@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -160,14 +161,12 @@ private fun HorizontalHomeNominalContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     widthDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -176,28 +175,28 @@ private fun HorizontalHomeNominalContent(
 @Composable
 private fun HomeNominalContentPreviewPhonePortrait() {
     SimpleHiitTheme {
-        HomeNominalContent(
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            totalLengthFormatted = "20mn",
-            users = listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User 2", selected = false),
-                User(345L, "User 3", selected = true)
-            ),
-            uiArrangement = UiArrangement.VERTICAL
-        )
+        Surface {
+            HomeNominalContent(
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
+                users = listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                    User(345L, "User 3", selected = true)
+                ),
+                uiArrangement = UiArrangement.VERTICAL
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -205,29 +204,29 @@ private fun HomeNominalContentPreviewPhonePortrait() {
 @Composable
 private fun HomeNominalContentPreviewTabletLandscape() {
     SimpleHiitTheme {
-        HomeNominalContent(
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            totalLengthFormatted = "20mn",
-            users = listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User 2", selected = false),
-                User(345L, "User 3", selected = true)
-            ),
-            uiArrangement = UiArrangement.HORIZONTAL
-        )
+        Surface {
+            HomeNominalContent(
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
+                users = listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                    User(345L, "User 3", selected = true)
+                ),
+                uiArrangement = UiArrangement.HORIZONTAL
+            )
+        }
     }
 }
 
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
     heightDp = 400
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -236,16 +235,18 @@ private fun HomeNominalContentPreviewTabletLandscape() {
 @Composable
 private fun HomeNominalContentPreviewPhoneLandscape() {
     SimpleHiitTheme {
-        HomeNominalContent(
-            numberOfCycles = 5,
-            lengthOfCycle = "4mn",
-            totalLengthFormatted = "20mn",
-            users = listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User 2", selected = false),
-                User(345L, "User 3", selected = true)
-            ),
-            uiArrangement = UiArrangement.HORIZONTAL
-        )
+        Surface {
+            HomeNominalContent(
+                numberOfCycles = 5,
+                lengthOfCycle = "4mn",
+                totalLengthFormatted = "20mn",
+                users = listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                    User(345L, "User 3", selected = true)
+                ),
+                uiArrangement = UiArrangement.HORIZONTAL
+            )
+        }
     }
 }

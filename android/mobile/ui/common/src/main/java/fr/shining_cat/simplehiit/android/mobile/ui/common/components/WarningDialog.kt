@@ -80,13 +80,11 @@ fun WarningDialog(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
@@ -94,12 +92,14 @@ fun WarningDialog(
 @Composable
 private fun ChoiceDialogPreview() {
     SimpleHiitTheme {
-        WarningDialog(
-            message = "This will erase all users, all stored sessions, and all settings",
-            proceedButtonLabel = "Yeah",
-            proceedAction = {},
-            dismissButtonLabel = "Nope",
-            dismissAction = {}
-        )
+        Surface {
+            WarningDialog(
+                message = "This will erase all users, all stored sessions, and all settings",
+                proceedButtonLabel = "Yeah",
+                proceedAction = {},
+                dismissButtonLabel = "Nope",
+                dismissAction = {}
+            )
+        }
     }
 }

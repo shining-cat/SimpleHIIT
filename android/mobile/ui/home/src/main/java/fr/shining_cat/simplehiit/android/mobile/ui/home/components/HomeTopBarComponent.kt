@@ -1,10 +1,14 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.home.components
 
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -13,13 +17,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.commonresources.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeTopBar(
+fun HomeTopBarComponent(
     navigateTo: (String) -> Unit = {},
     screenViewState: HomeViewState
 ) {
@@ -52,4 +59,38 @@ fun HomeTopBar(
             }
         }
     )
+}
+
+// Previews
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
+)
+@Preview(
+    showBackground = true,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+private fun HomeTopBarComponentPreview() {
+    SimpleHiitTheme {
+        Surface {
+            Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
+                HomeTopBarComponent(
+                    screenViewState = HomeViewState.Nominal(
+                        numberCumulatedCycles = 2,
+                        cycleLength = "2mn",
+                        users = emptyList(),
+                        totalSessionLengthFormatted = "20mn 34s"
+                    )
+                )
+                HomeTopBarComponent(
+                    screenViewState = HomeViewState.MissingUsers(
+                        numberCumulatedCycles = 2,
+                        cycleLength = "2mn",
+                        totalSessionLengthFormatted = "20mn 34s"
+                    )
+                )
+            }
+        }
+    }
 }

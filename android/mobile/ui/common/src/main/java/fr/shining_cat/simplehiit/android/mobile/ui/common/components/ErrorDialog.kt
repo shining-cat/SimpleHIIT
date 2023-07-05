@@ -85,25 +85,25 @@ fun ErrorDialog(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun ChoiceDialogPreview() {
+private fun ErrorDialogPreview() {
     SimpleHiitTheme {
-        ErrorDialog(
-            errorMessage = "A balloon is floating above the country",
-            errorCode = "1234",
-            dismissAction = {},
-            dismissButtonLabel = "OK"
-        )
+        Surface {
+            ErrorDialog(
+                errorMessage = "A balloon is floating above the country",
+                errorCode = "1234",
+                dismissAction = {},
+                dismissButtonLabel = "OK"
+            )
+        }
     }
 }
