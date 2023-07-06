@@ -32,8 +32,8 @@ fun SessionFinishedContent(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
@@ -46,6 +46,9 @@ fun SessionFinishedContent(
             val exerciseNameRes =
                 exerciseNameResMapper.map(step.exercise)
             SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
+        }
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

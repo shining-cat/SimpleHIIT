@@ -2,7 +2,9 @@
 
 ## Missing features / issues
 * ensure adaptive layouts feature is complete by checking error and other uncommon screens are scrollables if screen is too small
-* try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, this might allow it to not be recomposed when switching between the states and avoid ugly jumps
+* try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, 
+  this might allow it to not be recomposed when switching between the states and avoid ugly jumps
+* 
 
 ## Code refactoring: layouts
 * fix broken layout in landscape
@@ -36,11 +38,8 @@
 * see also [ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
-* replace user button in Settings with one more similar to the one we use now for the toggle button
-* change SettingUsersComponent on settings screen to a LazyGrid component instead of a horizontal scrolling one
 * if only one user is registered, change home page to show a greeting to them instead of the users selection component
 * design for statistics needs some love, see assets creation
-* design for session summary needs some love: add list of participating users, add the side to the display for exercises...
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
 * create an onboarding feature, including the user creation then selection and the multiple cycles mechanics
