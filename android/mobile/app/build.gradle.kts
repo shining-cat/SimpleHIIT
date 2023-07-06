@@ -91,6 +91,7 @@ dependencies {
     implementation(Deps.appCompat)
     implementation(HiltDeps.hiltAndroid)
     implementation(ComposeDeps.composeMaterial3)
+    implementation(ComposeDeps.composeMaterial3WindowSize)
     implementation(Navigation.navCompose)
     kapt(HiltDeps.hiltAndroidCompiler)
 }

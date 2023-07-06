@@ -55,6 +55,12 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     durationStringFormatter = DurationStringFormatter()
                 )
             }
+            coVerify(exactly = 1) {
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    durationMs = (input.result.cycleLengthMs.times(input.result.numberCumulatedCycles)),
+                    durationStringFormatter = DurationStringFormatter()
+                )
+            }
         } else {
             coVerify(exactly = 0) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any())
@@ -86,7 +92,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 3,
                         cycleLength = mockDurationString,
-                        users = listOf(testUser1, testUser3, testUser2, testUser4)
+                        users = listOf(testUser1, testUser3, testUser2, testUser4),
+                        totalSessionLengthFormatted = mockDurationString
                     )
                 ),
                 Arguments.of(
@@ -100,7 +107,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 5,
                         cycleLength = mockDurationString,
-                        users = listOf(testUser1, testUser2)
+                        users = listOf(testUser1, testUser2),
+                        totalSessionLengthFormatted = mockDurationString
                     )
                 ),
                 Arguments.of(
@@ -113,7 +121,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     ),
                     HomeViewState.MissingUsers(
                         numberCumulatedCycles = 3,
-                        cycleLength = mockDurationString
+                        cycleLength = mockDurationString,
+                        totalSessionLengthFormatted = mockDurationString
                     )
                 ),
                 Arguments.of(

@@ -15,21 +15,25 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.Exercise
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
 import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
-import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
-import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
-fun SessionFinishedContent(viewState: SessionViewState.Finished, hiitLogger: HiitLogger? = null) {
+fun SessionFinishedContent(
+    viewState: SessionViewState.Finished,
+    @Suppress("UNUSED_PARAMETER")
+    hiitLogger: HiitLogger? = null
+) {
     LazyColumn(
         modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
@@ -40,8 +44,11 @@ fun SessionFinishedContent(viewState: SessionViewState.Finished, hiitLogger: Hii
         items(viewState.workingStepsDone.size) {
             val step = viewState.workingStepsDone[it]
             val exerciseNameRes =
-                exerciseNameResMapper.map(step.exercise) // todo: we also want to add the side to the display
+                exerciseNameResMapper.map(step.exercise)
             SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
+        }
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
@@ -57,7 +64,6 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
             style = MaterialTheme.typography.headlineLarge,
             text = stringResource(id = R.string.finish_page_title)
         )
-        //TODO? add list of participating users?
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
@@ -120,11 +126,9 @@ fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: Exercis
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable

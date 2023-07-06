@@ -3,9 +3,11 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session.contents
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -32,17 +34,19 @@ fun SessionErrorStateContent(
     screenViewState: SessionViewState.Error,
     navigateUp: () -> Boolean,
     onAbort: () -> Unit,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
                 .size(120.dp)
-                .align(Alignment.CenterHorizontally)
                 .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description)
@@ -61,8 +65,7 @@ fun SessionErrorStateContent(
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
-                    .align(Alignment.CenterHorizontally),
+                    .padding(horizontal = 0.dp, vertical = 16.dp),
                 text = stringResource(id = R.string.error_code, screenViewState.errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
@@ -76,8 +79,7 @@ fun SessionErrorStateContent(
         }
         Button(
             modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
+                .padding(horizontal = 0.dp, vertical = 16.dp),
             onClick = clickAction,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.error,
@@ -98,11 +100,9 @@ fun SessionErrorStateContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable

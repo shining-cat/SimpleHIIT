@@ -2,6 +2,7 @@ package fr.shining_cat.simplehiit.android.mobile.ui.session
 
 import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -12,13 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -27,13 +25,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import fr.shining_cat.simplehiit.android.mobile.common.components.ChoiceDialog
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionErrorStateContent
-import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionFinishedContent
-import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionPrepareContent
-import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionRestNominalContent
-import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionWorkNominalContent
+import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.session.components.SessionSideBarComponent
+import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
@@ -44,6 +40,7 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 @Composable
 fun SessionScreen(
     navigateUp: () -> Boolean,
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: SessionViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
@@ -96,6 +93,7 @@ fun SessionScreen(
     //
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },
+        uiArrangement = uiArrangement,
         dialogViewState = dialogViewState,
         screenViewState = screenViewState,
         pause = { viewModel.pause() },
@@ -105,160 +103,85 @@ fun SessionScreen(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SessionScreen(
-    onAbortSession: () -> Unit,
+    navigateUp: () -> Boolean = { true },
+    onAbortSession: () -> Unit = {},
+    pause: () -> Unit = {},
+    resume: () -> Unit = {},
+    uiArrangement: UiArrangement,
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
-    pause: () -> Unit,
-    resume: () -> Unit,
-    navigateUp: () -> Boolean,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     BackHandler(enabled = screenViewState is SessionViewState.WorkNominal || screenViewState is SessionViewState.RestNominal) {
         pause()
     }
-    Scaffold(
-        topBar = {
-            SessionTopBar(pause = pause, navigateUp = navigateUp, screenViewState = screenViewState)
-        },
-        content = { paddingValues ->
-            SessionContent(
-                innerPadding = paddingValues,
+    val (title, buttonLabel, clickOnButton) = when (screenViewState) {
+        is SessionViewState.RestNominal -> Triple(
+            R.string.session_rest_page_title,
+            R.string.pause,
+            pause
+        )
+
+        is SessionViewState.WorkNominal -> Triple(
+            R.string.session_work_page_title,
+            R.string.pause,
+            pause
+        )
+
+        is SessionViewState.InitialCountDownSession -> Triple(
+            R.string.session_prepare_page_title,
+            R.string.back_button_content_label,
+            navigateUp
+        )
+
+        is SessionViewState.Finished -> Triple(
+            R.string.finish_page_topbar,
+            R.string.back_button_content_label,
+            navigateUp
+        )
+
+        is SessionViewState.Error -> Triple(
+            R.string.error,
+            R.string.back_button_content_label,
+            navigateUp
+        )
+
+        SessionViewState.Loading -> Triple(
+            R.string.session_loading_page_topBar,
+            R.string.back_button_content_label,
+            navigateUp
+        )
+    }
+    Row(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
+            SessionSideBarComponent(
+                title = title,
+                onBackButtonClick = { clickOnButton.invoke() },
+                backButtonLabel = buttonLabel
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
+                NavigateUpTopBar(
+                    navigateUp = { clickOnButton.invoke(); true },
+                    title = title,
+                    overrideBackLabel = buttonLabel
+                )
+            }
+            SessionContentHolder(
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
+                uiArrangement = uiArrangement,
                 onAbortSession = onAbortSession,
                 resume = resume,
                 navigateUp = navigateUp,
                 hiitLogger = hiitLogger
-            )
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun SessionTopBar(
-    pause: () -> Unit,
-    screenViewState: SessionViewState,
-    navigateUp: () -> Boolean
-) {
-    val (title, clickOnButton) = when (screenViewState) {
-        is SessionViewState.RestNominal -> Pair(
-            stringResource(R.string.session_rest_page_title),
-            pause
-        )
-
-        is SessionViewState.WorkNominal -> Pair(
-            stringResource(R.string.session_work_page_title),
-            pause
-        )
-
-        is SessionViewState.InitialCountDownSession -> Pair(
-            stringResource(id = R.string.session_prepare_page_title),
-            navigateUp
-        )
-
-        is SessionViewState.Finished -> Pair(
-            stringResource(id = R.string.finish_page_topbar),
-            navigateUp
-        )
-
-        is SessionViewState.Error -> Pair(stringResource(id = R.string.error), navigateUp)
-        SessionViewState.Loading -> Pair(
-            stringResource(id = R.string.session_loading_page_topBar),
-            navigateUp
-        )
-    }
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
-        navigationIcon = {
-            IconButton(onClick = { clickOnButton() }) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(id = R.string.back_button_content_label),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-        },
-        title = {
-            Text(
-                text = title,
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.titleLarge
-            )
-        }
-    )
-}
-
-@Composable
-private fun SessionContent(
-    innerPadding: PaddingValues,
-    dialogViewState: SessionDialog,
-    screenViewState: SessionViewState,
-    onAbortSession: () -> Unit,
-    resume: () -> Unit,
-    navigateUp: () -> Boolean,
-    hiitLogger: HiitLogger? = null
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize() //TODO: handle landscape layout
-            .padding(paddingValues = innerPadding),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        when (screenViewState) {
-            SessionViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is SessionViewState.Error -> SessionErrorStateContent(
-                screenViewState = screenViewState,
-                navigateUp = navigateUp,
-                onAbort = onAbortSession,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.InitialCountDownSession -> SessionPrepareContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.RestNominal -> SessionRestNominalContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.WorkNominal -> SessionWorkNominalContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger
-            )
-
-            is SessionViewState.Finished -> {
-                if (screenViewState.workingStepsDone.isEmpty()) {
-                    navigateUp()
-                } else {
-                    SessionFinishedContent(viewState = screenViewState, hiitLogger = hiitLogger)
-                }
-            }
-        }
-        when (dialogViewState) {
-            SessionDialog.None -> {}/*Do nothing*/
-            SessionDialog.Pause -> ChoiceDialog(
-                title = stringResource(id = R.string.pause),
-                message = stringResource(id = R.string.pause_explanation),
-                primaryButtonLabel = stringResource(id = R.string.resume_button_label),
-                primaryAction = resume,
-                secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
-                secondaryAction = onAbortSession,
-                dismissAction = resume
             )
         }
     }
@@ -266,144 +189,173 @@ private fun SessionContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
+)
+@Preview(
+    showSystemUi = true,
+    device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
+)
+@Composable
+private fun SessionScreenPreviewPhonePortrait(
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
+) {
+    SimpleHiitTheme {
+        Surface {
+            SessionScreen(
+                dialogViewState = SessionDialog.None,
+                screenViewState = viewState,
+                uiArrangement = UiArrangement.VERTICAL,
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun SessionScreenPreview(
-    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewStates: Pair<SessionViewState, SessionDialog>
+private fun SessionScreenPreviewTabletLandscape(
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
     SimpleHiitTheme {
-        SessionScreen(
-            onAbortSession = {},
-            dialogViewState = viewStates.second,
-            screenViewState = viewStates.first,
-            pause = {},
-            resume = {},
-            navigateUp = { true }
-        )
+        Surface {
+            SessionScreen(
+                dialogViewState = SessionDialog.None,
+                screenViewState = viewState,
+                uiArrangement = UiArrangement.HORIZONTAL,
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun SessionScreenPreviewPhoneLandscape(
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
+) {
+    SimpleHiitTheme {
+        Surface {
+            SessionScreen(
+                dialogViewState = SessionDialog.None,
+                screenViewState = viewState,
+                uiArrangement = UiArrangement.HORIZONTAL,
+            )
+        }
     }
 }
 
 internal class SessionScreenPreviewParameterProvider :
-    PreviewParameterProvider<Pair<SessionViewState, SessionDialog>> {
-    override val values: Sequence<Pair<SessionViewState, SessionDialog>>
+    PreviewParameterProvider<SessionViewState> {
+    override val values: Sequence<SessionViewState>
         get() = sequenceOf(
-            Pair(SessionViewState.Loading, SessionDialog.None),
-            Pair(SessionViewState.Error("Blabla error code"), SessionDialog.None),
-            Pair(
-                SessionViewState.InitialCountDownSession(
-                    countDown = CountDown(
-                        secondsDisplay = "3",
-                        progress = .5f,
-                        playBeep = true
-                    )
-                ), SessionDialog.None
+            SessionViewState.Loading,
+            SessionViewState.Error("Blabla error code"),
+            SessionViewState.InitialCountDownSession(
+                countDown = CountDown(
+                    secondsDisplay = "3",
+                    progress = .5f,
+                    playBeep = true
+                )
             ),
-            Pair(
-                SessionViewState.RestNominal(
-                    nextExercise = Exercise.CatBackLegLift,
-                    side = ExerciseSide.RIGHT,
-                    restRemainingTime = "25s",
-                    restRemainingPercentage = .53f,
-                    sessionRemainingTime = "16mn 23s",
-                    sessionRemainingPercentage = .24f
-                ),
-                SessionDialog.None
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.CatBackLegLift,
+                side = ExerciseSide.RIGHT,
+                restRemainingTime = "25s",
+                restRemainingPercentage = .53f,
+                sessionRemainingTime = "16mn 23s",
+                sessionRemainingPercentage = .24f
             ),
-            Pair(
-                SessionViewState.RestNominal(
-                    nextExercise = Exercise.CatBackLegLift,
-                    side = ExerciseSide.RIGHT,
-                    restRemainingTime = "25s",
-                    restRemainingPercentage = .53f,
-                    sessionRemainingTime = "16mn 23s",
-                    sessionRemainingPercentage = .24f,
-                    countDown = CountDown(
-                        secondsDisplay = "3",
-                        progress = .5f,
-                        playBeep = true
-                    )
-                ),
-                SessionDialog.None
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.CatBackLegLift,
+                side = ExerciseSide.RIGHT,
+                restRemainingTime = "25s",
+                restRemainingPercentage = .53f,
+                sessionRemainingTime = "16mn 23s",
+                sessionRemainingPercentage = .24f,
+                countDown = CountDown(
+                    secondsDisplay = "3",
+                    progress = .5f,
+                    playBeep = true
+                )
             ),
-            Pair(
-                SessionViewState.RestNominal(
-                    nextExercise = Exercise.CatBackLegLift,
-                    side = ExerciseSide.RIGHT,
-                    restRemainingTime = "25s",
-                    restRemainingPercentage = .23f,
-                    sessionRemainingTime = "16mn 23s",
-                    sessionRemainingPercentage = .57f
-                ),
-                SessionDialog.Pause
+            SessionViewState.RestNominal(
+                nextExercise = Exercise.CatBackLegLift,
+                side = ExerciseSide.RIGHT,
+                restRemainingTime = "25s",
+                restRemainingPercentage = .23f,
+                sessionRemainingTime = "16mn 23s",
+                sessionRemainingPercentage = .57f
             ),
-            Pair(
-                SessionViewState.WorkNominal(
-                    currentExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.NONE,
-                    exerciseRemainingTime = "3s",
-                    exerciseRemainingPercentage = .7f,
-                    sessionRemainingTime = "5mn 12s",
-                    sessionRemainingPercentage = .3f
-                ),
-                SessionDialog.None
+            SessionViewState.WorkNominal(
+                currentExercise = Exercise.CrabAdvancedBridge,
+                side = ExerciseSide.NONE,
+                exerciseRemainingTime = "3s",
+                exerciseRemainingPercentage = .7f,
+                sessionRemainingTime = "5mn 12s",
+                sessionRemainingPercentage = .3f
             ),
-            Pair(
-                SessionViewState.WorkNominal(
-                    currentExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.NONE,
-                    exerciseRemainingTime = "3s",
-                    exerciseRemainingPercentage = .7f,
-                    sessionRemainingTime = "5mn 12s",
-                    sessionRemainingPercentage = .3f,
-                    countDown = CountDown(
-                        secondsDisplay = "5",
-                        progress = 0f,
-                        playBeep = false
-                    )
-                ),
-                SessionDialog.None
+            SessionViewState.WorkNominal(
+                currentExercise = Exercise.CrabAdvancedBridge,
+                side = ExerciseSide.NONE,
+                exerciseRemainingTime = "3s",
+                exerciseRemainingPercentage = .7f,
+                sessionRemainingTime = "5mn 12s",
+                sessionRemainingPercentage = .3f,
+                countDown = CountDown(
+                    secondsDisplay = "5",
+                    progress = 0f,
+                    playBeep = false
+                )
             ),
-            Pair(
-                SessionViewState.WorkNominal(
-                    currentExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.LEFT,
-                    exerciseRemainingTime = "3s",
-                    exerciseRemainingPercentage = .5f,
-                    sessionRemainingTime = "5mn 12s",
-                    sessionRemainingPercentage = .2f
-                ),
-                SessionDialog.Pause
+            SessionViewState.WorkNominal(
+                currentExercise = Exercise.CrabAdvancedBridge,
+                side = ExerciseSide.LEFT,
+                exerciseRemainingTime = "3s",
+                exerciseRemainingPercentage = .5f,
+                sessionRemainingTime = "5mn 12s",
+                sessionRemainingPercentage = .2f
             ),
-            Pair(
-                SessionViewState.Finished(
-                    "16mn",
-                    workingStepsDone = listOf(
-                        SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-                        SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-                        SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-                        SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-                        SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-                        SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
-                    )
-                ), SessionDialog.None
+            SessionViewState.Finished(
+                "16mn",
+                workingStepsDone = listOf(
+                    SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
+                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
+                    SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
+                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
+                    SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
+                    SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
+                )
             ),
         )
 }

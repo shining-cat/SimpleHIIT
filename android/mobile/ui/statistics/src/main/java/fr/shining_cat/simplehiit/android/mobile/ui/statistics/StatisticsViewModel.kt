@@ -27,12 +27,11 @@ class StatisticsViewModel @Inject constructor(
     private val _screenViewState =
         MutableStateFlow<StatisticsViewState>(StatisticsViewState.Loading)
     val screenViewState = _screenViewState.asStateFlow()
-    private val _allUsersViewState = MutableStateFlow<List<User>>(emptyList())
-    val allUsersViewState = _allUsersViewState.asStateFlow()
     private val _dialogViewState = MutableStateFlow<StatisticsDialog>(StatisticsDialog.None)
     val dialogViewState = _dialogViewState.asStateFlow()
 
     private var isInitialized = false
+    private var allUsers = emptyList<User>() // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
 
     private var durationStringFormatter = DurationStringFormatter()
 
@@ -41,11 +40,11 @@ class StatisticsViewModel @Inject constructor(
             this.durationStringFormatter = durationStringFormatter
             //
             viewModelScope.launch(context = mainDispatcher) {
-                statisticsInteractor.getAllUsers().collect() {
+                statisticsInteractor.getAllUsers().collect {
                     when (it) {
                         is Output.Success -> {
                             //nominal case
-                            _allUsersViewState.emit(it.result)
+                            allUsers = it.result
                             retrieveStatsForUser(it.result[0])
                         }
 
@@ -69,13 +68,16 @@ class StatisticsViewModel @Inject constructor(
         hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
         viewModelScope.launch(context = mainDispatcher) {
             val now = timeProvider.getCurrentTimeMillis()
-            when (val statisticsOutput =
-                statisticsInteractor.getStatsForUser(user = user, now = now)) {
+            val statisticsOutput =
+            statisticsInteractor.getStatsForUser(user = user, now = now)
+            val moreThanOneUser = allUsers.size > 1
+            when (statisticsOutput) {
                 is Output.Success -> {
                     _screenViewState.emit(
                         mapper.map(
-                            statisticsOutput.result,
-                            durationStringFormatter
+                            showUsersSwitch = moreThanOneUser,
+                            userStats = statisticsOutput.result,
+                            durationStringFormatter = durationStringFormatter
                         )
                     )
                 }
@@ -83,8 +85,9 @@ class StatisticsViewModel @Inject constructor(
                 is Output.Error -> { //failed retrieving statistics for selected user -> special error for this user
                     _screenViewState.emit(
                         StatisticsViewState.Error(
-                            statisticsOutput.errorCode.code,
-                            user
+                            errorCode = statisticsOutput.errorCode.code,
+                            user = user,
+                            showUsersSwitch = moreThanOneUser,
                         )
                     )
                 }
@@ -94,8 +97,8 @@ class StatisticsViewModel @Inject constructor(
 
     fun openPickUser() {
         viewModelScope.launch(context = mainDispatcher) {
-            val users = allUsersViewState.value
-            _dialogViewState.emit(StatisticsDialog.SelectUser(users))
+            if(allUsers.size < 2) hiitLogger.e("StatisticsViewModel", "openPickUser called but there is only 1 user or less")
+            _dialogViewState.emit(StatisticsDialog.SelectUser(allUsers))
         }
     }
 
@@ -115,7 +118,7 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             statisticsInteractor.deleteSessionsForUser(user.id)
             _dialogViewState.emit(StatisticsDialog.None)
-            //refetch to force refresh:
+            //force refresh:
             retrieveStatsForUser(user = user)
         }
     }

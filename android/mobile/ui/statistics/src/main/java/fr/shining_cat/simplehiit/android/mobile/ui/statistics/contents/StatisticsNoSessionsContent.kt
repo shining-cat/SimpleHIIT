@@ -1,7 +1,13 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -14,27 +20,29 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsNoSessionsContent(
-    viewState: StatisticsViewState.NoSessions
+    userName: String,
+    showUsersSwitch: Boolean,
+    openUserPicker: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineLarge,
-            text = viewState.user.name
+        StatisticsHeaderComponent(
+            openUserPicker = openUserPicker,
+            currentUserName = userName,
+            showUsersSwitch = showUsersSwitch
         )
+
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.doge),
             contentDescription = stringResource(id = R.string.doge_icon_content_description),
@@ -53,11 +61,9 @@ fun StatisticsNoSessionsContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -65,9 +71,8 @@ private fun StatisticsNoSessionsContentPreview() {
     SimpleHiitTheme {
         Surface {
             StatisticsNoSessionsContent(
-                viewState = StatisticsViewState.NoSessions(
-                    User(name = "Georges")
-                )
+                userName = "Georges",
+                showUsersSwitch = true
             )
         }
     }

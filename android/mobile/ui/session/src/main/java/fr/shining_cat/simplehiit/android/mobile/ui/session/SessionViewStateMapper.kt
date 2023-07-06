@@ -14,7 +14,7 @@ import javax.inject.Inject
 class SessionViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
     @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     private val hiitLogger: HiitLogger
 ) {
 

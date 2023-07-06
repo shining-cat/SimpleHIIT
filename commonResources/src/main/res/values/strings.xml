@@ -14,21 +14,28 @@
     <string name="ok">OK</string>
 
     <!-- HOME PAGE -->
+    <string name="home_page_title">Home</string>
     <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over a 4mn cycle.</string>
     <string name="short_instruction">Here you can quickly select how many of cycles you want to chain in your session. In the settings, you can refine the cycle structure itself.</string>
     <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
     <string name="reset_app_button_label">Reset the whole app</string>
     <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
-    <string name="number_of_cycle_setting_title">Select a number of cycles</string>
-    <string name="number_of_cycle_setting">x %1$s</string>
+    <string name="minus">-</string>
+    <string name="plus">+</string>
+    <string name="number_of_cycle_setting_title">Choose a number of cycles</string>
+    <string name="number_of_cycle_setting">%1$d x %2$s</string>
+    <string name="total_length">Total time: %1$s</string>
     <string name="settings_button_content_label">Settings</string>
     <string name="statistics_button_content_label">Statistics</string>
     <string name="selected_users_setting_title">Select user(s)</string>
     <string name="launch_session_label">Launch session</string>
+    <string name="cannot_launch_session_label">Select at least one user</string>
     <string name="input_number_cycles_dialog_title">Number of repetitions</string>
     <string name="input_number_cycles_dialog_postfix">cycle(s)</string>
     <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>
+    <string name="no_user_exist_title">No user registered</string>
     <string name="warning_no_user_exist">Please create your first user in the settings to start</string>
+    <string name="go_to_settings">Open Settings</string>
 
     <!-- SETTINGS PAGE -->
     <string name="settings_page_title">Settings</string>
@@ -88,6 +95,11 @@
     <!-- STATISTICS PAGE -->
     <string name="statistics_page_title">Statistics</string> <!-- insert user's name -->
     <string name="statistics_page_title_with_user_name">%1$s\'s statistics</string> <!-- insert user's name -->
+    <plurals name="statistics_number_of_days">
+        <item quantity="one">%1$d day</item>
+        <item quantity="other">%1$d days</item>
+    </plurals>
+    <string name="statistics_page_switch_user">Switch user</string>
     <string name="sessions_total">sessions</string>
     <string name="time_total">cumulated time</string> <!-- we'll format the total length as a string in XXdYYhZZmn-->
     <string name="average">average session length</string>
@@ -114,11 +126,11 @@
     <string name="exercise_type_lying">Lying</string>
 
     <!-- DURATION DISPLAY FORMATTING STRINGS-->
-    <string name="hours_minutes_seconds_short">%1\$dh %2$02dmn %3$02ds</string>
-    <string name="hours_minutes_no_seconds_short">%1\$dh %2$02dmn</string>
-    <string name="hours_no_minutes_no_seconds_short">%1\$dh</string>
-    <string name="minutes_seconds_short">%1\$dmn %2\$02ds</string>
-    <string name="minutes_no_seconds_short">%1\$dmn</string>
+    <string name="hours_minutes_seconds_short">%1$dh %2$02dmn %3$02ds</string>
+    <string name="hours_minutes_no_seconds_short">%1$dh %2$02dmn</string>
+    <string name="hours_no_minutes_no_seconds_short">%1$dh</string>
+    <string name="minutes_seconds_short">%1$dmn %2$02ds</string>
+    <string name="minutes_no_seconds_short">%1$dmn</string>
     <string name="seconds_short">%ds</string>
 
 </resources>

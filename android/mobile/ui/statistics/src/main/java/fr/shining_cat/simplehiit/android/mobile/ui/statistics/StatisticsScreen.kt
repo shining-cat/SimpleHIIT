@@ -1,28 +1,24 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.statistics
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsErrorContent
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsFatalErrorContent
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNoSessionsContent
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNoUsersContent
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsNominalContent
-import fr.shining_cat.simplehiit.android.mobile.ui.statistics.dialogs.StatisticsSelectUserDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DisplayStatisticType
@@ -32,7 +28,8 @@ import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsScreen(
-    onNavigateUp: () -> Boolean = { false },
+    navigateTo: (String) -> Unit = {},
+    uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel()
 ) {
@@ -51,7 +48,7 @@ fun StatisticsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
     //
     StatisticsScreen(
-        onNavigateUp = onNavigateUp,
+        navigateTo = navigateTo,
         openUserPicker = { viewModel.openPickUser() },
         selectUser = { viewModel.retrieveStatsForUser(it) },
         deleteAllSessionsForUser = { viewModel.deleteAllSessionsForUser(it) },
@@ -59,178 +56,58 @@ fun StatisticsScreen(
         cancelDialog = { viewModel.cancelDialog() },
         resetWholeApp = { viewModel.resetWholeApp() },
         resetWholeAppConfirmation = { viewModel.resetWholeAppConfirmationDeleteEverything() },
+        uiArrangement = uiArrangement,
         screenViewState = screenViewState,
         dialogViewState = dialogViewState,
         hiitLogger = hiitLogger
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun StatisticsScreen(
-    onNavigateUp: () -> Boolean = { false },
-    openUserPicker: () -> Unit,
-    selectUser: (User) -> Unit,
-    deleteAllSessionsForUser: (User) -> Unit,
-    deleteAllSessionsForUserConfirm: (User) -> Unit,
-    cancelDialog: () -> Unit,
-    resetWholeApp: () -> Unit,
-    resetWholeAppConfirmation: () -> Unit,
+    navigateTo: (String) -> Unit = {},
+    openUserPicker: () -> Unit = {},
+    selectUser: (User) -> Unit = {},
+    deleteAllSessionsForUser: (User) -> Unit = {},
+    deleteAllSessionsForUserConfirm: (User) -> Unit = {},
+    cancelDialog: () -> Unit = {},
+    resetWholeApp: () -> Unit = {},
+    resetWholeAppConfirmation: () -> Unit = {},
+    uiArrangement: UiArrangement,
     screenViewState: StatisticsViewState,
     dialogViewState: StatisticsDialog,
     hiitLogger: HiitLogger? = null
 ) {
-    Scaffold(
-        topBar = {
-            StatisticsTopBar(
-                onNavigateUp = onNavigateUp,
-                openUserPicker = openUserPicker,
-                screenViewState = screenViewState,
-                hiitLogger = hiitLogger
+    Row(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
+            NavigationSideBar(
+                navigateTo = navigateTo,
+                currentDestination = Screen.Statistics,
+                showStatisticsButton = true // in this case, we are in the statistics screen, so obviously we want to show this button
             )
-        },
-        content = { paddingValues ->
-            StatisticsContent(
-                innerPadding = paddingValues,
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
+                NavigateUpTopBar(
+                    navigateUp = { navigateTo(Screen.Home.route); true }, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
+                    title = R.string.statistics_page_title
+                )
+            }
+            StatisticsContentHolder(
+                openUserPicker = openUserPicker,
                 selectUser = selectUser,
                 deleteAllSessionsForUser = deleteAllSessionsForUser,
                 deleteAllSessionsForUserConfirm = deleteAllSessionsForUserConfirm,
                 cancelDialog = cancelDialog,
                 resetWholeApp = resetWholeApp,
                 resetWholeAppConfirmation = resetWholeAppConfirmation,
+                uiArrangement = uiArrangement,
                 screenViewState = screenViewState,
                 dialogViewState = dialogViewState,
                 hiitLogger = hiitLogger
-            )
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun StatisticsTopBar(
-    onNavigateUp: () -> Boolean = { false },
-    openUserPicker: () -> Unit,
-    screenViewState: StatisticsViewState,
-    hiitLogger: HiitLogger?
-) {
-    TopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
-        navigationIcon = {
-            IconButton(onClick = { onNavigateUp() }) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
-                    contentDescription = stringResource(id = R.string.back_button_content_label),
-                    tint = MaterialTheme.colorScheme.onPrimary
-                )
-            }
-        },
-        title = {
-            val title = stringResource(R.string.statistics_page_title)
-            Text(
-                text = title,
-                color = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.titleLarge
-            )
-        },
-        actions = {
-            val shouldShowUserPickButton =
-                screenViewState is StatisticsViewState.Error ||
-                        screenViewState is StatisticsViewState.Nominal ||
-                        screenViewState is StatisticsViewState.NoSessions
-            if (shouldShowUserPickButton) {
-                IconButton(onClick = openUserPicker) {
-                    Icon(
-                        imageVector = ImageVector.vectorResource(R.drawable.people),
-                        contentDescription = stringResource(id = R.string.user_pick_button_content_label),
-                        tint = MaterialTheme.colorScheme.onPrimary
-                    )
-                }
-            }
-        }
-    )
-}
-
-@Composable
-private fun StatisticsContent(
-    innerPadding: PaddingValues,
-    selectUser: (User) -> Unit,
-    deleteAllSessionsForUser: (User) -> Unit,
-    deleteAllSessionsForUserConfirm: (User) -> Unit,
-    cancelDialog: () -> Unit,
-    resetWholeApp: () -> Unit,
-    resetWholeAppConfirmation: () -> Unit,
-    screenViewState: StatisticsViewState,
-    dialogViewState: StatisticsDialog,
-    hiitLogger: HiitLogger?
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize() //TODO: handle landscape layout
-            .padding(paddingValues = innerPadding),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        when (screenViewState) {
-            StatisticsViewState.Loading -> {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator()
-                }
-            }
-
-            is StatisticsViewState.Nominal -> {
-                StatisticsNominalContent(
-                    deleteAllSessionsForUser = deleteAllSessionsForUser,
-                    viewState = screenViewState,
-                    hiitLogger = hiitLogger
-                )
-            }
-
-            is StatisticsViewState.NoSessions -> StatisticsNoSessionsContent(
-                screenViewState
-            )
-
-            StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
-            is StatisticsViewState.Error -> StatisticsErrorContent(
-                user = screenViewState.user,
-                errorCode = screenViewState.errorCode,
-                deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) }
-            )
-
-            is StatisticsViewState.FatalError -> StatisticsFatalErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetWholeApp = resetWholeApp
-            )
-        }
-        when (dialogViewState) {
-            StatisticsDialog.None -> {}/*Do nothing*/
-            is StatisticsDialog.SelectUser -> StatisticsSelectUserDialog(
-                users = dialogViewState.users,
-                selectUser = {
-                    cancelDialog()
-                    selectUser(it)
-                },
-                dismissAction = cancelDialog
-            )
-
-            is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> WarningDialog(
-                message = stringResource(
-                    id = R.string.reset_statistics_confirmation_button_label,
-                    dialogViewState.user.name
-                ),
-                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
-                dismissAction = cancelDialog
-            )
-
-            StatisticsDialog.ConfirmWholeReset -> WarningDialog(
-                message = stringResource(id = R.string.error_confirm_whole_reset),
-                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-                proceedAction = resetWholeAppConfirmation,
-                dismissAction = cancelDialog
             )
         }
     }
@@ -238,69 +115,132 @@ private fun StatisticsContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400
+)
+@Preview(
+    showSystemUi = true,
+    device = Devices.PIXEL_4,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400
+)
+@Composable
+private fun StatisticsScreenPreviewPhonePortrait(
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
+) {
+    SimpleHiitTheme {
+        Surface {
+            StatisticsScreen(
+                uiArrangement = UiArrangement.VERTICAL,
+                screenViewState = viewState,
+                dialogViewState = StatisticsDialog.None
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TABLET,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun StatisticsScreenPreview(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewStates: Pair<StatisticsViewState, StatisticsDialog>
+private fun StatisticsScreenPreviewTabletLandscape(
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
     SimpleHiitTheme {
-        StatisticsScreen(
-            onNavigateUp = { true },
-            openUserPicker = {},
-            selectUser = {},
-            deleteAllSessionsForUser = {},
-            deleteAllSessionsForUserConfirm = {},
-            cancelDialog = {},
-            resetWholeApp = {},
-            resetWholeAppConfirmation = {},
-            screenViewState = viewStates.first,
-            dialogViewState = viewStates.second
-        )
+        Surface {
+            StatisticsScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                screenViewState = viewState,
+                dialogViewState = StatisticsDialog.None
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    heightDp = 400
+)
+@Preview(
+    showSystemUi = true,
+    device = "spec:parent=pixel_4,orientation=landscape",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    heightDp = 400
+)
+@Composable
+private fun StatisticsScreenPreviewPhoneLandscape(
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
+) {
+    SimpleHiitTheme {
+        Surface {
+            StatisticsScreen(
+                uiArrangement = UiArrangement.HORIZONTAL,
+                screenViewState = viewState,
+                dialogViewState = StatisticsDialog.None
+            )
+        }
     }
 }
 
 internal class StatisticsScreenPreviewParameterProvider :
-    PreviewParameterProvider<Pair<StatisticsViewState, StatisticsDialog>> {
-    override val values: Sequence<Pair<StatisticsViewState, StatisticsDialog>>
+    PreviewParameterProvider<StatisticsViewState> {
+    override val values: Sequence<StatisticsViewState>
         get() = sequenceOf(
-            Pair(StatisticsViewState.Loading, StatisticsDialog.None),
-            Pair(StatisticsViewState.NoUsers, StatisticsDialog.None),
-            Pair(
-                StatisticsViewState.Error(
-                    errorCode = "Error code",
-                    user = User(name = "Sven Svensson")
-                ), StatisticsDialog.None
+            StatisticsViewState.Loading,
+            StatisticsViewState.NoUsers,
+            StatisticsViewState.Error(
+                errorCode = "Error code",
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = true
             ),
-            Pair(
-                StatisticsViewState.FatalError(errorCode = "Error code"),
-                StatisticsDialog.None
+            StatisticsViewState.Error(
+                errorCode = "Error code",
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = false
             ),
-            Pair(
-                StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    listOf(
-                        DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                        DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                        DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                        DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                        DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                        DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
-                    )
-                ), StatisticsDialog.None
+            StatisticsViewState.FatalError(errorCode = "Error code"),
+            StatisticsViewState.Nominal(
+                user = User(name = "Sven Svensson"),
+                statistics = listOf(
+                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                ),
+                showUsersSwitch = true
             ),
-            Pair(
-                StatisticsViewState.NoSessions(user = User(name = "Sven Svensson")),
-                StatisticsDialog.None
+            StatisticsViewState.Nominal(
+                user = User(name = "Sven Svensson"),
+                statistics = listOf(
+                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                ),
+                showUsersSwitch = false
+            ),
+            StatisticsViewState.NoSessions(
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = true
+            ),
+            StatisticsViewState.NoSessions(
+                user = User(name = "Sven Svensson"),
+                showUsersSwitch = false
             )
         )
 }

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.mobile.common.components
+package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import android.os.Build.VERSION.SDK_INT
 import androidx.annotation.DrawableRes

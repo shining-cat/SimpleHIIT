@@ -12,10 +12,10 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import org.junit.jupiter.params.provider.ValueSource
 import java.util.stream.Stream
 
 internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
@@ -40,34 +40,44 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("statisticsArguments")
     fun `mapping statistics to correct viewstate`(
-        input: UserStatistics,
+        input: Pair<Boolean, UserStatistics>,
         expectedOutput: StatisticsViewState
     ) {
         val result = testedMapper.map(
-            input,
-            DurationStringFormatter()
+            showUsersSwitch = input.first,
+            userStats = input.second,
+            durationStringFormatter = DurationStringFormatter()
         )
         //
         coVerify(exactly = 1) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                durationMs = input.cumulatedTimeOfExerciseMs,
+                durationMs = input.second.cumulatedTimeOfExerciseMs,
                 durationStringFormatter = DurationStringFormatter()
             )
         }
         coVerify(exactly = 1) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                durationMs = input.averageSessionLengthMs,
+                durationMs = input.second.averageSessionLengthMs,
                 durationStringFormatter = DurationStringFormatter()
             )
         }
         assertEquals(expectedOutput, result)
     }
 
-    @Test
+    @ParameterizedTest(name = "{index} -> when called with showUserSwitch = {0}, should return NoSessions viewState with showUserSwitch = {0}")
+    @ValueSource(booleans = [true, false])
     fun `mapping statistics to correct viewstate when user has no sessions`() {
+        val showUsersSwitch = true
         val input = UserStatistics(user = User(name = "test user name 4"))
-        val expectedOutput = StatisticsViewState.NoSessions(user = User(name = "test user name 4"))
-        val result = testedMapper.map(input, DurationStringFormatter())
+        val expectedOutput = StatisticsViewState.NoSessions(
+            user = User(name = "test user name 4"),
+            showUsersSwitch = showUsersSwitch
+        )
+        val result = testedMapper.map(
+            showUsersSwitch = showUsersSwitch,
+            userStats = input,
+            durationStringFormatter = DurationStringFormatter()
+        )
         //
         coVerify(exactly = 0) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any())
@@ -83,18 +93,21 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
         fun statisticsArguments() =
             Stream.of(
                 Arguments.of(
-                    UserStatistics(
-                        user = User(name = "test user name 1"),
-                        totalNumberOfSessions = 8,
-                        cumulatedTimeOfExerciseMs = 1234L,
-                        averageSessionLengthMs = 234,
-                        longestStreakDays = 456,
-                        currentStreakDays = 678,
-                        averageNumberOfSessionsPerWeek = "1.7",
+                    Pair(
+                        true,
+                        UserStatistics(
+                            user = User(name = "test user name 1"),
+                            totalNumberOfSessions = 8,
+                            cumulatedTimeOfExerciseMs = 1234L,
+                            averageSessionLengthMs = 234,
+                            longestStreakDays = 456,
+                            currentStreakDays = 678,
+                            averageNumberOfSessionsPerWeek = "1.7",
+                        )
                     ),
                     StatisticsViewState.Nominal(
                         user = User(name = "test user name 1"),
-                        listOf(
+                        statistics = listOf(
                             DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
                                 mockDurationString,
@@ -110,18 +123,57 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                                 "1.7",
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
                             )
-                        )
+                        ),
+                        showUsersSwitch = true
                     )
                 ),
                 Arguments.of(
-                    UserStatistics(
-                        user = User(name = "test user name 2"),
-                        totalNumberOfSessions = 9,
-                        cumulatedTimeOfExerciseMs = 543L,
-                        averageSessionLengthMs = 432,
-                        longestStreakDays = 654,
-                        currentStreakDays = 321,
-                        averageNumberOfSessionsPerWeek = "6.4"
+                    Pair(
+                        false,
+                        UserStatistics(
+                            user = User(name = "test user name 1"),
+                            totalNumberOfSessions = 8,
+                            cumulatedTimeOfExerciseMs = 1234L,
+                            averageSessionLengthMs = 234,
+                            longestStreakDays = 456,
+                            currentStreakDays = 678,
+                            averageNumberOfSessionsPerWeek = "1.7",
+                        )
+                    ),
+                    StatisticsViewState.Nominal(
+                        user = User(name = "test user name 1"),
+                        statistics = listOf(
+                            DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME
+                            ),
+                            DisplayedStatistic("456", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("678", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+                            ),
+                            DisplayedStatistic(
+                                "1.7",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+                            )
+                        ),
+                        showUsersSwitch = false
+                    )
+                ),
+                Arguments.of(
+                    Pair(
+                        true,
+                        UserStatistics(
+                            user = User(name = "test user name 2"),
+                            totalNumberOfSessions = 9,
+                            cumulatedTimeOfExerciseMs = 543L,
+                            averageSessionLengthMs = 432,
+                            longestStreakDays = 654,
+                            currentStreakDays = 321,
+                            averageNumberOfSessionsPerWeek = "6.4"
+                        )
                     ),
                     StatisticsViewState.Nominal(
                         user = User(name = "test user name 2"),
@@ -141,18 +193,57 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                                 "6.4",
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
                             )
-                        )
+                        ),
+                        showUsersSwitch = true
                     )
                 ),
                 Arguments.of(
-                    UserStatistics(
-                        user = User(name = "test user name 3"),
-                        totalNumberOfSessions = 157,
-                        cumulatedTimeOfExerciseMs = 4567L,
-                        averageSessionLengthMs = 9876,
-                        longestStreakDays = 876,
-                        currentStreakDays = 958,
-                        averageNumberOfSessionsPerWeek = "14.3"
+                    Pair(
+                        false,
+                        UserStatistics(
+                            user = User(name = "test user name 2"),
+                            totalNumberOfSessions = 9,
+                            cumulatedTimeOfExerciseMs = 543L,
+                            averageSessionLengthMs = 432,
+                            longestStreakDays = 654,
+                            currentStreakDays = 321,
+                            averageNumberOfSessionsPerWeek = "6.4"
+                        )
+                    ),
+                    StatisticsViewState.Nominal(
+                        user = User(name = "test user name 2"),
+                        listOf(
+                            DisplayedStatistic("9", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME
+                            ),
+                            DisplayedStatistic("654", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("321", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+                            ),
+                            DisplayedStatistic(
+                                "6.4",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+                            )
+                        ),
+                        showUsersSwitch = false
+                    )
+                ),
+                Arguments.of(
+                    Pair(
+                        true,
+                        UserStatistics(
+                            user = User(name = "test user name 3"),
+                            totalNumberOfSessions = 157,
+                            cumulatedTimeOfExerciseMs = 4567L,
+                            averageSessionLengthMs = 9876,
+                            longestStreakDays = 876,
+                            currentStreakDays = 958,
+                            averageNumberOfSessionsPerWeek = "14.3"
+                        )
                     ),
                     StatisticsViewState.Nominal(
                         user = User(name = "test user name 3"),
@@ -172,7 +263,43 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                                 "14.3",
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
                             )
+                        ),
+                        showUsersSwitch = true
+                    )
+                ),
+                Arguments.of(
+                    Pair(
+                        false,
+                        UserStatistics(
+                            user = User(name = "test user name 3"),
+                            totalNumberOfSessions = 157,
+                            cumulatedTimeOfExerciseMs = 4567L,
+                            averageSessionLengthMs = 9876,
+                            longestStreakDays = 876,
+                            currentStreakDays = 958,
+                            averageNumberOfSessionsPerWeek = "14.3"
                         )
+                    ),
+                    StatisticsViewState.Nominal(
+                        user = User(name = "test user name 3"),
+                        listOf(
+                            DisplayedStatistic("157", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME
+                            ),
+                            DisplayedStatistic("876", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("958", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic(
+                                mockDurationString,
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH
+                            ),
+                            DisplayedStatistic(
+                                "14.3",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
+                            )
+                        ),
+                        showUsersSwitch = false
                     )
                 )
             )
