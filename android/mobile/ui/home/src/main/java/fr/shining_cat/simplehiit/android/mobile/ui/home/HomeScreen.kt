@@ -60,7 +60,8 @@ fun HomeScreen(
         cancelDialog = { viewModel.cancelDialog() },
         uiArrangement = uiArrangement,
         viewState = viewState,
-        dialogViewState = dialogViewState
+        dialogViewState = dialogViewState,
+        hiitLogger = hiitLogger
     )
 }
 
@@ -75,7 +76,8 @@ private fun HomeScreen(
     cancelDialog: () -> Unit = {},
     uiArrangement: UiArrangement,
     viewState: HomeViewState,
-    dialogViewState: HomeDialog
+    dialogViewState: HomeDialog,
+    hiitLogger: HiitLogger? = null
 ) {
     val view = LocalView.current
     val primaryAsInt = MaterialTheme.colorScheme.primary.toArgb()
@@ -117,7 +119,8 @@ private fun HomeScreen(
                   cancelDialog = cancelDialog,
                   uiArrangement = uiArrangement,
                   screenViewState = viewState,
-                  dialogViewState = dialogViewState
+                  dialogViewState = dialogViewState,
+                  hiitLogger = hiitLogger
               )
           }
       }

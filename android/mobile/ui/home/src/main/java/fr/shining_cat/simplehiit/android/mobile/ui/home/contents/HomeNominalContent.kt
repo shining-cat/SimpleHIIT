@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -18,9 +19,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.utils.StickyFooterArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.LaunchSessionButton
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.NumberCyclesComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.SelectUsersComponent
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
@@ -33,7 +36,8 @@ fun HomeNominalContent(
     uiArrangement: UiArrangement,
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
-    navigateToSession: () -> Unit = {}
+    navigateToSession: () -> Unit = {},
+    hiitLogger: HiitLogger? = null
 ) {
     when (uiArrangement) {
         UiArrangement.VERTICAL -> VerticalHomeNominalContent(
@@ -44,7 +48,8 @@ fun HomeNominalContent(
             totalLengthFormatted = totalLengthFormatted,
             users = users,
             toggleSelectedUser = toggleSelectedUser,
-            navigateToSession = navigateToSession
+            navigateToSession = navigateToSession,
+            hiitLogger = hiitLogger
         )
 
         UiArrangement.HORIZONTAL -> HorizontalHomeNominalContent(
@@ -55,7 +60,8 @@ fun HomeNominalContent(
             totalLengthFormatted = totalLengthFormatted,
             users = users,
             toggleSelectedUser = toggleSelectedUser,
-            navigateToSession = navigateToSession
+            navigateToSession = navigateToSession,
+            hiitLogger = hiitLogger
         )
     }
 }
@@ -69,7 +75,8 @@ private fun VerticalHomeNominalContent(
     totalLengthFormatted: String,
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
-    navigateToSession: () -> Unit = {}
+    navigateToSession: () -> Unit = {},
+    hiitLogger: HiitLogger? = null
 ) {
     val canLaunchSession = users.any { it.selected }
     Column(
@@ -78,7 +85,7 @@ private fun VerticalHomeNominalContent(
             .fillMaxSize(),
     ) {
         SelectUsersComponent(
-            modifier = Modifier.weight(1f, true),
+            modifier = Modifier.weight(.5f, true),
             users = users,
             toggleSelectedUser = toggleSelectedUser
         )
@@ -118,43 +125,48 @@ private fun HorizontalHomeNominalContent(
     totalLengthFormatted: String,
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
-    navigateToSession: () -> Unit = {}
+    navigateToSession: () -> Unit = {},
+    hiitLogger: HiitLogger? = null
 ) {
     val canLaunchSession = users.any { it.selected }
     Row(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize(),
-        verticalAlignment = Alignment.CenterVertically
+            .fillMaxSize()
     ) {
         SelectUsersComponent(
+            modifier = Modifier.weight(1f),
             users = users,
-            toggleSelectedUser = toggleSelectedUser,
-            modifier = Modifier.weight(1f)
+            toggleSelectedUser = toggleSelectedUser
         )
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxHeight()
+                .fillMaxHeight(),
+            verticalArrangement = StickyFooterArrangement(0.dp, hiitLogger),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            NumberCyclesComponent(
-                decreaseNumberOfCycles = decreaseNumberOfCycles,
-                increaseNumberOfCycles = increaseNumberOfCycles,
-                numberOfCycles = numberOfCycles,
-                lengthOfCycle = lengthOfCycle,
-                totalLengthFormatted = totalLengthFormatted,
-                modifier = Modifier.weight(1f, true)
-            )
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp), thickness = Dp.Hairline
-            )
-            LaunchSessionButton(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                canLaunchSession = canLaunchSession,
-                navigateToSession = navigateToSession
-            )
+            item {
+                NumberCyclesComponent(
+                    decreaseNumberOfCycles = decreaseNumberOfCycles,
+                    increaseNumberOfCycles = increaseNumberOfCycles,
+                    numberOfCycles = numberOfCycles,
+                    lengthOfCycle = lengthOfCycle,
+                    totalLengthFormatted = totalLengthFormatted,
+                    modifier = Modifier.weight(1f, true)
+                )
+            }
+            item {
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp), thickness = Dp.Hairline
+                )
+                LaunchSessionButton(
+                    canLaunchSession = canLaunchSession,
+                    navigateToSession = navigateToSession
+                )
+            }
         }
     }
 }

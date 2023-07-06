@@ -15,11 +15,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.utils.StickyFooterArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticCardComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
@@ -39,8 +39,8 @@ fun StatisticsNominalContent(
 ) {
     Column(
         modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         //we don't want the name to scroll along with the grid (sticky header)
@@ -84,32 +84,6 @@ fun StatisticsNominalContent(
                     )
                 }
             }
-        }
-    }
-}
-
-internal class StickyFooterArrangement(
-    private val verticalPadding: Dp,
-    private val hiitLogger: HiitLogger?
-) : Arrangement.Vertical {
-
-    //for some reason, if the resulting height of the grid is bigger than the visible space available (ie, if it needs to be scrollable)
-    // then spacing will be used to render the padding between items and the rows' y value we set in Density.arrange will be ignored
-    //however in the opposite case, spacing's value is ignored, and instead the rows' y value is used
-    //thus we need to both override spacing to return our own value, and to include it in the rows' y calculation
-
-    override val spacing: Dp
-        get() = verticalPadding
-
-    override fun Density.arrange(totalSize: Int, sizes: IntArray, outPositions: IntArray) {
-        var y = 0
-        sizes.forEachIndexed { index, size ->
-            outPositions[index] = y
-            y += (size + verticalPadding.toPx().toInt())
-        }
-        if (y < totalSize) {
-            val lastIndex = outPositions.lastIndex
-            outPositions[lastIndex] = totalSize - sizes.last()
         }
     }
 }

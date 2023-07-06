@@ -16,6 +16,7 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
@@ -29,7 +30,8 @@ fun HomeContentHolder(
     cancelDialog: () -> Unit = {},
     uiArrangement: UiArrangement,
     screenViewState: HomeViewState,
-    dialogViewState: HomeDialog
+    dialogViewState: HomeDialog,
+    hiitLogger: HiitLogger? = null
 ) {
     when (screenViewState) {
         is HomeViewState.Loading -> BasicLoading()
@@ -46,8 +48,7 @@ fun HomeContentHolder(
             lengthOfCycle = screenViewState.cycleLength,
             totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
             uiArrangement = uiArrangement,
-            navigateToSettings = { navigateTo(Screen.Settings.route) }
-        )
+            navigateToSettings = { navigateTo(Screen.Settings.route) })
 
         is HomeViewState.Nominal -> HomeNominalContent(
             decreaseNumberOfCycles = decreaseNumberOfCycles,
@@ -58,7 +59,8 @@ fun HomeContentHolder(
             uiArrangement = uiArrangement,
             users = screenViewState.users,
             toggleSelectedUser = toggleSelectedUser,
-            navigateToSession = { navigateTo(Screen.Session.route) }
+            navigateToSession = { navigateTo(Screen.Session.route) },
+            hiitLogger = hiitLogger
         )
     }
     when (dialogViewState) {
@@ -102,14 +104,10 @@ private fun HomeContentHolderPreviewPhonePortrait(
 }
 
 @Preview(
-    showSystemUi = true,
-    device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    showSystemUi = true, device = Devices.TABLET, uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showSystemUi = true,
-    device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    showSystemUi = true, device = Devices.TABLET, uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeContentHolderPreviewTabletLandscape(
@@ -153,8 +151,7 @@ private fun HomeContentHolderPreviewPhoneLandscape(
     }
 }
 
-internal class HomeContentHolderPreviewParameterProvider :
-    PreviewParameterProvider<HomeViewState> {
+internal class HomeContentHolderPreviewParameterProvider : PreviewParameterProvider<HomeViewState> {
     override val values: Sequence<HomeViewState>
         get() = sequenceOf(
             HomeViewState.Loading,
@@ -165,14 +162,11 @@ internal class HomeContentHolderPreviewParameterProvider :
                 totalSessionLengthFormatted = "total time: 20mn"
             ),
             HomeViewState.Nominal(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                users = listOf(
+                numberCumulatedCycles = 5, cycleLength = "4mn", users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
                     User(345L, "User 3", selected = true)
-                ),
-                totalSessionLengthFormatted = "total time: 20mn"
+                ), totalSessionLengthFormatted = "total time: 20mn"
             )
 
         )

@@ -1,7 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* fix previews containing subcomponents all showing dark background and black text (not smallest components though)
+* ensure adaptive layouts feature is complete by checking error and other uncommon screens are scrollables if screen is too small
 * try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, this might allow it to not be recomposed when switching between the states and avoid ugly jumps
 
 ## Code refactoring: layouts
@@ -38,6 +38,7 @@
 ## Miscellaneous / nice to have
 * replace user button in Settings with one more similar to the one we use now for the toggle button
 * change SettingUsersComponent on settings screen to a LazyGrid component instead of a horizontal scrolling one
+* if only one user is registered, change home page to show a greeting to them instead of the users selection component
 * design for statistics needs some love, see assets creation
 * design for session summary needs some love: add list of participating users, add the side to the display for exercises...
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
