@@ -42,13 +42,8 @@ fun HomeContentHolder(
         )
 
         is HomeViewState.MissingUsers -> HomeMissingUsersContent(
-            decreaseNumberOfCycles = decreaseNumberOfCycles,
-            increaseNumberOfCycles = increaseNumberOfCycles,
-            numberOfCycles = screenViewState.numberCumulatedCycles,
-            lengthOfCycle = screenViewState.cycleLength,
-            totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
-            uiArrangement = uiArrangement,
-            navigateToSettings = { navigateTo(Screen.Settings.route) })
+            navigateToSettings = { navigateTo(Screen.Settings.route) }
+        )
 
         is HomeViewState.Nominal -> HomeNominalContent(
             decreaseNumberOfCycles = decreaseNumberOfCycles,

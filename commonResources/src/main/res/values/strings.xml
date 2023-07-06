@@ -33,7 +33,9 @@
     <string name="input_number_cycles_dialog_title">Number of repetitions</string>
     <string name="input_number_cycles_dialog_postfix">cycle(s)</string>
     <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>
+    <string name="no_user_exist_title">No user registered</string>
     <string name="warning_no_user_exist">Please create your first user in the settings to start</string>
+    <string name="go_to_settings">Open Settings</string>
 
     <!-- SETTINGS PAGE -->
     <string name="settings_page_title">Settings</string>
