@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.mobile.common
+package fr.shining_cat.simplehiit.android.mobile.ui.common
 
 sealed class Screen(val route: String){
     object Home: Screen(route = "home")

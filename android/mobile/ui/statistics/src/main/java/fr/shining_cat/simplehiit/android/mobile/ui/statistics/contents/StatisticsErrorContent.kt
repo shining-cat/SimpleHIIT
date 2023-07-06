@@ -4,10 +4,11 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,24 +22,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsErrorContent(
-    user: User,
+    userName: String,
     errorCode: String,
-    paddingValues: PaddingValues,
-    deleteSessionsForUser: () -> Unit = {}
+    deleteSessionsForUser: () -> Unit = {},
+    showUsersSwitch: Boolean = false,
+    openUserPicker: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
-            .fillMaxWidth(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center
     ) {
+        StatisticsHeaderComponent(
+            openUserPicker = openUserPicker,
+            currentUserName = userName,
+            showUsersSwitch = showUsersSwitch
+        )
+
         Image(
             modifier = Modifier
                 .size(120.dp)
@@ -50,7 +58,7 @@ fun StatisticsErrorContent(
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
-            text = stringResource(id = R.string.error_irrecoverable_statistics, user.name),
+            text = stringResource(id = R.string.error_irrecoverable_statistics, userName),
             style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
@@ -80,11 +88,9 @@ fun StatisticsErrorContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -92,9 +98,9 @@ private fun StatisticsErrorContentPreview() {
     SimpleHiitTheme {
         Surface {
             StatisticsErrorContent(
-                user = User(name = "Charles-Antoine"),
+                userName = "Charles-Antoine",
                 errorCode = "ABCD-123",
-                paddingValues = PaddingValues(0.dp)
+                showUsersSwitch = true
             )
         }
     }

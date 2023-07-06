@@ -14,8 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.common.components.GifImage
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.GifImage
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.session.components.CountDownComponent
@@ -30,12 +30,11 @@ import fr.shining_cat.simplehiit.domain.common.models.Exercise
 @Composable
 fun SessionRestNominalContent(
     viewState: SessionViewState.RestNominal,
-    paddingValues: PaddingValues,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
     Column(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
             .padding(8.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -97,11 +96,9 @@ fun SessionRestNominalContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -110,10 +107,7 @@ private fun SessionRestNominalContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionRestNominalContent(
-                viewState = viewState,
-                paddingValues = PaddingValues(0.dp)
-            )
+            SessionRestNominalContent(viewState = viewState)
         }
     }
 }

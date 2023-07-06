@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
@@ -27,14 +27,13 @@ import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
 @Composable
 fun SessionFinishedContent(
     viewState: SessionViewState.Finished,
-    paddingValues: PaddingValues,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(paddingValues = paddingValues)
-            .padding(16.dp)
-            .fillMaxWidth(),
+            .padding(horizontal = 16.dp)
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
@@ -47,6 +46,9 @@ fun SessionFinishedContent(
             val exerciseNameRes =
                 exerciseNameResMapper.map(step.exercise)
             SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
+        }
+        item {
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }
@@ -124,11 +126,9 @@ fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: Exercis
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -137,10 +137,7 @@ private fun SessionFinishedContentPreview(
 ) {
     SimpleHiitTheme {
         Surface {
-            SessionFinishedContent(
-                viewState = viewState,
-                paddingValues = PaddingValues(0.dp)
-            )
+            SessionFinishedContent(viewState = viewState)
         }
     }
 }

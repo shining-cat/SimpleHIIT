@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.mobile.common.theme
+package fr.shining_cat.simplehiit.android.mobile.ui.common.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

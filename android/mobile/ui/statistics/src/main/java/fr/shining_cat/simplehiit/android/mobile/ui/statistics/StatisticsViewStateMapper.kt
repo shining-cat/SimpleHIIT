@@ -10,15 +10,19 @@ import javax.inject.Inject
 
 class StatisticsViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     private val hiitLogger: HiitLogger
 ) {
 
     fun map(
+        showUsersSwitch: Boolean,
         userStats: UserStatistics,
         durationStringFormatter: DurationStringFormatter
     ): StatisticsViewState {
-        if (userStats.totalNumberOfSessions == 0) return StatisticsViewState.NoSessions(user = userStats.user)
+        if (userStats.totalNumberOfSessions == 0) return StatisticsViewState.NoSessions(
+            user = userStats.user,
+            showUsersSwitch = showUsersSwitch
+        )
         //
         val cumulatedTimeOfExerciseFormatted =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
@@ -58,7 +62,8 @@ class StatisticsViewStateMapper @Inject constructor(
         )
         return StatisticsViewState.Nominal(
             user = userStats.user,
-            statistics = displayStatistics
+            statistics = displayStatistics,
+            showUsersSwitch = showUsersSwitch
         )
     }
 }

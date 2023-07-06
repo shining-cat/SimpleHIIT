@@ -3,9 +3,11 @@ package fr.shining_cat.simplehiit.android.mobile.ui.home.contents
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -19,8 +21,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.commonresources.R
-import fr.shining_cat.simplehiit.android.mobile.common.theme.SimpleHiitTheme
 
 @Composable
 fun HomeErrorContent(
@@ -30,7 +32,8 @@ fun HomeErrorContent(
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxWidth()
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
         Image(
             modifier = Modifier
@@ -73,21 +76,21 @@ fun HomeErrorContent(
 
 // Previews
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeErrorContentPreview() {
     SimpleHiitTheme {
         Surface {
-            HomeErrorContent(
-                errorCode = "An error happened",
-                resetWholeApp = {}
-            )
+            Surface {
+                HomeErrorContent(
+                    errorCode = "An error happened",
+                    resetWholeApp = {}
+                )
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 class HomeViewStateMapper @Inject constructor(
     private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-    @Suppress("unused")
+    @Suppress("UNUSED_PARAMETER")
     private val hiitLogger: HiitLogger
 ) {
 
@@ -22,21 +22,31 @@ class HomeViewStateMapper @Inject constructor(
     ): HomeViewState {
         return when (homeSettingsOutput) {
             is Output.Success<HomeSettings> -> {
-                val cycleLengthDisplay =
+                val cycleLengthFormatted =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         homeSettingsOutput.result.cycleLengthMs,
                         durationStringFormatter
                     )
+                val totalSessionLength =
+                    homeSettingsOutput.result.cycleLengthMs.times(homeSettingsOutput.result.numberCumulatedCycles)
+                val totalSessionLengthFormatted =
+                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                        totalSessionLength,
+                        durationStringFormatter
+                    )
+
                 if (homeSettingsOutput.result.users.isEmpty()) {
                     MissingUsers(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
-                        cycleLength = cycleLengthDisplay
+                        cycleLength = cycleLengthFormatted,
+                        totalSessionLengthFormatted = totalSessionLengthFormatted
                     )
                 } else {
                     Nominal(
                         numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
-                        cycleLength = cycleLengthDisplay,
-                        users = homeSettingsOutput.result.users
+                        cycleLength = cycleLengthFormatted,
+                        users = homeSettingsOutput.result.users,
+                        totalSessionLengthFormatted = totalSessionLengthFormatted
                     )
                 }
             }

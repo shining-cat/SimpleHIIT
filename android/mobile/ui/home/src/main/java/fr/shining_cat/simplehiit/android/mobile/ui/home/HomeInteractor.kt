@@ -26,7 +26,7 @@ class HomeInteractorImpl @Inject constructor(
     private val toggleUserSelectedUseCase: ToggleUserSelectedUseCase,
     private val resetWholeAppUseCase: ResetWholeAppUseCase,
     private val validateInputNumberCyclesUseCase: ValidateInputNumberCyclesUseCase
-): HomeInteractor {
+) : HomeInteractor {
 
     override fun getHomeSettings(): Flow<Output<HomeSettings>> {
         return getHomeSettingsUseCase.execute()

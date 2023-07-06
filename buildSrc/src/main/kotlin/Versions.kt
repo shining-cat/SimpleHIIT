@@ -11,6 +11,7 @@ object Versions {
     const val hilt = "2.46.1"
     const val hiltNavigation = "1.0.0"
     const val room_version = "2.5.1"
+    const val composeMaterial3WindowSizeClass = "1.1.1"
     const val nav_version = "2.5.3"
     const val mockkVersion = "1.13.5"
     const val coroutinesTest = "1.7.1"
