@@ -66,6 +66,28 @@ class SessionViewStateMapper @Inject constructor(
                     SessionViewState.InitialCountDownSession(countDown = sessionCountDown)
                 }
 
+                is SessionStep.RestStep -> SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = currentStep.exercise,
+                    side = currentStep.side,
+                    stepRemainingTime = stepRemainingFormatted,
+                    stepRemainingPercentage = stepRemainingPercentage,
+                    sessionRemainingTime = sessionRemainingFormatted,
+                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
+                    countDown = periodCountDown,
+                )
+
+                is SessionStep.WorkStep -> SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = currentStep.exercise,
+                    side = currentStep.side,
+                    stepRemainingTime = stepRemainingFormatted,
+                    stepRemainingPercentage = stepRemainingPercentage,
+                    sessionRemainingTime = sessionRemainingFormatted,
+                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
+                    countDown = periodCountDown,
+                )
+/*
                 is SessionStep.RestStep -> SessionViewState.RestNominal(
                     nextExercise = currentStep.exercise,
                     side = currentStep.side,
@@ -85,6 +107,7 @@ class SessionViewStateMapper @Inject constructor(
                     sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                     countDown = periodCountDown,
                 )
+*/
 
             }
         }

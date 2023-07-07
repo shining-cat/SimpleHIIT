@@ -11,9 +11,6 @@ enum class AsymmetricalExerciseSideOrder(val side: ExerciseSide) {
 }
 
 @ExcludeFromJacocoGeneratedReport
-enum class SessionStepType { WORK, REST, PREPARE }
-
-@ExcludeFromJacocoGeneratedReport
 sealed class SessionStep(
     open val durationMs: Long,
     open val remainingSessionDurationMsAfterMe: Long,

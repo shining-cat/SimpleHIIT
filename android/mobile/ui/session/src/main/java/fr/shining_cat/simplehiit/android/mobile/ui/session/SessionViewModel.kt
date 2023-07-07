@@ -197,8 +197,7 @@ class SessionViewModel @Inject constructor(
         }
         when(currentState){
             is SessionViewState.InitialCountDownSession -> if(currentState.countDown.playBeep) playBeepSound()
-            is SessionViewState.RestNominal -> if(currentState.countDown?.playBeep == true) playBeepSound()
-            is SessionViewState.WorkNominal -> if(currentState.countDown?.playBeep == true) playBeepSound()
+            is SessionViewState.RunningNominal -> if(currentState.countDown?.playBeep == true) playBeepSound()
             else -> {}// do nothing
         }
     }

@@ -56,7 +56,6 @@ fun ToggleButton(
 
 // Previews
 @Preview(
-
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(

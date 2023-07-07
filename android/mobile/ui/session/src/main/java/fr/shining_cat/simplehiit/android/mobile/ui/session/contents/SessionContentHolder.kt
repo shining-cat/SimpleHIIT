@@ -13,6 +13,7 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoadin
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ChoiceDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
+import fr.shining_cat.simplehiit.android.mobile.ui.session.RunningSessionStepType
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shining_cat.simplehiit.commonresources.R
@@ -47,12 +48,8 @@ fun SessionContentHolder(
             hiitLogger = hiitLogger
         )
 
-        is SessionViewState.RestNominal -> SessionRestNominalContent(
-            viewState = screenViewState,
-            hiitLogger = hiitLogger
-        )
-
-        is SessionViewState.WorkNominal -> SessionWorkNominalContent(
+        is SessionViewState.RunningNominal -> SessionRunningNominalContent(
+            uiArrangement = uiArrangement,
             viewState = screenViewState,
             hiitLogger = hiitLogger
         )
@@ -67,6 +64,7 @@ fun SessionContentHolder(
                 )
             }
         }
+
     }
     when (dialogViewState) {
         SessionDialog.None -> {}/*Do nothing*/
@@ -167,7 +165,7 @@ internal class SessionContentHolderPreviewParameterProvider :
     override val values: Sequence<SessionViewState>
         get() = sequenceOf(
             SessionViewState.Loading,
-            SessionViewState.Error("Blabla error code"),
+            SessionViewState.Error("Tralala error code"),
             SessionViewState.InitialCountDownSession(
                 countDown = CountDown(
                     secondsDisplay = "3",
@@ -175,19 +173,21 @@ internal class SessionContentHolderPreviewParameterProvider :
                     playBeep = true
                 )
             ),
-            SessionViewState.RestNominal(
-                nextExercise = Exercise.CatBackLegLift,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.REST,
+                displayedExercise = Exercise.CatBackLegLift,
                 side = ExerciseSide.RIGHT,
-                restRemainingTime = "25s",
-                restRemainingPercentage = .53f,
+                stepRemainingTime = "25s",
+                stepRemainingPercentage = .53f,
                 sessionRemainingTime = "16mn 23s",
                 sessionRemainingPercentage = .24f
             ),
-            SessionViewState.RestNominal(
-                nextExercise = Exercise.CatBackLegLift,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.REST,
+                displayedExercise = Exercise.CatBackLegLift,
                 side = ExerciseSide.RIGHT,
-                restRemainingTime = "25s",
-                restRemainingPercentage = .53f,
+                stepRemainingTime = "25s",
+                stepRemainingPercentage = .53f,
                 sessionRemainingTime = "16mn 23s",
                 sessionRemainingPercentage = .24f,
                 countDown = CountDown(
@@ -196,27 +196,30 @@ internal class SessionContentHolderPreviewParameterProvider :
                     playBeep = true
                 )
             ),
-            SessionViewState.RestNominal(
-                nextExercise = Exercise.CatBackLegLift,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.REST,
+                displayedExercise = Exercise.CatBackLegLift,
                 side = ExerciseSide.RIGHT,
-                restRemainingTime = "25s",
-                restRemainingPercentage = .23f,
+                stepRemainingTime = "25s",
+                stepRemainingPercentage = .23f,
                 sessionRemainingTime = "16mn 23s",
                 sessionRemainingPercentage = .57f
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.CrabAdvancedBridge,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.WORK,
+                displayedExercise = Exercise.CrabAdvancedBridge,
                 side = ExerciseSide.NONE,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .7f,
+                stepRemainingTime = "3s",
+                stepRemainingPercentage = .7f,
                 sessionRemainingTime = "5mn 12s",
                 sessionRemainingPercentage = .3f
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.CrabAdvancedBridge,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.WORK,
+                displayedExercise = Exercise.CrabAdvancedBridge,
                 side = ExerciseSide.NONE,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .7f,
+                stepRemainingTime = "3s",
+                stepRemainingPercentage = .7f,
                 sessionRemainingTime = "5mn 12s",
                 sessionRemainingPercentage = .3f,
                 countDown = CountDown(
@@ -225,11 +228,12 @@ internal class SessionContentHolderPreviewParameterProvider :
                     playBeep = false
                 )
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.CrabAdvancedBridge,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.WORK,
+                displayedExercise = Exercise.CrabAdvancedBridge,
                 side = ExerciseSide.LEFT,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .5f,
+                stepRemainingTime = "3s",
+                stepRemainingPercentage = .5f,
                 sessionRemainingTime = "5mn 12s",
                 sessionRemainingPercentage = .2f
             ),
