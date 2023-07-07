@@ -1,9 +1,9 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session
 
+import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.domain.common.models.Exercise
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
 import fr.shining_cat.simplehiit.domain.common.models.SessionStepDisplay
-import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
 sealed interface SessionViewState {
@@ -12,21 +12,12 @@ sealed interface SessionViewState {
         val countDown: CountDown
     ) : SessionViewState
 
-    data class WorkNominal(
-        val currentExercise: Exercise,
+    data class RunningNominal(
+        val periodType:RunningSessionStepType,
+        val displayedExercise: Exercise,
         val side: ExerciseSide,
-        val exerciseRemainingTime: String,
-        val exerciseRemainingPercentage: Float,
-        val sessionRemainingTime: String,
-        val sessionRemainingPercentage: Float,
-        val countDown: CountDown? = null
-    ) : SessionViewState
-
-    data class RestNominal(
-        val nextExercise: Exercise,
-        val side: ExerciseSide,
-        val restRemainingTime: String,
-        val restRemainingPercentage: Float,
+        val stepRemainingTime: String,
+        val stepRemainingPercentage: Float,
         val sessionRemainingTime: String,
         val sessionRemainingPercentage: Float,
         val countDown: CountDown? = null
@@ -39,6 +30,8 @@ sealed interface SessionViewState {
 
     data class Error(val errorCode: String) : SessionViewState
 }
+
+enum class RunningSessionStepType{REST, WORK}
 
 @ExcludeFromJacocoGeneratedReport
 data class CountDown(
