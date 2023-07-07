@@ -115,21 +115,25 @@ private fun SessionScreen(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
-    BackHandler(enabled = screenViewState is SessionViewState.WorkNominal || screenViewState is SessionViewState.RestNominal) {
+    BackHandler(enabled = screenViewState is SessionViewState.RunningNominal) {
         pause()
     }
     val (title, buttonLabel, clickOnButton) = when (screenViewState) {
-        is SessionViewState.RestNominal -> Triple(
-            R.string.session_rest_page_title,
-            R.string.pause,
-            pause
-        )
-
-        is SessionViewState.WorkNominal -> Triple(
-            R.string.session_work_page_title,
-            R.string.pause,
-            pause
-        )
+        is SessionViewState.RunningNominal -> {
+            when(screenViewState.periodType){
+                RunningSessionStepType.REST -> Triple(
+                    R.string.session_rest_page_title,
+                    R.string.pause,
+                    pause
+                )
+                RunningSessionStepType.WORK -> Triple(
+                    R.string.session_work_page_title,
+                    R.string.pause,
+                    pause
+                )
+            }
+            
+        }
 
         is SessionViewState.InitialCountDownSession -> Triple(
             R.string.session_prepare_page_title,
@@ -280,19 +284,21 @@ internal class SessionScreenPreviewParameterProvider :
                     playBeep = true
                 )
             ),
-            SessionViewState.RestNominal(
-                nextExercise = Exercise.CatBackLegLift,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.REST,
+                displayedExercise = Exercise.CatBackLegLift,
                 side = ExerciseSide.RIGHT,
-                restRemainingTime = "25s",
-                restRemainingPercentage = .53f,
+                stepRemainingTime = "25s",
+                stepRemainingPercentage = .53f,
                 sessionRemainingTime = "16mn 23s",
                 sessionRemainingPercentage = .24f
             ),
-            SessionViewState.RestNominal(
-                nextExercise = Exercise.CatBackLegLift,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.REST,
+                displayedExercise = Exercise.CatBackLegLift,
                 side = ExerciseSide.RIGHT,
-                restRemainingTime = "25s",
-                restRemainingPercentage = .53f,
+                stepRemainingTime = "25s",
+                stepRemainingPercentage = .53f,
                 sessionRemainingTime = "16mn 23s",
                 sessionRemainingPercentage = .24f,
                 countDown = CountDown(
@@ -301,27 +307,30 @@ internal class SessionScreenPreviewParameterProvider :
                     playBeep = true
                 )
             ),
-            SessionViewState.RestNominal(
-                nextExercise = Exercise.CatBackLegLift,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.REST,
+                displayedExercise = Exercise.CatBackLegLift,
                 side = ExerciseSide.RIGHT,
-                restRemainingTime = "25s",
-                restRemainingPercentage = .23f,
+                stepRemainingTime = "25s",
+                stepRemainingPercentage = .23f,
                 sessionRemainingTime = "16mn 23s",
                 sessionRemainingPercentage = .57f
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.CrabAdvancedBridge,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.WORK,
+                displayedExercise = Exercise.CrabAdvancedBridge,
                 side = ExerciseSide.NONE,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .7f,
+                stepRemainingTime = "3s",
+                stepRemainingPercentage = .7f,
                 sessionRemainingTime = "5mn 12s",
                 sessionRemainingPercentage = .3f
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.CrabAdvancedBridge,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.WORK,
+                displayedExercise = Exercise.CrabAdvancedBridge,
                 side = ExerciseSide.NONE,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .7f,
+                stepRemainingTime = "3s",
+                stepRemainingPercentage = .7f,
                 sessionRemainingTime = "5mn 12s",
                 sessionRemainingPercentage = .3f,
                 countDown = CountDown(
@@ -330,11 +339,12 @@ internal class SessionScreenPreviewParameterProvider :
                     playBeep = false
                 )
             ),
-            SessionViewState.WorkNominal(
-                currentExercise = Exercise.CrabAdvancedBridge,
+            SessionViewState.RunningNominal(
+                periodType = RunningSessionStepType.WORK,
+                displayedExercise = Exercise.CrabAdvancedBridge,
                 side = ExerciseSide.LEFT,
-                exerciseRemainingTime = "3s",
-                exerciseRemainingPercentage = .5f,
+                stepRemainingTime = "3s",
+                stepRemainingPercentage = .5f,
                 sessionRemainingTime = "5mn 12s",
                 sessionRemainingPercentage = .2f
             ),

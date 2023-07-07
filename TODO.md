@@ -1,13 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* ensure adaptive layouts feature is complete by checking error and other uncommon screens are scrollables if screen is too small
-* try to rebuild the session rest and work contents so that there is only one for both, that would hoist the gif state, 
-  this might allow it to not be recomposed when switching between the states and avoid ugly jumps
 * 
-
-## Code refactoring: layouts
-* fix broken layout in landscape
 
 ## Assets production
 * refine statistics cards design and find/create icons for each
