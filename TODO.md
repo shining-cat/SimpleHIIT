@@ -14,7 +14,6 @@
 
 ## General technical improvements
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
-* optimize composition trees by checking where state hoisting could be leveraged and various states level down the tree eventually remembered -> **NON-CRITICAL** as we already have all the state hoisting moved to the ViewModels. [see article](https://proandroiddev.com/performance-with-jetpack-compose-part-1-4867882949e7)
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
