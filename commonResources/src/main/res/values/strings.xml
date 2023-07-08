@@ -28,6 +28,7 @@
     <string name="settings_button_content_label">Settings</string>
     <string name="statistics_button_content_label">Statistics</string>
     <string name="selected_users_setting_title">Select user(s)</string>
+    <string name="single_user_header_title">Hello</string>
     <string name="launch_session_label">Launch session</string>
     <string name="cannot_launch_session_label">Select at least one user</string>
     <string name="input_number_cycles_dialog_title">Number of repetitions</string>

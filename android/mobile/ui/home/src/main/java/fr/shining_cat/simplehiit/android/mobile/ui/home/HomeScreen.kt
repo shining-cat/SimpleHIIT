@@ -91,39 +91,39 @@ private fun HomeScreen(
         }
     }
     //
-      Row(modifier = Modifier.fillMaxSize()) {
-          AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
-              NavigationSideBar(
-                  navigateTo = navigateTo,
-                  currentDestination = Screen.Home,
-                  showStatisticsButton = viewState is HomeViewState.Nominal
-              )
-          }
-          Column(
-              modifier = Modifier
-                  .fillMaxSize()
-          ) {
-              AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
-                  HomeTopBarComponent(
-                      navigateTo = navigateTo,
-                      screenViewState = viewState
-                  )
-              }
-              HomeContentHolder(
-                  navigateTo = navigateTo,
-                  resetWholeApp = onResetWholeApp,
-                  resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
-                  decreaseNumberOfCycles = decreaseNumberOfCycles,
-                  increaseNumberOfCycles = increaseNumberOfCycles,
-                  toggleSelectedUser = toggleSelectedUser,
-                  cancelDialog = cancelDialog,
-                  uiArrangement = uiArrangement,
-                  screenViewState = viewState,
-                  dialogViewState = dialogViewState,
-                  hiitLogger = hiitLogger
-              )
-          }
-      }
+    Row(modifier = Modifier.fillMaxSize()) {
+        AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
+            NavigationSideBar(
+                navigateTo = navigateTo,
+                currentDestination = Screen.Home,
+                showStatisticsButton = viewState is HomeViewState.Nominal
+            )
+        }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+        ) {
+            AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
+                HomeTopBarComponent(
+                    navigateTo = navigateTo,
+                    screenViewState = viewState
+                )
+            }
+            HomeContentHolder(
+                navigateTo = navigateTo,
+                resetWholeApp = onResetWholeApp,
+                resetWholeAppDeleteEverything = onResetWholeAppDeleteEverything,
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
+                toggleSelectedUser = toggleSelectedUser,
+                cancelDialog = cancelDialog,
+                uiArrangement = uiArrangement,
+                screenViewState = viewState,
+                dialogViewState = dialogViewState,
+                hiitLogger = hiitLogger
+            )
+        }
+    }
 }
 
 // Previews
@@ -224,6 +224,12 @@ internal class HomeScreenPreviewParameterProvider :
             HomeViewState.Nominal(
                 numberCumulatedCycles = 5,
                 cycleLength = "4mn",
+                users = listOf(User(123L, "User 1", selected = true)),
+                totalSessionLengthFormatted = "total time: 20mn"
+            ),
+            HomeViewState.Nominal(
+                numberCumulatedCycles = 5,
+                cycleLength = "4mn",
                 users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
@@ -231,6 +237,5 @@ internal class HomeScreenPreviewParameterProvider :
                 ),
                 totalSessionLengthFormatted = "total time: 20mn"
             )
-
         )
 }

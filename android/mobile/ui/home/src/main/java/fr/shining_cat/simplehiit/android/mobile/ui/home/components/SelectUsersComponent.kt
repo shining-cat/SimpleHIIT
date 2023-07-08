@@ -75,7 +75,6 @@ fun SelectUsersComponent(
 @Composable
 private fun SelectUsersComponentPreview(
     @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>
-
 ) {
     SimpleHiitTheme {
         Surface {
