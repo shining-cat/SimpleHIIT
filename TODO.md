@@ -31,7 +31,6 @@
 * see also [ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
-* if only one user is registered, change home page to show a greeting to them instead of the users selection component
 * design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
