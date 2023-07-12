@@ -25,12 +25,12 @@
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
-* form factor UX differences: phone should maybe not offer multi-users?
 * see also [this article about multiplatform](https://proandroiddev.com/achieving-ios-compatibility-for-my-quotes-app-with-kotlin-edd364854a0d)
 * also, compose is [now in alpha for AndroidTV](https://android-developers.googleblog.com/2023/05/building-pixel-perfect-living-room-experiences-compose-for-tv.html)
-* see also [ flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
+* see also [flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
+* integrate detekt / ktlint etc https://medium.com/@nagendran.p/integrating-detekt-in-the-android-studio-442128e971f8
 * design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
