@@ -74,6 +74,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":android:common"))
     implementation(project(":android:mobile:ui:common"))
     implementation(project(":android:mobile:ui:home"))
     implementation(project(":android:mobile:ui:session"))

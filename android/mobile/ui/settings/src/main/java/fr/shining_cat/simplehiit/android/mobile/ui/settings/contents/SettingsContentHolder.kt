@@ -8,11 +8,11 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import fr.shining_cat.simplehiit.android.common.components.BasicLoading
+import fr.shining_cat.simplehiit.android.common.components.WarningDialog
+import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ErrorDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsAddUserDialog

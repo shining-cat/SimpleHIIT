@@ -18,7 +18,7 @@ class SessionViewStateMapper @Inject constructor(
     private val hiitLogger: HiitLogger
 ) {
 
-    suspend fun buildStateWholeSession(
+    suspend fun buildStateFromWholeSession(
         session: Session,
         currentSessionStepIndex: Int,
         currentStepTimerState: StepTimerState,

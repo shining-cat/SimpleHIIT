@@ -17,6 +17,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":android:common"))
     implementation(project(":domain:common"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))

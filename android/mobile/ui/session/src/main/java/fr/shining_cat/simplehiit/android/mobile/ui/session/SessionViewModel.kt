@@ -177,7 +177,7 @@ class SessionViewModel @Inject constructor(
                     )
                 }
                 viewModelScope.launch {
-                    val currentState = mapper.buildStateWholeSession(
+                    val currentState = mapper.buildStateFromWholeSession(
                         session = immutableSession,
                         currentSessionStepIndex = currentSessionStepIndex,
                         currentStepTimerState = stepTimerState,

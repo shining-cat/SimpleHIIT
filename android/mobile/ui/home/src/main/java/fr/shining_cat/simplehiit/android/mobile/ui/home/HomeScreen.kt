@@ -19,10 +19,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
+import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
@@ -95,7 +94,7 @@ private fun HomeScreen(
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             NavigationSideBar(
                 navigateTo = navigateTo,
-                currentDestination = Screen.Home,
+                currentDestination = fr.shining_cat.simplehiit.android.common.Screen.Home,
                 showStatisticsButton = viewState is HomeViewState.Nominal
             )
         }

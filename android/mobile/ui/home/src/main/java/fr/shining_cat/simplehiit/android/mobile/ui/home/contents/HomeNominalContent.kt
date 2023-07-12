@@ -19,9 +19,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.common.utils.StickyFooterArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.LaunchSessionButton
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.NumberCyclesComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.SelectUsersComponent
@@ -160,7 +159,10 @@ private fun HorizontalHomeNominalContent(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight(),
-            verticalArrangement = StickyFooterArrangement(0.dp, hiitLogger),
+            verticalArrangement = fr.shining_cat.simplehiit.android.common.utils.StickyFooterArrangement(
+                0.dp,
+                hiitLogger
+            ),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {

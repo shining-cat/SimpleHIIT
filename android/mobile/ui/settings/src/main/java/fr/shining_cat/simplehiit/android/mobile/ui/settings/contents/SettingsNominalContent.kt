@@ -15,8 +15,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.SettingsExercisesSelectedComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.SettingsFieldComponent
