@@ -1,13 +1,17 @@
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
 package fr.shining_cat.simplehiit.android.tv.app
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.tv.material3.ExperimentalTvMaterial3Api
 import fr.shining_cat.simplehiit.android.common.Screen
 import fr.shining_cat.simplehiit.android.tv.ui.home.HomeScreen
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SimpleHiitNavigation(
     hiitLogger: HiitLogger

@@ -19,8 +19,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.LaunchSessionButton
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.NumberCyclesComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.SelectUsersComponent
@@ -207,7 +207,7 @@ private fun HorizontalHomeNominalContent(
 private fun HomeNominalContentPreviewPhonePortrait(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeNominalContent(
                 numberOfCycles = 5,
@@ -234,7 +234,7 @@ private fun HomeNominalContentPreviewPhonePortrait(
 private fun HomeNominalContentPreviewTabletLandscape(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeNominalContent(
                 numberOfCycles = 5,
@@ -263,7 +263,7 @@ private fun HomeNominalContentPreviewTabletLandscape(
 private fun HomeNominalContentPreviewPhoneLandscape(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeNominalContent(
                 numberOfCycles = 5,

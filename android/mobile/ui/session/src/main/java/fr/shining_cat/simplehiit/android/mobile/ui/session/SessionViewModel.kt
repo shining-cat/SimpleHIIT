@@ -55,9 +55,15 @@ class SessionViewModel @Inject constructor(
             this.durationStringFormatter = durationStringFormatter
             //
             setUpSoundPool()
-            hiitLogger.d("SessionViewModel", "soundPool created, awaiting sound to be loaded to proceed")
+            hiitLogger.d(
+                "SessionViewModel",
+                "soundPool created, awaiting sound to be loaded to proceed"
+            )
             soundPool?.setOnLoadCompleteListener { _, _, _ ->
-                hiitLogger.d("SessionViewModel", "sound loaded in soundPool, proceeding with SessionViewModel initialization...")
+                hiitLogger.d(
+                    "SessionViewModel",
+                    "sound loaded in soundPool, proceeding with SessionViewModel initialization..."
+                )
                 setupTicker()
                 //
                 retrieveSettingsAndProceed()
@@ -67,7 +73,7 @@ class SessionViewModel @Inject constructor(
         isInitialized = true
     }
 
-    private fun setUpSoundPool(){
+    private fun setUpSoundPool() {
         //This SoundPool is hosted in the ViewModel to shield it from recomposition events
         soundPool = SoundPool
             .Builder()
@@ -80,14 +86,14 @@ class SessionViewModel @Inject constructor(
             .build()
     }
 
-    fun getSoundPool():SoundPool?{
-        if(soundPool == null){
+    fun getSoundPool(): SoundPool? {
+        if (soundPool == null) {
             hiitLogger.e("SessionViewModel", "getSoundPool::no SoundPool found!")
         }
         return soundPool
     }
 
-    fun setLoadedSound(loadedSoundId: Int){
+    fun setLoadedSound(loadedSoundId: Int) {
         // the sound is loaded from the SessionScreen as we need access to a Context and the raw resources,
         // but we will need its stream id to play it through the SoundPool
         hiitLogger.d("SessionViewModel", "setLoadedSound")
@@ -162,7 +168,7 @@ class SessionViewModel @Inject constructor(
             if (sessionRemainingMs == 0L) {//whole session end
                 //play last (when timer reaches 0) beep sound
                 maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
-                hiitLogger.d("SessionViewModel","tick: Session finished")
+                hiitLogger.d("SessionViewModel", "tick: Session finished")
                 emitSessionEndState()
             } else {//build current running step state and emit
                 val timeRemainingTriggerNextStep = currentStep.remainingSessionDurationMsAfterMe
@@ -190,25 +196,31 @@ class SessionViewModel @Inject constructor(
         }
     }
 
-    private fun maybePlayBeepSound(currentState: SessionViewState? = null, forceBeep: Boolean? = false){
-        if(forceBeep == true) {
+    private fun maybePlayBeepSound(
+        currentState: SessionViewState? = null,
+        forceBeep: Boolean? = false
+    ) {
+        if (forceBeep == true) {
             playBeepSound()
             return
         }
-        when(currentState){
-            is SessionViewState.InitialCountDownSession -> if(currentState.countDown.playBeep) playBeepSound()
-            is SessionViewState.RunningNominal -> if(currentState.countDown?.playBeep == true) playBeepSound()
+        when (currentState) {
+            is SessionViewState.InitialCountDownSession -> if (currentState.countDown.playBeep) playBeepSound()
+            is SessionViewState.RunningNominal -> if (currentState.countDown?.playBeep == true) playBeepSound()
             else -> {}// do nothing
         }
     }
 
-    private fun playBeepSound(){
+    private fun playBeepSound() {
         val loadedSound = beepSoundLoadedId
-        if(loadedSound == null){
-            hiitLogger.e("SessionViewModel", "playBeepSound::no sound loaded in SoundPool! Has the sound been loaded through SessionViewModel.setLoadedSound?")
+        if (loadedSound == null) {
+            hiitLogger.e(
+                "SessionViewModel",
+                "playBeepSound::no sound loaded in SoundPool! Has the sound been loaded through SessionViewModel.setLoadedSound?"
+            )
             return
         }
-        soundPool?.play(loadedSound, 1f,1f,0,0,1f)
+        soundPool?.play(loadedSound, 1f, 1f, 0, 0, 1f)
     }
 
     private fun emitSessionEndState() {

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
@@ -9,9 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -20,8 +19,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.components.ToggleButton
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ToggleButton
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.User
 
@@ -76,7 +80,7 @@ fun SelectUsersComponent(
 private fun SelectUsersComponentPreview(
     @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>
 ) {
-    SimpleHiitTheme {
+    SimpleHiitTvTheme {
         Surface {
             SelectUsersComponent(
                 users = users,

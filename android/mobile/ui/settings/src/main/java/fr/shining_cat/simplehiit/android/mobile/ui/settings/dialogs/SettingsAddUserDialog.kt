@@ -10,9 +10,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.components.InputDialog
-import fr.shining_cat.simplehiit.android.common.components.InputDialogTextFieldSize
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.InputDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.components.InputDialogTextFieldSize
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
 
@@ -67,7 +67,7 @@ private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.domain.comm
 )
 @Composable
 private fun SettingsAddUserDialogPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         SettingsAddUserDialog(
             saveUserName = {},
             userName = "The User's name",

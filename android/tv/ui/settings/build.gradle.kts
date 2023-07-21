@@ -18,6 +18,7 @@ android {
 
 dependencies {
     implementation(project(":android:common"))
+    implementation(project(":android:tv:ui:common"))
     implementation(project(":domain:common"))
     implementation(project(":domain:settings"))
     implementation(project(":commonUtils"))
@@ -33,8 +34,9 @@ dependencies {
     implementation(HiltDeps.hiltAndroid)
     implementation(HiltDeps.hiltNavigation)
     implementation(Deps.materialDesign)
-    implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composePreview)
+    implementation(ComposeDeps.composeTVFoundation)
+    implementation(ComposeDeps.composeTVMaterial3)
     implementation(Navigation.navCompose)
     implementation(Deps.coil)
     implementation(Deps.coilGif)

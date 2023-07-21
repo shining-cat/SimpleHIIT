@@ -1,10 +1,10 @@
-package fr.shining_cat.simplehiit.android.common.theme
+package fr.shining_cat.simplehiit.android.tv.ui.common.theme
 
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Shapes
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Shapes
 
-val shapes = Shapes(
+val tvShapes = Shapes(
         small = RoundedCornerShape(4.dp),
         medium = RoundedCornerShape(4.dp),
         large = RoundedCornerShape(0.dp)

@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.common.components
+package fr.shining_cat.simplehiit.android.mobile.ui.common.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
@@ -26,6 +26,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
 
@@ -50,8 +51,8 @@ fun InputDialog(
     dismissButtonLabel: String = "",
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
-    validateInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError = { fr.shining_cat.simplehiit.domain.common.Constants.InputError.NONE },
-    pickErrorMessage: (fr.shining_cat.simplehiit.domain.common.Constants.InputError) -> Int = { -1 }
+    validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
+    pickErrorMessage: (Constants.InputError) -> Int = { -1 }
 ) {
 
     //TODO: auto-focus on input field when opening dialog
@@ -61,8 +62,10 @@ fun InputDialog(
     //TODO: set cursor position at end of inputFieldValue in input field when auto-focusing. Only affect this position once on dialog opening
 
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
-    val isError = rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != fr.shining_cat.simplehiit.domain.common.Constants.InputError.NONE) }
-    val errorMessageStringRes = rememberSaveable {mutableStateOf(pickErrorMessage(validateInput(inputFieldValue)))}
+    val isError =
+        rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
+    val errorMessageStringRes =
+        rememberSaveable { mutableStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -99,8 +102,10 @@ fun InputDialog(
                             input.value = it
                             val validationResult = validateInput(it)
                             val errorStringRes = pickErrorMessage(validationResult)
-                            isError.value = validationResult != fr.shining_cat.simplehiit.domain.common.Constants.InputError.NONE // updating the error state Boolean
-                            errorMessageStringRes.value = errorStringRes // updating the eventual error message String resource pointer
+                            isError.value =
+                                validationResult != Constants.InputError.NONE // updating the error state Boolean
+                            errorMessageStringRes.value =
+                                errorStringRes // updating the eventual error message String resource pointer
                         },
                         isError = isError.value,
                         trailingIcon = errorTrailingIcon(
@@ -195,7 +200,7 @@ fun errorTrailingIcon(
 private fun InputDialogPreview(
     @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject
 ) {
-    fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             InputDialog(
                 dialogTitle = "Duration of WORK periods",
@@ -295,12 +300,12 @@ internal class InputDialogPreviewParameterProvider :
 
 internal data class InputDialogPreviewObject(
     val singleLine: Boolean,
-    val inputFieldValue:String,
+    val inputFieldValue: String,
     val postfix: String,
     val primaryButtonLabel: String,
     val secondaryButtonLabel: String,
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
-    val validateInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
-    val errorMessage: (fr.shining_cat.simplehiit.domain.common.Constants.InputError) -> Int
+    val validateInput: (String) -> Constants.InputError,
+    val errorMessage: (Constants.InputError) -> Int
 )

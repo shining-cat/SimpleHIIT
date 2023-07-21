@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
@@ -8,10 +10,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +19,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import androidx.tv.material3.Button
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -50,7 +54,7 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextButton(
+            Button(
                 enabled = numberOfCycles > 1,
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = decreaseNumberOfCycles
@@ -59,7 +63,6 @@ fun NumberCyclesComponent(
                     text = stringResource(id = R.string.minus),
                     fontWeight = FontWeight.Bold,
                     fontSize = 44.sp,
-//                    lineHeight = 28.sp
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -72,7 +75,7 @@ fun NumberCyclesComponent(
                 style = MaterialTheme.typography.headlineMedium
             )
             Spacer(modifier = Modifier.width(8.dp))
-            TextButton(
+            Button(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = increaseNumberOfCycles
             ) {
@@ -80,7 +83,6 @@ fun NumberCyclesComponent(
                     text = stringResource(id = R.string.plus),
                     fontWeight = FontWeight.Bold,
                     fontSize = 44.sp,
-//                    lineHeight = 28.sp
                 )
             }
         }
@@ -102,7 +104,7 @@ fun NumberCyclesComponent(
 )
 @Composable
 private fun NumberCyclesComponentPreview() {
-    SimpleHiitTheme {
+    SimpleHiitTvTheme {
         Surface {
             NumberCyclesComponent(
                 numberOfCycles = 5,

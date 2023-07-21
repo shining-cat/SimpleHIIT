@@ -18,11 +18,11 @@ android {
 
 dependencies {
     implementation(project(":android:common"))
+    implementation(project(":android:tv:ui:common"))
     implementation(project(":domain:common"))
     implementation(project(":domain:home"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))
-    implementation(project(":android:mobile:ui:common"))
     testImplementation(project(":testUtils"))
     androidTestImplementation(project(":testUtils"))
     //
@@ -33,7 +33,8 @@ dependencies {
     implementation(HiltDeps.hiltAndroid)
     implementation(HiltDeps.hiltNavigation)
     implementation(Deps.materialDesign)
-    implementation(ComposeDeps.composeMaterial3)
+    implementation(ComposeDeps.composeTVFoundation)
+    implementation(ComposeDeps.composeTVMaterial3)
     implementation(ComposeDeps.composePreview)
     implementation(Navigation.navCompose)
     implementation(Deps.coil)

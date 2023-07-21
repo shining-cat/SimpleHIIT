@@ -19,9 +19,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
@@ -142,7 +142,7 @@ private fun HomeScreen(
 private fun HomeScreenPreviewPhonePortrait(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeScreen(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -169,7 +169,7 @@ private fun HomeScreenPreviewPhonePortrait(
 private fun HomeScreenPreviewTabletLandscape(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -198,7 +198,7 @@ private fun HomeScreenPreviewTabletLandscape(
 private fun HomeScreenPreviewPhoneLandscape(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,

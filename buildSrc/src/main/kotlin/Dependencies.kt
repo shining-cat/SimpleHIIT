@@ -53,6 +53,8 @@ object ComposeDeps{
     // Material Design 3
     val composeMaterial3    by lazy { "androidx.compose.material3:material3"}
     val composeMaterial3WindowSize    by lazy { "androidx.compose.material3:material3-window-size-class:${Versions.composeMaterial3WindowSizeClass}"}
+    val composeTVMaterial3  by lazy { "androidx.tv:tv-material:${Versions.composeTV}"}
+    val composeTVFoundation  by lazy { "androidx.tv:tv-foundation:${Versions.composeTV}"}
     // Android Studio Preview support
     val composePreview      by lazy { "androidx.compose.ui:ui-tooling-preview"}
     val composePreviewDebug by lazy { "androidx.compose.ui:ui-tooling"}

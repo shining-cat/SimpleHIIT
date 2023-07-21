@@ -31,7 +31,8 @@ class StatisticsViewModel @Inject constructor(
     val dialogViewState = _dialogViewState.asStateFlow()
 
     private var isInitialized = false
-    private var allUsers = emptyList<User>() // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
+    private var allUsers =
+        emptyList<User>() // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
 
     private var durationStringFormatter = DurationStringFormatter()
 
@@ -69,7 +70,7 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             val now = timeProvider.getCurrentTimeMillis()
             val statisticsOutput =
-            statisticsInteractor.getStatsForUser(user = user, now = now)
+                statisticsInteractor.getStatsForUser(user = user, now = now)
             val moreThanOneUser = allUsers.size > 1
             when (statisticsOutput) {
                 is Output.Success -> {
@@ -97,7 +98,10 @@ class StatisticsViewModel @Inject constructor(
 
     fun openPickUser() {
         viewModelScope.launch(context = mainDispatcher) {
-            if(allUsers.size < 2) hiitLogger.e("StatisticsViewModel", "openPickUser called but there is only 1 user or less")
+            if (allUsers.size < 2) hiitLogger.e(
+                "StatisticsViewModel",
+                "openPickUser called but there is only 1 user or less"
+            )
             _dialogViewState.emit(StatisticsDialog.SelectUser(allUsers))
         }
     }

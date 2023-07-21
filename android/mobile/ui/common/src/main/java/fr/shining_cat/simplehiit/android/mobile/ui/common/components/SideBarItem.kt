@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -43,7 +43,7 @@ fun SideBarItem(
             selectedIconColor = MaterialTheme.colorScheme.secondary,
             selectedTextColor = MaterialTheme.colorScheme.secondary,
             // primary will be the color of the NavigationSideBar, so this indicatorColor will be invisible, as wanted.
-            // Using Color.Transparent puches a whole through the SideBar itself, which is not what we want
+            // Using Color.Transparent punches a whole through the SideBar itself, which is not what we want
             indicatorColor = MaterialTheme.colorScheme.primary,
             unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
             unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -62,7 +62,7 @@ fun SideBarItem(
 )
 @Composable
 private fun SideBarItemPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
                 SideBarItem(

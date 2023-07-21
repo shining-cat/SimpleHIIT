@@ -1,7 +1,7 @@
 package fr.shining_cat.simplehiit.data.mappers
 
-import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
@@ -36,7 +36,7 @@ internal class UserMapperTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun userModelMapperArguments() =
+        fun userModelMapperArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     User(123L, "tralala", false),

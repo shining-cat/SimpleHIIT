@@ -13,8 +13,8 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.ui.Modifier
 import dagger.hilt.android.AndroidEntryPoint
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import javax.inject.Inject
 
@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                 }
 
             //the composition tree below knows nothing about window size classes, we only pass a UiArrangement to help screens decide how to build their layout
-            SimpleHiitTheme {
+            SimpleHiitMobileTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

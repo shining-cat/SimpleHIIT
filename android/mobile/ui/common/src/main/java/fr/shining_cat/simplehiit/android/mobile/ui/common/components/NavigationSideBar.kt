@@ -12,13 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.common.Screen
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
 fun NavigationSideBar(
     navigateTo: (String) -> Unit = {},
-    currentDestination: fr.shining_cat.simplehiit.android.common.Screen,
+    currentDestination: Screen,
     showStatisticsButton: Boolean
 ) {
     NavigationRail(
@@ -35,23 +36,23 @@ fun NavigationSideBar(
         }
     ) {
         SideBarItem(
-            onClick = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Home.route) },
+            onClick = { navigateTo(Screen.Home.route) },
             icon = R.drawable.home,
             label = R.string.home_page_title,
-            selected = currentDestination == fr.shining_cat.simplehiit.android.common.Screen.Home
+            selected = currentDestination == Screen.Home
         )
         SideBarItem(
-            onClick = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Settings.route) },
+            onClick = { navigateTo(Screen.Settings.route) },
             icon = R.drawable.cog,
             label = R.string.settings_button_content_label,
-            selected = currentDestination == fr.shining_cat.simplehiit.android.common.Screen.Settings
+            selected = currentDestination == Screen.Settings
         )
         if (showStatisticsButton) {
             SideBarItem(
-                onClick = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Statistics.route) },
+                onClick = { navigateTo(Screen.Statistics.route) },
                 icon = R.drawable.bar_chart,
                 label = R.string.statistics_button_content_label,
-                selected = currentDestination == fr.shining_cat.simplehiit.android.common.Screen.Statistics
+                selected = currentDestination == Screen.Statistics
             )
         }
     }
@@ -66,10 +67,10 @@ fun NavigationSideBar(
 )
 @Composable
 private fun NavigationSideBarPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             NavigationSideBar(
-                currentDestination = fr.shining_cat.simplehiit.android.common.Screen.Settings,
+                currentDestination = Screen.Settings,
                 showStatisticsButton = true
             )
         }

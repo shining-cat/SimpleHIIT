@@ -29,15 +29,9 @@ dependencies {
     //
     implementation(HiltDeps.hiltAndroid)
     implementation(Deps.materialDesign)
-    implementation(ComposeDeps.composeMaterial3)
-    implementation(ComposeDeps.composePreview)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
     kapt(HiltDeps.hiltAndroidCompiler)
-    //
-    debugImplementation(ComposeDeps.composePreviewDebug)
-    debugImplementation(ComposeDeps.composeUiTestsDebug)
-
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.coroutinesTest)

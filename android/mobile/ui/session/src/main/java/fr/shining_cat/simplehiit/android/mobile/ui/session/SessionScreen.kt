@@ -25,9 +25,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.components.SessionSideBarComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.session.contents.SessionContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
@@ -120,19 +120,20 @@ private fun SessionScreen(
     }
     val (title, buttonLabel, clickOnButton) = when (screenViewState) {
         is SessionViewState.RunningNominal -> {
-            when(screenViewState.periodType){
+            when (screenViewState.periodType) {
                 RunningSessionStepType.REST -> Triple(
                     R.string.session_rest_page_title,
                     R.string.pause,
                     pause
                 )
+
                 RunningSessionStepType.WORK -> Triple(
                     R.string.session_work_page_title,
                     R.string.pause,
                     pause
                 )
             }
-            
+
         }
 
         is SessionViewState.InitialCountDownSession -> Triple(
@@ -208,7 +209,7 @@ private fun SessionScreen(
 private fun SessionScreenPreviewPhonePortrait(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionScreen(
                 dialogViewState = SessionDialog.None,
@@ -233,7 +234,7 @@ private fun SessionScreenPreviewPhonePortrait(
 private fun SessionScreenPreviewTabletLandscape(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionScreen(
                 dialogViewState = SessionDialog.None,
@@ -260,7 +261,7 @@ private fun SessionScreenPreviewTabletLandscape(
 private fun SessionScreenPreviewPhoneLandscape(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionScreen(
                 dialogViewState = SessionDialog.None,

@@ -13,10 +13,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -129,7 +129,7 @@ private fun StatisticsScreen(
 private fun StatisticsScreenPreviewPhonePortrait(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -154,7 +154,7 @@ private fun StatisticsScreenPreviewPhonePortrait(
 private fun StatisticsScreenPreviewTabletLandscape(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -181,7 +181,7 @@ private fun StatisticsScreenPreviewTabletLandscape(
 private fun StatisticsScreenPreviewPhoneLandscape(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,

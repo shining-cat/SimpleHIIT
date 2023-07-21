@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -56,14 +56,17 @@ fun ErrorDialog(
                 )
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp, vertical = 8.dp),
                     text = stringResource(id = R.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium
                 )
-                if(errorMessage.isNotBlank()) {
+                if (errorMessage.isNotBlank()) {
                     Text(
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(horizontal = 0.dp, vertical = 8.dp),
                         text = errorMessage,
                         style = MaterialTheme.typography.bodyMedium
@@ -71,7 +74,9 @@ fun ErrorDialog(
                 }
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp, vertical = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp, vertical = 8.dp),
                     text = stringResource(id = R.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium
                 )
@@ -96,7 +101,7 @@ fun ErrorDialog(
 )
 @Composable
 private fun ErrorDialogPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             ErrorDialog(
                 errorMessage = "A balloon is floating above the country",

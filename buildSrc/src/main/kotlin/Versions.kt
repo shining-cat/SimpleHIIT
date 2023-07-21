@@ -21,6 +21,7 @@ object Versions {
     const val benManesDependenciesVersionPlugin = "0.46.0"
     const val gmazzoJacocoReportAggregationPlugin = "1.1.1"
     const val savvasdalkitsisDependencyGraphPlugin = "0.10"
-    const val composeBom = "2023.05.01"
+    const val composeBom = "2023.06.01"
     const val activityCompose = "1.7.0"
+    const val composeTV = "1.0.0-alpha07"
 }

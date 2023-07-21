@@ -37,16 +37,16 @@ fun GifImage(
             }
         }
         .build()
-    val imageModifier = if(mirrored){
+    val imageModifier = if (mirrored) {
         modifier.graphicsLayer { rotationY = 180f }
-    } else{
+    } else {
         modifier
     }
     Image(
         painter = rememberAsyncImagePainter(
             model = ImageRequest.Builder(context)
                 .data(data = gifResId)
-                .apply(block = {size(Size.ORIGINAL)})
+                .apply(block = { size(Size.ORIGINAL) })
                 .build(),
             imageLoader = imageLoader
         ),

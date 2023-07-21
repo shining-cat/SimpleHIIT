@@ -28,7 +28,7 @@ fun ExerciseDisplayComponent(
     countDown: CountDown? = null,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
-){
+) {
     Box(
         modifier = modifier
     ) {

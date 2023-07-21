@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
@@ -68,7 +68,7 @@ fun CountDownComponent(
 )
 @Composable
 private fun CountDownCircularProgressPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             Column(
                 modifier = Modifier.fillMaxSize(),

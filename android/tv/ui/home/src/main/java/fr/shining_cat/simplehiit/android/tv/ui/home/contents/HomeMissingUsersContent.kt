@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
 package fr.shining_cat.simplehiit.android.tv.ui.home.contents
 
 import android.content.res.Configuration
@@ -10,9 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +21,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+
 import fr.shining_cat.simplehiit.android.tv.ui.home.components.GoToSettingsButton
 import fr.shining_cat.simplehiit.commonresources.R
 
@@ -79,7 +83,7 @@ fun HomeMissingUsersContent(
 )
 @Composable
 private fun HomeMissingUsersContentPreviewPhonePortrait() {
-    SimpleHiitTheme {
+    SimpleHiitTvTheme {
         Surface {
             HomeMissingUsersContent()
         }

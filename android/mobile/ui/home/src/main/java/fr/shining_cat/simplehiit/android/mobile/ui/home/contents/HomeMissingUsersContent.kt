@@ -22,7 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.GoToSettingsButton
 import fr.shining_cat.simplehiit.commonresources.R
 
@@ -79,7 +79,7 @@ fun HomeMissingUsersContent(
 )
 @Composable
 private fun HomeMissingUsersContentPreviewPhonePortrait() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeMissingUsersContent()
         }
@@ -98,7 +98,7 @@ private fun HomeMissingUsersContentPreviewPhonePortrait() {
 )
 @Composable
 private fun HomeMissingUsersContentPreviewTabletLandscape() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeMissingUsersContent()
         }
@@ -119,7 +119,7 @@ private fun HomeMissingUsersContentPreviewTabletLandscape() {
 )
 @Composable
 private fun HomeMissingUsersContentPreviewPhoneLandscape() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeMissingUsersContent()
         }

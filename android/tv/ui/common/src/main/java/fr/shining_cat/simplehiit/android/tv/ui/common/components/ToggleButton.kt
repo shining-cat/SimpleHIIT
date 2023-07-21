@@ -1,29 +1,29 @@
-package fr.shining_cat.simplehiit.android.common.components
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
+package fr.shining_cat.simplehiit.android.tv.ui.common.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import androidx.tv.material3.Button
+import androidx.tv.material3.ButtonDefaults
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Icon
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToggleButton(
     modifier: Modifier = Modifier,
@@ -31,28 +31,23 @@ fun ToggleButton(
     selected: Boolean,
     onToggle: () -> Unit
 ) {
-    FilterChip(
-        modifier = modifier.height(48.dp),
-        selected = selected,
+    Button(
         onClick = { onToggle() },
-        label = { Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-        colors = FilterChipDefaults.filterChipColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            selectedContainerColor = MaterialTheme.colorScheme.primary
-        ),
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = "Localized Description",
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
-            }
-        } else {
-            null
+        colors = ButtonDefaults.colors(
+            containerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+        )
+    ) {
+        if (selected) {
+            Icon(
+                imageVector = Icons.Filled.Done,
+                contentDescription = "Localized Description",
+                modifier = Modifier.size(48.dp)
+            )
         }
-    )
+        Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+    }
 }
+
 
 // Previews
 @Preview(
@@ -63,7 +58,7 @@ fun ToggleButton(
 )
 @Composable
 private fun ToggleButtonPreview() {
-    SimpleHiitTheme {
+    SimpleHiitTvTheme {
         Surface {
             Row(
                 modifier = Modifier.fillMaxWidth(),

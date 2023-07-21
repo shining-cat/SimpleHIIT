@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -102,7 +102,7 @@ fun NumberCyclesComponent(
 )
 @Composable
 private fun NumberCyclesComponentPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             NumberCyclesComponent(
                 numberOfCycles = 5,

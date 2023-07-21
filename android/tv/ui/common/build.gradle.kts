@@ -30,8 +30,9 @@ dependencies {
     //
     implementation(HiltDeps.hiltAndroid)
     implementation(Deps.materialDesign)
-    implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composePreview)
+    implementation(ComposeDeps.composeTVFoundation)
+    implementation(ComposeDeps.composeTVMaterial3)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
     kapt(HiltDeps.hiltAndroidCompiler)

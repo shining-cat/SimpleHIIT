@@ -2,14 +2,11 @@ package fr.shining_cat.simplehiit.android.tv.ui.home
 
 import android.app.Activity
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -19,14 +16,22 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.NavigationDrawer
+import androidx.tv.material3.Surface
+import fr.shining_cat.simplehiit.android.common.Screen
+
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.NavigationSideBar
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.android.tv.ui.home.contents.HomeContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
 
+
+@ExperimentalTvMaterial3Api
 @Composable
 fun HomeScreen(
     navigateTo: (String) -> Unit,
@@ -60,6 +65,7 @@ fun HomeScreen(
     )
 }
 
+@ExperimentalTvMaterial3Api
 @Composable
 private fun HomeScreen(
     navigateTo: (String) -> Unit = {},
@@ -85,14 +91,16 @@ private fun HomeScreen(
         }
     }
     //
-    Row(modifier = Modifier.fillMaxSize()) {
-        AnimatedVisibility(true) {
+    NavigationDrawer(
+        drawerContent = {
             NavigationSideBar(
                 navigateTo = navigateTo,
-                currentDestination = fr.shining_cat.simplehiit.android.common.Screen.Home,
-                showStatisticsButton = viewState is HomeViewState.Nominal
+                currentDestination = Screen.Home,
+                showStatisticsButton = viewState is HomeViewState.Nominal,
+                drawerValue = it
             )
         }
+    ) {
         HomeContentHolder(
             navigateTo = navigateTo,
             resetWholeApp = onResetWholeApp,
@@ -104,9 +112,9 @@ private fun HomeScreen(
             screenViewState = viewState,
             dialogViewState = dialogViewState,
             hiitLogger = hiitLogger
-            )
-        }
+        )
     }
+}
 
 // Previews
 @Preview(
@@ -119,11 +127,12 @@ private fun HomeScreen(
     device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
+@ExperimentalTvMaterial3Api
 @Composable
 private fun HomeScreenPreviewTV(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitTvTheme {
         Surface {
             HomeScreen(
                 viewState = viewState,

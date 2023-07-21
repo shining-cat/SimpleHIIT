@@ -1,14 +1,13 @@
+@file:OptIn(ExperimentalTvMaterial3Api::class)
+
 package fr.shining_cat.simplehiit.android.tv.ui.home.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,9 +15,10 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Surface
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.android.tv.ui.home.components.LaunchSessionButton
 import fr.shining_cat.simplehiit.android.tv.ui.home.components.NumberCyclesComponent
 import fr.shining_cat.simplehiit.android.tv.ui.home.components.SelectUsersComponent
@@ -77,11 +77,6 @@ fun HomeNominalContent(
                 )
             }
             item {
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp), thickness = Dp.Hairline
-                )
                 LaunchSessionButton(
                     canLaunchSession = canLaunchSession,
                     navigateToSession = navigateToSession
@@ -95,20 +90,18 @@ fun HomeNominalContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeNominalContentPreviewPhonePortrait(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>
 ) {
-    SimpleHiitTheme {
+    SimpleHiitTvTheme {
         Surface {
             HomeNominalContent(
                 numberOfCycles = 5,

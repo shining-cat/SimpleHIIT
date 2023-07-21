@@ -5,14 +5,17 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.NonInteractiveSurfaceDefaults
+import androidx.tv.material3.Surface
 import dagger.hilt.android.AndroidEntryPoint
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import javax.inject.Inject
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -27,10 +30,13 @@ class MainActivity : ComponentActivity() {
         )
         hiitLogger.d("MainActivity", "onCreate!!")
         setContent {
-            SimpleHiitTheme {
+            SimpleHiitTvTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    colors = NonInteractiveSurfaceDefaults.colors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        contentColor = MaterialTheme.colorScheme.onBackground,
+                    )
                 ) {
                     SimpleHiitNavigation(hiitLogger = hiitLogger)
                 }

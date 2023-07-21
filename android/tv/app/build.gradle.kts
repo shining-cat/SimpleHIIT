@@ -88,9 +88,9 @@ dependencies {
     //
     implementation(Deps.appCompat)
     implementation(HiltDeps.hiltAndroid)
-    implementation(ComposeDeps.composeMaterial3)
-    implementation(ComposeDeps.composeMaterial3WindowSize)
     implementation(Navigation.navCompose)
+    implementation(ComposeDeps.composeTVFoundation)
+    implementation(ComposeDeps.composeTVMaterial3)
     kapt(HiltDeps.hiltAndroidCompiler)
 }
 

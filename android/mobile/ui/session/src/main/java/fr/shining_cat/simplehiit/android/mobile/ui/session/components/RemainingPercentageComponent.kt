@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 
 @Composable
 fun RemainingPercentageComponent(
@@ -56,7 +56,7 @@ fun RemainingPercentageComponent(
 )
 @Composable
 private fun RemainingPercentageComponentPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             Column(
                 modifier = Modifier.fillMaxSize(),
