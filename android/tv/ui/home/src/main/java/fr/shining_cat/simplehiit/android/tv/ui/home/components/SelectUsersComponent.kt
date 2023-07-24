@@ -35,7 +35,8 @@ fun SelectUsersComponent(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        verticalArrangement = Arrangement.Center
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -83,7 +84,7 @@ private fun SelectUsersComponentPreview(
         Surface {
             SelectUsersComponent(
                 users = users,
-                modifier = Modifier.height(250.dp)
+                modifier = Modifier.height(700.dp)
             )
         }
     }

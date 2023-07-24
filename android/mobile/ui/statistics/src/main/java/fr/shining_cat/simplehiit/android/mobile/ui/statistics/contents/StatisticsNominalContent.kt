@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.common.utils.StickyFooterArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
@@ -57,7 +58,7 @@ fun StatisticsNominalContent(
                 .padding(8.dp)
                 .fillMaxSize(),
             columns = GridCells.Fixed(2),
-            verticalArrangement = fr.shining_cat.simplehiit.android.common.utils.StickyFooterArrangement(
+            verticalArrangement = StickyFooterArrangement(
                 gridPadding,
                 hiitLogger
             ),

@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.common.utils.StickyFooterArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.components.LaunchSessionButton
@@ -159,7 +160,7 @@ private fun HorizontalHomeNominalContent(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxHeight(),
-            verticalArrangement = fr.shining_cat.simplehiit.android.common.utils.StickyFooterArrangement(
+            verticalArrangement = StickyFooterArrangement(
                 0.dp,
                 hiitLogger
             ),
