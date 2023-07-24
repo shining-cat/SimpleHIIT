@@ -1,21 +1,19 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.ui.home.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
@@ -25,9 +23,9 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-
 import fr.shining_cat.simplehiit.commonresources.R
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun HomeErrorContent(
     errorCode: String,
@@ -36,8 +34,9 @@ fun HomeErrorContent(
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceEvenly,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
@@ -64,13 +63,14 @@ fun HomeErrorContent(
             )
         }
         Button(
-            modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
             onClick = resetWholeApp,
             colors = ButtonDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
+                contentColor = MaterialTheme.colorScheme.onError,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContentColor = MaterialTheme.colorScheme.error,
+                pressedContainerColor = MaterialTheme.colorScheme.surface,
+                pressedContentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {
             Text(text = stringResource(id = R.string.reset_app_button_label))
@@ -79,20 +79,23 @@ fun HomeErrorContent(
 }
 
 // Previews
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeErrorContentPreview() {
     SimpleHiitTvTheme {
         Surface {
-                HomeErrorContent(
-                    errorCode = "An error happened",
-                    resetWholeApp = {}
-                )
+            HomeErrorContent(
+                errorCode = "An error happened",
+                resetWholeApp = {}
+            )
         }
     }
 }

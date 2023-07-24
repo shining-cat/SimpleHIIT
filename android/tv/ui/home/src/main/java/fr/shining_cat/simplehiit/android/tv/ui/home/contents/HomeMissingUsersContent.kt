@@ -72,14 +72,12 @@ fun HomeMissingUsersContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeMissingUsersContentPreviewPhonePortrait() {

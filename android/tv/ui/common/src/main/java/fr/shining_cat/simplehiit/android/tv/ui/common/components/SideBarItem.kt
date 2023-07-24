@@ -43,9 +43,7 @@ fun SideBarItem(
             focusedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
             focusedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
             pressedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-            pressedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
-            disabledContainerColor = MaterialTheme.colorScheme.background,
-            disabledContentColor = MaterialTheme.colorScheme.onBackground,
+            pressedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface
         )
     ) {
         Icon(

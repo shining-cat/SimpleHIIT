@@ -3,13 +3,10 @@
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
@@ -17,7 +14,6 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -26,13 +22,15 @@ fun GoToSettingsButton(
     navigateToSettings: () -> Unit = {}
 ) {
     Button(
-        modifier = modifier
-            .padding(vertical = 24.dp)
-            .height(56.dp),
+        modifier = modifier,
         onClick = navigateToSettings,
         colors = ButtonDefaults.colors(
             containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
+            contentColor = MaterialTheme.colorScheme.onSecondary,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
+            focusedContentColor = MaterialTheme.colorScheme.secondary,
+            pressedContainerColor = MaterialTheme.colorScheme.surface,
+            pressedContentColor = MaterialTheme.colorScheme.onSurface
         )
     ) {
         Text(text = stringResource(id = R.string.go_to_settings))
