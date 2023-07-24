@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.ui.home.contents
 
 import android.content.res.Configuration
@@ -80,6 +78,7 @@ fun HomeContentHolder(
     device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HomeContentHolderPreviewTV(
     @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState

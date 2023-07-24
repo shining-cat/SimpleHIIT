@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.app
 
 import androidx.compose.runtime.Composable

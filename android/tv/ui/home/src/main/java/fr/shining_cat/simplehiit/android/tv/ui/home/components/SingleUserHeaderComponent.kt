@@ -1,10 +1,9 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -38,6 +37,7 @@ fun SingleUserHeaderComponent(
             text = stringResource(id = R.string.single_user_header_title),
             style = MaterialTheme.typography.headlineLarge
         )
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
@@ -54,6 +54,7 @@ fun SingleUserHeaderComponent(
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SingleUserHeaderComponentComponentPreview() {
     SimpleHiitTvTheme {

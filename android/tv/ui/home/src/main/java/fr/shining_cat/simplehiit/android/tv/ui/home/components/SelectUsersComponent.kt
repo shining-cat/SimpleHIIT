@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
@@ -49,10 +47,10 @@ fun SelectUsersComponent(
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
             modifier = Modifier
-                .padding(top = 16.dp)
+                .padding(top = 24.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(24.dp),
+            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
             items(users.size) {
                 val user = users[it]
@@ -76,6 +74,7 @@ fun SelectUsersComponent(
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SelectUsersComponentPreview(
     @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>

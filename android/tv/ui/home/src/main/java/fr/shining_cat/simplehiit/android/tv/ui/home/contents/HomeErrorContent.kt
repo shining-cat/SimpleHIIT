@@ -71,7 +71,8 @@ fun HomeErrorContent(
                 focusedContentColor = MaterialTheme.colorScheme.error,
                 pressedContainerColor = MaterialTheme.colorScheme.surface,
                 pressedContentColor = MaterialTheme.colorScheme.onSurface
-            )
+            ),
+            shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
         ) {
             Text(text = stringResource(id = R.string.reset_app_button_label))
         }

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
@@ -16,6 +14,7 @@ import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun GoToSettingsButton(
     modifier: Modifier = Modifier,
@@ -31,7 +30,8 @@ fun GoToSettingsButton(
             focusedContentColor = MaterialTheme.colorScheme.secondary,
             pressedContainerColor = MaterialTheme.colorScheme.surface,
             pressedContentColor = MaterialTheme.colorScheme.onSurface
-        )
+        ),
+        shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
     ) {
         Text(text = stringResource(id = R.string.go_to_settings))
     }
@@ -46,6 +46,7 @@ fun GoToSettingsButton(
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun GoToSettingsButtonPreview() {
     SimpleHiitTvTheme {

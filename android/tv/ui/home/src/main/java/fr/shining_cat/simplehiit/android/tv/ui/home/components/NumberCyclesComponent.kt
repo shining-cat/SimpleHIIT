@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTvMaterial3Api::class)
-
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
@@ -20,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.tv.material3.Button
+import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -28,6 +27,7 @@ import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 
 import fr.shining_cat.simplehiit.commonresources.R
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun NumberCyclesComponent(
     modifier: Modifier = Modifier,
@@ -57,7 +57,18 @@ fun NumberCyclesComponent(
             Button(
                 enabled = numberOfCycles > 1,
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
-                onClick = decreaseNumberOfCycles
+                onClick = decreaseNumberOfCycles,
+                colors = ButtonDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.primary,
+                    focusedContentColor = MaterialTheme.colorScheme.onPrimary,
+                    pressedContainerColor = MaterialTheme.colorScheme.surface,
+                    pressedContentColor = MaterialTheme.colorScheme.primary,
+                    disabledContainerColor = MaterialTheme.colorScheme.surface,
+                    disabledContentColor = MaterialTheme.colorScheme.onSurface
+                ),
+                shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
             ) {
                 Text(
                     text = stringResource(id = R.string.minus),
@@ -77,7 +88,16 @@ fun NumberCyclesComponent(
             Spacer(modifier = Modifier.width(8.dp))
             Button(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
-                onClick = increaseNumberOfCycles
+                onClick = increaseNumberOfCycles,
+                colors = ButtonDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                    focusedContainerColor = MaterialTheme.colorScheme.primary,
+                    focusedContentColor = MaterialTheme.colorScheme.onPrimary,
+                    pressedContainerColor = MaterialTheme.colorScheme.surface,
+                    pressedContentColor = MaterialTheme.colorScheme.primary
+                ),
+                shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
             ) {
                 Text(
                     text = stringResource(id = R.string.plus),
@@ -102,12 +122,13 @@ fun NumberCyclesComponent(
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun NumberCyclesComponentPreview() {
     SimpleHiitTvTheme {
         Surface {
             NumberCyclesComponent(
-                numberOfCycles = 5,
+                numberOfCycles = 3,
                 lengthOfCycle = "4mn",
                 totalLengthFormatted = "20mn"
             )
