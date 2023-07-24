@@ -93,11 +93,11 @@ private fun HomeScreen(
     //
     NavigationDrawer(
         drawerContent = {
+            //we don't use the drawerValue for now
             NavigationSideBar(
                 navigateTo = navigateTo,
                 currentDestination = Screen.Home,
-                showStatisticsButton = viewState is HomeViewState.Nominal,
-                drawerValue = it
+                showStatisticsButton = viewState is HomeViewState.Nominal
             )
         }
     ) {

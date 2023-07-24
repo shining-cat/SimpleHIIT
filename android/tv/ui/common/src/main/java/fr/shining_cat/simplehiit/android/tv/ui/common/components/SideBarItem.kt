@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.android.tv.ui.common.components
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
-import androidx.tv.material3.DrawerValue
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
@@ -34,8 +32,7 @@ fun SideBarItem(
     icon: Int,
     @StringRes
     label: Int,
-    selected: Boolean = false,
-    drawerValue: DrawerValue
+    selected: Boolean = false
 ) {
     Button(
         onClick = onClick,
@@ -43,10 +40,10 @@ fun SideBarItem(
         colors = ButtonDefaults.colors(
             containerColor = MaterialTheme.colorScheme.primary, //same as NavigationDrawe background -> we should not see the container in the default state
             contentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onPrimary,
-            focusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContentColor = MaterialTheme.colorScheme.onSurface,
-            pressedContainerColor = MaterialTheme.colorScheme.surface,
-            pressedContentColor = MaterialTheme.colorScheme.onSurface,
+            focusedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            focusedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
+            pressedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            pressedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
             disabledContainerColor = MaterialTheme.colorScheme.background,
             disabledContentColor = MaterialTheme.colorScheme.onBackground,
         )
@@ -55,10 +52,8 @@ fun SideBarItem(
             imageVector = ImageVector.vectorResource(icon),
             contentDescription = stringResource(id = label),
         )
-        AnimatedVisibility(visible = drawerValue == DrawerValue.Open) {
-            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-            Text(text = stringResource(label))
-        }
+        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+        Text(text = stringResource(label))
     }
 }
 
@@ -74,42 +69,36 @@ fun SideBarItem(
 private fun SideBarItemPreview() {
     SimpleHiitTvTheme {
         Surface {
-            Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 SideBarItem(
                     icon = R.drawable.home,
                     label = R.string.home_page_title,
-                    selected = true,
-                    drawerValue = DrawerValue.Open
+                    selected = true
                 )
                 SideBarItem(
                     icon = R.drawable.cog,
                     label = R.string.settings_button_content_label,
-                    selected = false,
-                    drawerValue = DrawerValue.Open
+                    selected = false
                 )
                 SideBarItem(
                     icon = R.drawable.bar_chart,
                     label = R.string.statistics_button_content_label,
-                    selected = false,
-                    drawerValue = DrawerValue.Open
+                    selected = false
                 )
                 SideBarItem(
                     icon = R.drawable.home,
                     label = R.string.home_page_title,
-                    selected = false,
-                    drawerValue = DrawerValue.Closed
+                    selected = false
                 )
                 SideBarItem(
                     icon = R.drawable.cog,
                     label = R.string.settings_button_content_label,
-                    selected = true,
-                    drawerValue = DrawerValue.Closed
+                    selected = true
                 )
                 SideBarItem(
                     icon = R.drawable.bar_chart,
                     label = R.string.statistics_button_content_label,
-                    selected = false,
-                    drawerValue = DrawerValue.Closed
+                    selected = false
                 )
             }
         }

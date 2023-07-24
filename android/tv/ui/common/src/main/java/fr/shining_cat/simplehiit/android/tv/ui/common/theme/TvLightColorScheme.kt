@@ -2,10 +2,11 @@ package fr.shining_cat.simplehiit.android.tv.ui.common.theme
 
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.lightColorScheme
+import fr.shining_cat.simplehiit.android.common.theme.*
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 val tvLightColorScheme = lightColorScheme(
-    /*primary = Teal300,
+    primary = Teal300,
     secondary = Amber500,
     background = Grey50,
     surface = Grey100,
@@ -14,5 +15,5 @@ val tvLightColorScheme = lightColorScheme(
     onBackground = Black,
     onSurface = Grey900,
     error = Red_600,
-    onError = White*/
+    onError = White
 )
