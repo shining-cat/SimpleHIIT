@@ -1,4 +1,4 @@
-package fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs
+package fr.shining_cat.simplehiit.android.tv.ui.settings.dialogs
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
@@ -10,9 +10,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.InputDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.InputDialogTextFieldSize
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shining_cat.simplehiit.android.tv.ui.settings.components.InputDialog
+import fr.shining_cat.simplehiit.android.tv.ui.settings.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
 
@@ -59,18 +59,18 @@ private fun setUserNameErrorMessage(error: Constants.InputError): Int {
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SettingsEditUserDialogPreview() {
-    SimpleHiitMobileTheme {
+    SimpleHiitTvTheme {
         SettingsEditUserDialog(
             saveUserName = {},
             deleteUser = {},

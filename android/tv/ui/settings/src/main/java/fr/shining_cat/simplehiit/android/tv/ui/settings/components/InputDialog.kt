@@ -1,14 +1,17 @@
-package fr.shining_cat.simplehiit.android.mobile.ui.common.components
+package fr.shining_cat.simplehiit.android.tv.ui.settings.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -26,7 +29,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Icon
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonBordered
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonFilled
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
 
@@ -37,6 +47,7 @@ enum class InputDialogTextFieldSize(val width: Dp) {
 /**
  *
  */
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun InputDialog(
     dialogTitle: String = "",
@@ -69,7 +80,7 @@ fun InputDialog(
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
-            color = MaterialTheme.colorScheme.surface,
+//            color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium
         ) {
             val dialogPadding = 8.dp
@@ -95,7 +106,7 @@ fun InputDialog(
                         .align(Alignment.CenterHorizontally),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    OutlinedTextField(
+                    BasicTextField(
                         value = input.value,
                         singleLine = inputFieldSingleLine,
                         onValueChange = {
@@ -107,12 +118,6 @@ fun InputDialog(
                             errorMessageStringRes.value =
                                 errorStringRes // updating the eventual error message String resource pointer
                         },
-                        isError = isError.value,
-                        trailingIcon = errorTrailingIcon(
-                            isError.value,
-                            inputFieldSize,
-                            errorMessageStringRes.value
-                        ),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = keyboardType,
                             imeAction = ImeAction.Done
@@ -121,9 +126,16 @@ fun InputDialog(
                             if (!isError.value) primaryAction(input.value)
                         }),
                         modifier = Modifier
-                            //.weight(0.3F, false)
                             .width(inputFieldSize.width)
-                            .alignByBaseline()
+                            .alignByBaseline(),
+                        decorationBox = {
+                            InputDialogDecoration(
+                                innerTextField = it,
+                                isError = isError.value,
+                                inputFieldSize = inputFieldSize,
+                                errorMessageStringRes = errorMessageStringRes.value
+                            )
+                        }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
@@ -137,6 +149,7 @@ fun InputDialog(
                         text = stringResource(id = errorMessageStringRes.value),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
+                        textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = internalPadding) //the error message needs all the room available so it won't follow the input row constraints
@@ -149,24 +162,60 @@ fun InputDialog(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
-                        TextButton(onClick = secondaryAction) {
-                            Text(text = secondaryButtonLabel)
-                        }
+                        Text(
+                            modifier = Modifier
+                                .alignByBaseline()
+                                .clickable { secondaryAction() },
+                            text = secondaryButtonLabel
+                        )
                     }
                     if (dismissButtonLabel.isNotBlank()) {
-                        OutlinedButton(onClick = dismissAction) {
-                            Text(text = dismissButtonLabel)
-                        }
+                        ButtonBordered(
+                            modifier = Modifier.alignByBaseline(),
+                            onClick = dismissAction,
+                            label = dismissButtonLabel
+                        )
                     }
-                    Button(onClick = { if (!isError.value) primaryAction(input.value) }) {
-                        Text(text = primaryButtonLabel)
-                    }
+                    ButtonFilled(
+                        modifier = Modifier.alignByBaseline(),
+                        onClick = { if (!isError.value) primaryAction(input.value) },
+                        label = primaryButtonLabel
+                    )
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalTvMaterial3Api::class)
+@Composable
+fun InputDialogDecoration(
+    innerTextField: @Composable () -> Unit,
+    isError: Boolean,
+    inputFieldSize: InputDialogTextFieldSize,
+    errorMessageStringRes: Int
+) {
+    Row(
+        modifier = Modifier
+            .border(
+                border = BorderStroke(
+                    width = 2.dp,
+                    color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.border
+                ),
+                shape = MaterialTheme.shapes.small,
+            )
+            .padding(16.dp)
+    ) {
+        innerTextField()
+        errorTrailingIcon(
+            isError = isError,
+            inputFieldSize = inputFieldSize,
+            errorMessageStringRes = errorMessageStringRes
+        )
+    }
+}
+
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun errorTrailingIcon(
     isError: Boolean,
@@ -186,22 +235,23 @@ fun errorTrailingIcon(
 }
 
 // Previews
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun InputDialogPreview(
     @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject
 ) {
-    SimpleHiitMobileTheme {
-        Surface {
+    SimpleHiitTvTheme {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             InputDialog(
                 dialogTitle = "Duration of WORK periods",
                 inputFieldValue = inputDialogPreviewObject.inputFieldValue,

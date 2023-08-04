@@ -21,7 +21,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shining_cat.simplehiit.android.tv.ui.common.components.ToggleButton
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonToggle
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 
 import fr.shining_cat.simplehiit.commonresources.R
@@ -55,7 +55,7 @@ fun SelectUsersComponent(
         ) {
             items(users.size) {
                 val user = users[it]
-                ToggleButton(
+                ButtonToggle(
                     modifier = Modifier
                         .height(56.dp)
                         .defaultMinSize(minWidth = 112.dp),
@@ -81,7 +81,7 @@ private fun SelectUsersComponentPreview(
     @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>
 ) {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             SelectUsersComponent(
                 users = users,
                 modifier = Modifier.height(700.dp)

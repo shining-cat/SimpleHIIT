@@ -98,7 +98,7 @@ fun BasicLoading(
 @Composable
 fun PreviewBasicLoading() {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             BasicLoading()
         }
     }

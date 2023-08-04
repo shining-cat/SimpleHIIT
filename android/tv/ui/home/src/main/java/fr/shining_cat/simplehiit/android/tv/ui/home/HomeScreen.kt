@@ -133,7 +133,7 @@ private fun HomeScreenPreviewTV(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             HomeScreen(
                 viewState = viewState,
                 dialogViewState = HomeDialog.None

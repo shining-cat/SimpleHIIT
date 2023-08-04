@@ -92,7 +92,7 @@ fun HomeErrorContent(
 @Composable
 private fun HomeErrorContentPreview() {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             HomeErrorContent(
                 errorCode = "An error happened",
                 resetWholeApp = {}

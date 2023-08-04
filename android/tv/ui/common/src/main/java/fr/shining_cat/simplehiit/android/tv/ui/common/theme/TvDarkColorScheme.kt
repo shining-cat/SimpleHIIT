@@ -10,10 +10,12 @@ val tvDarkColorScheme = darkColorScheme(
     secondary = Amber800,
     background = Grey900,
     surface = Grey800,
+    surfaceVariant = Teal600,
     onPrimary = Grey50,
     onSecondary = Grey900,
     onBackground = Grey50,
     onSurface = Grey50,
+    inverseOnSurface = Grey50,
     error = Red_200,
     onError = Black
 )

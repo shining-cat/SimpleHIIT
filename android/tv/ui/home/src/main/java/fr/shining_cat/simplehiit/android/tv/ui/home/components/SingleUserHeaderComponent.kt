@@ -58,7 +58,7 @@ fun SingleUserHeaderComponent(
 @Composable
 private fun SingleUserHeaderComponentComponentPreview() {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             SingleUserHeaderComponent(
                 user = User(123L, "User 1", selected = true),
                 modifier = Modifier.height(250.dp)

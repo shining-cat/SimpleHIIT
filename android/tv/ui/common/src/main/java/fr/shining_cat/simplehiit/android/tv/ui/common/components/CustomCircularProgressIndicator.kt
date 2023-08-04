@@ -163,7 +163,7 @@ fun CustomCircularProgressIndicator(
 @Composable
 fun PreviewCustomCircularProgressIndicator() {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 CustomCircularProgressIndicator(
                     modifier = Modifier

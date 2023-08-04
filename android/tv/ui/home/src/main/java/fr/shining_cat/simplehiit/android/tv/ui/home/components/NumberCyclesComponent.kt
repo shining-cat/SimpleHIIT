@@ -23,8 +23,8 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.TransparentButtonTextColors
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-
 import fr.shining_cat.simplehiit.commonresources.R
 
 @OptIn(ExperimentalTvMaterial3Api::class)
@@ -58,16 +58,7 @@ fun NumberCyclesComponent(
                 enabled = numberOfCycles > 1,
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = decreaseNumberOfCycles,
-                colors = ButtonDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    focusedContainerColor = MaterialTheme.colorScheme.primary,
-                    focusedContentColor = MaterialTheme.colorScheme.onPrimary,
-                    pressedContainerColor = MaterialTheme.colorScheme.surface,
-                    pressedContentColor = MaterialTheme.colorScheme.primary,
-                    disabledContainerColor = MaterialTheme.colorScheme.surface,
-                    disabledContentColor = MaterialTheme.colorScheme.onSurface
-                ),
+                colors = TransparentButtonTextColors(),
                 shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
             ) {
                 Text(
@@ -89,14 +80,7 @@ fun NumberCyclesComponent(
             Button(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = increaseNumberOfCycles,
-                colors = ButtonDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.surface,
-                    contentColor = MaterialTheme.colorScheme.onSurface,
-                    focusedContainerColor = MaterialTheme.colorScheme.primary,
-                    focusedContentColor = MaterialTheme.colorScheme.onPrimary,
-                    pressedContainerColor = MaterialTheme.colorScheme.surface,
-                    pressedContentColor = MaterialTheme.colorScheme.primary
-                ),
+                colors = TransparentButtonTextColors(),
                 shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
             ) {
                 Text(
@@ -126,7 +110,7 @@ fun NumberCyclesComponent(
 @Composable
 private fun NumberCyclesComponentPreview() {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             NumberCyclesComponent(
                 numberOfCycles = 3,
                 lengthOfCycle = "4mn",

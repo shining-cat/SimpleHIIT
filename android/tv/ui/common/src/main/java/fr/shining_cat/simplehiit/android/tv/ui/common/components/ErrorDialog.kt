@@ -2,9 +2,7 @@ package fr.shining_cat.simplehiit.android.tv.ui.common.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -28,11 +26,10 @@ import fr.shining_cat.simplehiit.commonresources.R
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun WarningDialog(
-    message: String = "",
-    proceedButtonLabel: String,
-    proceedAction: () -> Unit,
-    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
+fun ErrorDialog(
+    errorMessage: String,
+    errorCode: String,
+    dismissButtonLabel: String = "",
     dismissAction: () -> Unit
 ) {
     Dialog(onDismissRequest = dismissAction) {
@@ -48,6 +45,12 @@ fun WarningDialog(
                     .padding(8.dp)
                     .fillMaxWidth()
             ) {
+                Text(
+                    textAlign = TextAlign.Left,
+                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 4.dp),
+                    text = stringResource(id = R.string.error_title),
+                    style = MaterialTheme.typography.headlineSmall
+                )
                 Image(
                     modifier = Modifier
                         .size(120.dp)
@@ -58,27 +61,34 @@ fun WarningDialog(
                 )
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
-                    text = message,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp, vertical = 8.dp),
+                    text = stringResource(id = R.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    if (dismissButtonLabel.isNotBlank()) {
-                        ButtonBordered(
-                            onClick = dismissAction,
-                            label = dismissButtonLabel
-                        )
-                    }
-                    ButtonFilled(
-                        onClick = proceedAction,
-                        label = proceedButtonLabel
+                if (errorMessage.isNotBlank()) {
+                    Text(
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 0.dp, vertical = 8.dp),
+                        text = errorMessage,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
+                Text(
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 0.dp, vertical = 8.dp),
+                    text = stringResource(id = R.string.error_code, errorCode),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                ButtonText(
+                    label = dismissButtonLabel,
+                    onClick = dismissAction
+                )
             }
         }
     }
@@ -97,15 +107,14 @@ fun WarningDialog(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun WarningDialogPreview() {
+private fun ErrorDialogPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            WarningDialog(
-                message = "This will erase all users, all stored sessions, and all settings",
-                proceedButtonLabel = "Yeah",
-                proceedAction = {},
-                dismissButtonLabel = "Nope",
-                dismissAction = {}
+            ErrorDialog(
+                errorMessage = "A balloon is floating above the country",
+                errorCode = "1234",
+                dismissAction = {},
+                dismissButtonLabel = "OK"
             )
         }
     }

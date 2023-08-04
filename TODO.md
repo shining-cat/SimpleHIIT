@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* 
 
 ## Assets production
 * refine statistics cards design and find/create icons for each

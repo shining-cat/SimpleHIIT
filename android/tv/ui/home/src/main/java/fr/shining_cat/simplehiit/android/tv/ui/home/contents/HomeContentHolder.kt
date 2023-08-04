@@ -8,6 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shining_cat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.tv.ui.common.components.WarningDialog
@@ -84,7 +85,7 @@ private fun HomeContentHolderPreviewTV(
     @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
 ) {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             HomeContentHolder(
                 screenViewState = viewState,
                 dialogViewState = HomeDialog.None

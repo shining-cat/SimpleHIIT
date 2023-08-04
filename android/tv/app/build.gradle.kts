@@ -75,6 +75,7 @@ dependencies {
     implementation(project(":android:common"))
     implementation(project(":android:tv:ui:common"))
     implementation(project(":android:tv:ui:home"))
+    implementation(project(":android:tv:ui:settings"))
     implementation(project(":domain:common"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))

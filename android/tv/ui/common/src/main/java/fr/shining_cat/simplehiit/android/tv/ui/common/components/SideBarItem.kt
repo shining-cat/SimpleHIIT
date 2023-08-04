@@ -6,6 +6,7 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,16 +36,18 @@ fun SideBarItem(
     selected: Boolean = false
 ) {
     Button(
+        modifier = Modifier.fillMaxWidth(),
         onClick = onClick,
         contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
         colors = ButtonDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.primary, //same as NavigationDrawe background -> we should not see the container in the default state
+            containerColor = MaterialTheme.colorScheme.primary, //same as NavigationDrawer background -> we should not see the container in the default state
             contentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onPrimary,
             focusedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
             focusedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
             pressedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
             pressedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface
-        )
+        ),
+        shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(icon),
@@ -66,7 +69,7 @@ fun SideBarItem(
 @Composable
 private fun SideBarItemPreview() {
     SimpleHiitTvTheme {
-        Surface {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 SideBarItem(
                     icon = R.drawable.home,

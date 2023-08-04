@@ -1,11 +1,10 @@
-package fr.shining_cat.simplehiit.android.tv.ui.home.contents
+package fr.shining_cat.simplehiit.android.tv.ui.settings.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -13,83 +12,90 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.Button
+import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun HomeMissingUsersContent(
-    navigateToSettings: () -> Unit = {}
+fun SettingsErrorContent(
+    errorCode: String,
+    resetSettings: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.no_user_exist_title),
-            style = MaterialTheme.typography.headlineLarge
-        )
         Image(
             modifier = Modifier
                 .size(120.dp)
                 .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 24.dp),
+                .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description)
         )
         Text(
             textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.warning_no_user_exist),
+            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+            text = stringResource(id = R.string.error_irrecoverable_state_settings),
             style = MaterialTheme.typography.headlineMedium,
+        )
+        if (errorCode.isNotBlank()) {
+            Text(
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .align(Alignment.CenterHorizontally),
+                text = stringResource(id = R.string.error_code, errorCode),
+                style = MaterialTheme.typography.headlineSmall,
+            )
+        }
+        Button(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp, vertical = 24.dp)
-        )
-        ButtonFilled(
-            label = stringResource(id = R.string.go_to_settings),
-            icon = ImageVector.vectorResource(R.drawable.cog),
-            iconContentDescription = R.string.settings_button_content_label,
-            accentColor = true,
-            onClick = navigateToSettings
-        )
+                .padding(horizontal = 0.dp, vertical = 16.dp)
+                .align(Alignment.CenterHorizontally),
+            onClick = resetSettings,
+            colors = ButtonDefaults.colors(
+                containerColor = MaterialTheme.colorScheme.error,
+                contentColor = MaterialTheme.colorScheme.onError,
+                focusedContainerColor = MaterialTheme.colorScheme.surface,
+                focusedContentColor = MaterialTheme.colorScheme.error,
+                pressedContainerColor = MaterialTheme.colorScheme.error,
+                pressedContentColor = MaterialTheme.colorScheme.onError
+            )
+        ) {
+            Text(text = stringResource(id = R.string.reset_settings_button_label))
+        }
     }
 }
 
 // Previews
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun HomeMissingUsersContentPreviewPhonePortrait() {
+private fun SettingsErrorContentPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            HomeMissingUsersContent()
+            SettingsErrorContent(errorCode = "ABCD-123")
         }
     }
 }
+

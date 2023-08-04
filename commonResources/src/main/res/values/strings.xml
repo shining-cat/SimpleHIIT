@@ -12,6 +12,7 @@
     <string name="error">Error</string>
     <string name="invalid_input_error">Invalid input</string>
     <string name="ok">OK</string>
+    <string name="active">active</string>
 
     <!-- HOME PAGE -->
     <string name="home_page_title">Home</string>
