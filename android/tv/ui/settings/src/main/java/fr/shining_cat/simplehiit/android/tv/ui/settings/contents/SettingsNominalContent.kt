@@ -50,7 +50,7 @@ fun SettingsNominalContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on first item
         SettingsFieldComponent(
             label = stringResource(id = R.string.work_period_length_label),
             value = stringResource(
