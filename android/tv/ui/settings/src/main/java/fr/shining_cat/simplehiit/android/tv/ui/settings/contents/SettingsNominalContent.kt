@@ -5,8 +5,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +48,9 @@ fun SettingsNominalContent(
     viewState: SettingsViewState.Nominal,
     hiitLogger: HiitLogger? = null
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit){focusRequester.requestFocus()}
+
     Column(
         modifier = Modifier
             .padding(16.dp)
@@ -52,6 +59,7 @@ fun SettingsNominalContent(
     ) {
         Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on first item
         SettingsFieldComponent(
+            modifier = Modifier.focusRequester(focusRequester),//calling focus on the first setting on opening
             label = stringResource(id = R.string.work_period_length_label),
             value = stringResource(
                 id = R.string.seconds_setting_value,
