@@ -24,6 +24,7 @@ import fr.shining_cat.simplehiit.android.tv.ui.settings.components.SettingsField
 import fr.shining_cat.simplehiit.android.tv.ui.settings.components.SettingsToggleComponent
 import fr.shining_cat.simplehiit.android.tv.ui.settings.components.SettingsUsersComponent
 import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.common.models.User
@@ -40,11 +41,12 @@ fun SettingsNominalContent(
     addUser: () -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
     resetSettings: () -> Unit = {},
-    viewState: SettingsViewState.Nominal
+    viewState: SettingsViewState.Nominal,
+    hiitLogger: HiitLogger? = null
 ) {
     Column(
         modifier = Modifier
-            .padding(horizontal = 8.dp)
+            .padding(16.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
@@ -55,7 +57,8 @@ fun SettingsNominalContent(
                 id = R.string.seconds_setting_value,
                 viewState.workPeriodLengthAsSeconds
             ),
-            onClick = editWorkPeriodLength
+            onClick = editWorkPeriodLength,
+            hiitLogger = hiitLogger
         )
         SettingsFieldComponent(
             label = stringResource(id = R.string.rest_period_length_label),
@@ -82,7 +85,6 @@ fun SettingsNominalContent(
             value = stringResource(
                 id = R.string.seconds_setting_value, viewState.periodsStartCountDownLengthAsSeconds
             ),
-            secondaryLabel = stringResource(id = R.string.period_length_too_short_constraint),
             onClick = editPeriodStartCountDown
         )
         SettingsFieldComponent(
@@ -105,7 +107,8 @@ fun SettingsNominalContent(
         )
         SettingsExercisesSelectedComponent(
             exerciseTypes = viewState.exerciseTypes,
-            onToggle = toggleExerciseType
+            onToggle = toggleExerciseType,
+            hiitLogger = hiitLogger
         )
         Spacer(
             modifier = Modifier

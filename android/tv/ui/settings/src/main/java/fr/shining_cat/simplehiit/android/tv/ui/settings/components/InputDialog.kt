@@ -13,10 +13,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -66,21 +70,17 @@ fun InputDialog(
     pickErrorMessage: (Constants.InputError) -> Int = { -1 }
 ) {
 
-    //TODO: auto-focus on input field when opening dialog
-
-    //TODO: open keyboard when auto-focusing
-
-    //TODO: set cursor position at end of inputFieldValue in input field when auto-focusing. Only affect this position once on dialog opening
-
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
     val isError =
         rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit){focusRequester.requestFocus()}
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
-//            color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium
         ) {
             val dialogPadding = 8.dp
@@ -127,7 +127,8 @@ fun InputDialog(
                         }),
                         modifier = Modifier
                             .width(inputFieldSize.width)
-                            .alignByBaseline(),
+                            .alignByBaseline()
+                            .focusRequester(focusRequester),
                         decorationBox = {
                             InputDialogDecoration(
                                 innerTextField = it,

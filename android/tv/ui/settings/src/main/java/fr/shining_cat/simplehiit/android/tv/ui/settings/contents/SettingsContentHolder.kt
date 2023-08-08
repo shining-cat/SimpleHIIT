@@ -23,6 +23,7 @@ import fr.shining_cat.simplehiit.android.tv.ui.settings.dialogs.SettingsEditPeri
 import fr.shining_cat.simplehiit.android.tv.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
 import fr.shining_cat.simplehiit.android.tv.ui.settings.dialogs.SettingsEditUserDialog
 import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -57,7 +58,8 @@ fun SettingsContentHolder(
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
     screenViewState: SettingsViewState,
-    dialogViewState: SettingsDialog
+    dialogViewState: SettingsDialog,
+    hiitLogger: HiitLogger? = null
 ) {
     when (screenViewState) {
         SettingsViewState.Loading -> BasicLoading()
@@ -78,7 +80,8 @@ fun SettingsContentHolder(
             addUser = addUser,
             toggleExerciseType = toggleExerciseType,
             resetSettings = resetSettings,
-            viewState = screenViewState
+            viewState = screenViewState,
+            hiitLogger = hiitLogger
         )
     }
     when (dialogViewState) {

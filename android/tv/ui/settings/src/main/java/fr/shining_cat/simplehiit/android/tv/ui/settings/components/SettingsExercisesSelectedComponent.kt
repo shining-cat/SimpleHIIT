@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -16,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -23,6 +25,7 @@ import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonToggle
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
 import kotlin.math.roundToInt
@@ -31,6 +34,7 @@ import kotlin.math.roundToInt
 fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,
     onToggle: (ExerciseTypeSelected) -> Unit = {},
+    hiitLogger: HiitLogger? = null
 ) {
     Column {
         Text(
@@ -42,11 +46,13 @@ fun SettingsExercisesSelectedComponent(
         Spacer(modifier = Modifier.height(8.dp))
         val itemHeight = 56.dp
         val numberOfColumns = 3
-        val spacing = 8.dp
+        val spacing = 24.dp
         val rowsCount = (exerciseTypes.size.toFloat() / numberOfColumns.toFloat()).roundToInt()
-        val gridHeight = (itemHeight + spacing) * rowsCount
+        val gridHeight = (itemHeight + spacing) * rowsCount + 2 * 16.dp // adding margin for zoom-in focus effect for buttons to not be truncated
         LazyVerticalGrid(
-            modifier = Modifier.height(gridHeight),
+            modifier = Modifier
+                .height(gridHeight)
+                .padding(top = 8.dp),
             columns = GridCells.Fixed(numberOfColumns),
             verticalArrangement = Arrangement.spacedBy(spacing),
             horizontalArrangement = Arrangement.spacedBy(spacing),

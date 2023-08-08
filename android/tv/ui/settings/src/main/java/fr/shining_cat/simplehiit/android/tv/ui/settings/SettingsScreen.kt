@@ -73,7 +73,8 @@ fun SettingsScreen(
         resetSettingsConfirmation = { viewModel.resetAllSettingsConfirmation() },
         cancelDialog = { viewModel.cancelDialog() },
         screenViewState = screenViewState,
-        dialogViewState = dialogViewState
+        dialogViewState = dialogViewState,
+        hiitLogger = hiitLogger
     )
 }
 
@@ -107,7 +108,8 @@ private fun SettingsScreen(
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
     screenViewState: SettingsViewState,
-    dialogViewState: SettingsDialog
+    dialogViewState: SettingsDialog,
+    hiitLogger: HiitLogger? = null
 ) {
     Row(modifier = Modifier.fillMaxSize()) {
         NavigationSideBar(
@@ -148,7 +150,8 @@ private fun SettingsScreen(
                 resetSettingsConfirmation = resetSettingsConfirmation,
                 cancelDialog = cancelDialog,
                 screenViewState = screenViewState,
-                dialogViewState = dialogViewState
+                dialogViewState = dialogViewState,
+                hiitLogger = hiitLogger
             )
         }
     }

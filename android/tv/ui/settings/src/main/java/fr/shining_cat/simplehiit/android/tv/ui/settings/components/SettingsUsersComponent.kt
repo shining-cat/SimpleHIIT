@@ -50,10 +50,10 @@ fun SettingsUsersComponent(
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.users_list_setting_label)
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(24.dp))
         val itemHeight = 48.dp
         val numberOfColumns = 3
-        val spacing = 8.dp
+        val spacing = 24.dp
         val totalNumberOfItems = users.size
         val rowsCount = ceil(totalNumberOfItems.toFloat() / numberOfColumns.toFloat()).toInt()
         val gridHeight = (itemHeight + spacing) * rowsCount

@@ -18,6 +18,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun SettingsFieldComponent(
@@ -25,7 +26,8 @@ fun SettingsFieldComponent(
     value: String,
     onClick: () -> Unit = {},
     secondaryLabel: String = "",
-    secondaryValue: String = ""
+    secondaryValue: String = "",
+    hiitLogger: HiitLogger? = null
 ) {
     Row(
         Modifier
