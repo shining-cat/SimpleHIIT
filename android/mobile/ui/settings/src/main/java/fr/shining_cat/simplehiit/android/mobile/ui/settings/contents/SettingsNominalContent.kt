@@ -82,7 +82,6 @@ fun SettingsNominalContent(
             value = stringResource(
                 id = R.string.seconds_setting_value, viewState.periodsStartCountDownLengthAsSeconds
             ),
-            secondaryLabel = stringResource(id = R.string.period_length_too_short_constraint),
             onClick = editPeriodStartCountDown
         )
         SettingsFieldComponent(
