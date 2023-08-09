@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* exercises can only be un-selected 
 * WarningDialog layout is broken
 * refine focus handling in settings screen: 
   * when moving from nav sidebar to settings, first focused should be first item

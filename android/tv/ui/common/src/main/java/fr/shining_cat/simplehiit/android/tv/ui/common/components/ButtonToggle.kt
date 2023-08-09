@@ -36,6 +36,7 @@ fun ButtonToggle(
     } else{
         ButtonBordered(
             modifier = modifier,
+            onClick = { onToggle() },
             label = label
         )
     }
