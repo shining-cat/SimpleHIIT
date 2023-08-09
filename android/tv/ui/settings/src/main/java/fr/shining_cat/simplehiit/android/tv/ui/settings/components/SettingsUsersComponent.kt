@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -22,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -54,9 +56,9 @@ fun SettingsUsersComponent(
         val itemHeight = 48.dp
         val numberOfColumns = 3
         val spacing = 24.dp
-        val totalNumberOfItems = users.size
-        val rowsCount = ceil(totalNumberOfItems.toFloat() / numberOfColumns.toFloat()).toInt()
-        val gridHeight = (itemHeight + spacing) * rowsCount
+        val forcedTopMargin = 8.dp //this is to avoid the zoomed-in focused buttons of the first row to be clipped
+        val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
+        val gridHeight = 2 * forcedTopMargin + (itemHeight )* rowsCount + spacing * (rowsCount - 1) //adding forcedMargin on top and bottom for symmetry, rather than a last spacing
         LazyVerticalStaggeredGrid(
             modifier = Modifier.height(gridHeight),
             columns = StaggeredGridCells.Fixed(numberOfColumns),
@@ -69,6 +71,7 @@ fun SettingsUsersComponent(
                 ButtonBordered(
                     modifier = Modifier
                         .height(itemHeight)
+                        .offset(y = forcedTopMargin) // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
                         .defaultMinSize(minWidth = 112.dp),
                     onClick = { onClickUser(user) },
                     label = user.name

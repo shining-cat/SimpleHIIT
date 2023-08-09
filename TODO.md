@@ -1,6 +1,11 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* exercises can only be un-selected 
+* WarningDialog layout is broken
+* refine focus handling in settings screen: 
+  * when moving from nav sidebar to settings, first focused should be first item
+  * when toggling an exercise type setting, focus should stay on the same item, not be lost
 
 ## Assets production
 * refine statistics cards design and find/create icons for each
