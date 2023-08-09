@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -70,11 +71,13 @@ fun WarningDialog(
                 ) {
                     if (dismissButtonLabel.isNotBlank()) {
                         ButtonBordered(
+                            modifier = Modifier.height(48.dp),
                             onClick = dismissAction,
                             label = dismissButtonLabel
                         )
                     }
                     ButtonFilled(
+                        modifier = Modifier.height(48.dp),
                         onClick = proceedAction,
                         label = proceedButtonLabel
                     )
@@ -88,12 +91,12 @@ fun WarningDialog(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable

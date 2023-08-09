@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -86,6 +87,7 @@ fun ErrorDialog(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 ButtonText(
+                    modifier = Modifier.height(48.dp),
                     label = dismissButtonLabel,
                     onClick = dismissAction
                 )
@@ -98,12 +100,12 @@ fun ErrorDialog(
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
-    device = Devices.PIXEL_4,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
