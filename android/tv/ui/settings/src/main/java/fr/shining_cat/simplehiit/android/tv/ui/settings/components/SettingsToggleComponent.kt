@@ -21,7 +21,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Switch
 import androidx.tv.material3.SwitchDefaults
 import androidx.tv.material3.Text
-import fr.shining_cat.simplehiit.android.tv.ui.common.components.TransparentButtonTextColors
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 
 @OptIn(ExperimentalTvMaterial3Api::class)
@@ -40,7 +40,7 @@ fun SettingsToggleComponent(
                 .defaultMinSize(minHeight = 48.dp)
                 .padding(bottom = 8.dp),
             onClick = { onToggle() },
-            colors = TransparentButtonTextColors(),
+            colors = transparentButtonTextColors(),
             shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
         ) {
             Row(

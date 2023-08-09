@@ -2,12 +2,9 @@ package fr.shining_cat.simplehiit.android.tv.ui.settings.contents
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -17,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -49,87 +47,125 @@ fun SettingsNominalContent(
     hiitLogger: HiitLogger? = null
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit){focusRequester.requestFocus()}
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
-    Column(
+    TvLazyColumn(
         modifier = Modifier
-            .padding(16.dp)
+            .padding(horizontal = 16.dp)
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
-        Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on first item
-        SettingsFieldComponent(
-            modifier = Modifier.focusRequester(focusRequester),//calling focus on the first setting on opening
-            label = stringResource(id = R.string.work_period_length_label),
-            value = stringResource(
-                id = R.string.seconds_setting_value,
-                viewState.workPeriodLengthAsSeconds
-            ),
-            onClick = editWorkPeriodLength,
-            hiitLogger = hiitLogger
-        )
-        SettingsFieldComponent(
-            label = stringResource(id = R.string.rest_period_length_label),
-            value = stringResource(
-                id = R.string.seconds_setting_value,
-                viewState.restPeriodLengthAsSeconds
-            ),
-            onClick = editRestPeriodLength
-        )
-        SettingsFieldComponent(
-            label = stringResource(id = R.string.number_of_periods_label),
-            value = viewState.numberOfWorkPeriods,
-            secondaryLabel = stringResource(id = R.string.total_cycle_length_label),
-            secondaryValue = viewState.totalCycleLength,
-            onClick = editNumberOfWorkPeriods
-        )
-        SettingsToggleComponent(
-            label = stringResource(id = R.string.beep_sound_setting_label),
-            value = viewState.beepSoundCountDownActive,
-            onToggle = toggleBeepSound
-        )
-        SettingsFieldComponent(
-            label = stringResource(id = R.string.period_start_countdown_length_setting_label),
-            value = stringResource(
-                id = R.string.seconds_setting_value, viewState.periodsStartCountDownLengthAsSeconds
-            ),
-            onClick = editPeriodStartCountDown
-        )
-        SettingsFieldComponent(
-            label = stringResource(id = R.string.session_start_countdown_length_setting_label),
-            value = stringResource(
-                id = R.string.seconds_setting_value, viewState.sessionStartCountDownLengthAsSeconds
-            ),
-            onClick = editSessionStartCountDown
-        )
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        )
-        SettingsUsersComponent(users = viewState.users, onClickUser = editUser, onAddUser = addUser)
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        )
-        SettingsExercisesSelectedComponent(
-            exerciseTypes = viewState.exerciseTypes,
-            onToggle = toggleExerciseType,
-            hiitLogger = hiitLogger
-        )
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp)
-        )
-        ButtonText(
-            modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
-            onClick = resetSettings,
-            label = stringResource(id = R.string.reset_settings_button_label)
-        )
+        item {
+            Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on first item
+        }
+        item {
+            SettingsFieldComponent(
+                modifier = Modifier.focusRequester(focusRequester),//calling focus on the first setting on opening
+                label = stringResource(id = R.string.work_period_length_label),
+                value = stringResource(
+                    id = R.string.seconds_setting_value,
+                    viewState.workPeriodLengthAsSeconds
+                ),
+                onClick = editWorkPeriodLength,
+                hiitLogger = hiitLogger
+            )
+        }
+        item {
+            SettingsFieldComponent(
+                label = stringResource(id = R.string.rest_period_length_label),
+                value = stringResource(
+                    id = R.string.seconds_setting_value,
+                    viewState.restPeriodLengthAsSeconds
+                ),
+                onClick = editRestPeriodLength
+            )
+        }
+        item {
+            SettingsFieldComponent(
+                label = stringResource(id = R.string.number_of_periods_label),
+                value = viewState.numberOfWorkPeriods,
+                secondaryLabel = stringResource(id = R.string.total_cycle_length_label),
+                secondaryValue = viewState.totalCycleLength,
+                onClick = editNumberOfWorkPeriods
+            )
+        }
+        item {
+            SettingsToggleComponent(
+                label = stringResource(id = R.string.beep_sound_setting_label),
+                value = viewState.beepSoundCountDownActive,
+                onToggle = toggleBeepSound
+            )
+        }
+        item {
+            SettingsFieldComponent(
+                label = stringResource(id = R.string.period_start_countdown_length_setting_label),
+                value = stringResource(
+                    id = R.string.seconds_setting_value,
+                    viewState.periodsStartCountDownLengthAsSeconds
+                ),
+                onClick = editPeriodStartCountDown
+            )
+        }
+        item {
+            SettingsFieldComponent(
+                label = stringResource(id = R.string.session_start_countdown_length_setting_label),
+                value = stringResource(
+                    id = R.string.seconds_setting_value,
+                    viewState.sessionStartCountDownLengthAsSeconds
+                ),
+                onClick = editSessionStartCountDown
+            )
+        }
+        item {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+        }
+        item {
+            SettingsUsersComponent(
+                users = viewState.users,
+                onClickUser = editUser,
+                onAddUser = addUser
+            )
+        }
+        item {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+        }
+        item {
+            SettingsExercisesSelectedComponent(
+                exerciseTypes = viewState.exerciseTypes,
+                onToggle = toggleExerciseType,
+                hiitLogger = hiitLogger
+            )
+        }
+        item {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
+            )
+        }
+        item {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Spacer(modifier = Modifier.weight(.3f))
+                ButtonText(
+                    modifier = Modifier
+                        .padding(vertical = 24.dp)
+                        .weight(weight = .3f, fill = true),
+                    onClick = resetSettings,
+                    label = stringResource(id = R.string.reset_settings_button_label)
+                )
+                Spacer(modifier = Modifier.weight(.3f))
+            }
+        }
+        item {
+            Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on last item
+        }
     }
 }
 

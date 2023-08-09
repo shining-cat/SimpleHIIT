@@ -7,10 +7,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -47,12 +49,12 @@ fun ButtonText(
         modifier = modifier,
         onClick = { onClick() },
         enabled = enabled,
-        colors = TransparentButtonTextColors(),
+        colors = transparentButtonTextColors(),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
         contentPadding = PaddingValues(12.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxHeight(),
+            modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             if (icon != -1) {
@@ -64,14 +66,14 @@ fun ButtonText(
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }
-            Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            Text(modifier = Modifier.weight(weight = 1f, fill = true), text = label, maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center)
         }
     }
 }
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun TransparentButtonTextColors() = ButtonDefaults.colors(
+fun transparentButtonTextColors() = ButtonDefaults.colors(
     containerColor = Color.Transparent,
     contentColor = MaterialTheme.colorScheme.onPrimary,
     focusedContainerColor = MaterialTheme.colorScheme.surface,
@@ -99,7 +101,7 @@ private fun FilledButtonPreview() {
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ButtonText(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(64.dp),
                     label = "I'm a button"
                 )
                 ButtonText(

@@ -20,7 +20,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shining_cat.simplehiit.android.tv.ui.common.components.TransparentButtonTextColors
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 
@@ -43,7 +43,7 @@ fun SettingsFieldComponent(
                 .defaultMinSize(minHeight = 48.dp)
                 .padding(bottom = 8.dp),
             onClick = { onClick() },
-            colors = TransparentButtonTextColors(),
+            colors = transparentButtonTextColors(),
             shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
         ) {
             Row(
