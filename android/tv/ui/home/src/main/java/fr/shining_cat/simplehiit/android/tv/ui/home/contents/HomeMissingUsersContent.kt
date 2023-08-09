@@ -11,8 +11,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,6 +37,9 @@ import fr.shining_cat.simplehiit.commonresources.R
 fun HomeMissingUsersContent(
     navigateToSettings: () -> Unit = {}
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -64,6 +71,7 @@ fun HomeMissingUsersContent(
                 .padding(horizontal = 0.dp, vertical = 24.dp)
         )
         ButtonFilled(
+            modifier = Modifier.focusRequester(focusRequester),//calling focus on the first setting on opening
             label = stringResource(id = R.string.go_to_settings),
             icon = ImageVector.vectorResource(R.drawable.cog),
             iconContentDescription = R.string.settings_button_content_label,

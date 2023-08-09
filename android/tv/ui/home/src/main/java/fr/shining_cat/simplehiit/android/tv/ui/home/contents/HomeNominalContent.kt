@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,7 +45,10 @@ fun HomeNominalContent(
     navigateToSession: () -> Unit = {},
     hiitLogger: HiitLogger? = null
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
     val canLaunchSession = users.any { it.selected }
+
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -79,7 +86,9 @@ fun HomeNominalContent(
                 verticalArrangement = Arrangement.Center
             ) {
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier
+                        .height(48.dp)
+                        .focusRequester(focusRequester),//calling focus on the launch button on opening
                     label = if (canLaunchSession) {
                         stringResource(id = R.string.launch_session_label)
                     } else {

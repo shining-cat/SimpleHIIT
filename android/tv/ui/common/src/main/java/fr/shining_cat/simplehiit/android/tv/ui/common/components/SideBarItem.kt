@@ -42,7 +42,7 @@ fun SideBarItem(
         colors = ButtonDefaults.colors(
             containerColor = MaterialTheme.colorScheme.primary, //same as NavigationDrawer background -> we should not see the container in the default state
             contentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onPrimary,
-            focusedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            focusedContainerColor = MaterialTheme.colorScheme.surface,
             focusedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
             pressedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
             pressedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface

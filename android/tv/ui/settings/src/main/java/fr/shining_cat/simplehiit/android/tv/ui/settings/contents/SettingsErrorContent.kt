@@ -10,8 +10,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +36,9 @@ fun SettingsErrorContent(
     errorCode: String,
     resetSettings: () -> Unit = {}
 ) {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -66,7 +73,8 @@ fun SettingsErrorContent(
         Button(
             modifier = Modifier
                 .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
+                .align(Alignment.CenterHorizontally)
+                .focusRequester(focusRequester),//calling focus on button on opening
             onClick = resetSettings,
             colors = ButtonDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.error,

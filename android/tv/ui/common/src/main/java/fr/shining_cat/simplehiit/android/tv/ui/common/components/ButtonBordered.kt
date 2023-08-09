@@ -51,7 +51,7 @@ fun ButtonBordered(
         contentPadding = PaddingValues(12.dp),
         onClick = { onClick() },
         enabled = enabled,
-        colors = ButtonDefaults.colors( // this is mostly to allow for a more visible focus stsate
+        colors = ButtonDefaults.colors( // this is mostly to allow for a more visible focus state
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onPrimary,
             focusedContainerColor = MaterialTheme.colorScheme.surface,
