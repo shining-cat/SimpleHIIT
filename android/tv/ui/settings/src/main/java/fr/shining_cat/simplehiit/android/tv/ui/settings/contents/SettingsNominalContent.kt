@@ -4,7 +4,10 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -47,10 +50,22 @@ fun SettingsNominalContent(
     viewState: SettingsViewState.Nominal,
     hiitLogger: HiitLogger? = null
 ) {
-    val focusRequester = remember { FocusRequester() }
+    val firstButtonFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the first button
-        focusRequester.requestFocus()
+        //wait a bit to increase awareness of the user of the focusing on the first button
+        delay(200L)
+        //calling focus on the first setting on opening. This we only want to apply on first composition
+        firstButtonFocusRequester.requestFocus()
+    }
+
+    //we only lose focus when toggling our exercisetype buttons, so these are the only ones we need to manually help to survive recomposition
+    val exerciseButtonsFocusRequesters =
+        remember { viewState.exerciseTypes.associate { it.type.name to FocusRequester() } }
+    var focusedExerciseButton by remember { mutableStateOf("") }
+    LaunchedEffect(key1 = viewState.exerciseTypes) {
+        if (focusedExerciseButton.isNotBlank()) {
+            exerciseButtonsFocusRequesters.getValue(focusedExerciseButton).requestFocus()
+        }
     }
 
     TvLazyColumn(
@@ -63,7 +78,7 @@ fun SettingsNominalContent(
         }
         item {
             SettingsFieldComponent(
-                modifier = Modifier.focusRequester(focusRequester),//calling focus on the first setting on opening
+                modifier = Modifier.focusRequester(firstButtonFocusRequester),
                 label = stringResource(id = R.string.work_period_length_label),
                 value = stringResource(
                     id = R.string.seconds_setting_value,
@@ -143,7 +158,12 @@ fun SettingsNominalContent(
         item {
             SettingsExercisesSelectedComponent(
                 exerciseTypes = viewState.exerciseTypes,
-                onToggle = toggleExerciseType,
+                onToggle = {
+                    focusedExerciseButton =
+                        it.type.name //storing the button acted upon for resetting focus after recomposition
+                    toggleExerciseType(it)
+                },
+                exerciseButtonsFocusRequesters = exerciseButtonsFocusRequesters,
                 hiitLogger = hiitLogger
             )
         }

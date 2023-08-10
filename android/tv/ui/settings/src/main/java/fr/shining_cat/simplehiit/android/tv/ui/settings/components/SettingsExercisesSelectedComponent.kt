@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +36,7 @@ import kotlin.math.ceil
 fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,
     onToggle: (ExerciseTypeSelected) -> Unit = {},
+    exerciseButtonsFocusRequesters: Map<String, FocusRequester> = emptyMap(),
     hiitLogger: HiitLogger? = null
 ) {
     Column {
@@ -47,9 +50,11 @@ fun SettingsExercisesSelectedComponent(
         val itemHeight = 56.dp
         val numberOfColumns = 3
         val spacing = 24.dp
-        val forcedTopMargin = 8.dp //this is to avoid the zoomed-in focused buttons of the first row to be clipped
+        // this is to avoid the zoomed-in focused buttons of the first row to be clipped:
+        val forcedTopMargin = 8.dp
         val rowsCount = ceil(exerciseTypes.size.toFloat() / numberOfColumns.toFloat()).toInt()
-        val gridHeight = 2 * forcedTopMargin + (itemHeight )* rowsCount + spacing * (rowsCount - 1) //adding forcedMargin on top and bottom for symmetry, rather than a last spacing
+        // adding forcedMargin on top and bottom for symmetry, rather than a last spacing:
+        val gridHeight = 2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1)
         LazyVerticalGrid(
             modifier = Modifier.height(gridHeight),
             columns = GridCells.Fixed(numberOfColumns),
@@ -59,10 +64,18 @@ fun SettingsExercisesSelectedComponent(
         ) {
             items(exerciseTypes.size) {
                 val exerciseTypeSelected = exerciseTypes[it]
+                val exerciseTypeFocusRequester =
+                    exerciseButtonsFocusRequesters[exerciseTypeSelected.type.name]
                 ButtonToggle(
                     modifier = Modifier
                         .height(itemHeight)
-                        .offset(y = forcedTopMargin), // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
+                        // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
+                        .offset(y = forcedTopMargin)
+                        .then(
+                            if (exerciseTypeFocusRequester != null) Modifier.focusRequester(
+                                exerciseTypeFocusRequester
+                            ) else Modifier
+                        ),
                     label = exerciseTypeSelected.type.name,
                     selected = exerciseTypeSelected.selected,
                     onToggle = { onToggle(exerciseTypeSelected) }
@@ -113,11 +126,11 @@ internal class SettingsExercisesSelectedComponentPreviewParameterProvider :
         )
     }
 
-    private fun tripleList():List<ExerciseTypeSelected>{
+    private fun tripleList(): List<ExerciseTypeSelected> {
         val tripleList = mutableListOf<ExerciseTypeSelected>()
         tripleList.addAll(exerciseTypeSelectedAllTrue)
         tripleList.addAll(exerciseTypeSelectedAllFalse)
-//        tripleList.addAll(exerciseTypeSelectedMixed)
+        tripleList.addAll(exerciseTypeSelectedMixed)
         return tripleList
     }
 
