@@ -32,13 +32,17 @@ import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeMissingUsersContent(
     navigateToSettings: () -> Unit = {}
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = Modifier

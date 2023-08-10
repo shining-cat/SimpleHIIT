@@ -30,6 +30,7 @@ import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.common.models.User
+import kotlinx.coroutines.delay
 
 @Composable
 fun SettingsNominalContent(
@@ -47,7 +48,10 @@ fun SettingsNominalContent(
     hiitLogger: HiitLogger? = null
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the first button
+        focusRequester.requestFocus()
+    }
 
     TvLazyColumn(
         modifier = Modifier

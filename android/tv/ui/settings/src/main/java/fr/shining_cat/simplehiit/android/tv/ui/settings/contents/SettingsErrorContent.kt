@@ -19,6 +19,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
@@ -29,6 +30,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
@@ -37,7 +39,10 @@ fun SettingsErrorContent(
     resetSettings: () -> Unit = {}
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = Modifier
@@ -93,9 +98,13 @@ fun SettingsErrorContent(
 // Previews
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
+    showSystemUi = true,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
+    showSystemUi = true,
+    device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable

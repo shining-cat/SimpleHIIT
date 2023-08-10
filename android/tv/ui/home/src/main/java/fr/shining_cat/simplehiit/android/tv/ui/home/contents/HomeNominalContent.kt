@@ -32,6 +32,7 @@ import fr.shining_cat.simplehiit.android.tv.ui.home.components.SingleUserHeaderC
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.models.User
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeNominalContent(
@@ -46,7 +47,10 @@ fun HomeNominalContent(
     hiitLogger: HiitLogger? = null
 ) {
     val focusRequester = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+        focusRequester.requestFocus()
+    }
     val canLaunchSession = users.any { it.selected }
 
     Row(

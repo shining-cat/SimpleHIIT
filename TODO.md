@@ -1,7 +1,7 @@
 # SimpleHIIT ToDo list
+* when acting on any setting in the settings screen, we cause a recomposition by altering the global viewstate, which in turns makes us loose the focus we had. -> get the focused item to regain focus after recomposition
 
 ## Missing features / issues
-* WarningDialog layout is broken
 * refine focus handling in settings screen: 
   * when moving from nav sidebar to settings, first focused should be first item (default focused on first time entering screen is already first setting)
   * when toggling an exercise type setting, focus should stay on the same item, not be lost
