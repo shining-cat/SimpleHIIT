@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -24,6 +22,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import androidx.tv.foundation.lazy.grid.TvGridCells
+import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -46,23 +46,24 @@ fun SettingsUsersComponent(
         modifier = Modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        val spacing = 24.dp
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.users_list_setting_label)
         )
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(spacing))
         val itemHeight = 48.dp
         val numberOfColumns = 3
-        val spacing = 24.dp
         val forcedTopMargin = 8.dp //this is to avoid the zoomed-in focused buttons of the first row to be clipped
         val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
         val gridHeight = 2 * forcedTopMargin + (itemHeight )* rowsCount + spacing * (rowsCount - 1) //adding forcedMargin on top and bottom for symmetry, rather than a last spacing
-        LazyVerticalStaggeredGrid(
+
+        TvLazyVerticalGrid(
+            columns = TvGridCells.Fixed(numberOfColumns),
             modifier = Modifier.height(gridHeight),
-            columns = StaggeredGridCells.Fixed(numberOfColumns),
-            verticalItemSpacing = spacing,
+            verticalArrangement = Arrangement.spacedBy(spacing),
             horizontalArrangement = Arrangement.spacedBy(spacing),
             userScrollEnabled = false
         ) {
@@ -77,6 +78,9 @@ fun SettingsUsersComponent(
                     label = user.name
                 )
             }
+        }
+        if(users.isNotEmpty()){
+            Spacer(modifier = Modifier.height(spacing))
         }
         ButtonFilled(
             modifier = Modifier
@@ -125,7 +129,7 @@ internal class SettingsUsersComponentPreviewParameterProvider :
         User(234L, "User tudut 6", selected = false),
         User(345L, "User toto 7", selected = true),
         User(345L, "UserWithLongName 8", selected = true),
-        User(345L, "UserWithLongName 9", selected = true)
+//        User(345L, "UserWithLongName 9", selected = true)
     )
 
     override val values: Sequence<List<User>>
