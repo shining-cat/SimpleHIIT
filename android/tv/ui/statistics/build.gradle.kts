@@ -23,7 +23,6 @@ dependencies {
     implementation(project(":domain:statistics"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))
-    implementation(project(":android:mobile:ui:common"))
     testImplementation(project(":testUtils"))
     androidTestImplementation(project(":testUtils"))
     //
