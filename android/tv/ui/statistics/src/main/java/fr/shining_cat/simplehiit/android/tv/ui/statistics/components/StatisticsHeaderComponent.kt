@@ -42,8 +42,10 @@ fun StatisticsHeaderComponent(
 
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
-        focusRequester.requestFocus()
+        if (showUsersSwitch) {
+            delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+            focusRequester.requestFocus()
+        }
     }
 
     Row(

@@ -52,8 +52,11 @@ fun StatisticsNominalContent(
         //
         val columnsCount = 2
         val gridPadding = 16.dp
-        val doubleSpan: (TvLazyGridItemSpanScope) -> TvGridItemSpan =
-            { TvGridItemSpan(columnsCount) }
+        // this is to avoid dropped shadow of the first row to be clipped:
+        val forcedTopMargin = 8.dp
+        val doubleSpan: (TvLazyGridItemSpanScope) -> TvGridItemSpan = {
+            TvGridItemSpan(columnsCount)
+        }
         TvLazyVerticalGrid(
             modifier = Modifier
                 .padding(8.dp)
@@ -67,7 +70,12 @@ fun StatisticsNominalContent(
         ) {
             items(viewState.statistics.size) {
                 val displayStatistic = viewState.statistics[it]
-                StatisticCardComponent(displayStatistic)
+                StatisticCardComponent(
+                    modifier = Modifier
+                        // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
+                        .offset(y = forcedTopMargin),
+                    statistic = displayStatistic
+                )
             }
             item(span = doubleSpan) {
                 Spacer(

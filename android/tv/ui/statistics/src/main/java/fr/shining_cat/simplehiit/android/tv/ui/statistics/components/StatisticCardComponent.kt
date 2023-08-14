@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.Glow
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NonInteractiveSurfaceDefaults
 import androidx.tv.material3.Surface
@@ -27,7 +28,11 @@ import fr.shining_cat.simplehiit.domain.common.models.DisplayedStatistic
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun StatisticCardComponent(statistic: DisplayedStatistic) {
+fun StatisticCardComponent(
+    modifier: Modifier = Modifier,
+    statistic: DisplayedStatistic
+) {
+
     val label = when (statistic.type) {
         DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(R.string.sessions_total)
         DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(R.string.time_total)
@@ -36,8 +41,13 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
         DisplayStatisticType.CURRENT_STREAK -> stringResource(R.string.current_streak)
         DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(R.string.average_sessions_week)
     }
+
     Surface(
-        modifier = Modifier,
+        modifier = modifier,
+        glow = Glow(
+            elevationColor = MaterialTheme.colorScheme.onBackground,
+            elevation = 5.dp
+        ),
         border = Border(
             border = BorderStroke(
                 width = 2.dp,
@@ -49,7 +59,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
             containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface
         ),
-        shape = MaterialTheme.shapes.extraSmall
+        shape = MaterialTheme.shapes.small
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
