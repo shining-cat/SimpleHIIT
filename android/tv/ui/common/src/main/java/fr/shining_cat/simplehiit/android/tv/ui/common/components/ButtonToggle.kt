@@ -51,7 +51,7 @@ fun ButtonToggle(
 )
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun ToggleButtonPreview() {
+private fun ButtonTogglePreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Row(

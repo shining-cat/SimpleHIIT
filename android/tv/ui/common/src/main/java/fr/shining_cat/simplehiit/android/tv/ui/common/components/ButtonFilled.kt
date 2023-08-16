@@ -89,7 +89,7 @@ fun ButtonFilled(
 )
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun FilledButtonPreview() {
+private fun ButtonFilledPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(

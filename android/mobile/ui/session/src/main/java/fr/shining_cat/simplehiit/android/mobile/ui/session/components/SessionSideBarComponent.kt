@@ -21,7 +21,7 @@ import fr.shining_cat.simplehiit.commonresources.R
 fun SessionSideBarComponent(
     @StringRes title: Int,
     onBackButtonClick: () -> Unit = {},
-    @StringRes backButtonLabel: Int,
+    @StringRes backButtonLabel: Int
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),

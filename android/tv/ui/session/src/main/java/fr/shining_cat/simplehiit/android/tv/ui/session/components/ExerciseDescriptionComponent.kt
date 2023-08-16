@@ -1,26 +1,28 @@
-package fr.shining_cat.simplehiit.android.mobile.ui.session.components
+package fr.shining_cat.simplehiit.android.tv.ui.session.components
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import androidx.tv.material3.ExperimentalTvMaterial3Api
+import androidx.tv.material3.MaterialTheme
+import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shining_cat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shining_cat.simplehiit.domain.common.models.Exercise
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseSide
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
     Column() {
@@ -49,6 +51,7 @@ fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
 }
 
 // Previews
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showBackground = true,
     uiMode = Configuration.UI_MODE_NIGHT_NO
@@ -59,7 +62,7 @@ fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
 )
 @Composable
 private fun CountDownCircularProgressPreview() {
-    SimpleHiitMobileTheme {
+    SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 modifier = Modifier.fillMaxSize(),

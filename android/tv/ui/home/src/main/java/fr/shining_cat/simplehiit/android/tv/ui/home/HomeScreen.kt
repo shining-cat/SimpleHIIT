@@ -117,6 +117,7 @@ private fun HomeScreen(
 }
 
 // Previews
+@ExperimentalTvMaterial3Api
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
@@ -127,7 +128,6 @@ private fun HomeScreen(
     device = Devices.TV_1080p,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-@ExperimentalTvMaterial3Api
 @Composable
 private fun HomeScreenPreviewTV(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState

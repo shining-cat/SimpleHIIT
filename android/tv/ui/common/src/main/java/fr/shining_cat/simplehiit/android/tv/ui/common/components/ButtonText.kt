@@ -93,7 +93,7 @@ fun transparentButtonTextColors() = ButtonDefaults.colors(
 )
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-private fun FilledButtonPreview() {
+private fun ButtonTextPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Row(

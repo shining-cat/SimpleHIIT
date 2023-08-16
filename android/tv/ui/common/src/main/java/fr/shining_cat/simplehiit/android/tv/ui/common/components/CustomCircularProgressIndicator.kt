@@ -174,7 +174,7 @@ fun PreviewCustomCircularProgressIndicator() {
                     maxValue = 12,
                     trackColor = MaterialTheme.colorScheme.primary,
                     progressColor = MaterialTheme.colorScheme.secondary,
-                    circleRadius = 230f,
+                    circleRadius = 250f,
                     thickness = 25f
                 )
                 CustomCircularProgressIndicator(
@@ -184,7 +184,7 @@ fun PreviewCustomCircularProgressIndicator() {
                     currentValue = 33,
                     trackColor = MaterialTheme.colorScheme.primary,
                     progressColor = MaterialTheme.colorScheme.secondary,
-                    circleRadius = 230f,
+                    circleRadius = 250f,
                     thickness = 25f,
                     fillColor = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
                     subDivisionsColor = MaterialTheme.colorScheme.secondary

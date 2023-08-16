@@ -20,12 +20,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.Button
-import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import kotlinx.coroutines.delay
@@ -73,21 +72,11 @@ fun HomeErrorContent(
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
-        Button(
+        ButtonError(
             modifier = Modifier.focusRequester(focusRequester),//calling focus on button on opening
             onClick = resetWholeApp,
-            colors = ButtonDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError,
-                focusedContainerColor = MaterialTheme.colorScheme.surface,
-                focusedContentColor = MaterialTheme.colorScheme.error,
-                pressedContainerColor = MaterialTheme.colorScheme.surface,
-                pressedContentColor = MaterialTheme.colorScheme.onSurface
-            ),
-            shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
-        ) {
-            Text(text = stringResource(id = R.string.reset_app_button_label))
-        }
+            label = stringResource(id = R.string.reset_app_button_label)
+        )
     }
 }
 

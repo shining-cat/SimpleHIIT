@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import fr.shining_cat.simplehiit.android.common.Screen
 import fr.shining_cat.simplehiit.android.tv.ui.home.HomeScreen
+import fr.shining_cat.simplehiit.android.tv.ui.session.SessionScreen
 import fr.shining_cat.simplehiit.android.tv.ui.settings.SettingsScreen
 import fr.shining_cat.simplehiit.android.tv.ui.statistics.StatisticsScreen
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -40,13 +41,11 @@ fun SimpleHiitNavigation(
                 hiitLogger = hiitLogger
             )
         }
-/*
         composable(route = Screen.Session.route) {
             SessionScreen(
                 navigateUp = { navController.navigateUp() },
                 hiitLogger = hiitLogger
             )
         }
-*/
     }
 }
