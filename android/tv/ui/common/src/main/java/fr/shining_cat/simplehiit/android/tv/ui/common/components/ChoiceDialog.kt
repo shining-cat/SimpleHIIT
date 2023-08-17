@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -85,21 +87,24 @@ fun ChoiceDialog(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
                         ButtonText(
+                            modifier = Modifier.height(48.dp).width(150.dp),
                             onClick = secondaryAction,
                             label = secondaryButtonLabel
-                            )
+                        )
                     }
                     if (dismissButtonLabel.isNotBlank()) {
                         ButtonBordered(
+                            modifier = Modifier.height(48.dp).width(150.dp),
                             onClick = dismissAction,
                             label = dismissButtonLabel
                         )
                     }
                     ButtonFilled(
+                        modifier = Modifier.height(48.dp).width(150.dp),
                         onClick = primaryAction,
                         label = primaryButtonLabel
                     )
