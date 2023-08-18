@@ -1,7 +1,4 @@
 # SimpleHIIT ToDo list
-* there is a crash when launching a session when only 1 user exist.
-  * the exception should be caught and not crash: SQLiteException: no such column: true (code 1 SQLITE_ERROR): , while compiling: SELECT * FROM simple_hiit_users WHERE selected = true
-  * there might be an edge case where the only user existing is not "selected" (for example if it wasn't and all the others are deleted) -> ensure this can't happen, by selecting any single exisint gplayer, or whatever
 
 ## Missing features / issues
 * refine focus handling in settings screen: 
