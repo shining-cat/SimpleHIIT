@@ -1,12 +1,14 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.UserEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -69,8 +71,8 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
         coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -134,8 +136,8 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
             coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-            val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-                errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
+            val expectedOutput = Output.Error(
+                errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
                 exception = thrownException
             )
             assertEquals(expectedOutput, actual)
@@ -145,7 +147,7 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
     @MethodSource("deleteUserArguments")
     fun `delete user returns error when usersDao delete fails`(
         daoAnswer: Int,
-        expectedOutput: fr.shining_cat.simplehiit.domain.common.Output.Error
+        expectedOutput: Output.Error
     ) = runTest {
         val simpleHiitRepository = SimpleHiitRepositoryImpl(
             usersDao = mockUsersDao,
@@ -165,8 +167,8 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
         coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed deleting user") }
-        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Error)
-        actual as fr.shining_cat.simplehiit.domain.common.Output.Error
+        assertTrue(actual is Output.Error)
+        actual as Output.Error
         assertEquals(expectedOutput.errorCode, actual.errorCode)
         assertEquals(expectedOutput.exception.message, actual.exception.message)
     }
@@ -190,8 +192,8 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
         coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
-        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        actual as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(actual is Output.Success)
+        actual as Output.Success
         assertEquals(1, actual.result)
     }
 
@@ -203,15 +205,15 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
             Stream.of(
                 Arguments.of(
                     0,
-                    fr.shining_cat.simplehiit.domain.common.Output.Error(
-                        errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
+                    Output.Error(
+                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
                         exception = Exception("failed deleting user")
                     )
                 ),
                 Arguments.of(
                     7,
-                    fr.shining_cat.simplehiit.domain.common.Output.Error(
-                        errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
+                    Output.Error(
+                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
                         exception = Exception("failed deleting user")
                     )
                 )

@@ -20,7 +20,7 @@ import fr.shining_cat.simplehiit.domain.common.Constants
 @Composable
 fun SettingsEditNumberCyclesDialog(
     saveNumber: (String) -> Unit,
-    validateNumberCyclesInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
+    validateNumberCyclesInput: (String) -> Constants.InputError,
     numberOfCycles: String,
     onCancel: () -> Unit
 ) {

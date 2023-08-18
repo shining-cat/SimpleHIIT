@@ -21,7 +21,7 @@ import fr.shining_cat.simplehiit.domain.common.Constants
 fun SettingsEditPeriodLengthDialog(
     dialogTitle: String,
     savePeriodLength: (String) -> Unit,
-    validatePeriodLengthInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
+    validatePeriodLengthInput: (String) -> Constants.InputError,
     periodLengthSeconds: String,
     onCancel: () -> Unit
 ) {
@@ -47,7 +47,7 @@ fun SettingsEditPeriodLengthDialog(
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: fr.shining_cat.simplehiit.domain.common.Constants.InputError): Int {
+private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int {
     return when (error) {
         Constants.InputError.NONE -> -1
         Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint

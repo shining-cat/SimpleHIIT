@@ -6,6 +6,8 @@ import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -72,9 +74,9 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockHiitLogger.e(any(), "insertSession::Error - no user provided") }
         coVerify(exactly = 0) { mockSessionRecordsDao.insert(any()) }
-        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Error)
-        actual as fr.shining_cat.simplehiit.domain.common.Output.Error
-        assertEquals(fr.shining_cat.simplehiit.domain.common.Constants.Errors.NO_USER_PROVIDED, actual.errorCode)
+        assertTrue(actual is Output.Error)
+        actual as Output.Error
+        assertEquals(Constants.Errors.NO_USER_PROVIDED, actual.errorCode)
         assertEquals("No user provided when trying to insert session", actual.exception.message)
     }
 
@@ -141,8 +143,8 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockSessionMapper.convert(testSessionRecord) }
         coVerify(exactly = 1) { mockSessionRecordsDao.insert(listOf(testSessionEntity)) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_INSERT_FAILED,
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -175,8 +177,8 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_INSERT_FAILED,
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -208,8 +210,8 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         val entityListSlot = slot<List<SessionEntity>>()
         coVerify(exactly = 1) { mockSessionRecordsDao.insert(capture(entityListSlot)) }
         assertEquals(converterOutput, entityListSlot.captured)
-        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        actual as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(actual is Output.Success)
+        actual as Output.Success
         assertEquals(daoAnswer.size, actual.result)
     }
 

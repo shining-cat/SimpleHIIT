@@ -1,7 +1,8 @@
 package fr.shining_cat.simplehiit.domain.statistics.usecases
 
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
-import fr.shining_cat.simplehiit.domain.statistics.usecases.DeleteSessionsForUserUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -29,7 +30,7 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
                 simpleHiitLogger = mockHiitLogger
             )
         val testValue = 123L
-        val successFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Success(1)
+        val successFromRepo = Output.Success(1)
         coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers { successFromRepo }
         //
         val result = testedUseCase.execute(testValue)
@@ -48,7 +49,7 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
             )
         val testValue = 123L
         val exceptionMessage = "this is a test exception"
-        val errorFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+        val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
         coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers { errorFromRepo }
         //
         val result = testedUseCase.execute(testValue)

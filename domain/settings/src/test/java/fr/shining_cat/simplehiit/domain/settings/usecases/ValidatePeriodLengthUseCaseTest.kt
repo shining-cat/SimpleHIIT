@@ -1,6 +1,6 @@
 package fr.shining_cat.simplehiit.domain.settings.usecases
 
-import fr.shining_cat.simplehiit.domain.settings.usecases.ValidatePeriodLengthUseCase
+import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -18,7 +18,7 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
     fun `finding average number of sessions per 7-days period`(
         input: String,
         periodCountDownLengthSeconds: Long,
-        expectedOutput: fr.shining_cat.simplehiit.domain.common.Constants.InputError
+        expectedOutput: Constants.InputError
     ) = runTest {
         val testedUseCase =
             ValidatePeriodLengthUseCase(hiitLogger = mockHiitLogger)
@@ -32,10 +32,10 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
         @JvmStatic
         fun numberCyclesTestArguments() =
             Stream.of(
-                Arguments.of("three", 123L, fr.shining_cat.simplehiit.domain.common.Constants.InputError.WRONG_FORMAT),
-                Arguments.of("10", 5L, fr.shining_cat.simplehiit.domain.common.Constants.InputError.NONE),
-                Arguments.of("5", 5L, fr.shining_cat.simplehiit.domain.common.Constants.InputError.NONE),
-                Arguments.of("4", 5L, fr.shining_cat.simplehiit.domain.common.Constants.InputError.VALUE_TOO_SMALL),
+                Arguments.of("three", 123L, Constants.InputError.WRONG_FORMAT),
+                Arguments.of("10", 5L, Constants.InputError.NONE),
+                Arguments.of("5", 5L, Constants.InputError.NONE),
+                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL),
             )
     }
 }
