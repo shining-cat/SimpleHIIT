@@ -3,7 +3,6 @@ package fr.shining_cat.simplehiit.android.tv.ui.settings.components
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicTextField
@@ -40,6 +39,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonBordered
 import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonFilled
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
@@ -160,25 +160,24 @@ fun InputDialog(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
-                        Text(
-                            modifier = Modifier
-                                .alignByBaseline()
-                                .clickable { secondaryAction() },
-                            text = secondaryButtonLabel
+                        ButtonText(
+                            modifier = Modifier.height(48.dp).weight(1f),
+                            onClick = secondaryAction,
+                            label = secondaryButtonLabel
                         )
                     }
                     if (dismissButtonLabel.isNotBlank()) {
                         ButtonBordered(
-                            modifier = Modifier.alignByBaseline(),
+                            modifier = Modifier.height(48.dp).weight(1f),
                             onClick = dismissAction,
                             label = dismissButtonLabel
                         )
                     }
                     ButtonFilled(
-                        modifier = Modifier.alignByBaseline(),
+                        modifier = Modifier.height(48.dp).weight(1f),
                         onClick = { if (!isError.value) primaryAction(input.value) },
                         label = primaryButtonLabel
                     )

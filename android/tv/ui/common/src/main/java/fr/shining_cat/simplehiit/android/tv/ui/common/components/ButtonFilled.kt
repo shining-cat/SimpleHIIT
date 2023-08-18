@@ -7,9 +7,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,8 +60,9 @@ fun ButtonFilled(
         contentPadding = PaddingValues(12.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             if (icon != null) {
                 Icon(
@@ -93,57 +95,58 @@ private fun ButtonFilledPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
+                modifier = Modifier.width(300.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button"
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog)
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     enabled = false
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     accentColor = true
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
                     enabled = false
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     enabled = false
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     accentColor = true
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
                     enabled = false

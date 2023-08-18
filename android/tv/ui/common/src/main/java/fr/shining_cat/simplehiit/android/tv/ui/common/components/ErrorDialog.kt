@@ -3,6 +3,8 @@ package fr.shining_cat.simplehiit.android.tv.ui.common.components
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -86,11 +88,17 @@ fun ErrorDialog(
                     text = stringResource(id = R.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium
                 )
-                ButtonText(
-                    modifier = Modifier.height(48.dp),
-                    label = dismissButtonLabel,
-                    onClick = dismissAction
-                )
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 24.dp)) {
+                    Spacer(modifier = Modifier.weight(.3f))
+                    ButtonText(
+                        modifier = Modifier
+                            .height(48.dp)
+                            .weight(weight = .3f, fill = true),
+                        label = dismissButtonLabel,
+                        onClick = dismissAction
+                    )
+                     Spacer(modifier = Modifier.weight(.3f))
+                }
             }
         }
     }

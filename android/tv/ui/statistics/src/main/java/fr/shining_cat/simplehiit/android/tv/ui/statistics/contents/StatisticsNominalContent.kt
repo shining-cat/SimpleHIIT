@@ -78,20 +78,20 @@ fun StatisticsNominalContent(
                 )
             }
             item(span = doubleSpan) {
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                )
-                ButtonText(
-                    modifier = Modifier
-                        .padding(horizontal = 0.dp, vertical = 16.dp),
-                    onClick = { deleteAllSessionsForUser(viewState.user) },
-                    label = stringResource(
-                        id = R.string.reset_statistics_button_label,
-                        viewState.user.name
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 24.dp)) {
+                    Spacer(modifier = Modifier.weight(.3f))
+                    ButtonText(
+                        modifier = Modifier
+                            .padding(horizontal = 0.dp, vertical = 16.dp)
+                            .weight(weight = .3f, fill = true),
+                        onClick = { deleteAllSessionsForUser(viewState.user) },
+                        label = stringResource(
+                            id = R.string.reset_statistics_button_label,
+                            viewState.user.name
+                        )
                     )
-                )
+                    Spacer(modifier = Modifier.weight(.3f))
+                }
             }
         }
     }

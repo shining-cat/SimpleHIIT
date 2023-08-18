@@ -4,11 +4,11 @@ import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -77,8 +77,8 @@ fun transparentButtonTextColors() = ButtonDefaults.colors(
     containerColor = Color.Transparent,
     contentColor = MaterialTheme.colorScheme.onPrimary,
     focusedContainerColor = MaterialTheme.colorScheme.surface,
-    focusedContentColor = MaterialTheme.colorScheme.onSurface,
-    pressedContainerColor = MaterialTheme.colorScheme.surface,
+    focusedContentColor = MaterialTheme.colorScheme.primary,
+    pressedContainerColor = MaterialTheme.colorScheme.primary,
     pressedContentColor = MaterialTheme.colorScheme.secondary,
     disabledContainerColor = Color.Transparent,
     disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = .6f)
@@ -96,21 +96,21 @@ fun transparentButtonTextColors() = ButtonDefaults.colors(
 private fun ButtonTextPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            Column(
+                modifier = Modifier.width(300.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ButtonText(
-                    modifier = Modifier.height(48.dp).width(64.dp),
+                    modifier = Modifier.height(48.dp).width(120.dp),
                     label = "I'm a button"
                 )
                 ButtonText(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = R.drawable.cog
                 )
                 ButtonText(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = R.drawable.cog,
                     enabled = false

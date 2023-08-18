@@ -47,7 +47,8 @@ fun WarningDialog(
             Column(
                 modifier = Modifier
                     .padding(8.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Image(
                     modifier = Modifier
@@ -67,17 +68,17 @@ fun WarningDialog(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.spacedBy(24.dp)
                 ) {
                     if (dismissButtonLabel.isNotBlank()) {
                         ButtonBordered(
-                            modifier = Modifier.height(48.dp),
+                            modifier = Modifier.height(48.dp).weight(1f),
                             onClick = dismissAction,
                             label = dismissButtonLabel
                         )
                     }
                     ButtonFilled(
-                        modifier = Modifier.height(48.dp),
+                        modifier = Modifier.height(48.dp).weight(1f),
                         onClick = proceedAction,
                         label = proceedButtonLabel
                     )

@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -85,6 +86,7 @@ fun SettingsUsersComponent(
         ButtonFilled(
             modifier = Modifier
                 .height(itemHeight)
+                .width(150.dp)
                 .padding(horizontal = 32.dp),
             onClick = onAddUser,
             accentColor = true,

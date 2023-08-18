@@ -5,14 +5,15 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -94,8 +95,9 @@ fun ButtonBordered(
         )
     ) {
         Row(
-            modifier = Modifier.fillMaxHeight(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             if (icon != -1) {
                 Icon(
@@ -123,21 +125,21 @@ fun ButtonBordered(
 private fun FilledButtonPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            Column(
+                modifier = Modifier.width(300.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 ButtonBordered(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(120.dp),
                     label = "I'm a button"
                 )
                 ButtonBordered(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = R.drawable.cog
                 )
                 ButtonBordered(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = R.drawable.cog,
                     enabled = false
