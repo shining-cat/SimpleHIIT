@@ -10,7 +10,6 @@ android {
     namespace = "fr.shining_cat.simplehiit.android.mobile.app"
 
     compileSdk = ConfigData.compileSdkVersion
-    buildToolsVersion = ConfigData.buildToolsVersion
 
     defaultConfig {
         applicationId = "fr.shining_cat.simplehiit"
