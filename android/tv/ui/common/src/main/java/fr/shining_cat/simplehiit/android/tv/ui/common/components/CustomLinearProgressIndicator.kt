@@ -43,6 +43,7 @@ fun CustomLinearProgressIndicator(
     progressColor: Color,
     trackColor: Color? = null,
     borderColor: Color? = null,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Box(

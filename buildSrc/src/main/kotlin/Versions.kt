@@ -10,7 +10,7 @@ object Versions {
     const val androidXcoreKtx = "1.10.1"
     const val hilt = "2.48"
     const val hiltNavigation = "1.0.0"
-    const val room_version = "2.5.2"
+    const val room_version = "2.6.0-rc01" // latest stable version is 2.5.2, but is incompatible with kotlin 1.9+, breaking build on suspend methods. V.2.5.3 is expected to fix this but not out yet. see https://issuetracker.google.com/issues/236612358
     const val composeMaterial3WindowSizeClass = "1.1.1"
     const val nav_version = "2.6.0"
     const val mockkVersion = "1.13.8"

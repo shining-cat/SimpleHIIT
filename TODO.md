@@ -1,6 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* focus zoom effect on buttons on TV seems broken, at least on the open settings on home
 * refine focus handling in settings screen: 
   * when moving from nav sidebar to settings, first focused should be first item (default focused on first time entering screen is already first setting)
   * when toggling an exercise type setting, focus should stay on the same item, not be lost

@@ -37,6 +37,7 @@ fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,
     onToggle: (ExerciseTypeSelected) -> Unit = {},
     exerciseButtonsFocusRequesters: Map<String, FocusRequester> = emptyMap(),
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Column {

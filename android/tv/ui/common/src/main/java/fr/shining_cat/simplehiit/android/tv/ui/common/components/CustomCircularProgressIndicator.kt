@@ -53,6 +53,7 @@ fun CustomCircularProgressIndicator(
     trackColor: Color? = null,
     fillColor: Color? = null,
     subDivisionsColor: Color? = null,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     var circleCenter by remember {

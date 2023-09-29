@@ -37,6 +37,7 @@ fun StatisticsHeaderComponent(
     openUserPicker: () -> Unit = {},
     currentUserName: String,
     showUsersSwitch: Boolean,
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
 

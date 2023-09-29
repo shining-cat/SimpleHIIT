@@ -44,6 +44,7 @@ fun HomeNominalContent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
     navigateToSession: () -> Unit = {},
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     val focusRequester = remember { FocusRequester() }

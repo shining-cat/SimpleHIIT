@@ -33,6 +33,7 @@ fun SettingsFieldComponent(
     onClick: () -> Unit = {},
     secondaryLabel: String = "",
     secondaryValue: String = "",
+    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
     Row (modifier = Modifier.fillMaxWidth()){
