@@ -24,4 +24,5 @@ object Versions {
     const val composeBom = "2023.06.01"
     const val activityCompose = "1.7.0"
     const val composeTV = "1.0.0-alpha07"
+    const val kotlinCompilerExtension = "1.5.3" // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
 }
