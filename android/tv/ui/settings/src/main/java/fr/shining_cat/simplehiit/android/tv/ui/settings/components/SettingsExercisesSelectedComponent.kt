@@ -32,6 +32,7 @@ import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
 import kotlin.math.ceil
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,

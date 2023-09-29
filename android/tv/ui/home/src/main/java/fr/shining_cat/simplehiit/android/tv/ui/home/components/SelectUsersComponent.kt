@@ -27,6 +27,7 @@ import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.User
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SelectUsersComponent(
     modifier: Modifier = Modifier,

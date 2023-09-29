@@ -29,6 +29,7 @@ import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.domain.common.Constants
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SessionErrorStateContent(
     screenViewState: SessionViewState.Error,

@@ -55,6 +55,7 @@ fun SessionFinishedContent(
     }
 }
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
     Column {
@@ -102,6 +103,7 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
     }
 }
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: ExerciseSide) {
     Row(
