@@ -18,7 +18,7 @@ object Versions {
     const val benManesDependenciesVersionPlugin = "0.48.0"
     const val gmazzoJacocoReportAggregationPlugin = "2.0.1"
     const val savvasdalkitsisDependencyGraphPlugin = "0.12"
-    const val composeBom = "2023.06.01"
+    const val composeBom = "2023.06.01" // upgrading to any higher version fails the build with error listed in to-do file
     const val activityCompose = "1.7.0"
     const val composeTV = "1.0.0-alpha09" // see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements
     const val kotlinCompilerExtension = "1.5.3" // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
