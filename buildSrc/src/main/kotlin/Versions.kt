@@ -1,7 +1,4 @@
 object Versions {
-
-    const val gradlePlugin = "7.4.0"
-    const val kotlin = "1.3.61"
     const val appCompat = "1.6.1"
     const val datastore = "1.0.0"
     const val material = "1.9.0"
@@ -19,7 +16,7 @@ object Versions {
     const val test_runner = "1.5.2"
     const val coil = "2.4.0"
     const val benManesDependenciesVersionPlugin = "0.48.0"
-    const val gmazzoJacocoReportAggregationPlugin = "1.1.1"
+    const val gmazzoJacocoReportAggregationPlugin = "2.0.1"
     const val savvasdalkitsisDependencyGraphPlugin = "0.12"
     const val composeBom = "2023.06.01"
     const val activityCompose = "1.7.0"

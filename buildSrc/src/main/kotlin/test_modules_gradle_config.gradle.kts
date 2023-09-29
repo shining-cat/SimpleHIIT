@@ -1,3 +1,5 @@
+import gradle.kotlin.dsl.accessors._6b9094ae7d5e765ad234c7bf5fd6ce0b.jacoco
+
 plugins {
     id("com.android.test")
     kotlin("android")
