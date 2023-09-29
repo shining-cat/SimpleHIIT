@@ -8,8 +8,8 @@ object Versions {
     const val hilt = "2.48"
     const val hiltNavigation = "1.0.0"
     const val room_version = "2.6.0-rc01" // latest stable version is 2.5.2, but is incompatible with kotlin 1.9+, breaking build on suspend methods. V.2.5.3 is expected to fix this but not out yet. see https://issuetracker.google.com/issues/236612358
-    const val composeMaterial3WindowSizeClass = "1.1.1"
-    const val nav_version = "2.6.0"
+    const val composeMaterial3WindowSizeClass = "1.1.2"
+    const val nav_version = "2.7.3"
     const val mockkVersion = "1.13.8"
     const val coroutinesTest = "1.7.3"
     const val core_testing = "2.2.0"
@@ -20,6 +20,6 @@ object Versions {
     const val savvasdalkitsisDependencyGraphPlugin = "0.12"
     const val composeBom = "2023.06.01"
     const val activityCompose = "1.7.0"
-    const val composeTV = "1.0.0-alpha07"
+    const val composeTV = "1.0.0-alpha07" // see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements
     const val kotlinCompilerExtension = "1.5.3" // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
 }
