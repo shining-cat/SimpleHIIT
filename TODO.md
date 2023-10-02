@@ -2,16 +2,18 @@
 
 ## Missing features / issues
 * focus zoom effect on buttons on TV seems broken, at least on the open settings on home
+* exercise display in session running screen is messed up, components positions are all wrong
+* refine focus handling in settings screen:
+  * when moving from nav sidebar to settings, first focused should be first item (default focused on first time entering screen is already first setting)
+  * when toggling an exercise type setting, focus should stay on the same item, not be lost
 * Error when trying to upgrade the compose-BOM above 2023.06.xx:
   * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
     Problems reading data from Binary store in /Users/shiva.bernhard@schibsted.com/.gradle/.tmp/gradle5795096560825037874.bin offset 188550 exists? true
     Problems loading the resolution results (0.0 secs). Read 346 values, last was: 5
     Corrupt serialized resolution result. Cannot find selected component (14958) for constraint releaseVariantReleaseRuntimePublication -> androidx.lifecycle:lifecycle-process:2.6.1
-* refine focus handling in settings screen: 
-  * when moving from nav sidebar to settings, first focused should be first item (default focused on first time entering screen is already first setting)
-  * when toggling an exercise type setting, focus should stay on the same item, not be lost
 
 ## Assets production
+* redo app icon, remove name, set white background, only set the elapsed time on the clock as primary color (handle darkmode if possible?)
 * refine statistics cards design and find/create icons for each
   * longest streak: icon of a cup and a calendar showing checked days
   * current streak: icon of a calendar showing checked days - IF current streak == longest, switch to same icon as longest streak to make it more clear

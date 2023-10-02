@@ -4,6 +4,8 @@ import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -75,14 +77,20 @@ fun HomeMissingUsersContent(
                 .fillMaxWidth()
                 .padding(horizontal = 0.dp, vertical = 24.dp)
         )
-        ButtonFilled(
-            modifier = Modifier.focusRequester(focusRequester),//calling focus on the first setting on opening
-            label = stringResource(id = R.string.go_to_settings),
-            icon = ImageVector.vectorResource(R.drawable.cog),
-            iconContentDescription = R.string.settings_button_content_label,
-            accentColor = true,
-            onClick = navigateToSettings
-        )
+        Row {
+            Spacer(modifier = Modifier.weight(.3f))
+            ButtonFilled(
+                modifier = Modifier
+                    .weight(weight = .3f, fill = false)
+                    .focusRequester(focusRequester),//calling focus on the first setting on opening
+                label = stringResource(id = R.string.go_to_settings),
+                icon = ImageVector.vectorResource(R.drawable.cog),
+                iconContentDescription = R.string.settings_button_content_label,
+                accentColor = true,
+                onClick = navigateToSettings
+            )
+            Spacer(modifier = Modifier.weight(.3f))
+        }
     }
 }
 

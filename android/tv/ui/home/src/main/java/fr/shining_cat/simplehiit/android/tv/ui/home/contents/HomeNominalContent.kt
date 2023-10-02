@@ -1,9 +1,9 @@
 package fr.shining_cat.simplehiit.android.tv.ui.home.contents
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -86,13 +86,15 @@ fun HomeNominalContent(
                 totalLengthFormatted = totalLengthFormatted,
                 modifier = Modifier.weight(1f, true)
             )
-            Column(
+            Row(
                 modifier = Modifier.weight(1f, true),
-                verticalArrangement = Arrangement.Center
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                Spacer(modifier = Modifier.weight(.3f))
                 ButtonFilled(
                     modifier = Modifier
                         .height(48.dp)
+                        .weight(.3f)
                         .focusRequester(focusRequester),//calling focus on the launch button on opening
                     label = if (canLaunchSession) {
                         stringResource(id = R.string.launch_session_label)
@@ -103,6 +105,7 @@ fun HomeNominalContent(
                     enabled = canLaunchSession,
                     onClick = navigateToSession
                 )
+                Spacer(modifier = Modifier.weight(.3f))
             }
         }
     }

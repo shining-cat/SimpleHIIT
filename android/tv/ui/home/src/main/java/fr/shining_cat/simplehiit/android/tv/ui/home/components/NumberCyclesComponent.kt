@@ -1,33 +1,30 @@
 package fr.shining_cat.simplehiit.android.tv.ui.home.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.tv.material3.Border
-import androidx.tv.material3.Button
-import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shining_cat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
+import fr.shining_cat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shining_cat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
@@ -58,20 +55,18 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Button(
-                enabled = numberOfCycles > 1,
-                modifier = Modifier.focusProperties{canFocus = numberOfCycles > 1},
+            val minusButtonActive = numberOfCycles > 1
+            ButtonFilled(
+                modifier = Modifier
+                    .height(48.dp)
+                    .width(48.dp)
+                    .focusProperties{canFocus = minusButtonActive},
                 onClick = decreaseNumberOfCycles,
-                colors = transparentButtonTextColors(),
-                shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-                border = invisibleButtonBorder()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.minus),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp,
-                )
-            }
+                accentColor = false,
+                icon = Icons.Filled.KeyboardArrowDown,
+                iconContentDescription = R.string.minus_cycle_description,
+                enabled = minusButtonActive,
+            )
             Spacer(modifier = Modifier.width(24.dp))
             Text(
                 text = stringResource(
@@ -82,19 +77,15 @@ fun NumberCyclesComponent(
                 style = MaterialTheme.typography.headlineMedium
             )
             Spacer(modifier = Modifier.width(24.dp))
-            Button(
-                modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
+            ButtonFilled(
+                modifier = Modifier
+                    .height(48.dp)
+                    .width(48.dp),
                 onClick = increaseNumberOfCycles,
-                colors = transparentButtonTextColors(),
-                shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-                border = invisibleButtonBorder()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.plus),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp,
-                )
-            }
+                accentColor = false,
+                icon = Icons.Filled.KeyboardArrowUp,
+                iconContentDescription = R.string.plus_cycle_description,
+            )
         }
         Text(
             textAlign = TextAlign.Center,
@@ -104,14 +95,6 @@ fun NumberCyclesComponent(
         )
     }
 }
-@OptIn(ExperimentalTvMaterial3Api::class)
-@Composable
-fun invisibleButtonBorder() = ButtonDefaults.border(
-    border = Border(BorderStroke(width = 0.dp, color = Color.Transparent)),
-    focusedBorder = Border(BorderStroke(width = 0.dp, color = Color.Transparent)),
-    pressedBorder = Border(BorderStroke(width = 0.dp, color = Color.Transparent)),
-    disabledBorder = Border(BorderStroke(width = 0.dp, color = Color.Transparent))
-)
 
 // Previews
 @Preview(
