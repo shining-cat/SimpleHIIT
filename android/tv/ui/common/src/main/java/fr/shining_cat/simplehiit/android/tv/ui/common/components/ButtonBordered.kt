@@ -56,7 +56,7 @@ fun ButtonBordered(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onPrimary,
             focusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContentColor = MaterialTheme.colorScheme.primary,
+            focusedContentColor = MaterialTheme.colorScheme.onSurface,
             pressedContainerColor = MaterialTheme.colorScheme.primary,
             pressedContentColor = MaterialTheme.colorScheme.secondary,
             disabledContainerColor = Color.Transparent,
@@ -74,7 +74,7 @@ fun ButtonBordered(
             focusedBorder = Border(
                 BorderStroke(
                     width = 2.dp,
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.secondary
                 ),
                 shape = MaterialTheme.shapes.small
             ),
