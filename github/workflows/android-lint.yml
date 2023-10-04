@@ -3,10 +3,10 @@ run-name: Running Android lint
 on:
   push:
     branches:
-      - 'develop'
+      - develop
   pull-request:
-    branches:
-      -'develop'
+    branches: [ "master", "develop" ]
+
 jobs:
   android-lint:
     runs-on: ubuntu-latest
