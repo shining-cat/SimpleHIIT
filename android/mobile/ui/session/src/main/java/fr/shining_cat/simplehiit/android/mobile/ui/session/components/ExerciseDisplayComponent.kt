@@ -1,14 +1,19 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.session.components
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.android.mobile.ui.session.RunningSessionStepType
 import fr.shining_cat.simplehiit.commonresources.R
@@ -51,6 +56,32 @@ fun ExerciseDisplayComponent(
                 size = 48.dp,
                 countDown = countDown,
                 hiitLogger = hiitLogger
+            )
+        }
+    }
+}
+
+// Previews
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Composable
+private fun ExerciseDisplayComponentPreview() {
+    SimpleHiitMobileTheme {
+        Surface(shape = MaterialTheme.shapes.extraSmall) {
+            ExerciseDisplayComponent(
+                modifier = Modifier.fillMaxSize(),
+                exercise = Exercise.LungesSideToCurtsy,
+                periodType = RunningSessionStepType.REST,
+                exerciseSide = AsymmetricalExerciseSideOrder.SECOND.side,
+                countDown = CountDown(
+                    secondsDisplay = "3",
+                    progress = .2f,
+                    playBeep = true
+                )
             )
         }
     }

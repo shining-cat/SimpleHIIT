@@ -77,7 +77,6 @@ fun HomeNominalContent(
                 .fillMaxHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             NumberCyclesComponent(
                 decreaseNumberOfCycles = decreaseNumberOfCycles,
                 increaseNumberOfCycles = increaseNumberOfCycles,
