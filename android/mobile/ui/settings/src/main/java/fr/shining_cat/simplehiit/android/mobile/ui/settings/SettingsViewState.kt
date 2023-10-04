@@ -1,8 +1,8 @@
 package fr.shining_cat.simplehiit.android.mobile.ui.settings
 
+import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
 sealed interface SettingsViewState {

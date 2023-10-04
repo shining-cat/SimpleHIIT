@@ -1,8 +1,8 @@
 package fr.shining_cat.simplehiit.domain.common
 
+import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
-import fr.shining_cat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
 object Constants {
@@ -26,10 +26,10 @@ object Constants {
         NO_USERS_FOUND("0201"),
         NO_USER_PROVIDED("0202"),
         USER_NAME_TAKEN("0203"),
+        NO_SELECTED_USERS_FOUND("0204"),
         EMPTY_RESULT("0301"),
         CONVERSION_ERROR("0401"),
-        LAUNCH_SESSION("0501"),
-        SESSION_NOT_FOUND("0502")
+        SESSION_NOT_FOUND("0501")
     }
 
     enum class InputError(){

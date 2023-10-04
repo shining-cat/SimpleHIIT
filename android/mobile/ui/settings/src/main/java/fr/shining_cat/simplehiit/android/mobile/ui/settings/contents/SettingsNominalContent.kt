@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.SettingsExercisesSelectedComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.SettingsFieldComponent
@@ -82,7 +82,6 @@ fun SettingsNominalContent(
             value = stringResource(
                 id = R.string.seconds_setting_value, viewState.periodsStartCountDownLengthAsSeconds
             ),
-            secondaryLabel = stringResource(id = R.string.period_length_too_short_constraint),
             onClick = editPeriodStartCountDown
         )
         SettingsFieldComponent(
@@ -103,7 +102,10 @@ fun SettingsNominalContent(
                 .fillMaxWidth()
                 .padding(vertical = 8.dp), thickness = Dp.Hairline
         )
-        SettingsExercisesSelectedComponent(exerciseTypes = viewState.exerciseTypes, onToggle = toggleExerciseType)
+        SettingsExercisesSelectedComponent(
+            exerciseTypes = viewState.exerciseTypes,
+            onToggle = toggleExerciseType
+        )
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
@@ -137,7 +139,7 @@ fun SettingsNominalContent(
 private fun SettingsNominalContentPreviewPhonePortrait(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsNominalContent(
                 viewState = viewState,
@@ -161,7 +163,7 @@ private fun SettingsNominalContentPreviewPhonePortrait(
 private fun SettingsNominalContentPreviewTabletLandscape(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsNominalContent(
                 viewState = viewState,
@@ -187,7 +189,7 @@ private fun SettingsNominalContentPreviewTabletLandscape(
 private fun SettingsNominalContentPreviewPhoneLandscape(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsNominalContent(
                 viewState = viewState,
@@ -196,6 +198,7 @@ private fun SettingsNominalContentPreviewPhoneLandscape(
         }
     }
 }
+
 internal class SettingsNominalContentPreviewParameterProvider :
     PreviewParameterProvider<SettingsViewState.Nominal> {
 

@@ -1,13 +1,15 @@
 package fr.shining_cat.simplehiit.data.repositories
 
-import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
-import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
+import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
+import fr.shining_cat.simplehiit.domain.common.models.User
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -75,8 +77,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED,
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -151,8 +153,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                 thrownException
             )
         }
-        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED,
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -181,8 +183,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
         val numberOfSessionsResult = daoAnswer.size
         coVerify(exactly = numberOfSessionsResult) { mockSessionMapper.convert(any<SessionEntity>()) }
-        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        actual as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(actual is Output.Success)
+        actual as Output.Success
         assertEquals(numberOfSessionsResult, actual.result.size)
     }
 

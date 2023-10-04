@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -90,8 +90,8 @@ fun WarningDialog(
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
-private fun ChoiceDialogPreview() {
-    SimpleHiitTheme {
+private fun WarningDialogPreview() {
+    SimpleHiitMobileTheme {
         Surface {
             WarningDialog(
                 message = "This will erase all users, all stored sessions, and all settings",

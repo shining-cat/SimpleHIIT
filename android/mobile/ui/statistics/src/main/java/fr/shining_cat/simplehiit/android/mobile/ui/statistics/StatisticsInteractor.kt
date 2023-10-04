@@ -22,7 +22,7 @@ class StatisticsInteractorImpl @Inject constructor(
     private val getStatsForUserUseCase: GetStatsForUserUseCase,
     private val deleteSessionsForUserUseCase: DeleteSessionsForUserUseCase,
     private val resetWholeAppUseCase: ResetWholeAppUseCase
-    ) : StatisticsInteractor {
+) : StatisticsInteractor {
     override fun getAllUsers(): Flow<Output<List<User>>> {
         return getAllUsersUseCase.execute()
     }

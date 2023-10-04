@@ -13,7 +13,7 @@ interface StatisticsModule {
 
     @Binds
     fun bindStatisticsInteractor(
-        StatisticsInteractor: StatisticsInteractorImpl
+        statisticsInteractor: StatisticsInteractorImpl
     ): StatisticsInteractor
 
 }

@@ -8,11 +8,10 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.commonresources.R
@@ -42,7 +41,7 @@ fun HomeContentHolder(
         )
 
         is HomeViewState.MissingUsers -> HomeMissingUsersContent(
-            navigateToSettings = { navigateTo(Screen.Settings.route) }
+            navigateToSettings = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Settings.route) }
         )
 
         is HomeViewState.Nominal -> HomeNominalContent(
@@ -54,7 +53,7 @@ fun HomeContentHolder(
             uiArrangement = uiArrangement,
             users = screenViewState.users,
             toggleSelectedUser = toggleSelectedUser,
-            navigateToSession = { navigateTo(Screen.Session.route) },
+            navigateToSession = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Session.route) },
             hiitLogger = hiitLogger
         )
     }
@@ -87,7 +86,7 @@ fun HomeContentHolder(
 private fun HomeContentHolderPreviewPhonePortrait(
     @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -108,7 +107,7 @@ private fun HomeContentHolderPreviewPhonePortrait(
 private fun HomeContentHolderPreviewTabletLandscape(
     @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -135,7 +134,7 @@ private fun HomeContentHolderPreviewTabletLandscape(
 private fun HomeContentHolderPreviewPhoneLandscape(
     @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,

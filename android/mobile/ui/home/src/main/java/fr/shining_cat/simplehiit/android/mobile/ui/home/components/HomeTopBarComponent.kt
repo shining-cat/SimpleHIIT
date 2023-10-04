@@ -19,8 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shining_cat.simplehiit.commonresources.R
 
@@ -41,7 +40,7 @@ fun HomeTopBarComponent(
             )
         },
         actions = {
-            IconButton(onClick = { navigateTo(Screen.Settings.route) }) {
+            IconButton(onClick = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Settings.route) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.cog),
                     contentDescription = stringResource(id = R.string.settings_button_content_label),
@@ -49,7 +48,7 @@ fun HomeTopBarComponent(
                 )
             }
             if (screenViewState is HomeViewState.Nominal) {
-                IconButton(onClick = { navigateTo(Screen.Statistics.route) }) {
+                IconButton(onClick = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Statistics.route) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
                         contentDescription = stringResource(id = R.string.statistics_button_content_label),
@@ -72,7 +71,7 @@ fun HomeTopBarComponent(
 )
 @Composable
 private fun HomeTopBarComponentPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
                 HomeTopBarComponent(

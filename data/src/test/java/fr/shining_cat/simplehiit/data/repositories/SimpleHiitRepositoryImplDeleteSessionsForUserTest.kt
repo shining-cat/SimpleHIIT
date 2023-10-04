@@ -5,6 +5,8 @@ import fr.shining_cat.simplehiit.data.local.database.dao.UsersDao
 import fr.shining_cat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shining_cat.simplehiit.data.mappers.SessionMapper
 import fr.shining_cat.simplehiit.data.mappers.UserMapper
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -57,8 +59,8 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
         //
         coVerify(exactly = 1) { mockSessionRecordsDao.deleteForUser(testUserId) }
         coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-        val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-            errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
+        val expectedOutput = Output.Error(
+            errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
             exception = thrownException
         )
         assertEquals(expectedOutput, actual)
@@ -117,8 +119,8 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
             //
             coVerify(exactly = 1) { mockSessionRecordsDao.deleteForUser(testUserId) }
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-            val expectedOutput = fr.shining_cat.simplehiit.domain.common.Output.Error(
-                errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_DELETE_FAILED,
+            val expectedOutput = Output.Error(
+                errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
                 exception = thrownException
             )
             assertEquals(expectedOutput, actual)
@@ -144,8 +146,8 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
         val actual = simpleHiitRepository.deleteSessionRecordsForUser(testUserId)
         //
         coVerify(exactly = 1) { mockSessionRecordsDao.deleteForUser(testUserId) }
-        assertTrue(actual is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        actual as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(actual is Output.Success)
+        actual as Output.Success
         assertEquals(testValue, actual.result)
     }
 }

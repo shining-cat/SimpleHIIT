@@ -7,10 +7,9 @@ plugins {
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit"
+    namespace = "fr.shining_cat.simplehiit.android.mobile.app"
 
     compileSdk = ConfigData.compileSdkVersion
-    buildToolsVersion = ConfigData.buildToolsVersion
 
     defaultConfig {
         applicationId = "fr.shining_cat.simplehiit"
@@ -53,9 +52,7 @@ android {
     }
 
     composeOptions {
-        //see https://developer.android.com/jetpack/androidx/releases/compose-compiler for released versions.
-        // this is what limits the kotlin version. As of today, 1.4.4 is only compatible with kotlin 1.8.10
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
     }
 
     compileOptions {
@@ -74,6 +71,7 @@ repositories {
 }
 
 dependencies {
+    implementation(project(":android:common"))
     implementation(project(":android:mobile:ui:common"))
     implementation(project(":android:mobile:ui:home"))
     implementation(project(":android:mobile:ui:session"))

@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ChoiceDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.android.mobile.ui.session.RunningSessionStepType
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionDialog
@@ -29,7 +29,7 @@ fun SessionContentHolder(
     uiArrangement: UiArrangement,
     onAbortSession: () -> Unit = {},
     resume: () -> Unit = {},
-    navigateUp: () -> Boolean = {true},
+    navigateUp: () -> Boolean = { true },
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
@@ -97,7 +97,7 @@ fun SessionContentHolder(
 private fun SessionContentHolderPreviewPhonePortrait(
     @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
@@ -122,7 +122,7 @@ private fun SessionContentHolderPreviewPhonePortrait(
 private fun SessionContentHolderPreviewTabletLandscape(
     @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
@@ -149,7 +149,7 @@ private fun SessionContentHolderPreviewTabletLandscape(
 private fun SessionContentHolderPreviewPhoneLandscape(
     @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,

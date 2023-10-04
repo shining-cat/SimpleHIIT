@@ -12,7 +12,7 @@ import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.ErrorDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.dialogs.SettingsAddUserDialog
@@ -33,16 +33,16 @@ fun SettingsContentHolder(
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
     saveRestPeriodLength: (String) -> Unit = {},
-    validatePeriodLengthInput: (String) -> Constants.InputError = {Constants.InputError.NONE},
+    validatePeriodLengthInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     editNumberOfWorkPeriods: () -> Unit = {},
-    validateNumberOfWorkPeriodsInput: (String) -> Constants.InputError = {Constants.InputError.NONE},
+    validateNumberOfWorkPeriodsInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     saveNumberOfWorkPeriod: (String) -> Unit = {},
     toggleBeepSound: () -> Unit = {},
     editSessionStartCountDown: () -> Unit = {},
-    validateSessionCountDownLengthInput: (String) -> Constants.InputError = {Constants.InputError.NONE},
+    validateSessionCountDownLengthInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     saveSessionStartCountDown: (String) -> Unit = {},
     editPeriodStartCountDown: () -> Unit = {},
-    validatePeriodCountDownLengthInput: (String) -> Constants.InputError = {Constants.InputError.NONE},
+    validatePeriodCountDownLengthInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     savePeriodStartCountDown: (String) -> Unit = {},
     editUser: (User) -> Unit = {},
     addUser: () -> Unit = {},
@@ -51,7 +51,7 @@ fun SettingsContentHolder(
     deleteUserCancel: (User) -> Unit = {},
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
-    validateInputNameString: (User) -> Constants.InputError = {Constants.InputError.NONE},
+    validateInputNameString: (User) -> Constants.InputError = { Constants.InputError.NONE },
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -178,7 +178,7 @@ fun SettingsContentHolder(
 private fun SettingsContentHolderPreviewPhonePortrait(
     @PreviewParameter(SettingsContentHolderPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsContentHolder(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -203,7 +203,7 @@ private fun SettingsContentHolderPreviewPhonePortrait(
 private fun SettingsContentHolderPreviewTabletLandscape(
     @PreviewParameter(SettingsContentHolderPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -230,7 +230,7 @@ private fun SettingsContentHolderPreviewTabletLandscape(
 private fun SettingsContentHolderPreviewPhoneLandscape(
     @PreviewParameter(SettingsContentHolderPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,
