@@ -1,4 +1,4 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
 }
@@ -11,12 +11,13 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
     }
 
 }
 
 dependencies {
+    implementation(project(":android:common"))
     implementation(project(":domain:common"))
     implementation(project(":commonUtils"))
     implementation(project(":commonResources"))

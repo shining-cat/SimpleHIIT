@@ -11,7 +11,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.WarningDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsDialog
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.dialogs.StatisticsSelectUserDialog
@@ -115,7 +115,7 @@ fun StatisticsContentHolder(
 private fun StatisticsContentHolderPreviewPhonePortrait(
     @PreviewParameter(StatisticsContentHolderPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsContentHolder(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -140,7 +140,7 @@ private fun StatisticsContentHolderPreviewPhonePortrait(
 private fun StatisticsContentHolderPreviewTabletLandscape(
     @PreviewParameter(StatisticsContentHolderPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -167,7 +167,7 @@ private fun StatisticsContentHolderPreviewTabletLandscape(
 private fun StatisticsContentHolderPreviewPhoneLandscape(
     @PreviewParameter(StatisticsContentHolderPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,

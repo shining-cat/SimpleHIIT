@@ -61,7 +61,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
             hiitLogger = mockHiitLogger
         )
         //
-        val result = testedMapper.buildStateWholeSession(
+        val result = testedMapper.buildStateFromWholeSession(
             session = sessionMapperTestParameter.session,
             currentSessionStepIndex = sessionMapperTestParameter.currentSessionStepIndex,
             currentStepTimerState = sessionMapperTestParameter.currentStepTimerState,
@@ -263,11 +263,12 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             totalMilliSeconds = 800000L
                         )
                     ),
-                    SessionViewState.WorkNominal(
-                        currentExercise = Exercise.LungesSideToCurtsy,
+                    SessionViewState.RunningNominal(
+                        periodType = RunningSessionStepType.WORK,
+                        displayedExercise = Exercise.LungesSideToCurtsy,
                         side = AsymmetricalExerciseSideOrder.SECOND.side,
-                        exerciseRemainingTime = mockDurationString, // verify formatter is called with 10000L,
-                        exerciseRemainingPercentage = .2f,
+                        stepRemainingTime = mockDurationString, // verify formatter is called with 10000L,
+                        stepRemainingPercentage = .2f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (595000L + 10000L)
                         sessionRemainingPercentage = .75625f, // 605000L / 800000L = 0.75625
                         countDown = null
@@ -283,11 +284,12 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             totalMilliSeconds = 800000L
                         )
                     ),
-                    SessionViewState.WorkNominal(
-                        currentExercise = Exercise.LungesSideToCurtsy,
+                    SessionViewState.RunningNominal(
+                        periodType = RunningSessionStepType.WORK,
+                        displayedExercise = Exercise.LungesSideToCurtsy,
                         side = AsymmetricalExerciseSideOrder.SECOND.side,
-                        exerciseRemainingTime = mockDurationString, // verify formatter is called with 1000L,
-                        exerciseRemainingPercentage = .02f,
+                        stepRemainingTime = mockDurationString, // verify formatter is called with 1000L,
+                        stepRemainingPercentage = .02f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (595000L + 1000L)
                         sessionRemainingPercentage = .745f, // 596000L / 800000L
                         countDown = CountDown(
@@ -307,11 +309,12 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             totalMilliSeconds = 800000L
                         )
                     ),
-                    SessionViewState.RestNominal(
-                        nextExercise = Exercise.PlankMountainClimber,
+                    SessionViewState.RunningNominal(
+                        periodType = RunningSessionStepType.REST,
+                        displayedExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
-                        restRemainingTime = mockDurationString, // verify formatter is called with 7000L,
-                        restRemainingPercentage = .2f,
+                        stepRemainingTime = mockDurationString, // verify formatter is called with 7000L,
+                        stepRemainingPercentage = .2f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 7000L)
                         sessionRemainingPercentage = .6025f, // 482000L / 800000L
                         countDown = null
@@ -327,11 +330,12 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             totalMilliSeconds = 800000L
                         )
                     ),
-                    SessionViewState.RestNominal(
-                        nextExercise = Exercise.PlankMountainClimber,
+                    SessionViewState.RunningNominal(
+                        periodType = RunningSessionStepType.REST,
+                        displayedExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
-                        restRemainingTime = mockDurationString, // verify formatter is called with 5000L,
-                        restRemainingPercentage = .14285715f,
+                        stepRemainingTime = mockDurationString, // verify formatter is called with 5000L,
+                        stepRemainingPercentage = .14285715f,
                         sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 5000L)
                         sessionRemainingPercentage = .6f, // 480000L / 800000L
                         countDown = CountDown(

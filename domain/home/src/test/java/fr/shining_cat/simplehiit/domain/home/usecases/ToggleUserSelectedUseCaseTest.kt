@@ -1,8 +1,9 @@
 package fr.shining_cat.simplehiit.domain.home.usecases
 
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.domain.home.usecases.ToggleUserSelectedUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -24,7 +25,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
             simpleHiitLogger = mockHiitLogger
         )
         val testValue = User(id = 123L, name = "test user name", selected = true)
-        val successFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Success(1)
+        val successFromRepo = Output.Success(1)
         coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { successFromRepo }
         //
         val result = testedUseCase.execute(testValue)
@@ -42,7 +43,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
         )
         val testValue = User(id = 123L, name = "test user name", selected = true)
         val exceptionMessage = "this is a test exception"
-        val errorFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+        val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
         coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { errorFromRepo }
         //
         val result = testedUseCase.execute(testValue)

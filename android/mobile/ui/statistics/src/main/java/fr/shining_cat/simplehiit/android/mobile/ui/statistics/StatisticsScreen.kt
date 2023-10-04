@@ -13,11 +13,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.contents.StatisticsContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -82,7 +81,7 @@ private fun StatisticsScreen(
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             NavigationSideBar(
                 navigateTo = navigateTo,
-                currentDestination = Screen.Statistics,
+                currentDestination = fr.shining_cat.simplehiit.android.common.Screen.Statistics,
                 showStatisticsButton = true // in this case, we are in the statistics screen, so obviously we want to show this button
             )
         }
@@ -92,7 +91,7 @@ private fun StatisticsScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = { navigateTo(Screen.Home.route); true }, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
+                    navigateUp = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Home.route); true }, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     title = R.string.statistics_page_title
                 )
             }
@@ -130,7 +129,7 @@ private fun StatisticsScreen(
 private fun StatisticsScreenPreviewPhonePortrait(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -155,7 +154,7 @@ private fun StatisticsScreenPreviewPhonePortrait(
 private fun StatisticsScreenPreviewTabletLandscape(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -182,7 +181,7 @@ private fun StatisticsScreenPreviewTabletLandscape(
 private fun StatisticsScreenPreviewPhoneLandscape(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,

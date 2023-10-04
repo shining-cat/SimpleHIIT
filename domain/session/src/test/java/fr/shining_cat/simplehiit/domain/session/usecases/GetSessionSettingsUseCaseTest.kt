@@ -1,5 +1,7 @@
 package fr.shining_cat.simplehiit.domain.session.usecases
 
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseType
 import fr.shining_cat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -24,7 +26,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
 
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
     private val testedUseCase =
-        fr.shining_cat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase(
+        GetSessionSettingsUseCase(
             mockSimpleHiitRepository,
             mockHiitLogger
         )
@@ -59,12 +61,12 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         val user2 = User(id = 234L, name = "user 2 name", selected = true)
         val user3 = User(id = 345L, name = "user 3 name", selected = true)
         val user4 = User(id = 456L, name = "user 4 name", selected = true)
-        val usersList1 = fr.shining_cat.simplehiit.domain.common.Output.Success(listOf(user1, user3))
-        val usersList2 = fr.shining_cat.simplehiit.domain.common.Output.Success(listOf(user1, user2, user4))
-        val usersFlow = MutableSharedFlow<fr.shining_cat.simplehiit.domain.common.Output<List<User>>>()
+        val usersList1 = Output.Success(listOf(user1, user3))
+        val usersList2 = Output.Success(listOf(user1, user2, user4))
+        val usersFlow = MutableSharedFlow<Output<List<User>>>()
         coEvery { mockSimpleHiitRepository.getSelectedUsers() } answers { usersFlow }
         //
-        val generalSettingsFlowAsList = mutableListOf<fr.shining_cat.simplehiit.domain.common.Output<SessionSettings>>()
+        val generalSettingsFlowAsList = mutableListOf<Output<SessionSettings>>()
         val collectJob = launch {
             testedUseCase.execute().toList(generalSettingsFlowAsList)
         }
@@ -74,7 +76,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         //on the first emission, combine will wait to have both before emitting the result
         assertEquals(1, generalSettingsFlowAsList.size)
         val homeSettingsResult1 = generalSettingsFlowAsList.last()
-        val expectedResult1 = fr.shining_cat.simplehiit.domain.common.Output.Success(
+        val expectedResult1 = Output.Success(
             SessionSettings(
                 numberCumulatedCycles = settingsValue1.numberCumulatedCycles,
                 workPeriodLengthMs = settingsValue1.workPeriodLengthMs,
@@ -94,7 +96,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         assertEquals(2, generalSettingsFlowAsList.size)
         //on subsequent emissions, combine will immediately emit the result for every input flow emission. Here one more is expected
         val homeSettingsResult2 = generalSettingsFlowAsList.last()
-        val expectedResult2 = fr.shining_cat.simplehiit.domain.common.Output.Success(
+        val expectedResult2 = Output.Success(
             SessionSettings(
                 numberCumulatedCycles = settingsValue2.numberCumulatedCycles,
                 workPeriodLengthMs = settingsValue2.workPeriodLengthMs,
@@ -115,7 +117,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         assertEquals(4, generalSettingsFlowAsList.size)
         //on subsequent emissions, combine will immediately emit the result for every input flow emission. Here TWO more are expected
         val homeSettingsResult3 = generalSettingsFlowAsList.last()
-        val expectedResult3 = fr.shining_cat.simplehiit.domain.common.Output.Success(
+        val expectedResult3 = Output.Success(
             SessionSettings(
                 numberCumulatedCycles = settingsValue3.numberCumulatedCycles,
                 workPeriodLengthMs = settingsValue3.workPeriodLengthMs,
@@ -157,11 +159,11 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         coEvery { mockSimpleHiitRepository.getPreferences() } answers { settingsFlow }
         //
         val testException = Exception("this is a test exception")
-        val usersError = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED, testException)
-        val usersFlow = MutableSharedFlow<fr.shining_cat.simplehiit.domain.common.Output<List<User>>>()
+        val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException)
+        val usersFlow = MutableSharedFlow<Output<List<User>>>()
         coEvery { mockSimpleHiitRepository.getSelectedUsers() } answers { usersFlow }
         //
-        val generalSettingsFlowAsList = mutableListOf<fr.shining_cat.simplehiit.domain.common.Output<SessionSettings>>()
+        val generalSettingsFlowAsList = mutableListOf<Output<SessionSettings>>()
         val collectJob = launch {
             testedUseCase.execute().toList(generalSettingsFlowAsList)
         }
@@ -170,7 +172,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         usersFlow.emit(usersError)
         assertEquals(1, generalSettingsFlowAsList.size)
         val homeSettingsResult = generalSettingsFlowAsList[0]
-        val expectedError = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.NO_USERS_FOUND, testException)
+        val expectedError = Output.Error(Constants.Errors.NO_USERS_FOUND, testException)
         assertEquals(expectedError, homeSettingsResult)
         //
         collectJob.cancel()

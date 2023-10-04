@@ -11,12 +11,13 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
+        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
     }
 
 }
 
 dependencies {
+    implementation(project(":android:common"))
     implementation(project(":domain:common"))
     implementation(project(":domain:home"))
     implementation(project(":commonUtils"))

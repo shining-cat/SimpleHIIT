@@ -30,7 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.User
 import kotlin.math.ceil
@@ -110,7 +110,7 @@ fun SettingsUsersComponent(
 private fun SettingsUsersComponentPreviewPhonePortrait(
     @PreviewParameter(SettingsUsersComponentPreviewParameterProvider::class) users: List<User>
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsUsersComponent(users = users)
         }

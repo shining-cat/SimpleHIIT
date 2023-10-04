@@ -1,5 +1,7 @@
 package fr.shining_cat.simplehiit.domain.statistics.usecases
 
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.domain.common.models.User
@@ -40,7 +42,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             simpleHiitLogger = mockHiitLogger
         )
         val testException = Exception("this is a test exception")
-        val testError = fr.shining_cat.simplehiit.domain.common.Output.Error(errorCode = fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED, exception = testException)
+        val testError = Output.Error(errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = testException)
         coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { testError}
         //
         val result = testedUseCase.execute(testUser, testNow)
@@ -60,7 +62,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             simpleHiitLogger = mockHiitLogger
         )
         val testSessionRecords = emptyList<SessionRecord>()
-        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { fr.shining_cat.simplehiit.domain.common.Output.Success(testSessionRecords)}
+        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { Output.Success(testSessionRecords)}
         coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns 0
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns 0
         coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns "0"
@@ -71,8 +73,8 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = 0) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = 0) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
-        assertTrue(output is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        output as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(output is Output.Success)
+        output as Output.Success
         assertEquals(UserStatistics(testUser), output.result)
     }
 
@@ -96,7 +98,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         val testCurrentStreak = Random.nextInt(10,5000)
         val testLongestStreak = Random.nextInt(5000,10000)
         val testAverageWeek = (Random.nextInt(1,100).toDouble() / 100.toDouble()).toString()
-        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { fr.shining_cat.simplehiit.domain.common.Output.Success(testSessionRecords)}
+        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { Output.Success(testSessionRecords)}
         coEvery { mockCalculateCurrentStreakUseCase.execute(any(), any()) } returns testCurrentStreak
         coEvery { mockCalculateLongestStreakUseCase.execute(any(), any()) } returns testLongestStreak
         coEvery { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) } returns testAverageWeek
@@ -107,8 +109,8 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
-        assertTrue(output is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        output as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(output is Output.Success)
+        output as Output.Success
         assertEquals(testUser, output.result.user)
         assertEquals(expectedTotalNumberOfSessions, output.result.totalNumberOfSessions)
         assertEquals(expectedCumulatedTimeOfExerciseSeconds, output.result.cumulatedTimeOfExerciseMs)

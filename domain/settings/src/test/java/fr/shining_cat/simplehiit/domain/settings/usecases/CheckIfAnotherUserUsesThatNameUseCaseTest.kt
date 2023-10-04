@@ -1,8 +1,9 @@
 package fr.shining_cat.simplehiit.domain.settings.usecases
 
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.User
-import fr.shining_cat.simplehiit.domain.settings.usecases.CheckIfAnotherUserUsesThatNameUseCase
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -32,7 +33,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
             )
         val testUser = User(name = "this is a test name")
         val testException1 = Exception("this is a test exception 1")
-        val usersError = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.DATABASE_FETCH_FAILED, testException1)
+        val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException1)
         coEvery { mockSimpleHiitRepository.getUsersList() } answers { usersError }
         //
         val output = testedUseCase.execute(testUser)
@@ -54,13 +55,13 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                 simpleHiitLogger = mockHiitLogger
             )
-        coEvery { mockSimpleHiitRepository.getUsersList() } answers { fr.shining_cat.simplehiit.domain.common.Output.Success(usersList) }
+        coEvery { mockSimpleHiitRepository.getUsersList() } answers { Output.Success(usersList) }
         //
         val output = testedUseCase.execute(input)
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.getUsersList() }
-        assertTrue(output is fr.shining_cat.simplehiit.domain.common.Output.Success)
-        output as fr.shining_cat.simplehiit.domain.common.Output.Success
+        assertTrue(output is Output.Success)
+        output as Output.Success
         assertEquals(expectedResult, output.result)
     }
 

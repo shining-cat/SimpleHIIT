@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
 import fr.shining_cat.simplehiit.commonutils.TimeProvider
 import fr.shining_cat.simplehiit.commonutils.di.MainDispatcher
+import fr.shining_cat.simplehiit.domain.common.Constants
 import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shining_cat.simplehiit.domain.common.models.User
@@ -31,7 +32,8 @@ class StatisticsViewModel @Inject constructor(
     val dialogViewState = _dialogViewState.asStateFlow()
 
     private var isInitialized = false
-    private var allUsers = emptyList<User>() // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
+    private var allUsers =
+        emptyList<User>() // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
 
     private var durationStringFormatter = DurationStringFormatter()
 
@@ -49,7 +51,7 @@ class StatisticsViewModel @Inject constructor(
                         }
 
                         is Output.Error -> {
-                            if (it.errorCode == fr.shining_cat.simplehiit.domain.common.Constants.Errors.NO_USERS_FOUND) {
+                            if (it.errorCode == Constants.Errors.NO_USERS_FOUND) {
                                 //users list retrieved is empty -> no users yet. Special case
                                 _screenViewState.emit(StatisticsViewState.NoUsers)
                             } else {
@@ -69,7 +71,7 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             val now = timeProvider.getCurrentTimeMillis()
             val statisticsOutput =
-            statisticsInteractor.getStatsForUser(user = user, now = now)
+                statisticsInteractor.getStatsForUser(user = user, now = now)
             val moreThanOneUser = allUsers.size > 1
             when (statisticsOutput) {
                 is Output.Success -> {
@@ -97,7 +99,10 @@ class StatisticsViewModel @Inject constructor(
 
     fun openPickUser() {
         viewModelScope.launch(context = mainDispatcher) {
-            if(allUsers.size < 2) hiitLogger.e("StatisticsViewModel", "openPickUser called but there is only 1 user or less")
+            if (allUsers.size < 2) hiitLogger.e(
+                "StatisticsViewModel",
+                "openPickUser called but there is only 1 user or less"
+            )
             _dialogViewState.emit(StatisticsDialog.SelectUser(allUsers))
         }
     }

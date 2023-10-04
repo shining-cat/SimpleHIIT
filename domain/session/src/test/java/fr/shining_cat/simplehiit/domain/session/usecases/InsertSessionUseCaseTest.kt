@@ -1,5 +1,7 @@
 package fr.shining_cat.simplehiit.domain.session.usecases
 
+import fr.shining_cat.simplehiit.domain.common.Constants
+import fr.shining_cat.simplehiit.domain.common.Output
 import fr.shining_cat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shining_cat.simplehiit.domain.common.models.SessionRecord
 import fr.shining_cat.simplehiit.testutils.AbstractMockkTest
@@ -17,7 +19,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() = runTest {
-        val testedUseCase = fr.shining_cat.simplehiit.domain.session.usecases.InsertSessionUseCase(
+        val testedUseCase = InsertSessionUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
@@ -28,7 +30,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             durationMs = 345L,
             usersIds = listOf(1234L, 2345L)
         )
-        val successFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Success(2)
+        val successFromRepo = Output.Success(2)
         coEvery { mockSimpleHiitRepository.insertSessionRecord(any()) } answers { successFromRepo }
         //
         val result = testedUseCase.execute(testValue)
@@ -39,7 +41,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `calls repo with corresponding value and returns repo error`() = runTest {
-        val testedUseCase = fr.shining_cat.simplehiit.domain.session.usecases.InsertSessionUseCase(
+        val testedUseCase = InsertSessionUseCase(
             simpleHiitRepository = mockSimpleHiitRepository,
             defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
             simpleHiitLogger = mockHiitLogger
@@ -51,7 +53,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             usersIds = listOf(1234L, 2345L)
         )
         val exceptionMessage = "this is a test exception"
-        val errorFromRepo = fr.shining_cat.simplehiit.domain.common.Output.Error(fr.shining_cat.simplehiit.domain.common.Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+        val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
         coEvery { mockSimpleHiitRepository.insertSessionRecord(any()) } answers { errorFromRepo }
         //
         val result = testedUseCase.execute(testValue)

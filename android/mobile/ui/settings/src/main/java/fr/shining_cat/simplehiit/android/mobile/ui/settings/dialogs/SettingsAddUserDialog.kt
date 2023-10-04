@@ -10,9 +10,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.InputDialog
-import fr.shining_cat.simplehiit.android.mobile.ui.common.components.InputDialogTextFieldSize
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.InputDialog
+import fr.shining_cat.simplehiit.android.mobile.ui.settings.components.InputDialogTextFieldSize
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.Constants
 
@@ -20,7 +20,7 @@ import fr.shining_cat.simplehiit.domain.common.Constants
 fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
     userName: String,
-    validateUserNameInput: (String) -> fr.shining_cat.simplehiit.domain.common.Constants.InputError,
+    validateUserNameInput: (String) -> Constants.InputError,
     onCancel: () -> Unit
 ) {
     Column(
@@ -44,10 +44,10 @@ fun SettingsAddUserDialog(
     }
 }
 
-private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.domain.common.Constants.InputError): Int {
+private fun setUSerNameErrorMessage(error: Constants.InputError): Int {
     return when (error) {
-        fr.shining_cat.simplehiit.domain.common.Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        fr.shining_cat.simplehiit.domain.common.Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
+        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 }
@@ -67,7 +67,7 @@ private fun setUSerNameErrorMessage(error: fr.shining_cat.simplehiit.domain.comm
 )
 @Composable
 private fun SettingsAddUserDialogPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         SettingsAddUserDialog(
             saveUserName = {},
             userName = "The User's name",

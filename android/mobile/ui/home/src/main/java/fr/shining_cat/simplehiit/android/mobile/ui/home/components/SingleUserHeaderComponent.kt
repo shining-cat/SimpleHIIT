@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.domain.common.models.User
 
@@ -52,7 +52,7 @@ fun SingleUserHeaderComponent(
 )
 @Composable
 private fun SingleUserHeaderComponentComponentPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SingleUserHeaderComponent(
                 user = User(123L, "User 1", selected = true),

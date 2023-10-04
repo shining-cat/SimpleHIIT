@@ -24,7 +24,7 @@ fun RunningSessionStepInfoDisplayComponent(
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
-){
+) {
     Column(modifier = modifier) {
         ExerciseDescriptionComponent(exercise = exercise, side = exerciseSide)
         Spacer(modifier = Modifier.weight(1f))

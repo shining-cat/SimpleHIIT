@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.commonresources.R
 
 @Composable
@@ -85,7 +85,7 @@ fun StatisticsFatalErrorContent(
 )
 @Composable
 private fun StatisticsFatalErrorContentPreview() {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsFatalErrorContent(errorCode = "ABCD-123")
         }

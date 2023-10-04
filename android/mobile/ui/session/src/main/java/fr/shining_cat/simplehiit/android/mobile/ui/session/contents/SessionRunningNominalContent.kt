@@ -12,7 +12,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shining_cat.simplehiit.android.mobile.ui.session.RunningSessionStepType
 import fr.shining_cat.simplehiit.android.mobile.ui.session.SessionViewState
@@ -34,7 +34,7 @@ fun SessionRunningNominalContent(
         viewState.displayedExercise // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
     val periodType = viewState.periodType // no need to recompose this every second either
     val exerciseSide = viewState.side // no need to recompose this every second either
-    when(uiArrangement){
+    when (uiArrangement) {
         UiArrangement.VERTICAL -> VerticalSessionRunningNominalContent(
             exercise = exercise,
             periodType = periodType,
@@ -43,6 +43,7 @@ fun SessionRunningNominalContent(
             viewState = viewState,
             hiitLogger = hiitLogger
         )
+
         UiArrangement.HORIZONTAL -> HorizontalSessionRunningNominalContent(
             exercise = exercise,
             periodType = periodType,
@@ -63,7 +64,7 @@ fun VerticalSessionRunningNominalContent(
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
-){
+) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -71,7 +72,8 @@ fun VerticalSessionRunningNominalContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ExerciseDisplayComponent(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 24.dp),
             exercise = exercise,
             periodType = periodType,
@@ -88,6 +90,7 @@ fun VerticalSessionRunningNominalContent(
         )
     }
 }
+
 @Composable
 fun HorizontalSessionRunningNominalContent(
     exercise: Exercise,
@@ -97,14 +100,16 @@ fun HorizontalSessionRunningNominalContent(
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
-){
+) {
     Row(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
     ) {
         ExerciseDisplayComponent(
-            modifier = Modifier.weight(1f).fillMaxHeight(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
@@ -112,7 +117,9 @@ fun HorizontalSessionRunningNominalContent(
             hiitLogger = hiitLogger
         )
         RunningSessionStepInfoDisplayComponent(
-            modifier = Modifier.weight(1f).fillMaxHeight(),
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight(),
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
@@ -139,7 +146,7 @@ fun HorizontalSessionRunningNominalContent(
 private fun SessionRunningNominalContentPreviewPhonePortrait(
     @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -163,7 +170,7 @@ private fun SessionRunningNominalContentPreviewPhonePortrait(
 private fun SessionRunningNominalContentPreviewTabletLandscape(
     @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -189,7 +196,7 @@ private fun SessionRunningNominalContentPreviewTabletLandscape(
 private fun SessionRunningNominalContentPreviewPhoneLandscape(
     @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.HORIZONTAL,

@@ -1,9 +1,16 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* 
+* exercise display in session running screen is messed up, components positions are all wrong
+* text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
+* Error when trying to upgrade the compose-BOM above 2023.06.xx:
+  * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
+    Problems reading data from Binary store in /Users/shiva.bernhard@schibsted.com/.gradle/.tmp/gradle5795096560825037874.bin offset 188550 exists? true
+    Problems loading the resolution results (0.0 secs). Read 346 values, last was: 5
+    Corrupt serialized resolution result. Cannot find selected component (14958) for constraint releaseVariantReleaseRuntimePublication -> androidx.lifecycle:lifecycle-process:2.6.1
 
 ## Assets production
+* redo app icon, remove name, set white background, only set the elapsed time on the clock as primary color (handle darkmode if possible?)
 * refine statistics cards design and find/create icons for each
   * longest streak: icon of a cup and a calendar showing checked days
   * current streak: icon of a calendar showing checked days - IF current streak == longest, switch to same icon as longest streak to make it more clear

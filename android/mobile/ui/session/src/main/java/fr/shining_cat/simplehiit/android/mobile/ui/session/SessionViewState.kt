@@ -13,7 +13,7 @@ sealed interface SessionViewState {
     ) : SessionViewState
 
     data class RunningNominal(
-        val periodType:RunningSessionStepType,
+        val periodType: RunningSessionStepType,
         val displayedExercise: Exercise,
         val side: ExerciseSide,
         val stepRemainingTime: String,
@@ -31,7 +31,7 @@ sealed interface SessionViewState {
     data class Error(val errorCode: String) : SessionViewState
 }
 
-enum class RunningSessionStepType{REST, WORK}
+enum class RunningSessionStepType { REST, WORK }
 
 @ExcludeFromJacocoGeneratedReport
 data class CountDown(

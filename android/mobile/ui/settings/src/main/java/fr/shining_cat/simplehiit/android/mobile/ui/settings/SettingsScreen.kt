@@ -13,11 +13,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import fr.shining_cat.simplehiit.android.mobile.ui.common.Screen
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shining_cat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.settings.contents.SettingsContentHolder
 import fr.shining_cat.simplehiit.commonresources.R
 import fr.shining_cat.simplehiit.commonutils.HiitLogger
@@ -118,7 +117,7 @@ private fun SettingsScreen(
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             NavigationSideBar(
                 navigateTo = navigateTo,
-                currentDestination = Screen.Settings,
+                currentDestination = fr.shining_cat.simplehiit.android.common.Screen.Settings,
                 showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty()
             )
         }
@@ -128,7 +127,7 @@ private fun SettingsScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = {navigateTo(Screen.Home.route); true}, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
+                    navigateUp = { navigateTo(fr.shining_cat.simplehiit.android.common.Screen.Home.route); true }, //forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     title = R.string.settings_page_title
                 )
             }
@@ -184,7 +183,7 @@ private fun SettingsScreen(
 private fun SettingsScreenPreviewPhonePortrait(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -209,7 +208,7 @@ private fun SettingsScreenPreviewPhonePortrait(
 private fun SettingsScreenPreviewTabletLandscape(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -236,7 +235,7 @@ private fun SettingsScreenPreviewTabletLandscape(
 private fun SettingsScreenPreviewPhoneLandscape(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,

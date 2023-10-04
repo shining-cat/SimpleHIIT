@@ -17,9 +17,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shining_cat.simplehiit.android.common.utils.StickyFooterArrangement
 import fr.shining_cat.simplehiit.android.mobile.ui.common.UiArrangement
-import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitTheme
-import fr.shining_cat.simplehiit.android.mobile.ui.common.utils.StickyFooterArrangement
+import fr.shining_cat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticCardComponent
 import fr.shining_cat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
@@ -58,7 +58,10 @@ fun StatisticsNominalContent(
                 .padding(8.dp)
                 .fillMaxSize(),
             columns = GridCells.Fixed(2),
-            verticalArrangement = StickyFooterArrangement(gridPadding, hiitLogger),
+            verticalArrangement = StickyFooterArrangement(
+                gridPadding,
+                hiitLogger
+            ),
             horizontalArrangement = Arrangement.spacedBy(gridPadding)
         ) {
             items(viewState.statistics.size) {
@@ -105,7 +108,7 @@ fun StatisticsNominalContent(
 private fun StatisticsNominalContentPreviewPhonePortrait(
     @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsNominalContent(
                 uiArrangement = UiArrangement.VERTICAL,
@@ -129,7 +132,7 @@ private fun StatisticsNominalContentPreviewPhonePortrait(
 private fun StatisticsNominalContentPreviewTabletLandscape(
     @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsNominalContent(
                 uiArrangement = UiArrangement.HORIZONTAL,
@@ -155,7 +158,7 @@ private fun StatisticsNominalContentPreviewTabletLandscape(
 private fun StatisticsNominalContentPreviewPhoneLandscape(
     @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
 ) {
-    SimpleHiitTheme {
+    SimpleHiitMobileTheme {
         Surface {
             StatisticsNominalContent(
                 uiArrangement = UiArrangement.HORIZONTAL,
