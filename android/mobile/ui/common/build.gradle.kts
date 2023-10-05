@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.android.mobile.ui.common"
+    namespace = "fr.shiningcat.simplehiit.android.mobile.ui.common"
 
     buildFeatures {
         compose = true

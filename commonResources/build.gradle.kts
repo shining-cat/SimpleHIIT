@@ -4,7 +4,7 @@ plugins{
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.commonresources"
+    namespace = "fr.shiningcat.simplehiit.commonresources"
 }
 
 dependencies {

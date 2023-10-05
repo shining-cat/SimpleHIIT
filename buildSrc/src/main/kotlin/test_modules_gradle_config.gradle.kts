@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         minSdk = ConfigData.minSdkVersion
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
+        testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
 
     targetProjectPath = ":android:mobile:app"

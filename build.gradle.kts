@@ -38,6 +38,28 @@ plugins {
     // Inter-modules dependencies graph generator by Savvas Dalkitsis: https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph
     // launch with ./gradlew graphModules or in SimpleHIIT>Tasks>other>graphModules
     id("com.savvasdalkitsis.module-dependency-graph") version Versions.savvasdalkitsisDependencyGraphPlugin
+    ////////////////////////////////
+    // KTLINT gradle plugin https://github.com/JLLeitschuh/ktlint-gradle
+    id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradlePlugin
+}
+
+/*
+dependencies {
+    ktlintRuleset("com.twitter.compose.rules:ktlint:${Versions.ktlintGradlePlugin}")
+}
+*/
+subprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
+
+    repositories {
+        // Required to download KtLint
+        mavenCentral()
+    }
+
+    // Optionally configure plugin
+    configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
+        debug.set(true)
+    }
 }
 
 fun String.isNonStable(): Boolean {

@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.domain.settings"
+    namespace = "fr.shiningcat.simplehiit.domain.settings"
 }
 
 dependencies {

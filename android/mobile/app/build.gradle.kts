@@ -7,18 +7,18 @@ plugins {
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.android.mobile.app"
+    namespace = "fr.shiningcat.simplehiit.android.mobile.app"
 
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
-        applicationId = "fr.shining_cat.simplehiit"
+        applicationId = "fr.shiningcat.simplehiit"
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
         versionCode = ConfigData.versionCode
         versionName = ConfigData.versionName
 
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
+        testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
 
     buildTypes {

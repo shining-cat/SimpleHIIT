@@ -7,18 +7,18 @@ plugins {
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.android.tv.app"
+    namespace = "fr.shiningcat.simplehiit.android.tv.app"
 
     compileSdk = ConfigData.compileSdkVersion
 
     defaultConfig {
-        applicationId = "fr.shining_cat.simplehiit"
+        applicationId = "fr.shiningcat.simplehiit"
         minSdk = ConfigData.minSdkVersion
         targetSdk = ConfigData.targetSdkVersion
         versionCode = ConfigData.versionCode
         versionName = ConfigData.versionName
 
-        testInstrumentationRunner = "fr.shining_cat.simplehiit.testutils.HiltTestRunner"
+        testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
 
     buildTypes {

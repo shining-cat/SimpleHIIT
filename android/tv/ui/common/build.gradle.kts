@@ -4,7 +4,7 @@ plugins{
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.android.tv.ui.common"
+    namespace = "fr.shiningcat.simplehiit.android.tv.ui.common"
 
     buildFeatures {
         compose = true
