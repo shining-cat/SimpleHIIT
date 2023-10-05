@@ -1,6 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* testing ktling precommit hook
 * exercise display in session running screen is messed up, components positions are all wrong
 * text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
 * display warning to user that at least one must be selected when unselecting last exercise type
