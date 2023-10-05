@@ -73,7 +73,7 @@ private fun SettingsEditNumberCyclesDialogPreview() {
             saveNumber = {},
             validateNumberCyclesInput = { _ -> Constants.InputError.NONE },
             numberOfCycles = "5",
-            onCancel = {},
+            onCancel = {}
         )
     }
 }

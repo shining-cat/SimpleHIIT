@@ -63,7 +63,6 @@ class SessionInteractorImpl @Inject constructor(
 
     override suspend fun startStepTimer(totalMilliSeconds: Long) {
         return stepTimerUseCase.start(totalMilliSeconds)
-
     }
 
     override fun getStepTimerState(): StateFlow<StepTimerState> {
@@ -73,5 +72,4 @@ class SessionInteractorImpl @Inject constructor(
     override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> {
         return insertSessionUseCase.execute(sessionRecord)
     }
-
 }

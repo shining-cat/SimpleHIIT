@@ -40,7 +40,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
-//////////////
+// ////////////
 //   INSERT SESSION
 
     private val testSessionId = 1234L
@@ -94,12 +94,15 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
             )
             //
             coEvery { mockSessionMapper.convert(any<SessionRecord>()) } answers {
-                listOf(SessionEntity(
-                    sessionId = 456L,
-                    timeStamp = 123L,
-                    durationMs = 234L,
-                    userId = 345L
-            )) }
+                listOf(
+                    SessionEntity(
+                        sessionId = 456L,
+                        timeStamp = 123L,
+                        durationMs = 234L,
+                        userId = 345L
+                    )
+                )
+            }
             coEvery { mockSessionRecordsDao.insert(any()) } coAnswers {
                 println("inserting delay in DAO call to allow for job cancellation before result is returned")
                 delay(100L)
@@ -107,7 +110,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
             }
             //
             val job = Job()
-            launch(job){
+            launch(job) {
                 assertThrows<CancellationException> {
                     simpleHiitRepository.insertSessionRecord(testSessionRecord)
                 }
@@ -123,7 +126,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         }
 
     @Test
-    fun `insert session catches rogue CancellationException`() =runTest {
+    fun `insert session catches rogue CancellationException`() = runTest {
         val simpleHiitRepository = SimpleHiitRepositoryImpl(
             usersDao = mockUsersDao,
             sessionRecordsDao = mockSessionRecordsDao,
@@ -215,7 +218,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         assertEquals(daoAnswer.size, actual.result)
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic
@@ -263,12 +266,11 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
                             timeStamp = 123L,
                             durationMs = 234L,
                             userId = 891L
-                        ),
+                        )
                     ),
                     listOf(321L, 543L, 654L, 765L)
                 )
 
             )
-
     }
 }

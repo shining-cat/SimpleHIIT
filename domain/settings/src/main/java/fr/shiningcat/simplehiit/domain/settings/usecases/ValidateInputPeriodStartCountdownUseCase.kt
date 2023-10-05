@@ -22,5 +22,4 @@ class ValidateInputPeriodStartCountdownUseCase @Inject constructor(
         }
         return Constants.InputError.NONE
     }
-
 }

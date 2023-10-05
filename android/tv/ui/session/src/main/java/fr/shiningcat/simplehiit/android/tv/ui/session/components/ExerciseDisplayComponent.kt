@@ -68,10 +68,10 @@ fun ExerciseDisplayComponent(
 // Previews
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun ExerciseDisplayComponentPreview() {

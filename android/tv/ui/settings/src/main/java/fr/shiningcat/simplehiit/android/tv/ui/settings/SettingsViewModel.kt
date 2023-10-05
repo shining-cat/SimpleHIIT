@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
@@ -86,7 +85,7 @@ class SettingsViewModel @Inject constructor(
                 currentViewState.periodsStartCountDownLengthAsSeconds.toLong()
             )
         }
-        //we don't really expect to be able to land in here if current state is not Nominal
+        // we don't really expect to be able to land in here if current state is not Nominal
         return Constants.InputError.NONE
     }
 
@@ -240,7 +239,7 @@ class SettingsViewModel @Inject constructor(
                 restPeriodLengthSeconds = currentViewState.restPeriodLengthAsSeconds.toLong()
             )
         }
-        //we don't really expect to be able to land in here if current state is not Nominal
+        // we don't really expect to be able to land in here if current state is not Nominal
         return Constants.InputError.NONE
     }
 
@@ -365,7 +364,7 @@ class SettingsViewModel @Inject constructor(
                 existingUsers = currentViewState.users
             )
         }
-        //we don't really expect to be able to land in here if current state is not Nominal
+        // we don't really expect to be able to land in here if current state is not Nominal
         return Constants.InputError.NONE
     }
 

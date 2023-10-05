@@ -1,4 +1,4 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
 }
@@ -16,5 +16,4 @@ dependencies {
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.mockk)
     testImplementation(TestDeps.jupiter)
-
 }

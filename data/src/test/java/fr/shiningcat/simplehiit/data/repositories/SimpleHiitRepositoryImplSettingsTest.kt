@@ -98,7 +98,6 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testValue) }
         }
 
-
     @ParameterizedTest(name = "{index} -> when called with {0}, should call HiitDataStoreManager with {0}")
     @ValueSource(booleans = [true, false])
     fun `setBeepSound calls HiitDataStoreManager setBeepSound with correct value `(
@@ -120,7 +119,6 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.setBeepSound(testValue) }
     }
-
 
     @Test
     fun `setSessionStartCountdown calls HiitDataStoreManager setSessionStartCountdown with correct value `() =
@@ -241,7 +239,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             )
             //
             val datastoreOutput1 =
-                SimpleHiitPreferences() //holds default values, should always be the fallback
+                SimpleHiitPreferences() // holds default values, should always be the fallback
             val datastoreOutput2 = SimpleHiitPreferences(
                 workPeriodLengthMs = 123,
                 restPeriodLengthMs = 234,
@@ -309,7 +307,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
         )
         //
         val defaultSettings =
-            SimpleHiitPreferences() //holds default values, should always be the fallback
+            SimpleHiitPreferences() // holds default values, should always be the fallback
         val thrownException = Exception("this is a test exception")
         coEvery { mockSimpleHiitDataStoreManager.getPreferences() } throws thrownException
         //
@@ -332,7 +330,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
         collectJob.cancel()
     }
 
-//////////////////
+// ////////////////
 
     @Test
     fun `resetAllSettings calls HiitDataStoreManager clearAll`() = runTest {
@@ -352,5 +350,4 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.clearAll() }
     }
-
 }

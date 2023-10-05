@@ -37,7 +37,7 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
 
     private val testUserId = 123L
 
-//////////////
+// ////////////
 //   DELETE SESSIONS FOR USER
 
     @Test
@@ -86,7 +86,7 @@ internal class SimpleHiitRepositoryImplDeleteSessionsForUserTest : AbstractMockk
             }
             //
             val job = Job()
-            launch(job){
+            launch(job) {
                 assertThrows<CancellationException> {
                     simpleHiitRepository.deleteSessionRecordsForUser(testUserId)
                 }

@@ -38,7 +38,6 @@ object UtilsModule {
     @MainDispatcher
     @Provides
     fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
-
 }
 
 @Qualifier

@@ -20,7 +20,6 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.Screen
-
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.home.contents.HomeContentHolder
@@ -28,7 +27,6 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.User
-
 
 @ExperimentalTvMaterial3Api
 @Composable
@@ -83,7 +81,7 @@ private fun HomeScreen(
     val darkMode = isSystemInDarkTheme()
     if (!view.isInEditMode) {
         SideEffect {
-            //applying primary color to Status bar
+            // applying primary color to Status bar
             val window = (view.context as Activity).window
             window.statusBarColor = primaryAsInt
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkMode
@@ -92,7 +90,7 @@ private fun HomeScreen(
     //
     NavigationDrawer(
         drawerContent = {
-            //we don't use the drawerValue for now
+            // we don't use the drawerValue for now
             NavigationSideBar(
                 navigateTo = navigateTo,
                 currentDestination = Screen.Home,
@@ -120,12 +118,12 @@ private fun HomeScreen(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeScreenPreviewTV(

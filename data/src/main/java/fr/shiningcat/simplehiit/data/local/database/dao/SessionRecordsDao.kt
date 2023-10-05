@@ -17,5 +17,4 @@ abstract class SessionRecordsDao {
 
     @Query("DELETE FROM ${SessionEntity.sessionsTableName} WHERE ${SessionEntity.userIdColumnName} = :userId")
     abstract suspend fun deleteForUser(userId: Long): Int
-
 }

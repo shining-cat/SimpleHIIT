@@ -28,7 +28,7 @@ class StepTimerUseCase @Inject constructor(
     suspend fun start(totalMilliSeconds: Long) {
         hiitLogger.d("StepTimerUseCase", "start::totalMilliSeconds = $totalMilliSeconds")
         return withContext(timerDispatcher) {
-            initTimer(totalMilliSeconds)//any work done in that Flow will be cancelled if the coroutine is cancelled
+            initTimer(totalMilliSeconds) // any work done in that Flow will be cancelled if the coroutine is cancelled
                 .flowOn(timerDispatcher)
                 .collect {
                     _timerStateFlow.emit(it)
@@ -41,7 +41,7 @@ class StepTimerUseCase @Inject constructor(
     private fun initTimer(totalMilliSeconds: Long): Flow<StepTimerState> = flow {
         startTimeStamp = timeProvider.getCurrentTimeMillis()
         val expectedEndTimeMillis = startTimeStamp + totalMilliSeconds
-        //emit starting state
+        // emit starting state
         emit(
             StepTimerState(
                 milliSecondsRemaining = totalMilliSeconds,
@@ -57,7 +57,7 @@ class StepTimerUseCase @Inject constructor(
                 secondComplete = timeProvider.getCurrentTimeMillis() >= nextTickTimeStamp
             }
             remainingMilliSeconds -= oneSecondAsMs
-            //emit every second
+            // emit every second
             emit(
                 StepTimerState(
                     milliSecondsRemaining = remainingMilliSeconds,
@@ -66,7 +66,7 @@ class StepTimerUseCase @Inject constructor(
             )
             totalReached = timeProvider.getCurrentTimeMillis() >= expectedEndTimeMillis
         }
-        //emit finish state
+        // emit finish state
         emit(
             StepTimerState(
                 milliSecondsRemaining = 0,

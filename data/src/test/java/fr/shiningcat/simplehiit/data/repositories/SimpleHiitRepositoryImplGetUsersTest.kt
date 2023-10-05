@@ -42,7 +42,7 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
     private val testUserModel =
         User(id = testUserId, name = testUserName, selected = testIsSelected)
 
-//////////////
+// ////////////
 //   GET USERS
 
     @ParameterizedTest(name = "{index} -> when DAO getusers returns {0} should return Success containing correct number of users")
@@ -174,7 +174,7 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
         collectJob.cancel()
     }
 
-//////////////
+// ////////////
 //   GET SELECTED USERS
 
     @ParameterizedTest(name = "{index} -> when DAO getSelectedusers returns {0} should return Success containing correct number of users")
@@ -271,7 +271,6 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
             collectJob.cancel()
         }
 
-
     @Test
     fun `get selected users returns error when dao get users throws exception`() = runTest {
         val simpleHiitRepository = SimpleHiitRepositoryImpl(
@@ -311,7 +310,7 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
         collectJob.cancel()
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic

@@ -38,7 +38,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
         hoursNoMinutesNoSeconds = "",
         minutesSeconds = "",
         minutesNoSeconds = "",
-        seconds = "",
+        seconds = ""
     )
 
     @BeforeEach
@@ -49,7 +49,6 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                 any()
             )
         } returns mockDurationString
-
     }
 
     @ParameterizedTest(name = "{index} -> provided with {0} and settings should return {5}")
@@ -121,7 +120,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = listOf(userTest1),
-                        exerciseTypes = listOf(),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf() // this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(emptyList(), 0L, true, listOf(userTest1))
                 ),
@@ -140,14 +139,14 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                             userTest1,
                             userTest2
                         ),
-                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)) // this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
                         steps = listOf(
                             SessionStep.PrepareStep(
                                 durationMs = 123L,
                                 remainingSessionDurationMsAfterMe = 30000L,
-                                countDownLengthMs = 123L,
+                                countDownLengthMs = 123L
                             ),
                             SessionStep.RestStep(
                                 exercise = Exercise.LyingSupermanTwist,
@@ -183,20 +182,20 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = 2,
                         workPeriodLengthMs = 10000L,
                         restPeriodLengthMs = 5000L,
-                        numberOfWorkPeriods = 0,//this input is not used as we mock the secondary usecase which relies on it
+                        numberOfWorkPeriods = 0, // this input is not used as we mock the secondary usecase which relies on it
                         cycleLengthMs = 400000L,
                         beepSoundCountDownActive = true,
                         sessionStartCountDownLengthMs = 345L,
                         periodsStartCountDownLengthMs = 456L,
                         users = listOf(userTest2),
-                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)) // this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
                         steps = listOf(
                             SessionStep.PrepareStep(
                                 durationMs = 345L,
                                 remainingSessionDurationMsAfterMe = 30000L,
-                                countDownLengthMs = 345L,
+                                countDownLengthMs = 345L
                             ),
                             SessionStep.RestStep(
                                 exercise = Exercise.LungesSideToCurtsy,
@@ -252,7 +251,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = 5,
                         workPeriodLengthMs = 50000L,
                         restPeriodLengthMs = 35000L,
-                        numberOfWorkPeriods = 0,//this input is not used as we mock the secondary usecase which relies on it
+                        numberOfWorkPeriods = 0, // this input is not used as we mock the secondary usecase which relies on it
                         cycleLengthMs = 680000L,
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthMs = 0L,
@@ -261,7 +260,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                             userTest2,
                             userTest1
                         ),
-                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)),//this input is not used as we mock the secondary usecase which relies on it
+                        exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true), ExerciseTypeSelected(ExerciseType.CAT, false)) // this input is not used as we mock the secondary usecase which relies on it
                     ),
                     Session(
                         steps = listOf(

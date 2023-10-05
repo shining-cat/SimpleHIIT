@@ -42,7 +42,7 @@ fun SessionFinishedContent(
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(0.dp),
+        verticalArrangement = Arrangement.spacedBy(0.dp)
     ) {
         item {
             SessionFinishedHeaderComponent(viewState.sessionDurationFormatted)

@@ -54,7 +54,7 @@ fun StatisticsNoSessionsContent(
                 .padding(horizontal = 0.dp, vertical = 16.dp)
                 .fillMaxWidth(),
             text = stringResource(id = R.string.no_users_found_error_message),
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium
         )
     }
 }
@@ -77,4 +77,3 @@ private fun StatisticsNoSessionsContentPreview() {
         }
     }
 }
-

@@ -37,7 +37,6 @@ fun BasicLoading(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
         val infiniteTransition = rememberInfiniteTransition(label = "")
 
         val animatedPosition by infiniteTransition.animateValue(

@@ -35,7 +35,6 @@ fun NavigationSideBar(
             .background(MaterialTheme.colorScheme.primary)
             .padding(16.dp)
     ) {
-
         Text(
             text = stringResource(R.string.app_name),
             color = MaterialTheme.colorScheme.onPrimary,

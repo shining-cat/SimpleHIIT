@@ -34,5 +34,4 @@ internal class SetTotalRepetitionsNumberUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.setTotalRepetitionsNumber(testValue) }
     }
-
 }

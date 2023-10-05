@@ -85,7 +85,7 @@ fun SettingsContentHolder(
         )
     }
     when (dialogViewState) {
-        SettingsDialog.None -> {/*do nothing*/
+        SettingsDialog.None -> { /*do nothing*/
         }
 
         is SettingsDialog.EditWorkPeriodLength -> SettingsEditPeriodLengthDialog(
@@ -93,7 +93,7 @@ fun SettingsContentHolder(
             savePeriodLength = saveWorkPeriodLength,
             validatePeriodLengthInput = validatePeriodLengthInput,
             periodLengthSeconds = dialogViewState.valueSeconds,
-            onCancel = cancelDialog,
+            onCancel = cancelDialog
         )
 
         is SettingsDialog.EditRestPeriodLength -> SettingsEditPeriodLengthDialog(
@@ -101,7 +101,7 @@ fun SettingsContentHolder(
             savePeriodLength = saveRestPeriodLength,
             validatePeriodLengthInput = validatePeriodLengthInput,
             periodLengthSeconds = dialogViewState.valueSeconds,
-            onCancel = cancelDialog,
+            onCancel = cancelDialog
         )
 
         is SettingsDialog.EditNumberCycles -> SettingsEditNumberCyclesDialog(
@@ -144,7 +144,7 @@ fun SettingsContentHolder(
             message = stringResource(id = R.string.delete_confirmation_button_label),
             proceedButtonLabel = stringResource(id = R.string.delete_button_label),
             proceedAction = { deleteUserConfirm(dialogViewState.user) },
-            dismissAction = { deleteUserCancel(dialogViewState.user) } //coming back to the edit user dialog instead of closing simply the dialog
+            dismissAction = { deleteUserCancel(dialogViewState.user) } // coming back to the edit user dialog instead of closing simply the dialog
         )
 
         SettingsDialog.ConfirmResetAllSettings -> WarningDialog(
@@ -270,6 +270,6 @@ internal class SettingsContentHolderPreviewParameterProvider :
                 periodsStartCountDownLengthAsSeconds = "5",
                 users = listOfMoreUser,
                 exerciseTypes = exerciseTypeSelectedMixed
-            ),
+            )
         )
 }

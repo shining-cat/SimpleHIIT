@@ -23,7 +23,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 fun SettingsToggleComponent(
     label: String,
     value: Boolean,
-    onToggle: () -> Unit = {},
+    onToggle: () -> Unit = {}
 ) {
     Row(
         Modifier
@@ -69,7 +69,6 @@ private fun SettingsToggleComponentPreview() {
                     label = "This setting is off",
                     value = false
                 )
-
             }
         }
     }

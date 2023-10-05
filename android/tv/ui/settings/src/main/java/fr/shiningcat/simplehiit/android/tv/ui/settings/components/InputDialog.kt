@@ -76,7 +76,6 @@ fun InputDialog(
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     pickErrorMessage: (Constants.InputError) -> Int = { -1 }
 ) {
-
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
     val isError =
         rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
@@ -84,7 +83,7 @@ fun InputDialog(
         rememberSaveable { mutableStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
 
-    LaunchedEffect(Unit){focusRequester.requestFocus()}
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -160,7 +159,7 @@ fun InputDialog(
                         textAlign = TextAlign.Center,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = internalPadding) //the error message needs all the room available so it won't follow the input row constraints
+                            .padding(horizontal = internalPadding) // the error message needs all the room available so it won't follow the input row constraints
                     )
                 }
                 Row(
@@ -209,7 +208,7 @@ fun InputDialogDecoration(
                     width = 2.dp,
                     color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.border
                 ),
-                shape = MaterialTheme.shapes.small,
+                shape = MaterialTheme.shapes.small
             )
             .padding(16.dp)
     ) {
@@ -238,7 +237,9 @@ fun errorTrailingIcon(
                 tint = MaterialTheme.colorScheme.error
             )
         }
-    } else null
+    } else {
+        null
+    }
 }
 
 // Previews
@@ -273,7 +274,7 @@ private fun InputDialogPreview(
                 dismissAction = {},
                 keyboardType = KeyboardType.Number,
                 validateInput = inputDialogPreviewObject.validateInput,
-                pickErrorMessage = inputDialogPreviewObject.errorMessage,
+                pickErrorMessage = inputDialogPreviewObject.errorMessage
             )
         }
     }
@@ -349,7 +350,7 @@ internal class InputDialogPreviewParameterProvider :
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
                     validateInput = { Constants.InputError.WRONG_FORMAT },
                     errorMessage = { R.string.invalid_input_error }
-                ),
+                )
             )
             return sequenceOf
         }

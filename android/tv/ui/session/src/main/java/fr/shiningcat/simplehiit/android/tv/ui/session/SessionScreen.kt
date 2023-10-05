@@ -54,7 +54,7 @@ fun SessionScreen(
     // Handling the sound loading in the viewModel's soundPool:
     if (viewModel.noSoundLoadingRequestedYet) {
         hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
-        //we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
+        // we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
         val beepSoundLoadedInPool =
             viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
         viewModel.noSoundLoadingRequestedYet = false
@@ -129,7 +129,6 @@ private fun SessionScreen(
                     pause
                 )
             }
-
         }
 
         is SessionViewState.InitialCountDownSession -> Triple(
@@ -158,7 +157,7 @@ private fun SessionScreen(
     }
     NavigationDrawer(
         drawerContent = {
-            //we don't use the drawerValue for now
+            // we don't use the drawerValue for now
             SessionNavigationSideBar(
                 title = title,
                 onBackButtonClick = { clickOnButton() },
@@ -182,12 +181,12 @@ private fun SessionScreen(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SessionScreenPreviewPhonePortrait(
@@ -298,6 +297,6 @@ internal class SessionScreenPreviewParameterProvider :
                     SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
                     SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
                 )
-            ),
+            )
         )
 }

@@ -74,9 +74,13 @@ fun SettingsExercisesSelectedComponent(
                         // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
                         .offset(y = forcedTopMargin)
                         .then(
-                            if (exerciseTypeFocusRequester != null) Modifier.focusRequester(
-                                exerciseTypeFocusRequester
-                            ) else Modifier
+                            if (exerciseTypeFocusRequester != null) {
+                                Modifier.focusRequester(
+                                    exerciseTypeFocusRequester
+                                )
+                            } else {
+                                Modifier
+                            }
                         ),
                     label = exerciseTypeSelected.type.name,
                     selected = exerciseTypeSelected.selected,

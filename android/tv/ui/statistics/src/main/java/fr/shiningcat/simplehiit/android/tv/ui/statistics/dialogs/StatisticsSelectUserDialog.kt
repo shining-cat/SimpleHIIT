@@ -48,7 +48,7 @@ fun StatisticsSelectUserDialog(
         Surface(
             colors = NonInteractiveSurfaceDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             shape = MaterialTheme.shapes.medium
         ) {
@@ -71,10 +71,10 @@ fun StatisticsSelectUserDialog(
                 val itemHeight = 48.dp
                 val numberOfColumns = 3
                 val forcedTopMargin =
-                    8.dp //this is to avoid the zoomed-in focused buttons of the first row to be clipped
+                    8.dp // this is to avoid the zoomed-in focused buttons of the first row to be clipped
                 val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
                 val gridHeight =
-                    2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1) //adding forcedMargin on top and bottom for symmetry, rather than a last spacing
+                    2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1) // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
 
                 TvLazyVerticalGrid(
                     columns = TvGridCells.Fixed(numberOfColumns),

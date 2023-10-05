@@ -161,7 +161,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                 Arguments.of(
                     Output.Success(
                         GeneralSettings(
-                            workPeriodLengthMs = Int.MAX_VALUE.toLong() * 1000L + 15L, //testing one case of INT overflow
+                            workPeriodLengthMs = Int.MAX_VALUE.toLong() * 1000L + 15L, // testing one case of INT overflow
                             restPeriodLengthMs = 13000L,
                             numberOfWorkPeriods = 7,
                             cycleLengthMs = 234L,

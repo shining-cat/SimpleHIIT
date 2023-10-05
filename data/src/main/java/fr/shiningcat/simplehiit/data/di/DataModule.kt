@@ -19,7 +19,6 @@ interface DataModule {
     fun bindsSimpleHiitRepository(
         simpleHiitRepository: SimpleHiitRepositoryImpl
     ): SimpleHiitRepository
-
 }
 
 @Module
@@ -29,7 +28,6 @@ object DataDispatcherModule {
     @IoDispatcher
     @Provides
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
-
 }
 
 @Qualifier

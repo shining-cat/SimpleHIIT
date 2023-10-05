@@ -47,5 +47,4 @@ class HomeInteractorImpl @Inject constructor(
     override fun validateInputNumberCycles(input: String): Constants.InputError {
         return validateInputNumberCyclesUseCase.execute(input)
     }
-
 }

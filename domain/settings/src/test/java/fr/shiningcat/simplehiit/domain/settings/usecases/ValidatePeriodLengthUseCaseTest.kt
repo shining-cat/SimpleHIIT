@@ -33,7 +33,7 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
                 Arguments.of("three", 123L, Constants.InputError.WRONG_FORMAT),
                 Arguments.of("10", 5L, Constants.InputError.NONE),
                 Arguments.of("5", 5L, Constants.InputError.NONE),
-                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL),
+                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL)
             )
     }
 }

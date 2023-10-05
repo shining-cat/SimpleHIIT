@@ -27,17 +27,17 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
                 hiitLogger.d(
                     "ComposeExercisesListForSessionUseCase",
                     "execute:: requested a list for $numberOfCycles cycles of $numberOfWorkPeriodsPerCycle " +
-                            "work periods, for a total of $wantedNumberOfExercises exercises, when selected list contains ${exercisesSourceList.size}." +
-                            "Adding the whole pack of exercises again in list to pick from"
+                        "work periods, for a total of $wantedNumberOfExercises exercises, when selected list contains ${exercisesSourceList.size}." +
+                        "Adding the whole pack of exercises again in list to pick from"
                 )
-                //TODO: display warning in presentation layer for exercises duplication
+                // TODO: display warning in presentation layer for exercises duplication
                 exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
             }
             //
             val listOfExercises = mutableListOf<Exercise>()
             while (listOfExercises.size < wantedNumberOfExercises) {
                 pickLoop@ for (type in selectedExerciseTypes) {
-                    //order of exercises types set in ExerciseType is what will determine order in session
+                    // order of exercises types set in ExerciseType is what will determine order in session
                     val exercisesForType =
                         if (listOfExercises.size == wantedNumberOfExercises - 1) {
                             if (exercisesSourceList.none { !it.asymmetrical }) {
@@ -49,7 +49,7 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
                                 // adding whole pack one last time to allow for the last picking to not block the loop
                                 exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
                             }
-                            //only one spot left, we need to pick a non-asymmetrical exercise
+                            // only one spot left, we need to pick a non-asymmetrical exercise
                             hiitLogger.d(
                                 "ComposeExercisesListForSessionUseCase",
                                 "only one spot left, we need to pick a non-asymmetrical exercise"
@@ -58,7 +58,7 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
                         } else {
                             exercisesSourceList.filter { it.exerciseType == type }
                         }
-                    //if no exercise for this type is left (or if the only one left for a single spot is an asymmetrical), skip this type and continue to next one
+                    // if no exercise for this type is left (or if the only one left for a single spot is an asymmetrical), skip this type and continue to next one
                     if (exercisesForType.isEmpty()) {
                         hiitLogger.d("ComposeExercisesListForSessionUseCase", "skipped")
                         continue@pickLoop
@@ -67,7 +67,7 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
                     exercisesSourceList.remove(exercisePicked) // remove exercise from source list to limit repetition
                     listOfExercises.add(exercisePicked)
                     if (exercisePicked.asymmetrical) listOfExercises.add(exercisePicked) // add asymmetrical exercises twice as they have to be done twice
-                    if (listOfExercises.size == wantedNumberOfExercises) break@pickLoop //we have reached the expected number of exercises: stop looping
+                    if (listOfExercises.size == wantedNumberOfExercises) break@pickLoop // we have reached the expected number of exercises: stop looping
                 }
             }
             hiitLogger.d(
@@ -88,5 +88,4 @@ class ComposeExercisesListForSessionUseCase @Inject constructor(
             numberOfSymmetricalExercises.plus(2.times(numberOfAsymmetricalExercises))
         return realTotalNumberOfAvailableExercises
     }
-
 }

@@ -36,7 +36,7 @@ fun SettingsFieldComponent(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
-    Row (modifier = Modifier.fillMaxWidth()){
+    Row(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.weight(.15f))
         Button(
             modifier = modifier
@@ -90,7 +90,7 @@ private fun SettingsFieldComponentPreview() {
                     label = "This is a Setting Field",
                     value = "value",
                     secondaryLabel = "It has a secondary label",
-                    secondaryValue = "Secondary value",
+                    secondaryValue = "Secondary value"
                 )
                 SettingsFieldComponent(
                     label = "This is a Setting Field",

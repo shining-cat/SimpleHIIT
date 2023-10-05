@@ -34,7 +34,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
         hoursNoMinutesNoSeconds = "",
         minutesSeconds = "",
         minutesNoSeconds = "",
-        seconds = "",
+        seconds = ""
     )
 
     @BeforeEach
@@ -45,7 +45,6 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                 any()
             )
         } returns mockDurationString
-
     }
 
     @ParameterizedTest(name = "{index} -> correctly maps {0} to {1}")
@@ -71,7 +70,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
         assertEquals(expectedViewStateOutput, result)
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         private const val mockDurationString = "This is a test duration string"
@@ -80,7 +79,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                 SessionStep.PrepareStep(
                     durationMs = 5000L,
                     remainingSessionDurationMsAfterMe = 765000L,
-                    countDownLengthMs = 5000L,
+                    countDownLengthMs = 5000L
                 ),
                 SessionStep.RestStep(
                     exercise = Exercise.LungesSideToCurtsy,
@@ -235,7 +234,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
         @JvmStatic
         fun mapToViewStateArguments() =
             Stream.of(
-                //normal ongoing prepare step
+                // normal ongoing prepare step
                 Arguments.of(
                     SessionMapperTestParameter(
                         session = testSession,
@@ -253,7 +252,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         )
                     )
                 ),
-                //normal ongoing work step before countdown
+                // normal ongoing work step before countdown
                 Arguments.of(
                     SessionMapperTestParameter(
                         session = testSession,
@@ -274,7 +273,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         countDown = null
                     )
                 ),
-                //normal ongoing work step during countdown
+                // normal ongoing work step during countdown
                 Arguments.of(
                     SessionMapperTestParameter(
                         session = testSession,
@@ -299,7 +298,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         )
                     )
                 ),
-                //normal ongoing rest step before countdown
+                // normal ongoing rest step before countdown
                 Arguments.of(
                     SessionMapperTestParameter(
                         session = testSession,
@@ -320,7 +319,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         countDown = null
                     )
                 ),
-                //normal ongoing rest step during countdown
+                // normal ongoing rest step during countdown
                 Arguments.of(
                     SessionMapperTestParameter(
                         session = testSession,
@@ -347,7 +346,6 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                 )
 
             )
-
     }
 
     internal data class SessionMapperTestParameter(
@@ -355,5 +353,4 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
         val currentSessionStepIndex: Int,
         val currentStepTimerState: StepTimerState
     )
-
 }

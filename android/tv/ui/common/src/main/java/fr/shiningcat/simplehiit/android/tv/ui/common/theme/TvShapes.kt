@@ -8,5 +8,5 @@ import androidx.tv.material3.Shapes
 @OptIn(ExperimentalTvMaterial3Api::class)
 val tvShapes = Shapes(
     extraSmall = RoundedCornerShape(0.dp)
-       /*we'll use the default values for now*/
+    /*we'll use the default values for now*/
 )

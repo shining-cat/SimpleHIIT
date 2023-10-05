@@ -131,5 +131,4 @@ internal class SessionInteractorTest : AbstractMockkTest() {
             result as Output.Success
             assertEquals(testReturnInt, result.result)
         }
-
 }

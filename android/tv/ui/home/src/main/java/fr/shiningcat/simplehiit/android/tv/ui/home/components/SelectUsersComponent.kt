@@ -111,9 +111,7 @@ internal class SelectUsersComponentPreviewParameterProvider :
                 User(123L, "User tralala 5", selected = true),
                 User(234L, "User tudut 6", selected = false),
                 User(345L, "User toto 7", selected = true),
-                User(345L, "UserWithLongName 8", selected = true),
+                User(345L, "UserWithLongName 8", selected = true)
             )
         )
 }
-
-

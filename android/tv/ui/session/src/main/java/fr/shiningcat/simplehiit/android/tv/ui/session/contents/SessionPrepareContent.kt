@@ -41,12 +41,12 @@ fun SessionPrepareContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SessionPrepareContentPreview() {

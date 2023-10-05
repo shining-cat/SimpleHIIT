@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.Flow
 abstract class UsersDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    abstract suspend fun insert(user: UserEntity):Long
+    abstract suspend fun insert(user: UserEntity): Long
 
     @Query("SELECT * FROM $usersTableName")
     abstract fun getUsers(): Flow<List<UserEntity>>

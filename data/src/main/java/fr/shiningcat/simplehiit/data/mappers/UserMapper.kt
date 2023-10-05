@@ -10,7 +10,7 @@ class UserMapper @Inject constructor() {
         return User(id = userEntity.userId, name = userEntity.name, selected = userEntity.selected)
     }
 
-    fun convert(userModel: User):UserEntity{
+    fun convert(userModel: User): UserEntity {
         return UserEntity(userId = userModel.id, name = userModel.name, selected = userModel.selected)
     }
 }

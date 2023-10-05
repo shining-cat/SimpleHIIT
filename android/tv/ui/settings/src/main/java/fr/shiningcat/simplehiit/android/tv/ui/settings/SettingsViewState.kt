@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings
 
-import fr.shiningcat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 

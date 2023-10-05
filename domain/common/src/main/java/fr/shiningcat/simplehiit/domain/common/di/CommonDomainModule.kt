@@ -15,7 +15,6 @@ object DispatcherModule {
     @TimerDispatcher
     @Provides
     fun providesTimerDispatcher(): CoroutineDispatcher = Dispatchers.Default
-
 }
 
 @Qualifier

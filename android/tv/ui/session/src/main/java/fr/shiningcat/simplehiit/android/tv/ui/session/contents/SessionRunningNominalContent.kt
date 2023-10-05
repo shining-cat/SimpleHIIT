@@ -29,7 +29,7 @@ import fr.shiningcat.simplehiit.domain.common.models.Exercise
 fun SessionRunningNominalContent(
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null,
+    hiitLogger: HiitLogger? = null
 ) {
     val exercise =
         viewState.displayedExercise // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
@@ -69,12 +69,12 @@ fun SessionRunningNominalContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SessionRunningNominalContentPreview(

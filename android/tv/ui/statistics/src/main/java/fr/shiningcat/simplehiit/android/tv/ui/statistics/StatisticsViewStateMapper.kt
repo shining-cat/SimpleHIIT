@@ -19,10 +19,12 @@ class StatisticsViewStateMapper @Inject constructor(
         userStats: UserStatistics,
         durationStringFormatter: DurationStringFormatter
     ): StatisticsViewState {
-        if (userStats.totalNumberOfSessions == 0) return StatisticsViewState.NoSessions(
-            user = userStats.user,
-            showUsersSwitch = showUsersSwitch
-        )
+        if (userStats.totalNumberOfSessions == 0) {
+            return StatisticsViewState.NoSessions(
+                user = userStats.user,
+                showUsersSwitch = showUsersSwitch
+            )
+        }
         //
         val cumulatedTimeOfExerciseFormatted =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
@@ -58,7 +60,7 @@ class StatisticsViewStateMapper @Inject constructor(
             DisplayedStatistic(
                 userStats.averageNumberOfSessionsPerWeek,
                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK
-            ),
+            )
         )
         return StatisticsViewState.Nominal(
             user = userStats.user,

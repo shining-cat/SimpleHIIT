@@ -35,7 +35,7 @@ fun SideBarItem(
         icon = {
             Icon(
                 imageVector = ImageVector.vectorResource(icon),
-                contentDescription = stringResource(id = label),
+                contentDescription = stringResource(id = label)
             )
         },
         label = { Text(text = stringResource(label)) },

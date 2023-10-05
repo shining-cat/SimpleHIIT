@@ -11,7 +11,8 @@ class ValidateInputSessionStartCountdownUseCase @Inject constructor(
     fun execute(input: String): Constants.InputError {
         return if ((input.toLongOrNull() is Long).not()) {
             Constants.InputError.WRONG_FORMAT
-        } else Constants.InputError.NONE
+        } else {
+            Constants.InputError.NONE
+        }
     }
-
 }

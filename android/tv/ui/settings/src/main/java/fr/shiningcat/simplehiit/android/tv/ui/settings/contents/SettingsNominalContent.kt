@@ -57,13 +57,13 @@ fun SettingsNominalContent(
 ) {
     val firstButtonFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        //wait a bit to increase awareness of the user of the focusing on the first button
+        // wait a bit to increase awareness of the user of the focusing on the first button
         delay(200L)
-        //calling focus on the first setting on opening. This we only want to apply on first composition
+        // calling focus on the first setting on opening. This we only want to apply on first composition
         firstButtonFocusRequester.requestFocus()
     }
 
-    //we only lose focus when toggling our exercisetype buttons, so these are the only ones we need to manually help to survive recomposition
+    // we only lose focus when toggling our exercisetype buttons, so these are the only ones we need to manually help to survive recomposition
     val exerciseButtonsFocusRequesters =
         remember { viewState.exerciseTypes.associate { it.type.name to FocusRequester() } }
     var focusedExerciseButton by remember { mutableStateOf("") }
@@ -79,7 +79,7 @@ fun SettingsNominalContent(
             .fillMaxSize()
     ) {
         item {
-            Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on first item
+            Spacer(modifier = Modifier.height(16.dp)) // cheating to avoid truncating zoom-in focus effect on first item
         }
         item {
             SettingsFieldComponent(
@@ -165,7 +165,7 @@ fun SettingsNominalContent(
                 exerciseTypes = viewState.exerciseTypes,
                 onToggle = {
                     focusedExerciseButton =
-                        it.type.name //storing the button acted upon for resetting focus after recomposition
+                        it.type.name // storing the button acted upon for resetting focus after recomposition
                     toggleExerciseType(it)
                 },
                 exerciseButtonsFocusRequesters = exerciseButtonsFocusRequesters,
@@ -193,7 +193,7 @@ fun SettingsNominalContent(
             }
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp)) //cheating to avoid truncating zoom-in focus effect on last item
+            Spacer(modifier = Modifier.height(16.dp)) // cheating to avoid truncating zoom-in focus effect on last item
         }
     }
 }

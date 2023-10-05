@@ -45,7 +45,7 @@ android {
             excludes.addAll(
                 listOf(
                     "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md",
+                    "META-INF/LICENSE-notice.md"
                 )
             )
         }
@@ -94,7 +94,7 @@ dependencies {
     kapt(HiltDeps.hiltAndroidCompiler)
 }
 
-//Allow references to generated code
+// Allow references to generated code
 kapt {
     correctErrorTypes = true
 }
@@ -104,5 +104,4 @@ tasks {
     withType<Test> {
         useJUnitPlatform()
     }
-
 }

@@ -75,5 +75,4 @@ class GetStatsForUserUseCase @Inject constructor(
             }
         }
     }
-
 }

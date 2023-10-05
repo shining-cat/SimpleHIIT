@@ -32,7 +32,7 @@ internal class ValidateNumberOfWorkPeriodsUseCaseTest : AbstractMockkTest() {
                 Arguments.of("3", Constants.InputError.NONE),
                 Arguments.of("369", Constants.InputError.NONE),
                 Arguments.of("369346", Constants.InputError.NONE),
-                Arguments.of("three", Constants.InputError.WRONG_FORMAT),
+                Arguments.of("three", Constants.InputError.WRONG_FORMAT)
             )
     }
 }

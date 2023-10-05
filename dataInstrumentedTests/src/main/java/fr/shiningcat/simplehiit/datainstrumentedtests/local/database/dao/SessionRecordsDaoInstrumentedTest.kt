@@ -47,7 +47,7 @@ class SessionRecordsDaoInstrumentedTest {
         database.close()
     }
 
-////////////////
+// //////////////
 
     private val testUserID = 1243L
     private val testUserID2 = 9876L
@@ -72,7 +72,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun testInsertSession() = runTest {
-        //first insert a user in users table
+        // first insert a user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
@@ -93,7 +93,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun testInsertSessionWithId() = runTest {
-        //first insert a user in users table
+        // first insert a user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
@@ -116,11 +116,11 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun testInsertSessionWithConflict() = runTest {
-        //first insert a user in users table
+        // first insert a user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
-        //inserting first session
+        // inserting first session
         val testSession = SessionEntity(
             sessionId = testSessionId,
             userId = testUserID,
@@ -128,7 +128,7 @@ class SessionRecordsDaoInstrumentedTest {
             timeStamp = testSessionTimeStamp
         )
         sessionRecordsDao.insert(listOf(testSession))
-        //inserting second session
+        // inserting second session
         val testSession2 = SessionEntity(
             sessionId = testSessionId,
             userId = testUserID,
@@ -148,10 +148,10 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test(expected = SQLiteConstraintException::class)
     fun testInsertSessionWithUnknownUserId() = runTest {
-        //first check there are no user with id in the users table
+        // first check there are no user with id in the users table
         val users = usersDao.getUsers().first()
         assertEquals(0, users.size)
-        //try to insert session
+        // try to insert session
         val testUserID = 1243L
         val testSessionDuration = 234L
         val testSessionTimeStamp = 345L
@@ -163,7 +163,7 @@ class SessionRecordsDaoInstrumentedTest {
         sessionRecordsDao.insert(listOf(testSession))
     }
 
-////////////////
+// //////////////
 
     @Test
     fun getSessionsForUserEmptyTable() = runTest {
@@ -173,7 +173,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun getSessionsForUserOnlyOne() = runTest {
-        //first insert a user in users table
+        // first insert a user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
@@ -194,7 +194,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun getSessionsForUserNotPresentList() = runTest {
-        //first insert a user in users table
+        // first insert a user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
@@ -226,7 +226,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun getSessionsForUserList() = runTest {
-        //first insert users in users table
+        // first insert users in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         val user2 = UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
@@ -278,7 +278,7 @@ class SessionRecordsDaoInstrumentedTest {
                 testSession7
             )
         )
-        //assert that the expected sessions are stored in sessions table
+        // assert that the expected sessions are stored in sessions table
         val sessionsForUser1 = sessionRecordsDao.getSessionsForUser(userId = testUserID)
         assertEquals(4, sessionsForUser1.size)
         val retrievedSession1 = sessionsForUser1[0]
@@ -314,7 +314,7 @@ class SessionRecordsDaoInstrumentedTest {
         assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
     }
 
-////////////////
+// //////////////
 
     @Test
     fun deleteSessionsForUserEmptyTable() = runTest {
@@ -324,7 +324,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun deleteSessionsForUserOnlyOne() = runTest {
-        //first insert a user in users table
+        // first insert a user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
@@ -341,7 +341,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun deleteSessionsForUserList() = runTest {
-        //first insert user in users table
+        // first insert user in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         //
@@ -380,7 +380,7 @@ class SessionRecordsDaoInstrumentedTest {
 
     @Test
     fun deleteSessionsForUserDoesNotAffectSessionsForOthers() = runTest {
-        //first insert users in users table
+        // first insert users in users table
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
         usersDao.insert(user)
         val user2 = UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
@@ -451,5 +451,4 @@ class SessionRecordsDaoInstrumentedTest {
         assertEquals(testSessionDuration7, retrievedSession7.durationMs)
         assertEquals(testSessionTimeStamp7, retrievedSession7.timeStamp)
     }
-
 }

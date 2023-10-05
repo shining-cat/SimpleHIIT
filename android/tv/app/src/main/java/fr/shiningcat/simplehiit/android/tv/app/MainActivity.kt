@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     colors = NonInteractiveSurfaceDefaults.colors(
                         containerColor = MaterialTheme.colorScheme.background,
-                        contentColor = MaterialTheme.colorScheme.onBackground,
+                        contentColor = MaterialTheme.colorScheme.onBackground
                     )
                 ) {
                     SimpleHiitNavigation(hiitLogger = hiitLogger)

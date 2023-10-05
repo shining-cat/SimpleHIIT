@@ -34,7 +34,7 @@ fun CountDownComponent(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(size)
     ) {
-        val radius = size.value// - 20f
+        val radius = size.value // - 20f
         val thickness = size.value / 10
         CustomCircularProgressIndicator(
             modifier = Modifier
@@ -44,7 +44,7 @@ fun CountDownComponent(
             trackColor = MaterialTheme.colorScheme.primary,
             progressColor = MaterialTheme.colorScheme.secondary,
             circleRadius = radius,
-            thickness = thickness ,
+            thickness = thickness,
             fillColor = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
             subDivisionsColor = MaterialTheme.colorScheme.secondary
         )

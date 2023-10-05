@@ -31,7 +31,7 @@ fun CountDownComponent(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(size)
     ) {
-        //this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
+        // this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
         CircularProgressIndicator(
             modifier = Modifier
                 .align(Alignment.Center)

@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common
 
-import fr.shiningcat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
 sealed interface Output<out T> {
@@ -19,5 +19,4 @@ sealed interface Output<out T> {
         override fun toString() =
             "errorCode: $errorCode | exception: $exception"
     }
-
 }

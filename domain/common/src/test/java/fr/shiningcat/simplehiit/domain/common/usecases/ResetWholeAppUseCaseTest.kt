@@ -2,7 +2,11 @@ package fr.shiningcat.simplehiit.domain.common.usecases
 
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -29,5 +33,4 @@ internal class ResetWholeAppUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockSimpleHiitRepository.resetAllSettings() }
         coVerify(exactly = 1) { mockSimpleHiitRepository.deleteAllUsers() }
     }
-
 }

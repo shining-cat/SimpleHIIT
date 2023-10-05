@@ -36,7 +36,7 @@ class SessionViewStateMapper @Inject constructor(
                 stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())
             //
             val countdownMillis = currentStep.countDownLengthMs
-            //we'll handle session start countdown separately below, it allows us to not handle this comparison as it's not relevant for that period
+            // we'll handle session start countdown separately below, it allows us to not handle this comparison as it's not relevant for that period
             val periodCountDown = if (stepRemainingMilliSeconds <= countdownMillis) {
                 val countDownAsSecondsString =
                     stepRemainingMilliSeconds.div(1000L).toInt().toString()
@@ -45,7 +45,9 @@ class SessionViewStateMapper @Inject constructor(
                     progress = stepRemainingMilliSeconds.div(countdownMillis.toFloat()),
                     playBeep = session.beepSoundCountDownActive
                 )
-            } else null
+            } else {
+                null
+            }
             //
             val sessionRemainingMilliSeconds = currentStepTimerState.milliSecondsRemaining
             val sessionRemainingFormatted =
@@ -74,7 +76,7 @@ class SessionViewStateMapper @Inject constructor(
                     stepRemainingPercentage = stepRemainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
                     sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
-                    countDown = periodCountDown,
+                    countDown = periodCountDown
                 )
 
                 is SessionStep.WorkStep -> SessionViewState.RunningNominal(
@@ -85,7 +87,7 @@ class SessionViewStateMapper @Inject constructor(
                     stepRemainingPercentage = stepRemainingPercentage,
                     sessionRemainingTime = sessionRemainingFormatted,
                     sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
-                    countDown = periodCountDown,
+                    countDown = periodCountDown
                 )
                 /*
                                 is SessionStep.RestStep -> SessionViewState.RestNominal(
@@ -108,7 +110,6 @@ class SessionViewStateMapper @Inject constructor(
                                     countDown = periodCountDown,
                                 )
                 */
-
             }
         }
     }

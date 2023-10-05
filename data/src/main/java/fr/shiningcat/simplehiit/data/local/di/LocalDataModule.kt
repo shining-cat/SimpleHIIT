@@ -59,5 +59,4 @@ class LocalDataModule {
         )
         return SimpleHiitDataStoreManagerImpl(datastore, ioDispatcher, hiitLogger)
     }
-
 }

@@ -39,7 +39,7 @@ fun ErrorDialog(
         Surface(
             colors = NonInteractiveSurfaceDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             shape = MaterialTheme.shapes.medium
         ) {
@@ -97,7 +97,7 @@ fun ErrorDialog(
                         label = dismissButtonLabel,
                         onClick = dismissAction
                     )
-                     Spacer(modifier = Modifier.weight(.3f))
+                    Spacer(modifier = Modifier.weight(.3f))
                 }
             }
         }

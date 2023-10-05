@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.commonutils
+package fr.shiningcat.simplehiit.commonutils.annotations
 
 @Retention(AnnotationRetention.RUNTIME)
 @Target(

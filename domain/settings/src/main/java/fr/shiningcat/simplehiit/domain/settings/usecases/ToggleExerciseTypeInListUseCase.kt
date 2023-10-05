@@ -13,9 +13,11 @@ class ToggleExerciseTypeInListUseCase @Inject constructor(
         exerciseTypeToToggle: ExerciseTypeSelected
     ): List<ExerciseTypeSelected> {
         return currentList.map {
-            if (it.type == exerciseTypeToToggle.type) it.copy(selected = !it.selected)
-            else it
+            if (it.type == exerciseTypeToToggle.type) {
+                it.copy(selected = !it.selected)
+            } else {
+                it
+            }
         }
     }
-
 }

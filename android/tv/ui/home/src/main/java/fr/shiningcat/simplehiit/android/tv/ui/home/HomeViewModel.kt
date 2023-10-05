@@ -97,5 +97,4 @@ class HomeViewModel @Inject constructor(
             homeInteractor.resetWholeApp()
         }
     }
-
 }

@@ -42,7 +42,7 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
                 Arguments.of("three", 20L, 10L, Constants.InputError.WRONG_FORMAT),
                 Arguments.of("3", 20L, 10L, Constants.InputError.NONE),
                 Arguments.of("15", 20L, 10L, Constants.InputError.VALUE_TOO_BIG),
-                Arguments.of("25", 20L, 10L, Constants.InputError.VALUE_TOO_BIG),
+                Arguments.of("25", 20L, 10L, Constants.InputError.VALUE_TOO_BIG)
             )
     }
 }

@@ -72,7 +72,7 @@ private fun SettingsAddUserDialogPreview() {
             saveUserName = {},
             userName = "The User's name",
             validateUserNameInput = { _ -> Constants.InputError.NONE },
-            onCancel = {},
+            onCancel = {}
         )
     }
 }

@@ -43,7 +43,7 @@ fun HomeMissingUsersContent(
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+        delay(1000L) // wait a sec to increase awareness of the user of the focusing on the main button
         focusRequester.requestFocus()
     }
 
@@ -82,7 +82,7 @@ fun HomeMissingUsersContent(
             ButtonFilled(
                 modifier = Modifier
                     .weight(weight = .3f, fill = false)
-                    .focusRequester(focusRequester),//calling focus on the first setting on opening
+                    .focusRequester(focusRequester), // calling focus on the first setting on opening
                 label = stringResource(id = R.string.go_to_settings),
                 icon = ImageVector.vectorResource(R.drawable.cog),
                 iconContentDescription = R.string.settings_button_content_label,

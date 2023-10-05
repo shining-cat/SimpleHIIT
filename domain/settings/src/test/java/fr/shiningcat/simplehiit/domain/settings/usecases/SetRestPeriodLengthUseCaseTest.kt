@@ -34,5 +34,4 @@ internal class SetRestPeriodLengthUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.setRestPeriodLength(testValue) }
     }
-
 }

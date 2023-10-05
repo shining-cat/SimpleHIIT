@@ -30,7 +30,7 @@ fun SettingsToggleComponent(
     modifier: Modifier = Modifier,
     label: String,
     value: Boolean,
-    onToggle: () -> Unit = {},
+    onToggle: () -> Unit = {}
 ) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.weight(.15f))
@@ -88,7 +88,6 @@ private fun SettingsToggleComponentPreview() {
                     label = "This setting is off",
                     value = false
                 )
-
             }
         }
     }

@@ -29,7 +29,7 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
                 simpleHiitLogger = mockHiitLogger
             )
         val input =
-            mutableListOf(oldestTimestamp) //ensure the first timestamp is actually our oldest one and not a random one
+            mutableListOf(oldestTimestamp) // ensure the first timestamp is actually our oldest one and not a random one
         input.addAll(List(numberOfSessions - 1) { Random.nextLong(oldestTimestamp, nowTimestamp) })
         val result = testedUseCase.execute(input, nowTimestamp)
         //
@@ -54,38 +54,35 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
         fun averageArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
-                    1676640515000, //"now" Friday, 17 February 2023 14:28:35 GMT+01:00
-                    1664809200000, //"oldest session" Monday, 3 October 2022 17:00:00 GMT+02:00 DST ... diff 19.56 weeks
+                    1676640515000, // "now" Friday, 17 February 2023 14:28:35 GMT+01:00
+                    1664809200000, // "oldest session" Monday, 3 October 2022 17:00:00 GMT+02:00 DST ... diff 19.56 weeks
                     38, // total number of sessions
                     "1.94"
                 ),
                 Arguments.of(
-                    1665241200000, //"now" Saturday, 8 October 2022 17:00:00 GMT+02:00 DST
-                    1664636400000, //"oldest session" Saturday, 1 October 2022 17:00:00 GMT+02:00 DST ... exactly 1 week
+                    1665241200000, // "now" Saturday, 8 October 2022 17:00:00 GMT+02:00 DST
+                    1664636400000, // "oldest session" Saturday, 1 October 2022 17:00:00 GMT+02:00 DST ... exactly 1 week
                     6, // total number of sessions
                     "6"
                 ),
                 Arguments.of(
-                    1634482800000, //"now" Sunday, 17 October 2021 17:00:00 GMT+02:00 DST
-                    1633273200000, //"oldest session" Sunday, 3 October 2021 17:00:00 GMT+02:00 DST ... exactly 2 weeks
+                    1634482800000, // "now" Sunday, 17 October 2021 17:00:00 GMT+02:00 DST
+                    1633273200000, // "oldest session" Sunday, 3 October 2021 17:00:00 GMT+02:00 DST ... exactly 2 weeks
                     2, // total number of sessions
                     "1"
                 ),
                 Arguments.of(
-                    1678028400000, //"now" Sunday, 5 March 2023 16:00:00 GMT+01:00
-                    1588518000000, //"oldest session" Sunday, 3 May 2020 17:00:00 GMT+02:00 DST ... diff 148 weeks
+                    1678028400000, // "now" Sunday, 5 March 2023 16:00:00 GMT+01:00
+                    1588518000000, // "oldest session" Sunday, 3 May 2020 17:00:00 GMT+02:00 DST ... diff 148 weeks
                     354, // total number of sessions
                     "2.39"
                 ),
                 Arguments.of(
-                    1680259247000, //"now" Friday, 31 March 2023 12:40:47 GMT+02:00 DST
-                    1679744447000, //"oldest session" Saturday, 25 March 2023 12:40:47 GMT+01:00 ... diff less than a week
+                    1680259247000, // "now" Friday, 31 March 2023 12:40:47 GMT+02:00 DST
+                    1679744447000, // "oldest session" Saturday, 25 March 2023 12:40:47 GMT+01:00 ... diff less than a week
                     3, // total number of sessions
                     "3" // returning total number of sessions
                 )
             )
-
     }
-
-
 }

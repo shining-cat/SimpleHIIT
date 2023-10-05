@@ -15,5 +15,4 @@ interface SessionModule {
     fun bindSessionInteractor(
         sessionInteractor: SessionInteractorImpl
     ): SessionInteractor
-
 }

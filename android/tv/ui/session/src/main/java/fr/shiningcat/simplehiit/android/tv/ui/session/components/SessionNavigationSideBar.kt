@@ -36,7 +36,6 @@ fun SessionNavigationSideBar(
             .background(MaterialTheme.colorScheme.primary)
             .padding(16.dp)
     ) {
-
         Text(
             text = stringResource(id = title),
             color = MaterialTheme.colorScheme.onPrimary,

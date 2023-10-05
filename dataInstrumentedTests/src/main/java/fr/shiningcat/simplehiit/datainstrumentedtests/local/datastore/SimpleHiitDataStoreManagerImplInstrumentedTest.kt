@@ -79,13 +79,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultLongValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = 123L
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -107,13 +107,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultLongValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = 321L
         testedSimpleHiitDataStoreManager.setRestPeriodLength(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -135,13 +135,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultIntValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = 234
         testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -163,13 +163,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultBoolValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = !defaultBoolValue
         testedSimpleHiitDataStoreManager.setBeepSound(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -191,13 +191,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultLongValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = 345L
         testedSimpleHiitDataStoreManager.setSessionStartCountdown(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -219,13 +219,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultLongValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = 456L
         testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -247,13 +247,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultIntValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = 567
         testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1]
         Assert.assertEquals(testValue, storedValue)
@@ -275,13 +275,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
             )
         }
         Assert.assertEquals(1, valueFlowAsList.size)
-        //check nothing is there first
+        // check nothing is there first
         val beforeStoring = valueFlowAsList[0]
         Assert.assertEquals(defaultStringSetValue, beforeStoring)
-        //insert new value
+        // insert new value
         val testValue = listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValue)
-        //check new value is in there
+        // check new value is in there
         Assert.assertEquals(2, valueFlowAsList.size)
         val storedValue = valueFlowAsList[1].toList()
         val expected = testValue.map { it.name }
@@ -345,7 +345,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
                 workPeriodLengthFlowAsList
             )
         }
-        //insert new values
+        // insert new values
         val testValueExercisesSelected =
             listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
@@ -363,9 +363,9 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         testedSimpleHiitDataStoreManager.setRestPeriodLength(testRestPeriodLengthValue)
         val testWorkPeriodLengthValue = 123L
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
-        //clear
+        // clear
         testedSimpleHiitDataStoreManager.clearAll()
-        //check nothing remains
+        // check nothing remains
         val afterClearingExercisesSelected = exercisesSelectedFlowAsList.last()
         Assert.assertEquals(defaultStringSetValue, afterClearingExercisesSelected)
         val afterClearingNumberOfCycles = numberCyclesFlowAsList.last()
@@ -382,7 +382,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         Assert.assertEquals(defaultLongValue, afterClearingRestPeriodLength)
         val afterClearingWorkPeriodLength = workPeriodLengthFlowAsList.last()
         Assert.assertEquals(defaultLongValue, afterClearingWorkPeriodLength)
-        //cancel all collect jobs
+        // cancel all collect jobs
         collectJobExercisesSelected.cancel()
         collectJobNumberOfCycles.cancel()
         collectPeriodCountDownJob.cancel()
@@ -448,7 +448,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
                 numberCyclesFlowAsList
             )
         }
-        //check nothing is there first
+        // check nothing is there first
         val exercisesSelected = exercisesSelectedFlowAsList.last()
         Assert.assertEquals(defaultStringSetValue, exercisesSelected)
         val periodCountDown = periodCountDownFlowAsList.last()
@@ -465,7 +465,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         Assert.assertEquals(defaultLongValue, workPeriodLength)
         val numberOfCycles = numberCyclesFlowAsList.last()
         Assert.assertEquals(defaultIntValue, numberOfCycles)
-        //insert new values
+        // insert new values
         val testValueExercisesSelected =
             listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
@@ -483,7 +483,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
         val testNumberCyclesValue = 567
         testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testNumberCyclesValue)
-        //get Preferences
+        // get Preferences
         val preferencesFlowAsList = mutableListOf<SimpleHiitPreferences>()
         val collectPreferencesJob = launch(UnconfinedTestDispatcher()) {
             testedSimpleHiitDataStoreManager.getPreferences().toList(preferencesFlowAsList)
@@ -502,7 +502,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         )
         val storedPreferences = preferencesFlowAsList.last()
         Assert.assertEquals(expectedPreferences, storedPreferences)
-        //cancel all collect jobs
+        // cancel all collect jobs
         collectJobExercisesSelected.cancel()
         collectPeriodCountDownJob.cancel()
         collectSessionStartCountdownJob.cancel()
@@ -516,7 +516,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
 
     @Test
     fun checkGetPreferencesPrefDataStoreFailingReturnAllDefaults() = runTest {
-        //TODO: how to trigger throwing exception from test dataStore?
+        // TODO: how to trigger throwing exception from test dataStore?
     }
 
     @Test
@@ -574,7 +574,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
                 numberCyclesFlowAsList
             )
         }
-        //check nothing is there first
+        // check nothing is there first
         val beforeInsertionExercisesSelected = exercisesSelectedFlowAsList.last()
         Assert.assertEquals(defaultStringSetValue, beforeInsertionExercisesSelected)
         val beforeInsertionPeriodCountDown = periodCountDownFlowAsList.last()
@@ -591,13 +591,13 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         Assert.assertEquals(defaultLongValue, beforeInsertionWorkPeriodLength)
         val beforeInsertionNumberOfCycles = numberCyclesFlowAsList.last()
         Assert.assertEquals(defaultIntValue, beforeInsertionNumberOfCycles)
-        //insert nothing
-        //get Preferences
+        // insert nothing
+        // get Preferences
         val preferencesFlowAsList = mutableListOf<SimpleHiitPreferences>()
         val collectPreferencesJob = launch(UnconfinedTestDispatcher()) {
             testedSimpleHiitDataStoreManager.getPreferences().toList(preferencesFlowAsList)
         }
-        //Check that non-inserted settings return actual default values defined in Domain
+        // Check that non-inserted settings return actual default values defined in Domain
         val expectedPreferences = SimpleHiitPreferences(
             workPeriodLengthMs = Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
             restPeriodLengthMs = Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
@@ -610,7 +610,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         )
         val storedPreferences = preferencesFlowAsList.last()
         Assert.assertEquals(expectedPreferences, storedPreferences)
-        //cancel all collect jobs
+        // cancel all collect jobs
         collectJobExercisesSelected.cancel()
         collectPeriodCountDownJob.cancel()
         collectSessionStartCountdownJob.cancel()
@@ -677,7 +677,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
                 numberCyclesFlowAsList
             )
         }
-        //check nothing is there first
+        // check nothing is there first
         val beforeInsertionExercisesSelected = exercisesSelectedFlowAsList.last()
         Assert.assertEquals(defaultStringSetValue, beforeInsertionExercisesSelected)
         val beforeInsertionPeriodCountDown = periodCountDownFlowAsList.last()
@@ -692,7 +692,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         Assert.assertEquals(defaultLongValue, beforeInsertionRestPeriodLength)
         val beforeInsertionWorkPeriodLength = workPeriodLengthFlowAsList.last()
         Assert.assertEquals(defaultLongValue, beforeInsertionWorkPeriodLength)
-        //insert only some new values
+        // insert only some new values
         val testValueExercisesSelected =
             listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
         testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
@@ -704,12 +704,12 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
         val beforeInsertionNumberOfCycles = numberCyclesFlowAsList.last()
         Assert.assertEquals(defaultIntValue, beforeInsertionNumberOfCycles)
-        //get Preferences
+        // get Preferences
         val preferencesFlowAsList = mutableListOf<SimpleHiitPreferences>()
         val collectPreferencesJob = launch(UnconfinedTestDispatcher()) {
             testedSimpleHiitDataStoreManager.getPreferences().toList(preferencesFlowAsList)
         }
-        //Check that non-inserted settings return actual default values defined in Domain
+        // Check that non-inserted settings return actual default values defined in Domain
         val expectedPreferences = SimpleHiitPreferences(
             workPeriodLengthMs = testWorkPeriodLengthValue,
             restPeriodLengthMs = Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
@@ -723,7 +723,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         )
         val storedPreferences = preferencesFlowAsList.last()
         Assert.assertEquals(expectedPreferences, storedPreferences)
-        //cancel all collect jobs
+        // cancel all collect jobs
         collectJobExercisesSelected.cancel()
         collectPeriodCountDownJob.cancel()
         collectSessionStartCountdownJob.cancel()
@@ -735,7 +735,7 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
         collectJobNumberOfCycles.cancel()
     }
 
-    ////////////
+    // //////////
     private fun retrievePrefInt(key: Preferences.Key<Int>): Flow<Int> =
         testDataStore.data.map { it[key] ?: defaultIntValue }
 
@@ -747,5 +747,4 @@ internal class SimpleHiitDataStoreManagerImplInstrumentedTest {
 
     private fun retrievePrefStringSet(key: Preferences.Key<Set<String>>): Flow<Set<String>> =
         testDataStore.data.map { it[key] ?: defaultStringSetValue }
-
 }

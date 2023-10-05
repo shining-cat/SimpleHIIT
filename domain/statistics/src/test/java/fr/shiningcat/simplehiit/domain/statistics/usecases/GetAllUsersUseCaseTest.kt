@@ -96,5 +96,4 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
         //
         collectJob.cancel()
     }
-
 }

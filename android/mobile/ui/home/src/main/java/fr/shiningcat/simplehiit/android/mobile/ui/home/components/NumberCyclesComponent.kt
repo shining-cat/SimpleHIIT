@@ -58,7 +58,7 @@ fun NumberCyclesComponent(
                 Text(
                     text = stringResource(id = R.string.minus),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp,
+                    fontSize = 44.sp
 //                    lineHeight = 28.sp
                 )
             }
@@ -79,7 +79,7 @@ fun NumberCyclesComponent(
                 Text(
                     text = stringResource(id = R.string.plus),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp,
+                    fontSize = 44.sp
 //                    lineHeight = 28.sp
                 )
             }
@@ -112,4 +112,3 @@ private fun NumberCyclesComponentPreview() {
         }
     }
 }
-

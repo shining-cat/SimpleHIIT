@@ -57,5 +57,4 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionRecordsForUser(testValue) }
         assertEquals(errorFromRepo, result)
     }
-
 }

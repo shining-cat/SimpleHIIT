@@ -38,7 +38,7 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                 any()
             )
         } returnsMany consecutivenessReturns
-        //we don't care here about the actual content of the timestamp list as ConsecutiveDaysOrCloserUseCase will
+        // we don't care here about the actual content of the timestamp list as ConsecutiveDaysOrCloserUseCase will
         // be the one evaluating each pair's consecutiveness, and it's return is mocked here, as it is tested on its own already
         val input = List(consecutivenessReturns.size) {
             Random.nextLong(
@@ -73,9 +73,9 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 4
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
                     5,
                     4
@@ -84,50 +84,47 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                     listOf(
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.SAME_DAY, // this will not be counted in the streak
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
                     5,
                     3
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, //current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
                     1,
                     0
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, //current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
                     1,
                     0
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.SAME_DAY, //current streak is 5 as last session and "now" are SAME_DAY, we must include today in the count
+                        Consecutiveness.SAME_DAY, // current streak is 5 as last session and "now" are SAME_DAY, we must include today in the count
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS,
+                        Consecutiveness.CONSECUTIVE_DAYS
                     ),
                     5,
                     5
                 )
             )
-
     }
-
-
 }

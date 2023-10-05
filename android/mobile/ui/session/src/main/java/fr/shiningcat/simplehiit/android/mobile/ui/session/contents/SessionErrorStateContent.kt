@@ -59,7 +59,7 @@ fun SessionErrorStateContent(
             } else {
                 stringResource(id = R.string.error_session_retry)
             },
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium
         )
         if (screenViewState.errorCode.isNotBlank()) {
             Text(
@@ -67,7 +67,7 @@ fun SessionErrorStateContent(
                 modifier = Modifier
                     .padding(horizontal = 0.dp, vertical = 16.dp),
                 text = stringResource(id = R.string.error_code, screenViewState.errorCode),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineSmall
             )
         }
         val clickAction: () -> Unit = {
@@ -95,7 +95,6 @@ fun SessionErrorStateContent(
             )
         }
     }
-
 }
 
 // Previews

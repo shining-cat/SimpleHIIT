@@ -86,7 +86,7 @@ private fun VerticalHomeNominalContent(
     Column(
         modifier = Modifier
             .padding(8.dp)
-            .fillMaxSize(),
+            .fillMaxSize()
     ) {
         if (users.size == 1) {
             SingleUserHeaderComponent(
@@ -111,7 +111,7 @@ private fun VerticalHomeNominalContent(
             increaseNumberOfCycles = increaseNumberOfCycles,
             numberOfCycles = numberOfCycles,
             lengthOfCycle = lengthOfCycle,
-            totalLengthFormatted = totalLengthFormatted,
+            totalLengthFormatted = totalLengthFormatted
         )
         Divider(
             modifier = Modifier
@@ -181,7 +181,8 @@ private fun HorizontalHomeNominalContent(
                 Divider(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp), thickness = Dp.Hairline
+                        .padding(vertical = 8.dp),
+                    thickness = Dp.Hairline
                 )
                 LaunchSessionButton(
                     canLaunchSession = canLaunchSession,
@@ -294,7 +295,7 @@ internal class HomeNominalContentPreviewParameterProvider : PreviewParameterProv
                 User(123L, "User tralala 5", selected = true),
                 User(234L, "User tudut 6", selected = false),
                 User(345L, "User toto 7", selected = true),
-                User(345L, "UserWithLongName 8", selected = true),
+                User(345L, "UserWithLongName 8", selected = true)
             )
         )
 }

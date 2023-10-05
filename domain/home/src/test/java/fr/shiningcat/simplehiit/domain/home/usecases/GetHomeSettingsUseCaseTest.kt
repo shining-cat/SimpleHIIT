@@ -110,7 +110,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         //
         settingsFlow.emit(settingsValue1)
         usersFlow.emit(usersList1)
-        //on the first emission, combine will wait to have both before emitting the result
+        // on the first emission, combine will wait to have both before emitting the result
         assertEquals(1, homeSettingsFlowAsList.size)
         val homeSettingsResult1 = homeSettingsFlowAsList.last()
         val expectedResult1 = Output.Success(
@@ -124,7 +124,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         //
         settingsFlow.emit(settingsValue2)
         assertEquals(2, homeSettingsFlowAsList.size)
-        //on subsequent emissions, combine will immediately emit the result for every input flow emission. Here one more is expected
+        // on subsequent emissions, combine will immediately emit the result for every input flow emission. Here one more is expected
         val homeSettingsResult2 = homeSettingsFlowAsList.last()
         val expectedResult2 = Output.Success(
             HomeSettings(
@@ -138,7 +138,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         settingsFlow.emit(settingsValue3)
         usersFlow.emit(usersList2)
         assertEquals(4, homeSettingsFlowAsList.size)
-        //on subsequent emissions, combine will immediately emit the result for every input flow emission. Here TWO more are expected
+        // on subsequent emissions, combine will immediately emit the result for every input flow emission. Here TWO more are expected
         val homeSettingsResult3 = homeSettingsFlowAsList.last()
         val expectedResult3 = Output.Success(
             HomeSettings(
@@ -158,7 +158,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         coEvery { mockSimpleHiitRepository.getPreferences() } answers { settingsFlow }
         val updateException = Exception("this is a test exception")
         val updateError = Output.Error(errorCode = Constants.Errors.DATABASE_UPDATE_FAILED, exception = updateException)
-        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {updateError }
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { updateError }
         //
         val user1 = User(id = 123L, name = "user 1 name", selected = false)
         val usersList1 = Output.Success(listOf(user1))
@@ -183,12 +183,13 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         //
         collectJob.cancel()
     }
+
     @Test
     fun `calls repo get single unselected user tries to toggle it but updating is inconsistent then return error`() = runTest(UnconfinedTestDispatcher()) {
         val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
         coEvery { mockSimpleHiitRepository.getPreferences() } answers { settingsFlow }
-        val updateInconsistentSuccess = Output.Success(3) //we should only ever receive 1 if the update succeeds
-        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {updateInconsistentSuccess }
+        val updateInconsistentSuccess = Output.Success(3) // we should only ever receive 1 if the update succeeds
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { updateInconsistentSuccess }
         //
         val user1 = User(id = 123L, name = "user 1 name", selected = false)
         val usersList1 = Output.Success(listOf(user1))
@@ -221,7 +222,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
         coEvery { mockSimpleHiitRepository.getPreferences() } answers { settingsFlow }
         val updateSuccess = Output.Success(1)
-        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers {updateSuccess }
+        coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { updateSuccess }
         //
         val user1 = User(id = 123L, name = "user 1 name", selected = false)
         val usersList1 = Output.Success(listOf(user1))
@@ -230,13 +231,13 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         //
         val homeSettingsFlowAsList = mutableListOf<Output<HomeSettings>>()
         val collectJob = launch {
-            //simulating the second call to cover failure during second attempt (after expected toggling to selected of the user)
+            // simulating the second call to cover failure during second attempt (after expected toggling to selected of the user)
             testedUseCase.execute().toList(homeSettingsFlowAsList)
         }
         //
         usersFlow.emit(usersList1)
         settingsFlow.emit(testSettingsValue)
-        usersFlow.emit(usersList1) //triggering the second emission from getUsers, but it still only contains one non-selected user
+        usersFlow.emit(usersList1) // triggering the second emission from getUsers, but it still only contains one non-selected user
         // there should still have been only one attempt to toggle the user
         coVerify(exactly = 1) { mockSimpleHiitRepository.updateUser(any()) }
         //
@@ -305,5 +306,4 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             selected = Random.nextBoolean()
         )
     }
-
 }

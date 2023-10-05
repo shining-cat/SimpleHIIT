@@ -35,5 +35,4 @@ internal class SetPeriodStartCountDownUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.setPeriodStartCountdown(testValue) }
     }
-
 }

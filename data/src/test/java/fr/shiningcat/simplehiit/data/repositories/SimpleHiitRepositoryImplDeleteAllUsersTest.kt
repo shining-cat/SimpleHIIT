@@ -26,7 +26,7 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
-//////////////
+// ////////////
 //   DELETE USER
 
     @Test
@@ -70,5 +70,4 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
         //
         coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
     }
-
 }

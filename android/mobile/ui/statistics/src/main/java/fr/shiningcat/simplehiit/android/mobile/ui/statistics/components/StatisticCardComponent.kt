@@ -37,7 +37,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
             contentColor = MaterialTheme.colorScheme.onSurface
-        ),
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -94,7 +94,6 @@ internal class StatisticCardComponentPreviewParameterProvider :
             DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
             DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
             DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH)
         )
 }
-

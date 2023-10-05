@@ -49,8 +49,8 @@ fun ButtonFilled(
         colors = ButtonDefaults.colors(
             containerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
             contentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
-            focusedContainerColor =if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
-            focusedContentColor =if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
+            focusedContainerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
+            focusedContentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
             pressedContainerColor = MaterialTheme.colorScheme.primary,
             pressedContentColor = MaterialTheme.colorScheme.secondary,
             disabledContainerColor = (if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary).copy(alpha = .6f),
@@ -69,13 +69,15 @@ fun ButtonFilled(
                     imageVector = icon,
                     contentDescription = if (iconContentDescription != -1) {
                         stringResource(id = iconContentDescription)
-                    } else "",
+                    } else {
+                        ""
+                    }
                 )
             }
-            if(icon != null && label != null){
+            if (icon != null && label != null) {
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }
-            if(label != null){
+            if (label != null) {
                 Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
         }

@@ -21,5 +21,4 @@ class ValidatePeriodLengthUseCase @Inject constructor(
         }
         return Constants.InputError.NONE
     }
-
 }

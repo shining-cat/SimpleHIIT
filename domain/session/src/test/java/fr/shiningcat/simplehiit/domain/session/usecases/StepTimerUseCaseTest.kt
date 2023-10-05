@@ -16,9 +16,9 @@ internal class StepTimerUseCaseTest : AbstractMockkTest() {
 
     @Test
     fun `timer runs for expected duration and emits expected states in order`() = runTest() {
-        //Special TimeProvider that increases the returned time every time it is queried
+        // Special TimeProvider that increases the returned time every time it is queried
         val testTimeProvider = TestTimeProvider()
-        //we don't want to use the unconfined dispatcher here as we don't want it to skip all delays
+        // we don't want to use the unconfined dispatcher here as we don't want it to skip all delays
         val testDispatcher = StandardTestDispatcher(testScheduler)
         val testedUseCase = StepTimerUseCase(
             timerDispatcher = testDispatcher,
@@ -30,19 +30,19 @@ internal class StepTimerUseCaseTest : AbstractMockkTest() {
         val collectJob = launch(UnconfinedTestDispatcher()) {
             testedUseCase.timerStateFlow.toList(stepTimerStatesAsList)
         }
-        //check initial state:
+        // check initial state:
         assertEquals(1, stepTimerStatesAsList.size)
         assertEquals(StepTimerState(), stepTimerStatesAsList.last())
-        //value in seconds for the whole simulated StepTimer run
+        // value in seconds for the whole simulated StepTimer run
         val totalMilliSeconds = 100000L
-        //this is the ticking value used in the StepTimer: 1s
+        // this is the ticking value used in the StepTimer: 1s
         val tickLength = 1000L
-        //launching:
+        // launching:
         testedUseCase.start(totalMilliSeconds)
         val expectedTicksCount = (1 + totalMilliSeconds.div(tickLength) + 1).toInt() // first default state + one every [tickLength]ms for [totalMilliSeconds]ms + the last one when reaching 0
         assertEquals(expectedTicksCount, stepTimerStatesAsList.size)
         val expectedStatesEmitted = mutableListOf(StepTimerState())
-        for(i in 0..expectedTicksCount-2){
+        for (i in 0..expectedTicksCount - 2) {
             expectedStatesEmitted.add(StepTimerState(totalMilliSeconds - tickLength.times(i), totalMilliSeconds))
         }
         assertEquals(expectedStatesEmitted, stepTimerStatesAsList)
@@ -56,12 +56,12 @@ internal class StepTimerUseCaseTest : AbstractMockkTest() {
  * This is to prevent our StepTimer to loop on its own when we want to test it, as I could find no way
  * to manipulate the provided clock at the same time I was running test code out of its scope
  */
-internal class TestTimeProvider(startClock: Long = 0L):
+internal class TestTimeProvider(startClock: Long = 0L) :
     fr.shiningcat.simplehiit.commonutils.TimeProvider {
 
     private var testClock = startClock
 
-    fun advanceTestClock(howMuchMillis: Long = 1000L){
+    fun advanceTestClock(howMuchMillis: Long = 1000L) {
         testClock += howMuchMillis
     }
 
@@ -69,5 +69,4 @@ internal class TestTimeProvider(startClock: Long = 0L):
         advanceTestClock(10L)
         return testClock
     }
-
 }

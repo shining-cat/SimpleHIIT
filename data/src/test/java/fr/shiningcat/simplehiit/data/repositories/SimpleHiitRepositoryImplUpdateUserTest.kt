@@ -47,7 +47,7 @@ internal class SimpleHiitRepositoryImplUpdateUserTest : AbstractMockkTest() {
     private val testUserEntity =
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
-    //////////////
+    // ////////////
 //   UPDATE USER
     @Test
     fun `update user returns success output when dao returns 1`() = runTest {
@@ -84,14 +84,14 @@ internal class SimpleHiitRepositoryImplUpdateUserTest : AbstractMockkTest() {
         )
         //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
-        coEvery { mockUsersDao.update(any()) }  coAnswers {
+        coEvery { mockUsersDao.update(any()) } coAnswers {
             println("inserting delay in DAO call to allow for job cancellation before result is returned")
             delay(100L)
             1
         }
         //
         val job = Job()
-        launch(job){
+        launch(job) {
             assertThrows<CancellationException> {
                 simpleHiitRepository.updateUser(testUserModel)
             }
@@ -191,7 +191,7 @@ internal class SimpleHiitRepositoryImplUpdateUserTest : AbstractMockkTest() {
         assertEquals(expectedOutput, actual)
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic
@@ -213,6 +213,5 @@ internal class SimpleHiitRepositoryImplUpdateUserTest : AbstractMockkTest() {
                 )
 
             )
-
     }
 }

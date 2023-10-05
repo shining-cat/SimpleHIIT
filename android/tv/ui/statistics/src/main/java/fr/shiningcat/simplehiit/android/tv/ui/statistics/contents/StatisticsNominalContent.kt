@@ -50,7 +50,7 @@ fun StatisticsNominalContent(
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        //we don't want the name to scroll along with the grid (sticky header)
+        // we don't want the name to scroll along with the grid (sticky header)
         StatisticsHeaderComponent(
             openUserPicker = openUserPicker,
             currentUserName = viewState.user.name,
@@ -193,7 +193,7 @@ internal class StatisticsNominalContentPreviewParameterProvider :
                     DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                     DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
                     DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
                 ),
                 showUsersSwitch = true
             )

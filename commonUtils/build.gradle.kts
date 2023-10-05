@@ -1,4 +1,4 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
 }
@@ -8,7 +8,7 @@ android {
 }
 
 dependencies {
-    //the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
+    // the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
     implementation(HiltDeps.hiltAndroid)
     kapt(HiltDeps.hiltAndroidCompiler)
     //

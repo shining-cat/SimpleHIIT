@@ -172,5 +172,4 @@ class SettingsInteractorImpl @Inject constructor(
     ): List<ExerciseTypeSelected> {
         return toggleExerciseTypeInListUseCase.execute(currentList, exerciseTypeToToggle)
     }
-
 }

@@ -5,8 +5,8 @@ import fr.shiningcat.simplehiit.domain.common.models.Exercise
 
 class ExerciseGifMapper {
 
-    fun map(exercise: Exercise):Int{
-        return when(exercise){
+    fun map(exercise: Exercise): Int {
+        return when (exercise) {
             Exercise.CatBirdDogs -> R.raw.exercise_cat_bird_dogs
             Exercise.CatKneeAndElbowPressUp -> R.raw.exercise_cat_knee_and_elbow_pressup
             Exercise.CatKneePushUp -> R.raw.exercise_cat_knee_pushup
@@ -77,5 +77,4 @@ class ExerciseGifMapper {
             Exercise.StandingBalanceChops -> R.raw.exercise_standing_balance_chops
         }
     }
-
 }

@@ -15,5 +15,4 @@ interface SettingsModule {
     fun bindSettingsInteractor(
         SettingsInteractor: SettingsInteractorImpl
     ): SettingsInteractor
-
 }

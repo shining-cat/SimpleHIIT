@@ -75,7 +75,7 @@ class SessionViewModel @Inject constructor(
     }
 
     private fun setUpSoundPool() {
-        //This SoundPool is hosted in the ViewModel to shield it from recomposition events
+        // This SoundPool is hosted in the ViewModel to shield it from recomposition events
         soundPool = SoundPool
             .Builder()
             .setMaxStreams(1) // we only ever need to play one sound at a time
@@ -107,7 +107,7 @@ class SessionViewModel @Inject constructor(
     private fun setupTicker() {
         viewModelScope.launch(context = mainDispatcher) {
             sessionInteractor.getStepTimerState().collect { stepTimerState ->
-                if (stepTimerState != StepTimerState()) { //excluding first emission with default value
+                if (stepTimerState != StepTimerState()) { // excluding first emission with default value
                     tick(stepTimerState)
                 }
             }
@@ -169,15 +169,15 @@ class SessionViewModel @Inject constructor(
         } else {
             val currentStep = immutableSession.steps[currentSessionStepIndex]
             val sessionRemainingMs = stepTimerState.milliSecondsRemaining
-            if (sessionRemainingMs == 0L) {//whole session end
-                //play last (when timer reaches 0) beep sound
+            if (sessionRemainingMs == 0L) { // whole session end
+                // play last (when timer reaches 0) beep sound
                 maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
                 hiitLogger.d("SessionViewModel", "tick: Session finished")
                 emitSessionEndState()
-            } else {//build current running step state and emit
+            } else { // build current running step state and emit
                 val timeRemainingTriggerNextStep = currentStep.remainingSessionDurationMsAfterMe
                 if (sessionRemainingMs <= timeRemainingTriggerNextStep) {
-                    //play step's last beep sound as the increase of currentSessionStepIndex will prevent the state with a 0 countDown to be emitted
+                    // play step's last beep sound as the increase of currentSessionStepIndex will prevent the state with a 0 countDown to be emitted
                     // we do not display the "0" remaining seconds, but we want the beep sound to be played if setting is on
                     maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
                     currentSessionStepIndex += 1
@@ -211,7 +211,7 @@ class SessionViewModel @Inject constructor(
         when (currentState) {
             is SessionViewState.InitialCountDownSession -> if (currentState.countDown.playBeep) playBeepSound()
             is SessionViewState.RunningNominal -> if (currentState.countDown?.playBeep == true) playBeepSound()
-            else -> {}// do nothing
+            else -> {} // do nothing
         }
     }
 
@@ -235,7 +235,7 @@ class SessionViewModel @Inject constructor(
                 _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
             } else {
                 if (immutableSession.steps.last() is SessionStep.RestStep) {
-                    //not counting the last Rest step for aborted session as it doesn't make much sense:
+                    // not counting the last Rest step for aborted session as it doesn't make much sense:
                     currentSessionStepIndex -= 1
                 }
                 val restStepsDone = immutableSession.steps
@@ -249,7 +249,9 @@ class SessionViewModel @Inject constructor(
                         restStepsDone.size.times(restStepsDone[0].durationMs).plus(
                             workingStepsDone.size.times(workingStepsDone[0].durationMs)
                         )
-                    } else 0L
+                    } else {
+                        0L
+                    }
                 hiitLogger.d(
                     "SessionViewModel",
                     "emitSessionEndState::workingStepsDone = ${workingStepsDone.size} | restStepsDone = ${restStepsDone.size} | total steps = ${workingStepsDone.size + restStepsDone.size}"
@@ -260,15 +262,16 @@ class SessionViewModel @Inject constructor(
                 )
                 val actualSessionLengthFormatted =
                     sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(
-                        actualSessionLength, durationStringFormatter
+                        actualSessionLength,
+                        durationStringFormatter
                     )
                 val workingStepsDoneDisplay = workingStepsDone.map {
                     SessionStepDisplay(
                         exercise = it.exercise,
-                        side = it.side,
+                        side = it.side
                     )
                 }
-                //record session done
+                // record session done
                 val sessionRecord = SessionRecord(
                     timeStamp = timeProvider.getCurrentTimeMillis(),
                     durationMs = actualSessionLength,
@@ -297,7 +300,7 @@ class SessionViewModel @Inject constructor(
                 stepTimerJob?.cancel()
                 val currentStep = immutableSession.steps[currentSessionStepIndex]
                 if (currentStep is SessionStep.WorkStep) {
-                    currentSessionStepIndex -= 1 //safe as the first step will always be a REST
+                    currentSessionStepIndex -= 1 // safe as the first step will always be a REST
                 }
                 _dialogViewState.emit(SessionDialog.Pause)
             }
@@ -340,5 +343,4 @@ class SessionViewModel @Inject constructor(
         hiitLogger.d("SessionViewModel", "onCleared::releasing SoundPool")
         soundPool?.release()
     }
-
 }

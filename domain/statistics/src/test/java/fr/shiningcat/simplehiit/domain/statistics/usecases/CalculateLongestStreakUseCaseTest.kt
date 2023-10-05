@@ -14,7 +14,7 @@ import java.util.stream.Stream
 import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
+internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
 
     private val mockConsecutiveDaysOrCloserUseCaseTest = mockk<ConsecutiveDaysOrCloserUseCase>()
 
@@ -36,7 +36,7 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                 any()
             )
         } returnsMany consecutivenessReturns
-        //we don't care here about the actual content of the timestamp list as ConsecutiveDaysOrCloserUseCase will
+        // we don't care here about the actual content of the timestamp list as ConsecutiveDaysOrCloserUseCase will
         // be the one evaluating each pair's consecutiveness, and it's return is mocked here, as it is tested on its own already
         val input = List(consecutivenessReturns.size) {
             Random.nextLong(
@@ -64,7 +64,7 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 4
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS
                     ),
@@ -74,9 +74,9 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                     listOf(
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.SAME_DAY, // this will not be counted in the streak
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS
                     ),
@@ -84,26 +84,26 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, //current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS //longest streak is 3
+                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 3
                     ),
                     3
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, //current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS //longest streak is 2
+                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 2
                     ),
                     2
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.SAME_DAY, //current streak is 5 as last session and "now" are SAME_DAY, we must include today in the count
+                        Consecutiveness.SAME_DAY, // current streak is 5 as last session and "now" are SAME_DAY, we must include today in the count
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
@@ -115,9 +115,9 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                     listOf(
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.SAME_DAY, // this will not be counted in the streak
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
@@ -130,16 +130,16 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                     listOf(
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.SAME_DAY, // this will not be counted in the streak
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS, // longest streak is 6
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
@@ -151,15 +151,15 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                     listOf(
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.SAME_DAY, //this will not be counted in the streak
+                        Consecutiveness.SAME_DAY, // this will not be counted in the streak
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.NON_CONSECUTIVE_DAYS,//breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
@@ -169,10 +169,8 @@ internal class CalculateLongestStreakUseCaseTest: AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS // longest streak is 7
                     ),
                     7
-                ),
-
                 )
 
+            )
     }
-
 }

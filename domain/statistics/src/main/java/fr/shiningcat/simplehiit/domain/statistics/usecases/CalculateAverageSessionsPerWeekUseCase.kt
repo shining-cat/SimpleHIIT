@@ -38,7 +38,7 @@ class CalculateAverageSessionsPerWeekUseCase @Inject constructor(
                     val roundedAverageSessionsPer7DaysPeriod =
                         round(averageSessionsPer7DaysPeriod * 100.0) / 100.0
                     if (roundedAverageSessionsPer7DaysPeriod - roundedAverageSessionsPer7DaysPeriod.toInt() == 0.00) {
-                        //remove trailing 0
+                        // remove trailing 0
                         roundedAverageSessionsPer7DaysPeriod.toInt().toString()
                     } else {
                         roundedAverageSessionsPer7DaysPeriod.toString()
@@ -47,5 +47,4 @@ class CalculateAverageSessionsPerWeekUseCase @Inject constructor(
             }
         }
     }
-
 }

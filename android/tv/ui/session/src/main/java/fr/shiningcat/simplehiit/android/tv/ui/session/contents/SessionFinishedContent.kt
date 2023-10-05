@@ -44,7 +44,7 @@ fun SessionFinishedContent(
             .padding(horizontal = 16.dp)
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(0.dp),
+        verticalArrangement = Arrangement.spacedBy(0.dp)
     ) {
         item {
             SessionFinishedHeaderComponent(viewState.sessionDurationFormatted)
@@ -140,12 +140,12 @@ fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: Exercis
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SessionFinishedContentPreview(

@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
 data class UserStatistics(

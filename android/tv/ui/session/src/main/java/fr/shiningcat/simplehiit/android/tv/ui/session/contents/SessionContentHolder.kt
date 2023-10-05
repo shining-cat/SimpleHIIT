@@ -63,10 +63,9 @@ fun SessionContentHolder(
                 )
             }
         }
-
     }
     when (dialogViewState) {
-        SessionDialog.None -> {}/*Do nothing*/
+        SessionDialog.None -> {} /*Do nothing*/
         SessionDialog.Pause -> ChoiceDialog(
             title = stringResource(id = R.string.pause),
             message = stringResource(id = R.string.pause_explanation),
@@ -84,12 +83,12 @@ fun SessionContentHolder(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SessionContentHolderPreview(
@@ -200,6 +199,6 @@ internal class SessionContentHolderPreviewParameterProvider :
                     SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
                     SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
                 )
-            ),
+            )
         )
 }

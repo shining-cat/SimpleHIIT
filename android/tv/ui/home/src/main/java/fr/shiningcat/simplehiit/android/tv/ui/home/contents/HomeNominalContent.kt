@@ -49,7 +49,7 @@ fun HomeNominalContent(
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+        delay(1000L) // wait a sec to increase awareness of the user of the focusing on the main button
         focusRequester.requestFocus()
     }
     val canLaunchSession = users.any { it.selected }
@@ -94,7 +94,7 @@ fun HomeNominalContent(
                     modifier = Modifier
                         .height(48.dp)
                         .weight(.3f)
-                        .focusRequester(focusRequester),//calling focus on the launch button on opening
+                        .focusRequester(focusRequester), // calling focus on the launch button on opening
                     label = if (canLaunchSession) {
                         stringResource(id = R.string.launch_session_label)
                     } else {
@@ -154,7 +154,7 @@ internal class HomeNominalContentPreviewParameterProvider : PreviewParameterProv
                 User(123L, "User tralala 5", selected = true),
                 User(234L, "User tudut 6", selected = false),
                 User(345L, "User toto 7", selected = true),
-                User(345L, "UserWithLongName 8", selected = true),
+                User(345L, "UserWithLongName 8", selected = true)
             ),
             listOf(User(123L, "User 1", selected = false))
         )

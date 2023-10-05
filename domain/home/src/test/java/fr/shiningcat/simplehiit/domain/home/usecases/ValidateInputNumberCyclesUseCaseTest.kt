@@ -32,7 +32,7 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
                 Arguments.of("3", Constants.InputError.NONE),
                 Arguments.of("369", Constants.InputError.WRONG_FORMAT),
                 Arguments.of("36945", Constants.InputError.WRONG_FORMAT),
-                Arguments.of("three", Constants.InputError.WRONG_FORMAT),
+                Arguments.of("three", Constants.InputError.WRONG_FORMAT)
             )
     }
 }

@@ -48,7 +48,7 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ExerciseTypeSelected(
                         ExerciseType.SQUAT,
                         true
-                    ),//should be toggled to false in output list
+                    ), // should be toggled to false in output list
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
                         ExerciseTypeSelected(ExerciseType.LYING, false),
@@ -74,7 +74,7 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ExerciseTypeSelected(
                         ExerciseType.SQUAT,
                         false
-                    ),//should be toggled to true in output list
+                    ), // should be toggled to true in output list
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
                         ExerciseTypeSelected(ExerciseType.LYING, false),
@@ -93,7 +93,7 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ExerciseTypeSelected(
                         ExerciseType.LUNGE,
                         true
-                    ),//should be toggled to false in output list
+                    ), // should be toggled to false in output list
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, false)
                     )
@@ -105,7 +105,7 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ExerciseTypeSelected(
                         ExerciseType.LUNGE,
                         false
-                    ),//should be toggled to true in output list
+                    ), // should be toggled to true in output list
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true)
                     )
@@ -119,9 +119,9 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(
                             ExerciseType.LUNGE,
                             true
-                        )//exercise to toggle is not in list => list is not changed
+                        ) // exercise to toggle is not in list => list is not changed
                     )
-                ),
+                )
             )
     }
 }

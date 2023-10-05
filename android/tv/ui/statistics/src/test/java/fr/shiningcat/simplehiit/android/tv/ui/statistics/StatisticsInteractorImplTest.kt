@@ -88,6 +88,4 @@ internal class StatisticsInteractorImplTest : AbstractMockkTest() {
             testedInteractor.resetWholeApp()
             coVerify(exactly = 1) { mockResetWholeAppUseCase.execute() }
         }
-
-
 }

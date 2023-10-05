@@ -21,5 +21,4 @@ class ValidateInputUserNameUseCase @Inject constructor(
             Constants.InputError.TOO_LONG
         }
     }
-
 }

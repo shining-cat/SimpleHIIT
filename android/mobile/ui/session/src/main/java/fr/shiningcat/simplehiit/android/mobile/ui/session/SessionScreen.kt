@@ -59,7 +59,7 @@ fun SessionScreen(
     // Handling the sound loading in the viewModel's soundPool:
     if (viewModel.noSoundLoadingRequestedYet) {
         hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
-        //we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
+        // we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
         val beepSoundLoadedInPool =
             viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
         viewModel.noSoundLoadingRequestedYet = false
@@ -135,7 +135,6 @@ private fun SessionScreen(
                     pause
                 )
             }
-
         }
 
         is SessionViewState.InitialCountDownSession -> Triple(
@@ -216,7 +215,7 @@ private fun SessionScreenPreviewPhonePortrait(
             SessionScreen(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.VERTICAL,
+                uiArrangement = UiArrangement.VERTICAL
             )
         }
     }
@@ -241,7 +240,7 @@ private fun SessionScreenPreviewTabletLandscape(
             SessionScreen(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = UiArrangement.HORIZONTAL
             )
         }
     }
@@ -268,7 +267,7 @@ private fun SessionScreenPreviewPhoneLandscape(
             SessionScreen(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = UiArrangement.HORIZONTAL
             )
         }
     }
@@ -369,6 +368,6 @@ internal class SessionScreenPreviewParameterProvider :
                     SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
                     SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
                 )
-            ),
+            )
         )
 }

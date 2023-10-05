@@ -34,5 +34,4 @@ internal class SetNumberOfWorkPeriodUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.setNumberOfWorkPeriods(testValue) }
     }
-
 }

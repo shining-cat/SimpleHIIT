@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 
 @ExcludeFromJacocoGeneratedReport
 data class DisplayedStatistic(
@@ -9,6 +9,6 @@ data class DisplayedStatistic(
 )
 
 @ExcludeFromJacocoGeneratedReport
-enum class DisplayStatisticType{
+enum class DisplayStatisticType {
     TOTAL_SESSIONS_NUMBER, TOTAL_EXERCISE_TIME, AVERAGE_SESSION_LENGTH, LONGEST_STREAK, CURRENT_STREAK, AVERAGE_SESSIONS_PER_WEEK
 }

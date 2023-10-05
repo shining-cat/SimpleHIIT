@@ -18,8 +18,8 @@ object TestDataBaseModule {
     @Named("test_db")
     fun provideInMemoryDb(@ApplicationContext context: Context) =
         Room.inMemoryDatabaseBuilder(
-            context, SimpleHiitDatabase::class.java
+            context,
+            SimpleHiitDatabase::class.java
         ).allowMainThreadQueries()
             .build()
-
 }

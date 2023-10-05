@@ -15,5 +15,4 @@ interface StatisticsModule {
     fun bindStatisticsInteractor(
         statisticsInteractor: StatisticsInteractorImpl
     ): StatisticsInteractor
-
 }

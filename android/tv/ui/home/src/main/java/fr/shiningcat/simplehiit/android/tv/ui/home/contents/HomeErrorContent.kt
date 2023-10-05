@@ -37,7 +37,7 @@ fun HomeErrorContent(
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+        delay(1000L) // wait a sec to increase awareness of the user of the focusing on the main button
         focusRequester.requestFocus()
     }
 
@@ -60,7 +60,7 @@ fun HomeErrorContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
             text = stringResource(id = R.string.error_irrecoverable_state),
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium
         )
         if (errorCode.isNotBlank()) {
             Text(
@@ -69,11 +69,11 @@ fun HomeErrorContent(
                     .padding(horizontal = 0.dp, vertical = 16.dp)
                     .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineSmall
             )
         }
         ButtonError(
-            modifier = Modifier.focusRequester(focusRequester),//calling focus on button on opening
+            modifier = Modifier.focusRequester(focusRequester), // calling focus on button on opening
             onClick = resetWholeApp,
             label = stringResource(id = R.string.reset_app_button_label)
         )
@@ -101,4 +101,3 @@ private fun HomeErrorContentPreview() {
         }
     }
 }
-

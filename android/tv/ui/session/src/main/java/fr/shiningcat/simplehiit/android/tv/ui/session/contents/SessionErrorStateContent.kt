@@ -60,7 +60,7 @@ fun SessionErrorStateContent(
             } else {
                 stringResource(id = R.string.error_session_retry)
             },
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium
         )
         if (screenViewState.errorCode.isNotBlank()) {
             Text(
@@ -68,7 +68,7 @@ fun SessionErrorStateContent(
                 modifier = Modifier
                     .padding(horizontal = 0.dp, vertical = 16.dp),
                 text = stringResource(id = R.string.error_code, screenViewState.errorCode),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineSmall
             )
         }
         val clickAction: () -> Unit = {
@@ -96,12 +96,12 @@ fun SessionErrorStateContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun SessionErrorStateContentPreview(

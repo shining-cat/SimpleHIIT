@@ -40,7 +40,7 @@ fun WarningDialog(
         Surface(
             colors = NonInteractiveSurfaceDefaults.colors(
                 containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             ),
             shape = MaterialTheme.shapes.medium
         ) {

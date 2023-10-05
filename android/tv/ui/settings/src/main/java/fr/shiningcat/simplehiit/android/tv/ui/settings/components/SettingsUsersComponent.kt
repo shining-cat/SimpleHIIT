@@ -57,9 +57,9 @@ fun SettingsUsersComponent(
         Spacer(modifier = Modifier.height(spacing))
         val itemHeight = 48.dp
         val numberOfColumns = 3
-        val forcedTopMargin = 8.dp //this is to avoid the zoomed-in focused buttons of the first row to be clipped
+        val forcedTopMargin = 8.dp // this is to avoid the zoomed-in focused buttons of the first row to be clipped
         val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
-        val gridHeight = 2 * forcedTopMargin + (itemHeight )* rowsCount + spacing * (rowsCount - 1) //adding forcedMargin on top and bottom for symmetry, rather than a last spacing
+        val gridHeight = 2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1) // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
 
         TvLazyVerticalGrid(
             columns = TvGridCells.Fixed(numberOfColumns),
@@ -80,7 +80,7 @@ fun SettingsUsersComponent(
                 )
             }
         }
-        if(users.isNotEmpty()){
+        if (users.isNotEmpty()) {
             Spacer(modifier = Modifier.height(spacing))
         }
         ButtonFilled(
@@ -130,7 +130,7 @@ internal class SettingsUsersComponentPreviewParameterProvider :
         User(123L, "User tralala 5", selected = true),
         User(234L, "User tudut 6", selected = false),
         User(345L, "User toto 7", selected = true),
-        User(345L, "UserWithLongName 8", selected = true),
+        User(345L, "UserWithLongName 8", selected = true)
 //        User(345L, "UserWithLongName 9", selected = true)
     )
 

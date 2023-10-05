@@ -35,5 +35,4 @@ internal class SetSessionStartCountDownUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.setSessionStartCountdown(testValue) }
     }
-
 }

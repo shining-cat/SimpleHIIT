@@ -28,7 +28,7 @@ class SettingsViewStateMapper @Inject constructor(
                         generalSettings.cycleLengthMs,
                         durationStringFormatter
                     )
-                //these other values are only displayed as seconds to the user, as we don't expect any other format to be relevant
+                // these other values are only displayed as seconds to the user, as we don't expect any other format to be relevant
                 val workPeriodLengthAsSeconds =
                     durationMsAsSeconds(generalSettings.workPeriodLengthMs)
                 val restPeriodLengthAsSeconds =
@@ -49,7 +49,7 @@ class SettingsViewStateMapper @Inject constructor(
                         sessionStartCountDownLengthAsSeconds = sessionStartCountDownLengthAsSeconds,
                         periodsStartCountDownLengthAsSeconds = periodsStartCountDownLengthAsSeconds,
                         users = generalSettings.users,
-                        exerciseTypes = generalSettings.exerciseTypes,
+                        exerciseTypes = generalSettings.exerciseTypes
                     )
                 }
             }
@@ -62,7 +62,7 @@ class SettingsViewStateMapper @Inject constructor(
         val asSeconds = durationMs.toDouble() / 1000L.toDouble()
         return try {
             asSeconds.roundToInt().toString()
-        } catch (exception: IllegalArgumentException) { //this should never happen as we can't get a NaN as a Long
+        } catch (exception: IllegalArgumentException) { // this should never happen as we can't get a NaN as a Long
             hiitLogger.e("SettingsMapper", "durationMsAsSeconds", exception)
             null
         }

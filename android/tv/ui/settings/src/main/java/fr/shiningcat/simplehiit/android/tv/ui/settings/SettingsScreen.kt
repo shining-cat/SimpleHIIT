@@ -123,7 +123,6 @@ private fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
-
             SettingsContentHolder(
                 editWorkPeriodLength = editWorkPeriodLength,
                 saveWorkPeriodLength = saveWorkPeriodLength,
@@ -268,6 +267,6 @@ internal class SettingsScreenPreviewParameterProvider :
                 periodsStartCountDownLengthAsSeconds = "5",
                 users = listOfMoreUser,
                 exerciseTypes = exerciseTypeSelectedMixed
-            ),
+            )
         )
 }

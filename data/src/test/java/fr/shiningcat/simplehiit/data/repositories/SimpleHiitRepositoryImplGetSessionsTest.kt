@@ -48,7 +48,7 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
     private val testSessionRecord =
         SessionRecord(timeStamp = testDate, durationMs = testDuration, usersIds = listOf(testSessionUserId1))
 
-//////////////
+// ////////////
 //   GET SESSIONS FOR USER
 
     @Test
@@ -112,7 +112,7 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
             }
             //
             val job = Job()
-            launch(job){
+            launch(job) {
                 assertThrows<CancellationException> {
                     simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
                 }
@@ -122,10 +122,9 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
             job.cancelAndJoin()
             //
             coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
-            coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }//this would happen after cancellation
+            coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) } // this would happen after cancellation
             coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
         }
-
 
     @Test
     fun `get sessions for user catches rogue CancellationException`() = runTest {
@@ -188,7 +187,7 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
         assertEquals(numberOfSessionsResult, actual.result.size)
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic
@@ -229,11 +228,10 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                             timeStamp = 123L,
                             durationMs = 234L,
                             userId = 891L
-                        ),
+                        )
                     )
                 )
 
             )
-
     }
 }

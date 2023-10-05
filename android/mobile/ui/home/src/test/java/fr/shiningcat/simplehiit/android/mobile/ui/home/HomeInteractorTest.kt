@@ -88,7 +88,6 @@ internal class HomeInteractorTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockResetWholeAppUseCase.execute() }
         }
 
-
     @Test
     fun `calls on interactor validateInputNumberCycles calls ValidateInputNumberCyclesUseCase`() =
         runTest(UnconfinedTestDispatcher()) {
@@ -96,5 +95,4 @@ internal class HomeInteractorTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockValidateInputNumberCyclesUseCase.execute("test input string") }
             assertEquals(Constants.InputError.NONE, result)
         }
-
 }

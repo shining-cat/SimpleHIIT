@@ -65,7 +65,7 @@ fun HomeContentHolder(
             dismissAction = cancelDialog
         )
 
-        HomeDialog.None -> {}/*do nothing*/
+        HomeDialog.None -> {} /*do nothing*/
     }
 }
 
@@ -98,10 +98,14 @@ private fun HomeContentHolderPreviewPhonePortrait(
 }
 
 @Preview(
-    showSystemUi = true, device = Devices.TABLET, uiMode = Configuration.UI_MODE_NIGHT_NO
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_NO
 )
 @Preview(
-    showSystemUi = true, device = Devices.TABLET, uiMode = Configuration.UI_MODE_NIGHT_YES
+    showSystemUi = true,
+    device = Devices.TABLET,
+    uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 private fun HomeContentHolderPreviewTabletLandscape(
@@ -156,11 +160,14 @@ internal class HomeContentHolderPreviewParameterProvider : PreviewParameterProvi
                 totalSessionLengthFormatted = "total time: 20mn"
             ),
             HomeViewState.Nominal(
-                numberCumulatedCycles = 5, cycleLength = "4mn", users = listOf(
+                numberCumulatedCycles = 5,
+                cycleLength = "4mn",
+                users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
                     User(345L, "User 3", selected = true)
-                ), totalSessionLengthFormatted = "total time: 20mn"
+                ),
+                totalSessionLengthFormatted = "total time: 20mn"
             )
 
         )

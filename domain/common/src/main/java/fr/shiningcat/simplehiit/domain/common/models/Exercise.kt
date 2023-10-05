@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.CAT
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.CRAB
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.LUNGE
@@ -32,12 +32,14 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     CatKneePushUp(exerciseType = CAT, asymmetrical = false),
     CatBackLegLift(exerciseType = CAT, asymmetrical = true),
     CatDonkeyKickTwist(exerciseType = CAT, asymmetrical = true),
+
     //
     CrabAdvancedBridge(exerciseType = CRAB, asymmetrical = false),
     CrabBridgeAndTwist(exerciseType = CRAB, asymmetrical = false),
     CrabKicks(exerciseType = CRAB, asymmetrical = false),
     CrabToeTouches(exerciseType = CRAB, asymmetrical = false),
     CrabSingleLegTricepsDips(exerciseType = CRAB, asymmetrical = false),
+
     //
     LungesAlternateFrontRaise(exerciseType = LUNGE, asymmetrical = false),
     LungesAlternateSideTouch(exerciseType = LUNGE, asymmetrical = false),
@@ -54,6 +56,7 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     LungesSideToCurtsy(exerciseType = LUNGE, asymmetrical = true),
     LungesSide(exerciseType = LUNGE, asymmetrical = true),
     LungesSplitSquat(exerciseType = LUNGE, asymmetrical = true),
+
     //
     LyingDeadBug(exerciseType = LYING, asymmetrical = false),
     LyingReverseCrunches(exerciseType = LYING, asymmetrical = false),
@@ -61,6 +64,7 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     LyingStarToeTouchSitUp(exerciseType = LYING, asymmetrical = false),
     LyingSupermanTwist(exerciseType = LYING, asymmetrical = false),
     LyingSideLegLift(exerciseType = LYING, asymmetrical = true),
+
     //
     PlankMountainClimberTwist(exerciseType = PLANK, asymmetrical = false),
     PlankMountainClimber(exerciseType = PLANK, asymmetrical = false),
@@ -70,6 +74,7 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     PlankSpiderman(exerciseType = PLANK, asymmetrical = false),
     PlankKneeToElbowKickback(exerciseType = PLANK, asymmetrical = true),
     PlankSideArmRotation(exerciseType = PLANK, asymmetrical = true),
+
     //
     SittingBoatTwist(exerciseType = SITTING, asymmetrical = false),
     SittingKneeHugs(exerciseType = SITTING, asymmetrical = false),
@@ -77,6 +82,7 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     SittingTouchFloorTwist(exerciseType = SITTING, asymmetrical = false),
     SittingKneeTucks(exerciseType = SITTING, asymmetrical = false),
     SittingTwistBicycle(exerciseType = SITTING, asymmetrical = false),
+
     //
     SquatBoxerPunch(exerciseType = SQUAT, asymmetrical = false),
     SquatCossack(exerciseType = SQUAT, asymmetrical = false),
@@ -86,6 +92,7 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     SquatBasic(exerciseType = SQUAT, asymmetrical = false),
     SquatSumo(exerciseType = SQUAT, asymmetrical = false),
     SquatBaseballBatHit(exerciseType = SQUAT, asymmetrical = true),
+
     //
     StandingBentOverTwist(exerciseType = STANDING, asymmetrical = false),
     StandingTouchFeetJacks(exerciseType = STANDING, asymmetrical = false),

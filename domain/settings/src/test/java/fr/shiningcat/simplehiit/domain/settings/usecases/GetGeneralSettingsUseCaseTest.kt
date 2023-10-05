@@ -72,7 +72,7 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         //
         settingsFlow.emit(settingsValue1)
         usersFlow.emit(usersList1)
-        //on the first emission, combine will wait to have both before emitting the result
+        // on the first emission, combine will wait to have both before emitting the result
         assertEquals(1, generalSettingsFlowAsList.size)
         val homeSettingsResult1 = generalSettingsFlowAsList.last()
         val expectedResult1 = Output.Success(
@@ -92,7 +92,7 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         //
         settingsFlow.emit(settingsValue2)
         assertEquals(2, generalSettingsFlowAsList.size)
-        //on subsequent emissions, combine will immediately emit the result for every input flow emission. Here one more is expected
+        // on subsequent emissions, combine will immediately emit the result for every input flow emission. Here one more is expected
         val homeSettingsResult2 = generalSettingsFlowAsList.last()
         val expectedResult2 = Output.Success(
             GeneralSettings(
@@ -112,7 +112,7 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         settingsFlow.emit(settingsValue3)
         usersFlow.emit(usersList2)
         assertEquals(4, generalSettingsFlowAsList.size)
-        //on subsequent emissions, combine will immediately emit the result for every input flow emission. Here TWO more are expected
+        // on subsequent emissions, combine will immediately emit the result for every input flow emission. Here TWO more are expected
         val homeSettingsResult3 = generalSettingsFlowAsList.last()
         val expectedResult3 = Output.Success(
             GeneralSettings(
@@ -173,5 +173,4 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
         //
         collectJob.cancel()
     }
-
 }

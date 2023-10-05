@@ -39,7 +39,7 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
     private val mockSessionMapper = mockk<SessionMapper>()
     private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
-//////////////
+// ////////////
 //   GET USERS
 
     @ParameterizedTest(name = "{index} -> when DAO getusersList returns {0} should return Success containing correct number of users")
@@ -65,8 +65,8 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
             assertTrue(output is Output.Success)
             output as Output.Success
             assertEquals(daoOutput.size, output.result.size)
-            for(input in daoOutput){
-                coVerify (exactly = 1){ mockUserMapper.convert(input) }
+            for (input in daoOutput) {
+                coVerify(exactly = 1) { mockUserMapper.convert(input) }
             }
         }
 
@@ -120,7 +120,7 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
             }
             //
             val job = Job()
-            launch(job){
+            launch(job) {
                 assertThrows<CancellationException> {
                     simpleHiitRepository.getUsersList()
                 }
@@ -130,10 +130,9 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
             job.cancelAndJoin()
             //
             coVerify(exactly = 1) { mockUsersDao.getUsersList() }
-            coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) } //this would happen after cancellation
+            coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) } // this would happen after cancellation
             coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
         }
-
 
     @Test
     fun `get users as list catches rogue CancellationException`() = runTest {
@@ -161,7 +160,7 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
         assertEquals(thrownException, actual.exception)
     }
 
-////////////////////////
+// //////////////////////
 
     private companion object {
 
@@ -185,5 +184,4 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
                 )
             )
     }
-
 }

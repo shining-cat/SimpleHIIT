@@ -95,7 +95,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
                             durationMs = 345L,
                             userId = 456L
                         )
-                    ),
+                    )
                 )
             )
     }

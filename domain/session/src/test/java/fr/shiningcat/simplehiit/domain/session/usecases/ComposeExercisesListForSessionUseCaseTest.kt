@@ -28,12 +28,12 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
                 fullListOfExerciseTypes.shuffled().take(testNumberOfSelectedTypes)
             val exercisesForSelectedTypesAvailable = Exercise.values().toList()
                 .filter { testSelectedExercises.contains(it.exerciseType) }.size
-            //no point in picking too many work periods as we're not testing the "exceeding" case here
+            // no point in picking too many work periods as we're not testing the "exceeding" case here
             val numberOfWorkPeriodsPerCycle = Random.nextInt(
                 1,
                 exercisesForSelectedTypesAvailable
-            )//thus we should always have at least 1 cycle
-            //now we want to do tests for when there are enough exercises for the total number requested
+            ) // thus we should always have at least 1 cycle
+            // now we want to do tests for when there are enough exercises for the total number requested
             val maxNumberOfCyclesForTest =
                 (exercisesForSelectedTypesAvailable.toDouble() / numberOfWorkPeriodsPerCycle.toDouble()).toInt()
             val numberOfCycles = Random.nextInt(0, maxNumberOfCyclesForTest)
@@ -45,10 +45,10 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val expectedSize = numberOfWorkPeriodsPerCycle * numberOfCycles
             assertEquals(expectedSize, result.size)
             assertTrue(expectedSize <= exercisesForSelectedTypesAvailable)
-            //size is small enough to expect unicity, except for asymmetrical ones
+            // size is small enough to expect unicity, except for asymmetrical ones
             for (exercise in result.distinct()) {
                 assertTrue(testSelectedExercises.contains(exercise.exerciseType))
-                //because we add the source list again in case all the remaining exercises are asymmetrical for the last spot,
+                // because we add the source list again in case all the remaining exercises are asymmetrical for the last spot,
                 // we can't guarantee unicity in 100% of cases. It should still be rare enough that it shouldn't matter, but
                 // we don't want random failing tests so we're not asserting unicity
             }
@@ -69,7 +69,7 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val exercisesForSelectedTypesAvailable = Exercise.values().toList()
                 .filter { testSelectedExercises.contains(it.exerciseType) }.size
             val numberOfWorkPeriodsPerCycle = Random.nextInt(1, 8)
-            //now we want to do tests for when there too many work periods total for the available number of exercises of selected types
+            // now we want to do tests for when there too many work periods total for the available number of exercises of selected types
             val minNumberOfCyclesForTest =
                 1 + (exercisesForSelectedTypesAvailable.toDouble() / numberOfWorkPeriodsPerCycle.toDouble()).toInt()
             val numberOfCycles =
@@ -82,11 +82,10 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val expectedSize = numberOfWorkPeriodsPerCycle * numberOfCycles
             assertEquals(expectedSize, result.size)
             assertTrue(expectedSize > exercisesForSelectedTypesAvailable)
-            //size is too big to expect unicity, we can't test the composition of the list further
+            // size is too big to expect unicity, we can't test the composition of the list further
             // due to the way we're looping through the source to build the list
             for (exercise in result.distinct()) {
                 assertTrue(testSelectedExercises.contains(exercise.exerciseType))
             }
         }
-
 }

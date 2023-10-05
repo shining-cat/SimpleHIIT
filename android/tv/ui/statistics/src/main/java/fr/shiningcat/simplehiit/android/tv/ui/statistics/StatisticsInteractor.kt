@@ -38,5 +38,4 @@ class StatisticsInteractorImpl @Inject constructor(
     override suspend fun resetWholeApp() {
         return resetWholeAppUseCase.execute()
     }
-
 }

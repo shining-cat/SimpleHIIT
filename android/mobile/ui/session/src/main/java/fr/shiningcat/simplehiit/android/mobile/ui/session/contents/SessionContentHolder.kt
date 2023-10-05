@@ -64,10 +64,9 @@ fun SessionContentHolder(
                 )
             }
         }
-
     }
     when (dialogViewState) {
-        SessionDialog.None -> {}/*Do nothing*/
+        SessionDialog.None -> {} /*Do nothing*/
         SessionDialog.Pause -> ChoiceDialog(
             title = stringResource(id = R.string.pause),
             message = stringResource(id = R.string.pause_explanation),
@@ -102,7 +101,7 @@ private fun SessionContentHolderPreviewPhonePortrait(
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.VERTICAL,
+                uiArrangement = UiArrangement.VERTICAL
             )
         }
     }
@@ -127,7 +126,7 @@ private fun SessionContentHolderPreviewTabletLandscape(
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = UiArrangement.HORIZONTAL
             )
         }
     }
@@ -154,7 +153,7 @@ private fun SessionContentHolderPreviewPhoneLandscape(
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = UiArrangement.HORIZONTAL
             )
         }
     }
@@ -255,6 +254,6 @@ internal class SessionContentHolderPreviewParameterProvider :
                     SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
                     SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
                 )
-            ),
+            )
         )
 }

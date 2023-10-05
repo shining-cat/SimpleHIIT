@@ -23,7 +23,6 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
         durationMs: Long,
         durationStringFormatter: DurationStringFormatter
     ): String {
-
         val hours = TimeUnit.MILLISECONDS.toHours(durationMs)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMs) % 60
         val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMs) % 60
@@ -80,6 +79,5 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase @Inject constructor(
                 )
             }
         }
-
     }
 }

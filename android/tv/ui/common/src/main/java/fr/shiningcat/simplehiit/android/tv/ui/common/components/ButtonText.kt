@@ -62,7 +62,9 @@ fun ButtonText(
                     imageVector = ImageVector.vectorResource(icon),
                     contentDescription = if (iconContentDescription != -1) {
                         stringResource(id = iconContentDescription)
-                    } else "",
+                    } else {
+                        ""
+                    }
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }

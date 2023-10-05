@@ -66,8 +66,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
         assertEquals(expectedResult, output.result)
     }
 
-
-    ///////////////////////
+    // /////////////////////
     private companion object {
 
         @JvmStatic
@@ -118,7 +117,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 123L, name = "user name 1"),
                         User(id = 234L, name = "user name 2"),
                         User(id = 345L, name = "user name 3"),
-                        User(id = 456L, name = "user name 4"),
+                        User(id = 456L, name = "user name 4")
                     ),
                     User(name = "a different name"),
                     false
@@ -128,7 +127,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 123L, name = "user name 1"),
                         User(id = 234L, name = "user name 2"),
                         User(id = 345L, name = "user name 3"),
-                        User(id = 456L, name = "user name 4"),
+                        User(id = 456L, name = "user name 4")
                     ),
                     User(id = 456L, name = "a different name"),
                     false
@@ -138,7 +137,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 123L, name = "user name 1"),
                         User(id = 234L, name = "user name 2"),
                         User(id = 345L, name = "user name 3"),
-                        User(id = 456L, name = "user name 4"),
+                        User(id = 456L, name = "user name 4")
                     ),
                     User(id = 654L, name = "a different name"),
                     false
@@ -148,7 +147,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 123L, name = "user name 1"),
                         User(id = 234L, name = "user name 2"),
                         User(id = 345L, name = "user name 3"),
-                        User(id = 456L, name = "user name 4"),
+                        User(id = 456L, name = "user name 4")
                     ),
                     User(name = "user name 2"),
                     true
@@ -158,7 +157,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 123L, name = "user name 1"),
                         User(id = 234L, name = "user name 2"),
                         User(id = 345L, name = "user name 3"),
-                        User(id = 456L, name = "user name 4"),
+                        User(id = 456L, name = "user name 4")
                     ),
                     User(id = 654L, name = "user name 2"),
                     true
@@ -168,12 +167,11 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 123L, name = "user name 1"),
                         User(id = 234L, name = "user name 2"),
                         User(id = 345L, name = "user name 3"),
-                        User(id = 456L, name = "user name 4"),
+                        User(id = 456L, name = "user name 4")
                     ),
                     User(id = 234L, name = "user name 2"),
                     false // => this is precisely the same user,
                 )
             )
     }
-
 }

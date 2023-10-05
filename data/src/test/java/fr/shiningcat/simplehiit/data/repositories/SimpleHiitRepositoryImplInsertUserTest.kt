@@ -42,7 +42,7 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
     private val testUserEntity =
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
-    //////////////
+    // ////////////
 //   INSERT USER
     @Test
     fun `insert user returns success when dao insert succeeds`() = runTest {
@@ -80,7 +80,7 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
         )
         //
         coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
-        coEvery { mockUsersDao.insert(any()) }  coAnswers {
+        coEvery { mockUsersDao.insert(any()) } coAnswers {
             println("inserting delay in DAO call to allow for job cancellation before result is returned")
             delay(100L)
             testUserId
@@ -156,5 +156,4 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
         )
         assertEquals(expectedOutput, actual)
     }
-
 }

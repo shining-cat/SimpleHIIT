@@ -299,5 +299,4 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             }
             assertEquals(testListExercises, result)
         }
-
 }

@@ -41,7 +41,7 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
         coVerify(exactly = 1) { mockSimpleHiitRepository.setExercisesTypesSelected(expectedOutput) }
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic
@@ -101,7 +101,5 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
                 )
 
             )
-
     }
-
 }

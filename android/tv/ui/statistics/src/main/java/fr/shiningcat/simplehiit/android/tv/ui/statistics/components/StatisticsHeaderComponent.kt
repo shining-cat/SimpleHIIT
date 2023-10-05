@@ -40,11 +40,10 @@ fun StatisticsHeaderComponent(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
-
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         if (showUsersSwitch) {
-            delay(1000L) //wait a sec to increase awareness of the user of the focusing on the main button
+            delay(1000L) // wait a sec to increase awareness of the user of the focusing on the main button
             focusRequester.requestFocus()
         }
     }
@@ -65,7 +64,8 @@ fun StatisticsHeaderComponent(
             Spacer(modifier = Modifier.width(32.dp))
             IconButton(
                 modifier = Modifier.focusRequester(focusRequester),
-                onClick = { openUserPicker() }) {
+                onClick = { openUserPicker() }
+            ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.switch_user),
                     contentDescription = stringResource(id = R.string.statistics_page_switch_user),

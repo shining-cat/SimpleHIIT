@@ -70,7 +70,7 @@ private fun RemainingPercentageComponentPreview() {
                     label = "Next exercise in 3s",
                     percentage = .3f,
                     thickness = 8.dp,
-                    bicolor = false,
+                    bicolor = false
                 )
                 RemainingPercentageComponent(
                     modifier = Modifier
@@ -79,7 +79,7 @@ private fun RemainingPercentageComponentPreview() {
                     label = "Next rest in 23s",
                     percentage = .8f,
                     thickness = 8.dp,
-                    bicolor = false,
+                    bicolor = false
                 )
                 RemainingPercentageComponent(
                     modifier = Modifier
@@ -88,7 +88,7 @@ private fun RemainingPercentageComponentPreview() {
                     label = "Total remaining: 20mn 37s",
                     percentage = .79f,
                     thickness = 16.dp,
-                    bicolor = true,
+                    bicolor = true
                 )
             }
         }

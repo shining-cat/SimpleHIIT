@@ -22,8 +22,10 @@ interface SimpleHiitDataStoreManager {
         val EXERCISE_TYPES_SELECTED = stringSetPreferencesKey("exercise_types_selected")
         val NUMBER_CUMULATED_CYCLES = intPreferencesKey("number_cumulated_cycles")
     }
+
     //
     suspend fun clearAll()
+
     //
     suspend fun setWorkPeriodLength(durationMs: Long)
     suspend fun setRestPeriodLength(durationMs: Long)
@@ -33,7 +35,7 @@ interface SimpleHiitDataStoreManager {
     suspend fun setPeriodStartCountdown(durationMs: Long)
     suspend fun setNumberOfCumulatedCycles(number: Int)
     suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
+
     //
     fun getPreferences(): Flow<SimpleHiitPreferences>
-
 }

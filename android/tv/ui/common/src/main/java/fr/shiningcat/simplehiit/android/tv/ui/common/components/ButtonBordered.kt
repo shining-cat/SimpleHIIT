@@ -48,7 +48,7 @@ fun ButtonBordered(
     enabled: Boolean = true
 ) {
     OutlinedButton(
-        modifier = modifier.padding(1.dp), //padding to ensure the border is not truncated,
+        modifier = modifier.padding(1.dp), // padding to ensure the border is not truncated,
         contentPadding = PaddingValues(12.dp),
         onClick = { onClick() },
         enabled = enabled,
@@ -104,7 +104,9 @@ fun ButtonBordered(
                     imageVector = ImageVector.vectorResource(icon),
                     contentDescription = if (iconContentDescription != -1) {
                         stringResource(id = iconContentDescription)
-                    } else "",
+                    } else {
+                        ""
+                    }
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }

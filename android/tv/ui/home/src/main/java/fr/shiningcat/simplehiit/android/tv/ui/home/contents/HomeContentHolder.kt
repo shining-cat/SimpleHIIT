@@ -64,7 +64,7 @@ fun HomeContentHolder(
             dismissAction = cancelDialog
         )
 
-        HomeDialog.None -> {}/*do nothing*/
+        HomeDialog.None -> {} /*do nothing*/
     }
 }
 
@@ -105,11 +105,14 @@ internal class HomeContentHolderPreviewParameterProvider : PreviewParameterProvi
                 totalSessionLengthFormatted = "total time: 20mn"
             ),
             HomeViewState.Nominal(
-                numberCumulatedCycles = 5, cycleLength = "4mn", users = listOf(
+                numberCumulatedCycles = 5,
+                cycleLength = "4mn",
+                users = listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User 2", selected = false),
                     User(345L, "User 3", selected = true)
-                ), totalSessionLengthFormatted = "total time: 20mn"
+                ),
+                totalSessionLengthFormatted = "total time: 20mn"
             )
 
         )

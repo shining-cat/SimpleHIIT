@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common
 
-import fr.shiningcat.simplehiit.commonutils.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 
@@ -18,7 +18,7 @@ object Constants {
     }
     const val NO_RESULTS_FOUND = "no results found"
 
-    enum class Errors(val code:String){
+    enum class Errors(val code: String) {
         DATABASE_FETCH_FAILED("0101"),
         DATABASE_INSERT_FAILED("0102"),
         DATABASE_DELETE_FAILED("0103"),
@@ -32,7 +32,7 @@ object Constants {
         SESSION_NOT_FOUND("0501")
     }
 
-    enum class InputError(){
+    enum class InputError() {
         NONE,
         WRONG_FORMAT,
         TOO_LONG,
@@ -40,5 +40,4 @@ object Constants {
         VALUE_TOO_BIG,
         VALUE_ALREADY_TAKEN
     }
-
 }

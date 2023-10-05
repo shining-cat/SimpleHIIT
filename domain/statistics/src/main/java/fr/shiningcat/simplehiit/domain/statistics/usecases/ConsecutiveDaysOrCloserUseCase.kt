@@ -63,5 +63,4 @@ class ConsecutiveDaysOrCloserUseCase @Inject constructor(
         calendar[Calendar.MILLISECOND] = 0
         return calendar.timeInMillis
     }
-
 }

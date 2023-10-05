@@ -11,7 +11,8 @@ class ValidateNumberOfWorkPeriodsUseCase @Inject constructor(
     fun execute(input: String): Constants.InputError {
         return if ((input.toIntOrNull() is Int).not()) {
             Constants.InputError.WRONG_FORMAT
-        } else Constants.InputError.NONE
+        } else {
+            Constants.InputError.NONE
+        }
     }
-
 }

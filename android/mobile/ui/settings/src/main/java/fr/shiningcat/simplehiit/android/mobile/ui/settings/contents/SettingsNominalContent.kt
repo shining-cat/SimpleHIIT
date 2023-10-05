@@ -89,27 +89,31 @@ fun SettingsNominalContent(
         SettingsFieldComponent(
             label = stringResource(id = R.string.period_start_countdown_length_setting_label),
             value = stringResource(
-                id = R.string.seconds_setting_value, viewState.periodsStartCountDownLengthAsSeconds
+                id = R.string.seconds_setting_value,
+                viewState.periodsStartCountDownLengthAsSeconds
             ),
             onClick = editPeriodStartCountDown
         )
         SettingsFieldComponent(
             label = stringResource(id = R.string.session_start_countdown_length_setting_label),
             value = stringResource(
-                id = R.string.seconds_setting_value, viewState.sessionStartCountDownLengthAsSeconds
+                id = R.string.seconds_setting_value,
+                viewState.sessionStartCountDownLengthAsSeconds
             ),
             onClick = editSessionStartCountDown
         )
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = Dp.Hairline
+                .padding(vertical = 8.dp),
+            thickness = Dp.Hairline
         )
         SettingsUsersComponent(users = viewState.users, onClickUser = editUser, onAddUser = addUser)
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = Dp.Hairline
+                .padding(vertical = 8.dp),
+            thickness = Dp.Hairline
         )
         SettingsExercisesSelectedComponent(
             exerciseTypes = viewState.exerciseTypes,
@@ -118,7 +122,8 @@ fun SettingsNominalContent(
         Divider(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp), thickness = Dp.Hairline
+                .padding(vertical = 8.dp),
+            thickness = Dp.Hairline
         )
         TextButton(
             modifier = Modifier
@@ -152,7 +157,7 @@ private fun SettingsNominalContentPreviewPhonePortrait(
         Surface {
             SettingsNominalContent(
                 viewState = viewState,
-                uiArrangement = UiArrangement.VERTICAL,
+                uiArrangement = UiArrangement.VERTICAL
             )
         }
     }
@@ -176,7 +181,7 @@ private fun SettingsNominalContentPreviewTabletLandscape(
         Surface {
             SettingsNominalContent(
                 viewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = UiArrangement.HORIZONTAL
             )
         }
     }

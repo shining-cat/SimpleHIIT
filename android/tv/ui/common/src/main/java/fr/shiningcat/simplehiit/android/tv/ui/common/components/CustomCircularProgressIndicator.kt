@@ -75,7 +75,7 @@ fun CustomCircularProgressIndicator(
             val height = size.height
             circleCenter = Offset(x = width / 2f, y = height / 2f)
 
-            //FILL
+            // FILL
             if (fillColor != null) {
                 drawCircle(
                     color = fillColor,
@@ -84,7 +84,7 @@ fun CustomCircularProgressIndicator(
                 )
             }
 
-            //TRACK
+            // TRACK
             if (trackColor != null) {
                 drawCircle(
                     style = Stroke(
@@ -96,7 +96,7 @@ fun CustomCircularProgressIndicator(
                 )
             }
 
-            //PROGRESS
+            // PROGRESS
             drawArc(
                 color = progressColor,
                 startAngle = 270f,
@@ -116,15 +116,19 @@ fun CustomCircularProgressIndicator(
                 )
             )
 
-            //SUBDIVISIONS
+            // SUBDIVISIONS
             if (subDivisionsColor != null) {
                 val outerRadius = circleRadius + thickness / 2f
                 val gap = 15f
                 for (i in 0..(maxValue - minValue)) {
                     val color =
-                        if (i < currentValue - minValue) subDivisionsColor else subDivisionsColor.copy(
-                            alpha = 0.3f
-                        )
+                        if (i < currentValue - minValue) {
+                            subDivisionsColor
+                        } else {
+                            subDivisionsColor.copy(
+                                alpha = 0.3f
+                            )
+                        }
                     val angleInDegrees = i * 360f / (maxValue - minValue).toFloat() + 180f
                     val angleInRad = angleInDegrees * PI / 180f + PI / 2f
 
@@ -152,7 +156,6 @@ fun CustomCircularProgressIndicator(
                             strokeWidth = 1.dp.toPx()
                         )
                     }
-
                 }
             }
         }

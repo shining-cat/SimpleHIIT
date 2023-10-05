@@ -15,5 +15,4 @@ interface HomeModule {
     fun bindHomeInteractor(
         homeInteractor: HomeInteractorImpl
     ): HomeInteractor
-
 }

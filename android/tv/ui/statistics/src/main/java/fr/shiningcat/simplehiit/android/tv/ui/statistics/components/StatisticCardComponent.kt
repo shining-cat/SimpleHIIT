@@ -32,7 +32,6 @@ fun StatisticCardComponent(
     modifier: Modifier = Modifier,
     statistic: DisplayedStatistic
 ) {
-
     val label = when (statistic.type) {
         DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(R.string.sessions_total)
         DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(R.string.time_total)
@@ -117,7 +116,6 @@ internal class StatisticCardComponentPreviewParameterProvider :
             DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
             DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
             DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH)
         )
 }
-

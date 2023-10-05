@@ -41,7 +41,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed inserting user", exception)
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED, exception = exception
+                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    exception = exception
                 )
             }
         }
@@ -68,9 +69,11 @@ class SimpleHiitRepositoryImpl @Inject constructor(
     override suspend fun getUsersList(): Output<List<User>> {
         return withContext(ioDispatcher) {
             try {
-                Output.Success(result = usersDao.getUsersList().map { user ->
-                    userMapper.convert(user)
-                })
+                Output.Success(
+                    result = usersDao.getUsersList().map { user ->
+                        userMapper.convert(user)
+                    }
+                )
             } catch (exception: Exception) {
                 this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting users as List", exception)
@@ -114,7 +117,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed updating user", exception)
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED, exception = exception
+                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                    exception = exception
                 )
             }
         }
@@ -149,7 +153,7 @@ class SimpleHiitRepositoryImpl @Inject constructor(
             try {
                 usersDao.deleteAllUsers()
             } catch (exception: Exception) {
-                //we never wait for any result from here, so we can simply rethrow any eventual exception
+                // we never wait for any result from here, so we can simply rethrow any eventual exception
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed deleting All Users", exception)
                 throw exception
             }
@@ -173,7 +177,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed inserting session", exception)
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED, exception = exception
+                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    exception = exception
                 )
             }
         }
@@ -193,7 +198,8 @@ class SimpleHiitRepositoryImpl @Inject constructor(
                 this.coroutineContext.ensureActive()
                 hiitLogger.e("SimpleHiitRepositoryImpl", "failed getting sessions", exception)
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED, exception = exception
+                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    exception = exception
                 )
             }
         }

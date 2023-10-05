@@ -51,6 +51,6 @@ fun GifImage(
             imageLoader = imageLoader
         ),
         contentDescription = null,
-        modifier = imageModifier.fillMaxWidth(),
+        modifier = imageModifier.fillMaxWidth()
     )
 }

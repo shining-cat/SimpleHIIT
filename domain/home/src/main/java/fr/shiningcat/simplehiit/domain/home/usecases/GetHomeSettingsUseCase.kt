@@ -29,14 +29,14 @@ class GetHomeSettingsUseCase @Inject constructor(
                 else -> {
                     usersOutput as Output.Success
                     if (usersOutput.result.size == 1 && !usersOutput.result[0].selected) {
-                        //there is only 1 user in the DB, and it is not selected (edge case)
+                        // there is only 1 user in the DB, and it is not selected (edge case)
                         // => we automatically toggle this user to selected and continue
-                        if (firstTogglingAttempt) { //we only want this toggle attempt to be done once, if it has failed, something wrong is going on
+                        if (firstTogglingAttempt) { // we only want this toggle attempt to be done once, if it has failed, something wrong is going on
                             firstTogglingAttempt = false
                             val toggleUniqueUserToSelected = usersOutput.result[0].copy(selected = true)
                             val togglingUser =
                                 simpleHiitRepository.updateUser(toggleUniqueUserToSelected)
-                            when(togglingUser){
+                            when (togglingUser) {
                                 is Output.Error -> {
                                     simpleHiitLogger.e(
                                         "GetHomeSettingsUseCase",

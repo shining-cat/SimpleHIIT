@@ -25,15 +25,15 @@ fun ButtonToggle(
     selected: Boolean,
     onToggle: () -> Unit
 ) {
-    if(selected) {
+    if (selected) {
         ButtonFilled(
             modifier = modifier,
             onClick = { onToggle() },
             label = label,
             icon = Icons.Filled.Done,
-            iconContentDescription = R.string.active,
+            iconContentDescription = R.string.active
         )
-    } else{
+    } else {
         ButtonBordered(
             modifier = modifier,
             onClick = { onToggle() },
@@ -71,7 +71,7 @@ private fun ButtonTogglePreview() {
                     onToggle = {}
                 )
                 ButtonToggle(
-                    modifier = Modifier.height(48.dp).width(124.dp), //causing a truncation
+                    modifier = Modifier.height(48.dp).width(124.dp), // causing a truncation
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {}

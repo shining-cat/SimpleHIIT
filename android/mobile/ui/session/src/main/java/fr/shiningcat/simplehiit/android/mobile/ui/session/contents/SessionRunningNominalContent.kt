@@ -32,7 +32,7 @@ fun SessionRunningNominalContent(
     uiArrangement: UiArrangement,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null,
+    hiitLogger: HiitLogger? = null
 ) {
     val exercise =
         viewState.displayedExercise // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
@@ -209,7 +209,6 @@ private fun SessionRunningNominalContentPreviewPhoneLandscape(
         }
     }
 }
-
 
 internal class SessionRunningNominalContentPreviewParameterProvider :
     PreviewParameterProvider<SessionViewState.RunningNominal> {

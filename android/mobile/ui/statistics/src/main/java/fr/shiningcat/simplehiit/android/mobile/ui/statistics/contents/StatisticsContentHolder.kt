@@ -69,7 +69,7 @@ fun StatisticsContentHolder(
         )
     }
     when (dialogViewState) {
-        StatisticsDialog.None -> {}/*Do nothing*/
+        StatisticsDialog.None -> {} /*Do nothing*/
         is StatisticsDialog.SelectUser -> StatisticsSelectUserDialog(
             users = dialogViewState.users,
             selectUser = {

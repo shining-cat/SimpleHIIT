@@ -40,18 +40,18 @@ fun SideBarItem(
         onClick = onClick,
         contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
         colors = ButtonDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.primary, //same as NavigationDrawer background -> we should not see the container in the default state
-            contentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary, // same as NavigationDrawer background -> we should not see the container in the default state
+            contentColor = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onPrimary,
             focusedContainerColor = MaterialTheme.colorScheme.surface,
-            focusedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
-            pressedContainerColor = if(selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
-            pressedContentColor = if(selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface
+            focusedContentColor = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
+            pressedContainerColor = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            pressedContentColor = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface
         ),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
     ) {
         Icon(
             imageVector = ImageVector.vectorResource(icon),
-            contentDescription = stringResource(id = label),
+            contentDescription = stringResource(id = label)
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(text = stringResource(label))

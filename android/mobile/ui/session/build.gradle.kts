@@ -13,7 +13,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
     }
-
 }
 
 dependencies {

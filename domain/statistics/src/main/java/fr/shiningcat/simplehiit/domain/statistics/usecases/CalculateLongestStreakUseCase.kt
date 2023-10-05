@@ -30,7 +30,7 @@ class CalculateLongestStreakUseCase @Inject constructor(
                             // if "now" and the last session are SAME_DAY, then we want to count today in the streak
                             streakCounter++
                         } else {
-                            //the two sessions occurred on the same day, not increasing counter, but not breaking streak
+                            // the two sessions occurred on the same day, not increasing counter, but not breaking streak
                         }
                     }
 
@@ -38,7 +38,7 @@ class CalculateLongestStreakUseCase @Inject constructor(
                     Consecutiveness.NON_CONSECUTIVE_DAYS -> {
                         // if the current evaluated streak is the longest, update result
                         if (streakCounter > longestStreak) longestStreak = streakCounter
-                        //current evaluated streak was broken, reset rolling counter for next streak
+                        // current evaluated streak was broken, reset rolling counter for next streak
                         streakCounter = 0
                     }
                 }
@@ -46,5 +46,4 @@ class CalculateLongestStreakUseCase @Inject constructor(
             maxOf(streakCounter, longestStreak)
         }
     }
-
 }

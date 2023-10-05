@@ -35,17 +35,17 @@ class MainActivity : ComponentActivity() {
         setContent {
             val windowSizeClass = calculateWindowSizeClass(this)
             val uiArrangement: UiArrangement =
-                if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded) { //typically, a tablet or bigger in landscape
+                if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded) { // typically, a tablet or bigger in landscape
                     UiArrangement.HORIZONTAL
-                } else { //WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
-                    if (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact) { //typically, a phone in landscape
+                } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+                    if (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact) { // typically, a phone in landscape
                         UiArrangement.HORIZONTAL
                     } else {
-                        UiArrangement.VERTICAL//typically, a phone or tablet in portrait
+                        UiArrangement.VERTICAL // typically, a phone or tablet in portrait
                     }
                 }
 
-            //the composition tree below knows nothing about window size classes, we only pass a UiArrangement to help screens decide how to build their layout
+            // the composition tree below knows nothing about window size classes, we only pass a UiArrangement to help screens decide how to build their layout
             SimpleHiitMobileTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

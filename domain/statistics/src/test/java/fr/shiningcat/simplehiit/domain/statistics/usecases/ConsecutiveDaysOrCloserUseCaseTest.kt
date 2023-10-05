@@ -43,7 +43,7 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
                 Arguments.of(
                     Pair(
                         1654095600000, // Wednesday, 1 June 2022 17:00:00 GMT+02:00 DST
-                        1654423200000// Sunday, 5 June 2022 12:00:00 GMT+02:00 DST
+                        1654423200000 // Sunday, 5 June 2022 12:00:00 GMT+02:00 DST
                     ),
                     Consecutiveness.NON_CONSECUTIVE_DAYS
                 ),
@@ -64,7 +64,7 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
                 Arguments.of(
                     Pair(
                         1704056400000, // Sunday, 31 December 2023 22:00:00 GMT+01:00
-                        1704074400000// Monday, 1 January 2024 00:00:00 GMT+01:00
+                        1704074400000 // Monday, 1 January 2024 00:00:00 GMT+01:00
                     ),
                     Consecutiveness.CONSECUTIVE_DAYS
                 ),
@@ -106,12 +106,10 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
                 Arguments.of(
                     Pair(
                         1665162000000, // Friday, 7 October 2022 19:00:00 GMT+02:00 DST
-                        1665162000000, // Friday, 7 October 2022 19:00:00 GMT+02:00 DST
+                        1665162000000 // Friday, 7 October 2022 19:00:00 GMT+02:00 DST
                     ),
                     Consecutiveness.SAME_DAY
                 )
             )
-
     }
-
 }

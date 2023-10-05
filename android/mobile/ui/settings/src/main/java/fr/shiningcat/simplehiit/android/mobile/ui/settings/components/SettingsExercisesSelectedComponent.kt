@@ -29,7 +29,7 @@ import kotlin.math.roundToInt
 @Composable
 fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,
-    onToggle: (ExerciseTypeSelected) -> Unit = {},
+    onToggle: (ExerciseTypeSelected) -> Unit = {}
 ) {
     Column {
         Text(

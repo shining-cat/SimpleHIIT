@@ -45,17 +45,17 @@ class StatisticsViewModel @Inject constructor(
                 statisticsInteractor.getAllUsers().collect {
                     when (it) {
                         is Output.Success -> {
-                            //nominal case
+                            // nominal case
                             allUsers = it.result
                             retrieveStatsForUser(it.result[0])
                         }
 
                         is Output.Error -> {
                             if (it.errorCode == Constants.Errors.NO_USERS_FOUND) {
-                                //users list retrieved is empty -> no users yet. Special case
+                                // users list retrieved is empty -> no users yet. Special case
                                 _screenViewState.emit(StatisticsViewState.NoUsers)
                             } else {
-                                //failed retrieving users list -> fatal error
+                                // failed retrieving users list -> fatal error
                                 _screenViewState.emit(StatisticsViewState.FatalError(it.errorCode.code))
                             }
                         }
@@ -84,12 +84,12 @@ class StatisticsViewModel @Inject constructor(
                     )
                 }
 
-                is Output.Error -> { //failed retrieving statistics for selected user -> special error for this user
+                is Output.Error -> { // failed retrieving statistics for selected user -> special error for this user
                     _screenViewState.emit(
                         StatisticsViewState.Error(
                             errorCode = statisticsOutput.errorCode.code,
                             user = user,
-                            showUsersSwitch = moreThanOneUser,
+                            showUsersSwitch = moreThanOneUser
                         )
                     )
                 }
@@ -99,10 +99,12 @@ class StatisticsViewModel @Inject constructor(
 
     fun openPickUser() {
         viewModelScope.launch(context = mainDispatcher) {
-            if (allUsers.size < 2) hiitLogger.e(
-                "StatisticsViewModel",
-                "openPickUser called but there is only 1 user or less"
-            )
+            if (allUsers.size < 2) {
+                hiitLogger.e(
+                    "StatisticsViewModel",
+                    "openPickUser called but there is only 1 user or less"
+                )
+            }
             _dialogViewState.emit(StatisticsDialog.SelectUser(allUsers))
         }
     }
@@ -123,7 +125,7 @@ class StatisticsViewModel @Inject constructor(
         viewModelScope.launch(context = mainDispatcher) {
             statisticsInteractor.deleteSessionsForUser(user.id)
             _dialogViewState.emit(StatisticsDialog.None)
-            //force refresh:
+            // force refresh:
             retrieveStatsForUser(user = user)
         }
     }

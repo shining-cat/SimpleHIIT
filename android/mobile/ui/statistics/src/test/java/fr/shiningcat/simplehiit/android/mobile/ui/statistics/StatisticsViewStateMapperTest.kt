@@ -102,7 +102,7 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                             averageSessionLengthMs = 234,
                             longestStreakDays = 456,
                             currentStreakDays = 678,
-                            averageNumberOfSessionsPerWeek = "1.7",
+                            averageNumberOfSessionsPerWeek = "1.7"
                         )
                     ),
                     StatisticsViewState.Nominal(
@@ -137,7 +137,7 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                             averageSessionLengthMs = 234,
                             longestStreakDays = 456,
                             currentStreakDays = 678,
-                            averageNumberOfSessionsPerWeek = "1.7",
+                            averageNumberOfSessionsPerWeek = "1.7"
                         )
                     ),
                     StatisticsViewState.Nominal(
@@ -305,5 +305,3 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
             )
     }
 }
-
-

@@ -25,5 +25,4 @@ class SessionMapper @Inject constructor() {
             )
         }
     }
-
 }

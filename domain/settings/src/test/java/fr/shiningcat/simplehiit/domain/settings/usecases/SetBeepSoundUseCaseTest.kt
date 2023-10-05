@@ -34,5 +34,4 @@ internal class SetBeepSoundUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.setBeepSound(testValue) }
     }
-
 }

@@ -30,7 +30,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun clearAll() {
         hiitLogger.d("SimpleHiitDataStoreManager", "clearAll")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences.clear()
             }
@@ -39,7 +39,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setWorkPeriodLength(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setWorkPeriodLength:: $durationMs")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS] = durationMs
             }
@@ -48,7 +48,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setRestPeriodLength(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setRestPeriodLength:: $durationMs")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS] = durationMs
             }
@@ -57,7 +57,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setNumberOfWorkPeriods(number: Int) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setNumberOfWorkPeriods:: $number")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.NUMBER_WORK_PERIODS] = number
             }
@@ -66,7 +66,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setBeepSound(active: Boolean) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setBeepSound:: $active")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.BEEP_SOUND_ACTIVE] = active
             }
@@ -75,7 +75,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setSessionStartCountdown(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setSessionStartCountdown:: $durationMs")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
             }
@@ -84,7 +84,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setPeriodStartCountdown(durationMs: Long) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setPeriodStartCountdown:: $durationMs")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
             }
@@ -93,7 +93,7 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setNumberOfCumulatedCycles(number: Int) {
         hiitLogger.d("SimpleHiitDataStoreManager", "setNumberOfCumulatedCycles:: $number")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES] = number
             }
@@ -101,9 +101,9 @@ class SimpleHiitDataStoreManagerImpl(
     }
 
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
-        val setOfStringExerciseTypes = exercisesTypes.map{it.name}.toSet()
+        val setOfStringExerciseTypes = exercisesTypes.map { it.name }.toSet()
         hiitLogger.d("SimpleHiitDataStoreManager", "setExercisesTypesSelected:: $setOfStringExerciseTypes")
-        withContext(ioDispatcher){
+        withContext(ioDispatcher) {
             dataStore.edit { preferences ->
                 preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED] = setOfStringExerciseTypes
             }
@@ -168,9 +168,7 @@ class SimpleHiitDataStoreManagerImpl(
         preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED]
             ?: DEFAULT_SELECTED_EXERCISES_TYPES.map { it.type.name }.toSet()
 
-
     private fun retrieveNumberOfCumulatedCycles(preferences: Preferences) =
         preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES]
             ?: NUMBER_CUMULATED_CYCLES_DEFAULT
-
 }

@@ -66,7 +66,7 @@ private fun SelectUsersComponentPreview() {
                     label = "This is a Setting Field",
                     value = "Setting's value",
                     secondaryLabel = "It has a secondary label",
-                    secondaryValue = "Secondary value",
+                    secondaryValue = "Secondary value"
                 )
                 SettingsFieldComponent(
                     label = "This is a Setting Field",

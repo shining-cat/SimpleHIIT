@@ -10,10 +10,10 @@ class StickyFooterArrangement(
     private val hiitLogger: HiitLogger?
 ) : Arrangement.Vertical {
 
-    //for some reason, if the resulting height of the grid or column is bigger than the visible space available (ie, if it needs to be scrollable)
+    // for some reason, if the resulting height of the grid or column is bigger than the visible space available (ie, if it needs to be scrollable)
     // then spacing will be used to render the padding between items and the rows' y value we set in Density.arrange will be ignored
-    //however in the opposite case, spacing's value is ignored, and instead the rows' y value is used
-    //thus we need to both override spacing to return our own value, and to include it in the rows' y calculation
+    // however in the opposite case, spacing's value is ignored, and instead the rows' y value is used
+    // thus we need to both override spacing to return our own value, and to include it in the rows' y calculation
 
     override val spacing: Dp
         get() = verticalPadding

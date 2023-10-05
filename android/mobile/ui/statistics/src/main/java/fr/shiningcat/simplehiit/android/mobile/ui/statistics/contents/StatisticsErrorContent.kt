@@ -59,7 +59,7 @@ fun StatisticsErrorContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
             text = stringResource(id = R.string.error_irrecoverable_statistics, userName),
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium
         )
         if (errorCode.isNotBlank()) {
             Text(
@@ -68,7 +68,7 @@ fun StatisticsErrorContent(
                     .padding(horizontal = 0.dp, vertical = 16.dp)
                     .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineSmall
             )
         }
         Button(

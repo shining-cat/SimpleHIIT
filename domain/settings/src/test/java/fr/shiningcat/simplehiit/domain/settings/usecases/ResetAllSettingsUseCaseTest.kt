@@ -30,5 +30,4 @@ internal class ResetAllSettingsUseCaseTest : AbstractMockkTest() {
         //
         coVerify(exactly = 1) { mockSimpleHiitRepository.resetAllSettings() }
     }
-
 }

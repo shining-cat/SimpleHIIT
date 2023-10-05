@@ -60,12 +60,12 @@ fun NumberCyclesComponent(
                 modifier = Modifier
                     .height(48.dp)
                     .width(48.dp)
-                    .focusProperties{canFocus = minusButtonActive},
+                    .focusProperties { canFocus = minusButtonActive },
                 onClick = decreaseNumberOfCycles,
                 accentColor = false,
                 icon = Icons.Filled.KeyboardArrowDown,
                 iconContentDescription = R.string.minus_cycle_description,
-                enabled = minusButtonActive,
+                enabled = minusButtonActive
             )
             Spacer(modifier = Modifier.width(24.dp))
             Text(
@@ -84,7 +84,7 @@ fun NumberCyclesComponent(
                 onClick = increaseNumberOfCycles,
                 accentColor = false,
                 icon = Icons.Filled.KeyboardArrowUp,
-                iconContentDescription = R.string.plus_cycle_description,
+                iconContentDescription = R.string.plus_cycle_description
             )
         }
         Text(
@@ -116,4 +116,3 @@ private fun NumberCyclesComponentPreview() {
         }
     }
 }
-

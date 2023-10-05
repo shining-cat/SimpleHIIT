@@ -86,7 +86,7 @@ private fun HomeScreen(
     val darkMode = isSystemInDarkTheme()
     if (!view.isInEditMode) {
         SideEffect {
-            //applying primary color to Status bar
+            // applying primary color to Status bar
             val window = (view.context as Activity).window
             window.statusBarColor = primaryAsInt
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkMode

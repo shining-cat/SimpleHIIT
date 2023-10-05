@@ -48,14 +48,14 @@ class UsersDaoInstrumentedTest {
         database.close()
     }
 
-////////////////
+// //////////////
 
     @Test
     fun testInsertUser() = runTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch { usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getUsers().first()
@@ -70,7 +70,7 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getUsers().first()
@@ -82,20 +82,20 @@ class UsersDaoInstrumentedTest {
 
     @Test
     fun testInsertUserWithConflict() = runTest {
-        //inserting first user
+        // inserting first user
         val testUserID = 1243L
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
-        //inserting second user
+        // inserting second user
         val testUserName2 = "test user name"
         val testSelected2 = false
         val user2 = UserEntity(userId = testUserID, name = testUserName2, selected = testSelected2)
-        launch {usersDao.insert(user2)}
+        launch { usersDao.insert(user2) }
         advanceUntilIdle()
-        //only second user should be in table
+        // only second user should be in table
         val tableContent = usersDao.getUsers().first()
         assertEquals(1, tableContent.size)
         assertEquals(testUserID, tableContent[0].userId)
@@ -103,7 +103,7 @@ class UsersDaoInstrumentedTest {
         assertEquals(testSelected2, tableContent[0].selected)
     }
 
-////////////////
+// //////////////
 
     @Test
     fun getUsersEmptyTable() = runTest {
@@ -116,7 +116,7 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getUsers().first()
@@ -146,7 +146,7 @@ class UsersDaoInstrumentedTest {
         val testUserName5 = "test user name 5"
         val testSelected5 = true
         val user5 = UserEntity(name = testUserName5, selected = testSelected5)
-        launch {usersDao.insert(user5)}
+        launch { usersDao.insert(user5) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getUsers().first()
@@ -162,6 +162,7 @@ class UsersDaoInstrumentedTest {
         assertEquals(testUserName5, tableContent[4].name)
         assertEquals(testSelected5, tableContent[4].selected)
     }
+
     @Test
     fun getUsersAsTheyAreInserted() = runTest {
         val testUserName1 = "test user name 1"
@@ -179,20 +180,20 @@ class UsersDaoInstrumentedTest {
             usersDao.getUsers().toList(usersFlowAsList)
         }
         //
-        assertEquals(1, usersFlowAsList.size)//first emission is an empty state
+        assertEquals(1, usersFlowAsList.size) // first emission is an empty state
         //
-        usersDao.insert(user1)//this insertion will cause an emission
+        usersDao.insert(user1) // this insertion will cause an emission
         assertEquals(2, usersFlowAsList.size)
         val users1 = usersFlowAsList[1]
         assertEquals(1, users1.size)
         assertEquals(testUserName1, users1[0].name)
         assertEquals(testSelected1, users1[0].selected)
         //
-        usersDao.insert(user2) //this insertion will cause an emission
-        usersDao.insert(user3)//this insertion will cause an emission
+        usersDao.insert(user2) // this insertion will cause an emission
+        usersDao.insert(user3) // this insertion will cause an emission
         assertEquals(4, usersFlowAsList.size) // flow has emitted 4 times
         val users2 = usersFlowAsList[3]
-        assertEquals(3, users2.size) //we have now inserted a total of 3 users
+        assertEquals(3, users2.size) // we have now inserted a total of 3 users
         assertEquals(testUserName1, users2[0].name)
         assertEquals(testSelected1, users2[0].selected)
         assertEquals(testUserName2, users2[1].name)
@@ -203,7 +204,7 @@ class UsersDaoInstrumentedTest {
         collectJob.cancel()
     }
 
-////////////////
+// //////////////
 
     @Test
     fun getUsersListEmptyTable() = runTest {
@@ -216,7 +217,7 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getUsersList()
@@ -246,7 +247,7 @@ class UsersDaoInstrumentedTest {
         val testUserName5 = "test user name 5"
         val testSelected5 = true
         val user5 = UserEntity(name = testUserName5, selected = testSelected5)
-        launch {usersDao.insert(user5)}
+        launch { usersDao.insert(user5) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getUsersList()
@@ -263,7 +264,7 @@ class UsersDaoInstrumentedTest {
         assertEquals(testSelected5, tableContent[4].selected)
     }
 
-////////////////
+// //////////////
 
     @Test
     fun getSelectedUsersEmptyTable() = runTest {
@@ -276,7 +277,7 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getSelectedUsers().first()
@@ -290,7 +291,7 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = false
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableContent = usersDao.getSelectedUsers().first()
@@ -324,12 +325,12 @@ class UsersDaoInstrumentedTest {
         advanceUntilIdle()
         //
         val tableContent = usersDao.getSelectedUsers().first()
-        assertEquals(3, tableContent.size)//we got all the users with selected = true
+        assertEquals(3, tableContent.size) // we got all the users with selected = true
         assertEquals(testUserName1, tableContent[0].name)
         assertEquals(testUserName3, tableContent[1].name)
         assertEquals(testUserName5, tableContent[2].name)
-        //assert that all returned users are selected=true
-        for(user in tableContent){
+        // assert that all returned users are selected=true
+        for (user in tableContent) {
             assertTrue(user.selected)
         }
     }
@@ -351,20 +352,20 @@ class UsersDaoInstrumentedTest {
             usersDao.getSelectedUsers().toList(usersFlowAsList)
         }
         //
-        assertEquals(1, usersFlowAsList.size)//first emission is an empty state
+        assertEquals(1, usersFlowAsList.size) // first emission is an empty state
         //
-        usersDao.insert(user1)//this insertion will cause an emission
+        usersDao.insert(user1) // this insertion will cause an emission
         assertEquals(2, usersFlowAsList.size)
         val users1 = usersFlowAsList[1]
         assertEquals(1, users1.size)
         assertEquals(testUserName1, users1[0].name)
         assertEquals(testSelected1, users1[0].selected)
         //
-        usersDao.insert(user2) //this insertion will cause an emission
-        usersDao.insert(user3)//this insertion will cause an emission
+        usersDao.insert(user2) // this insertion will cause an emission
+        usersDao.insert(user3) // this insertion will cause an emission
         assertEquals(4, usersFlowAsList.size) // flow has emitted 4 times
         val users2 = usersFlowAsList[3]
-        assertEquals(2, users2.size) //we have now inserted a total of 3 users, but one is not selected
+        assertEquals(2, users2.size) // we have now inserted a total of 3 users, but one is not selected
         assertEquals(testUserName1, users2[0].name)
         assertEquals(testSelected1, users2[0].selected)
         assertEquals(testUserName3, users2[1].name)
@@ -373,7 +374,7 @@ class UsersDaoInstrumentedTest {
         collectJob.cancel()
     }
 
-////////////////
+// //////////////
 
     @Test
     fun updateUser() = runTest {
@@ -383,7 +384,7 @@ class UsersDaoInstrumentedTest {
         usersDao.insert(user)
         //
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         //
@@ -414,8 +415,8 @@ class UsersDaoInstrumentedTest {
         val updatedName = "updated user name"
         val updatedSelected = false
         val updatedUser = UserEntity(userId = userId, name = updatedName, selected = updatedSelected)
-        var updated:Int = -1
-        launch {updated = usersDao.update(updatedUser)}
+        var updated: Int = -1
+        launch { updated = usersDao.update(updatedUser) }
         advanceUntilIdle()
         //
         assertEquals(0, updated)
@@ -450,7 +451,7 @@ class UsersDaoInstrumentedTest {
         advanceUntilIdle()
         //
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         val tableContentBefore = tableFlowAsList[0]
@@ -465,12 +466,12 @@ class UsersDaoInstrumentedTest {
         assertEquals(testSelected4, tableContentBefore[3].selected)
         assertEquals(testUserName5, tableContentBefore[4].name)
         assertEquals(testSelected5, tableContentBefore[4].selected)
-        //NOW updating user 3
+        // NOW updating user 3
         val userNameUpdated = "updated user name"
         val userSelectedUpdated = false
         val userUpdated = tableContentBefore[2].copy(name = userNameUpdated, selected = userSelectedUpdated)
         var updated = -1
-        launch {updated = usersDao.update(userUpdated)}
+        launch { updated = usersDao.update(userUpdated) }
         advanceUntilIdle()
         //
         assertEquals(1, updated)
@@ -490,7 +491,7 @@ class UsersDaoInstrumentedTest {
         collectJob.cancel()
     }
 
-////////////////
+// //////////////
 
     @Test
     fun deleteUserEmptyTable() = runTest {
@@ -499,7 +500,7 @@ class UsersDaoInstrumentedTest {
         val testSelected = true
         val user = UserEntity(userId = userId, name = testUserName, selected = testSelected)
         var deleted = -1
-        launch {deleted = usersDao.delete(user)}
+        launch { deleted = usersDao.delete(user) }
         advanceUntilIdle()
         assertEquals(0, deleted)
     }
@@ -509,11 +510,11 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         val tableContentBefore = tableFlowAsList[0]
@@ -523,7 +524,7 @@ class UsersDaoInstrumentedTest {
         //
         val userToDelete = tableContentBefore[0]
         var deleted = -1
-        launch {deleted = usersDao.delete(userToDelete)}
+        launch { deleted = usersDao.delete(userToDelete) }
         advanceUntilIdle()
         assertEquals(2, tableFlowAsList.size)
         val tableContentAfter = tableFlowAsList[1]
@@ -554,11 +555,12 @@ class UsersDaoInstrumentedTest {
             usersDao.insert(user2)
             usersDao.insert(user3)
             usersDao.insert(user4)
-            usersDao.insert(user5)}
+            usersDao.insert(user5)
+        }
         advanceUntilIdle()
         //
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         val tableContentBefore = tableFlowAsList[0]
@@ -573,10 +575,10 @@ class UsersDaoInstrumentedTest {
         assertEquals(testSelected4, tableContentBefore[3].selected)
         assertEquals(testUserName5, tableContentBefore[4].name)
         assertEquals(testSelected5, tableContentBefore[4].selected)
-        //NOW deleting user 3
+        // NOW deleting user 3
         val userToDelete = tableContentBefore[2]
         var deleted = -1
-        launch {deleted = usersDao.delete(userToDelete)}
+        launch { deleted = usersDao.delete(userToDelete) }
         advanceUntilIdle()
         //
         assertEquals(1, deleted)
@@ -594,25 +596,23 @@ class UsersDaoInstrumentedTest {
         collectJob.cancel()
     }
 
-
-////////////////
+// //////////////
 
     @Test
     fun deleteAllUsersEmptyTable() = runTest {
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         val tableContentBefore = tableFlowAsList[0]
         assertTrue(tableContentBefore.isEmpty())
         //
-        launch {usersDao.deleteAllUsers()}
+        launch { usersDao.deleteAllUsers() }
         advanceUntilIdle()
         assertEquals(1, tableFlowAsList.size)
         val tableContentAfter = tableFlowAsList[0]
         assertTrue(tableContentAfter.isEmpty())
         collectJob.cancel()
-
     }
 
     @Test
@@ -620,11 +620,11 @@ class UsersDaoInstrumentedTest {
         val testUserName = "test user name"
         val testSelected = true
         val user = UserEntity(name = testUserName, selected = testSelected)
-        launch {usersDao.insert(user)}
+        launch { usersDao.insert(user) }
         advanceUntilIdle()
         //
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         val tableContentBefore = tableFlowAsList[0]
@@ -632,7 +632,7 @@ class UsersDaoInstrumentedTest {
         assertEquals(testUserName, tableContentBefore[0].name)
         assertEquals(testSelected, tableContentBefore[0].selected)
         //
-        launch {usersDao.deleteAllUsers()}
+        launch { usersDao.deleteAllUsers() }
         advanceUntilIdle()
         assertEquals(2, tableFlowAsList.size)
         val tableContentAfter = tableFlowAsList[1]
@@ -662,11 +662,12 @@ class UsersDaoInstrumentedTest {
             usersDao.insert(user2)
             usersDao.insert(user3)
             usersDao.insert(user4)
-            usersDao.insert(user5)}
+            usersDao.insert(user5)
+        }
         advanceUntilIdle()
         //
         val tableFlowAsList = mutableListOf<List<UserEntity>>()
-        val collectJob = launch(UnconfinedTestDispatcher()){
+        val collectJob = launch(UnconfinedTestDispatcher()) {
             usersDao.getUsers().toList(tableFlowAsList)
         }
         val tableContentBefore = tableFlowAsList[0]
@@ -682,13 +683,11 @@ class UsersDaoInstrumentedTest {
         assertEquals(testUserName5, tableContentBefore[4].name)
         assertEquals(testSelected5, tableContentBefore[4].selected)
         //
-        launch {usersDao.deleteAllUsers()}
+        launch { usersDao.deleteAllUsers() }
         advanceUntilIdle()
         assertEquals(2, tableFlowAsList.size)
         val tableContentAfter = tableFlowAsList[1]
         assertTrue(tableContentAfter.isEmpty())
         collectJob.cancel()
     }
-
-
 }

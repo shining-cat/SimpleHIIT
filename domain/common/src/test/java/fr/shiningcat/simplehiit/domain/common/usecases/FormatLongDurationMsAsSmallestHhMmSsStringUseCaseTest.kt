@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.common.usecases
 
 import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -43,11 +43,11 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
         assertEquals(expectedOutput, result)
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic
-        fun convertLongToStringArguments() =
+        fun convertLongToStringArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(5000L, "05"),
                 Arguments.of(32000L, "32"),
@@ -61,7 +61,7 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(7380000L, "02:03:00"),
                 Arguments.of(13500000L, "03:45:00"),
                 Arguments.of(11045000L, "03:04:05"),
-                Arguments.of(443096000L, "123:04:56"),
+                Arguments.of(443096000L, "123:04:56")
             )
 
         @JvmStatic
@@ -82,5 +82,4 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(443096000L, "123h 04mn 56s")
             )
     }
-
 }

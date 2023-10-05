@@ -53,13 +53,17 @@ fun CustomLinearProgressIndicator(
             modifier = Modifier
                 .fillMaxSize()
                 .then(
-                    if (borderColor != null) Modifier.border(
-                        width = 1.dp,
-                        color = borderColor
-                    ) else Modifier
+                    if (borderColor != null) {
+                        Modifier.border(
+                            width = 1.dp,
+                            color = borderColor
+                        )
+                    } else {
+                        Modifier
+                    }
                 )
         ) {
-            //TRACK
+            // TRACK
             if (trackColor != null) {
                 drawRect(
                     color = trackColor,
@@ -67,7 +71,7 @@ fun CustomLinearProgressIndicator(
                 )
             }
 
-            //PROGRESS
+            // PROGRESS
             val unit = size.width / (maxValue - minValue)
             val progress = (currentValue - minValue) * unit
             drawRect(
@@ -88,10 +92,12 @@ fun CustomLinearProgressIndicator(
 @Composable
 fun PreviewCustomLinearProgressIndicator() {
     SimpleHiitTvTheme {
-        Surface(modifier = Modifier
-            .width(300.dp)
-            .height(150.dp),
-            shape = MaterialTheme.shapes.extraSmall) {
+        Surface(
+            modifier = Modifier
+                .width(300.dp)
+                .height(150.dp),
+            shape = MaterialTheme.shapes.extraSmall
+        ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 CustomLinearProgressIndicator(
                     modifier = Modifier
@@ -111,7 +117,7 @@ fun PreviewCustomLinearProgressIndicator() {
                         .background(MaterialTheme.colorScheme.background),
                     currentValue = 33,
                     borderColor = MaterialTheme.colorScheme.primary,
-                    progressColor = MaterialTheme.colorScheme.secondary,
+                    progressColor = MaterialTheme.colorScheme.secondary
                 )
             }
         }

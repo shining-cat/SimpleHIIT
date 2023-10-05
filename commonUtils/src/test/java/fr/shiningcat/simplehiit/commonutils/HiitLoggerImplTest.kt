@@ -103,5 +103,4 @@ internal class HiitLoggerImplTest {
         //
         verify(exactly = 0) { Log.e(any(), any(), any()) }
     }
-
 }

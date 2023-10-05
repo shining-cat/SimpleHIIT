@@ -47,7 +47,7 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
     private val testUserEntity =
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
-//////////////
+// ////////////
 //   DELETE USER
 
     @Test
@@ -99,7 +99,7 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
             }
             //
             val job = Job()
-            launch(job){
+            launch(job) {
                 assertThrows<CancellationException> {
                     simpleHiitRepository.deleteUser(testUserModel)
                 }
@@ -112,7 +112,6 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockUsersDao.delete(testUserEntity) }
             coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
         }
-
 
     @Test
     fun `delete user catches rogue CancellationException`() =
@@ -197,7 +196,7 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
         assertEquals(1, actual.result)
     }
 
-    ////////////////////////
+    // //////////////////////
     private companion object {
 
         @JvmStatic
@@ -219,6 +218,5 @@ internal class SimpleHiitRepositoryImplDeleteUserTest : AbstractMockkTest() {
                 )
 
             )
-
     }
 }
