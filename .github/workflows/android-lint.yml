@@ -1,4 +1,4 @@
-name: Android Lint
+name: Android Verification
 run-name: Running Android lint
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  android-lint:
+  ktlint:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +19,6 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Run Lint
-        run: ./gradlew lint
+      - name: Run ktlintCheck
+        run: ./gradlew ktlintCheck
         continue-on-error: false
