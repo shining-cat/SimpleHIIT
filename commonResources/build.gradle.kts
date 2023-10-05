@@ -1,10 +1,10 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.commonresources"
+    namespace = "fr.shiningcat.simplehiit.commonresources"
 }
 
 dependencies {
@@ -16,5 +16,4 @@ dependencies {
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.mockk)
     testImplementation(TestDeps.jupiter)
-
 }

@@ -1,8 +1,10 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* testing ktling precommit hook
 * exercise display in session running screen is messed up, components positions are all wrong
 * text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
+* display warning to user that at least one must be selected when unselecting last exercise type
 * Missing data extraction rules, see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore, and https://developer.android.com/guide/topics/data/autobackup, find how to set up backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
 * Error when trying to upgrade the compose-BOM above 2023.06.xx:
   * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.

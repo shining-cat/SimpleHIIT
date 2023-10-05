@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.android.tv.ui.settings"
+    namespace = "fr.shiningcat.simplehiit.android.tv.ui.settings"
 
     buildFeatures {
         compose = true
@@ -13,7 +13,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
     }
-
 }
 
 dependencies {

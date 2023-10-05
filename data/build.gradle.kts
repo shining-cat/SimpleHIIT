@@ -1,10 +1,10 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.data"
+    namespace = "fr.shiningcat.simplehiit.data"
 }
 
 dependencies {
