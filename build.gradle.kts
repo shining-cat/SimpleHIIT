@@ -43,11 +43,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version Versions.ktlintGradlePlugin
 }
 
-/*
-dependencies {
-    ktlintRuleset("com.twitter.compose.rules:ktlint:${Versions.ktlintGradlePlugin}")
-}
-*/
 subprojects {
     apply(plugin = "org.jlleitschuh.gradle.ktlint") // Version should be inherited from parent
 
