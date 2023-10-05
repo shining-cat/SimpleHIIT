@@ -4,11 +4,14 @@ import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepositor
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -42,7 +45,7 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun selectedExerciseTypesArguments() =
+        fun selectedExerciseTypesArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     listOf(

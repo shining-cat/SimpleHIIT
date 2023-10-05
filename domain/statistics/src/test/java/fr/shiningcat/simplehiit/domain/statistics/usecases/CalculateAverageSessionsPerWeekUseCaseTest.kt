@@ -4,7 +4,7 @@ import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -51,7 +51,7 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
     private companion object {
 
         @JvmStatic
-        fun averageArguments() =
+        fun averageArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     1676640515000, //"now" Friday, 17 February 2023 14:28:35 GMT+01:00

@@ -1,15 +1,18 @@
 package fr.shiningcat.simplehiit.commonutils
 
 import android.util.Log
-import io.mockk.*
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import io.mockk.clearAllMocks
+import io.mockk.coEvery
+import io.mockk.mockkStatic
+import io.mockk.slot
+import io.mockk.unmockkAll
+import io.mockk.verify
 import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class HiitLoggerImplTest {
 
     private val testTag = "This is a test TAG"
@@ -52,7 +55,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.d(testTag, testMessage)
         //
-        verify (exactly = 1){ Log.d("SIMPLEHIIT", "$testTag::$testMessage") }
+        verify(exactly = 1) { Log.d("SIMPLEHIIT", "$testTag::$testMessage") }
     }
 
     @Test
@@ -61,7 +64,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.d(testTag, testMessage)
         //
-        verify (exactly = 0){ Log.d(any(), any()) }
+        verify(exactly = 0) { Log.d(any(), any()) }
     }
 
     @Test
@@ -70,17 +73,18 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.e(testTag, testMessage)
         //
-        verify (exactly = 1){ Log.e("SIMPLEHIIT", "$testTag::$testMessage") }
+        verify(exactly = 1) { Log.e("SIMPLEHIIT", "$testTag::$testMessage") }
     }
 
     @Test
-    fun `HiitLogger e calls Log e if debug is true with correct tag, message, and throwable`() = runTest {
-        val hiitLogger = HiitLoggerImpl(true)
-        //
-        hiitLogger.e(testTag, testMessage, testThrowable)
-        //
-        verify (exactly = 1){ Log.e("SIMPLEHIIT", "$testTag::$testMessage", testThrowable) }
-    }
+    fun `HiitLogger e calls Log e if debug is true with correct tag, message, and throwable`() =
+        runTest {
+            val hiitLogger = HiitLoggerImpl(true)
+            //
+            hiitLogger.e(testTag, testMessage, testThrowable)
+            //
+            verify(exactly = 1) { Log.e("SIMPLEHIIT", "$testTag::$testMessage", testThrowable) }
+        }
 
     @Test
     fun `HiitLogger e(tag, msg) does NOT call Log e if debug is false`() = runTest {
@@ -88,7 +92,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.e(testTag, testMessage)
         //
-        verify (exactly = 0){ Log.e(any(), any()) }
+        verify(exactly = 0) { Log.e(any(), any()) }
     }
 
     @Test
@@ -97,7 +101,7 @@ internal class HiitLoggerImplTest {
         //
         hiitLogger.e(testTag, testMessage, testThrowable)
         //
-        verify (exactly = 0){ Log.e(any(), any(), any()) }
+        verify(exactly = 0) { Log.e(any(), any(), any()) }
     }
 
 }

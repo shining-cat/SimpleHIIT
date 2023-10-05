@@ -1,6 +1,11 @@
 package fr.shiningcat.simplehiit.data.local.database.dao
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.userSelectedColumnName
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.usersTableName

@@ -3,7 +3,7 @@ package fr.shiningcat.simplehiit.data.mappers
 import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -45,7 +45,7 @@ internal class SessionMapperTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun sessionMapperArguments() =
+        fun sessionMapperArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     SessionRecord(

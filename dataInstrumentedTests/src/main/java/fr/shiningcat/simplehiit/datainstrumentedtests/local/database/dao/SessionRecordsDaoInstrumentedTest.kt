@@ -9,7 +9,6 @@ import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -21,7 +20,6 @@ import org.junit.Test
 import javax.inject.Inject
 import javax.inject.Named
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltAndroidTest
 class SessionRecordsDaoInstrumentedTest {
 

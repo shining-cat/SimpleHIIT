@@ -2,15 +2,13 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class ValidateNumberOfWorkPeriodsUseCaseTest : AbstractMockkTest() {
 
     @ParameterizedTest(name = "{index} -> should return {0}")
@@ -29,7 +27,7 @@ internal class ValidateNumberOfWorkPeriodsUseCaseTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun numberCyclesTestArguments() =
+        fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of("3", Constants.InputError.NONE),
                 Arguments.of("369", Constants.InputError.NONE),

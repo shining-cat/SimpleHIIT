@@ -11,7 +11,8 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -70,7 +71,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun getUsersListArguments() =
+        fun getUsersListArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     listOf<User>(),

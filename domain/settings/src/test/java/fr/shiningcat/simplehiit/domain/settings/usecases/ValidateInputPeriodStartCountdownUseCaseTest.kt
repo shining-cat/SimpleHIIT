@@ -4,7 +4,7 @@ import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -37,7 +37,7 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
     private companion object {
 
         @JvmStatic
-        fun numberCyclesTestArguments() =
+        fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of("three", 20L, 10L, Constants.InputError.WRONG_FORMAT),
                 Arguments.of("3", 20L, 10L, Constants.InputError.NONE),

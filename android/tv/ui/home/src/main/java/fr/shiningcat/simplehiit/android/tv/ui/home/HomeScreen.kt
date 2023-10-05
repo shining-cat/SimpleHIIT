@@ -2,8 +2,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.home
 
 import android.app.Activity
 import android.content.res.Configuration
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState

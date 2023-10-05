@@ -1,14 +1,27 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -225,7 +238,7 @@ internal class InputDialogPreviewParameterProvider :
     PreviewParameterProvider<InputDialogPreviewObject> {
     override val values: Sequence<InputDialogPreviewObject>
         get() {
-            val sequenceOf = sequenceOf(
+            return sequenceOf(
                 InputDialogPreviewObject(
                     inputFieldValue = "30",
                     singleLine = true,
@@ -293,7 +306,6 @@ internal class InputDialogPreviewParameterProvider :
                     errorMessage = { R.string.invalid_input_error }
                 ),
             )
-            return sequenceOf
         }
 }
 

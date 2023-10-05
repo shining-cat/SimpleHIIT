@@ -10,7 +10,7 @@ import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -90,7 +90,7 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
         private const val mockDurationString = "This is a test duration string"
 
         @JvmStatic
-        fun statisticsArguments() =
+        fun statisticsArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     Pair(

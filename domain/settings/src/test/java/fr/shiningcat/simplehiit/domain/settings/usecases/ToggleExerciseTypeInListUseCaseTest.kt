@@ -3,15 +3,13 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
 
     @ParameterizedTest(name = "{index} -> should return {0}")
@@ -34,7 +32,7 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun exerciseTogglingArguments() =
+        fun exerciseTogglingArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     listOf(

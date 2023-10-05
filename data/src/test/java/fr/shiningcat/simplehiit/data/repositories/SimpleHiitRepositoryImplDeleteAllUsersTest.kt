@@ -6,7 +6,11 @@ import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest

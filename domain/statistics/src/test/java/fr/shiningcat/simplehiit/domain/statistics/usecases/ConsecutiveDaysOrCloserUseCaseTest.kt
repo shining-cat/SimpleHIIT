@@ -4,7 +4,7 @@ import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -31,7 +31,7 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
     private companion object {
 
         @JvmStatic
-        fun datesArguments() =
+        fun datesArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     Pair(

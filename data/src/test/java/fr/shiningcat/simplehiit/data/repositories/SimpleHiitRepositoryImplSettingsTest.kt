@@ -5,18 +5,22 @@ import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
-import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.*
+import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
-import io.mockk.*
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -202,7 +206,16 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
                 ioDispatcher = UnconfinedTestDispatcher(testScheduler)
             )
             //
-            val testValue = listOf(CAT,CRAB, LUNGE,LYING, PLANK, SITTING, SQUAT, STANDING)
+            val testValue = listOf(
+                ExerciseType.CAT,
+                ExerciseType.CRAB,
+                ExerciseType.LUNGE,
+                ExerciseType.LYING,
+                ExerciseType.PLANK,
+                ExerciseType.SITTING,
+                ExerciseType.SQUAT,
+                ExerciseType.STANDING
+            )
             coEvery { mockSimpleHiitDataStoreManager.setExercisesTypesSelected(any()) } just Runs
             //
             simpleHiitRepository.setExercisesTypesSelected(testValue)
@@ -276,7 +289,7 @@ internal class SimpleHiitRepositoryImplSettingsTest : AbstractMockkTest() {
             collectJob.cancel()
         }
 
-    private fun randomListOfExerciseTypesSelected() = values().toList().map {
+    private fun randomListOfExerciseTypesSelected() = ExerciseType.values().toList().map {
         ExerciseTypeSelected(
             type = it,
             selected = Random.nextBoolean()
