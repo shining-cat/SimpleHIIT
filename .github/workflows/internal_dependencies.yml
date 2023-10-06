@@ -18,7 +18,7 @@ jobs:
         uses: ts-graphviz/setup-graphviz@v1
 
       - name: Generate Dependency Graph
-        run: ./gradlew graphModules -PgraphOutputFilePath={ABSOLUTE_PATH_TO_OUTPUT_FILE}
+        run: ./gradlew graphModules -PgraphOutputFilePath={/testDependenciesFile}
 
       - name: Commmit
         run: |
