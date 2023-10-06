@@ -7,7 +7,7 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  Android verifications:
+  Android_verifications:
     runs-on: ubuntu-latest
 
     steps:
