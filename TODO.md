@@ -16,6 +16,7 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* rename github action verification job to verification instead of ktlint as it includes unit tests also
 * Missing data extraction rules, see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore, and https://developer.android.com/guide/topics/data/autobackup, find how to set up backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
 * Error when trying to upgrade the compose-BOM above 2023.06.xx:
   * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
