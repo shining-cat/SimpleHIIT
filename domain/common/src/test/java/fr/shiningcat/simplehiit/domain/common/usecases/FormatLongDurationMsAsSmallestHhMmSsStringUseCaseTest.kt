@@ -3,8 +3,6 @@ package fr.shiningcat.simplehiit.domain.common.usecases
 import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.fail
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -13,11 +11,6 @@ import java.util.stream.Stream
 internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractMockkTest() {
 
     private val testedUseCase = FormatLongDurationMsAsSmallestHhMmSsStringUseCase(mockHiitLogger)
-
-    @Test
-    fun failingTestForCI() {
-        fail("This is voluntarily failing to check CI is stopped on failing test")
-    }
 
     @ParameterizedTest(name = "{index} -> {0} should become {1}")
     @MethodSource("convertLongToStringArguments")
