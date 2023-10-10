@@ -7,7 +7,7 @@ on:
     branches: [ "master", "develop" ]
 
 jobs:
-  ktlint:
+  Android_verifications:
     runs-on: ubuntu-latest
 
     steps:
