@@ -104,6 +104,7 @@ All exercise pictures were made with the help of the awesome [PoseMyArt](https:/
 * [Savvas Dalkitsis' Inter-modules dependencies graph generator plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
 * [Mockk library](https://mockk.io/)
 * [Coil image loading library](https://coil-kt.github.io/coil/)
+* [Ktlint Gradle by Jonathan Leitschuh](https://github.com/JLLeitschuh/ktlint-gradle)
 
 ### References
 
