@@ -69,7 +69,7 @@ I'll aim for a matrix-like structure, where columns would be close to what featu
 This screenshot from the Google article's video shows the idea that got me started: ![](modules_matrix.png)
 
 Current state of the inter-modules relations, generated with [Savvas Dalkitsis' plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
-![](module_graph_20230813.png)
+![](project_dependencies_graph.png)
 Note: this graph only shows "normal" dependencies between modules, not "test" or "testImplementation" ones. Since it stills shows the testUtils and dataInstrumentedTests modules, this allows us to check that no module has any "normal" dependency on those two.  
 
 ### Process
@@ -104,6 +104,7 @@ All exercise pictures were made with the help of the awesome [PoseMyArt](https:/
 * [Savvas Dalkitsis' Inter-modules dependencies graph generator plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
 * [Mockk library](https://mockk.io/)
 * [Coil image loading library](https://coil-kt.github.io/coil/)
+* [Ktlint Gradle by Jonathan Leitschuh](https://github.com/JLLeitschuh/ktlint-gradle)
 
 ### References
 

@@ -1,14 +1,9 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* exercise display in session running screen is messed up, components positions are all wrong
-* text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
-* Missing data extraction rules, see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore, and https://developer.android.com/guide/topics/data/autobackup, find how to set up backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
-* Error when trying to upgrade the compose-BOM above 2023.06.xx:
-  * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
-    Problems reading data from Binary store in /Users/shiva.bernhard@schibsted.com/.gradle/.tmp/gradle5795096560825037874.bin offset 188550 exists? true
-    Problems loading the resolution results (0.0 secs). Read 346 values, last was: 5
-    Corrupt serialized resolution result. Cannot find selected component (14958) for constraint releaseVariantReleaseRuntimePublication -> androidx.lifecycle:lifecycle-process:2.6.1
+* TV: exercise display in session running screen is messed up, components positions are all wrong
+* TV: text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
+* display warning to user that at least one must be selected when unselecting last exercise type
 
 ## Assets production
 * redo app icon, remove name, set white background, only set the elapsed time on the clock as primary color (handle darkmode if possible?)
@@ -21,6 +16,12 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* Missing data extraction rules, see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore, and https://developer.android.com/guide/topics/data/autobackup, find how to set up backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
+* Error when trying to upgrade the compose-BOM above 2023.06.xx:
+  * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
+    Problems reading data from Binary store in /Users/shiva.bernhard@schibsted.com/.gradle/.tmp/gradle5795096560825037874.bin offset 188550 exists? true
+    Problems loading the resolution results (0.0 secs). Read 346 values, last was: 5
+    Corrupt serialized resolution result. Cannot find selected component (14958) for constraint releaseVariantReleaseRuntimePublication -> androidx.lifecycle:lifecycle-process:2.6.1
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
@@ -29,16 +30,13 @@
 
 ## CI/Github actions
 * check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
-* CI github actions: run tests + linter (KTlint) before merge,[see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
+* CI github actions for publishing app on Google play [see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
+* switch repo to public, so we can implement branch protection rules (not possible on private repos for free accounts), and blocking merge if github actions fail
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
-* see also [this article about multiplatform](https://proandroiddev.com/achieving-ios-compatibility-for-my-quotes-app-with-kotlin-edd364854a0d)
-* also, compose is [now in alpha for AndroidTV](https://android-developers.googleblog.com/2023/05/building-pixel-perfect-living-room-experiences-compose-for-tv.html)
-* see also [flavours and buildtypes?](https://blog.protein.tech/product-flavors-and-build-types-in-android-projects-customizing-base-urls-logos-and-more-bf0099508949?source=rss------android_development-5)
 
 ## Miscellaneous / nice to have
-* integrate detekt / ktlint etc https://medium.com/@nagendran.p/integrating-detekt-in-the-android-studio-442128e971f8
 * design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?

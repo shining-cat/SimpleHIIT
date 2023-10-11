@@ -1,0 +1,40 @@
+name: Android Verification
+run-name: Running Android lint
+on:
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  Android_verifications:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      # Cache Gradle dependencies and Gradle Wrapper
+      - name: Setup Gradle Cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+
+      - name: Run ktlintCheck
+        run: ./gradlew ktlintCheck
+        continue-on-error: false
+
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest
+
+      - name: Unit Tests Report
+        uses: asadmansr/android-test-report-action@v1.2.0
+        if: ${{ always() }} # IMPORTANT: run Android Test Report regardless

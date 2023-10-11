@@ -22,4 +22,5 @@ object Versions {
     const val activityCompose = "1.7.0"
     const val composeTV = "1.0.0-alpha09" // see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements
     const val kotlinCompilerExtension = "1.5.3" // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
+    const val ktlintGradlePlugin = "11.6.0"
 }

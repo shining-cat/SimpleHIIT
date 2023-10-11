@@ -1,10 +1,10 @@
-plugins{
+plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace = "fr.shining_cat.simplehiit.android.common"
+    namespace = "fr.shiningcat.simplehiit.android.common"
 
     buildFeatures {
         compose = true
@@ -13,7 +13,6 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
     }
-
 }
 
 dependencies {
