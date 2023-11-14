@@ -9,7 +9,7 @@ object Versions {
     const val hiltNavigation = "1.1.0"
     const val room_version = "2.6.0"
     const val composeMaterial3WindowSizeClass = "1.1.2"
-    const val nav_version = "2.7.3"
+    const val nav_version = "2.7.5"
     const val mockkVersion = "1.13.8"
     const val coroutinesTest = "1.7.3"
     const val core_testing = "2.2.0"
@@ -20,8 +20,11 @@ object Versions {
     const val savvasdalkitsisDependencyGraphPlugin = "0.12"
     const val composeBom = "2023.10.01"
     const val activityCompose = "1.7.0"
-    const val composeTV = "1.0.0-alpha09" // see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements
-    const val kotlinCompilerExtension = "1.5.4" // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
+    const val composeTV =
+        "1.0.0-alpha09" // see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements
+    const val kotlinCompilerExtension =
+        "1.5.4" // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
     const val ktlintGradlePlugin = "11.6.1"
-    const val androidxLifeCycleProcess = "2.6.2" // see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements
+    const val androidxLifeCycleProcess =
+        "2.6.2" // see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements
 }
