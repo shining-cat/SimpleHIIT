@@ -32,6 +32,7 @@ dependencies {
     implementation(ComposeDeps.composePreview)
     implementation(ComposeDeps.composeTVFoundation)
     implementation(ComposeDeps.composeTVMaterial3)
+    implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
     kapt(HiltDeps.hiltAndroidCompiler)
