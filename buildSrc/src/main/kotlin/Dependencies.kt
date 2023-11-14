@@ -2,12 +2,13 @@
  * To define dependencies
  */
 object Deps {
-    val appCompat           by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
-    val datastore           by lazy { "androidx.datastore:datastore-preferences:${Versions.datastore}" }
-    val materialDesign      by lazy { "com.google.android.material:material:${Versions.material}" }
-    val androidXCoreKtx     by lazy { "androidx.core:core-ktx:${Versions.androidXcoreKtx}" }
-    val coil                by lazy { "io.coil-kt:coil-compose:${Versions.coil}" }
-    val coilGif             by lazy { "io.coil-kt:coil-gif:${Versions.coil}" }
+    val appCompat                   by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
+    val datastore                   by lazy { "androidx.datastore:datastore-preferences:${Versions.datastore}" }
+    val materialDesign              by lazy { "com.google.android.material:material:${Versions.material}" }
+    val androidXCoreKtx             by lazy { "androidx.core:core-ktx:${Versions.androidXcoreKtx}" }
+    val androidXLifeCycleProcess    by lazy { "androidx.lifecycle:lifecycle-process:${Versions.androidxLifeCycleProcess}" }
+    val coil                        by lazy { "io.coil-kt:coil-compose:${Versions.coil}" }
+    val coilGif                     by lazy { "io.coil-kt:coil-gif:${Versions.coil}" }
 }
 
 object TestDeps{

@@ -8,8 +8,8 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:8.1.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10") // this has to be kept in sync with kotlinCompilerExtension version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
+        classpath("com.android.tools.build:gradle:8.1.3")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20") // this has to be kept in sync with kotlinCompilerExtension version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
     }
 }
 
@@ -26,7 +26,7 @@ plugins {
     // //////////////////////////////
     // Jacoco aggregation plugin by Guillermo Mazzola: https://github.com/gmazzo/gradle-android-test-aggregation-plugin
     // see below testAggregation block for included modules declaration
-    // launch with: jacocoTestReport (for coverage) and testAggregateTestReport (for results) in SimpleHIIT>Tasks>verification
+    // launch with: jacocoAgregatedReport (for coverage) and testAggregateReport (for results) in SimpleHIIT>Tasks>verification
     id("io.github.gmazzo.test.aggregation.coverage") version Versions.gmazzoJacocoReportAggregationPlugin
     id("io.github.gmazzo.test.aggregation.results") version Versions.gmazzoJacocoReportAggregationPlugin
     // //////////////////////////////
