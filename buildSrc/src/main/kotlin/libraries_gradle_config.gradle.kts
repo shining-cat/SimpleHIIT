@@ -11,10 +11,10 @@ repositories {
 }
 
 android {
-    compileSdk = ConfigData.compileSdkVersion
+    compileSdk = ConfigData.librariesCompileSdkVersion
 
     defaultConfig {
-        minSdk = ConfigData.minSdkVersion
+        minSdk = ConfigData.librariesMinSdkVersion
         consumerProguardFiles("consumer-rules.pro")
     }
 

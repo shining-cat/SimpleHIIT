@@ -9,21 +9,22 @@ plugins {
 android {
     namespace = "fr.shiningcat.simplehiit.android.mobile.app"
 
-    compileSdk = ConfigData.compileSdkVersion
+    compileSdk = ConfigData.handheldCompileSdkVersion
 
     defaultConfig {
-        applicationId = "fr.shiningcat.simplehiit"
-        minSdk = ConfigData.minSdkVersion
-        targetSdk = ConfigData.targetSdkVersion
-        versionCode = ConfigData.versionCode
-        versionName = ConfigData.versionName
+        applicationId = ConfigData.applicationID
+        minSdk = ConfigData.handheldMinSdkVersion
+        targetSdk = ConfigData.handheldTargetSdkVersion
+        versionCode = ConfigData.handheldVersionCode
+        versionName = ConfigData.handheldVersionName
 
         testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -32,6 +33,7 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isDebuggable = true
+            isMinifyEnabled = false
             enableUnitTestCoverage = true
         }
     }

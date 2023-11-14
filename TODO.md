@@ -3,10 +3,12 @@
 ## Missing features / issues
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
-* display warning to user that at least one must be selected when unselecting last exercise type
+* display warning to user that at least one exercise type must be selected when unselecting last exercise type
+
+## Publication
+* find out how to publish handheld and TV versions of same app
 
 ## Assets production
-* redo app icon, remove name, set white background, only set the elapsed time on the clock as primary color (handle darkmode if possible?)
 * refine statistics cards design and find/create icons for each
   * longest streak: icon of a cup and a calendar showing checked days
   * current streak: icon of a calendar showing checked days - IF current streak == longest, switch to same icon as longest streak to make it more clear
@@ -29,8 +31,10 @@
 * BLOCKED: see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp), but check [first that HILT has moved to ksp](https://kotlinlang.org/docs/ksp-overview.html#resources)
 
 ## CI/Github actions
+* check out modules grahp assert tool: github.com/jraska/modules-graph-assert, this should allow to enforce the dependency tree between modules
 * check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
 * CI github actions for publishing app on Google play [see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
+* See automation of build scripts verification: github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools
 * switch repo to public, so we can implement branch protection rules (not possible on private repos for free accounts), and blocking merge if github actions fail
 
 ## Form factors (phone - AndroidTV - smartWatch)
