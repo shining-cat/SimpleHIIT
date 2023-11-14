@@ -21,10 +21,10 @@ object ConfigData {
     // TV config data:
     const val tvCompileSdkVersion = 34
     const val tvMinSdkVersion = 21
-    const val tvTargetSdkVersion = 33
+    const val tvTargetSdkVersion = 34
     const val tvVersionCode = 21010001
     const val tvVersionName = "0.01"
     //libraries config data: these should be the lowest of tv and handheld respective values
     const val librariesMinSdkVersion = 21
-    const val librariesCompileSdkVersion = 33
+    const val librariesCompileSdkVersion = 34
 }

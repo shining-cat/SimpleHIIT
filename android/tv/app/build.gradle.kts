@@ -89,6 +89,7 @@ dependencies {
     androidTestImplementation(composeBom)
     //
     implementation(Deps.appCompat)
+    implementation(Deps.androidXLifeCycleProcess)
     implementation(HiltDeps.hiltAndroid)
     implementation(Navigation.navCompose)
     implementation(ComposeDeps.composeTVFoundation)

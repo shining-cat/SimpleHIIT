@@ -27,7 +27,9 @@ dependencies {
     androidTestImplementation(composeBom)
     //
     implementation(HiltDeps.hiltAndroid)
+    implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.materialDesign)
+    implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
     kapt(HiltDeps.hiltAndroidCompiler)

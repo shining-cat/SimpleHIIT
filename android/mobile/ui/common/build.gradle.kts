@@ -31,6 +31,7 @@ dependencies {
     implementation(Deps.materialDesign)
     implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composePreview)
+    implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
     kapt(HiltDeps.hiltAndroidCompiler)

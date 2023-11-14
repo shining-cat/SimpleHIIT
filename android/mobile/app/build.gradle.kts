@@ -89,6 +89,7 @@ dependencies {
     androidTestImplementation(composeBom)
     //
     implementation(Deps.appCompat)
+    implementation(Deps.androidXLifeCycleProcess)
     implementation(HiltDeps.hiltAndroid)
     implementation(ComposeDeps.composeMaterial3)
     implementation(ComposeDeps.composeMaterial3WindowSize)
