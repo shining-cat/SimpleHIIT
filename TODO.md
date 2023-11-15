@@ -6,7 +6,7 @@
 * display warning to user that at least one exercise type must be selected when unselecting last exercise type
 
 ## Publication
-* find out how to publish handheld and TV versions of same app
+* Include link to privacy policy inside the app: https://www.shining-cat.fr/en/misc/privacy-policy this is a new requirement from Google Play console
 
 ## Assets production
 * refine statistics cards design and find/create icons for each
