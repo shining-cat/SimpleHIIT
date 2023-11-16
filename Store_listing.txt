@@ -1,0 +1,14 @@
+Short description:
+
+A customisable app to guide you through HIIT sessions with exercises and timers
+
+
+Full description:
+
+A High Intensity Interval Training companion app that runs your timers and shows you animated exercises.
+
+This app allows you to:
+Manage multiple profiles.
+Launch a session including one or more profiles, choosing the types of exercises you want to include or not.
+Set up your session with custom rest, work and total durations.
+See each profile's own practice statistics.
