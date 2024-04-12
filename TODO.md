@@ -18,6 +18,7 @@
   * total sessions count: laurels crown
 
 ## General technical improvements
+* explore improvement of inter-modules dependencies management, maybe try out https://github.com/jraska/modules-graph-assert
 * Missing data extraction rules, see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore, and https://developer.android.com/guide/topics/data/autobackup, find how to set up backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
 * Error when trying to upgrade the compose-BOM above 2023.06.xx:
   * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
