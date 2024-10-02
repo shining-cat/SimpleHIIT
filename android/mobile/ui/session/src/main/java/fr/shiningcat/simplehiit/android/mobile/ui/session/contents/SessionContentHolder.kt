@@ -1,8 +1,14 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import android.content.res.Configuration
+import android.view.View
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +39,24 @@ fun SessionContentHolder(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null
 ) {
+    val currentView = LocalView.current
+    val currentScreenViewState by rememberUpdatedState(screenViewState)
+
+    LaunchedEffect (currentScreenViewState::class, dialogViewState::class){
+        handleScreenLock(
+            currentView = currentView,
+            dialogViewState = dialogViewState,
+            screenViewState = screenViewState,
+            hiitLogger = hiitLogger
+        )
+    }
+    DisposableEffect(Unit) {
+        onDispose {
+            // ensure we don't keep the screen on locked when leaving here
+            currentView.keepScreenOn = false
+            hiitLogger?.d("SessionContentHolder", "onDispose:: removing lock screen")
+        }
+    }
     when (screenViewState) {
         SessionViewState.Loading -> BasicLoading()
 
@@ -77,6 +101,22 @@ fun SessionContentHolder(
             dismissAction = resume
         )
     }
+}
+
+private fun handleScreenLock(
+    currentView: View,
+    dialogViewState: SessionDialog,
+    screenViewState: SessionViewState,
+    hiitLogger: HiitLogger?
+) {
+    val lockScreenOn = dialogViewState is SessionDialog.None // if a dialog is showing, do not keep the screen on
+            && ( // screenViewState for which the screen should be locked on
+            screenViewState is SessionViewState.Loading
+            || screenViewState is SessionViewState.InitialCountDownSession
+            || screenViewState is SessionViewState.RunningNominal
+            )
+    hiitLogger?.d("SessionContentHolder", "handleScreenLock:: lock screen: $lockScreenOn")
+    currentView.keepScreenOn = lockScreenOn
 }
 
 // Previews
