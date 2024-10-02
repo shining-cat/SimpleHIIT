@@ -111,12 +111,10 @@ private fun handleScreenLock(
 ) {
     val lockScreenOn =
         // if a dialog is showing, do not keep the screen on
-        dialogViewState is SessionDialog.None
-                && ( // screenViewStates for which the screen should be locked on
-                screenViewState is SessionViewState.Loading
-                        || screenViewState is SessionViewState.InitialCountDownSession
-                        || screenViewState is SessionViewState.RunningNominal
-                )
+        dialogViewState is SessionDialog.None && (
+            // screenViewStates for which the screen should be locked on
+            screenViewState is SessionViewState.Loading || screenViewState is SessionViewState.InitialCountDownSession || screenViewState is SessionViewState.RunningNominal
+            )
     hiitLogger?.d("SessionContentHolder", "handleScreenLock:: lock screen: $lockScreenOn")
     currentView.keepScreenOn = lockScreenOn
 }
