@@ -42,7 +42,7 @@ fun SessionContentHolder(
     val currentView = LocalView.current
     val currentScreenViewState by rememberUpdatedState(screenViewState)
 
-    LaunchedEffect (currentScreenViewState::class, dialogViewState::class){
+    LaunchedEffect(currentScreenViewState::class, dialogViewState::class) {
         handleScreenLock(
             currentView = currentView,
             dialogViewState = dialogViewState,
@@ -109,11 +109,11 @@ private fun handleScreenLock(
     screenViewState: SessionViewState,
     hiitLogger: HiitLogger?
 ) {
-    val lockScreenOn = dialogViewState is SessionDialog.None // if a dialog is showing, do not keep the screen on
-            && ( // screenViewState for which the screen should be locked on
-            screenViewState is SessionViewState.Loading
-            || screenViewState is SessionViewState.InitialCountDownSession
-            || screenViewState is SessionViewState.RunningNominal
+    val lockScreenOn =
+        // if a dialog is showing, do not keep the screen on
+        dialogViewState is SessionDialog.None && (
+            // screenViewStates for which the screen should be locked on
+            screenViewState is SessionViewState.Loading || screenViewState is SessionViewState.InitialCountDownSession || screenViewState is SessionViewState.RunningNominal
             )
     hiitLogger?.d("SessionContentHolder", "handleScreenLock:: lock screen: $lockScreenOn")
     currentView.keepScreenOn = lockScreenOn
