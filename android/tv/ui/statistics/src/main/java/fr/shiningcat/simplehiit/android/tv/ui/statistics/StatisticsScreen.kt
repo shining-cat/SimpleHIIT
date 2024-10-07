@@ -78,7 +78,8 @@ private fun StatisticsScreen(
         NavigationSideBar(
             navigateTo = navigateTo,
             currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Statistics,
-            showStatisticsButton = true, // in this case, we are in the statistics screen, so obviously we want to show this button
+            // in this case, we are in the statistics screen, so obviously we want to show this button
+            showStatisticsButton = true,
         )
 
         StatisticsContentHolder(

@@ -35,7 +35,8 @@ sealed class SessionStep(
         val exercise: Exercise,
         val side: ExerciseSide,
         override val durationMs: Long,
-        val durationFormatted: String, // TODO: this seems to not be used, if so remove
+        // TODO: this seems to not be used, if so remove:
+        val durationFormatted: String,
         override val remainingSessionDurationMsAfterMe: Long,
         override val countDownLengthMs: Long,
     ) : SessionStep(
@@ -49,7 +50,8 @@ sealed class SessionStep(
         val exercise: Exercise,
         val side: ExerciseSide,
         override val durationMs: Long,
-        val durationFormatted: String, // TODO: this seems to not be used, if so remove
+        // TODO: this seems to not be used, if so remove:
+        val durationFormatted: String,
         override val remainingSessionDurationMsAfterMe: Long,
         override val countDownLengthMs: Long,
     ) : SessionStep(

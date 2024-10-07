@@ -104,7 +104,8 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                 Arguments.of(
                     listOf(User(id = 123L, name = "only user name")),
                     User(id = 123L, name = "only user name"),
-                    false, // it's the same user
+                    // it's the same user
+                    false,
                 ),
                 Arguments.of(
                     listOf(User(id = 123L, name = "only user name")),
@@ -169,7 +170,8 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                         User(id = 456L, name = "user name 4"),
                     ),
                     User(id = 234L, name = "user name 2"),
-                    false, // => this is precisely the same user,
+                    // => this is precisely the same user,
+                    false,
                 ),
             )
     }

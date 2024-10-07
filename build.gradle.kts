@@ -82,3 +82,10 @@ testAggregation {
         exclude(project(":dataInstrumentedTests"))
     }
 }
+ktlint {
+    android.set(true)
+    outputColorName.set("RED")
+    dependencies {
+        ktlintRuleset( "io.nlopez.compose.rules:ktlint:0.4.15")
+    }
+}

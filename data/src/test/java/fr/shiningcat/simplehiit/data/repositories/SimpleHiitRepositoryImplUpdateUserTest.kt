@@ -161,7 +161,13 @@ internal class SimpleHiitRepositoryImplUpdateUserTest : AbstractMockkTest() {
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
             coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
-            coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed updating user", thrownException) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed updating user",
+                    thrownException,
+                )
+            }
             val expectedOutput =
                 Output.Error(
                     errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
@@ -192,7 +198,13 @@ internal class SimpleHiitRepositoryImplUpdateUserTest : AbstractMockkTest() {
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
             coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
-            coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed updating user", thrownException) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed updating user",
+                    thrownException,
+                )
+            }
             val expectedOutput =
                 Output.Error(
                     errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,

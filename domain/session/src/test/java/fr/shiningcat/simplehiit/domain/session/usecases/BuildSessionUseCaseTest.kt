@@ -48,7 +48,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                 any(),
                 any(),
             )
-        } returns mockDurationString
+        } returns MOCK_DURATION_STRING
     }
 
     @ParameterizedTest(name = "{index} -> provided with {0} and settings should return {5}")
@@ -103,7 +103,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
     }
 
     private companion object {
-        private const val mockDurationString = "This is a test duration string"
+        private const val MOCK_DURATION_STRING = "This is a test duration string"
         private val userTest1 = User(name = "user 1")
         private val userTest2 = User(name = "user 2")
 
@@ -122,7 +122,8 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = listOf(userTest1),
-                        exerciseTypes = listOf(), // this input is not used as we mock the secondary usecase which relies on it
+                        // this input is not used as we mock the secondary usecase which relies on it:
+                        exerciseTypes = listOf(),
                     ),
                     Session(emptyList(), 0L, true, listOf(userTest1)),
                 ),
@@ -142,11 +143,12 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                 userTest1,
                                 userTest2,
                             ),
+                        // this input is not used as we mock the secondary usecase which relies on it:
                         exerciseTypes =
                             listOf(
                                 ExerciseTypeSelected(ExerciseType.LUNGE, true),
                                 ExerciseTypeSelected(ExerciseType.CAT, false),
-                            ), // this input is not used as we mock the secondary usecase which relies on it
+                            ),
                     ),
                     Session(
                         steps =
@@ -160,7 +162,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSupermanTwist,
                                     side = ExerciseSide.NONE,
                                     durationMs = 10000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 20000L,
                                     countDownLengthMs = 234L,
                                 ),
@@ -168,7 +170,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSupermanTwist,
                                     side = ExerciseSide.NONE,
                                     durationMs = 20000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 0L,
                                     countDownLengthMs = 234L,
                                 ),
@@ -191,17 +193,19 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = 2,
                         workPeriodLengthMs = 10000L,
                         restPeriodLengthMs = 5000L,
-                        numberOfWorkPeriods = 0, // this input is not used as we mock the secondary usecase which relies on it
+                        // this input is not used as we mock the secondary usecase which relies on it
+                        numberOfWorkPeriods = 0,
                         cycleLengthMs = 400000L,
                         beepSoundCountDownActive = true,
                         sessionStartCountDownLengthMs = 345L,
                         periodsStartCountDownLengthMs = 456L,
                         users = listOf(userTest2),
+                        // this input is not used as we mock the secondary usecase which relies on it
                         exerciseTypes =
                             listOf(
                                 ExerciseTypeSelected(ExerciseType.LUNGE, true),
                                 ExerciseTypeSelected(ExerciseType.CAT, false),
-                            ), // this input is not used as we mock the secondary usecase which relies on it
+                            ),
                     ),
                     Session(
                         steps =
@@ -215,7 +219,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 5000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 25000L,
                                     countDownLengthMs = 456L,
                                 ),
@@ -223,7 +227,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 10000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 15000L,
                                     countDownLengthMs = 456L,
                                 ),
@@ -231,7 +235,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 5000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 10000L,
                                     countDownLengthMs = 456L,
                                 ),
@@ -239,7 +243,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 10000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 0L,
                                     countDownLengthMs = 456L,
                                 ),
@@ -265,7 +269,8 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = 5,
                         workPeriodLengthMs = 50000L,
                         restPeriodLengthMs = 35000L,
-                        numberOfWorkPeriods = 0, // this input is not used as we mock the secondary usecase which relies on it
+                        // this input is not used as we mock the secondary usecase which relies on it
+                        numberOfWorkPeriods = 0,
                         cycleLengthMs = 680000L,
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthMs = 0L,
@@ -275,11 +280,12 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                 userTest2,
                                 userTest1,
                             ),
+                        // this input is not used as we mock the secondary usecase which relies on it
                         exerciseTypes =
                             listOf(
                                 ExerciseTypeSelected(ExerciseType.LUNGE, true),
                                 ExerciseTypeSelected(ExerciseType.CAT, false),
-                            ), // this input is not used as we mock the secondary usecase which relies on it
+                            ),
                     ),
                     Session(
                         steps =
@@ -288,7 +294,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 730000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -296,7 +302,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 680000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -304,7 +310,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 645000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -312,7 +318,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesSideToCurtsy,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 595000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -320,7 +326,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSupermanTwist,
                                     side = ExerciseSide.NONE,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 560000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -328,7 +334,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSupermanTwist,
                                     side = ExerciseSide.NONE,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 510000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -336,7 +342,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.PlankMountainClimber,
                                     side = ExerciseSide.NONE,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 475000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -344,7 +350,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.PlankMountainClimber,
                                     side = ExerciseSide.NONE,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 425000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -352,7 +358,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.CrabKicks,
                                     side = ExerciseSide.NONE,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 390000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -360,7 +366,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.CrabKicks,
                                     side = ExerciseSide.NONE,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 340000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -368,7 +374,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesBackKick,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 305000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -376,7 +382,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesBackKick,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 255000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -384,7 +390,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesBackKick,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 220000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -392,7 +398,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LungesBackKick,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 170000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -400,7 +406,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSideLegLift,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 135000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -408,7 +414,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSideLegLift,
                                     side = AsymmetricalExerciseSideOrder.FIRST.side,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 85000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -416,7 +422,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSideLegLift,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 35000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 50000L,
                                     countDownLengthMs = 567L,
                                 ),
@@ -424,7 +430,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                                     exercise = Exercise.LyingSideLegLift,
                                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                                     durationMs = 50000L,
-                                    durationFormatted = mockDurationString,
+                                    durationFormatted = MOCK_DURATION_STRING,
                                     remainingSessionDurationMsAfterMe = 0L,
                                     countDownLengthMs = 567L,
                                 ),

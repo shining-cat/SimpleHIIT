@@ -75,11 +75,20 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
                 )
             //
             val sessionRecord =
-                SessionRecord(timeStamp = testDate, durationMs = testDuration, usersIds = emptyList())
+                SessionRecord(
+                    timeStamp = testDate,
+                    durationMs = testDuration,
+                    usersIds = emptyList(),
+                )
             //
             val actual = simpleHiitRepository.insertSessionRecord(sessionRecord)
             //
-            coVerify(exactly = 1) { mockHiitLogger.e(any(), "insertSession::Error - no user provided") }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "insertSession::Error - no user provided",
+                )
+            }
             coVerify(exactly = 0) { mockSessionRecordsDao.insert(any()) }
             assertTrue(actual is Output.Error)
             actual as Output.Error

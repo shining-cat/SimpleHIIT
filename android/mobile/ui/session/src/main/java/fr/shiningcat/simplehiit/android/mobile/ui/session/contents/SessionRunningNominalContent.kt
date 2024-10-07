@@ -34,10 +34,12 @@ fun SessionRunningNominalContent(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
-    val exercise =
-        viewState.displayedExercise // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
-    val periodType = viewState.periodType // no need to recompose this every second either
-    val exerciseSide = viewState.side // no need to recompose this every second either
+    // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
+    val exercise = viewState.displayedExercise
+    // no need to recompose this every second either
+    val periodType = viewState.periodType
+    // no need to recompose this every second either
+    val exerciseSide = viewState.side
     when (uiArrangement) {
         UiArrangement.VERTICAL ->
             VerticalSessionRunningNominalContent(

@@ -126,7 +126,13 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
             coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
-            coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed inserting user", thrownException) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed inserting user",
+                    thrownException,
+                )
+            }
             val expectedOutput =
                 Output.Error(
                     errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
@@ -157,7 +163,13 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
             coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
-            coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed inserting user", thrownException) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed inserting user",
+                    thrownException,
+                )
+            }
             val expectedOutput =
                 Output.Error(
                     errorCode = Constants.Errors.DATABASE_INSERT_FAILED,

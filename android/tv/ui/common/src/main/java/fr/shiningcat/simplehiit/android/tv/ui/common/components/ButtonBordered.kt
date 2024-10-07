@@ -46,12 +46,14 @@ fun ButtonBordered(
     enabled: Boolean = true,
 ) {
     OutlinedButton(
-        modifier = modifier.padding(1.dp), // padding to ensure the border is not truncated,
+        // padding to ensure the border is not truncated,
+        modifier = modifier.padding(1.dp),
         contentPadding = PaddingValues(12.dp),
         onClick = { onClick() },
         enabled = enabled,
         colors =
-            ButtonDefaults.colors( // this is mostly to allow for a more visible focus state
+            ButtonDefaults.colors(
+                // this is mostly to allow for a more visible focus state
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 focusedContainerColor = MaterialTheme.colorScheme.surface,

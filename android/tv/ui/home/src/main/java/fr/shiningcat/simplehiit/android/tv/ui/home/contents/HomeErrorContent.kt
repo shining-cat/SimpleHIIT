@@ -74,7 +74,8 @@ fun HomeErrorContent(
             )
         }
         ButtonError(
-            modifier = Modifier.focusRequester(focusRequester), // calling focus on button on opening
+            // calling focus on button on opening
+            modifier = Modifier.focusRequester(focusRequester),
             onClick = resetWholeApp,
             label = stringResource(id = R.string.reset_app_button_label),
         )

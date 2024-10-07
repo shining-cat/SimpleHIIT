@@ -157,10 +157,11 @@ fun InputDialog(
                         text = stringResource(id = errorMessageStringRes.value),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
+                        // the error message needs all the room available so it won't follow the input row constraints
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = internalPadding), // the error message needs all the room available so it won't follow the input row constraints
+                                .padding(horizontal = internalPadding),
                     )
                 }
                 Row(
@@ -294,7 +295,10 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
-                    inputFieldValue = "This is a very long input value so it takes a lot of place, and it could grow indefinitely depending only on the user's choice, so we need to be able to display this correctly on screen",
+                    inputFieldValue =
+                        "This is a very long input value so it takes a lot of place," +
+                            " and it could grow indefinitely depending only on the user's choice," +
+                            " so we need to be able to display this correctly on screen",
                     singleLine = false,
                     postfix = "seconds",
                     primaryButtonLabel = "Save",

@@ -35,7 +35,8 @@ fun StatisticsSelectUserDialog(
 ) {
     Dialog(onDismissRequest = dismissAction) {
         Surface(
-            modifier = Modifier.fillMaxHeight(.8f), // TODO: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
+            // TODO: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
+            modifier = Modifier.fillMaxHeight(.8f),
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
         ) {

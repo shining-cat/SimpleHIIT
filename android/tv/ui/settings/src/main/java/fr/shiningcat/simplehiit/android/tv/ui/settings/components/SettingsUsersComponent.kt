@@ -1,7 +1,6 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings.components
 
 import android.content.res.Configuration
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.tv.foundation.lazy.grid.TvGridCells
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -36,7 +34,6 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlin.math.ceil
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalTvMaterial3Api::class)
 @Composable
 fun SettingsUsersComponent(
     users: List<User>,
@@ -57,12 +54,13 @@ fun SettingsUsersComponent(
         Spacer(modifier = Modifier.height(spacing))
         val itemHeight = 48.dp
         val numberOfColumns = 3
-        val forcedTopMargin =
-            8.dp // this is to avoid the zoomed-in focused buttons of the first row to be clipped
+        // this is to avoid the zoomed-in focused buttons of the first row to be clipped
+        val forcedTopMargin = 8.dp
         val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
-        val gridHeight =
-            2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1) // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
+        // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
+        val gridHeight = 2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1)
 
+        // TODO: moved out of alpha -> switch to LazyVerticalGrid
         TvLazyVerticalGrid(
             columns = TvGridCells.Fixed(numberOfColumns),
             modifier = Modifier.height(gridHeight),
@@ -73,10 +71,11 @@ fun SettingsUsersComponent(
             items(users.size) {
                 val user = users[it]
                 ButtonBordered(
+                    // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
                     modifier =
                         Modifier
                             .height(itemHeight)
-                            .offset(y = forcedTopMargin) // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
+                            .offset(y = forcedTopMargin)
                             .defaultMinSize(minWidth = 112.dp),
                     onClick = { onClickUser(user) },
                     label = user.name,

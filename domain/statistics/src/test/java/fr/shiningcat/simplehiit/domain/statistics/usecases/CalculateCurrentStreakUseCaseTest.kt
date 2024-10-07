@@ -41,11 +41,12 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
         // be the one evaluating each pair's consecutiveness, and it's return is mocked here, as it is tested on its own already
         val input =
             List(consecutivenessReturns.size) {
+                // random timestamps between Thursday, 21 January 2010 09:49:41 GMT+01:00 and Monday, 17 July 2023 09:49:41 GMT+02:00 DST
                 Random.nextLong(
                     1264063781000L,
                     1689580181000L,
                 )
-            } // random timestamps between Thursday, 21 January 2010 09:49:41 GMT+01:00 and Monday, 17 July 2023 09:49:41 GMT+02:00 DST
+            }
         val now = Random.nextLong(1264063781000L, 1689580181000L)
         val result = testedUseCase.execute(input, now)
         coVerify(exactly = expectedCallsOnConsecutiveDaysOrCloserUseCase) {
@@ -59,7 +60,7 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
 
     private companion object {
         @JvmStatic
-        fun streakArguments() =
+        fun streakArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     emptyList<Consecutiveness>(),
@@ -71,8 +72,10 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS, // current streak is 4
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        // current streak is 4
+                        // breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                     ),
@@ -83,9 +86,12 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                     listOf(
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.SAME_DAY, // this will not be counted in the streak
-                        Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
+                        // this will not be counted in the streak:
+                        Consecutiveness.SAME_DAY,
+                        Consecutiveness.CONSECUTIVE_DAYS,
+                        // current streak is 3
+                        // breaking streak
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                     ),
@@ -94,7 +100,8 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
@@ -104,7 +111,8 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
+                        Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
@@ -115,7 +123,8 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     listOf(
-                        Consecutiveness.SAME_DAY, // current streak is 5 as last session and "now" are SAME_DAY, we must include today in the count
+                        // current streak is 5 as last session and "now" are SAME_DAY, we must include today in the count
+                        Consecutiveness.SAME_DAY,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,

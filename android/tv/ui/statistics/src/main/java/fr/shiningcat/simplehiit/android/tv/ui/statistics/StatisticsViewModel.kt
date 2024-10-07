@@ -33,8 +33,9 @@ class StatisticsViewModel
         val dialogViewState = _dialogViewState.asStateFlow()
 
         private var isInitialized = false
-        private var allUsers =
-            emptyList<User>() // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
+
+        // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
+        private var allUsers = emptyList<User>()
 
         private var durationStringFormatter = DurationStringFormatter()
 

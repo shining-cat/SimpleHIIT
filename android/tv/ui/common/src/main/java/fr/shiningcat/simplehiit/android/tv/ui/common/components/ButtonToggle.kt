@@ -69,7 +69,8 @@ private fun ButtonTogglePreview() {
                     onToggle = {},
                 )
                 ButtonToggle(
-                    modifier = Modifier.height(48.dp).width(124.dp), // causing a truncation
+                    // causing a truncation
+                    modifier = Modifier.height(48.dp).width(124.dp),
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {},

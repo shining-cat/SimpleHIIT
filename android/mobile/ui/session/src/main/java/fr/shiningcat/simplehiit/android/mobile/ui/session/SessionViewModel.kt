@@ -186,8 +186,10 @@ class SessionViewModel
                         maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
                         currentSessionStepIndex += 1
                         hiitLogger.d(
-                            "SessionViewModel",
-                            "tick: step $currentStep has ended, incrementing currentSessionStepIndex to: $currentSessionStepIndex / ${immutableSession.steps.size - 1}",
+                            tag = "SessionViewModel",
+                            msg =
+                                "tick: step $currentStep has ended, incrementing currentSessionStepIndex to:" +
+                                    " $currentSessionStepIndex / ${immutableSession.steps.size - 1}",
                         )
                     }
                     viewModelScope.launch {
@@ -260,12 +262,15 @@ class SessionViewModel
                             0L
                         }
                     hiitLogger.d(
-                        "SessionViewModel",
-                        "emitSessionEndState::workingStepsDone = ${workingStepsDone.size} | restStepsDone = ${restStepsDone.size} | total steps = ${workingStepsDone.size + restStepsDone.size}",
+                        tag = "SessionViewModel",
+                        msg =
+                            "emitSessionEndState::workingStepsDone = ${workingStepsDone.size} " +
+                                "| restStepsDone = ${restStepsDone.size} " +
+                                "| total steps = ${workingStepsDone.size + restStepsDone.size}",
                     )
                     hiitLogger.d(
-                        "SessionViewModel",
-                        "emitSessionEndState::actualSessionLength = $actualSessionLength",
+                        tag = "SessionViewModel",
+                        msg = "emitSessionEndState::actualSessionLength = $actualSessionLength",
                     )
                     val actualSessionLengthFormatted =
                         sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(

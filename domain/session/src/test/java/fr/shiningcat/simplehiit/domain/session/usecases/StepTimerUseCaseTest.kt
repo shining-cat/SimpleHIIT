@@ -41,8 +41,9 @@ internal class StepTimerUseCaseTest : AbstractMockkTest() {
             val tickLength = 1000L
             // launching:
             testedUseCase.start(totalMilliSeconds)
+            // first default state + one every [tickLength]ms for [totalMilliSeconds]ms + the last one when reaching 0:
             val expectedTicksCount =
-                (1 + totalMilliSeconds.div(tickLength) + 1).toInt() // first default state + one every [tickLength]ms for [totalMilliSeconds]ms + the last one when reaching 0
+                (1 + totalMilliSeconds.div(tickLength) + 1).toInt()
             assertEquals(expectedTicksCount, stepTimerStatesAsList.size)
             val expectedStatesEmitted = mutableListOf(StepTimerState())
             for (i in 0..expectedTicksCount - 2) {

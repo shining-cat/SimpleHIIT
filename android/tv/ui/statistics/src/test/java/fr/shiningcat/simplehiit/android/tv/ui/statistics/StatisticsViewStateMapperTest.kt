@@ -34,7 +34,7 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                 any(),
                 any(),
             )
-        } returns mockDurationString
+        } returns MOCK_DURATION_STRING
     }
 
     @ParameterizedTest(name = "{index} -> should return {0}")
@@ -91,7 +91,7 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
     }
 
     private companion object {
-        private const val mockDurationString = "This is a test duration string"
+        private const val MOCK_DURATION_STRING = "This is a test duration string"
 
         @JvmStatic
         fun statisticsArguments(): Stream<Arguments> =
@@ -115,13 +115,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                             listOf(
                                 DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                                 DisplayedStatistic(
-                                    mockDurationString,
+                                    MOCK_DURATION_STRING,
                                     DisplayStatisticType.TOTAL_EXERCISE_TIME,
                                 ),
                                 DisplayedStatistic("456", DisplayStatisticType.LONGEST_STREAK),
                                 DisplayedStatistic("678", DisplayStatisticType.CURRENT_STREAK),
                                 DisplayedStatistic(
-                                    mockDurationString,
+                                    MOCK_DURATION_STRING,
                                     DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                                 ),
                                 DisplayedStatistic(
@@ -151,13 +151,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                             listOf(
                                 DisplayedStatistic("8", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                                 DisplayedStatistic(
-                                    mockDurationString,
+                                    MOCK_DURATION_STRING,
                                     DisplayStatisticType.TOTAL_EXERCISE_TIME,
                                 ),
                                 DisplayedStatistic("456", DisplayStatisticType.LONGEST_STREAK),
                                 DisplayedStatistic("678", DisplayStatisticType.CURRENT_STREAK),
                                 DisplayedStatistic(
-                                    mockDurationString,
+                                    MOCK_DURATION_STRING,
                                     DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                                 ),
                                 DisplayedStatistic(
@@ -186,13 +186,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                         listOf(
                             DisplayedStatistic("9", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.TOTAL_EXERCISE_TIME,
                             ),
                             DisplayedStatistic("654", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("321", DisplayStatisticType.CURRENT_STREAK),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                             ),
                             DisplayedStatistic(
@@ -221,13 +221,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                         listOf(
                             DisplayedStatistic("9", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.TOTAL_EXERCISE_TIME,
                             ),
                             DisplayedStatistic("654", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("321", DisplayStatisticType.CURRENT_STREAK),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                             ),
                             DisplayedStatistic(
@@ -256,13 +256,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                         listOf(
                             DisplayedStatistic("157", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.TOTAL_EXERCISE_TIME,
                             ),
                             DisplayedStatistic("876", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("958", DisplayStatisticType.CURRENT_STREAK),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                             ),
                             DisplayedStatistic(
@@ -291,13 +291,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
                         listOf(
                             DisplayedStatistic("157", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.TOTAL_EXERCISE_TIME,
                             ),
                             DisplayedStatistic("876", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("958", DisplayStatisticType.CURRENT_STREAK),
                             DisplayedStatistic(
-                                mockDurationString,
+                                MOCK_DURATION_STRING,
                                 DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                             ),
                             DisplayedStatistic(

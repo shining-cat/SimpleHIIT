@@ -152,7 +152,8 @@ fun SettingsContentHolder(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = { deleteUserConfirm(dialogViewState.user) },
-                dismissAction = { deleteUserCancel(dialogViewState.user) }, // coming back to the edit user dialog instead of closing simply the dialog
+                // coming back to the edit user dialog instead of closing simply the dialog
+                dismissAction = { deleteUserCancel(dialogViewState.user) },
             )
 
         SettingsDialog.ConfirmResetAllSettings ->

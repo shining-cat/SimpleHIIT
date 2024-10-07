@@ -4,23 +4,23 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
-import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.usersTableName
+import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.USERS_TABLE_NAME
 
 @ExcludeFromJacocoGeneratedReport
-@Entity(tableName = usersTableName)
+@Entity(tableName = USERS_TABLE_NAME)
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = userIdColumnName, index = true)
+    @ColumnInfo(name = USER_ID_COLUMN_NAME, index = true)
     val userId: Long = 0L,
-    @ColumnInfo(name = userNameColumnName) val name: String,
-    @ColumnInfo(name = userSelectedColumnName) val selected: Boolean,
+    @ColumnInfo(name = USER_NAME_COLUMN_NAME) val name: String,
+    @ColumnInfo(name = USER_SELECTED_COLUMN_NAME) val selected: Boolean,
 ) {
     companion object {
-        const val usersTableName = "simple_hiit_users"
+        const val USERS_TABLE_NAME = "simple_hiit_users"
 
         //
-        const val userIdColumnName = "userId"
-        const val userNameColumnName = "name"
-        const val userSelectedColumnName = "selected"
+        const val USER_ID_COLUMN_NAME = "userId"
+        const val USER_NAME_COLUMN_NAME = "name"
+        const val USER_SELECTED_COLUMN_NAME = "selected"
     }
 }

@@ -46,8 +46,9 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.SQUAT,
+                        // should be toggled to false in output list
                         true,
-                    ), // should be toggled to false in output list
+                    ),
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
                         ExerciseTypeSelected(ExerciseType.LYING, false),
@@ -72,8 +73,9 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.SQUAT,
+                        // should be toggled to true in output list
                         false,
-                    ), // should be toggled to true in output list
+                    ),
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
                         ExerciseTypeSelected(ExerciseType.LYING, false),
@@ -91,8 +93,9 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.LUNGE,
+                        // should be toggled to false in output list
                         true,
-                    ), // should be toggled to false in output list
+                    ),
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, false),
                     ),
@@ -103,8 +106,9 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.LUNGE,
+                        // should be toggled to true in output list
                         false,
-                    ), // should be toggled to true in output list
+                    ),
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
                     ),
@@ -115,10 +119,11 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                     ),
                     ExerciseTypeSelected(ExerciseType.SQUAT, true),
                     listOf(
+                        // exercise to toggle is not in list => list is not changed
                         ExerciseTypeSelected(
                             ExerciseType.LUNGE,
                             true,
-                        ), // exercise to toggle is not in list => list is not changed
+                        ),
                     ),
                 ),
             )

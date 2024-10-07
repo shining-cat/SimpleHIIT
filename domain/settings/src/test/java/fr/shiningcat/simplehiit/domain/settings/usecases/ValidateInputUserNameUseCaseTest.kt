@@ -41,7 +41,9 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                 Arguments.of(
                     User(
                         id = 123L,
-                        name = "very very long user test name that is more than twenty-five characters since that is the limit we have chosen",
+                        name =
+                            "very very long user test name that is more than " +
+                                "twenty-five characters since that is the limit we have chosen",
                     ),
                     listOf(
                         User(id = 123L, name = "user test 1"),
@@ -50,6 +52,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                     ),
                     Constants.InputError.TOO_LONG,
                 ),
+                // picking the same name for the same user id:
                 Arguments.of(
                     User(id = 123L, name = "user test 1"),
                     listOf(
@@ -58,12 +61,13 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 345L, name = "user test 3"),
                     ),
                     Constants.InputError.NONE,
-                ), // picking the same name for the same user id
+                ),
                 Arguments.of(
+                    // 25 chars is the accepted limit
                     User(
                         id = 123L,
                         name = "completely new user name",
-                    ), // 25 chars is the accepted limit
+                    ),
                     listOf(
                         User(id = 123L, name = "user test 1"),
                         User(id = 234L, name = "user test 2"),

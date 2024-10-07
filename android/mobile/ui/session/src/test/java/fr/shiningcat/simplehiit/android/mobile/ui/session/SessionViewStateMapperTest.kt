@@ -44,7 +44,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                 any(),
                 any(),
             )
-        } returns mockDurationString
+        } returns MOCK_DURATION_STRING
     }
 
     @ParameterizedTest(name = "{index} -> correctly maps {0} to {1}")
@@ -74,7 +74,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
 
     // //////////////////////
     private companion object {
-        private const val mockDurationString = "This is a test duration string"
+        private const val MOCK_DURATION_STRING = "This is a test duration string"
         private val testSession =
             Session(
                 steps =
@@ -88,7 +88,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 730000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -96,7 +96,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 680000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -104,7 +104,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 645000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -112,7 +112,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 595000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -120,7 +120,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LyingSupermanTwist,
                             side = ExerciseSide.NONE,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 560000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -128,7 +128,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LyingSupermanTwist,
                             side = ExerciseSide.NONE,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 510000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -136,7 +136,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.PlankMountainClimber,
                             side = ExerciseSide.NONE,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 475000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -144,7 +144,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.PlankMountainClimber,
                             side = ExerciseSide.NONE,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 425000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -152,7 +152,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.CrabKicks,
                             side = ExerciseSide.NONE,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 390000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -160,7 +160,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.CrabKicks,
                             side = ExerciseSide.NONE,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 340000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -168,7 +168,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 305000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -176,7 +176,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 255000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -184,7 +184,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 220000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -192,7 +192,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 170000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -200,7 +200,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 135000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -208,7 +208,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 85000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -216,7 +216,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
                             durationMs = 35000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 50000L,
                             countDownLengthMs = 5000L,
                         ),
@@ -224,7 +224,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
                             durationMs = 50000L,
-                            durationFormatted = mockDurationString,
+                            durationFormatted = MOCK_DURATION_STRING,
                             remainingSessionDurationMsAfterMe = 0L,
                             countDownLengthMs = 5000L,
                         ),
@@ -235,7 +235,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
             )
 
         @JvmStatic
-        fun mapToViewStateArguments() =
+        fun mapToViewStateArguments(): Stream<Arguments> =
             Stream.of(
                 // normal ongoing prepare step
                 Arguments.of(
@@ -252,7 +252,8 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         countDown =
                             CountDown(
                                 secondsDisplay = "4",
-                                progress = .8f, // 4/5 to float
+                                // 4/5 to float
+                                progress = .8f,
                                 playBeep = true,
                             ),
                     ),
@@ -272,10 +273,13 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.WORK,
                         displayedExercise = Exercise.LungesSideToCurtsy,
                         side = AsymmetricalExerciseSideOrder.SECOND.side,
-                        stepRemainingTime = mockDurationString, // verify formatter is called with 10000L,
+                        // verify formatter is called with 10000L,
+                        stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .2f,
-                        sessionRemainingTime = mockDurationString, // verify formatter is called with (595000L + 10000L)
-                        sessionRemainingPercentage = .75625f, // 605000L / 800000L = 0.75625
+                        // verify formatter is called with (595000L + 10000L)
+                        sessionRemainingTime = MOCK_DURATION_STRING,
+                        // 605000L / 800000L = 0.75625
+                        sessionRemainingPercentage = .75625f,
                         countDown = null,
                     ),
                 ),
@@ -294,14 +298,18 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.WORK,
                         displayedExercise = Exercise.LungesSideToCurtsy,
                         side = AsymmetricalExerciseSideOrder.SECOND.side,
-                        stepRemainingTime = mockDurationString, // verify formatter is called with 1000L,
+                        // verify formatter is called with 1000L,
+                        stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .02f,
-                        sessionRemainingTime = mockDurationString, // verify formatter is called with (595000L + 1000L)
-                        sessionRemainingPercentage = .745f, // 596000L / 800000L
+                        // verify formatter is called with (595000L + 1000L)
+                        sessionRemainingTime = MOCK_DURATION_STRING,
+                        // 596000L / 800000L
+                        sessionRemainingPercentage = .745f,
                         countDown =
                             CountDown(
                                 secondsDisplay = "1",
-                                progress = .2f, // 1/5 to float
+                                // 1/5 to float
+                                progress = .2f,
                                 playBeep = true,
                             ),
                     ),
@@ -321,10 +329,13 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.REST,
                         displayedExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
-                        stepRemainingTime = mockDurationString, // verify formatter is called with 7000L,
+                        // verify formatter is called with 7000L,
+                        stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .2f,
-                        sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 7000L)
-                        sessionRemainingPercentage = .6025f, // 482000L / 800000L
+                        // verify formatter is called with (475000L + 7000L)
+                        sessionRemainingTime = MOCK_DURATION_STRING,
+                        // 482000L / 800000L
+                        sessionRemainingPercentage = .6025f,
                         countDown = null,
                     ),
                 ),
@@ -343,14 +354,18 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.REST,
                         displayedExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
-                        stepRemainingTime = mockDurationString, // verify formatter is called with 5000L,
+                        // verify formatter is called with 5000L,
+                        stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .14285715f,
-                        sessionRemainingTime = mockDurationString, // verify formatter is called with (475000L + 5000L)
-                        sessionRemainingPercentage = .6f, // 480000L / 800000L
+                        // verify formatter is called with (475000L + 5000L)
+                        sessionRemainingTime = MOCK_DURATION_STRING,
+                        // 480000L / 800000L
+                        sessionRemainingPercentage = .6f,
                         countDown =
                             CountDown(
                                 secondsDisplay = "5",
-                                progress = 1f, // 5/5 to float
+                                // 5/5 to float
+                                progress = 1f,
                                 playBeep = true,
                             ),
                     ),

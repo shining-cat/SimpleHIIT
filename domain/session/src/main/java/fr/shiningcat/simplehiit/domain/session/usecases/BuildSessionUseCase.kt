@@ -83,15 +83,16 @@ class BuildSessionUseCase
                     allSteps.add(prepareStep)
                 }
                 for ((index, exercise) in exercisesList.withIndex()) {
-//                hiitLogger.d("BuildSessionUseCase", "buildStepsList::index = $index")
                     // we're not checking the asymmetrical attribute here as it has already been taking into consideration while building this exercisesList by adding asymmetrical exercises twice.
                     val stepExerciseSide =
                         when (exercise) {
-                            exercisesList.getOrNull(index - 1) -> { // if previous exercise was the same, then we are handling an asymmetrical for the second side
+                            exercisesList.getOrNull(index - 1) -> {
+                                // if previous exercise was the same, then we are handling an asymmetrical for the second side
                                 AsymmetricalExerciseSideOrder.SECOND.side
                             }
 
-                            exercisesList.getOrNull(index + 1) -> { // if next exercise will be the same, then we are handling an asymmetrical for the first side
+                            exercisesList.getOrNull(index + 1) -> {
+                                // if next exercise will be the same, then we are handling an asymmetrical for the first side
                                 AsymmetricalExerciseSideOrder.FIRST.side
                             }
 
@@ -101,7 +102,6 @@ class BuildSessionUseCase
                         }
                     //
                     val remainingExercisesAfterStep = totalSteps.minus(index).minus(1)
-//                hiitLogger.d("BuildSessionUseCase","buildStepsList::remainingExercises = $remainingExercisesAfterStep")
                     val restStepDurationFormatted =
                         formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                             restPeriodLengthMs,

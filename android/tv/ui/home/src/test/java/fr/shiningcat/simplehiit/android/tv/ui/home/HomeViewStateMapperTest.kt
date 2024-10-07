@@ -33,7 +33,7 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                 any(),
                 any(),
             )
-        } returns mockDurationString
+        } returns MOCK_DURATION_STRING
     }
 
     @ParameterizedTest(name = "{index} -> called with {0} should return {1}")
@@ -75,7 +75,7 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
         private val testUser3 = User(id = 345L, name = "test user 3 name", selected = true)
         private val testUser4 = User(id = 456L, name = "test user 4 name", selected = false)
         private val testException = Exception("this is a test exception")
-        private const val mockDurationString = "This is a test duration string"
+        private const val MOCK_DURATION_STRING = "This is a test duration string"
 
         @JvmStatic
         fun homeSettingsArguments() =
@@ -90,9 +90,9 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     ),
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 3,
-                        cycleLength = mockDurationString,
+                        cycleLength = MOCK_DURATION_STRING,
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
-                        totalSessionLengthFormatted = mockDurationString,
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
                     ),
                 ),
                 Arguments.of(
@@ -105,9 +105,9 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     ),
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 5,
-                        cycleLength = mockDurationString,
+                        cycleLength = MOCK_DURATION_STRING,
                         users = listOf(testUser1, testUser2),
-                        totalSessionLengthFormatted = mockDurationString,
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
                     ),
                 ),
                 Arguments.of(
@@ -120,8 +120,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                     ),
                     HomeViewState.MissingUsers(
                         numberCumulatedCycles = 3,
-                        cycleLength = mockDurationString,
-                        totalSessionLengthFormatted = mockDurationString,
+                        cycleLength = MOCK_DURATION_STRING,
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
                     ),
                 ),
                 Arguments.of(

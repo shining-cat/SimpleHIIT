@@ -170,7 +170,13 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
             //
             coVerify(exactly = 1) { mockUsersDao.getUsers() }
             coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
-            coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed getting users", thrownException) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed getting users",
+                    thrownException,
+                )
+            }
             assertEquals(1, usersFlowAsList.size)
             val result = usersFlowAsList[0]
             val expectedOutput =

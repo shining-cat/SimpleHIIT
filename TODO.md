@@ -28,7 +28,6 @@
 * BLOCKED: see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp), but check [first that HILT has moved to ksp](https://kotlinlang.org/docs/ksp-overview.html#resources)
 
 ## CI/Github actions
-* check out modules grahp assert tool: github.com/jraska/modules-graph-assert, this should allow to enforce the dependency tree between modules
 * check out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
 * CI github actions for publishing app on Google play [see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254) or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
 * See automation of build scripts verification: github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools

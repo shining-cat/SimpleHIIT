@@ -82,10 +82,11 @@ private fun StatisticsScreen(
 ) {
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
+            // in this case, we are in the statistics screen, so obviously we want to show this button
             NavigationSideBar(
                 navigateTo = navigateTo,
                 currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Statistics,
-                showStatisticsButton = true, // in this case, we are in the statistics screen, so obviously we want to show this button
+                showStatisticsButton = true,
             )
         }
         Column(
@@ -95,10 +96,11 @@ private fun StatisticsScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
+                    // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     navigateUp = {
                         navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home.route)
                         true
-                    }, // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
+                    },
                     title = R.string.statistics_page_title,
                 )
             }

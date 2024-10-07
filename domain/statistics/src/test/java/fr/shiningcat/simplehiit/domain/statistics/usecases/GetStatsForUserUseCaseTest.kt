@@ -85,14 +85,22 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
             coVerify(exactly = 0) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
             coVerify(exactly = 0) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
-            coVerify(exactly = 0) { mockCalculateAverageSessionsPerWeekUseCase.execute(any(), any()) }
+            coVerify(exactly = 0) {
+                mockCalculateAverageSessionsPerWeekUseCase.execute(
+                    any(),
+                    any(),
+                )
+            }
             assertTrue(output is Output.Success)
             output as Output.Success
             assertEquals(UserStatistics(testUser), output.result)
         }
 
     @ParameterizedTest(
-        name = "{index} -> when called should return UserStatistics with {2} totalNumberOfSessions, {3} cumulatedTimeOfExerciseSeconds, {4} averageSessionLengthSeconds",
+        name =
+            "{index} -> when called should return UserStatistics" +
+                " with {2} totalNumberOfSessions, {3} cumulatedTimeOfExerciseSeconds," +
+                " {4} averageSessionLengthSeconds",
     )
     @MethodSource("sessionsArguments")
     fun `return correct value when repo call succeeds`(

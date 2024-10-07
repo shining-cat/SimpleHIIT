@@ -39,7 +39,8 @@ fun SideBarItem(
         contentPadding = ButtonDefaults.ButtonWithIconContentPadding,
         colors =
             ButtonDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.primary, // same as NavigationDrawer background -> we should not see the container in the default state
+                // same as NavigationDrawer background -> we should not see the container in the default state
+                containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onPrimary,
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
                 focusedContentColor = if (selected) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface,
