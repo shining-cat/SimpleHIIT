@@ -7,8 +7,5 @@ import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGenerat
 // see: https://github.com/mockk/mockk/issues/98
 @ExcludeFromJacocoGeneratedReport
 class TimeProviderImpl : TimeProvider {
-
-    override fun getCurrentTimeMillis(): Long {
-        return System.currentTimeMillis()
-    }
+    override fun getCurrentTimeMillis(): Long = System.currentTimeMillis()
 }

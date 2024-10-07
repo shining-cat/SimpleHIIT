@@ -40,16 +40,17 @@ fun SessionScreen(
     navigateUp: () -> Boolean,
     hiitLogger: HiitLogger,
     viewModel: SessionViewModel = hiltViewModel(),
-    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
-    val durationsFormatter = DurationStringFormatter(
-        hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-        hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-        hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-        minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-        minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-        seconds = stringResource(id = R.string.seconds_short)
-    )
+    val durationsFormatter =
+        DurationStringFormatter(
+            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
+            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
+            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
+            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
+            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
+            seconds = stringResource(id = R.string.seconds_short),
+        )
     viewModel.init(durationsFormatter)
     // Handling the sound loading in the viewModel's soundPool:
     if (viewModel.noSoundLoadingRequestedYet) {
@@ -67,9 +68,10 @@ fun SessionScreen(
     // Setting up a LifeCycle observer to catch the onPause event of the Android Lifecycle so we can pause the session
     var lifecycleEvent by remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
     DisposableEffect(lifecycleOwner) {
-        val lifecycleObserver = LifecycleEventObserver { _, event ->
-            lifecycleEvent = event
-        }
+        val lifecycleObserver =
+            LifecycleEventObserver { _, event ->
+                lifecycleEvent = event
+            }
 
         lifecycleOwner.lifecycle.addObserver(lifecycleObserver)
 
@@ -95,11 +97,10 @@ fun SessionScreen(
         pause = { viewModel.pause() },
         resume = { viewModel.resume() },
         navigateUp = navigateUp,
-        hiitLogger = hiitLogger
+        hiitLogger = hiitLogger,
     )
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun SessionScreen(
     navigateUp: () -> Boolean = { true },
@@ -109,61 +110,68 @@ private fun SessionScreen(
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     BackHandler(enabled = screenViewState is SessionViewState.RunningNominal) {
         pause()
     }
-    val (title, buttonLabel, clickOnButton) = when (screenViewState) {
-        is SessionViewState.RunningNominal -> {
-            when (screenViewState.periodType) {
-                RunningSessionStepType.REST -> Triple(
-                    R.string.session_rest_page_title,
-                    R.string.pause,
-                    pause
-                )
+    val (title, buttonLabel, clickOnButton) =
+        when (screenViewState) {
+            is SessionViewState.RunningNominal -> {
+                when (screenViewState.periodType) {
+                    RunningSessionStepType.REST ->
+                        Triple(
+                            R.string.session_rest_page_title,
+                            R.string.pause,
+                            pause,
+                        )
 
-                RunningSessionStepType.WORK -> Triple(
-                    R.string.session_work_page_title,
-                    R.string.pause,
-                    pause
-                )
+                    RunningSessionStepType.WORK ->
+                        Triple(
+                            R.string.session_work_page_title,
+                            R.string.pause,
+                            pause,
+                        )
+                }
             }
+
+            is SessionViewState.InitialCountDownSession ->
+                Triple(
+                    R.string.session_prepare_page_title,
+                    R.string.back_button_content_label,
+                    navigateUp,
+                )
+
+            is SessionViewState.Finished ->
+                Triple(
+                    R.string.finish_page_topbar,
+                    R.string.back_button_content_label,
+                    navigateUp,
+                )
+
+            is SessionViewState.Error ->
+                Triple(
+                    R.string.error,
+                    R.string.back_button_content_label,
+                    navigateUp,
+                )
+
+            SessionViewState.Loading ->
+                Triple(
+                    R.string.session_loading_page_topBar,
+                    R.string.back_button_content_label,
+                    navigateUp,
+                )
         }
-
-        is SessionViewState.InitialCountDownSession -> Triple(
-            R.string.session_prepare_page_title,
-            R.string.back_button_content_label,
-            navigateUp
-        )
-
-        is SessionViewState.Finished -> Triple(
-            R.string.finish_page_topbar,
-            R.string.back_button_content_label,
-            navigateUp
-        )
-
-        is SessionViewState.Error -> Triple(
-            R.string.error,
-            R.string.back_button_content_label,
-            navigateUp
-        )
-
-        SessionViewState.Loading -> Triple(
-            R.string.session_loading_page_topBar,
-            R.string.back_button_content_label,
-            navigateUp
-        )
-    }
     NavigationDrawer(
         drawerContent = {
             // we don't use the drawerValue for now
             SessionNavigationSideBar(
                 title = title,
                 onBackButtonClick = { clickOnButton() },
-                backButtonLabel = buttonLabel
+                backButtonLabel = buttonLabel,
             )
-        }
+        },
     ) {
         SessionContentHolder(
             dialogViewState = dialogViewState,
@@ -171,7 +179,7 @@ private fun SessionScreen(
             onAbortSession = onAbortSession,
             resume = resume,
             navigateUp = navigateUp,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
 }
@@ -181,122 +189,126 @@ private fun SessionScreen(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionScreenPreviewPhonePortrait(
-    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             SessionScreen(
                 dialogViewState = SessionDialog.None,
-                screenViewState = viewState
+                screenViewState = viewState,
             )
         }
     }
 }
 
-internal class SessionScreenPreviewParameterProvider :
-    PreviewParameterProvider<SessionViewState> {
+internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<SessionViewState> {
     override val values: Sequence<SessionViewState>
-        get() = sequenceOf(
-            SessionViewState.Loading,
-            SessionViewState.Error("Blabla error code"),
-            SessionViewState.InitialCountDownSession(
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .5f,
-                    playBeep = true
-                )
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.CatBackLegLift,
-                side = ExerciseSide.RIGHT,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .53f,
-                sessionRemainingTime = "16mn 23s",
-                sessionRemainingPercentage = .24f
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.CatBackLegLift,
-                side = ExerciseSide.RIGHT,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .53f,
-                sessionRemainingTime = "16mn 23s",
-                sessionRemainingPercentage = .24f,
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .5f,
-                    playBeep = true
-                )
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.CatBackLegLift,
-                side = ExerciseSide.RIGHT,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .23f,
-                sessionRemainingTime = "16mn 23s",
-                sessionRemainingPercentage = .57f
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.CrabAdvancedBridge,
-                side = ExerciseSide.NONE,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .7f,
-                sessionRemainingTime = "5mn 12s",
-                sessionRemainingPercentage = .3f
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.CrabAdvancedBridge,
-                side = ExerciseSide.NONE,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .7f,
-                sessionRemainingTime = "5mn 12s",
-                sessionRemainingPercentage = .3f,
-                countDown = CountDown(
-                    secondsDisplay = "5",
-                    progress = 0f,
-                    playBeep = false
-                )
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.CrabAdvancedBridge,
-                side = ExerciseSide.LEFT,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .5f,
-                sessionRemainingTime = "5mn 12s",
-                sessionRemainingPercentage = .2f
-            ),
-            SessionViewState.Finished(
-                "16mn",
-                workingStepsDone = listOf(
-                    SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-                    SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-                    SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
-                )
+        get() =
+            sequenceOf(
+                SessionViewState.Loading,
+                SessionViewState.Error("Blabla error code"),
+                SessionViewState.InitialCountDownSession(
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .5f,
+                            playBeep = true,
+                        ),
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.CatBackLegLift,
+                    side = ExerciseSide.RIGHT,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .53f,
+                    sessionRemainingTime = "16mn 23s",
+                    sessionRemainingPercentage = .24f,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.CatBackLegLift,
+                    side = ExerciseSide.RIGHT,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .53f,
+                    sessionRemainingTime = "16mn 23s",
+                    sessionRemainingPercentage = .24f,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .5f,
+                            playBeep = true,
+                        ),
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.CatBackLegLift,
+                    side = ExerciseSide.RIGHT,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .23f,
+                    sessionRemainingTime = "16mn 23s",
+                    sessionRemainingPercentage = .57f,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.CrabAdvancedBridge,
+                    side = ExerciseSide.NONE,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .7f,
+                    sessionRemainingTime = "5mn 12s",
+                    sessionRemainingPercentage = .3f,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.CrabAdvancedBridge,
+                    side = ExerciseSide.NONE,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .7f,
+                    sessionRemainingTime = "5mn 12s",
+                    sessionRemainingPercentage = .3f,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "5",
+                            progress = 0f,
+                            playBeep = false,
+                        ),
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.CrabAdvancedBridge,
+                    side = ExerciseSide.LEFT,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .5f,
+                    sessionRemainingTime = "5mn 12s",
+                    sessionRemainingPercentage = .2f,
+                ),
+                SessionViewState.Finished(
+                    "16mn",
+                    workingStepsDone =
+                        listOf(
+                            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
+                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
+                            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
+                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
+                            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
+                        ),
+                ),
             )
-        )
 }

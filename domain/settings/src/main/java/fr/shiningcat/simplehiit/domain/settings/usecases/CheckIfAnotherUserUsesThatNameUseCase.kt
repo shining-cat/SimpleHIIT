@@ -9,26 +9,26 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class CheckIfAnotherUserUsesThatNameUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute(user: User): Output<Boolean> {
-        return withContext(defaultDispatcher) {
-            val existingUsers = simpleHiitRepository.getUsersList()
-            when (existingUsers) {
-                is Output.Success -> {
-                    if (existingUsers.result.find { it.name == user.name && it.id != user.id } != null) {
-                        Output.Success(true)
-                    } else {
-                        Output.Success(false)
+class CheckIfAnotherUserUsesThatNameUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute(user: User): Output<Boolean> =
+            withContext(defaultDispatcher) {
+                val existingUsers = simpleHiitRepository.getUsersList()
+                when (existingUsers) {
+                    is Output.Success -> {
+                        if (existingUsers.result.find { it.name == user.name && it.id != user.id } != null) {
+                            Output.Success(true)
+                        } else {
+                            Output.Success(false)
+                        }
                     }
-                }
 
-                is Output.Error -> existingUsers
+                    is Output.Error -> existingUsers
+                }
             }
-        }
     }
-}

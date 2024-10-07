@@ -7,5 +7,5 @@ data class SessionRecord(
     val id: Long = 0L,
     val timeStamp: Long,
     val durationMs: Long,
-    val usersIds: List<Long>
+    val usersIds: List<Long>,
 )

@@ -25,34 +25,36 @@ fun CountDownComponent(
     size: Dp,
     countDown: CountDown,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(size)
+        modifier = Modifier.size(size),
     ) {
         // this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
         CircularProgressIndicator(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
             progress = 1f,
             strokeWidth = 5.dp,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         )
         CircularProgressIndicator(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .align(Alignment.Center)
+                    .fillMaxSize(),
             progress = countDown.progress,
             strokeWidth = 5.dp,
-            color = MaterialTheme.colorScheme.secondary
+            color = MaterialTheme.colorScheme.secondary,
         )
         Text(
             modifier = Modifier.align(Alignment.Center),
             text = countDown.secondsDisplay,
             style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.secondary
+            color = MaterialTheme.colorScheme.secondary,
         )
     }
 }
@@ -60,11 +62,11 @@ fun CountDownComponent(
 // Previews
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun CountDownCircularProgressPreview() {
@@ -73,39 +75,39 @@ private fun CountDownCircularProgressPreview() {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceEvenly,
             ) {
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "35", progress = 1f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "35", progress = 1f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "21", progress = .9f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "21", progress = .9f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "17", progress = .7f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "17", progress = .7f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "9", progress = .5f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "9", progress = .5f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "4", progress = .3f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "4", progress = .3f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "3", progress = .2f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "3", progress = .2f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true),
                 )
                 CountDownComponent(
                     size = 48.dp,
-                    countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true)
+                    countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true),
                 )
             }
         }

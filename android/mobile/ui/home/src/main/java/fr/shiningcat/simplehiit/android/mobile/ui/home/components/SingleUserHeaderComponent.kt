@@ -22,33 +22,33 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 @Composable
 fun SingleUserHeaderComponent(
     modifier: Modifier = Modifier,
-    user: User
+    user: User,
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.single_user_header_title),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = user.name,
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SingleUserHeaderComponentComponentPreview() {
@@ -56,7 +56,7 @@ private fun SingleUserHeaderComponentComponentPreview() {
         Surface {
             SingleUserHeaderComponent(
                 user = User(123L, "User 1", selected = true),
-                modifier = Modifier.height(250.dp)
+                modifier = Modifier.height(250.dp),
             )
         }
     }

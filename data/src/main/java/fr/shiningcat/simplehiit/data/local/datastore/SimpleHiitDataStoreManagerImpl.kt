@@ -25,9 +25,8 @@ import kotlinx.coroutines.withContext
 class SimpleHiitDataStoreManagerImpl(
     private val dataStore: DataStore<Preferences>,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val hiitLogger: HiitLogger
+    private val hiitLogger: HiitLogger,
 ) : SimpleHiitDataStoreManager {
-
     override suspend fun clearAll() {
         hiitLogger.d("SimpleHiitDataStoreManager", "clearAll")
         withContext(ioDispatcher) {
@@ -41,7 +40,8 @@ class SimpleHiitDataStoreManagerImpl(
         hiitLogger.d("SimpleHiitDataStoreManager", "setWorkPeriodLength:: $durationMs")
         withContext(ioDispatcher) {
             dataStore.edit { preferences ->
-                preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS] = durationMs
+                preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS] =
+                    durationMs
             }
         }
     }
@@ -50,7 +50,8 @@ class SimpleHiitDataStoreManagerImpl(
         hiitLogger.d("SimpleHiitDataStoreManager", "setRestPeriodLength:: $durationMs")
         withContext(ioDispatcher) {
             dataStore.edit { preferences ->
-                preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS] = durationMs
+                preferences[SimpleHiitDataStoreManager.Keys.REST_PERIOD_LENGTH_MILLISECONDS] =
+                    durationMs
             }
         }
     }
@@ -77,7 +78,8 @@ class SimpleHiitDataStoreManagerImpl(
         hiitLogger.d("SimpleHiitDataStoreManager", "setSessionStartCountdown:: $durationMs")
         withContext(ioDispatcher) {
             dataStore.edit { preferences ->
-                preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
+                preferences[SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS] =
+                    durationMs
             }
         }
     }
@@ -86,7 +88,8 @@ class SimpleHiitDataStoreManagerImpl(
         hiitLogger.d("SimpleHiitDataStoreManager", "setPeriodStartCountdown:: $durationMs")
         withContext(ioDispatcher) {
             dataStore.edit { preferences ->
-                preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS] = durationMs
+                preferences[SimpleHiitDataStoreManager.Keys.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS] =
+                    durationMs
             }
         }
     }
@@ -102,32 +105,40 @@ class SimpleHiitDataStoreManagerImpl(
 
     override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
         val setOfStringExerciseTypes = exercisesTypes.map { it.name }.toSet()
-        hiitLogger.d("SimpleHiitDataStoreManager", "setExercisesTypesSelected:: $setOfStringExerciseTypes")
+        hiitLogger.d(
+            "SimpleHiitDataStoreManager",
+            "setExercisesTypesSelected:: $setOfStringExerciseTypes",
+        )
         withContext(ioDispatcher) {
             dataStore.edit { preferences ->
-                preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED] = setOfStringExerciseTypes
+                preferences[SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED] =
+                    setOfStringExerciseTypes
             }
         }
     }
 
     override fun getPreferences(): Flow<SimpleHiitPreferences> =
-        dataStore.data.catch { exception ->
-            // dataStore.data throws an IOException when an error is encountered when reading data
-            hiitLogger.e("SimpleHiitDataStoreManager", "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception")
-            clearAll()
-            SimpleHiitPreferences()
-        }.map { preferences ->
-            SimpleHiitPreferences(
-                workPeriodLengthMs = retrieveWorkPeriodLength(preferences),
-                restPeriodLengthMs = retrieveRestPeriodLength(preferences),
-                numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
-                beepSoundActive = retrieveBeepSoundActive(preferences),
-                sessionCountDownLengthMs = retrieveSessionCountDownLengthSeconds(preferences),
-                PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
-                selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
-                numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences)
-            )
-        }
+        dataStore.data
+            .catch { exception ->
+                // dataStore.data throws an IOException when an error is encountered when reading data
+                hiitLogger.e(
+                    "SimpleHiitDataStoreManager",
+                    "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception",
+                )
+                clearAll()
+                SimpleHiitPreferences()
+            }.map { preferences ->
+                SimpleHiitPreferences(
+                    workPeriodLengthMs = retrieveWorkPeriodLength(preferences),
+                    restPeriodLengthMs = retrieveRestPeriodLength(preferences),
+                    numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
+                    beepSoundActive = retrieveBeepSoundActive(preferences),
+                    sessionCountDownLengthMs = retrieveSessionCountDownLengthSeconds(preferences),
+                    PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
+                    selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
+                    numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences),
+                )
+            }
 
     private fun retrieveWorkPeriodLength(preferences: Preferences) =
         preferences[SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS]
@@ -155,12 +166,13 @@ class SimpleHiitDataStoreManagerImpl(
 
     private fun getSelectedExerciseTypesAsList(preferences: Preferences): List<ExerciseTypeSelected> {
         val setOfStringExerciseTypes = retrieveSelectedExerciseTypes(preferences)
-        val listOfExerciseTypeSelected = ExerciseType.values().toList().map {
-            ExerciseTypeSelected(
-                type = it,
-                selected = setOfStringExerciseTypes.contains(it.name)
-            )
-        }
+        val listOfExerciseTypeSelected =
+            ExerciseType.values().toList().map {
+                ExerciseTypeSelected(
+                    type = it,
+                    selected = setOfStringExerciseTypes.contains(it.name),
+                )
+            }
         return listOfExerciseTypeSelected.toList()
     }
 

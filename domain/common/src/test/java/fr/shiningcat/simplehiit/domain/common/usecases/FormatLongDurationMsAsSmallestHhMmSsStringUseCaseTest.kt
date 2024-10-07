@@ -9,14 +9,13 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractMockkTest() {
-
     private val testedUseCase = FormatLongDurationMsAsSmallestHhMmSsStringUseCase(mockHiitLogger)
 
     @ParameterizedTest(name = "{index} -> {0} should become {1}")
     @MethodSource("convertLongToStringArguments")
     fun `returns correctly formatted string with default formatting options`(
         inputDurationMs: Long,
-        expectedOutput: String
+        expectedOutput: String,
     ) {
         val result = testedUseCase.execute(inputDurationMs, DurationStringFormatter())
         assertEquals(expectedOutput, result)
@@ -26,26 +25,27 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
     @MethodSource("convertLongToStringArgumentsSpecificFormats")
     fun `returns correctly formatted string with custom formatting options`(
         inputDurationMs: Long,
-        expectedOutput: String
+        expectedOutput: String,
     ) {
-        val durationsFormatter = DurationStringFormatter(
-            hoursMinutesSeconds = "%1\$dh %2$02dmn %3$02ds",
-            hoursMinutesNoSeconds = "%1\$dh %2$02dmn",
-            hoursNoMinutesNoSeconds = "%1\$dh",
-            minutesSeconds = "%1\$dmn %2\$02ds",
-            minutesNoSeconds = "%1\$dmn",
-            seconds = "%ds"
-        )
-        val result = testedUseCase.execute(
-            inputDurationMs,
-            durationsFormatter
-        )
+        val durationsFormatter =
+            DurationStringFormatter(
+                hoursMinutesSeconds = "%1\$dh %2$02dmn %3$02ds",
+                hoursMinutesNoSeconds = "%1\$dh %2$02dmn",
+                hoursNoMinutesNoSeconds = "%1\$dh",
+                minutesSeconds = "%1\$dmn %2\$02ds",
+                minutesNoSeconds = "%1\$dmn",
+                seconds = "%ds",
+            )
+        val result =
+            testedUseCase.execute(
+                inputDurationMs,
+                durationsFormatter,
+            )
         assertEquals(expectedOutput, result)
     }
 
     // //////////////////////
     private companion object {
-
         @JvmStatic
         fun convertLongToStringArguments(): Stream<Arguments> =
             Stream.of(
@@ -61,7 +61,7 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(7380000L, "02:03:00"),
                 Arguments.of(13500000L, "03:45:00"),
                 Arguments.of(11045000L, "03:04:05"),
-                Arguments.of(443096000L, "123:04:56")
+                Arguments.of(443096000L, "123:04:56"),
             )
 
         @JvmStatic
@@ -79,7 +79,7 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(7380000L, "2h 03mn"),
                 Arguments.of(13500000L, "3h 45mn"),
                 Arguments.of(11045000L, "3h 04mn 05s"),
-                Arguments.of(443096000L, "123h 04mn 56s")
+                Arguments.of(443096000L, "123h 04mn 56s"),
             )
     }
 }

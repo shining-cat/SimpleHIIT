@@ -6,6 +6,6 @@ package fr.shiningcat.simplehiit.commonutils.annotations
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY_GETTER,
     AnnotationTarget.PROPERTY_SETTER,
-    AnnotationTarget.CONSTRUCTOR
+    AnnotationTarget.CONSTRUCTOR,
 )
 annotation class ExcludeFromJacocoGeneratedReport

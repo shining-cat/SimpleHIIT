@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -23,7 +22,7 @@ fun ButtonToggle(
     modifier: Modifier = Modifier,
     label: String,
     selected: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
 ) {
     if (selected) {
         ButtonFilled(
@@ -31,50 +30,50 @@ fun ButtonToggle(
             onClick = { onToggle() },
             label = label,
             icon = Icons.Filled.Done,
-            iconContentDescription = R.string.active
+            iconContentDescription = R.string.active,
         )
     } else {
         ButtonBordered(
             modifier = modifier,
             onClick = { onToggle() },
-            label = label
+            label = label,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun ButtonTogglePreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ButtonToggle(
                     modifier = Modifier.height(48.dp),
                     label = "I'm selected",
                     selected = true,
-                    onToggle = {}
+                    onToggle = {},
                 )
                 ButtonToggle(
                     modifier = Modifier.height(48.dp),
                     label = "I'm NOT selected",
                     selected = false,
-                    onToggle = {}
+                    onToggle = {},
                 )
                 ButtonToggle(
-                    modifier = Modifier.height(48.dp).width(124.dp), // causing a truncation
+                    // causing a truncation
+                    modifier = Modifier.height(48.dp).width(124.dp),
                     label = "I'm NOT selected",
                     selected = false,
-                    onToggle = {}
+                    onToggle = {},
                 )
             }
         }

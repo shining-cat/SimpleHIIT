@@ -10,9 +10,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsInteractorImp
 @Module
 @InstallIn(ViewModelComponent::class)
 interface SettingsModule {
-
     @Binds
-    fun bindSettingsInteractor(
-        SettingsInteractor: SettingsInteractorImpl
-    ): SettingsInteractor
+    fun bindSettingsInteractor(SettingsInteractor: SettingsInteractorImpl): SettingsInteractor
 }

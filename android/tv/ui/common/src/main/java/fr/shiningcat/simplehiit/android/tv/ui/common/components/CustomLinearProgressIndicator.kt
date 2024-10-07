@@ -16,7 +16,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -44,30 +43,31 @@ fun CustomLinearProgressIndicator(
     trackColor: Color? = null,
     borderColor: Color? = null,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Canvas(
-            modifier = Modifier
-                .fillMaxSize()
-                .then(
-                    if (borderColor != null) {
-                        Modifier.border(
-                            width = 1.dp,
-                            color = borderColor
-                        )
-                    } else {
-                        Modifier
-                    }
-                )
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .then(
+                        if (borderColor != null) {
+                            Modifier.border(
+                                width = 1.dp,
+                                color = borderColor,
+                            )
+                        } else {
+                            Modifier
+                        },
+                    ),
         ) {
             // TRACK
             if (trackColor != null) {
                 drawRect(
                     color = trackColor,
-                    size = size
+                    size = size,
                 )
             }
 
@@ -76,48 +76,50 @@ fun CustomLinearProgressIndicator(
             val progress = (currentValue - minValue) * unit
             drawRect(
                 color = progressColor,
-                size = Size(width = progress, height = size.height)
+                size = Size(width = progress, height = size.height),
             )
         }
     }
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 fun PreviewCustomLinearProgressIndicator() {
     SimpleHiitTvTheme {
         Surface(
-            modifier = Modifier
-                .width(300.dp)
-                .height(150.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            modifier =
+                Modifier
+                    .width(300.dp)
+                    .height(150.dp),
+            shape = MaterialTheme.shapes.extraSmall,
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 CustomLinearProgressIndicator(
-                    modifier = Modifier
-                        .width(250.dp)
-                        .height(24.dp)
-                        .background(MaterialTheme.colorScheme.background),
+                    modifier =
+                        Modifier
+                            .width(250.dp)
+                            .height(24.dp)
+                            .background(MaterialTheme.colorScheme.background),
                     currentValue = 7,
                     minValue = 0,
                     maxValue = 12,
                     trackColor = MaterialTheme.colorScheme.primary,
-                    progressColor = MaterialTheme.colorScheme.secondary
+                    progressColor = MaterialTheme.colorScheme.secondary,
                 )
                 CustomLinearProgressIndicator(
-                    modifier = Modifier
-                        .width(250.dp)
-                        .height(24.dp)
-                        .background(MaterialTheme.colorScheme.background),
+                    modifier =
+                        Modifier
+                            .width(250.dp)
+                            .height(24.dp)
+                            .background(MaterialTheme.colorScheme.background),
                     currentValue = 33,
                     borderColor = MaterialTheme.colorScheme.primary,
-                    progressColor = MaterialTheme.colorScheme.secondary
+                    progressColor = MaterialTheme.colorScheme.secondary,
                 )
             }
         }

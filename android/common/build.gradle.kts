@@ -1,6 +1,7 @@
 plugins {
     id("libraries_gradle_config")
     id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" // this version matches your Kotlin version
 }
 
 android {
@@ -11,7 +12,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
     }
 }
 
@@ -22,7 +23,7 @@ dependencies {
     testImplementation(project(":testUtils"))
     androidTestImplementation(project(":testUtils"))
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
+    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //

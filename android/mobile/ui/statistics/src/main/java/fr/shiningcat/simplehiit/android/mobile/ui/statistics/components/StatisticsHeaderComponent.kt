@@ -31,19 +31,20 @@ fun StatisticsHeaderComponent(
     currentUserName: String,
     showUsersSwitch: Boolean,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
-            text = currentUserName
+            text = currentUserName,
         )
         if (showUsersSwitch) {
             Spacer(modifier = Modifier.width(32.dp))
@@ -52,7 +53,7 @@ fun StatisticsHeaderComponent(
                     imageVector = ImageVector.vectorResource(R.drawable.switch_user),
                     contentDescription = stringResource(id = R.string.statistics_page_switch_user),
                     tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                    modifier = Modifier.align(Alignment.CenterVertically),
                 )
             }
         }
@@ -61,10 +62,10 @@ fun StatisticsHeaderComponent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun StatisticsHeaderPreview() {
@@ -72,7 +73,7 @@ private fun StatisticsHeaderPreview() {
         Surface {
             StatisticsHeaderComponent(
                 currentUserName = "Charles-Antoine",
-                showUsersSwitch = true
+                showUsersSwitch = true,
             )
         }
     }

@@ -7,16 +7,17 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ResetWholeAppUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute() {
-        withContext(defaultDispatcher) {
-            simpleHiitRepository.resetAllSettings()
-            simpleHiitRepository.deleteAllUsers()
+class ResetWholeAppUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute() {
+            withContext(defaultDispatcher) {
+                simpleHiitRepository.resetAllSettings()
+                simpleHiitRepository.deleteAllUsers()
+            }
         }
     }
-}

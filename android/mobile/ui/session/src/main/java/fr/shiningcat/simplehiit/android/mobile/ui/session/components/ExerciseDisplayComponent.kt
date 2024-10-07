@@ -31,16 +31,16 @@ fun ExerciseDisplayComponent(
     exerciseSide: ExerciseSide,
     countDown: CountDown? = null,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         val exerciseGifResMapper = ExerciseGifMapper()
         val exerciseGifRes = exerciseGifResMapper.map(exercise)
         GifImage(
             gifResId = exerciseGifRes,
-            mirrored = exerciseSide == AsymmetricalExerciseSideOrder.SECOND.side
+            mirrored = exerciseSide == AsymmetricalExerciseSideOrder.SECOND.side,
         )
         if (periodType == RunningSessionStepType.REST) {
             Text(
@@ -48,14 +48,14 @@ fun ExerciseDisplayComponent(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
         if (countDown != null) {
             CountDownComponent(
                 size = 48.dp,
                 countDown = countDown,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
     }
@@ -63,10 +63,10 @@ fun ExerciseDisplayComponent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun ExerciseDisplayComponentPreview() {
@@ -77,11 +77,12 @@ private fun ExerciseDisplayComponentPreview() {
                 exercise = Exercise.LungesSideToCurtsy,
                 periodType = RunningSessionStepType.REST,
                 exerciseSide = AsymmetricalExerciseSideOrder.SECOND.side,
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .2f,
-                    playBeep = true
-                )
+                countDown =
+                    CountDown(
+                        secondsDisplay = "3",
+                        progress = .2f,
+                        playBeep = true,
+                    ),
             )
         }
     }

@@ -23,12 +23,13 @@ fun SettingsEditPeriodLengthDialog(
     savePeriodLength: (String) -> Unit,
     validatePeriodLengthInput: (String) -> Constants.InputError,
     periodLengthSeconds: String,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
     ) {
         InputDialog(
             dialogTitle = dialogTitle,
@@ -42,31 +43,30 @@ fun SettingsEditPeriodLengthDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validatePeriodLengthInput,
-            pickErrorMessage = { setInputPeriodLengthErrorMessage(it) }
+            pickErrorMessage = { setInputPeriodLengthErrorMessage(it) },
         )
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int {
-    return when (error) {
+private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int =
+    when (error) {
         Constants.InputError.NONE -> -1
         Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
         else -> R.string.invalid_input_error
     }
-}
 
 // Previews
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsEditPeriodLengthDialogPreview() {
@@ -76,7 +76,7 @@ private fun SettingsEditPeriodLengthDialogPreview() {
             savePeriodLength = {},
             validatePeriodLengthInput = { _ -> Constants.InputError.NONE },
             periodLengthSeconds = "15",
-            onCancel = {}
+            onCancel = {},
         )
     }
 }

@@ -43,8 +43,12 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
-enum class InputDialogTextFieldSize(val width: Dp) {
-    SMALL(56.dp), MEDIUM(112.dp), LARGE(224.dp)
+enum class InputDialogTextFieldSize(
+    val width: Dp,
+) {
+    SMALL(56.dp),
+    MEDIUM(112.dp),
+    LARGE(224.dp),
 }
 
 /**
@@ -65,7 +69,7 @@ fun InputDialog(
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
-    pickErrorMessage: (Constants.InputError) -> Int = { -1 }
+    pickErrorMessage: (Constants.InputError) -> Int = { -1 },
 ) {
     // TODO: auto-focus on input field when opening dialog
 
@@ -75,22 +79,23 @@ fun InputDialog(
 
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
     val isError =
-        rememberSaveable() { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
+        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
         ) {
             val dialogPadding = 8.dp
             val internalPadding = 8.dp
             Column(
-                modifier = Modifier
-                    .padding(dialogPadding)
-                    .fillMaxWidth()
-                    .verticalScroll(rememberScrollState())
+                modifier =
+                    Modifier
+                        .padding(dialogPadding)
+                        .fillMaxWidth()
+                        .verticalScroll(rememberScrollState()),
             ) {
                 if (dialogTitle.isNotBlank()) {
                     Text(
@@ -98,14 +103,14 @@ fun InputDialog(
                         text = dialogTitle,
                         style = MaterialTheme.typography.headlineSmall,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
                 Row(
                     Modifier
                         .padding(horizontal = internalPadding, vertical = 24.dp)
                         .align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     OutlinedTextField(
                         value = input.value,
@@ -120,27 +125,31 @@ fun InputDialog(
                                 errorStringRes // updating the eventual error message String resource pointer
                         },
                         isError = isError.value,
-                        trailingIcon = errorTrailingIcon(
-                            isError.value,
-                            inputFieldSize,
-                            errorMessageStringRes.value
-                        ),
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = keyboardType,
-                            imeAction = ImeAction.Done
-                        ),
-                        keyboardActions = KeyboardActions(onDone = {
-                            if (!isError.value) primaryAction(input.value)
-                        }),
-                        modifier = Modifier
-                            .width(inputFieldSize.width)
-                            .alignByBaseline()
+                        trailingIcon =
+                            errorTrailingIcon(
+                                isError.value,
+                                inputFieldSize,
+                                errorMessageStringRes.value,
+                            ),
+                        keyboardOptions =
+                            KeyboardOptions(
+                                keyboardType = keyboardType,
+                                imeAction = ImeAction.Done,
+                            ),
+                        keyboardActions =
+                            KeyboardActions(onDone = {
+                                if (!isError.value) primaryAction(input.value)
+                            }),
+                        modifier =
+                            Modifier
+                                .width(inputFieldSize.width)
+                                .alignByBaseline(),
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
                         modifier = Modifier.alignByBaseline(),
                         text = inputFieldPostfix,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
                 if (isError.value && errorMessageStringRes.value != -1) {
@@ -148,16 +157,18 @@ fun InputDialog(
                         text = stringResource(id = errorMessageStringRes.value),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = internalPadding) // the error message needs all the room available so it won't follow the input row constraints
+                        // the error message needs all the room available so it won't follow the input row constraints
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = internalPadding),
                     )
                 }
                 Row(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
                         TextButton(onClick = secondaryAction) {
@@ -182,7 +193,7 @@ fun InputDialog(
 fun errorTrailingIcon(
     isError: Boolean,
     inputFieldSize: InputDialogTextFieldSize,
-    errorMessageStringRes: Int
+    errorMessageStringRes: Int,
 ): @Composable (() -> Unit)? {
     // small input field can not fit the trailing icon plus content
     return if (isError && inputFieldSize != InputDialogTextFieldSize.SMALL) {
@@ -190,7 +201,7 @@ fun errorTrailingIcon(
             Icon(
                 imageVector = Icons.Filled.Info,
                 contentDescription = stringResource(id = errorMessageStringRes),
-                tint = MaterialTheme.colorScheme.error
+                tint = MaterialTheme.colorScheme.error,
             )
         }
     } else {
@@ -202,16 +213,16 @@ fun errorTrailingIcon(
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun InputDialogPreview(
-    @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject
+    @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject,
 ) {
     SimpleHiitMobileTheme {
         Surface {
@@ -229,14 +240,13 @@ private fun InputDialogPreview(
                 dismissAction = {},
                 keyboardType = KeyboardType.Number,
                 validateInput = inputDialogPreviewObject.validateInput,
-                pickErrorMessage = inputDialogPreviewObject.errorMessage
+                pickErrorMessage = inputDialogPreviewObject.errorMessage,
             )
         }
     }
 }
 
-internal class InputDialogPreviewParameterProvider :
-    PreviewParameterProvider<InputDialogPreviewObject> {
+internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<InputDialogPreviewObject> {
     override val values: Sequence<InputDialogPreviewObject>
         get() {
             return sequenceOf(
@@ -249,7 +259,7 @@ internal class InputDialogPreviewParameterProvider :
                     dismissButtonLabel = "",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
                     validateInput = { Constants.InputError.NONE },
-                    errorMessage = { -1 }
+                    errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "Quatre-vingt",
@@ -260,7 +270,7 @@ internal class InputDialogPreviewParameterProvider :
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.MEDIUM,
                     validateInput = { Constants.InputError.NONE },
-                    errorMessage = { -1 }
+                    errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "This is a very long input value so it takes a lot of place",
@@ -271,7 +281,7 @@ internal class InputDialogPreviewParameterProvider :
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
                     validateInput = { Constants.InputError.NONE },
-                    errorMessage = { -1 }
+                    errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "This is a very long input value so it takes a lot of place",
@@ -282,10 +292,13 @@ internal class InputDialogPreviewParameterProvider :
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
                     validateInput = { Constants.InputError.NONE },
-                    errorMessage = { -1 }
+                    errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
-                    inputFieldValue = "This is a very long input value so it takes a lot of place, and it could grow indefinitely depending only on the user's choice, so we need to be able to display this correctly on screen",
+                    inputFieldValue =
+                        "This is a very long input value so it takes a lot of place," +
+                            " and it could grow indefinitely depending only on the user's choice," +
+                            " so we need to be able to display this correctly on screen",
                     singleLine = false,
                     postfix = "seconds",
                     primaryButtonLabel = "Save",
@@ -293,7 +306,7 @@ internal class InputDialogPreviewParameterProvider :
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
                     validateInput = { Constants.InputError.WRONG_FORMAT },
-                    errorMessage = { R.string.invalid_input_error }
+                    errorMessage = { R.string.invalid_input_error },
                 ),
                 InputDialogPreviewObject(
                     inputFieldValue = "30",
@@ -304,8 +317,8 @@ internal class InputDialogPreviewParameterProvider :
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
                     validateInput = { Constants.InputError.WRONG_FORMAT },
-                    errorMessage = { R.string.invalid_input_error }
-                )
+                    errorMessage = { R.string.invalid_input_error },
+                ),
             )
         }
 }
@@ -319,5 +332,5 @@ internal data class InputDialogPreviewObject(
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
     val validateInput: (String) -> Constants.InputError,
-    val errorMessage: (Constants.InputError) -> Int
+    val errorMessage: (Constants.InputError) -> Int,
 )

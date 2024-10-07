@@ -7,15 +7,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SetSessionStartCountDownUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute(durationMs: Long) {
-        withContext(defaultDispatcher) {
-            simpleHiitRepository.setSessionStartCountdown(durationMs)
+class SetSessionStartCountDownUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute(durationMs: Long) {
+            withContext(defaultDispatcher) {
+                simpleHiitRepository.setSessionStartCountdown(durationMs)
+            }
         }
     }
-}

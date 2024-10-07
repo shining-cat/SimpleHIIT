@@ -9,16 +9,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ToggleUserSelectedUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute(user: User): Output<Int> {
-        return withContext(defaultDispatcher) {
-            simpleHiitLogger.d("ToggleUserSelectedUseCase", "execute::user = $user")
-            simpleHiitRepository.updateUser(user)
-        }
+class ToggleUserSelectedUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute(user: User): Output<Int> =
+            withContext(defaultDispatcher) {
+                simpleHiitLogger.d("ToggleUserSelectedUseCase", "execute::user = $user")
+                simpleHiitRepository.updateUser(user)
+            }
     }
-}

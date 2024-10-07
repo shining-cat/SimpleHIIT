@@ -29,14 +29,14 @@ import kotlin.math.roundToInt
 @Composable
 fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,
-    onToggle: (ExerciseTypeSelected) -> Unit = {}
+    onToggle: (ExerciseTypeSelected) -> Unit = {},
 ) {
     Column {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.selected_exercise_types_list_setting_label)
+            text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
         )
         Spacer(modifier = Modifier.height(8.dp))
         val itemHeight = 56.dp
@@ -49,7 +49,7 @@ fun SettingsExercisesSelectedComponent(
             columns = GridCells.Fixed(numberOfColumns),
             verticalArrangement = Arrangement.spacedBy(spacing),
             horizontalArrangement = Arrangement.spacedBy(spacing),
-            userScrollEnabled = false
+            userScrollEnabled = false,
         ) {
             items(exerciseTypes.size) {
                 val exerciseTypeSelected = exerciseTypes[it]
@@ -57,7 +57,7 @@ fun SettingsExercisesSelectedComponent(
                     label = exerciseTypeSelected.type.name,
                     selected = exerciseTypeSelected.selected,
                     onToggle = { onToggle(exerciseTypeSelected) },
-                    modifier = Modifier.height(itemHeight)
+                    modifier = Modifier.height(itemHeight),
                 )
             }
         }
@@ -66,14 +66,14 @@ fun SettingsExercisesSelectedComponent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsExercisesSelectedComponentPreview(
-    @PreviewParameter(SettingsExercisesSelectedComponentPreviewParameterProvider::class) exercises: List<ExerciseTypeSelected>
+    @PreviewParameter(SettingsExercisesSelectedComponentPreviewParameterProvider::class) exercises: List<ExerciseTypeSelected>,
 ) {
     SimpleHiitMobileTheme {
         Surface {
@@ -82,32 +82,34 @@ private fun SettingsExercisesSelectedComponentPreview(
     }
 }
 
-internal class SettingsExercisesSelectedComponentPreviewParameterProvider :
-    PreviewParameterProvider<List<ExerciseTypeSelected>> {
-
-    private val exerciseTypeSelectedAllTrue = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = true
-        )
-    }
-    private val exerciseTypeSelectedAllFalse = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = false
-        )
-    }
-    private val exerciseTypeSelectedMixed = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = (ExerciseType.values().indexOf(it) % 2 == 0)
-        )
-    }
+internal class SettingsExercisesSelectedComponentPreviewParameterProvider : PreviewParameterProvider<List<ExerciseTypeSelected>> {
+    private val exerciseTypeSelectedAllTrue =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = true,
+            )
+        }
+    private val exerciseTypeSelectedAllFalse =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = false,
+            )
+        }
+    private val exerciseTypeSelectedMixed =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+            )
+        }
 
     override val values: Sequence<List<ExerciseTypeSelected>>
-        get() = sequenceOf(
-            exerciseTypeSelectedAllTrue,
-            exerciseTypeSelectedAllFalse,
-            exerciseTypeSelectedMixed
-        )
+        get() =
+            sequenceOf(
+                exerciseTypeSelectedAllTrue,
+                exerciseTypeSelectedAllFalse,
+                exerciseTypeSelectedMixed,
+            )
 }

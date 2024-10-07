@@ -18,13 +18,12 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class HomeViewStateMapperTest : AbstractMockkTest() {
-
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
     private val testedMapper =
         HomeViewStateMapper(
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-            mockHiitLogger
+            mockHiitLogger,
         )
 
     @BeforeEach
@@ -32,33 +31,34 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 any(),
-                any()
+                any(),
             )
-        } returns mockDurationString
+        } returns MOCK_DURATION_STRING
     }
 
     @ParameterizedTest(name = "{index} -> called with {0} should return {1}")
     @MethodSource("homeSettingsArguments")
     fun `mapping homeSettings to correct viewstate`(
         input: Output<HomeSettings>,
-        expectedOutput: HomeViewState
+        expectedOutput: HomeViewState,
     ) {
-        val result = testedMapper.map(
-            homeSettingsOutput = input,
-            durationStringFormatter = DurationStringFormatter()
-        )
+        val result =
+            testedMapper.map(
+                homeSettingsOutput = input,
+                durationStringFormatter = DurationStringFormatter(),
+            )
         //
         if (input is Output.Success) {
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = input.result.cycleLengthMs,
-                    durationStringFormatter = DurationStringFormatter()
+                    durationStringFormatter = DurationStringFormatter(),
                 )
             }
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = (input.result.cycleLengthMs.times(input.result.numberCumulatedCycles)),
-                    durationStringFormatter = DurationStringFormatter()
+                    durationStringFormatter = DurationStringFormatter(),
                 )
             }
         } else {
@@ -70,13 +70,12 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
     }
 
     private companion object {
-
         private val testUser1 = User(id = 123L, name = "test user 1 name", selected = true)
         private val testUser2 = User(id = 234L, name = "test user 2 name", selected = false)
         private val testUser3 = User(id = 345L, name = "test user 3 name", selected = true)
         private val testUser4 = User(id = 456L, name = "test user 4 name", selected = false)
         private val testException = Exception("this is a test exception")
-        private const val mockDurationString = "This is a test duration string"
+        private const val MOCK_DURATION_STRING = "This is a test duration string"
 
         @JvmStatic
         fun homeSettingsArguments() =
@@ -86,59 +85,59 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                         HomeSettings(
                             numberCumulatedCycles = 3,
                             cycleLengthMs = 123L,
-                            users = listOf(testUser1, testUser3, testUser2, testUser4)
-                        )
+                            users = listOf(testUser1, testUser3, testUser2, testUser4),
+                        ),
                     ),
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 3,
-                        cycleLength = mockDurationString,
+                        cycleLength = MOCK_DURATION_STRING,
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
-                        totalSessionLengthFormatted = mockDurationString
-                    )
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
+                    ),
                 ),
                 Arguments.of(
                     Output.Success(
                         HomeSettings(
                             numberCumulatedCycles = 5,
                             cycleLengthMs = 234L,
-                            users = listOf(testUser1, testUser2)
-                        )
+                            users = listOf(testUser1, testUser2),
+                        ),
                     ),
                     HomeViewState.Nominal(
                         numberCumulatedCycles = 5,
-                        cycleLength = mockDurationString,
+                        cycleLength = MOCK_DURATION_STRING,
                         users = listOf(testUser1, testUser2),
-                        totalSessionLengthFormatted = mockDurationString
-                    )
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
+                    ),
                 ),
                 Arguments.of(
                     Output.Success(
                         HomeSettings(
                             numberCumulatedCycles = 3,
                             cycleLengthMs = 456L,
-                            users = listOf()
-                        )
+                            users = listOf(),
+                        ),
                     ),
                     HomeViewState.MissingUsers(
                         numberCumulatedCycles = 3,
-                        cycleLength = mockDurationString,
-                        totalSessionLengthFormatted = mockDurationString
-                    )
+                        cycleLength = MOCK_DURATION_STRING,
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
+                    ),
                 ),
                 Arguments.of(
                     Output.Error(
                         errorCode = Constants.Errors.NO_USERS_FOUND,
-                        exception = testException
+                        exception = testException,
                     ),
-                    HomeViewState.Error(Constants.Errors.NO_USERS_FOUND.code)
+                    HomeViewState.Error(Constants.Errors.NO_USERS_FOUND.code),
                 ),
                 Arguments.of(
                     Output.Error(
                         errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-                        exception = testException
+                        exception = testException,
                     ),
-                    HomeViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code)
-                )
+                    HomeViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code),
+                ),
             )
     }
 }

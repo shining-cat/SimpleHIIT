@@ -11,10 +11,9 @@ import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 @ExcludeFromJacocoGeneratedReport
 @Database(
     entities = [UserEntity::class, SessionEntity::class],
-    version = 1
+    version = 1,
 )
 abstract class SimpleHiitDatabase : RoomDatabase() {
-
     abstract fun userDao(): UsersDao
 
     abstract fun sessionsDao(): SessionRecordsDao

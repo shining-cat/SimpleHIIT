@@ -17,7 +17,6 @@ import org.junit.jupiter.api.BeforeEach
  * "normal" dependencies (using implementation calls instead of testImplementations)
  */
 abstract class AbstractMockkTest {
-
     protected val mockHiitLogger = mockk<HiitLogger>()
 
     @BeforeEach
@@ -29,7 +28,7 @@ abstract class AbstractMockkTest {
         coEvery {
             mockHiitLogger.d(
                 tag = capture(tagSlot),
-                msg = capture(messageSlot)
+                msg = capture(messageSlot),
             )
         } answers { println("mockHiitLogger.d::tag:" + tagSlot.captured + " | message:" + messageSlot.captured) }
         //
@@ -37,15 +36,21 @@ abstract class AbstractMockkTest {
             mockHiitLogger.e(
                 tag = capture(tagSlot),
                 msg = capture(messageSlot),
-                throwable = capture(exceptionMessagingLogSlot)
+                throwable = capture(exceptionMessagingLogSlot),
             )
-        } answers { println("mockHiitLogger.e ::tag:" + tagSlot.captured + " | message:" + messageSlot.captured + " throwable: " + exceptionMessagingLogSlot.captured) }
+        } answers
+            {
+                println(
+                    "mockHiitLogger.e ::tag:" + tagSlot.captured + " | message:" + messageSlot.captured + " throwable: " +
+                        exceptionMessagingLogSlot.captured,
+                )
+            }
         //
         coEvery {
             mockHiitLogger.e(
                 tag = capture(tagSlot),
                 msg = capture(messageSlot),
-                throwable = null
+                throwable = null,
             )
         } answers { println("mockHiitLogger.e ::tag:" + tagSlot.captured + " | message:" + messageSlot.captured) }
     }

@@ -30,42 +30,46 @@ fun HomeContentHolder(
     uiArrangement: UiArrangement,
     screenViewState: HomeViewState,
     dialogViewState: HomeDialog,
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     when (screenViewState) {
         is HomeViewState.Loading -> BasicLoading()
 
-        is HomeViewState.Error -> HomeErrorContent(
-            errorCode = screenViewState.errorCode,
-            resetWholeApp = resetWholeApp
-        )
+        is HomeViewState.Error ->
+            HomeErrorContent(
+                errorCode = screenViewState.errorCode,
+                resetWholeApp = resetWholeApp,
+            )
 
-        is HomeViewState.MissingUsers -> HomeMissingUsersContent(
-            navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) }
-        )
+        is HomeViewState.MissingUsers ->
+            HomeMissingUsersContent(
+                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) },
+            )
 
-        is HomeViewState.Nominal -> HomeNominalContent(
-            decreaseNumberOfCycles = decreaseNumberOfCycles,
-            increaseNumberOfCycles = increaseNumberOfCycles,
-            numberOfCycles = screenViewState.numberCumulatedCycles,
-            lengthOfCycle = screenViewState.cycleLength,
-            totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
-            uiArrangement = uiArrangement,
-            users = screenViewState.users,
-            toggleSelectedUser = toggleSelectedUser,
-            navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
-            hiitLogger = hiitLogger
-        )
+        is HomeViewState.Nominal ->
+            HomeNominalContent(
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
+                numberOfCycles = screenViewState.numberCumulatedCycles,
+                lengthOfCycle = screenViewState.cycleLength,
+                totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
+                uiArrangement = uiArrangement,
+                users = screenViewState.users,
+                toggleSelectedUser = toggleSelectedUser,
+                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
+                hiitLogger = hiitLogger,
+            )
     }
     when (dialogViewState) {
-        is HomeDialog.ConfirmWholeReset -> WarningDialog(
-            message = stringResource(id = R.string.error_confirm_whole_reset),
-            proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-            proceedAction = resetWholeAppDeleteEverything,
-            dismissAction = cancelDialog
-        )
+        is HomeDialog.ConfirmWholeReset ->
+            WarningDialog(
+                message = stringResource(id = R.string.error_confirm_whole_reset),
+                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                proceedAction = resetWholeAppDeleteEverything,
+                dismissAction = cancelDialog,
+            )
 
-        HomeDialog.None -> {} /*do nothing*/
+        HomeDialog.None -> {} // do nothing
     }
 }
 
@@ -74,24 +78,24 @@ fun HomeContentHolder(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun HomeContentHolderPreviewPhonePortrait(
-    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
+    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
                 uiArrangement = UiArrangement.VERTICAL,
                 screenViewState = viewState,
-                dialogViewState = HomeDialog.None
+                dialogViewState = HomeDialog.None,
             )
         }
     }
@@ -100,23 +104,23 @@ private fun HomeContentHolderPreviewPhonePortrait(
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun HomeContentHolderPreviewTabletLandscape(
-    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
+    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,
                 screenViewState = viewState,
-                dialogViewState = HomeDialog.None
+                dialogViewState = HomeDialog.None,
             )
         }
     }
@@ -126,24 +130,24 @@ private fun HomeContentHolderPreviewTabletLandscape(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400
+    heightDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400
+    heightDp = 400,
 )
 @Composable
 private fun HomeContentHolderPreviewPhoneLandscape(
-    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
+    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
                 uiArrangement = UiArrangement.HORIZONTAL,
                 screenViewState = viewState,
-                dialogViewState = HomeDialog.None
+                dialogViewState = HomeDialog.None,
             )
         }
     }
@@ -151,24 +155,25 @@ private fun HomeContentHolderPreviewPhoneLandscape(
 
 internal class HomeContentHolderPreviewParameterProvider : PreviewParameterProvider<HomeViewState> {
     override val values: Sequence<HomeViewState>
-        get() = sequenceOf(
-            HomeViewState.Loading,
-            HomeViewState.Error(errorCode = "12345"),
-            HomeViewState.MissingUsers(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                totalSessionLengthFormatted = "total time: 20mn"
-            ),
-            HomeViewState.Nominal(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                users = listOf(
-                    User(123L, "User 1", selected = true),
-                    User(234L, "User 2", selected = false),
-                    User(345L, "User 3", selected = true)
+        get() =
+            sequenceOf(
+                HomeViewState.Loading,
+                HomeViewState.Error(errorCode = "12345"),
+                HomeViewState.MissingUsers(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    totalSessionLengthFormatted = "total time: 20mn",
                 ),
-                totalSessionLengthFormatted = "total time: 20mn"
+                HomeViewState.Nominal(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    users =
+                        listOf(
+                            User(123L, "User 1", selected = true),
+                            User(234L, "User 2", selected = false),
+                            User(345L, "User 3", selected = true),
+                        ),
+                    totalSessionLengthFormatted = "total time: 20mn",
+                ),
             )
-
-        )
 }

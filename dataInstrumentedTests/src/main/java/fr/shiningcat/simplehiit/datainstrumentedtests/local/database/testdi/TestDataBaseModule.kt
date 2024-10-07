@@ -13,13 +13,14 @@ import javax.inject.Named
 @Module
 @InstallIn(SingletonComponent::class)
 object TestDataBaseModule {
-
     @Provides
     @Named("test_db")
-    fun provideInMemoryDb(@ApplicationContext context: Context) =
-        Room.inMemoryDatabaseBuilder(
+    fun provideInMemoryDb(
+        @ApplicationContext context: Context,
+    ) = Room
+        .inMemoryDatabaseBuilder(
             context,
-            SimpleHiitDatabase::class.java
+            SimpleHiitDatabase::class.java,
         ).allowMainThreadQueries()
-            .build()
+        .build()
 }

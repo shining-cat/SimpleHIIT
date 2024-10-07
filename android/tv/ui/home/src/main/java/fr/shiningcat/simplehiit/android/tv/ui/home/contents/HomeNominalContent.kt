@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
@@ -45,7 +44,7 @@ fun HomeNominalContent(
     toggleSelectedUser: (User) -> Unit = {},
     navigateToSession: () -> Unit = {},
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
@@ -55,27 +54,29 @@ fun HomeNominalContent(
     val canLaunchSession = users.any { it.selected }
 
     Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize(),
     ) {
         if (users.size == 1) {
             SingleUserHeaderComponent(
                 modifier = Modifier.weight(1f),
-                user = users[0]
+                user = users[0],
             )
         } else {
             SelectUsersComponent(
                 modifier = Modifier.weight(1f),
                 users = users,
-                toggleSelectedUser = toggleSelectedUser
+                toggleSelectedUser = toggleSelectedUser,
             )
         }
         Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             NumberCyclesComponent(
                 decreaseNumberOfCycles = decreaseNumberOfCycles,
@@ -83,26 +84,29 @@ fun HomeNominalContent(
                 numberOfCycles = numberOfCycles,
                 lengthOfCycle = lengthOfCycle,
                 totalLengthFormatted = totalLengthFormatted,
-                modifier = Modifier.weight(1f, true)
+                modifier = Modifier.weight(1f, true),
             )
             Row(
                 modifier = Modifier.weight(1f, true),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(modifier = Modifier.weight(.3f))
                 ButtonFilled(
-                    modifier = Modifier
-                        .height(48.dp)
-                        .weight(.3f)
-                        .focusRequester(focusRequester), // calling focus on the launch button on opening
-                    label = if (canLaunchSession) {
-                        stringResource(id = R.string.launch_session_label)
-                    } else {
-                        stringResource(id = R.string.cannot_launch_session_label)
-                    },
+                    modifier =
+                        Modifier
+                            .height(48.dp)
+                            .weight(.3f)
+                            .focusRequester(focusRequester),
+                    // calling focus on the launch button on opening
+                    label =
+                        if (canLaunchSession) {
+                            stringResource(id = R.string.launch_session_label)
+                        } else {
+                            stringResource(id = R.string.cannot_launch_session_label)
+                        },
                     accentColor = true,
                     enabled = canLaunchSession,
-                    onClick = navigateToSession
+                    onClick = navigateToSession,
                 )
                 Spacer(modifier = Modifier.weight(.3f))
             }
@@ -114,17 +118,16 @@ fun HomeNominalContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HomeNominalContentPreviewPhonePortrait(
-    @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>
+    @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
@@ -132,7 +135,7 @@ private fun HomeNominalContentPreviewPhonePortrait(
                 numberOfCycles = 5,
                 lengthOfCycle = "4mn",
                 totalLengthFormatted = "20mn",
-                users = users
+                users = users,
             )
         }
     }
@@ -140,22 +143,23 @@ private fun HomeNominalContentPreviewPhonePortrait(
 
 internal class HomeNominalContentPreviewParameterProvider : PreviewParameterProvider<List<User>> {
     override val values: Sequence<List<User>>
-        get() = sequenceOf(
-            listOf(User(123L, "User 1", selected = true)),
-            listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User 2", selected = false)
-            ),
-            listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User pouet 2", selected = false),
-                User(345L, "User ping 3", selected = true),
-                User(345L, "User 4 hase a very long name", selected = true),
-                User(123L, "User tralala 5", selected = true),
-                User(234L, "User tudut 6", selected = false),
-                User(345L, "User toto 7", selected = true),
-                User(345L, "UserWithLongName 8", selected = true)
-            ),
-            listOf(User(123L, "User 1", selected = false))
-        )
+        get() =
+            sequenceOf(
+                listOf(User(123L, "User 1", selected = true)),
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                ),
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User pouet 2", selected = false),
+                    User(345L, "User ping 3", selected = true),
+                    User(345L, "User 4 hase a very long name", selected = true),
+                    User(123L, "User tralala 5", selected = true),
+                    User(234L, "User tudut 6", selected = false),
+                    User(345L, "User toto 7", selected = true),
+                    User(345L, "UserWithLongName 8", selected = true),
+                ),
+                listOf(User(123L, "User 1", selected = false)),
+            )
 }

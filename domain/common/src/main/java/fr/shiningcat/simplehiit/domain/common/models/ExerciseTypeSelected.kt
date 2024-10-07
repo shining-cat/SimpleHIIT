@@ -5,5 +5,5 @@ import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGenerat
 @ExcludeFromJacocoGeneratedReport
 data class ExerciseTypeSelected(
     val type: ExerciseType,
-    val selected: Boolean
+    val selected: Boolean,
 )

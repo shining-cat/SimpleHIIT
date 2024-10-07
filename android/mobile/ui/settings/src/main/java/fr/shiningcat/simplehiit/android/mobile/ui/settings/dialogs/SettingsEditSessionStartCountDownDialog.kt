@@ -22,12 +22,13 @@ fun SettingsEditSessionStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
     validateCountDownLengthInput: (String) -> Constants.InputError,
     countDownLengthSeconds: String,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
     ) {
         InputDialog(
             dialogTitle = stringResource(id = R.string.session_start_countdown_length_setting_label),
@@ -41,30 +42,29 @@ fun SettingsEditSessionStartCountDownDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateCountDownLengthInput,
-            pickErrorMessage = { setInputSessionCountDownLengthErrorMessage(it) }
+            pickErrorMessage = { setInputSessionCountDownLengthErrorMessage(it) },
         )
     }
 }
 
-private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int {
-    return when (error) {
+private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int =
+    when (error) {
         Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
-}
 
 // Previews
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsEditSessionStartCountDownDialogPreview() {
@@ -73,7 +73,7 @@ private fun SettingsEditSessionStartCountDownDialogPreview() {
             saveCountDownLength = {},
             validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
             countDownLengthSeconds = "5",
-            onCancel = {}
+            onCancel = {},
         )
     }
 }

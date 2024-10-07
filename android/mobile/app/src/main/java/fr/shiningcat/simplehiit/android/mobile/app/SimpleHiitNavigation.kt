@@ -15,40 +15,40 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 @Composable
 fun SimpleHiitNavigation(
     uiArrangement: UiArrangement,
-    hiitLogger: HiitLogger
+    hiitLogger: HiitLogger,
 ) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.Home.route,
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(
                 navigateTo = { navController.navigate(it) },
                 uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(
                 navigateTo = { navController.navigate(it) },
                 uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Statistics.route) {
             StatisticsScreen(
                 navigateTo = { navController.navigate(it) },
                 uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Session.route) {
             SessionScreen(
                 navigateUp = { navController.navigateUp() },
                 uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
     }

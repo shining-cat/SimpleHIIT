@@ -7,23 +7,22 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
-import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.userSelectedColumnName
-import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.usersTableName
+import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.USERS_TABLE_NAME
+import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.USER_SELECTED_COLUMN_NAME
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class UsersDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(user: UserEntity): Long
 
-    @Query("SELECT * FROM $usersTableName")
+    @Query("SELECT * FROM $USERS_TABLE_NAME")
     abstract fun getUsers(): Flow<List<UserEntity>>
 
-    @Query("SELECT * FROM $usersTableName")
+    @Query("SELECT * FROM $USERS_TABLE_NAME")
     abstract suspend fun getUsersList(): List<UserEntity>
 
-    @Query("SELECT * FROM $usersTableName WHERE $userSelectedColumnName = 1")
+    @Query("SELECT * FROM $USERS_TABLE_NAME WHERE $USER_SELECTED_COLUMN_NAME = 1")
     abstract fun getSelectedUsers(): Flow<List<UserEntity>>
 
     @Update
@@ -32,6 +31,6 @@ abstract class UsersDao {
     @Delete
     abstract suspend fun delete(userEntity: UserEntity): Int
 
-    @Query("DELETE FROM $usersTableName")
+    @Query("DELETE FROM $USERS_TABLE_NAME")
     abstract suspend fun deleteAllUsers()
 }

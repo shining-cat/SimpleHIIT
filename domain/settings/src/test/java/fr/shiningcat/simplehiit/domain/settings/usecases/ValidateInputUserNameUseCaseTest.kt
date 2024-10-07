@@ -11,13 +11,12 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
-
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         user: User,
         existingUsers: List<User>,
-        expectedOutput: Constants.InputError
+        expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
             ValidateInputUserNameUseCase(hiitLogger = mockHiitLogger)
@@ -27,7 +26,6 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
     }
 
     private companion object {
-
         @JvmStatic
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
@@ -36,37 +34,47 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                     listOf(
                         User(id = 123L, name = "user test 1"),
                         User(id = 234L, name = "user test 2"),
-                        User(id = 345L, name = "user test 3")
+                        User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.VALUE_ALREADY_TAKEN
+                    Constants.InputError.VALUE_ALREADY_TAKEN,
                 ),
                 Arguments.of(
-                    User(id = 123L, name = "very very long user test name that is more than twenty-five characters since that is the limit we have chosen"),
+                    User(
+                        id = 123L,
+                        name =
+                            "very very long user test name that is more than " +
+                                "twenty-five characters since that is the limit we have chosen",
+                    ),
                     listOf(
                         User(id = 123L, name = "user test 1"),
                         User(id = 234L, name = "user test 2"),
-                        User(id = 345L, name = "user test 3")
+                        User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.TOO_LONG
+                    Constants.InputError.TOO_LONG,
                 ),
+                // picking the same name for the same user id:
                 Arguments.of(
                     User(id = 123L, name = "user test 1"),
                     listOf(
                         User(id = 123L, name = "user test 1"),
                         User(id = 234L, name = "user test 2"),
-                        User(id = 345L, name = "user test 3")
+                        User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.NONE
-                ), // picking the same name for the same user id
+                    Constants.InputError.NONE,
+                ),
                 Arguments.of(
-                    User(id = 123L, name = "completely new user name"), // 25 chars is the accepted limit
+                    // 25 chars is the accepted limit
+                    User(
+                        id = 123L,
+                        name = "completely new user name",
+                    ),
                     listOf(
                         User(id = 123L, name = "user test 1"),
                         User(id = 234L, name = "user test 2"),
-                        User(id = 345L, name = "user test 3")
+                        User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.NONE
-                )
+                    Constants.InputError.NONE,
+                ),
             )
     }
 }

@@ -19,17 +19,19 @@ import fr.shiningcat.simplehiit.commonresources.R
 @Composable
 fun GoToSettingsButton(
     modifier: Modifier = Modifier,
-    navigateToSettings: () -> Unit = {}
+    navigateToSettings: () -> Unit = {},
 ) {
     Button(
-        modifier = modifier
-            .padding(vertical = 24.dp)
-            .height(56.dp),
+        modifier =
+            modifier
+                .padding(vertical = 24.dp)
+                .height(56.dp),
         onClick = navigateToSettings,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
+            ),
     ) {
         Text(text = stringResource(id = R.string.go_to_settings))
     }
@@ -38,11 +40,11 @@ fun GoToSettingsButton(
 // Previews
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun GoToSettingsButtonPreview() {

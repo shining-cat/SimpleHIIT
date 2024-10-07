@@ -25,32 +25,37 @@ fun GifImage(
     modifier: Modifier = Modifier,
     @DrawableRes
     gifResId: Int,
-    mirrored: Boolean = false
+    mirrored: Boolean = false,
 ) {
     val context = LocalContext.current
-    val imageLoader = ImageLoader.Builder(context)
-        .components {
-            if (SDK_INT >= 28) {
-                add(ImageDecoderDecoder.Factory())
-            } else {
-                add(GifDecoder.Factory())
-            }
+    val imageLoader =
+        ImageLoader
+            .Builder(context)
+            .components {
+                if (SDK_INT >= 28) {
+                    add(ImageDecoderDecoder.Factory())
+                } else {
+                    add(GifDecoder.Factory())
+                }
+            }.build()
+    val imageModifier =
+        if (mirrored) {
+            modifier.graphicsLayer { rotationY = 180f }
+        } else {
+            modifier
         }
-        .build()
-    val imageModifier = if (mirrored) {
-        modifier.graphicsLayer { rotationY = 180f }
-    } else {
-        modifier
-    }
     Image(
-        painter = rememberAsyncImagePainter(
-            model = ImageRequest.Builder(context)
-                .data(data = gifResId)
-                .apply(block = { size(Size.ORIGINAL) })
-                .build(),
-            imageLoader = imageLoader
-        ),
+        painter =
+            rememberAsyncImagePainter(
+                model =
+                    ImageRequest
+                        .Builder(context)
+                        .data(data = gifResId)
+                        .apply(block = { size(Size.ORIGINAL) })
+                        .build(),
+                imageLoader = imageLoader,
+            ),
         contentDescription = null,
-        modifier = imageModifier.fillMaxWidth()
+        modifier = imageModifier.fillMaxWidth(),
     )
 }

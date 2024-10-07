@@ -5,10 +5,15 @@ import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGenerat
 @ExcludeFromJacocoGeneratedReport
 data class DisplayedStatistic(
     val displayValue: String,
-    val type: DisplayStatisticType
+    val type: DisplayStatisticType,
 )
 
 @ExcludeFromJacocoGeneratedReport
 enum class DisplayStatisticType {
-    TOTAL_SESSIONS_NUMBER, TOTAL_EXERCISE_TIME, AVERAGE_SESSION_LENGTH, LONGEST_STREAK, CURRENT_STREAK, AVERAGE_SESSIONS_PER_WEEK
+    TOTAL_SESSIONS_NUMBER,
+    TOTAL_EXERCISE_TIME,
+    AVERAGE_SESSION_LENGTH,
+    LONGEST_STREAK,
+    CURRENT_STREAK,
+    AVERAGE_SESSIONS_PER_WEEK,
 }

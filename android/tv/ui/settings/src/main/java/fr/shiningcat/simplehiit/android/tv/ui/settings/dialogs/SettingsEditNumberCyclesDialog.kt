@@ -22,12 +22,13 @@ fun SettingsEditNumberCyclesDialog(
     saveNumber: (String) -> Unit,
     validateNumberCyclesInput: (String) -> Constants.InputError,
     numberOfCycles: String,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
     ) {
         InputDialog(
             dialogTitle = stringResource(id = R.string.number_of_cycle_setting_title),
@@ -41,30 +42,29 @@ fun SettingsEditNumberCyclesDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateNumberCyclesInput,
-            pickErrorMessage = { setNumberCyclesErrorMessage(it) }
+            pickErrorMessage = { setNumberCyclesErrorMessage(it) },
         )
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int {
-    return when (error) {
+private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int =
+    when (error) {
         Constants.InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
-}
 
 // Previews
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsEditNumberCyclesDialogPreview() {
@@ -73,7 +73,7 @@ private fun SettingsEditNumberCyclesDialogPreview() {
             saveNumber = {},
             validateNumberCyclesInput = { _ -> Constants.InputError.NONE },
             numberOfCycles = "5",
-            onCancel = {}
+            onCancel = {},
         )
     }
 }

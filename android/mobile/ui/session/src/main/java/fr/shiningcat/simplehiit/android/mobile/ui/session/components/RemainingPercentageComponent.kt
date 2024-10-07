@@ -25,34 +25,35 @@ fun RemainingPercentageComponent(
     label: String,
     percentage: Float,
     thickness: Dp,
-    bicolor: Boolean
+    bicolor: Boolean,
 ) {
     Column(
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
         )
         LinearProgressIndicator(
-            modifier = Modifier
-                .height(thickness)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .height(thickness)
+                    .fillMaxWidth(),
             progress = percentage,
             color = MaterialTheme.colorScheme.secondary,
-            trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface
+            trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun RemainingPercentageComponentPreview() {
@@ -61,34 +62,37 @@ private fun RemainingPercentageComponentPreview() {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceEvenly,
             ) {
                 RemainingPercentageComponent(
-                    modifier = Modifier
-                        .padding(horizontal = 64.dp)
-                        .height(100.dp),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 64.dp)
+                            .height(100.dp),
                     label = "Next exercise in 3s",
                     percentage = .3f,
                     thickness = 8.dp,
-                    bicolor = false
+                    bicolor = false,
                 )
                 RemainingPercentageComponent(
-                    modifier = Modifier
-                        .padding(horizontal = 64.dp)
-                        .height(100.dp),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 64.dp)
+                            .height(100.dp),
                     label = "Next rest in 23s",
                     percentage = .8f,
                     thickness = 8.dp,
-                    bicolor = false
+                    bicolor = false,
                 )
                 RemainingPercentageComponent(
-                    modifier = Modifier
-                        .padding(horizontal = 64.dp)
-                        .height(100.dp),
+                    modifier =
+                        Modifier
+                            .padding(horizontal = 64.dp)
+                            .height(100.dp),
                     label = "Total remaining: 20mn 37s",
                     percentage = .79f,
                     thickness = 16.dp,
-                    bicolor = true
+                    bicolor = true,
                 )
             }
         }

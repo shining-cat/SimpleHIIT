@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.tv.foundation.lazy.grid.TvGridCells
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -32,21 +31,20 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import kotlin.math.ceil
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SettingsExercisesSelectedComponent(
     exerciseTypes: List<ExerciseTypeSelected>,
     onToggle: (ExerciseTypeSelected) -> Unit = {},
     exerciseButtonsFocusRequesters: Map<String, FocusRequester> = emptyMap(),
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Column {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.selected_exercise_types_list_setting_label)
+            text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
         )
         Spacer(modifier = Modifier.height(8.dp))
         val itemHeight = 56.dp
@@ -62,29 +60,30 @@ fun SettingsExercisesSelectedComponent(
             modifier = Modifier.height(gridHeight),
             verticalArrangement = Arrangement.spacedBy(spacing),
             horizontalArrangement = Arrangement.spacedBy(spacing),
-            userScrollEnabled = false
+            userScrollEnabled = false,
         ) {
             items(exerciseTypes.size) {
                 val exerciseTypeSelected = exerciseTypes[it]
                 val exerciseTypeFocusRequester =
                     exerciseButtonsFocusRequesters[exerciseTypeSelected.type.name]
                 ButtonToggle(
-                    modifier = Modifier
-                        .height(itemHeight)
-                        // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
-                        .offset(y = forcedTopMargin)
-                        .then(
-                            if (exerciseTypeFocusRequester != null) {
-                                Modifier.focusRequester(
-                                    exerciseTypeFocusRequester
-                                )
-                            } else {
-                                Modifier
-                            }
-                        ),
+                    modifier =
+                        Modifier
+                            .height(itemHeight)
+                            // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
+                            .offset(y = forcedTopMargin)
+                            .then(
+                                if (exerciseTypeFocusRequester != null) {
+                                    Modifier.focusRequester(
+                                        exerciseTypeFocusRequester,
+                                    )
+                                } else {
+                                    Modifier
+                                },
+                            ),
                     label = exerciseTypeSelected.type.name,
                     selected = exerciseTypeSelected.selected,
-                    onToggle = { onToggle(exerciseTypeSelected) }
+                    onToggle = { onToggle(exerciseTypeSelected) },
                 )
             }
         }
@@ -92,16 +91,15 @@ fun SettingsExercisesSelectedComponent(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsExercisesSelectedComponentPreview(
-    @PreviewParameter(SettingsExercisesSelectedComponentPreviewParameterProvider::class) exercises: List<ExerciseTypeSelected>
+    @PreviewParameter(SettingsExercisesSelectedComponentPreviewParameterProvider::class) exercises: List<ExerciseTypeSelected>,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
@@ -110,27 +108,28 @@ private fun SettingsExercisesSelectedComponentPreview(
     }
 }
 
-internal class SettingsExercisesSelectedComponentPreviewParameterProvider :
-    PreviewParameterProvider<List<ExerciseTypeSelected>> {
-
-    private val exerciseTypeSelectedAllTrue = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = true
-        )
-    }
-    private val exerciseTypeSelectedAllFalse = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = false
-        )
-    }
-    private val exerciseTypeSelectedMixed = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = (ExerciseType.values().indexOf(it) % 2 == 0)
-        )
-    }
+internal class SettingsExercisesSelectedComponentPreviewParameterProvider : PreviewParameterProvider<List<ExerciseTypeSelected>> {
+    private val exerciseTypeSelectedAllTrue =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = true,
+            )
+        }
+    private val exerciseTypeSelectedAllFalse =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = false,
+            )
+        }
+    private val exerciseTypeSelectedMixed =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+            )
+        }
 
     private fun tripleList(): List<ExerciseTypeSelected> {
         val tripleList = mutableListOf<ExerciseTypeSelected>()
@@ -141,10 +140,11 @@ internal class SettingsExercisesSelectedComponentPreviewParameterProvider :
     }
 
     override val values: Sequence<List<ExerciseTypeSelected>>
-        get() = sequenceOf(
-            tripleList(),
-            exerciseTypeSelectedAllTrue,
-            exerciseTypeSelectedAllFalse,
-            exerciseTypeSelectedMixed
-        )
+        get() =
+            sequenceOf(
+                tripleList(),
+                exerciseTypeSelectedAllTrue,
+                exerciseTypeSelectedAllFalse,
+                exerciseTypeSelectedMixed,
+            )
 }

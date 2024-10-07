@@ -28,57 +28,62 @@ fun ErrorDialog(
     errorMessage: String,
     errorCode: String,
     dismissButtonLabel: String = "",
-    dismissAction: () -> Unit
+    dismissAction: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismissAction) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
             ) {
                 Text(
                     textAlign = TextAlign.Left,
                     modifier = Modifier.padding(horizontal = 0.dp, vertical = 4.dp),
                     text = stringResource(id = R.string.error_title),
-                    style = MaterialTheme.typography.headlineSmall
+                    style = MaterialTheme.typography.headlineSmall,
                 )
                 Image(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .padding(horizontal = 0.dp, vertical = 24.dp),
+                    modifier =
+                        Modifier
+                            .size(120.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .padding(horizontal = 0.dp, vertical = 24.dp),
                     painter = painterResource(id = R.drawable.warning),
-                    contentDescription = stringResource(id = R.string.warning_icon_content_description)
+                    contentDescription = stringResource(id = R.string.warning_icon_content_description),
                 )
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 0.dp, vertical = 8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 0.dp, vertical = 8.dp),
                     text = stringResource(id = R.string.error_notice),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 if (errorMessage.isNotBlank()) {
                     Text(
                         textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = 8.dp),
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 0.dp, vertical = 8.dp),
                         text = errorMessage,
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 0.dp, vertical = 8.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 0.dp, vertical = 8.dp),
                     text = stringResource(id = R.string.error_code, errorCode),
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 TextButton(onClick = dismissAction) {
                     Text(text = dismissButtonLabel)
@@ -92,12 +97,12 @@ fun ErrorDialog(
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun ErrorDialogPreview() {
@@ -107,7 +112,7 @@ private fun ErrorDialogPreview() {
                 errorMessage = "A balloon is floating above the country",
                 errorCode = "1234",
                 dismissAction = {},
-                dismissButtonLabel = "OK"
+                dismissButtonLabel = "OK",
             )
         }
     }

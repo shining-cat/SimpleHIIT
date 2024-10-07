@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.tv.foundation.lazy.list.TvLazyColumn
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
@@ -53,7 +52,7 @@ fun SettingsNominalContent(
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
     resetSettings: () -> Unit = {},
     viewState: SettingsViewState.Nominal,
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     val firstButtonFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
@@ -74,9 +73,10 @@ fun SettingsNominalContent(
     }
 
     TvLazyColumn(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxSize(),
     ) {
         item {
             Spacer(modifier = Modifier.height(16.dp)) // cheating to avoid truncating zoom-in focus effect on first item
@@ -85,22 +85,24 @@ fun SettingsNominalContent(
             SettingsFieldComponent(
                 modifier = Modifier.focusRequester(firstButtonFocusRequester),
                 label = stringResource(id = R.string.work_period_length_label),
-                value = stringResource(
-                    id = R.string.seconds_setting_value,
-                    viewState.workPeriodLengthAsSeconds
-                ),
+                value =
+                    stringResource(
+                        id = R.string.seconds_setting_value,
+                        viewState.workPeriodLengthAsSeconds,
+                    ),
                 onClick = editWorkPeriodLength,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         item {
             SettingsFieldComponent(
                 label = stringResource(id = R.string.rest_period_length_label),
-                value = stringResource(
-                    id = R.string.seconds_setting_value,
-                    viewState.restPeriodLengthAsSeconds
-                ),
-                onClick = editRestPeriodLength
+                value =
+                    stringResource(
+                        id = R.string.seconds_setting_value,
+                        viewState.restPeriodLengthAsSeconds,
+                    ),
+                onClick = editRestPeriodLength,
             )
         }
         item {
@@ -109,55 +111,59 @@ fun SettingsNominalContent(
                 value = viewState.numberOfWorkPeriods,
                 secondaryLabel = stringResource(id = R.string.total_cycle_length_label),
                 secondaryValue = viewState.totalCycleLength,
-                onClick = editNumberOfWorkPeriods
+                onClick = editNumberOfWorkPeriods,
             )
         }
         item {
             SettingsToggleComponent(
                 label = stringResource(id = R.string.beep_sound_setting_label),
                 value = viewState.beepSoundCountDownActive,
-                onToggle = toggleBeepSound
+                onToggle = toggleBeepSound,
             )
         }
         item {
             SettingsFieldComponent(
                 label = stringResource(id = R.string.period_start_countdown_length_setting_label),
-                value = stringResource(
-                    id = R.string.seconds_setting_value,
-                    viewState.periodsStartCountDownLengthAsSeconds
-                ),
-                onClick = editPeriodStartCountDown
+                value =
+                    stringResource(
+                        id = R.string.seconds_setting_value,
+                        viewState.periodsStartCountDownLengthAsSeconds,
+                    ),
+                onClick = editPeriodStartCountDown,
             )
         }
         item {
             SettingsFieldComponent(
                 label = stringResource(id = R.string.session_start_countdown_length_setting_label),
-                value = stringResource(
-                    id = R.string.seconds_setting_value,
-                    viewState.sessionStartCountDownLengthAsSeconds
-                ),
-                onClick = editSessionStartCountDown
+                value =
+                    stringResource(
+                        id = R.string.seconds_setting_value,
+                        viewState.sessionStartCountDownLengthAsSeconds,
+                    ),
+                onClick = editSessionStartCountDown,
             )
         }
         item {
             Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
             )
         }
         item {
             SettingsUsersComponent(
                 users = viewState.users,
                 onClickUser = editUser,
-                onAddUser = addUser
+                onAddUser = addUser,
             )
         }
         item {
             Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
             )
         }
         item {
@@ -169,25 +175,27 @@ fun SettingsNominalContent(
                     toggleExerciseType(it)
                 },
                 exerciseButtonsFocusRequesters = exerciseButtonsFocusRequesters,
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         item {
             Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
             )
         }
         item {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Spacer(modifier = Modifier.weight(.3f))
                 ButtonText(
-                    modifier = Modifier
-                        .padding(vertical = 24.dp)
-                        .weight(weight = .3f, fill = true),
+                    modifier =
+                        Modifier
+                            .padding(vertical = 24.dp)
+                            .weight(weight = .3f, fill = true),
                     onClick = resetSettings,
-                    label = stringResource(id = R.string.reset_settings_button_label)
+                    label = stringResource(id = R.string.reset_settings_button_label),
                 )
                 Spacer(modifier = Modifier.weight(.3f))
             }
@@ -199,20 +207,19 @@ fun SettingsNominalContent(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsNominalContentPreviewPhonePortrait(
-    @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal
+    @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
@@ -221,83 +228,86 @@ private fun SettingsNominalContentPreviewPhonePortrait(
     }
 }
 
-internal class SettingsNominalContentPreviewParameterProvider :
-    PreviewParameterProvider<SettingsViewState.Nominal> {
-
-    private val exerciseTypeSelectedAllTrue = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = true
-        )
-    }
-    private val exerciseTypeSelectedAllFalse = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = false
-        )
-    }
-    private val exerciseTypeSelectedMixed = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = (ExerciseType.values().indexOf(it) % 2 == 0)
-        )
-    }
+internal class SettingsNominalContentPreviewParameterProvider : PreviewParameterProvider<SettingsViewState.Nominal> {
+    private val exerciseTypeSelectedAllTrue =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = true,
+            )
+        }
+    private val exerciseTypeSelectedAllFalse =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = false,
+            )
+        }
+    private val exerciseTypeSelectedMixed =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+            )
+        }
 
     private val listOfOneUser = listOf(User(name = "user 1"))
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
-    private val listOfMoreUser = listOf(
-        User(name = "user 1"),
-        User(name = "user 2"),
-        User(name = "user 3"),
-        User(name = "user 4"),
-        User(name = "user 5")
-    )
+    private val listOfMoreUser =
+        listOf(
+            User(name = "user 1"),
+            User(name = "user 2"),
+            User(name = "user 3"),
+            User(name = "user 4"),
+            User(name = "user 5"),
+        )
 
     override val values: Sequence<SettingsViewState.Nominal>
-        get() = sequenceOf(
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = true,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = emptyList(),
-                exerciseTypes = exerciseTypeSelectedAllTrue
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = true,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = listOfOneUser,
-                exerciseTypes = exerciseTypeSelectedAllTrue
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = true,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = listOfTwoUser,
-                exerciseTypes = exerciseTypeSelectedAllFalse
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = true,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = listOfMoreUser,
-                exerciseTypes = exerciseTypeSelectedMixed
+        get() =
+            sequenceOf(
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = emptyList(),
+                    exerciseTypes = exerciseTypeSelectedAllTrue,
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfOneUser,
+                    exerciseTypes = exerciseTypeSelectedAllTrue,
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfTwoUser,
+                    exerciseTypes = exerciseTypeSelectedAllFalse,
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfMoreUser,
+                    exerciseTypes = exerciseTypeSelectedMixed,
+                ),
             )
-        )
 }

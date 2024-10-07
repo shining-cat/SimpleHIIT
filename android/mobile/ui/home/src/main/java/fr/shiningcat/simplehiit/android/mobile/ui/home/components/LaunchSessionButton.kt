@@ -21,18 +21,20 @@ import fr.shiningcat.simplehiit.commonresources.R
 fun LaunchSessionButton(
     modifier: Modifier = Modifier,
     canLaunchSession: Boolean,
-    navigateToSession: () -> Unit = {}
+    navigateToSession: () -> Unit = {},
 ) {
     Button(
         enabled = canLaunchSession,
-        modifier = modifier
-            .padding(vertical = 24.dp)
-            .height(56.dp),
+        modifier =
+            modifier
+                .padding(vertical = 24.dp)
+                .height(56.dp),
         onClick = navigateToSession,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.secondary,
-            contentColor = MaterialTheme.colorScheme.onSecondary
-        )
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.secondary,
+                contentColor = MaterialTheme.colorScheme.onSecondary,
+            ),
     ) {
         if (canLaunchSession) {
             Text(text = stringResource(id = R.string.launch_session_label))
@@ -45,11 +47,11 @@ fun LaunchSessionButton(
 // Previews
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun LaunchSessionButtonPreview() {

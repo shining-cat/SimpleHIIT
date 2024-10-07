@@ -24,39 +24,37 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class LocalDataModule {
+    @Provides
+    fun provideUserDao(simpleHiitDatabase: SimpleHiitDatabase): UsersDao = simpleHiitDatabase.userDao()
 
     @Provides
-    fun provideUserDao(simpleHiitDatabase: SimpleHiitDatabase): UsersDao {
-        return simpleHiitDatabase.userDao()
-    }
-
-    @Provides
-    fun provideSessionsDao(simpleHiitDatabase: SimpleHiitDatabase): SessionRecordsDao {
-        return simpleHiitDatabase.sessionsDao()
-    }
+    fun provideSessionsDao(simpleHiitDatabase: SimpleHiitDatabase): SessionRecordsDao = simpleHiitDatabase.sessionsDao()
 
     @Provides
     @Singleton
-    fun provideSimpleHiitDatabase(@ApplicationContext appContext: Context): SimpleHiitDatabase {
-        return Room.databaseBuilder(
-            context = appContext,
-            klass = SimpleHiitDatabase::class.java,
-            name = SimpleHiitDatabaseName
-        ).build()
-    }
+    fun provideSimpleHiitDatabase(
+        @ApplicationContext appContext: Context,
+    ): SimpleHiitDatabase =
+        Room
+            .databaseBuilder(
+                context = appContext,
+                klass = SimpleHiitDatabase::class.java,
+                name = SimpleHiitDatabaseName,
+            ).build()
 
     @Provides
     @Singleton
     fun provideSimpleHiitDataStoreManager(
         @ApplicationContext appContext: Context,
         @IoDispatcher ioDispatcher: CoroutineDispatcher,
-        hiitLogger: HiitLogger
+        hiitLogger: HiitLogger,
     ): SimpleHiitDataStoreManager {
-        val datastore = PreferenceDataStoreFactory.create(
-            produceFile = {
-                appContext.preferencesDataStoreFile(SIMPLE_HIIT_DATASTORE_FILENAME)
-            }
-        )
+        val datastore =
+            PreferenceDataStoreFactory.create(
+                produceFile = {
+                    appContext.preferencesDataStoreFile(SIMPLE_HIIT_DATASTORE_FILENAME)
+                },
+            )
         return SimpleHiitDataStoreManagerImpl(datastore, ioDispatcher, hiitLogger)
     }
 }

@@ -22,7 +22,6 @@ import androidx.tv.foundation.lazy.grid.TvGridCells
 import androidx.tv.foundation.lazy.grid.TvGridItemSpan
 import androidx.tv.foundation.lazy.grid.TvLazyGridItemSpanScope
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.utils.StickyFooterArrangement
@@ -42,19 +41,20 @@ fun StatisticsNominalContent(
     openUserPicker: () -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
     viewState: StatisticsViewState.Nominal,
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // we don't want the name to scroll along with the grid (sticky header)
         StatisticsHeaderComponent(
             openUserPicker = openUserPicker,
             currentUserName = viewState.user.name,
-            showUsersSwitch = viewState.showUsersSwitch
+            showUsersSwitch = viewState.showUsersSwitch,
         )
         //
         val columnsCount = 2
@@ -65,37 +65,42 @@ fun StatisticsNominalContent(
             TvGridItemSpan(columnsCount)
         }
         TvLazyVerticalGrid(
-            modifier = Modifier
-                .padding(8.dp)
-                .fillMaxSize(),
+            modifier =
+                Modifier
+                    .padding(8.dp)
+                    .fillMaxSize(),
             columns = TvGridCells.Fixed(2),
-            verticalArrangement = StickyFooterArrangement(
-                gridPadding,
-                hiitLogger
-            ),
-            horizontalArrangement = Arrangement.spacedBy(gridPadding)
+            verticalArrangement =
+                StickyFooterArrangement(
+                    gridPadding,
+                    hiitLogger,
+                ),
+            horizontalArrangement = Arrangement.spacedBy(gridPadding),
         ) {
             items(viewState.statistics.size) {
                 val displayStatistic = viewState.statistics[it]
                 StatisticCardComponent(
-                    modifier = Modifier
-                        // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
-                        .offset(y = forcedTopMargin),
-                    statistic = displayStatistic
+                    modifier =
+                        Modifier
+                            // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
+                            .offset(y = forcedTopMargin),
+                    statistic = displayStatistic,
                 )
             }
             item(span = doubleSpan) {
                 Row(modifier = Modifier.fillMaxWidth().padding(top = 24.dp)) {
                     Spacer(modifier = Modifier.weight(.3f))
                     ButtonText(
-                        modifier = Modifier
-                            .padding(horizontal = 0.dp, vertical = 16.dp)
-                            .weight(weight = .3f, fill = true),
+                        modifier =
+                            Modifier
+                                .padding(horizontal = 0.dp, vertical = 16.dp)
+                                .weight(weight = .3f, fill = true),
                         onClick = { deleteAllSessionsForUser(viewState.user) },
-                        label = stringResource(
-                            id = R.string.reset_statistics_button_label,
-                            viewState.user.name
-                        )
+                        label =
+                            stringResource(
+                                id = R.string.reset_statistics_button_label,
+                                viewState.user.name,
+                            ),
                     )
                     Spacer(modifier = Modifier.weight(.3f))
                 }
@@ -105,20 +110,19 @@ fun StatisticsNominalContent(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun StatisticsNominalContentPreviewTabletLandscape(
-    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal
+fun StatisticsNominalContentPreviewTabletLandscape(
+    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
@@ -127,75 +131,78 @@ private fun StatisticsNominalContentPreviewTabletLandscape(
     }
 }
 
-internal class StatisticsNominalContentPreviewParameterProvider :
-    PreviewParameterProvider<StatisticsViewState.Nominal> {
+internal class StatisticsNominalContentPreviewParameterProvider : PreviewParameterProvider<StatisticsViewState.Nominal> {
     override val values: Sequence<StatisticsViewState.Nominal>
-        get() = sequenceOf(
-            StatisticsViewState.Nominal(
-                user = User(name = "Sven Svensson"),
-                statistics = listOf(
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+        get() =
+            sequenceOf(
+                StatisticsViewState.Nominal(
+                    user = User(name = "Sven Svensson"),
+                    statistics =
+                        listOf(
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                        ),
+                    showUsersSwitch = true,
                 ),
-                showUsersSwitch = true
-            ),
-            StatisticsViewState.Nominal(
-                user = User(name = "Sven Svensson"),
-                statistics = listOf(
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                StatisticsViewState.Nominal(
+                    user = User(name = "Sven Svensson"),
+                    statistics =
+                        listOf(
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                        ),
+                    showUsersSwitch = false,
                 ),
-                showUsersSwitch = false
-            ),
-            StatisticsViewState.Nominal(
-                user = User(name = "Sven Svensson"),
-                statistics = listOf(
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                StatisticsViewState.Nominal(
+                    user = User(name = "Sven Svensson"),
+                    statistics =
+                        listOf(
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                        ),
+                    showUsersSwitch = true,
                 ),
-                showUsersSwitch = true
             )
-        )
 }

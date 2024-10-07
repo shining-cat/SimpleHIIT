@@ -14,20 +14,21 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ResetAllSettingsUseCaseTest : AbstractMockkTest() {
-
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
 
     @Test
-    fun `calls resetAllSettings repo`() = runTest {
-        val testedUseCase = ResetAllSettingsUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
-        coEvery { mockSimpleHiitRepository.resetAllSettings() } just Runs
-        //
-        testedUseCase.execute()
-        //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.resetAllSettings() }
-    }
+    fun `calls resetAllSettings repo`() =
+        runTest {
+            val testedUseCase =
+                ResetAllSettingsUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
+            coEvery { mockSimpleHiitRepository.resetAllSettings() } just Runs
+            //
+            testedUseCase.execute()
+            //
+            coVerify(exactly = 1) { mockSimpleHiitRepository.resetAllSettings() }
+        }
 }

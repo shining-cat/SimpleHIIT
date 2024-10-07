@@ -27,38 +27,39 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.components.GoToSettingsBu
 import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
-fun HomeMissingUsersContent(
-    navigateToSettings: () -> Unit = {}
-) {
+fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.no_user_exist_title),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
         Image(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 24.dp),
+            modifier =
+                Modifier
+                    .size(120.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 0.dp, vertical = 24.dp),
             painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
+            contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.warning_no_user_exist),
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp, vertical = 24.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 0.dp, vertical = 24.dp),
         )
         GoToSettingsButton(navigateToSettings = navigateToSettings)
     }
@@ -69,13 +70,13 @@ fun HomeMissingUsersContent(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun HomeMissingUsersContentPreviewPhonePortrait() {
@@ -89,12 +90,12 @@ private fun HomeMissingUsersContentPreviewPhonePortrait() {
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun HomeMissingUsersContentPreviewTabletLandscape() {
@@ -109,13 +110,13 @@ private fun HomeMissingUsersContentPreviewTabletLandscape() {
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400
+    heightDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400
+    heightDp = 400,
 )
 @Composable
 private fun HomeMissingUsersContentPreviewPhoneLandscape() {

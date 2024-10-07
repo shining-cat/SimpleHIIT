@@ -10,5 +10,5 @@ data class UserStatistics(
     val averageSessionLengthMs: Long = 0,
     val longestStreakDays: Int = 0,
     val currentStreakDays: Int = 0,
-    val averageNumberOfSessionsPerWeek: String = "0"
+    val averageNumberOfSessionsPerWeek: String = "0",
 )

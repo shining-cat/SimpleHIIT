@@ -20,7 +20,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.IconButton
 import androidx.tv.material3.MaterialTheme
@@ -31,14 +30,13 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun StatisticsHeaderComponent(
     openUserPicker: () -> Unit = {},
     currentUserName: String,
     showUsersSwitch: Boolean,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
@@ -49,27 +47,28 @@ fun StatisticsHeaderComponent(
     }
 
     Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth(),
+        modifier =
+            Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
-            text = currentUserName
+            text = currentUserName,
         )
         if (showUsersSwitch) {
             Spacer(modifier = Modifier.width(32.dp))
             IconButton(
                 modifier = Modifier.focusRequester(focusRequester),
-                onClick = { openUserPicker() }
+                onClick = { openUserPicker() },
             ) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.switch_user),
                     contentDescription = stringResource(id = R.string.statistics_page_switch_user),
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
@@ -77,12 +76,11 @@ fun StatisticsHeaderComponent(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun StatisticsHeaderPreview() {
@@ -90,7 +88,7 @@ private fun StatisticsHeaderPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             StatisticsHeaderComponent(
                 currentUserName = "Charles-Antoine",
-                showUsersSwitch = true
+                showUsersSwitch = true,
             )
         }
     }

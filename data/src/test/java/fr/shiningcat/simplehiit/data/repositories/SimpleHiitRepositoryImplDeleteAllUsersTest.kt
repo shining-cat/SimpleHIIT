@@ -19,7 +19,6 @@ import org.junit.jupiter.api.assertThrows
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() {
-
     private val mockUsersDao = mockk<UsersDao>()
     private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
@@ -30,44 +29,48 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
 //   DELETE USER
 
     @Test
-    fun `delete all users returns error when usersDao delete all users throws exception`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        val thrownException = Exception("this is a test exception")
-        coEvery { mockUsersDao.deleteAllUsers() } throws thrownException
-        //
-        assertThrows<Exception> {
-            simpleHiitRepository.deleteAllUsers()
+    fun `delete all users returns error when usersDao delete all users throws exception`() =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            val thrownException = Exception("this is a test exception")
+            coEvery { mockUsersDao.deleteAllUsers() } throws thrownException
+            //
+            assertThrows<Exception> {
+                simpleHiitRepository.deleteAllUsers()
+            }
+            //
+            coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
+            coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
         }
-        //
-        coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
-        coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
-    }
 
     @Test
-    fun `delete all user returns nothing when usersDao delete all users succeeds`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        coEvery { mockUsersDao.deleteAllUsers() } just Runs
-        //
-        simpleHiitRepository.deleteAllUsers()
-        //
-        coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
-    }
+    fun `delete all user returns nothing when usersDao delete all users succeeds`() =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            coEvery { mockUsersDao.deleteAllUsers() } just Runs
+            //
+            simpleHiitRepository.deleteAllUsers()
+            //
+            coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
+        }
 }

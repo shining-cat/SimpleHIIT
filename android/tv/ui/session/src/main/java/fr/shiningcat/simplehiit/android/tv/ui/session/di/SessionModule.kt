@@ -10,9 +10,6 @@ import fr.shiningcat.simplehiit.android.tv.ui.session.SessionInteractorImpl
 @Module
 @InstallIn(ViewModelComponent::class)
 interface SessionModule {
-
     @Binds
-    fun bindSessionInteractor(
-        sessionInteractor: SessionInteractorImpl
-    ): SessionInteractor
+    fun bindSessionInteractor(sessionInteractor: SessionInteractorImpl): SessionInteractor
 }

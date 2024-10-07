@@ -31,55 +31,56 @@ fun NumberCyclesComponent(
     increaseNumberOfCycles: () -> Unit = {},
     numberOfCycles: Int,
     lengthOfCycle: String,
-    totalLengthFormatted: String
+    totalLengthFormatted: String,
 ) {
     Column(
         modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineLarge,
-            text = stringResource(id = R.string.number_of_cycle_setting_title)
+            text = stringResource(id = R.string.number_of_cycle_setting_title),
         )
         Row(
             Modifier
                 .padding(horizontal = 0.dp, vertical = 16.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             TextButton(
                 enabled = numberOfCycles > 1,
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
-                onClick = decreaseNumberOfCycles
+                onClick = decreaseNumberOfCycles,
             ) {
                 Text(
                     text = stringResource(id = R.string.minus),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp
+                    fontSize = 44.sp,
 //                    lineHeight = 28.sp
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
             Text(
-                text = stringResource(
-                    id = R.string.number_of_cycle_setting,
-                    numberOfCycles,
-                    lengthOfCycle
-                ),
-                style = MaterialTheme.typography.headlineMedium
+                text =
+                    stringResource(
+                        id = R.string.number_of_cycle_setting,
+                        numberOfCycles,
+                        lengthOfCycle,
+                    ),
+                style = MaterialTheme.typography.headlineMedium,
             )
             Spacer(modifier = Modifier.width(8.dp))
             TextButton(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
-                onClick = increaseNumberOfCycles
+                onClick = increaseNumberOfCycles,
             ) {
                 Text(
                     text = stringResource(id = R.string.plus),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp
+                    fontSize = 44.sp,
 //                    lineHeight = 28.sp
                 )
             }
@@ -88,17 +89,17 @@ fun NumberCyclesComponent(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.total_length, totalLengthFormatted),
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.headlineSmall,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun NumberCyclesComponentPreview() {
@@ -107,7 +108,7 @@ private fun NumberCyclesComponentPreview() {
             NumberCyclesComponent(
                 numberOfCycles = 5,
                 lengthOfCycle = "4mn",
-                totalLengthFormatted = "20mn"
+                totalLengthFormatted = "20mn",
             )
         }
     }

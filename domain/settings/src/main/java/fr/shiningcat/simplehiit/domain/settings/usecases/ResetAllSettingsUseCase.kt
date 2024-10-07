@@ -7,15 +7,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class ResetAllSettingsUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute() {
-        withContext(defaultDispatcher) {
-            simpleHiitRepository.resetAllSettings()
+class ResetAllSettingsUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute() {
+            withContext(defaultDispatcher) {
+                simpleHiitRepository.resetAllSettings()
+            }
         }
     }
-}

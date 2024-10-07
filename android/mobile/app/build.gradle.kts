@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     jacoco
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" // this version matches your Kotlin version
 }
 
 android {
@@ -27,7 +28,7 @@ android {
             isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         getByName("debug") {
@@ -47,23 +48,19 @@ android {
             excludes.addAll(
                 listOf(
                     "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md"
-                )
+                    "META-INF/LICENSE-notice.md",
+                ),
             )
         }
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
     }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 }
 
@@ -84,7 +81,7 @@ dependencies {
     implementation(project(":commonResources"))
     implementation(project(":data"))
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
+    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //

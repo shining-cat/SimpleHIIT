@@ -23,7 +23,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 fun SettingsToggleComponent(
     label: String,
     value: Boolean,
-    onToggle: () -> Unit = {}
+    onToggle: () -> Unit = {},
 ) {
     Row(
         Modifier
@@ -31,30 +31,31 @@ fun SettingsToggleComponent(
             .defaultMinSize(minHeight = 48.dp)
             .padding(bottom = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(text = label, style = MaterialTheme.typography.headlineSmall)
         Switch(
             checked = value,
             onCheckedChange = { onToggle() },
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.primary,
-                checkedThumbColor = MaterialTheme.colorScheme.secondary,
-                checkedBorderColor = MaterialTheme.colorScheme.primary,
-                uncheckedTrackColor = MaterialTheme.colorScheme.surface,
-                uncheckedThumbColor = MaterialTheme.colorScheme.primary,
-                uncheckedBorderColor = MaterialTheme.colorScheme.primary
-            )
+            colors =
+                SwitchDefaults.colors(
+                    checkedTrackColor = MaterialTheme.colorScheme.primary,
+                    checkedThumbColor = MaterialTheme.colorScheme.secondary,
+                    checkedBorderColor = MaterialTheme.colorScheme.primary,
+                    uncheckedTrackColor = MaterialTheme.colorScheme.surface,
+                    uncheckedThumbColor = MaterialTheme.colorScheme.primary,
+                    uncheckedBorderColor = MaterialTheme.colorScheme.primary,
+                ),
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsToggleComponentPreview() {
@@ -63,11 +64,11 @@ private fun SettingsToggleComponentPreview() {
             Column {
                 SettingsToggleComponent(
                     label = "This setting is on",
-                    value = true
+                    value = true,
                 )
                 SettingsToggleComponent(
                     label = "This setting is off",
-                    value = false
+                    value = false,
                 )
             }
         }

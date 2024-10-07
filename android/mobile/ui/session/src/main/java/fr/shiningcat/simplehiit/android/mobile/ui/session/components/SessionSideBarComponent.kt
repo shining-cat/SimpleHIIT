@@ -21,7 +21,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 fun SessionSideBarComponent(
     @StringRes title: Int,
     onBackButtonClick: () -> Unit = {},
-    @StringRes backButtonLabel: Int
+    @StringRes backButtonLabel: Int,
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
@@ -32,25 +32,25 @@ fun SessionSideBarComponent(
                 text = stringResource(title),
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             )
-        }
+        },
     ) {
         SideBarItem(
             onClick = onBackButtonClick,
             icon = R.drawable.arrow_back,
             label = backButtonLabel,
-            selected = false
+            selected = false,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionSideBarComponentPreview() {
@@ -58,7 +58,7 @@ private fun SessionSideBarComponentPreview() {
         Surface {
             SessionSideBarComponent(
                 title = R.string.session_work_page_title,
-                backButtonLabel = R.string.pause
+                backButtonLabel = R.string.pause,
             )
         }
     }

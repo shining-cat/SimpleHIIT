@@ -29,36 +29,39 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 fun SelectUsersComponent(
     modifier: Modifier = Modifier,
     users: List<User>,
-    toggleSelectedUser: (User) -> Unit = {}
+    toggleSelectedUser: (User) -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .fillMaxWidth(),
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.selected_users_setting_title),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            modifier = Modifier
-                .padding(top = 16.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(users.size) {
                 val user = users[it]
                 ToggleButton(
-                    modifier = Modifier
-                        .height(56.dp)
-                        .defaultMinSize(minWidth = 112.dp),
+                    modifier =
+                        Modifier
+                            .height(56.dp)
+                            .defaultMinSize(minWidth = 112.dp),
                     label = user.name,
                     selected = user.selected,
-                    onToggle = { toggleSelectedUser(user) }
+                    onToggle = { toggleSelectedUser(user) },
                 )
             }
         }
@@ -67,43 +70,43 @@ fun SelectUsersComponent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SelectUsersComponentPreview(
-    @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>
+    @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SelectUsersComponent(
                 users = users,
-                modifier = Modifier.height(250.dp)
+                modifier = Modifier.height(250.dp),
             )
         }
     }
 }
 
-internal class SelectUsersComponentPreviewParameterProvider :
-    PreviewParameterProvider<List<User>> {
+internal class SelectUsersComponentPreviewParameterProvider : PreviewParameterProvider<List<User>> {
     override val values: Sequence<List<User>>
-        get() = sequenceOf(
-            listOf(User(123L, "User 1", selected = true)),
-            listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User 2", selected = false)
-            ),
-            listOf(
-                User(123L, "User 1", selected = true),
-                User(234L, "User pouet 2", selected = false),
-                User(345L, "User ping 3", selected = true),
-                User(345L, "User 4 hase a very long name", selected = true),
-                User(123L, "User tralala 5", selected = true),
-                User(234L, "User tudut 6", selected = false),
-                User(345L, "User toto 7", selected = true),
-                User(345L, "UserWithLongName 8", selected = true)
+        get() =
+            sequenceOf(
+                listOf(User(123L, "User 1", selected = true)),
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User 2", selected = false),
+                ),
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User pouet 2", selected = false),
+                    User(345L, "User ping 3", selected = true),
+                    User(345L, "User 4 hase a very long name", selected = true),
+                    User(123L, "User tralala 5", selected = true),
+                    User(234L, "User tudut 6", selected = false),
+                    User(345L, "User toto 7", selected = true),
+                    User(345L, "UserWithLongName 8", selected = true),
+                ),
             )
-        )
 }

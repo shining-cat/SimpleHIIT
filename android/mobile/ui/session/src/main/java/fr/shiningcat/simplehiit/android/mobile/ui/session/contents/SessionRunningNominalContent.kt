@@ -32,30 +32,34 @@ fun SessionRunningNominalContent(
     uiArrangement: UiArrangement,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
-    val exercise =
-        viewState.displayedExercise // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
-    val periodType = viewState.periodType // no need to recompose this every second either
-    val exerciseSide = viewState.side // no need to recompose this every second either
+    // this avoids the Gif display to be recomposed between rest and work period, and avoids a jump in the loop
+    val exercise = viewState.displayedExercise
+    // no need to recompose this every second either
+    val periodType = viewState.periodType
+    // no need to recompose this every second either
+    val exerciseSide = viewState.side
     when (uiArrangement) {
-        UiArrangement.VERTICAL -> VerticalSessionRunningNominalContent(
-            exercise = exercise,
-            periodType = periodType,
-            exerciseSide = exerciseSide,
-            countDown = viewState.countDown,
-            viewState = viewState,
-            hiitLogger = hiitLogger
-        )
+        UiArrangement.VERTICAL ->
+            VerticalSessionRunningNominalContent(
+                exercise = exercise,
+                periodType = periodType,
+                exerciseSide = exerciseSide,
+                countDown = viewState.countDown,
+                viewState = viewState,
+                hiitLogger = hiitLogger,
+            )
 
-        UiArrangement.HORIZONTAL -> HorizontalSessionRunningNominalContent(
-            exercise = exercise,
-            periodType = periodType,
-            exerciseSide = exerciseSide,
-            countDown = viewState.countDown,
-            viewState = viewState,
-            hiitLogger = hiitLogger
-        )
+        UiArrangement.HORIZONTAL ->
+            HorizontalSessionRunningNominalContent(
+                exercise = exercise,
+                periodType = periodType,
+                exerciseSide = exerciseSide,
+                countDown = viewState.countDown,
+                viewState = viewState,
+                hiitLogger = hiitLogger,
+            )
     }
 }
 
@@ -67,30 +71,32 @@ fun VerticalSessionRunningNominalContent(
     countDown: CountDown? = null,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ExerciseDisplayComponent(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 24.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 24.dp),
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
             countDown = countDown,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
         RunningSessionStepInfoDisplayComponent(
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
             viewState = viewState,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
 }
@@ -103,32 +109,35 @@ fun HorizontalSessionRunningNominalContent(
     countDown: CountDown? = null,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Row(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
     ) {
         ExerciseDisplayComponent(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
             countDown = countDown,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
         RunningSessionStepInfoDisplayComponent(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxHeight(),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxHeight(),
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
             viewState = viewState,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
 }
@@ -138,23 +147,23 @@ fun HorizontalSessionRunningNominalContent(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun SessionRunningNominalContentPreviewPhonePortrait(
-    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
+    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.VERTICAL,
-                viewState = viewState
+                viewState = viewState,
             )
         }
     }
@@ -163,22 +172,22 @@ private fun SessionRunningNominalContentPreviewPhonePortrait(
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionRunningNominalContentPreviewTabletLandscape(
-    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
+    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.HORIZONTAL,
-                viewState = viewState
+                viewState = viewState,
             )
         }
     }
@@ -188,55 +197,56 @@ private fun SessionRunningNominalContentPreviewTabletLandscape(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400
+    heightDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400
+    heightDp = 400,
 )
 @Composable
 private fun SessionRunningNominalContentPreviewPhoneLandscape(
-    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
+    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.HORIZONTAL,
-                viewState = viewState
+                viewState = viewState,
             )
         }
     }
 }
 
-internal class SessionRunningNominalContentPreviewParameterProvider :
-    PreviewParameterProvider<SessionViewState.RunningNominal> {
+internal class SessionRunningNominalContentPreviewParameterProvider : PreviewParameterProvider<SessionViewState.RunningNominal> {
     override val values: Sequence<SessionViewState.RunningNominal>
-        get() = sequenceOf(
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.LungesSideToCurtsy,
-                side = AsymmetricalExerciseSideOrder.SECOND.side,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .2f,
-                sessionRemainingTime = "3mn 25s",
-                sessionRemainingPercentage = .75f,
-                countDown = null
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.LungesSideToCurtsy,
-                side = AsymmetricalExerciseSideOrder.SECOND.side,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .02f,
-                sessionRemainingTime = "3mn 3s",
-                sessionRemainingPercentage = .745f,
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .2f,
-                    playBeep = true
-                )
+        get() =
+            sequenceOf(
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.LungesSideToCurtsy,
+                    side = AsymmetricalExerciseSideOrder.SECOND.side,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .2f,
+                    sessionRemainingTime = "3mn 25s",
+                    sessionRemainingPercentage = .75f,
+                    countDown = null,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.LungesSideToCurtsy,
+                    side = AsymmetricalExerciseSideOrder.SECOND.side,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .02f,
+                    sessionRemainingTime = "3mn 3s",
+                    sessionRemainingPercentage = .745f,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .2f,
+                            playBeep = true,
+                        ),
+                ),
             )
-        )
 }

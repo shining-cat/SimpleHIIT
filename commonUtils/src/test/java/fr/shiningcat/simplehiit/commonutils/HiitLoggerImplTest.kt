@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 internal class HiitLoggerImplTest {
-
     private val testTag = "This is a test TAG"
     private val testMessage = "This is a test MESSAGE"
     private val testThrowable = Exception("This is a test Throwable")
@@ -50,31 +49,34 @@ internal class HiitLoggerImplTest {
     }
 
     @Test
-    fun `HiitLogger d calls Log d if debug is true with correct tag and message`() = runTest {
-        val hiitLogger = HiitLoggerImpl(true)
-        //
-        hiitLogger.d(testTag, testMessage)
-        //
-        verify(exactly = 1) { Log.d("SIMPLEHIIT", "$testTag::$testMessage") }
-    }
+    fun `HiitLogger d calls Log d if debug is true with correct tag and message`() =
+        runTest {
+            val hiitLogger = HiitLoggerImpl(true)
+            //
+            hiitLogger.d(testTag, testMessage)
+            //
+            verify(exactly = 1) { Log.d("SIMPLEHIIT", "$testTag::$testMessage") }
+        }
 
     @Test
-    fun `HiitLogger d does NOT calls Log d if debug is false`() = runTest {
-        val hiitLogger = HiitLoggerImpl(false)
-        //
-        hiitLogger.d(testTag, testMessage)
-        //
-        verify(exactly = 0) { Log.d(any(), any()) }
-    }
+    fun `HiitLogger d does NOT calls Log d if debug is false`() =
+        runTest {
+            val hiitLogger = HiitLoggerImpl(false)
+            //
+            hiitLogger.d(testTag, testMessage)
+            //
+            verify(exactly = 0) { Log.d(any(), any()) }
+        }
 
     @Test
-    fun `HiitLogger e calls Log e if debug is true with correct tag and message`() = runTest {
-        val hiitLogger = HiitLoggerImpl(true)
-        //
-        hiitLogger.e(testTag, testMessage)
-        //
-        verify(exactly = 1) { Log.e("SIMPLEHIIT", "$testTag::$testMessage") }
-    }
+    fun `HiitLogger e calls Log e if debug is true with correct tag and message`() =
+        runTest {
+            val hiitLogger = HiitLoggerImpl(true)
+            //
+            hiitLogger.e(testTag, testMessage)
+            //
+            verify(exactly = 1) { Log.e("SIMPLEHIIT", "$testTag::$testMessage") }
+        }
 
     @Test
     fun `HiitLogger e calls Log e if debug is true with correct tag, message, and throwable`() =
@@ -87,20 +89,22 @@ internal class HiitLoggerImplTest {
         }
 
     @Test
-    fun `HiitLogger e(tag, msg) does NOT call Log e if debug is false`() = runTest {
-        val hiitLogger = HiitLoggerImpl(false)
-        //
-        hiitLogger.e(testTag, testMessage)
-        //
-        verify(exactly = 0) { Log.e(any(), any()) }
-    }
+    fun `HiitLogger e(tag, msg) does NOT call Log e if debug is false`() =
+        runTest {
+            val hiitLogger = HiitLoggerImpl(false)
+            //
+            hiitLogger.e(testTag, testMessage)
+            //
+            verify(exactly = 0) { Log.e(any(), any()) }
+        }
 
     @Test
-    fun `HiitLogger e(tag, msg, throwable) does NOT call Log e if debug is false`() = runTest {
-        val hiitLogger = HiitLoggerImpl(false)
-        //
-        hiitLogger.e(testTag, testMessage, testThrowable)
-        //
-        verify(exactly = 0) { Log.e(any(), any(), any()) }
-    }
+    fun `HiitLogger e(tag, msg, throwable) does NOT call Log e if debug is false`() =
+        runTest {
+            val hiitLogger = HiitLoggerImpl(false)
+            //
+            hiitLogger.e(testTag, testMessage, testThrowable)
+            //
+            verify(exactly = 0) { Log.e(any(), any(), any()) }
+        }
 }

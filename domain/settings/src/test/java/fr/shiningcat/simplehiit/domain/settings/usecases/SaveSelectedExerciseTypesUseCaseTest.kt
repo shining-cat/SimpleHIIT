@@ -19,20 +19,19 @@ import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
-
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @MethodSource("selectedExerciseTypesArguments")
     fun `calls repo with corresponding value and returns repo success`(
         testValue: List<ExerciseTypeSelected>,
-        expectedOutput: List<ExerciseType>
+        expectedOutput: List<ExerciseType>,
     ) = runTest {
         val testedUseCase =
             SaveSelectedExerciseTypesUseCase(
                 simpleHiitRepository = mockSimpleHiitRepository,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger
+                simpleHiitLogger = mockHiitLogger,
             )
         coEvery { mockSimpleHiitRepository.setExercisesTypesSelected(any()) } just Runs
         //
@@ -43,7 +42,6 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
 
     // //////////////////////
     private companion object {
-
         @JvmStatic
         fun selectedExerciseTypesArguments(): Stream<Arguments> =
             Stream.of(
@@ -56,13 +54,13 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
                         ExerciseTypeSelected(ExerciseType.SQUAT, true),
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
-                        ExerciseTypeSelected(ExerciseType.PLANK, true)
+                        ExerciseTypeSelected(ExerciseType.PLANK, true),
                     ),
                     listOf(
                         ExerciseType.LUNGE,
                         ExerciseType.SQUAT,
-                        ExerciseType.PLANK
-                    )
+                        ExerciseType.PLANK,
+                    ),
                 ),
                 Arguments.of(
                     listOf(
@@ -73,7 +71,7 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, true),
                         ExerciseTypeSelected(ExerciseType.SQUAT, true),
                         ExerciseTypeSelected(ExerciseType.SITTING, true),
-                        ExerciseTypeSelected(ExerciseType.PLANK, true)
+                        ExerciseTypeSelected(ExerciseType.PLANK, true),
                     ),
                     listOf(
                         ExerciseType.LUNGE,
@@ -83,8 +81,8 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
                         ExerciseType.SITTING,
                         ExerciseType.SQUAT,
                         ExerciseType.SITTING,
-                        ExerciseType.PLANK
-                    )
+                        ExerciseType.PLANK,
+                    ),
                 ),
                 Arguments.of(
                     listOf(
@@ -95,11 +93,10 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
                         ExerciseTypeSelected(ExerciseType.SQUAT, false),
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
-                        ExerciseTypeSelected(ExerciseType.PLANK, false)
+                        ExerciseTypeSelected(ExerciseType.PLANK, false),
                     ),
-                    emptyList<ExerciseType>()
-                )
-
+                    emptyList<ExerciseType>(),
+                ),
             )
     }
 }

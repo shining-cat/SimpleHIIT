@@ -29,7 +29,6 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SessionInteractorTest : AbstractMockkTest() {
-
     private val mockGetSessionSettingsUseCase = mockk<GetSessionSettingsUseCase>()
     private val mockBuildSessionUseCase = mockk<BuildSessionUseCase>()
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
@@ -46,13 +45,14 @@ internal class SessionInteractorTest : AbstractMockkTest() {
     private val testDurationStringFormatter = DurationStringFormatter()
     private val mockSessionRecord = mockk<SessionRecord>()
 
-    private val testedInteractor = SessionInteractorImpl(
-        mockGetSessionSettingsUseCase,
-        mockBuildSessionUseCase,
-        mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-        mockStepTimerUseCase,
-        mockInsertSessionUseCase
-    )
+    private val testedInteractor =
+        SessionInteractorImpl(
+            mockGetSessionSettingsUseCase,
+            mockBuildSessionUseCase,
+            mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+            mockStepTimerUseCase,
+            mockInsertSessionUseCase,
+        )
 
     @BeforeEach
     fun setUpMock() {
@@ -61,7 +61,7 @@ internal class SessionInteractorTest : AbstractMockkTest() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 any(),
-                any()
+                any(),
             )
         } returns testFormattedDuration
         coEvery { mockStepTimerUseCase.start(any()) } just Runs
@@ -85,7 +85,7 @@ internal class SessionInteractorTest : AbstractMockkTest() {
             coVerify(exactly = 1) {
                 mockBuildSessionUseCase.execute(
                     mockSessionSettings,
-                    testDurationStringFormatter
+                    testDurationStringFormatter,
                 )
             }
             assertEquals(mockSession, result)
@@ -94,14 +94,15 @@ internal class SessionInteractorTest : AbstractMockkTest() {
     @Test
     fun `calls on interactor formatLongDurationMsAsSmallestHhMmSsString calls FormatLongDurationMsAsSmallestHhMmSsStringUseCase`() =
         runTest(UnconfinedTestDispatcher()) {
-            val result = testedInteractor.formatLongDurationMsAsSmallestHhMmSsString(
-                123L,
-                testDurationStringFormatter
-            )
+            val result =
+                testedInteractor.formatLongDurationMsAsSmallestHhMmSsString(
+                    123L,
+                    testDurationStringFormatter,
+                )
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     123L,
-                    testDurationStringFormatter
+                    testDurationStringFormatter,
                 )
             }
             assertEquals(testFormattedDuration, result)

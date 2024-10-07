@@ -20,29 +20,29 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class SettingsViewStateMapperTest : AbstractMockkTest() {
-
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
-    private val testedMapper = SettingsViewStateMapper(
-        formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-        hiitLogger = mockHiitLogger
-    )
+    private val testedMapper =
+        SettingsViewStateMapper(
+            formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+            hiitLogger = mockHiitLogger,
+        )
 
     @BeforeEach
     fun setUpMock() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 any(),
-                any()
+                any(),
             )
-        } returns mockDurationString
+        } returns MOCK_DURATION_STRING
     }
 
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("generalSettingsArguments")
     fun `mapping generalSettings to correct viewstate`(
         input: Output<GeneralSettings>,
-        expectedOutput: SettingsViewState
+        expectedOutput: SettingsViewState,
     ) {
         val result = testedMapper.map(input, DurationStringFormatter())
         //
@@ -51,7 +51,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = input.result.cycleLengthMs,
-                    durationStringFormatter = DurationStringFormatter()
+                    durationStringFormatter = DurationStringFormatter(),
                 )
             }
         } else {
@@ -62,7 +62,6 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
     }
 
     private companion object {
-
         private val testUser1 = User(id = 123L, name = "test user 1 name", selected = true)
         private val testUser2 = User(id = 234L, name = "test user 2 name", selected = false)
         private val testUser3 = User(id = 345L, name = "test user 3 name", selected = true)
@@ -76,7 +75,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
         private val testExerciseTypeSelected4 =
             ExerciseTypeSelected(type = ExerciseType.SQUAT, selected = true)
         private val testException = Exception("this is a test exception")
-        private const val mockDurationString = "This is a test duration string"
+        private const val MOCK_DURATION_STRING = "This is a test duration string"
 
         @JvmStatic
         fun generalSettingsArguments() =
@@ -92,23 +91,24 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                             sessionStartCountDownLengthMs = 5000L,
                             periodsStartCountDownLengthMs = 20000L,
                             users = listOf(testUser1, testUser3, testUser2, testUser4),
-                            exerciseTypes = listOf(
-                                testExerciseTypeSelected1,
-                                testExerciseTypeSelected4
-                            )
-                        )
+                            exerciseTypes =
+                                listOf(
+                                    testExerciseTypeSelected1,
+                                    testExerciseTypeSelected4,
+                                ),
+                        ),
                     ),
                     SettingsViewState.Nominal(
                         workPeriodLengthAsSeconds = "15",
                         restPeriodLengthAsSeconds = "10",
                         numberOfWorkPeriods = "6",
-                        totalCycleLength = mockDurationString,
+                        totalCycleLength = MOCK_DURATION_STRING,
                         beepSoundCountDownActive = true,
                         sessionStartCountDownLengthAsSeconds = "5",
                         periodsStartCountDownLengthAsSeconds = "20",
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
-                        exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4)
-                    )
+                        exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4),
+                    ),
                 ),
                 Arguments.of(
                     Output.Success(
@@ -121,47 +121,50 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                             sessionStartCountDownLengthMs = 7000L,
                             periodsStartCountDownLengthMs = 34000L,
                             users = listOf(testUser1, testUser2),
-                            exerciseTypes = listOf(
-                                testExerciseTypeSelected2,
-                                testExerciseTypeSelected3,
-                                testExerciseTypeSelected1
-                            )
-                        )
+                            exerciseTypes =
+                                listOf(
+                                    testExerciseTypeSelected2,
+                                    testExerciseTypeSelected3,
+                                    testExerciseTypeSelected1,
+                                ),
+                        ),
                     ),
                     SettingsViewState.Nominal(
                         workPeriodLengthAsSeconds = "21",
                         restPeriodLengthAsSeconds = "13",
                         numberOfWorkPeriods = "7",
-                        totalCycleLength = mockDurationString,
+                        totalCycleLength = MOCK_DURATION_STRING,
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthAsSeconds = "7",
                         periodsStartCountDownLengthAsSeconds = "34",
                         users = listOf(testUser1, testUser2),
-                        exerciseTypes = listOf(
-                            testExerciseTypeSelected2,
-                            testExerciseTypeSelected3,
-                            testExerciseTypeSelected1
-                        )
-                    )
+                        exerciseTypes =
+                            listOf(
+                                testExerciseTypeSelected2,
+                                testExerciseTypeSelected3,
+                                testExerciseTypeSelected1,
+                            ),
+                    ),
                 ),
                 Arguments.of(
                     Output.Error(
                         errorCode = Constants.Errors.NO_USERS_FOUND,
-                        exception = testException
+                        exception = testException,
                     ),
-                    SettingsViewState.Error(Constants.Errors.NO_USERS_FOUND.code)
+                    SettingsViewState.Error(Constants.Errors.NO_USERS_FOUND.code),
                 ),
                 Arguments.of(
                     Output.Error(
                         errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-                        exception = testException
+                        exception = testException,
                     ),
-                    SettingsViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code)
+                    SettingsViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code),
                 ),
                 Arguments.of(
                     Output.Success(
                         GeneralSettings(
-                            workPeriodLengthMs = Int.MAX_VALUE.toLong() * 1000L + 15L, // testing one case of INT overflow
+                            // testing one case of INT overflow
+                            workPeriodLengthMs = Int.MAX_VALUE.toLong() * 1000L + 15L,
                             restPeriodLengthMs = 13000L,
                             numberOfWorkPeriods = 7,
                             cycleLengthMs = 234L,
@@ -169,29 +172,31 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                             sessionStartCountDownLengthMs = 7000L,
                             periodsStartCountDownLengthMs = 34000L,
                             users = listOf(testUser1, testUser2),
-                            exerciseTypes = listOf(
-                                testExerciseTypeSelected2,
-                                testExerciseTypeSelected3,
-                                testExerciseTypeSelected1
-                            )
-                        )
+                            exerciseTypes =
+                                listOf(
+                                    testExerciseTypeSelected2,
+                                    testExerciseTypeSelected3,
+                                    testExerciseTypeSelected1,
+                                ),
+                        ),
                     ),
                     SettingsViewState.Nominal(
                         workPeriodLengthAsSeconds = (Int.MAX_VALUE).toString(),
                         restPeriodLengthAsSeconds = "13",
                         numberOfWorkPeriods = "7",
-                        totalCycleLength = mockDurationString,
+                        totalCycleLength = MOCK_DURATION_STRING,
                         beepSoundCountDownActive = false,
                         sessionStartCountDownLengthAsSeconds = "7",
                         periodsStartCountDownLengthAsSeconds = "34",
                         users = listOf(testUser1, testUser2),
-                        exerciseTypes = listOf(
-                            testExerciseTypeSelected2,
-                            testExerciseTypeSelected3,
-                            testExerciseTypeSelected1
-                        )
-                    )
-                )
+                        exerciseTypes =
+                            listOf(
+                                testExerciseTypeSelected2,
+                                testExerciseTypeSelected3,
+                                testExerciseTypeSelected1,
+                            ),
+                    ),
+                ),
             )
     }
 }

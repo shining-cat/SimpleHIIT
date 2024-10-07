@@ -24,7 +24,6 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class StatisticsInteractorImplTest : AbstractMockkTest() {
-
     private val mockGetAllUsersUseCase = mockk<GetAllUsersUseCase>()
     private val mockGetStatsForUserUseCase = mockk<GetStatsForUserUseCase>()
     private val mockDeleteSessionsForUserUseCase = mockk<DeleteSessionsForUserUseCase>()
@@ -35,22 +34,25 @@ internal class StatisticsInteractorImplTest : AbstractMockkTest() {
     private val mockUserStats = mockk<UserStatistics>()
     private val testReturnInt = 123
 
-    private val testedInteractor = StatisticsInteractorImpl(
-        mockGetAllUsersUseCase,
-        mockGetStatsForUserUseCase,
-        mockDeleteSessionsForUserUseCase,
-        mockResetWholeAppUseCase
-    )
+    private val testedInteractor =
+        StatisticsInteractorImpl(
+            mockGetAllUsersUseCase,
+            mockGetStatsForUserUseCase,
+            mockDeleteSessionsForUserUseCase,
+            mockResetWholeAppUseCase,
+        )
 
     @BeforeEach
     fun setUpMock() {
         coEvery { mockGetAllUsersUseCase.execute() } answers { allUsersFlow }
-        coEvery { mockGetStatsForUserUseCase.execute(any(), any()) } returns Output.Success(
-            mockUserStats
-        )
-        coEvery { mockDeleteSessionsForUserUseCase.execute(any()) } returns Output.Success(
-            testReturnInt
-        )
+        coEvery { mockGetStatsForUserUseCase.execute(any(), any()) } returns
+            Output.Success(
+                mockUserStats,
+            )
+        coEvery { mockDeleteSessionsForUserUseCase.execute(any()) } returns
+            Output.Success(
+                testReturnInt,
+            )
         coEvery { mockResetWholeAppUseCase.execute() } just Runs
     }
 

@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
@@ -29,17 +28,18 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 fun StatisticsScreen(
     navigateTo: (String) -> Unit = {},
     hiitLogger: HiitLogger,
-    viewModel: StatisticsViewModel = hiltViewModel()
+    viewModel: StatisticsViewModel = hiltViewModel(),
 ) {
     //
-    val durationsFormatter = DurationStringFormatter(
-        hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-        hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-        hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-        minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-        minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-        seconds = stringResource(id = R.string.seconds_short)
-    )
+    val durationsFormatter =
+        DurationStringFormatter(
+            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
+            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
+            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
+            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
+            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
+            seconds = stringResource(id = R.string.seconds_short),
+        )
     viewModel.init(durationsFormatter)
     //
     val screenViewState = viewModel.screenViewState.collectAsState().value
@@ -56,7 +56,7 @@ fun StatisticsScreen(
         resetWholeAppConfirmation = { viewModel.resetWholeAppConfirmationDeleteEverything() },
         screenViewState = screenViewState,
         dialogViewState = dialogViewState,
-        hiitLogger = hiitLogger
+        hiitLogger = hiitLogger,
     )
 }
 
@@ -72,13 +72,14 @@ private fun StatisticsScreen(
     resetWholeAppConfirmation: () -> Unit = {},
     screenViewState: StatisticsViewState,
     dialogViewState: StatisticsDialog,
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Row(modifier = Modifier.fillMaxSize()) {
         NavigationSideBar(
             navigateTo = navigateTo,
             currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Statistics,
-            showStatisticsButton = true // in this case, we are in the statistics screen, so obviously we want to show this button
+            // in this case, we are in the statistics screen, so obviously we want to show this button
+            showStatisticsButton = true,
         )
 
         StatisticsContentHolder(
@@ -91,85 +92,86 @@ private fun StatisticsScreen(
             resetWholeAppConfirmation = resetWholeAppConfirmation,
             screenViewState = screenViewState,
             dialogViewState = dialogViewState,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun StatisticsScreenPreview(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState
+    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             StatisticsScreen(
                 screenViewState = viewState,
-                dialogViewState = StatisticsDialog.None
+                dialogViewState = StatisticsDialog.None,
             )
         }
     }
 }
 
-internal class StatisticsScreenPreviewParameterProvider :
-    PreviewParameterProvider<StatisticsViewState> {
+internal class StatisticsScreenPreviewParameterProvider : PreviewParameterProvider<StatisticsViewState> {
     override val values: Sequence<StatisticsViewState>
-        get() = sequenceOf(
-            StatisticsViewState.Loading,
-            StatisticsViewState.NoUsers,
-            StatisticsViewState.Error(
-                errorCode = "Error code",
-                user = User(name = "Sven Svensson"),
-                showUsersSwitch = true
-            ),
-            StatisticsViewState.Error(
-                errorCode = "Error code",
-                user = User(name = "Sven Svensson"),
-                showUsersSwitch = false
-            ),
-            StatisticsViewState.FatalError(errorCode = "Error code"),
-            StatisticsViewState.Nominal(
-                user = User(name = "Sven Svensson"),
-                statistics = listOf(
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+        get() =
+            sequenceOf(
+                StatisticsViewState.Loading,
+                StatisticsViewState.NoUsers,
+                StatisticsViewState.Error(
+                    errorCode = "Error code",
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = true,
                 ),
-                showUsersSwitch = true
-            ),
-            StatisticsViewState.Nominal(
-                user = User(name = "Sven Svensson"),
-                statistics = listOf(
-                    DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                    DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                    DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
-                    DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
-                    DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                    DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK)
+                StatisticsViewState.Error(
+                    errorCode = "Error code",
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = false,
                 ),
-                showUsersSwitch = false
-            ),
-            StatisticsViewState.NoSessions(
-                user = User(name = "Sven Svensson"),
-                showUsersSwitch = true
-            ),
-            StatisticsViewState.NoSessions(
-                user = User(name = "Sven Svensson"),
-                showUsersSwitch = false
+                StatisticsViewState.FatalError(errorCode = "Error code"),
+                StatisticsViewState.Nominal(
+                    user = User(name = "Sven Svensson"),
+                    statistics =
+                        listOf(
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                        ),
+                    showUsersSwitch = true,
+                ),
+                StatisticsViewState.Nominal(
+                    user = User(name = "Sven Svensson"),
+                    statistics =
+                        listOf(
+                            DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
+                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
+                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
+                            DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
+                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                        ),
+                    showUsersSwitch = false,
+                ),
+                StatisticsViewState.NoSessions(
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = true,
+                ),
+                StatisticsViewState.NoSessions(
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = false,
+                ),
             )
-        )
 }

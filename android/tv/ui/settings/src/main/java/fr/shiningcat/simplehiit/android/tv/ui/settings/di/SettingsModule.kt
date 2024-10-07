@@ -10,9 +10,6 @@ import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsInteractorImpl
 @Module
 @InstallIn(ViewModelComponent::class)
 interface SettingsModule {
-
     @Binds
-    fun bindSettingsInteractor(
-        SettingsInteractor: SettingsInteractorImpl
-    ): SettingsInteractor
+    fun bindSettingsInteractor(SettingsInteractor: SettingsInteractorImpl): SettingsInteractor
 }

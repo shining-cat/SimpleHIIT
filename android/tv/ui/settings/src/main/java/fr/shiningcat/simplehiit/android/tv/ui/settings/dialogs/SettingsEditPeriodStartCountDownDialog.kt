@@ -22,12 +22,13 @@ fun SettingsEditPeriodStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
     validateCountDownLengthInput: (String) -> Constants.InputError,
     countDownLengthSeconds: String,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
     ) {
         InputDialog(
             dialogTitle = stringResource(id = R.string.period_start_countdown_length_setting_label),
@@ -41,31 +42,30 @@ fun SettingsEditPeriodStartCountDownDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateCountDownLengthInput,
-            pickErrorMessage = { setInputPeriodCountDownLengthErrorMessage(it) }
+            pickErrorMessage = { setInputPeriodCountDownLengthErrorMessage(it) },
         )
     }
 }
 
-private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int {
-    return when (error) {
+private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int =
+    when (error) {
         Constants.InputError.NONE -> -1
         Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error
     }
-}
 
 // Previews
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsEditPeriodStartCountDownDialogPreview() {
@@ -74,7 +74,7 @@ private fun SettingsEditPeriodStartCountDownDialogPreview() {
             saveCountDownLength = {},
             validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
             countDownLengthSeconds = "5",
-            onCancel = {}
+            onCancel = {},
         )
     }
 }

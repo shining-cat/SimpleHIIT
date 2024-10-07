@@ -7,17 +7,18 @@ import androidx.compose.runtime.Composable
 @Composable
 fun SimpleHiitMobileTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        darkTheme -> mobileDarkColorScheme
-        else -> mobileLightColorScheme
-    }
+    val colorScheme =
+        when {
+            darkTheme -> mobileDarkColorScheme
+            else -> mobileLightColorScheme
+        }
 
     MaterialTheme(
         colorScheme = colorScheme,
         typography = mobileType,
         shapes = mobileShapes,
-        content = content
+        content = content,
     )
 }

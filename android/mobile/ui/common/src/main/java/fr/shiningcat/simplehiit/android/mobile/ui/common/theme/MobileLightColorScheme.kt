@@ -10,15 +10,16 @@ import fr.shiningcat.simplehiit.android.common.theme.Red_600
 import fr.shiningcat.simplehiit.android.common.theme.Teal300
 import fr.shiningcat.simplehiit.android.common.theme.White
 
-val mobileLightColorScheme = lightColorScheme(
-    primary = Teal300,
-    secondary = Amber500,
-    background = Grey50,
-    surface = Grey100,
-    onPrimary = Grey900,
-    onSecondary = Grey900,
-    onBackground = Black,
-    onSurface = Grey900,
-    error = Red_600,
-    onError = White
-)
+val mobileLightColorScheme =
+    lightColorScheme(
+        primary = Teal300,
+        secondary = Amber500,
+        background = Grey50,
+        surface = Grey100,
+        onPrimary = Grey900,
+        onSecondary = Grey900,
+        onBackground = Black,
+        onSurface = Grey900,
+        error = Red_600,
+        onError = White,
+    )

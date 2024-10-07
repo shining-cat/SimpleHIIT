@@ -26,7 +26,6 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class HomeInteractorTest : AbstractMockkTest() {
-
     private val mockGetHomeSettingsUseCase = mockk<GetHomeSettingsUseCase>()
     private val mockSetTotalRepetitionsNumberUseCase = mockk<SetTotalRepetitionsNumberUseCase>()
     private val mockToggleUserSelectedUseCase = mockk<ToggleUserSelectedUseCase>()
@@ -37,21 +36,23 @@ internal class HomeInteractorTest : AbstractMockkTest() {
     private val testUser = User(name = "test user name")
     private val testReturnInt = 123
 
-    private val testedInteractor = HomeInteractorImpl(
-        mockGetHomeSettingsUseCase,
-        mockSetTotalRepetitionsNumberUseCase,
-        mockToggleUserSelectedUseCase,
-        mockResetWholeAppUseCase,
-        mockValidateInputNumberCyclesUseCase
-    )
+    private val testedInteractor =
+        HomeInteractorImpl(
+            mockGetHomeSettingsUseCase,
+            mockSetTotalRepetitionsNumberUseCase,
+            mockToggleUserSelectedUseCase,
+            mockResetWholeAppUseCase,
+            mockValidateInputNumberCyclesUseCase,
+        )
 
     @BeforeEach
     fun setUpMock() {
         coEvery { mockGetHomeSettingsUseCase.execute() } answers { settingsFlow }
         coEvery { mockSetTotalRepetitionsNumberUseCase.execute(any()) } just Runs
-        coEvery { mockToggleUserSelectedUseCase.execute(any()) } returns Output.Success(
-            testReturnInt
-        )
+        coEvery { mockToggleUserSelectedUseCase.execute(any()) } returns
+            Output.Success(
+                testReturnInt,
+            )
         coEvery { mockResetWholeAppUseCase.execute() } just Runs
         coEvery { mockValidateInputNumberCyclesUseCase.execute(any()) } returns Constants.InputError.NONE
     }
