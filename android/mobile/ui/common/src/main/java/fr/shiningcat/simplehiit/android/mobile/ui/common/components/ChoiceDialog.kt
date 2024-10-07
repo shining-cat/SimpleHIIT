@@ -41,17 +41,18 @@ fun ChoiceDialog(
     secondaryButtonLabel: String = "",
     secondaryAction: () -> Unit = {},
     dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
-    dismissAction: () -> Unit
+    dismissAction: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismissAction) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
             ) {
                 if (title.isNotBlank()) {
                     Text(
@@ -59,30 +60,31 @@ fun ChoiceDialog(
                         text = title,
                         style = MaterialTheme.typography.headlineSmall,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
                 }
                 if (image != -1) {
                     Image(
-                        modifier = Modifier
-                            .size(120.dp)
-                            .align(Alignment.CenterHorizontally)
-                            .padding(horizontal = 0.dp, vertical = 24.dp),
+                        modifier =
+                            Modifier
+                                .size(120.dp)
+                                .align(Alignment.CenterHorizontally)
+                                .padding(horizontal = 0.dp, vertical = 24.dp),
                         painter = painterResource(id = image),
-                        contentDescription = stringResource(id = imageContentDescription)
+                        contentDescription = stringResource(id = imageContentDescription),
                     )
                 }
                 Text(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
                     text = message,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Row(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
+                    horizontalArrangement = Arrangement.SpaceEvenly,
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
                         TextButton(onClick = secondaryAction) {
@@ -107,12 +109,12 @@ fun ChoiceDialog(
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun ChoiceDialogPreview() {
@@ -124,7 +126,7 @@ private fun ChoiceDialogPreview() {
                 primaryAction = {},
                 secondaryButtonLabel = "Maybe",
                 dismissButtonLabel = "Nope",
-                dismissAction = {}
+                dismissAction = {},
             )
         }
     }

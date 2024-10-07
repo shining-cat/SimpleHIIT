@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -24,7 +23,6 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.transparentButto
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun SettingsFieldComponent(
     modifier: Modifier = Modifier,
@@ -34,23 +32,24 @@ fun SettingsFieldComponent(
     secondaryLabel: String = "",
     secondaryValue: String = "",
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.weight(.15f))
         Button(
-            modifier = modifier
-                .weight(weight = .6f, fill = true)
-                .defaultMinSize(minHeight = 48.dp)
-                .padding(bottom = 8.dp),
+            modifier =
+                modifier
+                    .weight(weight = .6f, fill = true)
+                    .defaultMinSize(minHeight = 48.dp)
+                    .padding(bottom = 8.dp),
             onClick = { onClick() },
             colors = transparentButtonTextColors(),
-            shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small)
+            shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Column(horizontalAlignment = Alignment.Start) {
                     Text(text = label, style = MaterialTheme.typography.headlineSmall)
@@ -71,30 +70,29 @@ fun SettingsFieldComponent(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsFieldComponentPreview() {
     SimpleHiitTvTheme {
         Surface(
             modifier = Modifier.width(1080.dp),
-            shape = MaterialTheme.shapes.extraSmall
+            shape = MaterialTheme.shapes.extraSmall,
         ) {
             Column {
                 SettingsFieldComponent(
                     label = "This is a Setting Field",
                     value = "value",
                     secondaryLabel = "It has a secondary label",
-                    secondaryValue = "Secondary value"
+                    secondaryValue = "Secondary value",
                 )
                 SettingsFieldComponent(
                     label = "This is a Setting Field",
-                    value = "Setting's value"
+                    value = "Setting's value",
                 )
             }
         }

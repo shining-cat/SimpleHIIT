@@ -4,19 +4,16 @@ import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGenerat
 
 @ExcludeFromJacocoGeneratedReport
 sealed interface Output<out T> {
-
     @ExcludeFromJacocoGeneratedReport
     data class Success<out T>(
-        val result: T
+        val result: T,
     ) : Output<T>
 
     @ExcludeFromJacocoGeneratedReport
     data class Error(
         val errorCode: Constants.Errors,
-        val exception: Throwable
+        val exception: Throwable,
     ) : Output<Nothing> {
-
-        override fun toString() =
-            "errorCode: $errorCode | exception: $exception"
+        override fun toString() = "errorCode: $errorCode | exception: $exception"
     }
 }

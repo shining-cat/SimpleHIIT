@@ -22,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -30,7 +29,6 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun ButtonFilled(
     modifier: Modifier = Modifier,
@@ -40,38 +38,43 @@ fun ButtonFilled(
     @StringRes
     iconContentDescription: Int = -1,
     accentColor: Boolean = false,
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Button(
         modifier = modifier,
         enabled = enabled,
         onClick = { onClick() },
-        colors = ButtonDefaults.colors(
-            containerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
-            contentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
-            focusedContainerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
-            focusedContentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
-            pressedContainerColor = MaterialTheme.colorScheme.primary,
-            pressedContentColor = MaterialTheme.colorScheme.secondary,
-            disabledContainerColor = (if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary).copy(alpha = .6f),
-            disabledContentColor = MaterialTheme.colorScheme.onPrimary
-        ),
+        colors =
+            ButtonDefaults.colors(
+                containerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
+                contentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
+                focusedContainerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
+                focusedContentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
+                pressedContainerColor = MaterialTheme.colorScheme.primary,
+                pressedContentColor = MaterialTheme.colorScheme.secondary,
+                disabledContainerColor =
+                    (if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary).copy(
+                        alpha = .6f,
+                    ),
+                disabledContentColor = MaterialTheme.colorScheme.onPrimary,
+            ),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        contentPadding = PaddingValues(12.dp)
+        contentPadding = PaddingValues(12.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             if (icon != null) {
                 Icon(
                     imageVector = icon,
-                    contentDescription = if (iconContentDescription != -1) {
-                        stringResource(id = iconContentDescription)
-                    } else {
-                        ""
-                    }
+                    contentDescription =
+                        if (iconContentDescription != -1) {
+                            stringResource(id = iconContentDescription)
+                        } else {
+                            ""
+                        },
                 )
             }
             if (icon != null && label != null) {
@@ -86,72 +89,71 @@ fun ButtonFilled(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun ButtonFilledPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 modifier = Modifier.width(300.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
-                    label = "I'm a button"
-                )
-                ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
-                    icon = ImageVector.vectorResource(R.drawable.cog)
                 )
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
-                    enabled = false
-                )
-                ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
-                    label = "I'm a button",
-                    accentColor = true
                 )
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
-                    accentColor = true
+                    enabled = false,
+                )
+                ButtonFilled(
+                    modifier = Modifier.height(48.dp).width(150.dp),
+                    label = "I'm a button",
+                    accentColor = true,
                 )
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
-                    enabled = false
+                )
+                ButtonFilled(
+                    modifier = Modifier.height(48.dp).width(150.dp),
+                    label = "I'm a button",
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    accentColor = true,
+                    enabled = false,
                 )
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
                     icon = ImageVector.vectorResource(R.drawable.cog),
-                    enabled = false
+                    enabled = false,
                 )
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
-                    accentColor = true
-                )
-                ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
-                    icon = ImageVector.vectorResource(R.drawable.cog),
-                    accentColor = true
+                    accentColor = true,
                 )
                 ButtonFilled(
                     modifier = Modifier.height(48.dp).width(150.dp),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
-                    enabled = false
+                )
+                ButtonFilled(
+                    modifier = Modifier.height(48.dp).width(150.dp),
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    accentColor = true,
+                    enabled = false,
                 )
             }
         }

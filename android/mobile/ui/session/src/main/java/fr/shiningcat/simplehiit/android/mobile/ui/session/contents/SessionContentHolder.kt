@@ -37,7 +37,7 @@ fun SessionContentHolder(
     resume: () -> Unit = {},
     navigateUp: () -> Boolean = { true },
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     val currentView = LocalView.current
     val currentScreenViewState by rememberUpdatedState(screenViewState)
@@ -47,7 +47,7 @@ fun SessionContentHolder(
             currentView = currentView,
             dialogViewState = dialogViewState,
             screenViewState = screenViewState,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
     DisposableEffect(Unit) {
@@ -60,23 +60,26 @@ fun SessionContentHolder(
     when (screenViewState) {
         SessionViewState.Loading -> BasicLoading()
 
-        is SessionViewState.Error -> SessionErrorStateContent(
-            screenViewState = screenViewState,
-            navigateUp = navigateUp,
-            onAbort = onAbortSession,
-            hiitLogger = hiitLogger
-        )
+        is SessionViewState.Error ->
+            SessionErrorStateContent(
+                screenViewState = screenViewState,
+                navigateUp = navigateUp,
+                onAbort = onAbortSession,
+                hiitLogger = hiitLogger,
+            )
 
-        is SessionViewState.InitialCountDownSession -> SessionPrepareContent(
-            viewState = screenViewState,
-            hiitLogger = hiitLogger
-        )
+        is SessionViewState.InitialCountDownSession ->
+            SessionPrepareContent(
+                viewState = screenViewState,
+                hiitLogger = hiitLogger,
+            )
 
-        is SessionViewState.RunningNominal -> SessionRunningNominalContent(
-            uiArrangement = uiArrangement,
-            viewState = screenViewState,
-            hiitLogger = hiitLogger
-        )
+        is SessionViewState.RunningNominal ->
+            SessionRunningNominalContent(
+                uiArrangement = uiArrangement,
+                viewState = screenViewState,
+                hiitLogger = hiitLogger,
+            )
 
         is SessionViewState.Finished -> {
             if (screenViewState.workingStepsDone.isEmpty()) {
@@ -84,22 +87,23 @@ fun SessionContentHolder(
             } else {
                 SessionFinishedContent(
                     viewState = screenViewState,
-                    hiitLogger = hiitLogger
+                    hiitLogger = hiitLogger,
                 )
             }
         }
     }
     when (dialogViewState) {
-        SessionDialog.None -> {} /*Do nothing*/
-        SessionDialog.Pause -> ChoiceDialog(
-            title = stringResource(id = R.string.pause),
-            message = stringResource(id = R.string.pause_explanation),
-            primaryButtonLabel = stringResource(id = R.string.resume_button_label),
-            primaryAction = resume,
-            secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
-            secondaryAction = onAbortSession,
-            dismissAction = resume
-        )
+        SessionDialog.None -> {} // Do nothing
+        SessionDialog.Pause ->
+            ChoiceDialog(
+                title = stringResource(id = R.string.pause),
+                message = stringResource(id = R.string.pause_explanation),
+                primaryButtonLabel = stringResource(id = R.string.resume_button_label),
+                primaryAction = resume,
+                secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
+                secondaryAction = onAbortSession,
+                dismissAction = resume,
+            )
     }
 }
 
@@ -107,13 +111,16 @@ private fun handleScreenLock(
     currentView: View,
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
-    hiitLogger: HiitLogger?
+    hiitLogger: HiitLogger?,
 ) {
     val lockScreenOn =
         // if a dialog is showing, do not keep the screen on
-        dialogViewState is SessionDialog.None && (
-            // screenViewStates for which the screen should be locked on
-            screenViewState is SessionViewState.Loading || screenViewState is SessionViewState.InitialCountDownSession || screenViewState is SessionViewState.RunningNominal
+        dialogViewState is SessionDialog.None &&
+            (
+                // screenViewStates for which the screen should be locked on
+                screenViewState is SessionViewState.Loading ||
+                    screenViewState is SessionViewState.InitialCountDownSession ||
+                    screenViewState is SessionViewState.RunningNominal
             )
     hiitLogger?.d("SessionContentHolder", "handleScreenLock:: lock screen: $lockScreenOn")
     currentView.keepScreenOn = lockScreenOn
@@ -124,24 +131,24 @@ private fun handleScreenLock(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun SessionContentHolderPreviewPhonePortrait(
-    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState
+    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.VERTICAL
+                uiArrangement = UiArrangement.VERTICAL,
             )
         }
     }
@@ -150,23 +157,23 @@ private fun SessionContentHolderPreviewPhonePortrait(
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionContentHolderPreviewTabletLandscape(
-    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState
+    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL
+                uiArrangement = UiArrangement.HORIZONTAL,
             )
         }
     }
@@ -176,124 +183,128 @@ private fun SessionContentHolderPreviewTabletLandscape(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400
+    heightDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400
+    heightDp = 400,
 )
 @Composable
 private fun SessionContentHolderPreviewPhoneLandscape(
-    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState
+    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL
+                uiArrangement = UiArrangement.HORIZONTAL,
             )
         }
     }
 }
 
-internal class SessionContentHolderPreviewParameterProvider :
-    PreviewParameterProvider<SessionViewState> {
+internal class SessionContentHolderPreviewParameterProvider : PreviewParameterProvider<SessionViewState> {
     override val values: Sequence<SessionViewState>
-        get() = sequenceOf(
-            SessionViewState.Loading,
-            SessionViewState.Error("Tralala error code"),
-            SessionViewState.InitialCountDownSession(
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .5f,
-                    playBeep = true
-                )
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.CatBackLegLift,
-                side = ExerciseSide.RIGHT,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .53f,
-                sessionRemainingTime = "16mn 23s",
-                sessionRemainingPercentage = .24f
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.CatBackLegLift,
-                side = ExerciseSide.RIGHT,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .53f,
-                sessionRemainingTime = "16mn 23s",
-                sessionRemainingPercentage = .24f,
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .5f,
-                    playBeep = true
-                )
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.CatBackLegLift,
-                side = ExerciseSide.RIGHT,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .23f,
-                sessionRemainingTime = "16mn 23s",
-                sessionRemainingPercentage = .57f
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.CrabAdvancedBridge,
-                side = ExerciseSide.NONE,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .7f,
-                sessionRemainingTime = "5mn 12s",
-                sessionRemainingPercentage = .3f
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.CrabAdvancedBridge,
-                side = ExerciseSide.NONE,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .7f,
-                sessionRemainingTime = "5mn 12s",
-                sessionRemainingPercentage = .3f,
-                countDown = CountDown(
-                    secondsDisplay = "5",
-                    progress = 0f,
-                    playBeep = false
-                )
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.CrabAdvancedBridge,
-                side = ExerciseSide.LEFT,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .5f,
-                sessionRemainingTime = "5mn 12s",
-                sessionRemainingPercentage = .2f
-            ),
-            SessionViewState.Finished(
-                "16mn",
-                workingStepsDone = listOf(
-                    SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-                    SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-                    SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
-                )
+        get() =
+            sequenceOf(
+                SessionViewState.Loading,
+                SessionViewState.Error("Tralala error code"),
+                SessionViewState.InitialCountDownSession(
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .5f,
+                            playBeep = true,
+                        ),
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.CatBackLegLift,
+                    side = ExerciseSide.RIGHT,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .53f,
+                    sessionRemainingTime = "16mn 23s",
+                    sessionRemainingPercentage = .24f,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.CatBackLegLift,
+                    side = ExerciseSide.RIGHT,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .53f,
+                    sessionRemainingTime = "16mn 23s",
+                    sessionRemainingPercentage = .24f,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .5f,
+                            playBeep = true,
+                        ),
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.CatBackLegLift,
+                    side = ExerciseSide.RIGHT,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .23f,
+                    sessionRemainingTime = "16mn 23s",
+                    sessionRemainingPercentage = .57f,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.CrabAdvancedBridge,
+                    side = ExerciseSide.NONE,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .7f,
+                    sessionRemainingTime = "5mn 12s",
+                    sessionRemainingPercentage = .3f,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.CrabAdvancedBridge,
+                    side = ExerciseSide.NONE,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .7f,
+                    sessionRemainingTime = "5mn 12s",
+                    sessionRemainingPercentage = .3f,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "5",
+                            progress = 0f,
+                            playBeep = false,
+                        ),
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.CrabAdvancedBridge,
+                    side = ExerciseSide.LEFT,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .5f,
+                    sessionRemainingTime = "5mn 12s",
+                    sessionRemainingPercentage = .2f,
+                ),
+                SessionViewState.Finished(
+                    "16mn",
+                    workingStepsDone =
+                        listOf(
+                            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
+                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
+                            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
+                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
+                            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
+                        ),
+                ),
             )
-        )
 }

@@ -29,37 +29,39 @@ fun ToggleButton(
     modifier: Modifier = Modifier,
     label: String,
     selected: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
 ) {
     FilterChip(
         modifier = modifier.height(48.dp),
         selected = selected,
         onClick = { onToggle() },
         label = { Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-        colors = FilterChipDefaults.filterChipColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-            selectedContainerColor = MaterialTheme.colorScheme.primary
-        ),
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = "Localized Description",
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
-            }
-        } else {
-            null
-        }
+        colors =
+            FilterChipDefaults.filterChipColors(
+                containerColor = MaterialTheme.colorScheme.surface,
+                selectedContainerColor = MaterialTheme.colorScheme.primary,
+            ),
+        leadingIcon =
+            if (selected) {
+                {
+                    Icon(
+                        imageVector = Icons.Filled.Done,
+                        contentDescription = "Localized Description",
+                        modifier = Modifier.size(FilterChipDefaults.IconSize),
+                    )
+                }
+            } else {
+                null
+            },
     )
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun ToggleButtonPreview() {
@@ -67,23 +69,23 @@ private fun ToggleButtonPreview() {
         Surface {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 ToggleButton(
                     label = "I'm selected",
                     selected = true,
-                    onToggle = {}
+                    onToggle = {},
                 )
                 ToggleButton(
                     label = "I'm NOT selected",
                     selected = false,
-                    onToggle = {}
+                    onToggle = {},
                 )
                 ToggleButton(
                     modifier = Modifier.width(86.dp), // causing a truncation
                     label = "I'm NOT selected",
                     selected = false,
-                    onToggle = {}
+                    onToggle = {},
                 )
             }
         }

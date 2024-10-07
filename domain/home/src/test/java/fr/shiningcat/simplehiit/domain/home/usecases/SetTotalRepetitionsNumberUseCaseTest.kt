@@ -15,23 +15,22 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SetTotalRepetitionsNumberUseCaseTest : AbstractMockkTest() {
-
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(ints = [1, 4, 53])
-    fun `calls repo with corresponding value and returns repo success`(
-        testValue: Int
-    ) = runTest {
-        val testedUseCase = SetTotalRepetitionsNumberUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
-        coEvery { mockSimpleHiitRepository.setTotalRepetitionsNumber(any()) } just Runs
-        //
-        testedUseCase.execute(testValue)
-        //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.setTotalRepetitionsNumber(testValue) }
-    }
+    fun `calls repo with corresponding value and returns repo success`(testValue: Int) =
+        runTest {
+            val testedUseCase =
+                SetTotalRepetitionsNumberUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
+            coEvery { mockSimpleHiitRepository.setTotalRepetitionsNumber(any()) } just Runs
+            //
+            testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockSimpleHiitRepository.setTotalRepetitionsNumber(testValue) }
+        }
 }

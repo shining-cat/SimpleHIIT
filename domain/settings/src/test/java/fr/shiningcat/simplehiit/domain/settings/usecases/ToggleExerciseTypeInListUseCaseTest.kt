@@ -11,26 +11,25 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
-
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("exerciseTogglingArguments")
     fun `finding average number of sessions per 7-days period`(
         startList: List<ExerciseTypeSelected>,
         exerciseToToggle: ExerciseTypeSelected,
-        expectedOutput: List<ExerciseTypeSelected>
+        expectedOutput: List<ExerciseTypeSelected>,
     ) = runTest {
         val testedUseCase =
             ToggleExerciseTypeInListUseCase(hiitLogger = mockHiitLogger)
-        val result = testedUseCase.execute(
-            currentList = startList,
-            exerciseTypeToToggle = exerciseToToggle
-        )
+        val result =
+            testedUseCase.execute(
+                currentList = startList,
+                exerciseTypeToToggle = exerciseToToggle,
+            )
         //
         assertEquals(expectedOutput, result)
     }
 
     private companion object {
-
         @JvmStatic
         fun exerciseTogglingArguments(): Stream<Arguments> =
             Stream.of(
@@ -43,11 +42,11 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
                         ExerciseTypeSelected(ExerciseType.SQUAT, true),
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
-                        ExerciseTypeSelected(ExerciseType.PLANK, true)
+                        ExerciseTypeSelected(ExerciseType.PLANK, true),
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.SQUAT,
-                        true
+                        true,
                     ), // should be toggled to false in output list
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
@@ -57,8 +56,8 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
                         ExerciseTypeSelected(ExerciseType.SQUAT, false),
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
-                        ExerciseTypeSelected(ExerciseType.PLANK, true)
-                    )
+                        ExerciseTypeSelected(ExerciseType.PLANK, true),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
@@ -69,11 +68,11 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
                         ExerciseTypeSelected(ExerciseType.SQUAT, false),
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
-                        ExerciseTypeSelected(ExerciseType.PLANK, true)
+                        ExerciseTypeSelected(ExerciseType.PLANK, true),
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.SQUAT,
-                        false
+                        false,
                     ), // should be toggled to true in output list
                     listOf(
                         ExerciseTypeSelected(ExerciseType.LUNGE, true),
@@ -83,45 +82,45 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
                         ExerciseTypeSelected(ExerciseType.SQUAT, true),
                         ExerciseTypeSelected(ExerciseType.SITTING, false),
-                        ExerciseTypeSelected(ExerciseType.PLANK, true)
-                    )
+                        ExerciseTypeSelected(ExerciseType.PLANK, true),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
-                        ExerciseTypeSelected(ExerciseType.LUNGE, true)
+                        ExerciseTypeSelected(ExerciseType.LUNGE, true),
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.LUNGE,
-                        true
+                        true,
                     ), // should be toggled to false in output list
                     listOf(
-                        ExerciseTypeSelected(ExerciseType.LUNGE, false)
-                    )
+                        ExerciseTypeSelected(ExerciseType.LUNGE, false),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
-                        ExerciseTypeSelected(ExerciseType.LUNGE, false)
+                        ExerciseTypeSelected(ExerciseType.LUNGE, false),
                     ),
                     ExerciseTypeSelected(
                         ExerciseType.LUNGE,
-                        false
+                        false,
                     ), // should be toggled to true in output list
                     listOf(
-                        ExerciseTypeSelected(ExerciseType.LUNGE, true)
-                    )
+                        ExerciseTypeSelected(ExerciseType.LUNGE, true),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
-                        ExerciseTypeSelected(ExerciseType.LUNGE, true)
+                        ExerciseTypeSelected(ExerciseType.LUNGE, true),
                     ),
                     ExerciseTypeSelected(ExerciseType.SQUAT, true),
                     listOf(
                         ExerciseTypeSelected(
                             ExerciseType.LUNGE,
-                            true
-                        ) // exercise to toggle is not in list => list is not changed
-                    )
-                )
+                            true,
+                        ), // exercise to toggle is not in list => list is not changed
+                    ),
+                ),
             )
     }
 }

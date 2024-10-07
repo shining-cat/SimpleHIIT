@@ -40,17 +40,17 @@ import kotlin.math.ceil
 fun SettingsUsersComponent(
     users: List<User>,
     onClickUser: (User) -> Unit = {},
-    onAddUser: () -> Unit = {}
+    onAddUser: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.users_list_setting_label)
+            text = stringResource(id = R.string.users_list_setting_label),
         )
         Spacer(modifier = Modifier.height(8.dp))
         val itemHeight = 48.dp
@@ -64,34 +64,37 @@ fun SettingsUsersComponent(
             columns = StaggeredGridCells.Fixed(numberOfColumns),
             verticalItemSpacing = spacing,
             horizontalArrangement = Arrangement.spacedBy(spacing),
-            userScrollEnabled = false
+            userScrollEnabled = false,
         ) {
             items(users.size) {
                 val user = users[it]
                 OutlinedButton(
-                    modifier = Modifier
-                        .height(itemHeight)
-                        .defaultMinSize(minWidth = 112.dp),
-                    onClick = { onClickUser(user) }
+                    modifier =
+                        Modifier
+                            .height(itemHeight)
+                            .defaultMinSize(minWidth = 112.dp),
+                    onClick = { onClickUser(user) },
                 ) {
                     Text(text = user.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 }
             }
         }
         Button(
-            modifier = Modifier
-                .height(itemHeight)
-                .padding(horizontal = 32.dp),
+            modifier =
+                Modifier
+                    .height(itemHeight)
+                    .padding(horizontal = 32.dp),
             onClick = onAddUser,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.secondary,
-                contentColor = MaterialTheme.colorScheme.onSecondary
-            )
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary,
+                ),
         ) {
             Icon(
                 imageVector = Icons.Filled.Add,
                 contentDescription = stringResource(id = R.string.add_user_button_label),
-                tint = MaterialTheme.colorScheme.onSecondary
+                tint = MaterialTheme.colorScheme.onSecondary,
             )
         }
     }
@@ -100,15 +103,15 @@ fun SettingsUsersComponent(
 // Previews
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun SettingsUsersComponentPreviewPhonePortrait(
-    @PreviewParameter(SettingsUsersComponentPreviewParameterProvider::class) users: List<User>
+    @PreviewParameter(SettingsUsersComponentPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitMobileTheme {
         Surface {
@@ -117,28 +120,28 @@ private fun SettingsUsersComponentPreviewPhonePortrait(
     }
 }
 
-internal class SettingsUsersComponentPreviewParameterProvider :
-    PreviewParameterProvider<List<User>> {
-
+internal class SettingsUsersComponentPreviewParameterProvider : PreviewParameterProvider<List<User>> {
     private val listOfOneUser = listOf(User(name = "user 1"))
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
-    private val listOfMoreUser = listOf(
-        User(123L, "User 1", selected = true),
-        User(234L, "User pouet 2", selected = false),
-        User(345L, "User ping 3", selected = true),
-        User(345L, "User 4 hase a very long name", selected = true),
-        User(123L, "User tralala 5", selected = true),
-        User(234L, "User tudut 6", selected = false),
-        User(345L, "User toto 7", selected = true),
-        User(345L, "UserWithLongName 8", selected = true),
-        User(345L, "UserWithLongName 9", selected = true)
-    )
+    private val listOfMoreUser =
+        listOf(
+            User(123L, "User 1", selected = true),
+            User(234L, "User pouet 2", selected = false),
+            User(345L, "User ping 3", selected = true),
+            User(345L, "User 4 hase a very long name", selected = true),
+            User(123L, "User tralala 5", selected = true),
+            User(234L, "User tudut 6", selected = false),
+            User(345L, "User toto 7", selected = true),
+            User(345L, "UserWithLongName 8", selected = true),
+            User(345L, "UserWithLongName 9", selected = true),
+        )
 
     override val values: Sequence<List<User>>
-        get() = sequenceOf(
-            emptyList(),
-            listOfOneUser,
-            listOfTwoUser,
-            listOfMoreUser
-        )
+        get() =
+            sequenceOf(
+                emptyList(),
+                listOfOneUser,
+                listOfTwoUser,
+                listOfMoreUser,
+            )
 }

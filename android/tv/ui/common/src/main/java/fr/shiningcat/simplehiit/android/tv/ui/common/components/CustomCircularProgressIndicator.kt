@@ -22,7 +22,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -59,17 +58,17 @@ fun CustomCircularProgressIndicator(
     fillColor: Color? = null,
     subDivisionsColor: Color? = null,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     var circleCenter by remember {
         mutableStateOf(Offset.Zero)
     }
 
     Box(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Canvas(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             val width = size.width
             val height = size.height
@@ -80,19 +79,20 @@ fun CustomCircularProgressIndicator(
                 drawCircle(
                     color = fillColor,
                     radius = circleRadius,
-                    center = circleCenter
+                    center = circleCenter,
                 )
             }
 
             // TRACK
             if (trackColor != null) {
                 drawCircle(
-                    style = Stroke(
-                        width = thickness
-                    ),
+                    style =
+                        Stroke(
+                            width = thickness,
+                        ),
                     color = trackColor,
                     radius = circleRadius,
-                    center = circleCenter
+                    center = circleCenter,
                 )
             }
 
@@ -101,19 +101,22 @@ fun CustomCircularProgressIndicator(
                 color = progressColor,
                 startAngle = 270f,
                 sweepAngle = (360f / maxValue) * currentValue.toFloat(),
-                style = Stroke(
-                    width = thickness,
-                    cap = StrokeCap.Round
-                ),
+                style =
+                    Stroke(
+                        width = thickness,
+                        cap = StrokeCap.Round,
+                    ),
                 useCenter = false,
-                size = Size(
-                    width = circleRadius * 2f,
-                    height = circleRadius * 2f
-                ),
-                topLeft = Offset(
-                    (width - circleRadius * 2f) / 2f,
-                    (height - circleRadius * 2f) / 2f
-                )
+                size =
+                    Size(
+                        width = circleRadius * 2f,
+                        height = circleRadius * 2f,
+                    ),
+                topLeft =
+                    Offset(
+                        (width - circleRadius * 2f) / 2f,
+                        (height - circleRadius * 2f) / 2f,
+                    ),
             )
 
             // SUBDIVISIONS
@@ -126,7 +129,7 @@ fun CustomCircularProgressIndicator(
                             subDivisionsColor
                         } else {
                             subDivisionsColor.copy(
-                                alpha = 0.3f
+                                alpha = 0.3f,
                             )
                         }
                     val angleInDegrees = i * 360f / (maxValue - minValue).toFloat() + 180f
@@ -135,25 +138,27 @@ fun CustomCircularProgressIndicator(
                     val yGapAdjustment = cos(angleInDegrees * PI / 180f) * gap
                     val xGapAdjustment = -sin(angleInDegrees * PI / 180f) * gap
 
-                    val start = Offset(
-                        x = (outerRadius * cos(angleInRad) + circleCenter.x + xGapAdjustment).toFloat(),
-                        y = (outerRadius * sin(angleInRad) + circleCenter.y + yGapAdjustment).toFloat()
-                    )
+                    val start =
+                        Offset(
+                            x = (outerRadius * cos(angleInRad) + circleCenter.x + xGapAdjustment).toFloat(),
+                            y = (outerRadius * sin(angleInRad) + circleCenter.y + yGapAdjustment).toFloat(),
+                        )
 
-                    val end = Offset(
-                        x = (outerRadius * cos(angleInRad) + circleCenter.x + xGapAdjustment).toFloat(),
-                        y = (outerRadius * sin(angleInRad) + thickness + circleCenter.y + yGapAdjustment).toFloat()
-                    )
+                    val end =
+                        Offset(
+                            x = (outerRadius * cos(angleInRad) + circleCenter.x + xGapAdjustment).toFloat(),
+                            y = (outerRadius * sin(angleInRad) + thickness + circleCenter.y + yGapAdjustment).toFloat(),
+                        )
 
                     rotate(
                         angleInDegrees,
-                        pivot = start
+                        pivot = start,
                     ) {
                         drawLine(
                             color = color,
                             start = start,
                             end = end,
-                            strokeWidth = 1.dp.toPx()
+                            strokeWidth = 1.dp.toPx(),
                         )
                     }
                 }
@@ -162,12 +167,11 @@ fun CustomCircularProgressIndicator(
     }
 }
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 fun PreviewCustomCircularProgressIndicator() {
@@ -175,28 +179,30 @@ fun PreviewCustomCircularProgressIndicator() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 CustomCircularProgressIndicator(
-                    modifier = Modifier
-                        .size(250.dp)
-                        .background(MaterialTheme.colorScheme.background),
+                    modifier =
+                        Modifier
+                            .size(250.dp)
+                            .background(MaterialTheme.colorScheme.background),
                     currentValue = 7,
                     minValue = 0,
                     maxValue = 12,
                     trackColor = MaterialTheme.colorScheme.primary,
                     progressColor = MaterialTheme.colorScheme.secondary,
                     circleRadius = 250f,
-                    thickness = 25f
+                    thickness = 25f,
                 )
                 CustomCircularProgressIndicator(
-                    modifier = Modifier
-                        .size(250.dp)
-                        .background(MaterialTheme.colorScheme.background),
+                    modifier =
+                        Modifier
+                            .size(250.dp)
+                            .background(MaterialTheme.colorScheme.background),
                     currentValue = 33,
                     trackColor = MaterialTheme.colorScheme.primary,
                     progressColor = MaterialTheme.colorScheme.secondary,
                     circleRadius = 250f,
                     thickness = 25f,
                     fillColor = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
-                    subDivisionsColor = MaterialTheme.colorScheme.secondary
+                    subDivisionsColor = MaterialTheme.colorScheme.secondary,
                 )
             }
         }

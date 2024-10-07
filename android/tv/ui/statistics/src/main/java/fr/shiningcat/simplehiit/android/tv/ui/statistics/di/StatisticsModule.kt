@@ -10,9 +10,6 @@ import fr.shiningcat.simplehiit.android.tv.ui.statistics.StatisticsInteractorImp
 @Module
 @InstallIn(ViewModelComponent::class)
 interface StatisticsModule {
-
     @Binds
-    fun bindStatisticsInteractor(
-        statisticsInteractor: StatisticsInteractorImpl
-    ): StatisticsInteractor
+    fun bindStatisticsInteractor(statisticsInteractor: StatisticsInteractorImpl): StatisticsInteractor
 }

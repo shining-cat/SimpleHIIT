@@ -15,23 +15,22 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SetNumberOfWorkPeriodUseCaseTest : AbstractMockkTest() {
-
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(ints = [7, 9, 27])
-    fun `calls repo with corresponding value and returns repo success`(
-        testValue: Int
-    ) = runTest {
-        val testedUseCase = SetNumberOfWorkPeriodsUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
-        coEvery { mockSimpleHiitRepository.setNumberOfWorkPeriods(any()) } just Runs
-        //
-        testedUseCase.execute(testValue)
-        //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.setNumberOfWorkPeriods(testValue) }
-    }
+    fun `calls repo with corresponding value and returns repo success`(testValue: Int) =
+        runTest {
+            val testedUseCase =
+                SetNumberOfWorkPeriodsUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
+            coEvery { mockSimpleHiitRepository.setNumberOfWorkPeriods(any()) } just Runs
+            //
+            testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockSimpleHiitRepository.setNumberOfWorkPeriods(testValue) }
+        }
 }

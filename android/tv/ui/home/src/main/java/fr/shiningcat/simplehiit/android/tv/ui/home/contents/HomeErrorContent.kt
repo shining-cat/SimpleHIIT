@@ -20,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -29,11 +28,10 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun HomeErrorContent(
     errorCode: String,
-    resetWholeApp: () -> Unit = {}
+    resetWholeApp: () -> Unit = {},
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
@@ -42,53 +40,55 @@ fun HomeErrorContent(
     }
 
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize(),
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier =
+                Modifier
+                    .size(120.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
+            contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
             text = stringResource(id = R.string.error_irrecoverable_state),
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
             Text(
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
-                    .align(Alignment.CenterHorizontally),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 0.dp, vertical = 16.dp)
+                        .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
         }
         ButtonError(
             modifier = Modifier.focusRequester(focusRequester), // calling focus on button on opening
             onClick = resetWholeApp,
-            label = stringResource(id = R.string.reset_app_button_label)
+            label = stringResource(id = R.string.reset_app_button_label),
         )
     }
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun HomeErrorContentPreview() {
@@ -96,7 +96,7 @@ private fun HomeErrorContentPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             HomeErrorContent(
                 errorCode = "An error happened",
-                resetWholeApp = {}
+                resetWholeApp = {},
             )
         }
     }

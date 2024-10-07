@@ -6,5 +6,5 @@ import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGenerat
 data class HomeSettings(
     val numberCumulatedCycles: Int,
     val cycleLengthMs: Long,
-    val users: List<User>
+    val users: List<User>,
 )

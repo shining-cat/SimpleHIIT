@@ -17,59 +17,52 @@ import javax.inject.Inject
 
 interface SessionInteractor {
     fun getSessionSettings(): Flow<Output<SessionSettings>>
+
     suspend fun buildSession(
         sessionSettings: SessionSettings,
-        durationStringFormatter: DurationStringFormatter
+        durationStringFormatter: DurationStringFormatter,
     ): Session
 
     fun formatLongDurationMsAsSmallestHhMmSsString(
         durationMs: Long,
-        durationStringFormatter: DurationStringFormatter
+        durationStringFormatter: DurationStringFormatter,
     ): String
 
     suspend fun startStepTimer(totalMilliSeconds: Long)
+
     fun getStepTimerState(): StateFlow<StepTimerState>
+
     suspend fun insertSession(sessionRecord: SessionRecord): Output<Int>
 }
 
-class SessionInteractorImpl @Inject constructor(
-    private val getSessionSettingsUseCase: GetSessionSettingsUseCase,
-    private val buildSessionUseCase: BuildSessionUseCase,
-    private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-    private val stepTimerUseCase: StepTimerUseCase,
-    private val insertSessionUseCase: InsertSessionUseCase
-) : SessionInteractor {
+class SessionInteractorImpl
+    @Inject
+    constructor(
+        private val getSessionSettingsUseCase: GetSessionSettingsUseCase,
+        private val buildSessionUseCase: BuildSessionUseCase,
+        private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+        private val stepTimerUseCase: StepTimerUseCase,
+        private val insertSessionUseCase: InsertSessionUseCase,
+    ) : SessionInteractor {
+        override fun getSessionSettings(): Flow<Output<SessionSettings>> = getSessionSettingsUseCase.execute()
 
-    override fun getSessionSettings(): Flow<Output<SessionSettings>> {
-        return getSessionSettingsUseCase.execute()
-    }
+        override suspend fun buildSession(
+            sessionSettings: SessionSettings,
+            durationStringFormatter: DurationStringFormatter,
+        ): Session = buildSessionUseCase.execute(sessionSettings, durationStringFormatter)
 
-    override suspend fun buildSession(
-        sessionSettings: SessionSettings,
-        durationStringFormatter: DurationStringFormatter
-    ): Session {
-        return buildSessionUseCase.execute(sessionSettings, durationStringFormatter)
-    }
+        override fun formatLongDurationMsAsSmallestHhMmSsString(
+            durationMs: Long,
+            durationStringFormatter: DurationStringFormatter,
+        ): String =
+            formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                durationMs,
+                durationStringFormatter,
+            )
 
-    override fun formatLongDurationMsAsSmallestHhMmSsString(
-        durationMs: Long,
-        durationStringFormatter: DurationStringFormatter
-    ): String {
-        return formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-            durationMs,
-            durationStringFormatter
-        )
-    }
+        override suspend fun startStepTimer(totalMilliSeconds: Long) = stepTimerUseCase.start(totalMilliSeconds)
 
-    override suspend fun startStepTimer(totalMilliSeconds: Long) {
-        return stepTimerUseCase.start(totalMilliSeconds)
-    }
+        override fun getStepTimerState(): StateFlow<StepTimerState> = stepTimerUseCase.timerStateFlow
 
-    override fun getStepTimerState(): StateFlow<StepTimerState> {
-        return stepTimerUseCase.timerStateFlow
+        override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> = insertSessionUseCase.execute(sessionRecord)
     }
-
-    override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> {
-        return insertSessionUseCase.execute(sessionRecord)
-    }
-}

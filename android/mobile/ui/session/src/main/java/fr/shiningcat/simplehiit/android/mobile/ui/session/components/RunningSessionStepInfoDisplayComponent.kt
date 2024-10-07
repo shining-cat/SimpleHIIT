@@ -23,36 +23,40 @@ fun RunningSessionStepInfoDisplayComponent(
     exerciseSide: ExerciseSide,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Column(modifier = modifier) {
         ExerciseDescriptionComponent(exercise = exercise, side = exerciseSide)
         Spacer(modifier = Modifier.weight(1f))
-        val remainingPercentageStringRes = when (periodType) {
-            RunningSessionStepType.REST -> R.string.rest_remaining_in_s
-            RunningSessionStepType.WORK -> R.string.exercise_remaining_in_s
-        }
+        val remainingPercentageStringRes =
+            when (periodType) {
+                RunningSessionStepType.REST -> R.string.rest_remaining_in_s
+                RunningSessionStepType.WORK -> R.string.exercise_remaining_in_s
+            }
         RemainingPercentageComponent(
-            modifier = Modifier
-                .padding(horizontal = 64.dp)
-                .height(100.dp),
+            modifier =
+                Modifier
+                    .padding(horizontal = 64.dp)
+                    .height(100.dp),
             label = stringResource(id = remainingPercentageStringRes, viewState.stepRemainingTime),
             percentage = viewState.stepRemainingPercentage,
             thickness = 16.dp,
-            bicolor = false
+            bicolor = false,
         )
         Spacer(modifier = Modifier.height(32.dp))
         RemainingPercentageComponent(
-            modifier = Modifier
-                .padding(horizontal = 64.dp)
-                .height(100.dp),
-            label = stringResource(
-                id = R.string.session_time_remaining,
-                viewState.sessionRemainingTime
-            ),
+            modifier =
+                Modifier
+                    .padding(horizontal = 64.dp)
+                    .height(100.dp),
+            label =
+                stringResource(
+                    id = R.string.session_time_remaining,
+                    viewState.sessionRemainingTime,
+                ),
             percentage = viewState.sessionRemainingPercentage,
             thickness = 8.dp,
-            bicolor = true
+            bicolor = true,
         )
         Spacer(modifier = Modifier.height(32.dp))
     }

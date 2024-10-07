@@ -12,16 +12,15 @@ import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ValidateInputSessionStartCountdownUseCaseTest : AbstractMockkTest() {
-
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         input: String,
-        expectedOutput: Constants.InputError
+        expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
             ValidateInputSessionStartCountdownUseCase(
-                hiitLogger = mockHiitLogger
+                hiitLogger = mockHiitLogger,
             )
         val result = testedUseCase.execute(input)
         //
@@ -29,14 +28,13 @@ internal class ValidateInputSessionStartCountdownUseCaseTest : AbstractMockkTest
     }
 
     private companion object {
-
         @JvmStatic
         fun numberCyclesTestArguments() =
             Stream.of(
                 Arguments.of("3", Constants.InputError.NONE),
                 Arguments.of("369", Constants.InputError.NONE),
                 Arguments.of("369346", Constants.InputError.NONE),
-                Arguments.of("three", Constants.InputError.WRONG_FORMAT)
+                Arguments.of("three", Constants.InputError.WRONG_FORMAT),
             )
     }
 }

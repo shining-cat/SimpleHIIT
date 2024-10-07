@@ -14,17 +14,13 @@ import javax.inject.Qualifier
 @Module
 @InstallIn(SingletonComponent::class)
 interface DataModule {
-
     @Binds
-    fun bindsSimpleHiitRepository(
-        simpleHiitRepository: SimpleHiitRepositoryImpl
-    ): SimpleHiitRepository
+    fun bindsSimpleHiitRepository(simpleHiitRepository: SimpleHiitRepositoryImpl): SimpleHiitRepository
 }
 
 @Module
 @InstallIn(SingletonComponent::class)
 object DataDispatcherModule {
-
     @IoDispatcher
     @Provides
     fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO

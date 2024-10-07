@@ -15,9 +15,9 @@ import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity.Compa
             entity = UserEntity::class,
             parentColumns = arrayOf(UserEntity.userIdColumnName),
             childColumns = arrayOf(SessionEntity.userIdColumnName),
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
 )
 data class SessionEntity(
     @PrimaryKey(autoGenerate = true)
@@ -25,9 +25,8 @@ data class SessionEntity(
     val sessionId: Long = 0L,
     @ColumnInfo(name = userIdColumnName, index = true) val userId: Long,
     @ColumnInfo(name = timeStampColumnName) val timeStamp: Long,
-    @ColumnInfo(name = durationColumnName) val durationMs: Long
+    @ColumnInfo(name = durationColumnName) val durationMs: Long,
 ) {
-
     companion object {
         const val sessionsTableName = "simple_hiit_sessions"
 

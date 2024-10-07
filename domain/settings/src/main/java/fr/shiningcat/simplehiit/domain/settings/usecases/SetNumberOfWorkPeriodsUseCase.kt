@@ -7,15 +7,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SetNumberOfWorkPeriodsUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute(number: Int) {
-        withContext(defaultDispatcher) {
-            simpleHiitRepository.setNumberOfWorkPeriods(number)
+class SetNumberOfWorkPeriodsUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute(number: Int) {
+            withContext(defaultDispatcher) {
+                simpleHiitRepository.setNumberOfWorkPeriods(number)
+            }
         }
     }
-}

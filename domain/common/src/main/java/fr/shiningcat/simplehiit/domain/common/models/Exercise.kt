@@ -22,11 +22,14 @@ enum class ExerciseType {
     SITTING,
     CRAB,
     LUNGE,
-    LYING
+    LYING,
 }
 
 @ExcludeFromJacocoGeneratedReport
-enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
+enum class Exercise(
+    val exerciseType: ExerciseType,
+    val asymmetrical: Boolean,
+) {
     CatBirdDogs(exerciseType = CAT, asymmetrical = false),
     CatKneeAndElbowPressUp(exerciseType = CAT, asymmetrical = false),
     CatKneePushUp(exerciseType = CAT, asymmetrical = false),
@@ -101,5 +104,5 @@ enum class Exercise(val exerciseType: ExerciseType, val asymmetrical: Boolean) {
     StandingSkatingWindmill(exerciseType = STANDING, asymmetrical = false),
     StandingCrissCrossCrunches(exerciseType = STANDING, asymmetrical = false),
     StandingMountainClimber(exerciseType = STANDING, asymmetrical = false),
-    StandingBalanceChops(exerciseType = STANDING, asymmetrical = true)
+    StandingBalanceChops(exerciseType = STANDING, asymmetrical = true),
 }

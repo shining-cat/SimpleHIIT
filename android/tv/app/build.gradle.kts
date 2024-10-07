@@ -4,6 +4,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     jacoco
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" // this version matches your Kotlin version
 }
 
 android {
@@ -27,7 +28,7 @@ android {
             isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
         getByName("debug") {
@@ -47,8 +48,8 @@ android {
             excludes.addAll(
                 listOf(
                     "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md"
-                )
+                    "META-INF/LICENSE-notice.md",
+                ),
             )
         }
     }

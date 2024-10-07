@@ -19,39 +19,41 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 fun SessionPrepareContent(
     viewState: SessionViewState.InitialCountDownSession,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Box(
         Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CountDownComponent(
             size = 64.dp,
             countDown = viewState.countDown,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionPrepareContentPreview() {
     SimpleHiitMobileTheme {
         Surface {
             SessionPrepareContent(
-                viewState = SessionViewState.InitialCountDownSession(
-                    countDown = CountDown(
-                        secondsDisplay = "6",
-                        progress = .9f,
-                        playBeep = false
-                    )
-                )
+                viewState =
+                    SessionViewState.InitialCountDownSession(
+                        countDown =
+                            CountDown(
+                                secondsDisplay = "6",
+                                progress = .9f,
+                                playBeep = false,
+                            ),
+                    ),
             )
         }
     }

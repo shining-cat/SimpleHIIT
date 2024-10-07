@@ -24,7 +24,7 @@ fun SettingsFieldComponent(
     value: String,
     onClick: () -> Unit = {},
     secondaryLabel: String = "",
-    secondaryValue: String = ""
+    secondaryValue: String = "",
 ) {
     Row(
         Modifier
@@ -33,7 +33,7 @@ fun SettingsFieldComponent(
             .padding(bottom = 8.dp)
             .clickable { onClick() },
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(horizontalAlignment = Alignment.Start) {
             Text(text = label, style = MaterialTheme.typography.headlineSmall)
@@ -52,10 +52,10 @@ fun SettingsFieldComponent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SelectUsersComponentPreview() {
@@ -66,11 +66,11 @@ private fun SelectUsersComponentPreview() {
                     label = "This is a Setting Field",
                     value = "Setting's value",
                     secondaryLabel = "It has a secondary label",
-                    secondaryValue = "Secondary value"
+                    secondaryValue = "Secondary value",
                 )
                 SettingsFieldComponent(
                     label = "This is a Setting Field",
-                    value = "Setting's value"
+                    value = "Setting's value",
                 )
             }
         }

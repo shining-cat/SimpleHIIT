@@ -9,5 +9,5 @@ data class DurationStringFormatter(
     val hoursNoMinutesNoSeconds: String = hoursMinutesSeconds,
     val minutesSeconds: String = "%1\$02d:%2\$02d",
     val minutesNoSeconds: String = minutesSeconds,
-    val seconds: String = "%02d"
+    val seconds: String = "%02d",
 )

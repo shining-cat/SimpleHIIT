@@ -19,68 +19,69 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.NonInteractiveSurfaceDefaults
 import androidx.tv.material3.Surface
+import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun WarningDialog(
     message: String = "",
     proceedButtonLabel: String,
     proceedAction: () -> Unit,
     dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
-    dismissAction: () -> Unit
+    dismissAction: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismissAction) {
         Surface(
-            colors = NonInteractiveSurfaceDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
-            ),
-            shape = MaterialTheme.shapes.medium
+            colors =
+                SurfaceDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                ),
+            shape = MaterialTheme.shapes.medium,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier =
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
-                    modifier = Modifier
-                        .size(120.dp)
-                        .align(Alignment.CenterHorizontally)
-                        .padding(horizontal = 0.dp, vertical = 24.dp),
+                    modifier =
+                        Modifier
+                            .size(120.dp)
+                            .align(Alignment.CenterHorizontally)
+                            .padding(horizontal = 0.dp, vertical = 24.dp),
                     painter = painterResource(id = R.drawable.warning),
-                    contentDescription = stringResource(id = R.string.warning_icon_content_description)
+                    contentDescription = stringResource(id = R.string.warning_icon_content_description),
                 )
                 Text(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
                     text = message,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Row(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp)
+                    horizontalArrangement = Arrangement.spacedBy(24.dp),
                 ) {
                     if (dismissButtonLabel.isNotBlank()) {
                         ButtonBordered(
                             modifier = Modifier.height(48.dp).weight(1f),
                             onClick = dismissAction,
-                            label = dismissButtonLabel
+                            label = dismissButtonLabel,
                         )
                     }
                     ButtonFilled(
                         modifier = Modifier.height(48.dp).weight(1f),
                         onClick = proceedAction,
-                        label = proceedButtonLabel
+                        label = proceedButtonLabel,
                     )
                 }
             }
@@ -89,16 +90,15 @@ fun WarningDialog(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun WarningDialogPreview() {
@@ -109,7 +109,7 @@ private fun WarningDialogPreview() {
                 proceedButtonLabel = "Yeah",
                 proceedAction = {},
                 dismissButtonLabel = "Nope",
-                dismissAction = {}
+                dismissAction = {},
             )
         }
     }

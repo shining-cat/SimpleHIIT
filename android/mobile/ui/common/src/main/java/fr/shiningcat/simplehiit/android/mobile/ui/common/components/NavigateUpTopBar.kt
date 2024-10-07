@@ -30,7 +30,7 @@ fun NavigateUpTopBar(
     @StringRes
     title: Int,
     @StringRes
-    overrideBackLabel: Int = -1
+    overrideBackLabel: Int = -1,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -38,12 +38,13 @@ fun NavigateUpTopBar(
             IconButton(onClick = { navigateUp() }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
-                    contentDescription = if (overrideBackLabel == -1) {
-                        stringResource(id = R.string.back_button_content_label)
-                    } else {
-                        stringResource(id = overrideBackLabel)
-                    },
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    contentDescription =
+                        if (overrideBackLabel == -1) {
+                            stringResource(id = R.string.back_button_content_label)
+                        } else {
+                            stringResource(id = overrideBackLabel)
+                        },
+                    tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         },
@@ -52,20 +53,20 @@ fun NavigateUpTopBar(
                 text = stringResource(title),
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
-        }
+        },
     )
 }
 
 // Previews
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun NavigateUpTopBarPreview() {
@@ -73,7 +74,7 @@ private fun NavigateUpTopBarPreview() {
         Surface {
             Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
                 NavigateUpTopBar(
-                    title = R.string.session_rest_page_title
+                    title = R.string.session_rest_page_title,
                 )
             }
         }

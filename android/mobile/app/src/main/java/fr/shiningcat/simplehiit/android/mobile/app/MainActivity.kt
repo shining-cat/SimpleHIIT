@@ -20,7 +20,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
     @Inject
     lateinit var hiitLogger: HiitLogger
 
@@ -29,7 +28,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         window.setFlags(
             WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED
+            WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
         )
         hiitLogger.d("MainActivity", "onCreate!!")
         setContent {
@@ -49,11 +48,11 @@ class MainActivity : ComponentActivity() {
             SimpleHiitMobileTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     SimpleHiitNavigation(
                         uiArrangement = uiArrangement,
-                        hiitLogger = hiitLogger
+                        hiitLogger = hiitLogger,
                     )
                 }
             }

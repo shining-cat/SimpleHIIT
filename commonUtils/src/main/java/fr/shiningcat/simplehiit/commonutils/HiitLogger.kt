@@ -4,8 +4,14 @@ import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGenerat
 
 @ExcludeFromJacocoGeneratedReport
 interface HiitLogger {
+    fun d(
+        tag: String,
+        msg: String,
+    )
 
-    fun d(tag: String, msg: String)
-
-    fun e(tag: String, msg: String, throwable: Throwable? = null)
+    fun e(
+        tag: String,
+        msg: String,
+        throwable: Throwable? = null,
+    )
 }

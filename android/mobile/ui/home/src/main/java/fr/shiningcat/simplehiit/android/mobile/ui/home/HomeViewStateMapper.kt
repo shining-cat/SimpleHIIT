@@ -10,48 +10,48 @@ import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import javax.inject.Inject
 
-class HomeViewStateMapper @Inject constructor(
-    private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-    @Suppress("UNUSED_PARAMETER")
-    private val hiitLogger: HiitLogger
-) {
+class HomeViewStateMapper
+    @Inject
+    constructor(
+        private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+        @Suppress("UNUSED_PARAMETER")
+        private val hiitLogger: HiitLogger,
+    ) {
+        fun map(
+            homeSettingsOutput: Output<HomeSettings>,
+            durationStringFormatter: DurationStringFormatter,
+        ): HomeViewState =
+            when (homeSettingsOutput) {
+                is Output.Success<HomeSettings> -> {
+                    val cycleLengthFormatted =
+                        formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                            homeSettingsOutput.result.cycleLengthMs,
+                            durationStringFormatter,
+                        )
+                    val totalSessionLength =
+                        homeSettingsOutput.result.cycleLengthMs.times(homeSettingsOutput.result.numberCumulatedCycles)
+                    val totalSessionLengthFormatted =
+                        formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                            totalSessionLength,
+                            durationStringFormatter,
+                        )
 
-    fun map(
-        homeSettingsOutput: Output<HomeSettings>,
-        durationStringFormatter: DurationStringFormatter
-    ): HomeViewState {
-        return when (homeSettingsOutput) {
-            is Output.Success<HomeSettings> -> {
-                val cycleLengthFormatted =
-                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                        homeSettingsOutput.result.cycleLengthMs,
-                        durationStringFormatter
-                    )
-                val totalSessionLength =
-                    homeSettingsOutput.result.cycleLengthMs.times(homeSettingsOutput.result.numberCumulatedCycles)
-                val totalSessionLengthFormatted =
-                    formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                        totalSessionLength,
-                        durationStringFormatter
-                    )
-
-                if (homeSettingsOutput.result.users.isEmpty()) {
-                    MissingUsers(
-                        numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
-                        cycleLength = cycleLengthFormatted,
-                        totalSessionLengthFormatted = totalSessionLengthFormatted
-                    )
-                } else {
-                    Nominal(
-                        numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
-                        cycleLength = cycleLengthFormatted,
-                        users = homeSettingsOutput.result.users,
-                        totalSessionLengthFormatted = totalSessionLengthFormatted
-                    )
+                    if (homeSettingsOutput.result.users.isEmpty()) {
+                        MissingUsers(
+                            numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
+                            cycleLength = cycleLengthFormatted,
+                            totalSessionLengthFormatted = totalSessionLengthFormatted,
+                        )
+                    } else {
+                        Nominal(
+                            numberCumulatedCycles = homeSettingsOutput.result.numberCumulatedCycles,
+                            cycleLength = cycleLengthFormatted,
+                            users = homeSettingsOutput.result.users,
+                            totalSessionLengthFormatted = totalSessionLengthFormatted,
+                        )
+                    }
                 }
-            }
 
-            is Output.Error -> Error(homeSettingsOutput.errorCode.code)
-        }
+                is Output.Error -> Error(homeSettingsOutput.errorCode.code)
+            }
     }
-}

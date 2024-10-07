@@ -15,48 +15,47 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
-
     private val mockConsecutiveDaysOrCloserUseCaseTest = mockk<ConsecutiveDaysOrCloserUseCase>()
 
     @ParameterizedTest(name = "{index} -> should return {1}")
     @MethodSource("streakArguments")
     fun `finding longest streak length in days`(
         consecutivenessReturns: List<Consecutiveness>,
-        expectedStreakLengthOutput: Int
+        expectedStreakLengthOutput: Int,
     ) = runTest {
         val testedUseCase =
             CalculateLongestStreakUseCase(
                 consecutiveDaysOrCloserUseCase = mockConsecutiveDaysOrCloserUseCaseTest,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger
+                simpleHiitLogger = mockHiitLogger,
             )
         coEvery {
             mockConsecutiveDaysOrCloserUseCaseTest.execute(
                 any(),
-                any()
+                any(),
             )
         } returnsMany consecutivenessReturns
         // we don't care here about the actual content of the timestamp list as ConsecutiveDaysOrCloserUseCase will
         // be the one evaluating each pair's consecutiveness, and it's return is mocked here, as it is tested on its own already
-        val input = List(consecutivenessReturns.size) {
-            Random.nextLong(
-                1264063781000L,
-                1689580181000L
-            )
-        } // random timestamps between Thursday, 21 January 2010 09:49:41 GMT+01:00 and Monday, 17 July 2023 09:49:41 GMT+02:00 DST
+        val input =
+            List(consecutivenessReturns.size) {
+                Random.nextLong(
+                    1264063781000L,
+                    1689580181000L,
+                )
+            } // random timestamps between Thursday, 21 January 2010 09:49:41 GMT+01:00 and Monday, 17 July 2023 09:49:41 GMT+02:00 DST
         val now = Random.nextLong(1264063781000L, 1689580181000L)
         val result = testedUseCase.execute(input, now)
         assertEquals(expectedStreakLengthOutput, result)
     }
 
     private companion object {
-
         @JvmStatic
         fun streakArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
                     emptyList<Consecutiveness>(),
-                    0
+                    0,
                 ),
                 Arguments.of(
                     listOf(
@@ -66,9 +65,9 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 4
                         Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS
+                        Consecutiveness.CONSECUTIVE_DAYS,
                     ),
-                    4
+                    4,
                 ),
                 Arguments.of(
                     listOf(
@@ -78,18 +77,18 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS, // current streak is 3
                         Consecutiveness.NON_CONSECUTIVE_DAYS, // breaking streak
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS
+                        Consecutiveness.CONSECUTIVE_DAYS,
                     ),
-                    3
+                    3,
                 ),
                 Arguments.of(
                     listOf(
                         Consecutiveness.NON_CONSECUTIVE_DAYS, // current streak is 0 as last session and "now" are NON_CONSECUTIVE_DAYS
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 3
+                        Consecutiveness.CONSECUTIVE_DAYS, // longest streak is 3
                     ),
-                    3
+                    3,
                 ),
                 Arguments.of(
                     listOf(
@@ -97,9 +96,9 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.NON_CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 2
+                        Consecutiveness.CONSECUTIVE_DAYS, // longest streak is 2
                     ),
-                    2
+                    2,
                 ),
                 Arguments.of(
                     listOf(
@@ -107,9 +106,9 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS
+                        Consecutiveness.CONSECUTIVE_DAYS,
                     ),
-                    5
+                    5,
                 ),
                 Arguments.of(
                     listOf(
@@ -122,9 +121,9 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 5
+                        Consecutiveness.CONSECUTIVE_DAYS, // longest streak is 5
                     ),
-                    5
+                    5,
                 ),
                 Arguments.of(
                     listOf(
@@ -143,9 +142,9 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS
+                        Consecutiveness.CONSECUTIVE_DAYS,
                     ),
-                    6
+                    6,
                 ),
                 Arguments.of(
                     listOf(
@@ -166,11 +165,10 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
                         Consecutiveness.CONSECUTIVE_DAYS,
-                        Consecutiveness.CONSECUTIVE_DAYS // longest streak is 7
+                        Consecutiveness.CONSECUTIVE_DAYS, // longest streak is 7
                     ),
-                    7
-                )
-
+                    7,
+                ),
             )
     }
 }

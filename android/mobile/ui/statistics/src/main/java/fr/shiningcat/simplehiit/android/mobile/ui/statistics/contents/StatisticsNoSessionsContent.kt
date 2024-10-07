@@ -28,43 +28,45 @@ import fr.shiningcat.simplehiit.commonresources.R
 fun StatisticsNoSessionsContent(
     userName: String,
     showUsersSwitch: Boolean,
-    openUserPicker: () -> Unit = {}
+    openUserPicker: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
     ) {
         StatisticsHeaderComponent(
             openUserPicker = openUserPicker,
             currentUserName = userName,
-            showUsersSwitch = showUsersSwitch
+            showUsersSwitch = showUsersSwitch,
         )
 
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.doge),
             contentDescription = stringResource(id = R.string.doge_icon_content_description),
-            tint = MaterialTheme.colorScheme.onPrimary
+            tint = MaterialTheme.colorScheme.onPrimary,
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .fillMaxWidth(),
             text = stringResource(id = R.string.no_users_found_error_message),
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun StatisticsNoSessionsContentPreview() {
@@ -72,7 +74,7 @@ private fun StatisticsNoSessionsContentPreview() {
         Surface {
             StatisticsNoSessionsContent(
                 userName = "Georges",
-                showUsersSwitch = true
+                showUsersSwitch = true,
             )
         }
     }

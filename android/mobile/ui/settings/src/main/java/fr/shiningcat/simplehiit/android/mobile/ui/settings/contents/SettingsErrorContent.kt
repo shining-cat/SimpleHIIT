@@ -28,48 +28,53 @@ import fr.shiningcat.simplehiit.commonresources.R
 @Composable
 fun SettingsErrorContent(
     errorCode: String,
-    resetSettings: () -> Unit = {}
+    resetSettings: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
     ) {
         Image(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier =
+                Modifier
+                    .size(120.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
+            contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
             text = stringResource(id = R.string.error_irrecoverable_state_settings),
-            style = MaterialTheme.typography.headlineMedium
+            style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
             Text(
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
-                    .align(Alignment.CenterHorizontally),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 0.dp, vertical = 16.dp)
+                        .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
         }
         Button(
-            modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .align(Alignment.CenterHorizontally),
+            modifier =
+                Modifier
+                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .align(Alignment.CenterHorizontally),
             onClick = resetSettings,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
-            )
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError,
+                ),
         ) {
             Text(text = stringResource(id = R.string.reset_settings_button_label))
         }
@@ -78,10 +83,10 @@ fun SettingsErrorContent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsErrorContentPreview() {

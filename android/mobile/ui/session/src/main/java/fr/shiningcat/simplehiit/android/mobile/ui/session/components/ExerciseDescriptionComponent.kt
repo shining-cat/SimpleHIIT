@@ -22,27 +22,31 @@ import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 
 @Composable
-fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
-    Column() {
+fun ExerciseDescriptionComponent(
+    exercise: Exercise,
+    side: ExerciseSide,
+) {
+    Column {
         val exerciseNameResMapper = ExerciseDisplayNameMapper()
         val exerciseName = stringResource(id = exerciseNameResMapper.map(exercise))
         Text(
             text = exerciseName,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         if (side != ExerciseSide.NONE) {
             Text(
-                text = when (side) {
-                    ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
-                    ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
-                    else -> "" // unreachable
-                },
+                text =
+                    when (side) {
+                        ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
+                        ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
+                        else -> "" // unreachable
+                    },
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         }
     }
@@ -51,11 +55,11 @@ fun ExerciseDescriptionComponent(exercise: Exercise, side: ExerciseSide) {
 // Previews
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun CountDownCircularProgressPreview() {
@@ -64,16 +68,16 @@ private fun CountDownCircularProgressPreview() {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly
+                verticalArrangement = Arrangement.SpaceEvenly,
             ) {
                 ExerciseDescriptionComponent(Exercise.LungesBackKick, ExerciseSide.NONE)
                 ExerciseDescriptionComponent(
                     Exercise.CrabKicks,
-                    AsymmetricalExerciseSideOrder.FIRST.side
+                    AsymmetricalExerciseSideOrder.FIRST.side,
                 )
                 ExerciseDescriptionComponent(
                     Exercise.CrabKicks,
-                    AsymmetricalExerciseSideOrder.SECOND.side
+                    AsymmetricalExerciseSideOrder.SECOND.side,
                 )
             }
         }

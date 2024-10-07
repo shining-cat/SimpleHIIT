@@ -9,15 +9,15 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class DeleteUserUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute(user: User): Output<Int> {
-        return withContext(defaultDispatcher) {
-            simpleHiitRepository.deleteUser(user)
-        }
+class DeleteUserUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute(user: User): Output<Int> =
+            withContext(defaultDispatcher) {
+                simpleHiitRepository.deleteUser(user)
+            }
     }
-}

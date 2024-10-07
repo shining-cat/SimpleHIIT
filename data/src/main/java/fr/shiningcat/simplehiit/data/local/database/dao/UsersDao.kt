@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class UsersDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(user: UserEntity): Long
 

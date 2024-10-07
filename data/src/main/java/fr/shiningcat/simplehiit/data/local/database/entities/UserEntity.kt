@@ -13,9 +13,8 @@ data class UserEntity(
     @ColumnInfo(name = userIdColumnName, index = true)
     val userId: Long = 0L,
     @ColumnInfo(name = userNameColumnName) val name: String,
-    @ColumnInfo(name = userSelectedColumnName) val selected: Boolean
+    @ColumnInfo(name = userSelectedColumnName) val selected: Boolean,
 ) {
-
     companion object {
         const val usersTableName = "simple_hiit_users"
 

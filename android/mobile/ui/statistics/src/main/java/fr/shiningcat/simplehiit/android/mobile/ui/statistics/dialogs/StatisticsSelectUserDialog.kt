@@ -31,37 +31,39 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 fun StatisticsSelectUserDialog(
     users: List<User>,
     selectUser: (User) -> Unit,
-    dismissAction: () -> Unit
+    dismissAction: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismissAction) {
         Surface(
             modifier = Modifier.fillMaxHeight(.8f), // TODO: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
             color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium
+            shape = MaterialTheme.shapes.medium,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
             ) {
                 Text(
                     textAlign = TextAlign.Left,
                     text = stringResource(id = R.string.user_pick_dialog_title),
                     style = MaterialTheme.typography.headlineSmall,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 LazyColumn(
-                    modifier = Modifier
-                        .padding(vertical = 4.dp)
-                        .fillMaxWidth()
-                        .weight(1f),
+                    modifier =
+                        Modifier
+                            .padding(vertical = 4.dp)
+                            .fillMaxWidth()
+                            .weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(0.dp)
+                    verticalArrangement = Arrangement.spacedBy(0.dp),
                 ) {
                     items(users.size) {
                         TextButton(
-                            onClick = { selectUser(users[it]) }
+                            onClick = { selectUser(users[it]) },
                         ) {
                             Text(text = users[it].name)
                         }
@@ -80,56 +82,56 @@ fun StatisticsSelectUserDialog(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun StatisticsPickUserDialogPreview(
-    @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>
+    @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitMobileTheme {
         StatisticsSelectUserDialog(
             users = users,
             selectUser = {},
-            dismissAction = {}
+            dismissAction = {},
         )
     }
 }
 
-internal class StatisticsPickUserDialogPreviewParameterProvider :
-    PreviewParameterProvider<List<User>> {
+internal class StatisticsPickUserDialogPreviewParameterProvider : PreviewParameterProvider<List<User>> {
     override val values: Sequence<List<User>>
-        get() = sequenceOf(
-            listOf(),
-            listOf(User(name = "user 1")),
-            listOf(
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5")
-            ),
-            listOf(
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5"),
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5"),
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5")
+        get() =
+            sequenceOf(
+                listOf(),
+                listOf(User(name = "user 1")),
+                listOf(
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                ),
+                listOf(
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                ),
             )
-        )
 }

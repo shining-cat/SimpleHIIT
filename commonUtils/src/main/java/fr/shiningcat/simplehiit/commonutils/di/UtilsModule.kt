@@ -18,18 +18,17 @@ import javax.inject.Qualifier
 @Module
 @InstallIn(SingletonComponent::class)
 object UtilsModule {
-
     @Provides
-    fun provideHiitLogger(@ApplicationContext context: Context): HiitLogger {
+    fun provideHiitLogger(
+        @ApplicationContext context: Context,
+    ): HiitLogger {
         val isDebug: Boolean =
             (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         return HiitLoggerImpl(isDebug)
     }
 
     @Provides
-    fun provideTimeProvider(): TimeProvider {
-        return TimeProviderImpl()
-    }
+    fun provideTimeProvider(): TimeProvider = TimeProviderImpl()
 
     @DefaultDispatcher
     @Provides

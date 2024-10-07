@@ -33,7 +33,6 @@ import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
-
     private val mockUsersDao = mockk<UsersDao>()
     private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
@@ -46,56 +45,64 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
         User(id = testSessionUserId1, name = "test user name", selected = true)
     private val testDuration = 123L
     private val testSessionRecord =
-        SessionRecord(timeStamp = testDate, durationMs = testDuration, usersIds = listOf(testSessionUserId1))
+        SessionRecord(
+            timeStamp = testDate,
+            durationMs = testDuration,
+            usersIds = listOf(testSessionUserId1),
+        )
 
 // ////////////
 //   GET SESSIONS FOR USER
 
     @Test
-    fun `get sessions for user returns error when dao get sessions throws exception`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        val thrownException = Exception("this is a test exception")
-        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
-        //
-        val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
-        //
-        coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
-        coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
-        coVerify(exactly = 1) {
-            mockHiitLogger.e(
-                any(),
-                "failed getting sessions",
-                thrownException
-            )
+    fun `get sessions for user returns error when dao get sessions throws exception`() =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            val thrownException = Exception("this is a test exception")
+            coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
+            //
+            val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
+            //
+            coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
+            coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed getting sessions",
+                    thrownException,
+                )
+            }
+            val expectedOutput =
+                Output.Error(
+                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    exception = thrownException,
+                )
+            assertEquals(expectedOutput, actual)
         }
-        val expectedOutput = Output.Error(
-            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-            exception = thrownException
-        )
-        assertEquals(expectedOutput, actual)
-    }
 
     @Test
     fun `get sessions for user throws CancellationException when job is cancelled`() =
         runTest {
-            val simpleHiitRepository = SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
-                sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
-                sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                hiitLogger = mockHiitLogger,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
             //
             coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSessionRecord }
             coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } coAnswers {
@@ -106,8 +113,8 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                         sessionId = 456L,
                         timeStamp = 123L,
                         durationMs = 234L,
-                        userId = 345L
-                    )
+                        userId = 345L,
+                    ),
                 )
             }
             //
@@ -127,69 +134,71 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
         }
 
     @Test
-    fun `get sessions for user catches rogue CancellationException`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        val thrownException = CancellationException()
-        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
-        //
-        val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
-        //
-        coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
-        coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
-        coVerify(exactly = 1) {
-            mockHiitLogger.e(
-                any(),
-                "failed getting sessions",
-                thrownException
-            )
+    fun `get sessions for user catches rogue CancellationException`() =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            val thrownException = CancellationException()
+            coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } throws thrownException
+            //
+            val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
+            //
+            coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
+            coVerify(exactly = 0) { mockSessionMapper.convert(any<SessionEntity>()) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed getting sessions",
+                    thrownException,
+                )
+            }
+            val expectedOutput =
+                Output.Error(
+                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    exception = thrownException,
+                )
+            assertEquals(expectedOutput, actual)
         }
-        val expectedOutput = Output.Error(
-            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-            exception = thrownException
-        )
-        assertEquals(expectedOutput, actual)
-    }
 
     @ParameterizedTest(name = "{index} -> when getting sessions {0} should insert {1} through DAO and return dao insert result size")
     @MethodSource("getSessionArguments")
-    fun `get sessions for user behaves correctly in happy cases`(
-        daoAnswer: List<SessionEntity>
-    ) = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } answers { daoAnswer }
-        coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSessionRecord }
-        //
-        val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
-        //
-        coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
-        val numberOfSessionsResult = daoAnswer.size
-        coVerify(exactly = numberOfSessionsResult) { mockSessionMapper.convert(any<SessionEntity>()) }
-        assertTrue(actual is Output.Success)
-        actual as Output.Success
-        assertEquals(numberOfSessionsResult, actual.result.size)
-    }
+    fun `get sessions for user behaves correctly in happy cases`(daoAnswer: List<SessionEntity>) =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            coEvery { mockSessionRecordsDao.getSessionsForUser(any()) } answers { daoAnswer }
+            coEvery { mockSessionMapper.convert(any<SessionEntity>()) } answers { testSessionRecord }
+            //
+            val actual = simpleHiitRepository.getSessionRecordsForUser(testSessionUserModel)
+            //
+            coVerify(exactly = 1) { mockSessionRecordsDao.getSessionsForUser(userId = testSessionUserId1) }
+            val numberOfSessionsResult = daoAnswer.size
+            coVerify(exactly = numberOfSessionsResult) { mockSessionMapper.convert(any<SessionEntity>()) }
+            assertTrue(actual is Output.Success)
+            actual as Output.Success
+            assertEquals(numberOfSessionsResult, actual.result.size)
+        }
 
     // //////////////////////
     private companion object {
-
         @JvmStatic
         fun getSessionArguments() =
             Stream.of(
@@ -199,9 +208,9 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                             sessionId = 456L,
                             timeStamp = 123L,
                             durationMs = 234L,
-                            userId = 345L
-                        )
-                    )
+                            userId = 345L,
+                        ),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
@@ -209,29 +218,28 @@ internal class SimpleHiitRepositoryImplGetSessionsTest : AbstractMockkTest() {
                             sessionId = 456L,
                             timeStamp = 123L,
                             durationMs = 234L,
-                            userId = 345L
+                            userId = 345L,
                         ),
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
                             durationMs = 234L,
-                            userId = 678L
+                            userId = 678L,
                         ),
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
                             durationMs = 234L,
-                            userId = 789L
+                            userId = 789L,
                         ),
                         SessionEntity(
                             sessionId = 456L,
                             timeStamp = 123L,
                             durationMs = 234L,
-                            userId = 891L
-                        )
-                    )
-                )
-
+                            userId = 891L,
+                        ),
+                    ),
+                ),
             )
     }
 }

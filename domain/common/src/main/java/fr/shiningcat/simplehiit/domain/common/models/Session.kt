@@ -7,5 +7,5 @@ data class Session(
     val steps: List<SessionStep>,
     val durationMs: Long,
     val beepSoundCountDownActive: Boolean,
-    val users: List<User>
+    val users: List<User>,
 )

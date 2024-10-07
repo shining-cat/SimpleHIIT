@@ -8,7 +8,6 @@ import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
 
 @Dao
 abstract class SessionRecordsDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract suspend fun insert(sessions: List<SessionEntity>): List<Long>
 

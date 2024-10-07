@@ -17,7 +17,6 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class UpdateUserNameUseCaseTest : AbstractMockkTest() {
-
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
     private val mockCheckIfAnotherUserUsesThatNameUseCase =
         mockk<CheckIfAnotherUserUsesThatNameUseCase>()
@@ -25,12 +24,13 @@ internal class UpdateUserNameUseCaseTest : AbstractMockkTest() {
     @Test
     fun `if name is not used by any other user calls repo with corresponding value and returns repo success`() =
         runTest {
-            val testedUseCase = UpdateUserNameUseCase(
-                simpleHiitRepository = mockSimpleHiitRepository,
-                checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger
-            )
+            val testedUseCase =
+                UpdateUserNameUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val successFromRepo = Output.Success(1)
             coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { successFromRepo }
@@ -45,58 +45,63 @@ internal class UpdateUserNameUseCaseTest : AbstractMockkTest() {
         }
 
     @Test
-    fun `return corresponding error if checking name fails with error`() = runTest {
-        val testedUseCase = UpdateUserNameUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
-        val testValue = User(id = 123L, name = "test user name", selected = true)
-        val exceptionMessage = "this is a test exception"
-        val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-        coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { errorFromRepo }
-        //
-        val result = testedUseCase.execute(testValue)
-        //
-        coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
-        coVerify(exactly = 0) { mockSimpleHiitRepository.updateUser(testValue) }
-        assertEquals(errorFromRepo, result)
-    }
+    fun `return corresponding error if checking name fails with error`() =
+        runTest {
+            val testedUseCase =
+                UpdateUserNameUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
+            val testValue = User(id = 123L, name = "test user name", selected = true)
+            val exceptionMessage = "this is a test exception"
+            val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+            coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { errorFromRepo }
+            //
+            val result = testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
+            coVerify(exactly = 0) { mockSimpleHiitRepository.updateUser(testValue) }
+            assertEquals(errorFromRepo, result)
+        }
 
     @Test
-    fun `return correct error if name is already taken`() = runTest {
-        val testedUseCase = UpdateUserNameUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
-        val testValue = User(id = 123L, name = "test user name", selected = true)
-        val successFromRepo = Output.Success(true)
-        coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { successFromRepo }
-        //
-        val result = testedUseCase.execute(testValue)
-        //
-        coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
-        coVerify(exactly = 0) { mockSimpleHiitRepository.updateUser(testValue) }
-        val expectedErrorCode = Constants.Errors.USER_NAME_TAKEN
-        val expectedExceptionCode = Constants.Errors.USER_NAME_TAKEN.code
-        assertTrue(result is Output.Error)
-        result as Output.Error
-        assertEquals(expectedErrorCode, result.errorCode)
-        assertEquals(expectedExceptionCode, result.exception.message)
-    }
+    fun `return correct error if name is already taken`() =
+        runTest {
+            val testedUseCase =
+                UpdateUserNameUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
+            val testValue = User(id = 123L, name = "test user name", selected = true)
+            val successFromRepo = Output.Success(true)
+            coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { successFromRepo }
+            //
+            val result = testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
+            coVerify(exactly = 0) { mockSimpleHiitRepository.updateUser(testValue) }
+            val expectedErrorCode = Constants.Errors.USER_NAME_TAKEN
+            val expectedExceptionCode = Constants.Errors.USER_NAME_TAKEN.code
+            assertTrue(result is Output.Error)
+            result as Output.Error
+            assertEquals(expectedErrorCode, result.errorCode)
+            assertEquals(expectedExceptionCode, result.exception.message)
+        }
 
     @Test
     fun `if name is not used by any other user but insertion fails returns repo insertion error`() =
         runTest {
-            val testedUseCase = UpdateUserNameUseCase(
-                simpleHiitRepository = mockSimpleHiitRepository,
-                checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
-                defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger
-            )
+            val testedUseCase =
+                UpdateUserNameUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =

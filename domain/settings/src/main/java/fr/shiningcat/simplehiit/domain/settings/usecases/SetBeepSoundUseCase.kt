@@ -7,15 +7,16 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SetBeepSoundUseCase @Inject constructor(
-    private val simpleHiitRepository: SimpleHiitRepository,
-    @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-    private val simpleHiitLogger: HiitLogger
-) {
-
-    suspend fun execute(active: Boolean) {
-        withContext(defaultDispatcher) {
-            simpleHiitRepository.setBeepSound(active)
+class SetBeepSoundUseCase
+    @Inject
+    constructor(
+        private val simpleHiitRepository: SimpleHiitRepository,
+        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
+        private val simpleHiitLogger: HiitLogger,
+    ) {
+        suspend fun execute(active: Boolean) {
+            withContext(defaultDispatcher) {
+                simpleHiitRepository.setBeepSound(active)
+            }
         }
     }
-}

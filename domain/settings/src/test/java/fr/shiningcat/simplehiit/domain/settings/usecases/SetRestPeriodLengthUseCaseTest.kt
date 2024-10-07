@@ -15,23 +15,22 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SetRestPeriodLengthUseCaseTest : AbstractMockkTest() {
-
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(longs = [15000L, 20000L, 30000L])
-    fun `calls repo with corresponding value and returns repo success`(
-        testValue: Long
-    ) = runTest {
-        val testedUseCase = SetRestPeriodLengthUseCase(
-            simpleHiitRepository = mockSimpleHiitRepository,
-            defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-            simpleHiitLogger = mockHiitLogger
-        )
-        coEvery { mockSimpleHiitRepository.setRestPeriodLength(any()) } just Runs
-        //
-        testedUseCase.execute(testValue)
-        //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.setRestPeriodLength(testValue) }
-    }
+    fun `calls repo with corresponding value and returns repo success`(testValue: Long) =
+        runTest {
+            val testedUseCase =
+                SetRestPeriodLengthUseCase(
+                    simpleHiitRepository = mockSimpleHiitRepository,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    simpleHiitLogger = mockHiitLogger,
+                )
+            coEvery { mockSimpleHiitRepository.setRestPeriodLength(any()) } just Runs
+            //
+            testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockSimpleHiitRepository.setRestPeriodLength(testValue) }
+        }
 }

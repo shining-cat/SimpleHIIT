@@ -41,42 +41,45 @@ import kotlin.math.ceil
 fun SettingsUsersComponent(
     users: List<User>,
     onClickUser: (User) -> Unit = {},
-    onAddUser: () -> Unit = {}
+    onAddUser: () -> Unit = {},
 ) {
     Column(
         modifier = Modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val spacing = 24.dp
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.users_list_setting_label)
+            text = stringResource(id = R.string.users_list_setting_label),
         )
         Spacer(modifier = Modifier.height(spacing))
         val itemHeight = 48.dp
         val numberOfColumns = 3
-        val forcedTopMargin = 8.dp // this is to avoid the zoomed-in focused buttons of the first row to be clipped
+        val forcedTopMargin =
+            8.dp // this is to avoid the zoomed-in focused buttons of the first row to be clipped
         val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
-        val gridHeight = 2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1) // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
+        val gridHeight =
+            2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1) // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
 
         TvLazyVerticalGrid(
             columns = TvGridCells.Fixed(numberOfColumns),
             modifier = Modifier.height(gridHeight),
             verticalArrangement = Arrangement.spacedBy(spacing),
             horizontalArrangement = Arrangement.spacedBy(spacing),
-            userScrollEnabled = false
+            userScrollEnabled = false,
         ) {
             items(users.size) {
                 val user = users[it]
                 ButtonBordered(
-                    modifier = Modifier
-                        .height(itemHeight)
-                        .offset(y = forcedTopMargin) // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
-                        .defaultMinSize(minWidth = 112.dp),
+                    modifier =
+                        Modifier
+                            .height(itemHeight)
+                            .offset(y = forcedTopMargin) // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
+                            .defaultMinSize(minWidth = 112.dp),
                     onClick = { onClickUser(user) },
-                    label = user.name
+                    label = user.name,
                 )
             }
         }
@@ -84,31 +87,31 @@ fun SettingsUsersComponent(
             Spacer(modifier = Modifier.height(spacing))
         }
         ButtonFilled(
-            modifier = Modifier
-                .height(itemHeight)
-                .width(150.dp)
-                .padding(horizontal = 32.dp),
+            modifier =
+                Modifier
+                    .height(itemHeight)
+                    .width(150.dp)
+                    .padding(horizontal = 32.dp),
             onClick = onAddUser,
             accentColor = true,
             icon = Icons.Filled.Add,
-            iconContentDescription = R.string.add_user_button_label
+            iconContentDescription = R.string.add_user_button_label,
         )
     }
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun SettingsUsersComponentPreviewPhonePortrait(
-    @PreviewParameter(SettingsUsersComponentPreviewParameterProvider::class) users: List<User>
+    @PreviewParameter(SettingsUsersComponentPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
@@ -117,28 +120,28 @@ private fun SettingsUsersComponentPreviewPhonePortrait(
     }
 }
 
-internal class SettingsUsersComponentPreviewParameterProvider :
-    PreviewParameterProvider<List<User>> {
-
+internal class SettingsUsersComponentPreviewParameterProvider : PreviewParameterProvider<List<User>> {
     private val listOfOneUser = listOf(User(name = "user 1"))
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
-    private val listOfMoreUser = listOf(
-        User(123L, "User 1", selected = true),
-        User(234L, "User pouet 2", selected = false),
-        User(345L, "User ping 3", selected = true),
-        User(345L, "User 4 hase a very long name", selected = true),
-        User(123L, "User tralala 5", selected = true),
-        User(234L, "User tudut 6", selected = false),
-        User(345L, "User toto 7", selected = true),
-        User(345L, "UserWithLongName 8", selected = true)
+    private val listOfMoreUser =
+        listOf(
+            User(123L, "User 1", selected = true),
+            User(234L, "User pouet 2", selected = false),
+            User(345L, "User ping 3", selected = true),
+            User(345L, "User 4 hase a very long name", selected = true),
+            User(123L, "User tralala 5", selected = true),
+            User(234L, "User tudut 6", selected = false),
+            User(345L, "User toto 7", selected = true),
+            User(345L, "UserWithLongName 8", selected = true),
 //        User(345L, "UserWithLongName 9", selected = true)
-    )
+        )
 
     override val values: Sequence<List<User>>
-        get() = sequenceOf(
-            emptyList(),
-            listOfOneUser,
-            listOfTwoUser,
-            listOfMoreUser
-        )
+        get() =
+            sequenceOf(
+                emptyList(),
+                listOfOneUser,
+                listOfTwoUser,
+                listOfMoreUser,
+            )
 }

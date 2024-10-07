@@ -14,7 +14,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -35,54 +34,59 @@ fun RunningSessionStepInfoDisplayComponent(
     exerciseSide: ExerciseSide,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Column(modifier = modifier) {
         Spacer(modifier = Modifier.height(32.dp))
         Row(
             modifier = Modifier.weight(2f, true),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             ExerciseDescriptionComponent(exercise = exercise, side = exerciseSide)
         }
         Spacer(modifier = Modifier.weight(.2f))
-        val remainingPercentageStringRes = when (periodType) {
-            RunningSessionStepType.REST -> R.string.rest_remaining_in_s
-            RunningSessionStepType.WORK -> R.string.exercise_remaining_in_s
-        }
+        val remainingPercentageStringRes =
+            when (periodType) {
+                RunningSessionStepType.REST -> R.string.rest_remaining_in_s
+                RunningSessionStepType.WORK -> R.string.exercise_remaining_in_s
+            }
         Row(
             modifier = Modifier.weight(1f, true),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             RemainingPercentageComponent(
-                modifier = Modifier
-                    .padding(horizontal = 64.dp)
-                    .height(100.dp),
-                label = stringResource(
-                    id = remainingPercentageStringRes,
-                    viewState.stepRemainingTime
-                ),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 64.dp)
+                        .height(100.dp),
+                label =
+                    stringResource(
+                        id = remainingPercentageStringRes,
+                        viewState.stepRemainingTime,
+                    ),
                 percentage = viewState.stepRemainingPercentage,
                 thickness = 16.dp,
-                bicolor = false
+                bicolor = false,
             )
         }
         Spacer(modifier = Modifier.weight(.2f))
         Row(
             modifier = Modifier.weight(1f, true),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             RemainingPercentageComponent(
-                modifier = Modifier
-                    .padding(horizontal = 64.dp)
-                    .height(100.dp),
-                label = stringResource(
-                    id = R.string.session_time_remaining,
-                    viewState.sessionRemainingTime
-                ),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 64.dp)
+                        .height(100.dp),
+                label =
+                    stringResource(
+                        id = R.string.session_time_remaining,
+                        viewState.sessionRemainingTime,
+                    ),
                 percentage = viewState.sessionRemainingPercentage,
                 thickness = 8.dp,
-                bicolor = true
+                bicolor = true,
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -90,16 +94,15 @@ fun RunningSessionStepInfoDisplayComponent(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun RunningSessionStepInfoDisplayComponentPreview(
-    @PreviewParameter(RunningSessionStepInfoDisplayComponentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal
+    @PreviewParameter(RunningSessionStepInfoDisplayComponentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
@@ -107,7 +110,7 @@ private fun RunningSessionStepInfoDisplayComponentPreview(
                 exercise = viewState.displayedExercise,
                 periodType = viewState.periodType,
                 exerciseSide = viewState.side,
-                viewState = viewState
+                viewState = viewState,
             )
         }
     }
@@ -116,30 +119,32 @@ private fun RunningSessionStepInfoDisplayComponentPreview(
 internal class RunningSessionStepInfoDisplayComponentPreviewParameterProvider :
     PreviewParameterProvider<SessionViewState.RunningNominal> {
     override val values: Sequence<SessionViewState.RunningNominal>
-        get() = sequenceOf(
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.REST,
-                displayedExercise = Exercise.LungesSideToCurtsy,
-                side = AsymmetricalExerciseSideOrder.SECOND.side,
-                stepRemainingTime = "25s",
-                stepRemainingPercentage = .2f,
-                sessionRemainingTime = "3mn 25s",
-                sessionRemainingPercentage = .75f,
-                countDown = null
-            ),
-            SessionViewState.RunningNominal(
-                periodType = RunningSessionStepType.WORK,
-                displayedExercise = Exercise.LungesSideToCurtsy,
-                side = AsymmetricalExerciseSideOrder.SECOND.side,
-                stepRemainingTime = "3s",
-                stepRemainingPercentage = .02f,
-                sessionRemainingTime = "3mn 3s",
-                sessionRemainingPercentage = .745f,
-                countDown = CountDown(
-                    secondsDisplay = "3",
-                    progress = .2f,
-                    playBeep = true
-                )
+        get() =
+            sequenceOf(
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.REST,
+                    displayedExercise = Exercise.LungesSideToCurtsy,
+                    side = AsymmetricalExerciseSideOrder.SECOND.side,
+                    stepRemainingTime = "25s",
+                    stepRemainingPercentage = .2f,
+                    sessionRemainingTime = "3mn 25s",
+                    sessionRemainingPercentage = .75f,
+                    countDown = null,
+                ),
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.LungesSideToCurtsy,
+                    side = AsymmetricalExerciseSideOrder.SECOND.side,
+                    stepRemainingTime = "3s",
+                    stepRemainingPercentage = .02f,
+                    sessionRemainingTime = "3mn 3s",
+                    sessionRemainingPercentage = .745f,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .2f,
+                            playBeep = true,
+                        ),
+                ),
             )
-        )
 }

@@ -10,9 +10,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeInteractorImpl
 @Module
 @InstallIn(ViewModelComponent::class)
 interface HomeModule {
-
     @Binds
-    fun bindHomeInteractor(
-        homeInteractor: HomeInteractorImpl
-    ): HomeInteractor
+    fun bindHomeInteractor(homeInteractor: HomeInteractorImpl): HomeInteractor
 }

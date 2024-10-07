@@ -41,7 +41,6 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SettingsInteractorTest : AbstractMockkTest() {
-
     private val mockGetGeneralSettingsUseCase = mockk<GetGeneralSettingsUseCase>()
     private val mockSetWorkPeriodLengthUseCase = mockk<SetWorkPeriodLengthUseCase>()
     private val mockSetRestPeriodLengthUseCase = mockk<SetRestPeriodLengthUseCase>()
@@ -70,31 +69,33 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
     private val testString = "this is a test string"
     private val testReturnInt = 123
     private val testReturnLong = 123L
-    private val testListExercises = listOf(
-        ExerciseTypeSelected(ExerciseType.CAT, true),
-        ExerciseTypeSelected(ExerciseType.LUNGE, true)
-    )
+    private val testListExercises =
+        listOf(
+            ExerciseTypeSelected(ExerciseType.CAT, true),
+            ExerciseTypeSelected(ExerciseType.LUNGE, true),
+        )
 
-    private val testedInteractor = SettingsInteractorImpl(
-        mockGetGeneralSettingsUseCase,
-        mockSetWorkPeriodLengthUseCase,
-        mockSetRestPeriodLengthUseCase,
-        mockSetNumberOfWorkPeriodsUseCase,
-        mockSetBeepSoundUseCase,
-        mockSetSessionStartCountDownUseCase,
-        mockSetPeriodStartCountDownUseCase,
-        mockUpdateUserNameUseCase,
-        mockDeleteUserUseCase,
-        mockCreateUserUseCase,
-        mockSaveSelectedExerciseTypesUseCase,
-        mockResetAllSettingsUseCase,
-        mockValidatePeriodLengthUseCase,
-        mockValidateNumberOfWorkPeriodsUseCase,
-        mockValidateInputSessionStartCountdownUseCase,
-        mockValidateInputPeriodStartCountdownUseCase,
-        mockValidateInputUserNameUseCase,
-        mockToggleExerciseTypeInListUseCase
-    )
+    private val testedInteractor =
+        SettingsInteractorImpl(
+            mockGetGeneralSettingsUseCase,
+            mockSetWorkPeriodLengthUseCase,
+            mockSetRestPeriodLengthUseCase,
+            mockSetNumberOfWorkPeriodsUseCase,
+            mockSetBeepSoundUseCase,
+            mockSetSessionStartCountDownUseCase,
+            mockSetPeriodStartCountDownUseCase,
+            mockUpdateUserNameUseCase,
+            mockDeleteUserUseCase,
+            mockCreateUserUseCase,
+            mockSaveSelectedExerciseTypesUseCase,
+            mockResetAllSettingsUseCase,
+            mockValidatePeriodLengthUseCase,
+            mockValidateNumberOfWorkPeriodsUseCase,
+            mockValidateInputSessionStartCountdownUseCase,
+            mockValidateInputPeriodStartCountdownUseCase,
+            mockValidateInputUserNameUseCase,
+            mockToggleExerciseTypeInListUseCase,
+        )
 
     @BeforeEach
     fun setUpMock() {
@@ -113,7 +114,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         coEvery {
             mockValidatePeriodLengthUseCase.execute(
                 any(),
-                any()
+                any(),
             )
         } returns Constants.InputError.NONE
         coEvery { mockValidateNumberOfWorkPeriodsUseCase.execute(any()) } returns Constants.InputError.NONE
@@ -122,19 +123,19 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             mockValidateInputPeriodStartCountdownUseCase.execute(
                 any(),
                 any(),
-                any()
+                any(),
             )
         } returns Constants.InputError.NONE
         coEvery {
             mockValidateInputUserNameUseCase.execute(
                 any(),
-                any()
+                any(),
             )
         } returns Constants.InputError.NONE
         coEvery {
             mockToggleExerciseTypeInListUseCase.execute(
                 any(),
-                any()
+                any(),
             )
         } returns testListExercises
     }
@@ -265,7 +266,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
                 mockValidateInputPeriodStartCountdownUseCase.execute(
                     testString,
                     495L,
-                    285L
+                    285L,
                 )
             }
             assertEquals(Constants.InputError.NONE, result)
@@ -278,7 +279,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             coVerify(exactly = 1) {
                 mockValidateInputUserNameUseCase.execute(
                     testUser,
-                    testUsersList
+                    testUsersList,
                 )
             }
             assertEquals(Constants.InputError.NONE, result)
@@ -287,14 +288,15 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
     @Test
     fun `calls on interactor toggleExerciseTypeInList calls mockToggleExerciseTypeInListUseCase`() =
         runTest(UnconfinedTestDispatcher()) {
-            val result = testedInteractor.toggleExerciseTypeInList(
-                testListExercises,
-                ExerciseTypeSelected(ExerciseType.CAT, true)
-            )
+            val result =
+                testedInteractor.toggleExerciseTypeInList(
+                    testListExercises,
+                    ExerciseTypeSelected(ExerciseType.CAT, true),
+                )
             coVerify(exactly = 1) {
                 mockToggleExerciseTypeInListUseCase.execute(
                     testListExercises,
-                    ExerciseTypeSelected(ExerciseType.CAT, true)
+                    ExerciseTypeSelected(ExerciseType.CAT, true),
                 )
             }
             assertEquals(testListExercises, result)

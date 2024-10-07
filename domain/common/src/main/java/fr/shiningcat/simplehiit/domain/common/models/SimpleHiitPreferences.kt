@@ -19,5 +19,5 @@ data class SimpleHiitPreferences(
     val sessionCountDownLengthMs: Long = SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
     val PeriodCountDownLengthMs: Long = PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
     val selectedExercisesTypes: List<ExerciseTypeSelected> = DEFAULT_SELECTED_EXERCISES_TYPES,
-    val numberCumulatedCycles: Int = NUMBER_CUMULATED_CYCLES_DEFAULT
+    val numberCumulatedCycles: Int = NUMBER_CUMULATED_CYCLES_DEFAULT,
 )

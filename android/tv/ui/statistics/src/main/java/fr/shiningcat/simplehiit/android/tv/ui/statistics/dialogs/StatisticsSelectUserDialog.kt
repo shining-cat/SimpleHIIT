@@ -25,10 +25,9 @@ import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import androidx.tv.foundation.lazy.grid.TvGridCells
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.NonInteractiveSurfaceDefaults
 import androidx.tv.material3.Surface
+import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonBordered
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
@@ -37,26 +36,27 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlin.math.ceil
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun StatisticsSelectUserDialog(
     users: List<User>,
     selectUser: (User) -> Unit,
-    dismissAction: () -> Unit
+    dismissAction: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismissAction) {
         Surface(
-            colors = NonInteractiveSurfaceDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface
-            ),
-            shape = MaterialTheme.shapes.medium
+            colors =
+                SurfaceDefaults.colors(
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    contentColor = MaterialTheme.colorScheme.onSurface,
+                ),
+            shape = MaterialTheme.shapes.medium,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                modifier =
+                    Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val spacing = 24.dp
                 Text(
@@ -64,7 +64,7 @@ fun StatisticsSelectUserDialog(
                     text = stringResource(id = R.string.user_pick_dialog_title),
                     style = MaterialTheme.typography.headlineSmall,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Spacer(modifier = Modifier.height(spacing))
 
@@ -81,17 +81,18 @@ fun StatisticsSelectUserDialog(
                     modifier = Modifier.height(gridHeight),
                     verticalArrangement = Arrangement.spacedBy(spacing),
                     horizontalArrangement = Arrangement.spacedBy(spacing),
-                    userScrollEnabled = false
+                    userScrollEnabled = false,
                 ) {
                     items(users.size) {
                         val user = users[it]
                         ButtonBordered(
-                            modifier = Modifier
-                                .height(itemHeight)
-                                .offset(y = forcedTopMargin) // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
-                                .defaultMinSize(minWidth = 112.dp),
+                            modifier =
+                                Modifier
+                                    .height(itemHeight)
+                                    .offset(y = forcedTopMargin) // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid
+                                    .defaultMinSize(minWidth = 112.dp),
                             onClick = { selectUser(user) },
-                            label = user.name
+                            label = user.name,
                         )
                     }
                 }
@@ -99,11 +100,12 @@ fun StatisticsSelectUserDialog(
                 Spacer(modifier = Modifier.height(spacing))
 
                 ButtonText(
-                    modifier = Modifier
-                        .height(48.dp)
-                        .width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(48.dp)
+                            .width(150.dp),
                     onClick = dismissAction,
-                    label = stringResource(id = R.string.cancel_button_label)
+                    label = stringResource(id = R.string.cancel_button_label),
                 )
             }
         }
@@ -111,61 +113,60 @@ fun StatisticsSelectUserDialog(
 }
 
 // Previews
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun StatisticsPickUserDialogPreview(
-    @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>
+    @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             StatisticsSelectUserDialog(
                 users = users,
                 selectUser = {},
-                dismissAction = {}
+                dismissAction = {},
             )
         }
     }
 }
 
-internal class StatisticsPickUserDialogPreviewParameterProvider :
-    PreviewParameterProvider<List<User>> {
+internal class StatisticsPickUserDialogPreviewParameterProvider : PreviewParameterProvider<List<User>> {
     override val values: Sequence<List<User>>
-        get() = sequenceOf(
-            listOf(),
-            listOf(User(name = "user 1")),
-            listOf(
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5")
-            ),
-            listOf(
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5"),
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5"),
-                User(name = "user 1"),
-                User(name = "user 2"),
-                User(name = "user 3"),
-                User(name = "user 4"),
-                User(name = "user 5")
+        get() =
+            sequenceOf(
+                listOf(),
+                listOf(User(name = "user 1")),
+                listOf(
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                ),
+                listOf(
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                    User(name = "user 1"),
+                    User(name = "user 2"),
+                    User(name = "user 3"),
+                    User(name = "user 4"),
+                    User(name = "user 5"),
+                ),
             )
-        )
 }

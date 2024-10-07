@@ -27,7 +27,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 @Composable
 fun HomeTopBarComponent(
     navigateTo: (String) -> Unit = {},
-    screenViewState: HomeViewState
+    screenViewState: HomeViewState,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
@@ -36,7 +36,7 @@ fun HomeTopBarComponent(
                 text = stringResource(R.string.app_name),
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
         },
         actions = {
@@ -44,7 +44,7 @@ fun HomeTopBarComponent(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.cog),
                     contentDescription = stringResource(id = R.string.settings_button_content_label),
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
             if (screenViewState is HomeViewState.Nominal) {
@@ -52,22 +52,22 @@ fun HomeTopBarComponent(
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
                         contentDescription = stringResource(id = R.string.statistics_button_content_label),
-                        tint = MaterialTheme.colorScheme.onPrimary
+                        tint = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
-        }
+        },
     )
 }
 
 // Previews
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun HomeTopBarComponentPreview() {
@@ -75,19 +75,21 @@ private fun HomeTopBarComponentPreview() {
         Surface {
             Column(verticalArrangement = Arrangement.spacedBy(28.dp)) {
                 HomeTopBarComponent(
-                    screenViewState = HomeViewState.Nominal(
-                        numberCumulatedCycles = 2,
-                        cycleLength = "2mn",
-                        users = emptyList(),
-                        totalSessionLengthFormatted = "20mn 34s"
-                    )
+                    screenViewState =
+                        HomeViewState.Nominal(
+                            numberCumulatedCycles = 2,
+                            cycleLength = "2mn",
+                            users = emptyList(),
+                            totalSessionLengthFormatted = "20mn 34s",
+                        ),
                 )
                 HomeTopBarComponent(
-                    screenViewState = HomeViewState.MissingUsers(
-                        numberCumulatedCycles = 2,
-                        cycleLength = "2mn",
-                        totalSessionLengthFormatted = "20mn 34s"
-                    )
+                    screenViewState =
+                        HomeViewState.MissingUsers(
+                            numberCumulatedCycles = 2,
+                            cycleLength = "2mn",
+                            totalSessionLengthFormatted = "20mn 34s",
+                        ),
                 )
             }
         }

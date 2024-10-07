@@ -29,7 +29,6 @@ import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
-
     private val mockUsersDao = mockk<UsersDao>()
     private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
@@ -49,24 +48,26 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
     @MethodSource("getUsersArguments")
     fun `get users returns success when dao get users succeeds`(daoOutput: List<UserEntity>) =
         runTest {
-            val simpleHiitRepository = SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
-                sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
-                sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                hiitLogger = mockHiitLogger,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
             //
             val daoFlow = MutableSharedFlow<List<UserEntity>>()
             coEvery { mockUsersDao.getUsers() } answers { daoFlow }
             coEvery { mockUserMapper.convert(any<UserEntity>()) } answers { testUserModel }
             //
             val usersFlowAsList = mutableListOf<Output<List<User>>>()
-            val collectJob = launch(UnconfinedTestDispatcher()) {
-                simpleHiitRepository.getUsers().toList(usersFlowAsList)
-            }
+            val collectJob =
+                launch(UnconfinedTestDispatcher()) {
+                    simpleHiitRepository.getUsers().toList(usersFlowAsList)
+                }
             daoFlow.emit(daoOutput)
             //
             coVerify(exactly = 1) { mockUsersDao.getUsers() }
@@ -84,34 +85,37 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
     @Test
     fun `get users returns success when dao get users succeeds and updates returned flow content`() =
         runTest {
-            val simpleHiitRepository = SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
-                sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
-                sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                hiitLogger = mockHiitLogger,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
             //
             val daoOutput1 = emptyList<UserEntity>()
             val daoOutput2 =
                 listOf(UserEntity(userId = 123L, name = "user test name 1", selected = true))
-            val daoOutput3 = listOf(
-                UserEntity(userId = 123L, name = "user test name 1", selected = true),
-                UserEntity(userId = 1234L, name = "user test name 2", selected = true),
-                UserEntity(userId = 1235L, name = "user test name 3", selected = true),
-                UserEntity(userId = 1236L, name = "user test name 4", selected = true),
-                UserEntity(userId = 1237L, name = "user test name 5", selected = true)
-            )
+            val daoOutput3 =
+                listOf(
+                    UserEntity(userId = 123L, name = "user test name 1", selected = true),
+                    UserEntity(userId = 1234L, name = "user test name 2", selected = true),
+                    UserEntity(userId = 1235L, name = "user test name 3", selected = true),
+                    UserEntity(userId = 1236L, name = "user test name 4", selected = true),
+                    UserEntity(userId = 1237L, name = "user test name 5", selected = true),
+                )
             val daoFlow = MutableSharedFlow<List<UserEntity>>()
             coEvery { mockUsersDao.getUsers() } answers { daoFlow }
             coEvery { mockUserMapper.convert(any<UserEntity>()) } answers { testUserModel }
             //
             val usersFlowAsList = mutableListOf<Output<List<User>>>()
-            val collectJob = launch(UnconfinedTestDispatcher()) {
-                simpleHiitRepository.getUsers().toList(usersFlowAsList)
-            }
+            val collectJob =
+                launch(UnconfinedTestDispatcher()) {
+                    simpleHiitRepository.getUsers().toList(usersFlowAsList)
+                }
             coVerify(exactly = 1) { mockUsersDao.getUsers() }
             // first emission
             daoFlow.emit(daoOutput1)
@@ -142,37 +146,41 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
         }
 
     @Test
-    fun `get users returns error when dao get users throws exception`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        val thrownException = Exception("this is a test exception")
-        coEvery { mockUsersDao.getUsers() } throws thrownException
-        //
-        val usersFlowAsList = mutableListOf<Output<List<User>>>()
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            simpleHiitRepository.getUsers().toList(usersFlowAsList)
+    fun `get users returns error when dao get users throws exception`() =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            val thrownException = Exception("this is a test exception")
+            coEvery { mockUsersDao.getUsers() } throws thrownException
+            //
+            val usersFlowAsList = mutableListOf<Output<List<User>>>()
+            val collectJob =
+                launch(UnconfinedTestDispatcher()) {
+                    simpleHiitRepository.getUsers().toList(usersFlowAsList)
+                }
+            //
+            coVerify(exactly = 1) { mockUsersDao.getUsers() }
+            coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
+            coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed getting users", thrownException) }
+            assertEquals(1, usersFlowAsList.size)
+            val result = usersFlowAsList[0]
+            val expectedOutput =
+                Output.Error(
+                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    exception = thrownException,
+                )
+            assertEquals(expectedOutput, result)
+            collectJob.cancel()
         }
-        //
-        coVerify(exactly = 1) { mockUsersDao.getUsers() }
-        coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
-        coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed getting users", thrownException) }
-        assertEquals(1, usersFlowAsList.size)
-        val result = usersFlowAsList[0]
-        val expectedOutput = Output.Error(
-            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-            exception = thrownException
-        )
-        assertEquals(expectedOutput, result)
-        collectJob.cancel()
-    }
 
 // ////////////
 //   GET SELECTED USERS
@@ -181,24 +189,26 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
     @MethodSource("getSelectedUsersArguments")
     fun `get selected users returns success when dao get users succeeds`(daoOutput: List<UserEntity>) =
         runTest {
-            val simpleHiitRepository = SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
-                sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
-                sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                hiitLogger = mockHiitLogger,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
             //
             val daoFlow = MutableSharedFlow<List<UserEntity>>()
             coEvery { mockUsersDao.getUsers() } answers { daoFlow }
             coEvery { mockUserMapper.convert(any<UserEntity>()) } answers { testUserModel }
             //
             val usersFlowAsList = mutableListOf<Output<List<User>>>()
-            val collectJob = launch(UnconfinedTestDispatcher()) {
-                simpleHiitRepository.getUsers().toList(usersFlowAsList)
-            }
+            val collectJob =
+                launch(UnconfinedTestDispatcher()) {
+                    simpleHiitRepository.getUsers().toList(usersFlowAsList)
+                }
             daoFlow.emit(daoOutput)
             //
             coVerify(exactly = 1) { mockUsersDao.getUsers() }
@@ -216,32 +226,35 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
     @Test
     fun `get selected users returns success when dao get users succeeds and updates returned flow content`() =
         runTest {
-            val simpleHiitRepository = SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
-                sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
-                sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                hiitLogger = mockHiitLogger,
-                ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-            )
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
             //
             val daoOutput1 = emptyList<UserEntity>()
             val daoOutput2 =
                 listOf(UserEntity(userId = 123L, name = "user test name 1", selected = true))
-            val daoOutput3 = listOf(
-                UserEntity(userId = 123L, name = "user test name 1", selected = true),
-                UserEntity(userId = 1235L, name = "user test name 3", selected = true),
-                UserEntity(userId = 1237L, name = "user test name 5", selected = true)
-            )
+            val daoOutput3 =
+                listOf(
+                    UserEntity(userId = 123L, name = "user test name 1", selected = true),
+                    UserEntity(userId = 1235L, name = "user test name 3", selected = true),
+                    UserEntity(userId = 1237L, name = "user test name 5", selected = true),
+                )
             val daoFlow = MutableSharedFlow<List<UserEntity>>()
             coEvery { mockUsersDao.getSelectedUsers() } answers { daoFlow }
             coEvery { mockUserMapper.convert(any<UserEntity>()) } answers { testUserModel }
             //
             val usersFlowAsList = mutableListOf<Output<List<User>>>()
-            val collectJob = launch(UnconfinedTestDispatcher()) {
-                simpleHiitRepository.getSelectedUsers().toList(usersFlowAsList)
-            }
+            val collectJob =
+                launch(UnconfinedTestDispatcher()) {
+                    simpleHiitRepository.getSelectedUsers().toList(usersFlowAsList)
+                }
             coVerify(exactly = 1) { mockUsersDao.getSelectedUsers() }
             // first emission
             daoFlow.emit(daoOutput1)
@@ -272,55 +285,58 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
         }
 
     @Test
-    fun `get selected users returns error when dao get users throws exception`() = runTest {
-        val simpleHiitRepository = SimpleHiitRepositoryImpl(
-            usersDao = mockUsersDao,
-            sessionRecordsDao = mockSessionRecordsDao,
-            userMapper = mockUserMapper,
-            sessionMapper = mockSessionMapper,
-            hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-            hiitLogger = mockHiitLogger,
-            ioDispatcher = UnconfinedTestDispatcher(testScheduler)
-        )
-        //
-        val thrownException = Exception("this is a test exception")
-        coEvery { mockUsersDao.getSelectedUsers() } throws thrownException
-        //
-        val usersFlowAsList = mutableListOf<Output<List<User>>>()
-        val collectJob = launch(UnconfinedTestDispatcher()) {
-            simpleHiitRepository.getSelectedUsers().toList(usersFlowAsList)
+    fun `get selected users returns error when dao get users throws exception`() =
+        runTest {
+            val simpleHiitRepository =
+                SimpleHiitRepositoryImpl(
+                    usersDao = mockUsersDao,
+                    sessionRecordsDao = mockSessionRecordsDao,
+                    userMapper = mockUserMapper,
+                    sessionMapper = mockSessionMapper,
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    hiitLogger = mockHiitLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                )
+            //
+            val thrownException = Exception("this is a test exception")
+            coEvery { mockUsersDao.getSelectedUsers() } throws thrownException
+            //
+            val usersFlowAsList = mutableListOf<Output<List<User>>>()
+            val collectJob =
+                launch(UnconfinedTestDispatcher()) {
+                    simpleHiitRepository.getSelectedUsers().toList(usersFlowAsList)
+                }
+            //
+            coVerify(exactly = 1) { mockUsersDao.getSelectedUsers() }
+            coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
+            coVerify(exactly = 1) {
+                mockHiitLogger.e(
+                    any(),
+                    "failed getting selected users",
+                    thrownException,
+                )
+            }
+            assertEquals(1, usersFlowAsList.size)
+            val result = usersFlowAsList[0]
+            val expectedOutput =
+                Output.Error(
+                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    exception = thrownException,
+                )
+            assertEquals(expectedOutput, result)
+            collectJob.cancel()
         }
-        //
-        coVerify(exactly = 1) { mockUsersDao.getSelectedUsers() }
-        coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
-        coVerify(exactly = 1) {
-            mockHiitLogger.e(
-                any(),
-                "failed getting selected users",
-                thrownException
-            )
-        }
-        assertEquals(1, usersFlowAsList.size)
-        val result = usersFlowAsList[0]
-        val expectedOutput = Output.Error(
-            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-            exception = thrownException
-        )
-        assertEquals(expectedOutput, result)
-        collectJob.cancel()
-    }
 
     // //////////////////////
     private companion object {
-
         @JvmStatic
         fun getUsersArguments() =
             Stream.of(
                 Arguments.of(emptyList<UserEntity>()),
                 Arguments.of(
                     listOf(
-                        UserEntity(userId = 123L, name = "user test name 1", selected = true)
-                    )
+                        UserEntity(userId = 123L, name = "user test name 1", selected = true),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
@@ -328,9 +344,9 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
                         UserEntity(userId = 1234L, name = "user test name 2", selected = true),
                         UserEntity(userId = 1235L, name = "user test name 3", selected = true),
                         UserEntity(userId = 1236L, name = "user test name 4", selected = true),
-                        UserEntity(userId = 1237L, name = "user test name 5", selected = true)
-                    )
-                )
+                        UserEntity(userId = 1237L, name = "user test name 5", selected = true),
+                    ),
+                ),
             )
 
         @JvmStatic
@@ -339,8 +355,8 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
                 Arguments.of(emptyList<UserEntity>()),
                 Arguments.of(
                     listOf(
-                        UserEntity(userId = 123L, name = "user test name 1", selected = true)
-                    )
+                        UserEntity(userId = 123L, name = "user test name 1", selected = true),
+                    ),
                 ),
                 Arguments.of(
                     listOf(
@@ -348,9 +364,9 @@ internal class SimpleHiitRepositoryImplGetUsersTest : AbstractMockkTest() {
                         UserEntity(userId = 1234L, name = "user test name 2", selected = true),
                         UserEntity(userId = 1235L, name = "user test name 3", selected = true),
                         UserEntity(userId = 1236L, name = "user test name 4", selected = true),
-                        UserEntity(userId = 1237L, name = "user test name 5", selected = true)
-                    )
-                )
+                        UserEntity(userId = 1237L, name = "user test name 5", selected = true),
+                    ),
+                ),
             )
     }
 }

@@ -8,8 +8,9 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 @ExcludeFromJacocoGeneratedReport
 sealed interface SessionViewState {
     object Loading : SessionViewState
+
     data class InitialCountDownSession(
-        val countDown: CountDown
+        val countDown: CountDown,
     ) : SessionViewState
 
     data class RunningNominal(
@@ -20,15 +21,17 @@ sealed interface SessionViewState {
         val stepRemainingPercentage: Float,
         val sessionRemainingTime: String,
         val sessionRemainingPercentage: Float,
-        val countDown: CountDown? = null
+        val countDown: CountDown? = null,
     ) : SessionViewState
 
     data class Finished(
         val sessionDurationFormatted: String,
-        val workingStepsDone: List<SessionStepDisplay>
+        val workingStepsDone: List<SessionStepDisplay>,
     ) : SessionViewState
 
-    data class Error(val errorCode: String) : SessionViewState
+    data class Error(
+        val errorCode: String,
+    ) : SessionViewState
 }
 
 enum class RunningSessionStepType { REST, WORK }
@@ -37,11 +40,12 @@ enum class RunningSessionStepType { REST, WORK }
 data class CountDown(
     val secondsDisplay: String,
     val progress: Float,
-    val playBeep: Boolean
+    val playBeep: Boolean,
 )
 
 @ExcludeFromJacocoGeneratedReport
 sealed interface SessionDialog {
     object None : SessionDialog
+
     object Pause : SessionDialog
 }

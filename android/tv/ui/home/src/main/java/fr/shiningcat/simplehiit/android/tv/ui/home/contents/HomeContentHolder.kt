@@ -7,7 +7,6 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
@@ -30,41 +29,45 @@ fun HomeContentHolder(
     cancelDialog: () -> Unit = {},
     screenViewState: HomeViewState,
     dialogViewState: HomeDialog,
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     when (screenViewState) {
         is HomeViewState.Loading -> BasicLoading()
 
-        is HomeViewState.Error -> HomeErrorContent(
-            errorCode = screenViewState.errorCode,
-            resetWholeApp = resetWholeApp
-        )
+        is HomeViewState.Error ->
+            HomeErrorContent(
+                errorCode = screenViewState.errorCode,
+                resetWholeApp = resetWholeApp,
+            )
 
-        is HomeViewState.MissingUsers -> HomeMissingUsersContent(
-            navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) }
-        )
+        is HomeViewState.MissingUsers ->
+            HomeMissingUsersContent(
+                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) },
+            )
 
-        is HomeViewState.Nominal -> HomeNominalContent(
-            decreaseNumberOfCycles = decreaseNumberOfCycles,
-            increaseNumberOfCycles = increaseNumberOfCycles,
-            numberOfCycles = screenViewState.numberCumulatedCycles,
-            lengthOfCycle = screenViewState.cycleLength,
-            totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
-            users = screenViewState.users,
-            toggleSelectedUser = toggleSelectedUser,
-            navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
-            hiitLogger = hiitLogger
-        )
+        is HomeViewState.Nominal ->
+            HomeNominalContent(
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
+                numberOfCycles = screenViewState.numberCumulatedCycles,
+                lengthOfCycle = screenViewState.cycleLength,
+                totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
+                users = screenViewState.users,
+                toggleSelectedUser = toggleSelectedUser,
+                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
+                hiitLogger = hiitLogger,
+            )
     }
     when (dialogViewState) {
-        is HomeDialog.ConfirmWholeReset -> WarningDialog(
-            message = stringResource(id = R.string.error_confirm_whole_reset),
-            proceedButtonLabel = stringResource(id = R.string.delete_button_label),
-            proceedAction = resetWholeAppDeleteEverything,
-            dismissAction = cancelDialog
-        )
+        is HomeDialog.ConfirmWholeReset ->
+            WarningDialog(
+                message = stringResource(id = R.string.error_confirm_whole_reset),
+                proceedButtonLabel = stringResource(id = R.string.delete_button_label),
+                proceedAction = resetWholeAppDeleteEverything,
+                dismissAction = cancelDialog,
+            )
 
-        HomeDialog.None -> {} /*do nothing*/
+        HomeDialog.None -> {} // do nothing
     }
 }
 
@@ -72,23 +75,22 @@ fun HomeContentHolder(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HomeContentHolderPreviewTV(
-    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState
+    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             HomeContentHolder(
                 screenViewState = viewState,
-                dialogViewState = HomeDialog.None
+                dialogViewState = HomeDialog.None,
             )
         }
     }
@@ -96,24 +98,25 @@ private fun HomeContentHolderPreviewTV(
 
 internal class HomeContentHolderPreviewParameterProvider : PreviewParameterProvider<HomeViewState> {
     override val values: Sequence<HomeViewState>
-        get() = sequenceOf(
-            HomeViewState.Loading,
-            HomeViewState.Error(errorCode = "12345"),
-            HomeViewState.MissingUsers(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                totalSessionLengthFormatted = "total time: 20mn"
-            ),
-            HomeViewState.Nominal(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                users = listOf(
-                    User(123L, "User 1", selected = true),
-                    User(234L, "User 2", selected = false),
-                    User(345L, "User 3", selected = true)
+        get() =
+            sequenceOf(
+                HomeViewState.Loading,
+                HomeViewState.Error(errorCode = "12345"),
+                HomeViewState.MissingUsers(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    totalSessionLengthFormatted = "total time: 20mn",
                 ),
-                totalSessionLengthFormatted = "total time: 20mn"
+                HomeViewState.Nominal(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    users =
+                        listOf(
+                            User(123L, "User 1", selected = true),
+                            User(234L, "User 2", selected = false),
+                            User(345L, "User 3", selected = true),
+                        ),
+                    totalSessionLengthFormatted = "total time: 20mn",
+                ),
             )
-
-        )
 }

@@ -13,5 +13,5 @@ data class SessionSettings(
     val sessionStartCountDownLengthMs: Long,
     val periodsStartCountDownLengthMs: Long,
     val users: List<User>,
-    val exerciseTypes: List<ExerciseTypeSelected>
+    val exerciseTypes: List<ExerciseTypeSelected>,
 )

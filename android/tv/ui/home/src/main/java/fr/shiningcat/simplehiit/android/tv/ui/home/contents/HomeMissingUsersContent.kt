@@ -27,7 +27,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -36,11 +35,8 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun HomeMissingUsersContent(
-    navigateToSettings: () -> Unit = {}
-) {
+fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         delay(1000L) // wait a sec to increase awareness of the user of the focusing on the main button
@@ -48,46 +44,51 @@ fun HomeMissingUsersContent(
     }
 
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceEvenly,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.no_user_exist_title),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
         )
         Image(
-            modifier = Modifier
-                .size(120.dp)
-                .align(Alignment.CenterHorizontally)
-                .padding(horizontal = 0.dp, vertical = 24.dp),
+            modifier =
+                Modifier
+                    .size(120.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .padding(horizontal = 0.dp, vertical = 24.dp),
             painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
+            contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.warning_no_user_exist),
             style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp, vertical = 24.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 0.dp, vertical = 24.dp),
         )
         Row {
             Spacer(modifier = Modifier.weight(.3f))
             ButtonFilled(
-                modifier = Modifier
-                    .weight(weight = .3f, fill = false)
-                    .focusRequester(focusRequester), // calling focus on the first setting on opening
+                modifier =
+                    Modifier
+                        .weight(weight = .3f, fill = false)
+                        .focusRequester(focusRequester),
+                // calling focus on the first setting on opening
                 label = stringResource(id = R.string.go_to_settings),
                 icon = ImageVector.vectorResource(R.drawable.cog),
                 iconContentDescription = R.string.settings_button_content_label,
                 accentColor = true,
-                onClick = navigateToSettings
+                onClick = navigateToSettings,
             )
             Spacer(modifier = Modifier.weight(.3f))
         }
@@ -98,14 +99,13 @@ fun HomeMissingUsersContent(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
-@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 private fun HomeMissingUsersContentPreviewPhonePortrait() {
     SimpleHiitTvTheme {

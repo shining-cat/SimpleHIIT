@@ -21,12 +21,13 @@ fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
     userName: String,
     validateUserNameInput: (String) -> Constants.InputError,
-    onCancel: () -> Unit
+    onCancel: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
     ) {
         InputDialog(
             dialogTitle = stringResource(id = R.string.create_user_dialog_title),
@@ -39,31 +40,30 @@ fun SettingsAddUserDialog(
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
             validateInput = validateUserNameInput,
-            pickErrorMessage = { setUSerNameErrorMessage(it) }
+            pickErrorMessage = { setUSerNameErrorMessage(it) },
         )
     }
 }
 
-private fun setUSerNameErrorMessage(error: Constants.InputError): Int {
-    return when (error) {
+private fun setUSerNameErrorMessage(error: Constants.InputError): Int =
+    when (error) {
         Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
         Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
-}
 
 // Previews
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showBackground = true,
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsAddUserDialogPreview() {
@@ -72,7 +72,7 @@ private fun SettingsAddUserDialogPreview() {
             saveUserName = {},
             userName = "The User's name",
             validateUserNameInput = { _ -> Constants.InputError.NONE },
-            onCancel = {}
+            onCancel = {},
         )
     }
 }

@@ -14,37 +14,35 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
-fun SimpleHiitNavigation(
-    hiitLogger: HiitLogger
-) {
+fun SimpleHiitNavigation(hiitLogger: HiitLogger) {
     val navController = rememberNavController()
 
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.Home.route,
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(
                 navigateTo = { navController.navigate(it) },
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(
                 navigateTo = { navController.navigate(it) },
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Statistics.route) {
             StatisticsScreen(
                 navigateTo = { navController.navigate(it) },
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Session.route) {
             SessionScreen(
                 navigateUp = { navController.navigateUp() },
-                hiitLogger = hiitLogger
+                hiitLogger = hiitLogger,
             )
         }
     }

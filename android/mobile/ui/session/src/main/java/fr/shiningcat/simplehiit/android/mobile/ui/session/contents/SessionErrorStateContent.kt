@@ -35,39 +35,43 @@ fun SessionErrorStateContent(
     navigateUp: () -> Boolean,
     onAbort: () -> Unit,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            Modifier
+                .padding(8.dp)
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            modifier = Modifier
-                .size(120.dp)
-                .padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier =
+                Modifier
+                    .size(120.dp)
+                    .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description)
+            contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
-            text = if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                stringResource(id = R.string.error_session_abort)
-            } else {
-                stringResource(id = R.string.error_session_retry)
-            },
-            style = MaterialTheme.typography.headlineMedium
+            text =
+                if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                    stringResource(id = R.string.error_session_abort)
+                } else {
+                    stringResource(id = R.string.error_session_retry)
+                },
+            style = MaterialTheme.typography.headlineMedium,
         )
         if (screenViewState.errorCode.isNotBlank()) {
             Text(
                 textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
+                modifier =
+                    Modifier
+                        .padding(horizontal = 0.dp, vertical = 16.dp),
                 text = stringResource(id = R.string.error_code, screenViewState.errorCode),
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall,
             )
         }
         val clickAction: () -> Unit = {
@@ -78,20 +82,23 @@ fun SessionErrorStateContent(
             }
         }
         Button(
-            modifier = Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier =
+                Modifier
+                    .padding(horizontal = 0.dp, vertical = 16.dp),
             onClick = clickAction,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.error,
-                contentColor = MaterialTheme.colorScheme.onError
-            )
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError,
+                ),
         ) {
             Text(
-                text = if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                    stringResource(id = R.string.abort_session_button_label)
-                } else {
-                    stringResource(id = R.string.exit_button_label)
-                }
+                text =
+                    if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                        stringResource(id = R.string.abort_session_button_label)
+                    } else {
+                        stringResource(id = R.string.exit_button_label)
+                    },
             )
         }
     }
@@ -99,32 +106,32 @@ fun SessionErrorStateContent(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionErrorStateContentPreview(
-    @PreviewParameter(SessionErrorStateContentPreviewParameterProvider::class) sessionViewState: SessionViewState.Error
+    @PreviewParameter(SessionErrorStateContentPreviewParameterProvider::class) sessionViewState: SessionViewState.Error,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionErrorStateContent(
                 screenViewState = sessionViewState,
                 navigateUp = { true },
-                onAbort = {}
+                onAbort = {},
             )
         }
     }
 }
 
-internal class SessionErrorStateContentPreviewParameterProvider :
-    PreviewParameterProvider<SessionViewState.Error> {
+internal class SessionErrorStateContentPreviewParameterProvider : PreviewParameterProvider<SessionViewState.Error> {
     override val values: Sequence<SessionViewState.Error>
-        get() = sequenceOf(
-            SessionViewState.Error(errorCode = "ABCD-123"),
-            SessionViewState.Error(errorCode = ""),
-            SessionViewState.Error(errorCode = Constants.Errors.SESSION_NOT_FOUND.code)
-        )
+        get() =
+            sequenceOf(
+                SessionViewState.Error(errorCode = "ABCD-123"),
+                SessionViewState.Error(errorCode = ""),
+                SessionViewState.Error(errorCode = Constants.Errors.SESSION_NOT_FOUND.code),
+            )
 }

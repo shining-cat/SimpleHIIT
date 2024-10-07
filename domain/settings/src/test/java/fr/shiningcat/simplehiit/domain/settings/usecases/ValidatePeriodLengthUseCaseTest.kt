@@ -10,13 +10,12 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
-
     @ParameterizedTest(name = "{index} -> should return {0}")
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         input: String,
         periodCountDownLengthSeconds: Long,
-        expectedOutput: Constants.InputError
+        expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
             ValidatePeriodLengthUseCase(hiitLogger = mockHiitLogger)
@@ -26,14 +25,13 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
     }
 
     private companion object {
-
         @JvmStatic
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of("three", 123L, Constants.InputError.WRONG_FORMAT),
                 Arguments.of("10", 5L, Constants.InputError.NONE),
                 Arguments.of("5", 5L, Constants.InputError.NONE),
-                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL)
+                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL),
             )
     }
 }

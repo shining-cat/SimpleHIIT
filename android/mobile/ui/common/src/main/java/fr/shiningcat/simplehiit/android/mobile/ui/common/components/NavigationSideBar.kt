@@ -20,7 +20,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 fun NavigationSideBar(
     navigateTo: (String) -> Unit = {},
     currentDestination: Screen,
-    showStatisticsButton: Boolean
+    showStatisticsButton: Boolean,
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
@@ -31,28 +31,28 @@ fun NavigationSideBar(
                 text = stringResource(R.string.app_name),
                 color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(16.dp),
             )
-        }
+        },
     ) {
         SideBarItem(
             onClick = { navigateTo(Screen.Home.route) },
             icon = R.drawable.home,
             label = R.string.home_page_title,
-            selected = currentDestination == Screen.Home
+            selected = currentDestination == Screen.Home,
         )
         SideBarItem(
             onClick = { navigateTo(Screen.Settings.route) },
             icon = R.drawable.cog,
             label = R.string.settings_button_content_label,
-            selected = currentDestination == Screen.Settings
+            selected = currentDestination == Screen.Settings,
         )
         if (showStatisticsButton) {
             SideBarItem(
                 onClick = { navigateTo(Screen.Statistics.route) },
                 icon = R.drawable.bar_chart,
                 label = R.string.statistics_button_content_label,
-                selected = currentDestination == Screen.Statistics
+                selected = currentDestination == Screen.Statistics,
             )
         }
     }
@@ -60,10 +60,10 @@ fun NavigationSideBar(
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun NavigationSideBarPreview() {
@@ -71,7 +71,7 @@ private fun NavigationSideBarPreview() {
         Surface {
             NavigationSideBar(
                 currentDestination = Screen.Settings,
-                showStatisticsButton = true
+                showStatisticsButton = true,
             )
         }
     }

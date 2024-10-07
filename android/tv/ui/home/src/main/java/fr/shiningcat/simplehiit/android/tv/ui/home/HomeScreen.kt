@@ -34,16 +34,17 @@ fun HomeScreen(
     navigateTo: (String) -> Unit,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val durationsFormatter = DurationStringFormatter(
-        hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-        hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-        hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-        minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-        minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-        seconds = stringResource(id = R.string.seconds_short)
-    )
+    val durationsFormatter =
+        DurationStringFormatter(
+            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
+            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
+            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
+            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
+            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
+            seconds = stringResource(id = R.string.seconds_short),
+        )
     viewModel.init(durationsFormatter)
     val viewState = viewModel.screenViewState.collectAsState().value
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
@@ -58,7 +59,7 @@ fun HomeScreen(
         cancelDialog = { viewModel.cancelDialog() },
         viewState = viewState,
         dialogViewState = dialogViewState,
-        hiitLogger = hiitLogger
+        hiitLogger = hiitLogger,
     )
 }
 
@@ -74,7 +75,7 @@ private fun HomeScreen(
     cancelDialog: () -> Unit = {},
     viewState: HomeViewState,
     dialogViewState: HomeDialog,
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     val view = LocalView.current
     val primaryAsInt = MaterialTheme.colorScheme.primary.toArgb()
@@ -94,9 +95,9 @@ private fun HomeScreen(
             NavigationSideBar(
                 navigateTo = navigateTo,
                 currentDestination = Screen.Home,
-                showStatisticsButton = viewState is HomeViewState.Nominal
+                showStatisticsButton = viewState is HomeViewState.Nominal,
             )
-        }
+        },
     ) {
         HomeContentHolder(
             navigateTo = navigateTo,
@@ -108,7 +109,7 @@ private fun HomeScreen(
             cancelDialog = cancelDialog,
             screenViewState = viewState,
             dialogViewState = dialogViewState,
-            hiitLogger = hiitLogger
+            hiitLogger = hiitLogger,
         )
     }
 }
@@ -118,53 +119,54 @@ private fun HomeScreen(
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun HomeScreenPreviewTV(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState
+    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             HomeScreen(
                 viewState = viewState,
-                dialogViewState = HomeDialog.None
+                dialogViewState = HomeDialog.None,
             )
         }
     }
 }
 
-internal class HomeScreenPreviewParameterProvider :
-    PreviewParameterProvider<HomeViewState> {
+internal class HomeScreenPreviewParameterProvider : PreviewParameterProvider<HomeViewState> {
     override val values: Sequence<HomeViewState>
-        get() = sequenceOf(
-            HomeViewState.Loading,
-            HomeViewState.Error(errorCode = "12345"),
-            HomeViewState.MissingUsers(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                totalSessionLengthFormatted = "total time: 20mn"
-            ),
-            HomeViewState.Nominal(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                users = listOf(User(123L, "User 1", selected = true)),
-                totalSessionLengthFormatted = "total time: 20mn"
-            ),
-            HomeViewState.Nominal(
-                numberCumulatedCycles = 5,
-                cycleLength = "4mn",
-                users = listOf(
-                    User(123L, "User 1", selected = true),
-                    User(234L, "User 2", selected = false),
-                    User(345L, "User 3", selected = true)
+        get() =
+            sequenceOf(
+                HomeViewState.Loading,
+                HomeViewState.Error(errorCode = "12345"),
+                HomeViewState.MissingUsers(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    totalSessionLengthFormatted = "total time: 20mn",
                 ),
-                totalSessionLengthFormatted = "total time: 20mn"
+                HomeViewState.Nominal(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    users = listOf(User(123L, "User 1", selected = true)),
+                    totalSessionLengthFormatted = "total time: 20mn",
+                ),
+                HomeViewState.Nominal(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    users =
+                        listOf(
+                            User(123L, "User 1", selected = true),
+                            User(234L, "User 2", selected = false),
+                            User(345L, "User 3", selected = true),
+                        ),
+                    totalSessionLengthFormatted = "total time: 20mn",
+                ),
             )
-        )
 }

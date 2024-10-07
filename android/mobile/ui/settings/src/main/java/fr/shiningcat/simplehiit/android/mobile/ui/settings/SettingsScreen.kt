@@ -34,16 +34,17 @@ fun SettingsScreen(
     uiArrangement: UiArrangement,
     viewModel: SettingsViewModel = hiltViewModel(),
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger
+    hiitLogger: HiitLogger,
 ) {
-    val durationsFormatter = DurationStringFormatter(
-        hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-        hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-        hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-        minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-        minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-        seconds = stringResource(id = R.string.seconds_short)
-    )
+    val durationsFormatter =
+        DurationStringFormatter(
+            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
+            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
+            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
+            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
+            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
+            seconds = stringResource(id = R.string.seconds_short),
+        )
     viewModel.init(durationsFormatter)
     val screenViewState = viewModel.screenViewState.collectAsState().value
     val dialogViewState = viewModel.dialogViewState.collectAsState().value
@@ -78,7 +79,7 @@ fun SettingsScreen(
         cancelDialog = { viewModel.cancelDialog() },
         uiArrangement = uiArrangement,
         screenViewState = screenViewState,
-        dialogViewState = dialogViewState
+        dialogViewState = dialogViewState,
     )
 }
 
@@ -113,24 +114,28 @@ private fun SettingsScreen(
     cancelDialog: () -> Unit = {},
     uiArrangement: UiArrangement,
     screenViewState: SettingsViewState,
-    dialogViewState: SettingsDialog
+    dialogViewState: SettingsDialog,
 ) {
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             NavigationSideBar(
                 navigateTo = navigateTo,
                 currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Settings,
-                showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty()
+                showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty(),
             )
         }
         Column(
-            modifier = Modifier
-                .fillMaxSize()
+            modifier =
+                Modifier
+                    .fillMaxSize(),
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home.route); true }, // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
-                    title = R.string.settings_page_title
+                    navigateUp = {
+                        navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home.route)
+                        true
+                    }, // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
+                    title = R.string.settings_page_title,
                 )
             }
             SettingsContentHolder(
@@ -162,7 +167,7 @@ private fun SettingsScreen(
                 cancelDialog = cancelDialog,
                 uiArrangement = uiArrangement,
                 screenViewState = screenViewState,
-                dialogViewState = dialogViewState
+                dialogViewState = dialogViewState,
             )
         }
     }
@@ -173,24 +178,24 @@ private fun SettingsScreen(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400
+    widthDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.PIXEL_4,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400
+    widthDp = 400,
 )
 @Composable
 private fun SettingsScreenPreviewPhonePortrait(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(
                 uiArrangement = UiArrangement.VERTICAL,
                 screenViewState = viewState,
-                dialogViewState = SettingsDialog.None
+                dialogViewState = SettingsDialog.None,
             )
         }
     }
@@ -199,23 +204,23 @@ private fun SettingsScreenPreviewPhonePortrait(
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
     device = Devices.TABLET,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsScreenPreviewTabletLandscape(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,
                 screenViewState = viewState,
-                dialogViewState = SettingsDialog.None
+                dialogViewState = SettingsDialog.None,
             )
         }
     }
@@ -225,110 +230,113 @@ private fun SettingsScreenPreviewTabletLandscape(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400
+    heightDp = 400,
 )
 @Preview(
     showSystemUi = true,
     device = "spec:parent=pixel_4,orientation=landscape",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400
+    heightDp = 400,
 )
 @Composable
 private fun SettingsScreenPreviewPhoneLandscape(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState
+    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(
                 uiArrangement = UiArrangement.HORIZONTAL,
                 screenViewState = viewState,
-                dialogViewState = SettingsDialog.None
+                dialogViewState = SettingsDialog.None,
             )
         }
     }
 }
 
-internal class SettingsScreenPreviewParameterProvider :
-    PreviewParameterProvider<SettingsViewState> {
-
-    private val exerciseTypeSelectedAllTrue = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = true
-        )
-    }
-    private val exerciseTypeSelectedAllFalse = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = false
-        )
-    }
-    private val exerciseTypeSelectedMixed = ExerciseType.values().toList().map {
-        ExerciseTypeSelected(
-            type = it,
-            selected = (ExerciseType.values().indexOf(it) % 2 == 0)
-        )
-    }
+internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider<SettingsViewState> {
+    private val exerciseTypeSelectedAllTrue =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = true,
+            )
+        }
+    private val exerciseTypeSelectedAllFalse =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = false,
+            )
+        }
+    private val exerciseTypeSelectedMixed =
+        ExerciseType.values().toList().map {
+            ExerciseTypeSelected(
+                type = it,
+                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+            )
+        }
 
     private val listOfOneUser = listOf(User(name = "user 1"))
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
-    private val listOfMoreUser = listOf(
-        User(name = "user 1"),
-        User(name = "user 2"),
-        User(name = "user 3"),
-        User(name = "user 4"),
-        User(name = "user 5")
-    )
+    private val listOfMoreUser =
+        listOf(
+            User(name = "user 1"),
+            User(name = "user 2"),
+            User(name = "user 3"),
+            User(name = "user 4"),
+            User(name = "user 5"),
+        )
 
     override val values: Sequence<SettingsViewState>
-        get() = sequenceOf(
-            SettingsViewState.Loading,
-            SettingsViewState.Error(
-                errorCode = "this is an error code"
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = true,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = emptyList(),
-                exerciseTypes = exerciseTypeSelectedAllTrue
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = false,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = listOfOneUser,
-                exerciseTypes = exerciseTypeSelectedAllTrue
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = true,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = listOfTwoUser,
-                exerciseTypes = exerciseTypeSelectedAllFalse
-            ),
-            SettingsViewState.Nominal(
-                workPeriodLengthAsSeconds = "15",
-                restPeriodLengthAsSeconds = "5",
-                numberOfWorkPeriods = "4",
-                totalCycleLength = "3mn 20s",
-                beepSoundCountDownActive = false,
-                sessionStartCountDownLengthAsSeconds = "20",
-                periodsStartCountDownLengthAsSeconds = "5",
-                users = listOfMoreUser,
-                exerciseTypes = exerciseTypeSelectedMixed
+        get() =
+            sequenceOf(
+                SettingsViewState.Loading,
+                SettingsViewState.Error(
+                    errorCode = "this is an error code",
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = emptyList(),
+                    exerciseTypes = exerciseTypeSelectedAllTrue,
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = false,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfOneUser,
+                    exerciseTypes = exerciseTypeSelectedAllTrue,
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = true,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfTwoUser,
+                    exerciseTypes = exerciseTypeSelectedAllFalse,
+                ),
+                SettingsViewState.Nominal(
+                    workPeriodLengthAsSeconds = "15",
+                    restPeriodLengthAsSeconds = "5",
+                    numberOfWorkPeriods = "4",
+                    totalCycleLength = "3mn 20s",
+                    beepSoundCountDownActive = false,
+                    sessionStartCountDownLengthAsSeconds = "20",
+                    periodsStartCountDownLengthAsSeconds = "5",
+                    users = listOfMoreUser,
+                    exerciseTypes = exerciseTypeSelectedMixed,
+                ),
             )
-        )
 }

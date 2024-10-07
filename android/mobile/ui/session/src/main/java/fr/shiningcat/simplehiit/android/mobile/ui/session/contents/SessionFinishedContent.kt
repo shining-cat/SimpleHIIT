@@ -35,14 +35,15 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 fun SessionFinishedContent(
     viewState: SessionViewState.Finished,
     @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null
+    hiitLogger: HiitLogger? = null,
 ) {
     LazyColumn(
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxSize(),
+        modifier =
+            Modifier
+                .padding(horizontal = 16.dp)
+                .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(0.dp)
+        verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
         item {
             SessionFinishedHeaderComponent(viewState.sessionDurationFormatted)
@@ -65,82 +66,88 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
     Column {
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 48.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 48.dp),
             style = typography.headlineLarge,
-            text = stringResource(id = R.string.finish_page_title)
+            text = stringResource(id = R.string.finish_page_title),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = typography.headlineMedium,
-            text = stringResource(id = R.string.session_length_summary, sessionDurationFormatted)
+            text = stringResource(id = R.string.session_length_summary, sessionDurationFormatted),
         )
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(24.dp)
+                .height(24.dp),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = typography.headlineSmall,
-            text = stringResource(id = R.string.session_finished_tips)
+            text = stringResource(id = R.string.session_finished_tips),
         )
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(16.dp)
+                .height(16.dp),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = typography.headlineSmall,
-            text = stringResource(id = R.string.summary_session)
+            text = stringResource(id = R.string.summary_session),
         )
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(16.dp)
+                .height(16.dp),
         )
     }
 }
 
 @Composable
-fun SessionFinishedExerciseDoneItemComponent(exerciseDoneRes: Int, side: ExerciseSide) {
+fun SessionFinishedExerciseDoneItemComponent(
+    exerciseDoneRes: Int,
+    side: ExerciseSide,
+) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp, horizontal = 16.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 4.dp, horizontal = 16.dp),
     ) {
         var displayText = stringResource(id = exerciseDoneRes)
-        val displaySideRes = when (side) {
-            ExerciseSide.NONE -> null
-            ExerciseSide.LEFT -> R.string.exercise_side_left
-            ExerciseSide.RIGHT -> R.string.exercise_side_right
-        }
+        val displaySideRes =
+            when (side) {
+                ExerciseSide.NONE -> null
+                ExerciseSide.LEFT -> R.string.exercise_side_left
+                ExerciseSide.RIGHT -> R.string.exercise_side_right
+            }
         if (displaySideRes != null) {
             displayText += " - " + stringResource(id = displaySideRes)
         }
         Text(
             textAlign = TextAlign.Start,
             style = typography.bodyMedium,
-            text = displayText
+            text = displayText,
         )
     }
 }
 
 // Previews
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SessionFinishedContentPreview(
-    @PreviewParameter(SessionFinishedContentPreviewParameterProvider::class) viewState: SessionViewState.Finished
+    @PreviewParameter(SessionFinishedContentPreviewParameterProvider::class) viewState: SessionViewState.Finished,
 ) {
     SimpleHiitMobileTheme {
         Surface {
@@ -149,35 +156,37 @@ private fun SessionFinishedContentPreview(
     }
 }
 
-internal class SessionFinishedContentPreviewParameterProvider :
-    PreviewParameterProvider<SessionViewState.Finished> {
+internal class SessionFinishedContentPreviewParameterProvider : PreviewParameterProvider<SessionViewState.Finished> {
     override val values: Sequence<SessionViewState.Finished>
-        get() = sequenceOf(
-            SessionViewState.Finished(
-                sessionDurationFormatted = "3mn",
-                workingStepsDone = listOf(
-                    SessionStepDisplay(Exercise.CrabAdvancedBridge, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.CatDonkeyKickTwist, ExerciseSide.NONE)
-                )
-            ),
-            SessionViewState.Finished(
-                sessionDurationFormatted = "25mn 30s",
-                workingStepsDone = listOf(
-                    SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-                    SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-                    SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-                    SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-                    SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-                    SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE)
-                )
+        get() =
+            sequenceOf(
+                SessionViewState.Finished(
+                    sessionDurationFormatted = "3mn",
+                    workingStepsDone =
+                        listOf(
+                            SessionStepDisplay(Exercise.CrabAdvancedBridge, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.CatDonkeyKickTwist, ExerciseSide.NONE),
+                        ),
+                ),
+                SessionViewState.Finished(
+                    sessionDurationFormatted = "25mn 30s",
+                    workingStepsDone =
+                        listOf(
+                            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
+                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
+                            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
+                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
+                            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
+                            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
+                        ),
+                ),
             )
-        )
 }

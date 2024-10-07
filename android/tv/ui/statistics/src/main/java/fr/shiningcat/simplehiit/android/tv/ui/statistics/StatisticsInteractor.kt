@@ -12,30 +12,33 @@ import javax.inject.Inject
 
 interface StatisticsInteractor {
     fun getAllUsers(): Flow<Output<List<User>>>
-    suspend fun getStatsForUser(user: User, now: Long): Output<UserStatistics>
+
+    suspend fun getStatsForUser(
+        user: User,
+        now: Long,
+    ): Output<UserStatistics>
+
     suspend fun deleteSessionsForUser(userId: Long): Output<Int>
+
     suspend fun resetWholeApp()
 }
 
-class StatisticsInteractorImpl @Inject constructor(
-    private val getAllUsersUseCase: GetAllUsersUseCase,
-    private val getStatsForUserUseCase: GetStatsForUserUseCase,
-    private val deleteSessionsForUserUseCase: DeleteSessionsForUserUseCase,
-    private val resetWholeAppUseCase: ResetWholeAppUseCase
-) : StatisticsInteractor {
-    override fun getAllUsers(): Flow<Output<List<User>>> {
-        return getAllUsersUseCase.execute()
-    }
+class StatisticsInteractorImpl
+    @Inject
+    constructor(
+        private val getAllUsersUseCase: GetAllUsersUseCase,
+        private val getStatsForUserUseCase: GetStatsForUserUseCase,
+        private val deleteSessionsForUserUseCase: DeleteSessionsForUserUseCase,
+        private val resetWholeAppUseCase: ResetWholeAppUseCase,
+    ) : StatisticsInteractor {
+        override fun getAllUsers(): Flow<Output<List<User>>> = getAllUsersUseCase.execute()
 
-    override suspend fun getStatsForUser(user: User, now: Long): Output<UserStatistics> {
-        return getStatsForUserUseCase.execute(user, now)
-    }
+        override suspend fun getStatsForUser(
+            user: User,
+            now: Long,
+        ): Output<UserStatistics> = getStatsForUserUseCase.execute(user, now)
 
-    override suspend fun deleteSessionsForUser(userId: Long): Output<Int> {
-        return deleteSessionsForUserUseCase.execute(userId)
-    }
+        override suspend fun deleteSessionsForUser(userId: Long): Output<Int> = deleteSessionsForUserUseCase.execute(userId)
 
-    override suspend fun resetWholeApp() {
-        return resetWholeAppUseCase.execute()
+        override suspend fun resetWholeApp() = resetWholeAppUseCase.execute()
     }
-}
