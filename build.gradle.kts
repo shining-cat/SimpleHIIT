@@ -27,7 +27,7 @@ plugins {
     // //////////////////////////////
     // Jacoco aggregation plugin by Guillermo Mazzola: https://github.com/gmazzo/gradle-android-test-aggregation-plugin
     // see below testAggregation block for included modules declaration
-    // launch with: jacocoAgregatedReport (for coverage) and testAggregateReport (for results) in SimpleHIIT>Tasks>verification
+    // launch with: jacocoAggregatedReport (for coverage) and testAggregateReport (for results) in SimpleHIIT>Tasks>verification
     id("io.github.gmazzo.test.aggregation.coverage") version Versions.GMAZZO_JACOCO_REPORT_AGGREGATION_PLUGIN
     id("io.github.gmazzo.test.aggregation.results") version Versions.GMAZZO_JACOCO_REPORT_AGGREGATION_PLUGIN
     // //////////////////////////////
@@ -86,7 +86,7 @@ testAggregation {
 ktlint {
     // without this explicit setting, the global ktlintCheck task fails locally and on the CI with
     // Unable to load class 'com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler':
-    version.set("1.3.1")
+    version.set(Versions.KTLINT_VERSION)
     android.set(true)
     outputColorName.set("RED")
     dependencies {

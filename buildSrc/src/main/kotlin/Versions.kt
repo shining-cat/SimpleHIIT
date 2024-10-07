@@ -28,6 +28,7 @@ object Versions {
     const val KOTLIN_COMPILER_EXTENSION = "1.5.15"
     const val KTLINT_GRADLE_PLUGIN = "12.1.1"
     const val KTLINT_COMPOSE_RULESET = "0.4.15"
+    const val KTLINT_VERSION = "1.3.1"
 
     // see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
     const val ANDROIDX_LIFECYCLE_PROCESS = "2.8.6"
