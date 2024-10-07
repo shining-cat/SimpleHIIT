@@ -3,7 +3,7 @@
 ## Missing features / issues
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
-* display warning to user that at least one exercise type must be selected when unselecting last exercise type
+* When user unselect ALL exercise types, allow the session to still run, without showing any exercise, as a timer only. Show a message instead of the missing gifs. 
 
 ## Publication
 * Include link to privacy policy inside the app: https://www.shining-cat.fr/en/misc/privacy-policy this is a new requirement from Google Play console
@@ -21,11 +21,6 @@
 * provide previews with a placeholder where gifs can't be rendered, check https://medium.com/proandroiddev/only-show-the-tip-of-the-iceberg-afa9143ebda8 for improving Preview rendering mostly regarding gifs not being displayed
 * explore improvement of inter-modules dependencies management, maybe try out https://github.com/jraska/modules-graph-assert
 * Missing data extraction rules, see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore, and https://developer.android.com/guide/topics/data/autobackup, find how to set up backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
-* Error when trying to upgrade the compose-BOM above 2023.06.xx:
-  * Could not resolve all dependencies for configuration ':android:common:debugRuntimeClasspath'.
-    Problems reading data from Binary store in /Users/shiva.bernhard@schibsted.com/.gradle/.tmp/gradle5795096560825037874.bin offset 188550 exists? true
-    Problems loading the resolution results (0.0 secs). Read 346 values, last was: 5
-    Corrupt serialized resolution result. Cannot find selected component (14958) for constraint releaseVariantReleaseRuntimePublication -> androidx.lifecycle:lifecycle-process:2.6.1
 * find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
