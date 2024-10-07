@@ -12,7 +12,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
     }
 }
 
@@ -26,7 +26,7 @@ dependencies {
     testImplementation(project(":testUtils"))
     androidTestImplementation(project(":testUtils"))
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
+    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //

@@ -55,7 +55,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.kotlinCompilerExtension
+        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
     }
 
     compileOptions {
@@ -81,7 +81,7 @@ dependencies {
     implementation(project(":commonResources"))
     implementation(project(":data"))
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.composeBom}")
+    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
     implementation(composeBom)
     androidTestImplementation(composeBom)
     //
