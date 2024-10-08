@@ -1,0 +1,28 @@
+[versions]
+agp = "8.7.0"
+javapoet = "1.13.0"
+# kgp has to be kept in sync with kotlinCompilerExtension version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
+kgp = "2.0.20"
+ktlintComposeRuleset = "0.4.15"
+ktlintGradlePlugin = "12.1.1"
+dependencyGraphPlugin = "0.12"
+dependencyUpdatePlugin = "0.51.0"
+gmazzoJacocoReportAggregation = "2.2.1"
+hilt = "2.52"
+
+[libraries]
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kgp" }
+javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
+ktlint-compose-ruleset = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeRuleset" }
+
+[plugins]
+dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp"}
+
+# add-ons
+ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin"}
+dependencygraph = { id = "com.savvasdalkitsis.module-dependency-graph", version.ref = "dependencyGraphPlugin"}
+dependencyupdate = { id ="com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin"}
+gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage",  version.ref = "gmazzoJacocoReportAggregation"}
+gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results",  version.ref = "gmazzoJacocoReportAggregation"}

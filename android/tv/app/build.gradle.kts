@@ -2,9 +2,9 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.dagger.hilt.android)
     jacoco
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" // this version matches your Kotlin version
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {

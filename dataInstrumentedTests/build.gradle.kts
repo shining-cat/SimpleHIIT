@@ -1,6 +1,6 @@
 plugins {
     id("test_modules_gradle_config")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {

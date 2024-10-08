@@ -15,9 +15,6 @@ object Versions {
     const val CORE_TESTING = "2.2.0"
     const val TEST_RUNNER = "1.6.2"
     const val COIL = "2.7.0"
-    const val BEN_MANES_DEPENDENCIES_VERSION_PLUGIN = "0.51.0"
-    const val GMAZZO_JACOCO_REPORT_AGGREGATION_PLUGIN = "2.2.1"
-    const val SAVVASDALKITSIS_DEPENDENCY_GRAPH_PLUGIN = "0.12"
     const val COMPOSE_BOM = "2024.09.03"
 
     // see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements:
@@ -26,9 +23,6 @@ object Versions {
 
     // this has to be kept in sync with kotlin-gradle-plugin version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility:
     const val KOTLIN_COMPILER_EXTENSION = "1.5.15"
-    const val KTLINT_GRADLE_PLUGIN = "12.1.1"
-    const val KTLINT_COMPOSE_RULESET = "0.4.15"
-    const val KTLINT_VERSION = "1.3.1"
 
     // see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
     const val ANDROIDX_LIFECYCLE_PROCESS = "2.8.6"

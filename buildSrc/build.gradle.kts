@@ -10,9 +10,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.android.tools.build:gradle:8.7.0")
-    // this has to be kept in sync with kotlinCompilerExtension version. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.20")
+    implementation(libs.android.gradle.plugin)
+    implementation(libs.kotlin.gradle.plugin)
     // This is to prevent the older version pulled by AGP to override the newer needed by Hilt
-    implementation("com.squareup:javapoet:1.13.0")
+    implementation(libs.javapoet)
 }

@@ -1,7 +1,7 @@
 plugins {
     id("libraries_gradle_config")
-    id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" // this version matches your Kotlin version
+    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
