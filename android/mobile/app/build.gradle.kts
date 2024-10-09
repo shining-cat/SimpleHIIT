@@ -10,14 +10,14 @@ plugins {
 android {
     namespace = "fr.shiningcat.simplehiit.android.mobile.app"
 
-    compileSdk = ConfigData.handheldCompileSdkVersion
+    compileSdk = ConfigData.HANDHELD_COMPILE_SDK_VERSION
 
     defaultConfig {
-        applicationId = ConfigData.applicationID
-        minSdk = ConfigData.handheldMinSdkVersion
-        targetSdk = ConfigData.handheldTargetSdkVersion
-        versionCode = ConfigData.handheldVersionCode
-        versionName = ConfigData.handheldVersionName
+        applicationId = ConfigData.APPLICATION_ID
+        minSdk = ConfigData.HANDHELD_MIN_SDK_VERSION
+        targetSdk = ConfigData.HANDHELD_TARGET_SDK_VERSION
+        versionCode = ConfigData.HANDHELD_VERSION_CODE
+        versionName = ConfigData.HANDHELD_VERSION_NAME
 
         testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }

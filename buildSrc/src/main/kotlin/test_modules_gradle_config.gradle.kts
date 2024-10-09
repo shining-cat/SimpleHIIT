@@ -6,10 +6,10 @@ plugins {
 }
 
 android {
-    compileSdk = ConfigData.librariesCompileSdkVersion
+    compileSdk = ConfigData.LIBRARIES_COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdk = ConfigData.librariesMinSdkVersion
+        minSdk = ConfigData.LIBRARIES_MIN_SDK_VERSION
         testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
 
