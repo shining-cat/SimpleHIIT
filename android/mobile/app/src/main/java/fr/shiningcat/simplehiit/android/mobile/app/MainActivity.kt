@@ -7,11 +7,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.ui.Modifier
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import dagger.hilt.android.AndroidEntryPoint
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -23,7 +22,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var hiitLogger: HiitLogger
 
-    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.setFlags(
@@ -32,12 +30,12 @@ class MainActivity : ComponentActivity() {
         )
         hiitLogger.d("MainActivity", "onCreate!!")
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
+            val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
             val uiArrangement: UiArrangement =
-                if (windowSizeClass.widthSizeClass == WindowWidthSizeClass.Expanded) { // typically, a tablet or bigger in landscape
+                if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
                     UiArrangement.HORIZONTAL
                 } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
-                    if (windowSizeClass.heightSizeClass == WindowHeightSizeClass.Compact) { // typically, a phone in landscape
+                    if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
                         UiArrangement.HORIZONTAL
                     } else {
                         UiArrangement.VERTICAL // typically, a phone or tablet in portrait

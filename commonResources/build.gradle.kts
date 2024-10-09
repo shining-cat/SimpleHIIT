@@ -8,10 +8,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:common"))
+    implementation(projects.domain.common)
     //
-    implementation(HiltDeps.hiltAndroid)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.mockk)

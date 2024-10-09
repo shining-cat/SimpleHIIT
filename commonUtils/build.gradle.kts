@@ -9,8 +9,8 @@ android {
 
 dependencies {
     // the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
-    implementation(HiltDeps.hiltAndroid)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.testRunner)

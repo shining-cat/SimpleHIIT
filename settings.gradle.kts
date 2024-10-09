@@ -1,4 +1,8 @@
+// this is to allow targeting modules from their build.gradle file through project.group.name:
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+//
 rootProject.name = "SimpleHIIT"
+//
 include(":android:mobile:app")
 include(":android:mobile:ui:common")
 include(":android:mobile:ui:home")

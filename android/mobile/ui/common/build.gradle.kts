@@ -17,29 +17,27 @@ android {
 }
 
 dependencies {
-    implementation(project(":android:common"))
-    implementation(project(":domain:common"))
-    implementation(project(":commonUtils"))
-    implementation(project(":commonResources"))
-    testImplementation(project(":testUtils"))
-    androidTestImplementation(project(":testUtils"))
+    implementation(projects.android.common)
+    implementation(projects.domain.common)
+    implementation(projects.commonUtils)
+    implementation(projects.commonResources)
+    testImplementation(projects.testUtils)
+    androidTestImplementation(projects.testUtils)
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     //
-    implementation(HiltDeps.hiltAndroid)
+    implementation(libs.dagger.hilt.android)
     implementation(Deps.materialDesign)
-    implementation(ComposeDeps.composeMaterial3)
-    implementation(ComposeDeps.composePreview)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.preview)
     implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    kapt(libs.dagger.hilt.compiler)
     //
-    debugImplementation(ComposeDeps.composePreviewDebug)
-    debugImplementation(ComposeDeps.composeUiTestsDebug)
-
+    debugImplementation(libs.androidx.compose.preview.debug)
+    debugImplementation(libs.androidx.compose.ui.test.debug)
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.coroutinesTest)

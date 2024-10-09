@@ -8,12 +8,12 @@ android {
 }
 
 dependencies {
-    implementation(project(":commonUtils"))
-    implementation(project(":domain:common"))
-    testImplementation(project(":testUtils"))
+    implementation(projects.commonUtils)
+    implementation(projects.domain.common)
+    testImplementation(projects.testUtils)
     //
-    implementation(HiltDeps.hiltAndroid)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.testRunner)

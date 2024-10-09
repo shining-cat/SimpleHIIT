@@ -70,28 +70,27 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":android:common"))
-    implementation(project(":android:mobile:ui:common"))
-    implementation(project(":android:mobile:ui:home"))
-    implementation(project(":android:mobile:ui:session"))
-    implementation(project(":android:mobile:ui:settings"))
-    implementation(project(":android:mobile:ui:statistics"))
-    implementation(project(":domain:common"))
-    implementation(project(":commonUtils"))
-    implementation(project(":commonResources"))
-    implementation(project(":data"))
+    implementation(projects.android.common)
+    implementation(projects.android.mobile.ui.common)
+    implementation(projects.android.mobile.ui.home)
+    implementation(projects.android.mobile.ui.session)
+    implementation(projects.android.mobile.ui.settings)
+    implementation(projects.android.mobile.ui.statistics)
+    implementation(projects.domain.common)
+    implementation(projects.commonUtils)
+    implementation(projects.commonResources)
+    implementation(projects.data)
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     //
     implementation(Deps.appCompat)
     implementation(Deps.androidXLifeCycleProcess)
-    implementation(HiltDeps.hiltAndroid)
-    implementation(ComposeDeps.composeMaterial3)
-    implementation(ComposeDeps.composeMaterial3WindowSize)
-    implementation(Navigation.navCompose)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.adaptive)
+    implementation(libs.androidx.navigation.compose)
+    kapt(libs.dagger.hilt.compiler)
 }
 
 // Allow references to generated code

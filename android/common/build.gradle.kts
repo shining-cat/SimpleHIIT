@@ -17,23 +17,22 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:common"))
-    implementation(project(":commonUtils"))
-    implementation(project(":commonResources"))
-    testImplementation(project(":testUtils"))
-    androidTestImplementation(project(":testUtils"))
+    implementation(projects.domain.common)
+    implementation(projects.commonUtils)
+    implementation(projects.commonResources)
+    testImplementation(projects.testUtils)
+    androidTestImplementation(projects.testUtils)
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     //
-    implementation(HiltDeps.hiltAndroid)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
     implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.materialDesign)
     implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
-    kapt(HiltDeps.hiltAndroidCompiler)
     //
     testImplementation(HiltDeps.hiltTestAndroid)
     testImplementation(TestDeps.coroutinesTest)
