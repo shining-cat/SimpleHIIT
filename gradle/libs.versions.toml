@@ -36,7 +36,7 @@ android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kgp" }
 # AndroidX:
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat"}
-androidx-datastore = { module = "androidx.appcompat:datastore-preferences", version.ref = "datastore"}
+androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore"}
 androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleProcess"}
 androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "tvMaterial" }
 androidx-tv-foundation = { module = "androidx.tv:tv-foundation", version.ref = "tvFoundation" }
