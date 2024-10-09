@@ -15,7 +15,7 @@ dependencies {
     //
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
-    implementation(Deps.datastore)
+    implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.coroutines)
     kapt(libs.androidx.room.compiler)

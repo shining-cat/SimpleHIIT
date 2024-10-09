@@ -55,7 +55,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
+        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
 
     compileOptions {
@@ -84,8 +84,8 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
     //
-    implementation(Deps.appCompat)
-    implementation(Deps.androidXLifeCycleProcess)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle)
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.adaptive)

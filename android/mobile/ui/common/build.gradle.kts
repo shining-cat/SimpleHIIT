@@ -12,7 +12,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
+        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
 }
 
@@ -28,12 +28,12 @@ dependencies {
     androidTestImplementation(platform(libs.androidx.compose.bom))
     //
     implementation(libs.dagger.hilt.android)
-    implementation(Deps.materialDesign)
+    implementation(libs.google.material)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.preview)
-    implementation(Deps.androidXLifeCycleProcess)
-    implementation(Deps.coil)
-    implementation(Deps.coilGif)
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.gif)
     kapt(libs.dagger.hilt.compiler)
     //
     debugImplementation(libs.androidx.compose.preview.debug)
