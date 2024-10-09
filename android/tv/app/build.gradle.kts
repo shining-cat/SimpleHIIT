@@ -74,7 +74,7 @@ repositories {
 }
 
 dependencies {
-    implementation(projects.android.common )
+    implementation(projects.android.common)
     implementation(projects.android.tv.ui.common)
     implementation(projects.android.tv.ui.home)
     implementation(projects.android.tv.ui.settings)
