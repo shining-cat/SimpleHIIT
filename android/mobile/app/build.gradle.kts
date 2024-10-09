@@ -99,7 +99,6 @@ kapt {
 }
 
 tasks {
-
     withType<Test> {
         useJUnitPlatform()
     }

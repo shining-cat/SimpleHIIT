@@ -30,4 +30,7 @@ object ConfigData {
     // libraries config data: these should be the lowest of tv and handheld respective values
     const val LIBRARIES_MIN_SDK_VERSION = 21
     const val LIBRARIES_COMPILE_SDK_VERSION = 34
+
+    // JVM
+    const val JVM_TARGET = "17"
 }

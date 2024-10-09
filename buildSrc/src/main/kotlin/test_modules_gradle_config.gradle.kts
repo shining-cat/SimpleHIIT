@@ -28,7 +28,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = ConfigData.JVM_TARGET
         // uncomment 2 lines below when wanting a (really) verbose gradle output:
         // freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
         // verbose = true
