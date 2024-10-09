@@ -5,14 +5,14 @@
 
 This is a simple HIIT Android App for Android TV and mobile devices.
 
-* Sessions settings can be refined, like work and rest period duration, number of work period per cycle, and which exercise family to include in a session, or create and edit users. 
+* Sessions settings can be refined, like work and rest period duration, number of work period per cycle, and which exercise family to include in a session, or create and edit users.
 * On the home screen one can select which user(s) are joining a session, and how many cycle(s) the session should contain.
 * The session consists of an alternance of rest and exercise periods, showing an exercise as a looping gif image. A summary of the exercises done is shown at the end of the session.
-* A statistics screen allows to see (and delete) basic statistics for each user. 
+* A statistics screen allows to see (and delete) basic statistics for each user.
 
 ![Features and UX description](simpleHIIT_UX_description.png)
 
-## Caracteristics: 
+## Caracteristics:
 
 * "Clean architecture"
 * ~~single-module~~ multi-module app (see transition telling below)
@@ -38,11 +38,11 @@ This strategy is made possible by following the recommendation that [all suspend
 ### Data layer - IO thread
 
 Following this rule, I chose to make the _Data_ layer (through its only entry point, the repository implementation) responsible for all usages of the _IO_ thread, injecting this dispatcher in _SimpleHiitRepositoryImpl_. This choice is dictated by the fact that the data layer is the one aware of any io operations, if any.
-Thus all suspend methods in the _SimpleHiitRepository_ include a thread switch towards the IO one. 
+Thus all suspend methods in the _SimpleHiitRepository_ include a thread switch towards the IO one.
 
 ### Domain layer - Default thread
 
-Lastly, the _Domain_ layer, as the central point of the clean architecture, also exposes some suspend methods to the _Presentation_ layer. Some of those methods do include some computation work, while others simply call and handle _Data_ layer suspend methods. As the _Data_ layer is responsible for picking the adequate thread to use in its own suspend methods, I feel like the _Domain_ layer has nothing to do with the _IO_ thread. Thus, I will only inject the _Default_ dispatcher in this layer, to be used by suspend methods in the usecases. 
+Lastly, the _Domain_ layer, as the central point of the clean architecture, also exposes some suspend methods to the _Presentation_ layer. Some of those methods do include some computation work, while others simply call and handle _Data_ layer suspend methods. As the _Data_ layer is responsible for picking the adequate thread to use in its own suspend methods, I feel like the _Domain_ layer has nothing to do with the _IO_ thread. Thus, I will only inject the _Default_ dispatcher in this layer, to be used by suspend methods in the usecases.
 
 ## Notes on UseCases
 
@@ -73,7 +73,7 @@ This screenshot from the Google article's video shows the idea that got me start
 
 Current state of the inter-modules relations, generated with [Savvas Dalkitsis' plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
 ![](project_dependencies_graph.png)
-Note: this graph only shows "normal" dependencies between modules, not "test" or "testImplementation" ones. Since it stills shows the testUtils and dataInstrumentedTests modules, this allows us to check that no module has any "normal" dependency on those two.  
+Note: this graph only shows "normal" dependencies between modules, not "test" or "testImplementation" ones. Since it stills shows the testUtils and dataInstrumentedTests modules, this allows us to check that no module has any "normal" dependency on those two.
 
 ### Process
 
@@ -115,4 +115,25 @@ All exercise pictures were made with the help of the awesome [PoseMyArt](https:/
   Denis Brandi
 * [Effective testing with Android Test Only Modules](https://proandroiddev.com/effective-testing-with-android-test-only-modules-3164ed9b20a0) by Shubham Garg
 * [Sharing build logic with Kotlin DSL](https://proandroiddev.com/sharing-build-logic-with-kotlin-dsl-203274f73013) by Chirag Kunder
-* 
+*
+
+### Gradle tasks
+
+#### generate a Dependencies graph
+ Inter-modules dependencies graph generator by Savvas Dalkitsis: https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph
+ launch with ./gradlew graphModules or in SimpleHIIT>Tasks>other>graphModules
+
+#### KtLint check
+KTLINT gradle plugin https://github.com/JLLeitschuh/ktlint-gradle
+launch locally manually, run automatically on PR on Github actions
+
+#### Dependencies update check
+Dependencies' new versions detection plugin by Ben Mannes: https://github.com/ben-manes/gradle-versions-plugin
+to launch analysis of external dependencies versions, enter in the terminal ./gradlew dependencyUpdates
+the task is also listed in the gradle window under SimpleHIIT>Tasks>help>dependencyUpdates
+
+#### Test coverage:
+Jacoco aggregation plugin by Guillermo Mazzola: https://github.com/gmazzo/gradle-android-test-aggregation-plugin
+see below testAggregation block for included modules declaration
+launch with: jacocoAggregatedReport (for coverage) and testAggregateReport (for results) in SimpleHIIT>Tasks>verification
+

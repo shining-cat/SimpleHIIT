@@ -6,10 +6,10 @@ plugins {
 }
 
 android {
-    compileSdk = ConfigData.librariesCompileSdkVersion
+    compileSdk = ConfigData.LIBRARIES_COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdk = ConfigData.librariesMinSdkVersion
+        minSdk = ConfigData.LIBRARIES_MIN_SDK_VERSION
         testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
 
@@ -28,7 +28,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = ConfigData.JVM_TARGET
         // uncomment 2 lines below when wanting a (really) verbose gradle output:
         // freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
         // verbose = true

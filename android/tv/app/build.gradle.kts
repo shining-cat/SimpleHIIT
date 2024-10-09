@@ -2,22 +2,22 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.dagger.hilt.android)
     jacoco
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20" // this version matches your Kotlin version
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "fr.shiningcat.simplehiit.android.tv.app"
 
-    compileSdk = ConfigData.tvCompileSdkVersion
+    compileSdk = ConfigData.TV_COMPILE_SDK_VERSION
 
     defaultConfig {
-        applicationId = ConfigData.applicationID
-        minSdk = ConfigData.tvMinSdkVersion
-        targetSdk = ConfigData.tvTargetSdkVersion
-        versionCode = ConfigData.tvVersionCode
-        versionName = ConfigData.tvVersionName
+        applicationId = ConfigData.APPLICATION_ID
+        minSdk = ConfigData.TV_MIN_SDK_VERSION
+        targetSdk = ConfigData.TV_TARGET_SDK_VERSION
+        versionCode = ConfigData.TV_VERSION_CODE
+        versionName = ConfigData.TV_VERSION_NAME
 
         testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
     }
@@ -55,7 +55,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.KOTLIN_COMPILER_EXTENSION
+        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
 
     compileOptions {
@@ -64,7 +64,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = ConfigData.JVM_TARGET
     }
 }
 
@@ -74,28 +74,27 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":android:common"))
-    implementation(project(":android:tv:ui:common"))
-    implementation(project(":android:tv:ui:home"))
-    implementation(project(":android:tv:ui:settings"))
-    implementation(project(":android:tv:ui:session"))
-    implementation(project(":android:tv:ui:statistics"))
-    implementation(project(":domain:common"))
-    implementation(project(":commonUtils"))
-    implementation(project(":commonResources"))
-    implementation(project(":data"))
+    implementation(projects.android.common)
+    implementation(projects.android.tv.ui.common)
+    implementation(projects.android.tv.ui.home)
+    implementation(projects.android.tv.ui.settings)
+    implementation(projects.android.tv.ui.session)
+    implementation(projects.android.tv.ui.statistics)
+    implementation(projects.domain.common)
+    implementation(projects.commonUtils)
+    implementation(projects.commonResources)
+    implementation(projects.data)
     //
-    val composeBom = platform("androidx.compose:compose-bom:${Versions.COMPOSE_BOM}")
-    implementation(composeBom)
-    androidTestImplementation(composeBom)
+    implementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     //
-    implementation(Deps.appCompat)
-    implementation(Deps.androidXLifeCycleProcess)
-    implementation(HiltDeps.hiltAndroid)
-    implementation(Navigation.navCompose)
-    implementation(ComposeDeps.composeTVFoundation)
-    implementation(ComposeDeps.composeTVMaterial3)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.dagger.hilt.android)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.tv.foundation)
+    implementation(libs.androidx.tv.material)
+    kapt(libs.dagger.hilt.compiler)
 }
 
 // Allow references to generated code

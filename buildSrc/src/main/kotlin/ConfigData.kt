@@ -11,23 +11,26 @@ object ConfigData {
     //      ZZZZ is the compacted versionName so that app version 2.34 will be 0234
 
     // common applicationId
-    const val applicationID = "fr.shiningcat.simplehiit"
+    const val APPLICATION_ID = "fr.shiningcat.simplehiit"
 
     // Handheld devices config data:
-    const val handheldCompileSdkVersion = 34
-    const val handheldMinSdkVersion = 21
-    const val handheldTargetSdkVersion = 34
-    const val handheldVersionCode = 21100003
-    const val handheldVersionName = "0.03"
+    const val HANDHELD_COMPILE_SDK_VERSION = 34
+    const val HANDHELD_MIN_SDK_VERSION = 21
+    const val HANDHELD_TARGET_SDK_VERSION = 34
+    const val HANDHELD_VERSION_CODE = 21100003
+    const val HANDHELD_VERSION_NAME = "0.03"
 
     // TV config data:
-    const val tvCompileSdkVersion = 34
-    const val tvMinSdkVersion = 21
-    const val tvTargetSdkVersion = 34
-    const val tvVersionCode = 21010003
-    const val tvVersionName = "0.03"
+    const val TV_COMPILE_SDK_VERSION = 34
+    const val TV_MIN_SDK_VERSION = 21
+    const val TV_TARGET_SDK_VERSION = 34
+    const val TV_VERSION_CODE = 21010003
+    const val TV_VERSION_NAME = "0.03"
 
     // libraries config data: these should be the lowest of tv and handheld respective values
-    const val librariesMinSdkVersion = 21
-    const val librariesCompileSdkVersion = 34
+    const val LIBRARIES_MIN_SDK_VERSION = 21
+    const val LIBRARIES_COMPILE_SDK_VERSION = 34
+
+    // JVM
+    const val JVM_TARGET = "17"
 }

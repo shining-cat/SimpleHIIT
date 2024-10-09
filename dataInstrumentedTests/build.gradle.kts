@@ -1,6 +1,6 @@
 plugins {
     id("test_modules_gradle_config")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -8,23 +8,23 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain:common"))
-    implementation(project(":commonUtils"))
-    implementation(project(":testUtils"))
-    implementation(project(":data"))
+    implementation(projects.domain.common)
+    implementation(projects.commonUtils)
+    implementation(projects.testUtils)
+    implementation(projects.data)
     //
-    implementation(HiltDeps.hiltAndroid)
-    kapt(HiltDeps.hiltAndroidCompiler)
-    implementation(Deps.datastore)
-    implementation(RoomDeps.roomRuntime)
-    implementation(RoomDeps.roomCoroutinesExtensions)
-    kapt(RoomDeps.roomKaptCompiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.coroutines)
+    kapt(libs.androidx.room.compiler)
     //
-    implementation(HiltDeps.hiltTestAndroid)
-    implementation(TestDeps.coroutinesTest)
-    implementation(RoomDeps.roomTestHelpers)
-    implementation(TestDeps.archCoreTesting)
-    implementation(TestDeps.testRunner)
-    implementation(TestDeps.junit)
-    kapt(HiltDeps.hiltAndroidTestAnnotationProcessor)
+    implementation(libs.dagger.hilt.android.testing)
+    implementation(libs.jetbrains.coroutines.test)
+    implementation(libs.androidx.room.testing)
+    implementation(libs.androidx.archcore.testing)
+    implementation(libs.test.runner)
+    implementation(libs.junit)
+    kapt(libs.dagger.hilt.android.compiler)
 }

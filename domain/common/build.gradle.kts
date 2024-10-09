@@ -1,6 +1,6 @@
 plugins {
     id("libraries_gradle_config")
-    id("com.google.dagger.hilt.android")
+    alias(libs.plugins.dagger.hilt.android)
 }
 
 android {
@@ -8,16 +8,16 @@ android {
 }
 
 dependencies {
-    implementation(project(":commonUtils"))
-    testImplementation(project(":testUtils"))
+    implementation(projects.commonUtils)
+    testImplementation(projects.testUtils)
     //
-    implementation(HiltDeps.hiltAndroid)
-    kapt(HiltDeps.hiltAndroidCompiler)
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.dagger.hilt.compiler)
     //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(TestDeps.testRunner)
-    testImplementation(TestDeps.jupiter)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.coroutinesTest)
-    kaptAndroidTest(HiltDeps.hiltAndroidTestAnnotationProcessor)
+    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.test.runner)
+    testImplementation(libs.jupiter)
+    testImplementation(libs.mockk)
+    testImplementation(libs.jetbrains.coroutines.test)
+    kaptAndroidTest(libs.dagger.hilt.android.compiler)
 }
