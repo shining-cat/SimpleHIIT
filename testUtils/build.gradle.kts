@@ -16,10 +16,10 @@ dependencies {
      */
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
-    implementation(HiltDeps.hiltTestAndroid)
-    implementation(TestDeps.jupiter)
-    implementation(TestDeps.testRunner)
-    implementation(TestDeps.mockk)
+    implementation(libs.dagger.hilt.android.testing)
+    implementation(libs.jupiter)
+    implementation(libs.test.runner)
+    implementation(libs.mockk)
     //
     implementation(project(":commonUtils"))
 }

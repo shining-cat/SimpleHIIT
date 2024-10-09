@@ -93,7 +93,7 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.tv.foundation)
-    implementation(libs.androidx.tv.compose.material)
+    implementation(libs.androidx.tv.material)
     kapt(libs.dagger.hilt.compiler)
 }
 

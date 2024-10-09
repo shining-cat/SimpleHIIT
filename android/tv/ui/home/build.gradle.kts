@@ -33,7 +33,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(Deps.materialDesign)
     implementation(libs.androidx.tv.foundation)
-    implementation(libs.androidx.tv.compose.material)
+    implementation(libs.androidx.tv.material)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.navigation.compose)
     implementation(Deps.androidXLifeCycleProcess)
@@ -45,8 +45,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.debug)
 
     //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(TestDeps.coroutinesTest)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.jupiter)
+    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.jetbrains.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.jupiter)
 }

@@ -31,7 +31,7 @@ dependencies {
     implementation(Deps.materialDesign)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.tv.foundation)
-    implementation(libs.androidx.tv.compose.material)
+    implementation(libs.androidx.tv.material)
     implementation(Deps.androidXLifeCycleProcess)
     implementation(Deps.coil)
     implementation(Deps.coilGif)
@@ -41,8 +41,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.debug)
 
     //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(TestDeps.coroutinesTest)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.jupiter)
+    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.jetbrains.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.jupiter)
 }

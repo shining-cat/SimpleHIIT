@@ -34,8 +34,9 @@ dependencies {
     implementation(Deps.coil)
     implementation(Deps.coilGif)
     //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(TestDeps.coroutinesTest)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.jupiter)
+    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.jetbrains.coroutines.test)
+    testImplementation(libs.jetbrains.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation(libs.jupiter)
 }

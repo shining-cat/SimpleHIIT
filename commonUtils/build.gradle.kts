@@ -12,9 +12,10 @@ dependencies {
     implementation(libs.dagger.hilt.android)
     kapt(libs.dagger.hilt.compiler)
     //
-    testImplementation(HiltDeps.hiltTestAndroid)
-    testImplementation(TestDeps.testRunner)
-    testImplementation(TestDeps.jupiter)
-    testImplementation(TestDeps.mockk)
-    testImplementation(TestDeps.coroutinesTest)
+    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.test.runner)
+    testImplementation(libs.test.runner)
+    testImplementation(libs.jupiter)
+    testImplementation(libs.mockk)
+    testImplementation(libs.jetbrains.coroutines.test)
 }
