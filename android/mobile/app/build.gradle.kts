@@ -1,11 +1,11 @@
 import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
 plugins {
-    alias(libs.plugins.simplehiit.android.handheld.application)
+    alias(libs.plugins.simplehiit.android.application.handheld)
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt.android)
     jacoco
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.simplehiit.android.application.compose)
 }
 
 android {
@@ -14,14 +14,6 @@ android {
             // for some reason, this parameter is not accessible in the configureBuildTypes extension, need to set this here:
             applicationIdSuffix = SimpleHiitBuildType.DEBUG.applicationIdSuffix
         }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
 }
 

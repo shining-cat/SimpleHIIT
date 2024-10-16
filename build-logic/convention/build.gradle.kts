@@ -25,15 +25,25 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidHandheldApp") {
-            id = "fr.shiningcat.simplehiit.android.handheld.application"
+        register("androidAppHandheld") {
+            id = "fr.shiningcat.simplehiit.android.application.handheld"
             implementationClass =
-                "fr.shiningcat.simplehiit.plugins.AndroidHandheldAppConventionPlugin"
+                "fr.shiningcat.simplehiit.plugins.AndroidAppHandheldConventionPlugin"
         }
-        register("androidTvApp") {
-            id = "fr.shiningcat.simplehiit.android.tv.application"
+        register("androidAppTv") {
+            id = "fr.shiningcat.simplehiit.android.application.tv"
             implementationClass =
-                "fr.shiningcat.simplehiit.plugins.AndroidTvAppConventionPlugin"
+                "fr.shiningcat.simplehiit.plugins.AndroidAppTvConventionPlugin"
+        }
+        register("androidAppCompose") {
+            id = "fr.shiningcat.simplehiit.android.application.compose"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibCompose") {
+            id = "fr.shiningcat.simplehiit.android.library.compose"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.AndroidLibraryComposeConventionPlugin"
         }
     }
 }

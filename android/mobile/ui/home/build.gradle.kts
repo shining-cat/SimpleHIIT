@@ -1,19 +1,11 @@
 plugins {
     id("libraries_gradle_config")
     alias(libs.plugins.dagger.hilt.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.simplehiit.android.library.compose)
 }
 
 android {
     namespace = "fr.shiningcat.simplehiit.android.mobile.ui.home"
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
-    }
 }
 
 dependencies {

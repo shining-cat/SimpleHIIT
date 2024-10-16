@@ -85,5 +85,7 @@ dependencyupdate = { id ="com.github.ben-manes.versions", version.ref = "depende
 gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage",  version.ref = "gmazzoJacocoReportAggregation"}
 gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results",  version.ref = "gmazzoJacocoReportAggregation"}
 # plugins defined in this project:
-simplehiit-android-handheld-application = { id = "fr.shiningcat.simplehiit.android.handheld.application"}
-simplehiit-android-tv-application = { id = "fr.shiningcat.simplehiit.android.tv.application"}
+simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld"}
+simplehiit-android-application-tv = { id = "fr.shiningcat.simplehiit.android.application.tv"}
+simplehiit-android-application-compose = { id = "fr.shiningcat.simplehiit.android.application.compose"}
+simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.library.compose"}

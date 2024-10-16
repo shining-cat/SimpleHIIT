@@ -2,13 +2,13 @@ package fr.shiningcat.simplehiit.plugins
 
 import com.android.build.api.dsl.ApplicationExtension
 import fr.shiningcat.simplehiit.config.ConfigHandheld
-import fr.shiningcat.simplehiit.extensions.configureAndroidHandheldKotlin
+import fr.shiningcat.simplehiit.extensions.configureAndroidAppHandheldKotlin
 import fr.shiningcat.simplehiit.extensions.configureBuildTypes
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 
-class AndroidHandheldAppConventionPlugin : Plugin<Project> {
+class AndroidAppHandheldConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             with(pluginManager) {
@@ -16,7 +16,7 @@ class AndroidHandheldAppConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.android")
             }
             extensions.configure<ApplicationExtension> {
-                configureAndroidHandheldKotlin(this)
+                configureAndroidAppHandheldKotlin(this)
                 defaultConfig.apply {
                     targetSdk = ConfigHandheld.config.targetSdkVersion
                     applicationId = ConfigHandheld.config.applicationId
