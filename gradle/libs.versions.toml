@@ -86,4 +86,4 @@ gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage
 gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results",  version.ref = "gmazzoJacocoReportAggregation"}
 # plugins defined in this project:
 simplehiit-android-handheld-application = { id = "fr.shiningcat.simplehiit.android.handheld.application"}
-simplehiit-android-tv-application = { id = "fr.shiningcat.simplehiit.android.handheld.AndroidTvAppConventionPlugin"}
+simplehiit-android-tv-application = { id = "fr.shiningcat.simplehiit.android.tv.application"}

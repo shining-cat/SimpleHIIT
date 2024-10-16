@@ -30,5 +30,10 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.AndroidHandheldAppConventionPlugin"
         }
+        register("androidTvApp") {
+            id = "fr.shiningcat.simplehiit.android.tv.application"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.AndroidTvAppConventionPlugin"
+        }
     }
 }

@@ -1,7 +1,6 @@
 import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
 plugins {
-    // targeting the plugin through catalog reference:
     alias(libs.plugins.simplehiit.android.handheld.application)
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt.android)

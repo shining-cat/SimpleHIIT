@@ -1,6 +1,7 @@
+import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
+
 plugins {
-    id("com.android.application")
-    kotlin("android")
+    alias(libs.plugins.simplehiit.android.tv.application)
     kotlin("kapt")
     alias(libs.plugins.dagger.hilt.android)
     jacoco
@@ -8,34 +9,10 @@ plugins {
 }
 
 android {
-    namespace = "fr.shiningcat.simplehiit.android.tv.app"
-
-    compileSdk = ConfigData.TV_COMPILE_SDK_VERSION
-
-    defaultConfig {
-        applicationId = ConfigData.APPLICATION_ID
-        minSdk = ConfigData.TV_MIN_SDK_VERSION
-        targetSdk = ConfigData.TV_TARGET_SDK_VERSION
-        versionCode = ConfigData.TV_VERSION_CODE
-        versionName = ConfigData.TV_VERSION_NAME
-
-        testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
-    }
-
     buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-            isDebuggable = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-            )
-        }
-        getByName("debug") {
-            applicationIdSuffix = ".debug"
-            isDebuggable = true
-            isMinifyEnabled = false
-            enableUnitTestCoverage = true
+        debug {
+            // for some reason, this parameter is not accessible in the configureBuildTypes extension, need to set this here:
+            applicationIdSuffix = SimpleHiitBuildType.DEBUG.applicationIdSuffix
         }
     }
 
@@ -43,34 +20,9 @@ android {
         compose = true
     }
 
-    packaging {
-        resources {
-            excludes.addAll(
-                listOf(
-                    "META-INF/LICENSE.md",
-                    "META-INF/LICENSE-notice.md",
-                ),
-            )
-        }
-    }
-
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = ConfigData.JVM_TARGET
-    }
-}
-
-repositories {
-    google()
-    mavenCentral()
 }
 
 dependencies {
