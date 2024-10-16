@@ -1,7 +1,9 @@
 plugins {
-    id("libraries_gradle_config")
+    kotlin("kapt")
+    alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.library.compose)
+    jacoco
 }
 
 android {
@@ -16,16 +18,12 @@ dependencies {
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
     //
-
-    //
-
     implementation(libs.google.material)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.lifecycle)
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
-
     //
     debugImplementation(libs.androidx.compose.preview.debug)
     debugImplementation(libs.androidx.compose.ui.test.debug)
@@ -34,4 +32,10 @@ dependencies {
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
 }

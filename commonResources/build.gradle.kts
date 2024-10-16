@@ -1,6 +1,8 @@
 plugins {
-    id("libraries_gradle_config")
+    kotlin("kapt")
+    alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
+    jacoco
 }
 
 android {
@@ -15,4 +17,10 @@ dependencies {
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
 }

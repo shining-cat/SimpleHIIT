@@ -2,6 +2,7 @@
 
 ## Missing features / issues
 
+* tests in SimpleHiitDataStoreManagerImplInstrumentedTest are failing with UncompletedCoroutinesError -> fix
 * Exercise.CrabSingleLegTricepsDips should be listed as asymmetrical
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
@@ -66,6 +67,7 @@
 ## Form factors (phone - AndroidTV - smartWatch)
 
 *
+
 check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have

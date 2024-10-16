@@ -90,6 +90,7 @@ gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results",
 # plugins defined in this project:
 simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld" }
 simplehiit-android-application-tv = { id = "fr.shiningcat.simplehiit.android.application.tv" }
+simplehiit-android-library = { id = "fr.shiningcat.simplehiit.android.library" }
 simplehiit-android-application-compose = { id = "fr.shiningcat.simplehiit.android.application.compose" }
 simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.library.compose" }
 simplehiit-hilt = { id = "fr.shiningcat.simplehiit.hilt" }

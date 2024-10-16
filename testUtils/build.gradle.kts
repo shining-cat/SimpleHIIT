@@ -1,5 +1,6 @@
 plugins {
-    id("libraries_gradle_config")
+    kotlin("kapt")
+    alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
 }
 
@@ -14,11 +15,16 @@ dependencies {
      * so the only workaround is to define it in the main sourceset, adding the test dependencies needed for it as
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
-
     implementation(libs.hilt.android.testing)
     implementation(libs.jupiter)
     implementation(libs.test.runner)
     implementation(libs.mockk)
     //
     implementation(project(":commonUtils"))
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
 }

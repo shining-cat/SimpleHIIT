@@ -60,6 +60,11 @@ object ConfigLibrary {
             minSdkVersion = 21,
             compileSdkVersion = 34,
         )
+    val jvm =
+        JvmConfig(
+            javaVersion = JavaVersion.VERSION_17,
+            kotlinJvm = JvmTarget.JVM_17,
+        )
 }
 
 data class AndroidLibraryConfig(

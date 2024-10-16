@@ -35,6 +35,11 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.AndroidAppTvConventionPlugin"
         }
+        register("androidLibrary") {
+            id = "fr.shiningcat.simplehiit.android.library"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.AndroidLibraryConventionPlugin"
+        }
         register("hilt") {
             id = "fr.shiningcat.simplehiit.hilt"
             implementationClass = "fr.shiningcat.simplehiit.plugins.HiltConventionPlugin"
