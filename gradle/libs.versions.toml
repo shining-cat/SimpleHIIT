@@ -1,18 +1,19 @@
 [versions]
-agp = "8.7.0"
+agp = "8.7.1"
 javapoet = "1.13.0"
 # kgp has to be kept in sync with kotlinCompilerExtension version below. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
 kgp = "2.0.20"
 # this has to be kept in sync with kotlin-gradle-plugin version (kgp above). See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility:
 kotlinComposeCompiler = "1.5.15"
-ktlintComposeRuleset = "0.4.15"
+ksp = "2.0.20-1.0.25"
+ktlintComposeRuleset = "0.4.16"
 ktlintGradlePlugin = "12.1.1"
 dependencyGraphPlugin = "0.12"
 dependencyUpdatePlugin = "0.51.0"
 gmazzoJacocoReportAggregation = "2.2.1"
 hilt = "2.52"
 room = "2.6.1"
-mockk = "1.13.12"
+mockk = "1.13.13"
 junit = "1.2.1"
 jupiter = "5.11.2"
 testRunner = "1.6.2"
@@ -34,6 +35,7 @@ tvFoundation = "1.0.0-alpha11"
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kgp" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 # AndroidX:
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat"}
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore"}
@@ -76,9 +78,12 @@ google-material = { module = "com.google.android.material:material", version.ref
 [plugins]
 dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp"}
-# add-ons
+# add-ons:
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin"}
 dependencygraph = { id = "com.savvasdalkitsis.module-dependency-graph", version.ref = "dependencyGraphPlugin"}
 dependencyupdate = { id ="com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin"}
 gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage",  version.ref = "gmazzoJacocoReportAggregation"}
 gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results",  version.ref = "gmazzoJacocoReportAggregation"}
+# plugins defined in this project:
+simplehiit-android-handheld-application = { id = "fr.shiningcat.simplehiit.android.handheld.application"}
+simplehiit-android-tv-application = { id = "fr.shiningcat.simplehiit.android.handheld.AndroidTvAppConventionPlugin"}

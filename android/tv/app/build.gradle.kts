@@ -90,8 +90,8 @@ dependencies {
     //
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.lifecycle)
-    implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.dagger.hilt.android)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
     kapt(libs.dagger.hilt.compiler)
@@ -103,7 +103,6 @@ kapt {
 }
 
 tasks {
-
     withType<Test> {
         useJUnitPlatform()
     }

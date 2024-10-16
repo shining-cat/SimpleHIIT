@@ -1,4 +1,4 @@
-// this allows gradle fiiles at the root of buildSrc to use the version catalog:
+// this allows gradle files at the root of buildSrc to use the version catalog:
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {

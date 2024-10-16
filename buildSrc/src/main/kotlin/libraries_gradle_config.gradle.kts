@@ -38,9 +38,6 @@ android {
 
     kotlinOptions {
         jvmTarget = ConfigData.JVM_TARGET
-        // uncomment 2 lines below for a (really) verbose gradle output:
-        // freeCompilerArgs = freeCompilerArgs + "-Xextended-compiler-checks"
-        // verbose = true
     }
 
     packaging {

@@ -1,6 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* Exercise.CrabSingleLegTricepsDips should be listed as asymmetrical
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because container focused color for textbutton is surface
 * When user unselect ALL exercise types, allow the session to still run, without showing any exercise, as a timer only. Show a message instead of the missing gifs.
@@ -26,6 +27,7 @@
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified project jacoco_exp to investigate
 * switch to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
+* switch to [kotlin compose compiler](https://developer.android.com/develop/ui/compose/compiler)
 * BLOCKED: see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp), but check [first that HILT has moved to ksp](https://kotlinlang.org/docs/ksp-overview.html#resources)
 
 ## CI/Github actions
