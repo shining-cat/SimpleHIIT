@@ -1,6 +1,6 @@
 plugins {
     id("libraries_gradle_config")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.simplehiit.hilt)
 }
 
 android {
@@ -14,8 +14,7 @@ dependencies {
      * so the only workaround is to define it in the main sourceset, adding the test dependencies needed for it as
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+
     implementation(libs.dagger.hilt.android.testing)
     implementation(libs.jupiter)
     implementation(libs.test.runner)

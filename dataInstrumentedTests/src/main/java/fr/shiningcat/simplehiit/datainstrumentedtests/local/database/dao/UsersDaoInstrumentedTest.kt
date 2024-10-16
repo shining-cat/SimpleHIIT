@@ -94,7 +94,8 @@ class UsersDaoInstrumentedTest {
             // inserting second user
             val testUserName2 = "test user name"
             val testSelected2 = false
-            val user2 = UserEntity(userId = testUserID, name = testUserName2, selected = testSelected2)
+            val user2 =
+                UserEntity(userId = testUserID, name = testUserName2, selected = testSelected2)
             launch { usersDao.insert(user2) }
             advanceUntilIdle()
             // only second user should be in table
@@ -417,7 +418,8 @@ class UsersDaoInstrumentedTest {
             val userId = tableContentBefore[0].userId
             val updatedName = "updated user name"
             val updatedSelected = false
-            val updatedUser = tableContentBefore[0].copy(name = updatedName, selected = updatedSelected)
+            val updatedUser =
+                tableContentBefore[0].copy(name = updatedName, selected = updatedSelected)
             val updated = usersDao.update(updatedUser)
             //
             assertEquals(1, updated)

@@ -1,6 +1,6 @@
 plugins {
     id("test_modules_gradle_config")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.simplehiit.hilt)
 }
 
 android {
@@ -13,8 +13,7 @@ dependencies {
     implementation(projects.testUtils)
     implementation(projects.data)
     //
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.coroutines)

@@ -37,16 +37,16 @@ android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kgp" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 # AndroidX:
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat"}
-androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore"}
-androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleProcess"}
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
+androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleProcess" }
 androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "tvMaterial" }
 androidx-tv-foundation = { module = "androidx.tv:tv-foundation", version.ref = "tvFoundation" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
-junit = { module = "androidx.test.ext:junit", version.ref = "junit"}
-test-runner = { module = "androidx.test:runner", version.ref = "testRunner"}
-androidx-archcore-testing = { module = "androidx.arch.core:core-testing", version.ref = "archCoreTest"}
+junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
+test-runner = { module = "androidx.test:runner", version.ref = "testRunner" }
+androidx-archcore-testing = { module = "androidx.arch.core:core-testing", version.ref = "archCoreTest" }
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
@@ -60,32 +60,38 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-coroutines = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
 # Hilt
-dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"}
-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt"}
-dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt"}
-dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt"}
+hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+#dagger-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"}
+dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+#dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt"}
 # Coil
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil"}
-coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil"}
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-gif = { module = "io.coil-kt:coil-gif", version.ref = "coil" }
 # Misc
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
 ktlint-compose-ruleset = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeRuleset" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk"}
-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter"}
-jetbrains-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "jetBrainsCoroutinesTest"}
-google-material = { module = "com.google.android.material:material", version.ref = "material"}
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter" }
+jetbrains-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "jetBrainsCoroutinesTest" }
+google-material = { module = "com.google.android.material:material", version.ref = "material" }
 
 [plugins]
-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
-kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp"}
+#dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp" }
 # add-ons:
-ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin"}
-dependencygraph = { id = "com.savvasdalkitsis.module-dependency-graph", version.ref = "dependencyGraphPlugin"}
-dependencyupdate = { id ="com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin"}
-gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage",  version.ref = "gmazzoJacocoReportAggregation"}
-gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results",  version.ref = "gmazzoJacocoReportAggregation"}
+ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
+dependencygraph = { id = "com.savvasdalkitsis.module-dependency-graph", version.ref = "dependencyGraphPlugin" }
+dependencyupdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin" }
+gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage", version.ref = "gmazzoJacocoReportAggregation" }
+gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results", version.ref = "gmazzoJacocoReportAggregation" }
 # plugins defined in this project:
-simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld"}
-simplehiit-android-application-tv = { id = "fr.shiningcat.simplehiit.android.application.tv"}
-simplehiit-android-application-compose = { id = "fr.shiningcat.simplehiit.android.application.compose"}
-simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.library.compose"}
+simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld" }
+simplehiit-android-application-tv = { id = "fr.shiningcat.simplehiit.android.application.tv" }
+simplehiit-android-application-compose = { id = "fr.shiningcat.simplehiit.android.application.compose" }
+simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.library.compose" }
+simplehiit-hilt = { id = "fr.shiningcat.simplehiit.hilt" }

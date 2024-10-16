@@ -48,7 +48,8 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
                 )
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val exceptionMessage = "this is a test exception"
-            val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+            val errorFromRepo =
+                Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
             coEvery { mockSimpleHiitRepository.updateUser(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)

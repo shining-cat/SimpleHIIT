@@ -1,6 +1,6 @@
 plugins {
     id("libraries_gradle_config")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.library.compose)
 }
 
@@ -18,8 +18,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(platform(libs.androidx.compose.bom))
     //
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+
     implementation(libs.androidx.lifecycle)
     implementation(libs.google.material)
     implementation(libs.androidx.lifecycle)

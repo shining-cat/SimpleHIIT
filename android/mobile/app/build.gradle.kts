@@ -3,7 +3,7 @@ import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 plugins {
     alias(libs.plugins.simplehiit.android.application.handheld)
     kotlin("kapt")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.simplehiit.hilt)
     jacoco
     alias(libs.plugins.simplehiit.android.application.compose)
 }
@@ -36,8 +36,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.navigation.compose)
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
 }
 
 // Allow references to generated code

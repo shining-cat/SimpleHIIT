@@ -23,8 +23,9 @@ allprojects {
 }
 
 plugins {
-    alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.ksp) apply false
     alias(libs.plugins.gmazzo.jacoco.test.coverage)
     alias(libs.plugins.gmazzo.jacoco.test.results)
     alias(libs.plugins.dependencyupdate)

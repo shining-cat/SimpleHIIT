@@ -1,6 +1,6 @@
 plugins {
     id("libraries_gradle_config")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.simplehiit.hilt)
 }
 
 android {
@@ -9,8 +9,7 @@ android {
 
 dependencies {
     // the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+
     //
     testImplementation(libs.dagger.hilt.android.testing)
     testImplementation(libs.test.runner)
