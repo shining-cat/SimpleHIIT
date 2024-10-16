@@ -29,8 +29,7 @@ dependencies {
     implementation(projects.commonResources)
     implementation(projects.data)
     //
-    implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+
     //
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.compose.material3)

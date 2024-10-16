@@ -12,7 +12,7 @@ dependencies {
     //
 
     //
-    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
 }

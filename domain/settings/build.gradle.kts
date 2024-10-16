@@ -14,7 +14,7 @@ dependencies {
     //
 
     //
-    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.test.runner)
     testImplementation(libs.jupiter)
     testImplementation(libs.mockk)

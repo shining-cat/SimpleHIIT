@@ -15,8 +15,7 @@ dependencies {
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
     //
-    implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
+
     //
 
     implementation(libs.androidx.lifecycle)
@@ -25,7 +24,7 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
     //
-    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)

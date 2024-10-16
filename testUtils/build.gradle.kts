@@ -15,7 +15,7 @@ dependencies {
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
 
-    implementation(libs.dagger.hilt.android.testing)
+    implementation(libs.hilt.android.testing)
     implementation(libs.jupiter)
     implementation(libs.test.runner)
     implementation(libs.mockk)

@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.androidx.room.coroutines)
     kapt(libs.androidx.room.compiler)
     //
-    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)

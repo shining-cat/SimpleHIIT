@@ -18,10 +18,6 @@ dependencies {
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
     //
-    implementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    //
-
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.material)
     implementation(libs.androidx.tv.foundation)
@@ -31,13 +27,11 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.coil.compose)
     implementation(libs.coil.gif)
-
     //
     debugImplementation(libs.androidx.compose.preview.debug)
     debugImplementation(libs.androidx.compose.ui.test.debug)
-
     //
-    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
