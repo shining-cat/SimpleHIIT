@@ -50,7 +50,8 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
                 )
             val testValue = 123L
             val exceptionMessage = "this is a test exception"
-            val errorFromRepo = Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+            val errorFromRepo =
+                Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
             coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)

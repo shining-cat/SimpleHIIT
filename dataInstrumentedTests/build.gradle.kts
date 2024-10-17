@@ -1,10 +1,48 @@
 plugins {
-    id("test_modules_gradle_config")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.ksp)
+    id("com.android.test")
+    kotlin("android")
+    alias(libs.plugins.simplehiit.hilt)
+    jacoco
 }
 
 android {
     namespace = "fr.shiningcat.simplehiit.data"
+    compileSdk = 34
+
+    defaultConfig {
+        minSdk = 21
+        testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
+    }
+
+    targetProjectPath = ":android:mobile:app"
+
+    buildTypes {
+        getByName("debug") {
+            isMinifyEnabled = false
+            enableUnitTestCoverage = true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    packaging {
+        resources {
+            excludes.addAll(
+                listOf(
+                    "META-INF/LICENSE.md",
+                    "META-INF/LICENSE-notice.md",
+                ),
+            )
+        }
+    }
 }
 
 dependencies {
@@ -13,18 +51,15 @@ dependencies {
     implementation(projects.testUtils)
     implementation(projects.data)
     //
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.coroutines)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     //
-    implementation(libs.dagger.hilt.android.testing)
+    implementation(libs.hilt.android.testing)
     implementation(libs.jetbrains.coroutines.test)
     implementation(libs.androidx.room.testing)
     implementation(libs.androidx.archcore.testing)
     implementation(libs.test.runner)
     implementation(libs.junit)
-    kapt(libs.dagger.hilt.android.compiler)
 }

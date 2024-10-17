@@ -246,7 +246,8 @@ class SessionRecordsDaoInstrumentedTest {
             // first insert users in users table
             val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
             usersDao.insert(user)
-            val user2 = UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
+            val user2 =
+                UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
             usersDao.insert(user2)
             //
             val testSession =
@@ -416,7 +417,8 @@ class SessionRecordsDaoInstrumentedTest {
             // first insert users in users table
             val user = UserEntity(userId = testUserID, name = testUserName, selected = testSelected)
             usersDao.insert(user)
-            val user2 = UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
+            val user2 =
+                UserEntity(userId = testUserID2, name = testUserName2, selected = testSelected)
             usersDao.insert(user2)
             //
             val testSession =

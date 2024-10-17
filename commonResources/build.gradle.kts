@@ -1,6 +1,7 @@
 plugins {
-    id("libraries_gradle_config")
-    alias(libs.plugins.dagger.hilt.android)
+    alias(libs.plugins.simplehiit.android.library)
+    alias(libs.plugins.simplehiit.hilt)
+    jacoco
 }
 
 android {
@@ -10,10 +11,15 @@ android {
 dependencies {
     implementation(projects.domain.common)
     //
-    implementation(libs.dagger.hilt.android)
-    kapt(libs.dagger.hilt.compiler)
+
     //
-    testImplementation(libs.dagger.hilt.android.testing)
+    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
+}
+
+tasks {
+    withType<Test> {
+        useJUnitPlatform()
+    }
 }

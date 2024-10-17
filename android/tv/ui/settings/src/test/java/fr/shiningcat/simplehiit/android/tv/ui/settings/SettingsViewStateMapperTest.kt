@@ -107,7 +107,11 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                         sessionStartCountDownLengthAsSeconds = "5",
                         periodsStartCountDownLengthAsSeconds = "20",
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
-                        exerciseTypes = listOf(testExerciseTypeSelected1, testExerciseTypeSelected4),
+                        exerciseTypes =
+                            listOf(
+                                testExerciseTypeSelected1,
+                                testExerciseTypeSelected4,
+                            ),
                     ),
                 ),
                 Arguments.of(

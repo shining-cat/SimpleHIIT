@@ -1,3 +1,20 @@
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) // TODO: uncomment when everything is migrated to plugins
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 // this is to allow targeting modules from their build.gradle file through project.group.name:
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 //
