@@ -1,5 +1,4 @@
 plugins {
-    kotlin("kapt")
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
     jacoco
@@ -19,7 +18,7 @@ dependencies {
     testImplementation(libs.jupiter)
     testImplementation(libs.mockk)
     testImplementation(libs.jetbrains.coroutines.test)
-    kaptAndroidTest(libs.dagger.hilt.android.compiler)
+    kspAndroidTest(libs.dagger.hilt.android.compiler)
 }
 
 tasks {

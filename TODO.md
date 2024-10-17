@@ -39,18 +39,12 @@
   see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore,
   and https://developer.android.com/guide/topics/data/autobackup, find how to set up
   backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
-* find a way to fix resolution issue when adding `id("com.google.dagger.hilt.android")` to
-  `libraries_gradle_config`, to remove it from every module and apply it from the plugin
 * had to exclude the external instrumented tests module from report aggregation plugin, see
-  testAggregation block in
-  build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
+  testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified
   project jacoco_exp to investigate
-* switch
-  to [version catalog for gradle dependencies](https://proandroiddev.com/mastering-gradle-dependency-management-with-version-catalogs-a-comprehensive-guide-d60e2fd1dac2)
 * switch to [kotlin compose compiler](https://developer.android.com/develop/ui/compose/compiler)
-* BLOCKED: see [moving from kapt to ksp](https://developer.android.com/build/migrate-to-ksp), but
-  check [first that HILT has moved to ksp](https://kotlinlang.org/docs/ksp-overview.html#resources)
+
 
 ## CI/Github actions
 

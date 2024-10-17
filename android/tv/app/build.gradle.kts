@@ -2,7 +2,6 @@ import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
 plugins {
     alias(libs.plugins.simplehiit.android.application.tv)
-    kotlin("kapt")
     alias(libs.plugins.simplehiit.hilt)
     jacoco
     alias(libs.plugins.simplehiit.android.application.compose)

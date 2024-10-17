@@ -9,8 +9,9 @@ import org.gradle.kotlin.dsl.dependencies
 class HiltConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
+            pluginManager.apply("com.google.devtools.ksp")
             dependencies {
-                add("kapt", libs.findLibrary("hilt.compiler").get())
+                add("ksp", libs.findLibrary("hilt.compiler").get())
                 add("implementation", libs.findLibrary("hilt.core").get())
                 // TODO why does adding "testImplementation" fail the build?
                 // add("testImplementation", libs.findLibrary("hilt.android.testing").get())

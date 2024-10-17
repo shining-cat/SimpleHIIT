@@ -1,5 +1,5 @@
 plugins {
-    kotlin("kapt")
+    alias(libs.plugins.ksp)
     id("com.android.test")
     kotlin("android")
     alias(libs.plugins.simplehiit.hilt)
@@ -54,7 +54,7 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.coroutines)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     //
     implementation(libs.hilt.android.testing)
     implementation(libs.jetbrains.coroutines.test)

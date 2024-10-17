@@ -14,6 +14,7 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
+                apply("org.jlleitschuh.gradle.ktlint")
             }
             extensions.configure<ApplicationExtension> {
                 configureAndroidAppHandheldKotlin(this)
