@@ -63,9 +63,3 @@ dependencies {
     implementation(libs.test.runner)
     implementation(libs.junit)
 }
-
-tasks {
-    withType<Test> {
-        useJUnitPlatform()
-    }
-}

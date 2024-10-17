@@ -29,17 +29,10 @@ dependencies {
     implementation(projects.commonResources)
     implementation(projects.data)
     //
-
-    //
-    implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.adaptive)
+    implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation.compose)
-}
-
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
 }
 
 tasks {

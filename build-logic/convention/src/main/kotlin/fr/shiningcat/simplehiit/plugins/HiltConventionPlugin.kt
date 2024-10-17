@@ -7,13 +7,13 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 class HiltConventionPlugin : Plugin<Project> {
-    override fun apply(target: Project) {
-        with(target) {
+    override fun apply(project: Project) {
+        with(project) {
             dependencies {
                 add("kapt", libs.findLibrary("hilt.compiler").get())
                 add("implementation", libs.findLibrary("hilt.core").get())
                 // TODO why does adding "testImplementation" fail the build?
-//                add("testImplementation", libs.findLibrary("hilt.android.testing").get())
+                // add("testImplementation", libs.findLibrary("hilt.android.testing").get())
             }
 
             /** Add support for Android modules, based on [AndroidBasePlugin] */

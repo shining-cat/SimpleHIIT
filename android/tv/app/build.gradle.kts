@@ -36,11 +36,6 @@ dependencies {
     implementation(libs.androidx.tv.material)
 }
 
-// Allow references to generated code
-kapt {
-    correctErrorTypes = true
-}
-
 tasks {
     withType<Test> {
         useJUnitPlatform()
