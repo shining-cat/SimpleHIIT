@@ -2,18 +2,17 @@
 
 ## Missing features / issues
 
-* tests in SimpleHiitDataStoreManagerImplInstrumentedTest are failing with UncompletedCoroutinesError -> fix
 * Exercise.CrabSingleLegTricepsDips should be listed as asymmetrical
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
+* run ktlintCheck finds issues in a file after auto-format. Fix contradiction between the two
 
 ## Publication
 
-* Include link to privacy policy inside the app: https://www.shining-cat.fr/en/misc/privacy-policy
-  this is a new requirement from Google Play console
+* Find how to publish on Fdroid?
 
 ## Assets production
 
