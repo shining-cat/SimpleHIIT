@@ -8,6 +8,7 @@
   container focused color for textbutton is surface
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
+* run ktlintCheck finds issues in a file after auto-format. Fix contradiction between the two
 
 ## Publication
 

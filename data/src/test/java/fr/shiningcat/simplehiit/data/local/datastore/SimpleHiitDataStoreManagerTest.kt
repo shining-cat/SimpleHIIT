@@ -43,7 +43,6 @@ private const val TEST_DATASTORE_NAME: String = "test_datastore.preferences_pb"
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SimpleHiitDataStoreManagerTest {
-
     @TempDir
     lateinit var tempFolder: File
 
@@ -56,273 +55,303 @@ class SimpleHiitDataStoreManagerTest {
     private val defaultStringSetValue = emptySet<String>()
 
     @Test
-    fun `check SetWorkPeriodLength is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = 123L
-        testedSimpleHiitDataStoreManager.setWorkPeriodLength(testValue)
+    fun `check SetWorkPeriodLength is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = 123L
+            testedSimpleHiitDataStoreManager.setWorkPeriodLength(testValue)
 
-        val result = retrievePrefLong(WORK_PERIOD_LENGTH_MILLISECONDS).first()
+            val result = retrievePrefLong(WORK_PERIOD_LENGTH_MILLISECONDS).first()
 
-        assertEquals(testValue, result)
-    }
-
-    @Test
-    fun `check SetRestPeriodLength is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = 123L
-        testedSimpleHiitDataStoreManager.setRestPeriodLength(testValue)
-
-        val result = retrievePrefLong(REST_PERIOD_LENGTH_MILLISECONDS).first()
-
-        assertEquals(testValue, result)
-    }
+            assertEquals(testValue, result)
+        }
 
     @Test
-    fun `check SetNumberOfWorkPeriods is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = 123
-        testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testValue)
+    fun `check SetRestPeriodLength is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = 123L
+            testedSimpleHiitDataStoreManager.setRestPeriodLength(testValue)
 
-        val result = retrievePrefInt(NUMBER_WORK_PERIODS).first()
+            val result = retrievePrefLong(REST_PERIOD_LENGTH_MILLISECONDS).first()
 
-        assertEquals(testValue, result)
-    }
-
-    @Test
-    fun `check SetBeepSound is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = true
-        testedSimpleHiitDataStoreManager.setBeepSound(testValue)
-
-        val result = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
-
-        assertEquals(testValue, result)
-    }
+            assertEquals(testValue, result)
+        }
 
     @Test
-    fun `check SetSessionStartCountdown is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = 123L
-        testedSimpleHiitDataStoreManager.setSessionStartCountdown(testValue)
+    fun `check SetNumberOfWorkPeriods is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = 123
+            testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testValue)
 
-        val result = retrievePrefLong(SESSION_COUNTDOWN_LENGTH_MILLISECONDS).first()
+            val result = retrievePrefInt(NUMBER_WORK_PERIODS).first()
 
-        assertEquals(testValue, result)
-    }
-
-    @Test
-    fun `check SetPeriodStartCountdown is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = 123L
-        testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testValue)
-
-        val result = retrievePrefLong(PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).first()
-
-        assertEquals(testValue, result)
-    }
+            assertEquals(testValue, result)
+        }
 
     @Test
-    fun `check SetExercisesTypesSelected is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
-        testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValue)
+    fun `check SetBeepSound is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = true
+            testedSimpleHiitDataStoreManager.setBeepSound(testValue)
 
-        val result = retrievePrefStringSet(EXERCISE_TYPES_SELECTED).first()
+            val result = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
 
-        assertEquals(testValue.map { it.name }.toSet(), result)
-    }
-
-    @Test
-    fun `check SetNumberOfCumulatedCycles is storing in datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        val testValue = 123
-        testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testValue)
-
-        val result = retrievePrefInt(NUMBER_CUMULATED_CYCLES).first()
-
-        assertEquals(testValue, result)
-    }
+            assertEquals(testValue, result)
+        }
 
     @Test
-    fun `check calling clear clears datastore preferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        // insert first values for all prefs:
-        val testValue = 123L
-        testedSimpleHiitDataStoreManager.setWorkPeriodLength(testValue)
-        val result = retrievePrefLong(WORK_PERIOD_LENGTH_MILLISECONDS).first()
-        assertEquals(testValue, result)
-        val testValue2 = 234L
-        testedSimpleHiitDataStoreManager.setRestPeriodLength(testValue2)
-        val result2 = retrievePrefLong(REST_PERIOD_LENGTH_MILLISECONDS).first()
-        assertEquals(testValue2, result2)
-        val testValue3 = 345
-        testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testValue3)
-        val result3 = retrievePrefInt(NUMBER_WORK_PERIODS).first()
-        assertEquals(testValue3, result3)
-        val testValue4 = true
-        testedSimpleHiitDataStoreManager.setBeepSound(testValue4)
-        val result4 = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
-        assertEquals(testValue4, result4)
-        val testValue5 = 456L
-        testedSimpleHiitDataStoreManager.setSessionStartCountdown(testValue5)
-        val result5 = retrievePrefLong(SESSION_COUNTDOWN_LENGTH_MILLISECONDS).first()
-        assertEquals(testValue5, result5)
-        val testValue6 = 567L
-        testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testValue6)
-        val result6 = retrievePrefLong(PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).first()
-        assertEquals(testValue6, result6)
-        val testValue7 = listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
-        testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValue7)
-        val result7 = retrievePrefStringSet(EXERCISE_TYPES_SELECTED).first()
-        assertEquals(testValue7.map { it.name }.toSet(), result7)
-        val testValue8 = 678
-        testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testValue8)
-        val result8 = retrievePrefInt(NUMBER_CUMULATED_CYCLES).first()
-        assertEquals(testValue8, result8)
-        // now clear
-        testedSimpleHiitDataStoreManager.clearAll()
-        // check default values are returned
-        val resultAfterClear = retrievePrefLong(WORK_PERIOD_LENGTH_MILLISECONDS).first()
-        assertEquals(defaultLongValue, resultAfterClear)
-        val resultAfterClear2 = retrievePrefLong(REST_PERIOD_LENGTH_MILLISECONDS).first()
-        assertEquals(defaultLongValue, resultAfterClear2)
-        val resultAfterClear3 = retrievePrefInt(NUMBER_WORK_PERIODS).first()
-        assertEquals(defaultIntValue, resultAfterClear3)
-        val resultAfterClear4 = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
-        assertEquals(defaultBoolValue, resultAfterClear4)
-        val resultAfterClear5 = retrievePrefLong(SESSION_COUNTDOWN_LENGTH_MILLISECONDS).first()
-        assertEquals(defaultLongValue, resultAfterClear5)
-        val resultAfterClear6 = retrievePrefLong(PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).first()
-        assertEquals(defaultLongValue, resultAfterClear6)
-        val resultAfterClear7 = retrievePrefStringSet(EXERCISE_TYPES_SELECTED).first()
-        assertEquals(defaultStringSetValue, resultAfterClear7)
-        val resultAfterClear8 = retrievePrefInt(NUMBER_CUMULATED_CYCLES).first()
-        assertEquals(defaultIntValue, resultAfterClear8)
-    }
+    fun `check SetSessionStartCountdown is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = 123L
+            testedSimpleHiitDataStoreManager.setSessionStartCountdown(testValue)
+
+            val result = retrievePrefLong(SESSION_COUNTDOWN_LENGTH_MILLISECONDS).first()
+
+            assertEquals(testValue, result)
+        }
 
     @Test
-    fun `check GetPreferences returns expected SimpleHiitPreferences`() = runTest {
-        testDataStore = PreferenceDataStoreFactory.create(
-            scope = backgroundScope,
-            produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-        )
-        val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-            dataStore = testDataStore,
-            hiitLogger = mockkLogger,
-            ioDispatcher = UnconfinedTestDispatcher(),
-        )
-        // insert first values for all prefs:
-        val testWorkPeriodLengthValue = 123L
-        testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
-        val testRestPeriodLengthValue = 234L
-        testedSimpleHiitDataStoreManager.setRestPeriodLength(testRestPeriodLengthValue)
-        val testNumberOfWorkPeriodsValue = 345
-        testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testNumberOfWorkPeriodsValue)
-        val testBeepSoundValue = true
-        testedSimpleHiitDataStoreManager.setBeepSound(testBeepSoundValue)
-        val testSessionStartCountdownValue = 456L
-        testedSimpleHiitDataStoreManager.setSessionStartCountdown(testSessionStartCountdownValue)
-        val testPeriodStartCountdownValue = 567L
-        testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testPeriodStartCountdownValue)
-        val testValueExercisesSelected =
-            listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
-        testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
-        val testNumberCyclesValue = 678
-        testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testNumberCyclesValue)
-        // now retrieve SimpleHiitPreferences
-        val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
-        //
-        val expectedPreferences =
-            SimpleHiitPreferences(
-                workPeriodLengthMs = testWorkPeriodLengthValue,
-                restPeriodLengthMs = testRestPeriodLengthValue,
-                numberOfWorkPeriods = testNumberOfWorkPeriodsValue,
-                beepSoundActive = testBeepSoundValue,
-                sessionCountDownLengthMs = testSessionStartCountdownValue,
-                PeriodCountDownLengthMs = testPeriodStartCountdownValue,
-                selectedExercisesTypes =
-                ExerciseType.entries.map {
-                    ExerciseTypeSelected(
-                        it,
-                        testValueExercisesSelected.contains(it)
-                    )
-                },
-                numberCumulatedCycles = testNumberCyclesValue,
-            )
-        assertEquals(expectedPreferences, resultPreferences)
-    }
+    fun `check SetPeriodStartCountdown is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = 123L
+            testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testValue)
+
+            val result = retrievePrefLong(PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).first()
+
+            assertEquals(testValue, result)
+        }
+
+    @Test
+    fun `check SetExercisesTypesSelected is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
+            testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValue)
+
+            val result = retrievePrefStringSet(EXERCISE_TYPES_SELECTED).first()
+
+            assertEquals(testValue.map { it.name }.toSet(), result)
+        }
+
+    @Test
+    fun `check SetNumberOfCumulatedCycles is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = 123
+            testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testValue)
+
+            val result = retrievePrefInt(NUMBER_CUMULATED_CYCLES).first()
+
+            assertEquals(testValue, result)
+        }
+
+    @Test
+    fun `check calling clear clears datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            // insert first values for all prefs:
+            val testValue = 123L
+            testedSimpleHiitDataStoreManager.setWorkPeriodLength(testValue)
+            val result = retrievePrefLong(WORK_PERIOD_LENGTH_MILLISECONDS).first()
+            assertEquals(testValue, result)
+            val testValue2 = 234L
+            testedSimpleHiitDataStoreManager.setRestPeriodLength(testValue2)
+            val result2 = retrievePrefLong(REST_PERIOD_LENGTH_MILLISECONDS).first()
+            assertEquals(testValue2, result2)
+            val testValue3 = 345
+            testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testValue3)
+            val result3 = retrievePrefInt(NUMBER_WORK_PERIODS).first()
+            assertEquals(testValue3, result3)
+            val testValue4 = true
+            testedSimpleHiitDataStoreManager.setBeepSound(testValue4)
+            val result4 = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
+            assertEquals(testValue4, result4)
+            val testValue5 = 456L
+            testedSimpleHiitDataStoreManager.setSessionStartCountdown(testValue5)
+            val result5 = retrievePrefLong(SESSION_COUNTDOWN_LENGTH_MILLISECONDS).first()
+            assertEquals(testValue5, result5)
+            val testValue6 = 567L
+            testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testValue6)
+            val result6 = retrievePrefLong(PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).first()
+            assertEquals(testValue6, result6)
+            val testValue7 = listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
+            testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValue7)
+            val result7 = retrievePrefStringSet(EXERCISE_TYPES_SELECTED).first()
+            assertEquals(testValue7.map { it.name }.toSet(), result7)
+            val testValue8 = 678
+            testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testValue8)
+            val result8 = retrievePrefInt(NUMBER_CUMULATED_CYCLES).first()
+            assertEquals(testValue8, result8)
+            // now clear
+            testedSimpleHiitDataStoreManager.clearAll()
+            // check default values are returned
+            val resultAfterClear = retrievePrefLong(WORK_PERIOD_LENGTH_MILLISECONDS).first()
+            assertEquals(defaultLongValue, resultAfterClear)
+            val resultAfterClear2 = retrievePrefLong(REST_PERIOD_LENGTH_MILLISECONDS).first()
+            assertEquals(defaultLongValue, resultAfterClear2)
+            val resultAfterClear3 = retrievePrefInt(NUMBER_WORK_PERIODS).first()
+            assertEquals(defaultIntValue, resultAfterClear3)
+            val resultAfterClear4 = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
+            assertEquals(defaultBoolValue, resultAfterClear4)
+            val resultAfterClear5 = retrievePrefLong(SESSION_COUNTDOWN_LENGTH_MILLISECONDS).first()
+            assertEquals(defaultLongValue, resultAfterClear5)
+            val resultAfterClear6 = retrievePrefLong(PERIOD_COUNTDOWN_LENGTH_MILLISECONDS).first()
+            assertEquals(defaultLongValue, resultAfterClear6)
+            val resultAfterClear7 = retrievePrefStringSet(EXERCISE_TYPES_SELECTED).first()
+            assertEquals(defaultStringSetValue, resultAfterClear7)
+            val resultAfterClear8 = retrievePrefInt(NUMBER_CUMULATED_CYCLES).first()
+            assertEquals(defaultIntValue, resultAfterClear8)
+        }
+
+    @Test
+    fun `check GetPreferences returns expected SimpleHiitPreferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            // insert first values for all prefs:
+            val testWorkPeriodLengthValue = 123L
+            testedSimpleHiitDataStoreManager.setWorkPeriodLength(testWorkPeriodLengthValue)
+            val testRestPeriodLengthValue = 234L
+            testedSimpleHiitDataStoreManager.setRestPeriodLength(testRestPeriodLengthValue)
+            val testNumberOfWorkPeriodsValue = 345
+            testedSimpleHiitDataStoreManager.setNumberOfWorkPeriods(testNumberOfWorkPeriodsValue)
+            val testBeepSoundValue = true
+            testedSimpleHiitDataStoreManager.setBeepSound(testBeepSoundValue)
+            val testSessionStartCountdownValue = 456L
+            testedSimpleHiitDataStoreManager.setSessionStartCountdown(testSessionStartCountdownValue)
+            val testPeriodStartCountdownValue = 567L
+            testedSimpleHiitDataStoreManager.setPeriodStartCountdown(testPeriodStartCountdownValue)
+            val testValueExercisesSelected =
+                listOf(ExerciseType.LYING, ExerciseType.SQUAT, ExerciseType.LUNGE)
+            testedSimpleHiitDataStoreManager.setExercisesTypesSelected(testValueExercisesSelected)
+            val testNumberCyclesValue = 678
+            testedSimpleHiitDataStoreManager.setNumberOfCumulatedCycles(testNumberCyclesValue)
+            // now retrieve SimpleHiitPreferences
+            val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
+            //
+            val expectedPreferences =
+                SimpleHiitPreferences(
+                    workPeriodLengthMs = testWorkPeriodLengthValue,
+                    restPeriodLengthMs = testRestPeriodLengthValue,
+                    numberOfWorkPeriods = testNumberOfWorkPeriodsValue,
+                    beepSoundActive = testBeepSoundValue,
+                    sessionCountDownLengthMs = testSessionStartCountdownValue,
+                    PeriodCountDownLengthMs = testPeriodStartCountdownValue,
+                    selectedExercisesTypes =
+                        ExerciseType.entries.map {
+                            ExerciseTypeSelected(
+                                it,
+                                testValueExercisesSelected.contains(it),
+                            )
+                        },
+                    numberCumulatedCycles = testNumberCyclesValue,
+                )
+            assertEquals(expectedPreferences, resultPreferences)
+        }
 
     @Test
     fun `check GetPreferences on empty preferences returns SimpleHiitPreferences with default values`() =
@@ -332,11 +361,12 @@ class SimpleHiitDataStoreManagerTest {
                     scope = backgroundScope,
                     produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
                 )
-            val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-                dataStore = testDataStore,
-                hiitLogger = mockkLogger,
-                ioDispatcher = UnconfinedTestDispatcher(),
-            )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
             // retrieve SimpleHiitPreferences
             val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
             //
@@ -358,15 +388,17 @@ class SimpleHiitDataStoreManagerTest {
     fun `check GetPreferences dataStore throws returns SimpleHiitPreferences with default values`() =
         runTest {
             testDataStore = mockk<DataStore<Preferences>>(relaxed = true)
-            val ioExceptionDataFlow: Flow<Preferences> = flow {
-                throw IOException()
-            }
+            val ioExceptionDataFlow: Flow<Preferences> =
+                flow {
+                    throw IOException()
+                }
             coEvery { testDataStore.data } returns ioExceptionDataFlow
-            val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
-                dataStore = testDataStore,
-                hiitLogger = mockkLogger,
-                ioDispatcher = UnconfinedTestDispatcher(),
-            )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
             // retrieve SimpleHiitPreferences
             val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
             //
@@ -377,14 +409,22 @@ class SimpleHiitDataStoreManagerTest {
 
     // //////////
     private fun retrievePrefInt(key: Preferences.Key<Int>): Flow<Int> =
-        testDataStore.data.map { it[key] ?: defaultIntValue }
+        testDataStore.data.map {
+            it[key] ?: defaultIntValue
+        }
 
     private fun retrievePrefLong(key: Preferences.Key<Long>): Flow<Long> =
-        testDataStore.data.map { it[key] ?: defaultLongValue }
+        testDataStore.data.map {
+            it[key] ?: defaultLongValue
+        }
 
     private fun retrievePrefBool(key: Preferences.Key<Boolean>): Flow<Boolean> =
-        testDataStore.data.map { it[key] ?: defaultBoolValue }
+        testDataStore.data.map {
+            it[key] ?: defaultBoolValue
+        }
 
     private fun retrievePrefStringSet(key: Preferences.Key<Set<String>>): Flow<Set<String>> =
-        testDataStore.data.map { it[key] ?: defaultStringSetValue }
+        testDataStore.data.map {
+            it[key] ?: defaultStringSetValue
+        }
 }
