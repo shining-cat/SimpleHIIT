@@ -118,16 +118,7 @@ class SimpleHiitDataStoreManagerImpl(
     }
 
     override fun getPreferences(): Flow<SimpleHiitPreferences> =
-        dataStore.data
-            .catch { exception ->
-                // dataStore.data throws an IOException when an error is encountered when reading data
-                hiitLogger.e(
-                    "SimpleHiitDataStoreManager",
-                    "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception",
-                )
-                clearAll()
-                SimpleHiitPreferences()
-            }.map { preferences ->
+        dataStore.data.map { preferences ->
                 SimpleHiitPreferences(
                     workPeriodLengthMs = retrieveWorkPeriodLength(preferences),
                     restPeriodLengthMs = retrieveRestPeriodLength(preferences),
@@ -138,6 +129,14 @@ class SimpleHiitDataStoreManagerImpl(
                     selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
                     numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences),
                 )
+            }
+            .catch { exception ->
+                // dataStore.data throws an IOException when an error is encountered when reading data
+                hiitLogger.e(
+                    tag = "SimpleHiitDataStoreManager",
+                    msg = "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception",
+                )
+                emit(SimpleHiitPreferences())
             }
 
     private fun retrieveWorkPeriodLength(preferences: Preferences) =
@@ -167,7 +166,7 @@ class SimpleHiitDataStoreManagerImpl(
     private fun getSelectedExerciseTypesAsList(preferences: Preferences): List<ExerciseTypeSelected> {
         val setOfStringExerciseTypes = retrieveSelectedExerciseTypes(preferences)
         val listOfExerciseTypeSelected =
-            ExerciseType.values().toList().map {
+            ExerciseType.entries.map {
                 ExerciseTypeSelected(
                     type = it,
                     selected = setOfStringExerciseTypes.contains(it.name),

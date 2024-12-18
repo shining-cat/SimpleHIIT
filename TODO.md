@@ -2,7 +2,6 @@
 
 ## Missing features / issues
 
-* tests in SimpleHiitDataStoreManagerImplInstrumentedTest are failing with UncompletedCoroutinesError -> fix
 * Exercise.CrabSingleLegTricepsDips should be listed as asymmetrical
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
@@ -12,8 +11,7 @@
 
 ## Publication
 
-* Include link to privacy policy inside the app: https://www.shining-cat.fr/en/misc/privacy-policy
-  this is a new requirement from Google Play console
+* Find how to publish on Fdroid?
 
 ## Assets production
 
