@@ -119,17 +119,17 @@ class SimpleHiitDataStoreManagerImpl(
 
     override fun getPreferences(): Flow<SimpleHiitPreferences> =
         dataStore.data.map { preferences ->
-                SimpleHiitPreferences(
-                    workPeriodLengthMs = retrieveWorkPeriodLength(preferences),
-                    restPeriodLengthMs = retrieveRestPeriodLength(preferences),
-                    numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
-                    beepSoundActive = retrieveBeepSoundActive(preferences),
-                    sessionCountDownLengthMs = retrieveSessionCountDownLengthSeconds(preferences),
-                    PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
-                    selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
-                    numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences),
-                )
-            }
+            SimpleHiitPreferences(
+                workPeriodLengthMs = retrieveWorkPeriodLength(preferences),
+                restPeriodLengthMs = retrieveRestPeriodLength(preferences),
+                numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
+                beepSoundActive = retrieveBeepSoundActive(preferences),
+                sessionCountDownLengthMs = retrieveSessionCountDownLengthSeconds(preferences),
+                PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
+                selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
+                numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences),
+            )
+        }
             .catch { exception ->
                 // dataStore.data throws an IOException when an error is encountered when reading data
                 hiitLogger.e(

@@ -327,10 +327,11 @@ class SimpleHiitDataStoreManagerTest {
     @Test
     fun `check GetPreferences on empty preferences returns SimpleHiitPreferences with default values`() =
         runTest {
-            testDataStore = PreferenceDataStoreFactory.create(
-                scope = backgroundScope,
-                produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
-            )
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
             val testedSimpleHiitDataStoreManager = SimpleHiitDataStoreManagerImpl(
                 dataStore = testDataStore,
                 hiitLogger = mockkLogger,
@@ -386,5 +387,4 @@ class SimpleHiitDataStoreManagerTest {
 
     private fun retrievePrefStringSet(key: Preferences.Key<Set<String>>): Flow<Set<String>> =
         testDataStore.data.map { it[key] ?: defaultStringSetValue }
-
 }
