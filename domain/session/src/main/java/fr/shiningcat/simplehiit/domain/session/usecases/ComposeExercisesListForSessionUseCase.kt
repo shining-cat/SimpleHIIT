@@ -75,7 +75,7 @@ class ComposeExercisesListForSessionUseCase
                         // remove exercise from source list to limit repetition
                         exercisesSourceList.remove(exercisePicked)
                         listOfExercises.add(exercisePicked)
-                        // add asymmetrical exercises twice as they have to be done twice
+                        // add asymmetrical exercises twice as they have to be done once for each side
                         if (exercisePicked.asymmetrical) listOfExercises.add(exercisePicked)
                         if (listOfExercises.size == wantedNumberOfExercises) {
                             // we have reached the expected number of exercises: stop looping

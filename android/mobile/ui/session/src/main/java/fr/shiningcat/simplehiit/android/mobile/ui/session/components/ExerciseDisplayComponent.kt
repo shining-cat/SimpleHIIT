@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -48,7 +49,10 @@ fun ExerciseDisplayComponent(
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth(),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomEnd),
             )
         }
         if (countDown != null) {
@@ -74,7 +78,7 @@ private fun ExerciseDisplayComponentPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             ExerciseDisplayComponent(
                 modifier = Modifier.fillMaxSize(),
-                exercise = Exercise.LungesSideToCurtsy,
+                exercise = Exercise.SquatBasic,
                 periodType = RunningSessionStepType.REST,
                 exerciseSide = AsymmetricalExerciseSideOrder.SECOND.side,
                 countDown =

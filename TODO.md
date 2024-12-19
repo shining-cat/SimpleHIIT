@@ -2,7 +2,8 @@
 
 ## Missing features / issues
 
-* Exercise.CrabSingleLegTricepsDips should be listed as asymmetrical
+* bug when ComposeExercisesListForSessionUseCase adds duplicates that follow each other, it will be interpreted by BuildSessionUseCase.buildStepsList as the 2 sides of an asymmetrical exercise
+* progress bars look strange now, like 2 pieces badly combined
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
@@ -28,6 +29,7 @@
 
 ## General technical improvements
 
+* ensure val window = (view.context as Activity).window in HomeScreen runs no risk of mistyping and crashing
 * connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?
 * provide previews with a placeholder where gifs can't be rendered,

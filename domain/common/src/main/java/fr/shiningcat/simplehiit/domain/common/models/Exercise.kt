@@ -41,7 +41,7 @@ enum class Exercise(
     CrabBridgeAndTwist(exerciseType = CRAB, asymmetrical = false),
     CrabKicks(exerciseType = CRAB, asymmetrical = false),
     CrabToeTouches(exerciseType = CRAB, asymmetrical = false),
-    CrabSingleLegTricepsDips(exerciseType = CRAB, asymmetrical = false),
+    CrabSingleLegTricepsDips(exerciseType = CRAB, asymmetrical = true),
 
     //
     LungesAlternateFrontRaise(exerciseType = LUNGE, asymmetrical = false),
