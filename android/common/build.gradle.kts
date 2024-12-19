@@ -19,8 +19,7 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.google.material)
     implementation(libs.androidx.lifecycle)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.gif)
+    implementation(libs.glide)
     //
     testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
