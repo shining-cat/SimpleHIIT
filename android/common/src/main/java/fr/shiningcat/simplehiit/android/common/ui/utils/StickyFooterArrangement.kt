@@ -1,13 +1,11 @@
-package fr.shiningcat.simplehiit.android.common.utils
+package fr.shiningcat.simplehiit.android.common.ui.utils
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
 class StickyFooterArrangement(
     private val verticalPadding: Dp,
-    private val hiitLogger: HiitLogger?,
 ) : Arrangement.Vertical {
     // for some reason, if the resulting height of the grid or column is bigger than the visible space available (ie, if it needs to be scrollable)
     // then spacing will be used to render the padding between items and the rows' y value we set in Density.arrange will be ignored

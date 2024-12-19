@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shiningcat.simplehiit.android.common.utils.StickyFooterArrangement
+import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
@@ -43,7 +43,6 @@ fun StatisticsNominalContent(
     viewState: StatisticsViewState.Nominal,
     @Suppress("UNUSED_PARAMETER")
     uiArrangement: UiArrangement,
-    @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
     Column(
@@ -70,10 +69,7 @@ fun StatisticsNominalContent(
                     .fillMaxSize(),
             columns = GridCells.Fixed(2),
             verticalArrangement =
-                StickyFooterArrangement(
-                    gridPadding,
-                    hiitLogger,
-                ),
+                StickyFooterArrangement(gridPadding),
             horizontalArrangement = Arrangement.spacedBy(gridPadding),
         ) {
             items(viewState.statistics.size) {
@@ -81,7 +77,7 @@ fun StatisticsNominalContent(
                 StatisticCardComponent(displayStatistic)
             }
             item(span = doubleSpan) {
-                Divider(
+                HorizontalDivider(
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -136,12 +132,12 @@ private fun StatisticsNominalContentPreviewPhonePortrait(
 
 @Preview(
     showSystemUi = true,
-    device = Devices.TABLET,
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
-    device = Devices.TABLET,
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable

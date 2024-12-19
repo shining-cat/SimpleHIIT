@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shiningcat.simplehiit.android.common.utils.StickyFooterArrangement
+import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.LaunchSessionButton
@@ -103,7 +103,7 @@ private fun VerticalHomeNominalContent(
                 toggleSelectedUser = toggleSelectedUser,
             )
         }
-        Divider(
+        HorizontalDivider(
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -117,7 +117,7 @@ private fun VerticalHomeNominalContent(
             lengthOfCycle = lengthOfCycle,
             totalLengthFormatted = totalLengthFormatted,
         )
-        Divider(
+        HorizontalDivider(
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -169,10 +169,7 @@ private fun HorizontalHomeNominalContent(
                     .weight(1f)
                     .fillMaxHeight(),
             verticalArrangement =
-                StickyFooterArrangement(
-                    0.dp,
-                    hiitLogger,
-                ),
+                StickyFooterArrangement(0.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             item {
@@ -186,7 +183,7 @@ private fun HorizontalHomeNominalContent(
                 )
             }
             item {
-                Divider(
+                HorizontalDivider(
                     modifier =
                         Modifier
                             .fillMaxWidth()
@@ -234,16 +231,16 @@ private fun HomeNominalContentPreviewPhonePortrait(
 
 @Preview(
     showSystemUi = true,
-    device = Devices.TABLET,
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
-    device = Devices.TABLET,
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-private fun HomeNominalContentPreviewTabletLandscape(
+fun HomeNominalContentPreviewTabletLandscape(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,
 ) {
     SimpleHiitMobileTheme {

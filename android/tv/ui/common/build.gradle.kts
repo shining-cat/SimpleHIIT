@@ -22,8 +22,6 @@ dependencies {
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
     implementation(libs.androidx.lifecycle)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.gif)
     //
     debugImplementation(libs.androidx.compose.preview.debug)
     debugImplementation(libs.androidx.compose.ui.test.debug)

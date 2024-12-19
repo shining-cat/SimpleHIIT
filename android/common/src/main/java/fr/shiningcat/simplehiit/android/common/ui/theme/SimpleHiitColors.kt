@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common.theme
+package fr.shiningcat.simplehiit.android.common.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
