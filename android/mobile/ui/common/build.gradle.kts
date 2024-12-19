@@ -21,8 +21,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.lifecycle)
-    implementation(libs.coil.compose)
-    implementation(libs.coil.gif)
     //
     debugImplementation(libs.androidx.compose.preview.debug)
     debugImplementation(libs.androidx.compose.ui.test.debug)

@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.session.components
+package fr.shiningcat.simplehiit.android.common.ui.components
 
 import android.os.Build.VERSION.SDK_INT
 import androidx.annotation.DrawableRes

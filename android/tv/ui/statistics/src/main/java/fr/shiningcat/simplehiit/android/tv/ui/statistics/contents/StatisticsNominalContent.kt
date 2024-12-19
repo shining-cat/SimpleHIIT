@@ -24,7 +24,7 @@ import androidx.tv.foundation.lazy.grid.TvLazyGridItemSpanScope
 import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.common.utils.StickyFooterArrangement
+import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.StatisticsViewState
@@ -71,10 +71,7 @@ fun StatisticsNominalContent(
                     .fillMaxSize(),
             columns = TvGridCells.Fixed(2),
             verticalArrangement =
-                StickyFooterArrangement(
-                    gridPadding,
-                    hiitLogger,
-                ),
+                StickyFooterArrangement(gridPadding),
             horizontalArrangement = Arrangement.spacedBy(gridPadding),
         ) {
             items(viewState.statistics.size) {
