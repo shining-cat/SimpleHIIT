@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.domain.session.usecases
 
+import androidx.annotation.VisibleForTesting
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
@@ -20,64 +21,43 @@ class ComposeExercisesListForSessionUseCase
             selectedExerciseTypes: List<ExerciseType>,
         ): List<Exercise> =
             withContext(defaultDispatcher) {
-                val exercisesOfSelectedTypesSourceList =
-                    listOfExercisesOfSelectedTypes(selectedExerciseTypes)
-                val exercisesSourceList = exercisesOfSelectedTypesSourceList.toMutableList()
+                hiitLogger.d(
+                    tag = "ComposeExercisesListForSessionUseCase",
+                    msg =
+                        "execute::START: numberOfWorkPeriodsPerCycle = $numberOfWorkPeriodsPerCycle" +
+                            " numberOfCycles = $numberOfCycles selectedExerciseTypes = $selectedExerciseTypes",
+                )
                 val wantedNumberOfExercises = numberOfWorkPeriodsPerCycle * numberOfCycles
-                while (wantedNumberOfExercises > numberOfAvailableExercises(exercisesSourceList)) {
-                    hiitLogger.d(
-                        tag = "ComposeExercisesListForSessionUseCase",
-                        msg =
-                            "execute:: requested a list for $numberOfCycles cycles of $numberOfWorkPeriodsPerCycle " +
-                                "work periods, for a total of $wantedNumberOfExercises exercises," +
-                                " when selected list contains ${exercisesSourceList.size}." +
-                                " Adding the whole pack of exercises again in list to pick from",
+
+                val exercisesSourceList =
+                    buildSourceListForSelectedTypes(
+                        selectedExerciseTypes,
+                        wantedNumberOfExercises,
                     )
-                    // TODO: display warning in presentation layer for exercises duplication
-                    exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
-                }
                 //
-                val listOfExercises = mutableListOf<Exercise>()
-                while (listOfExercises.size < wantedNumberOfExercises) {
+                val resultListOfExercises = mutableListOf<Exercise>()
+                while (resultListOfExercises.size < wantedNumberOfExercises) {
+                    // we loop on types to ensure variety of resulting list:
                     pickLoop@ for (type in selectedExerciseTypes) {
-                        // order of exercises types set in ExerciseType is what will determine order in session
-                        val exercisesForType =
-                            if (listOfExercises.size == wantedNumberOfExercises - 1) {
-                                if (exercisesSourceList.none { !it.asymmetrical }) {
-                                    hiitLogger.d(
-                                        tag = "ComposeExercisesListForSessionUseCase",
-                                        msg =
-                                            "only one spot left, but all remaining exercises in available list are asymmetrical" +
-                                                "-> adding whole pack one last time to allow for the last picking to not block the loop",
-                                    )
-                                    // only one spot left, but all remaining exercises in available list are asymmetrical
-                                    // adding whole pack one last time to allow for the last picking to not block the loop
-                                    exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
-                                }
-                                // only one spot left, we need to pick a non-asymmetrical exercise
-                                hiitLogger.d(
-                                    tag = "ComposeExercisesListForSessionUseCase",
-                                    msg = "only one spot left, we need to pick a non-asymmetrical exercise",
-                                )
-                                exercisesSourceList.filter { it.exerciseType == type && !it.asymmetrical }
-                            } else {
-                                exercisesSourceList.filter { it.exerciseType == type }
-                            }
-                        // if no exercise for this type is left (or if the only one left for a single spot is an asymmetrical), skip this type and continue to next one
-                        if (exercisesForType.isEmpty()) {
-                            hiitLogger.d(
-                                tag = "ComposeExercisesListForSessionUseCase",
-                                msg = "skipped",
+                        hiitLogger.d(
+                            tag = "ComposeExercisesListForSessionUseCase",
+                            msg = "Loop:: picking type: $type",
+                        )
+                        val pickingListForType =
+                            buildPickingListForOneType(
+                                typeToPick = type,
+                                isLastExerciseToPick = resultListOfExercises.size == wantedNumberOfExercises - 1,
+                                exercisesSourceList = exercisesSourceList,
+                                lastPickedExercise = resultListOfExercises.lastOrNull(),
                             )
-                            continue@pickLoop
-                        }
-                        val exercisePicked = exercisesForType.random()
-                        // remove exercise from source list to limit repetition
+                        // pick a random exercise in the prepared list
+                        val exercisePicked = pickingListForType.random()
+                        // remove exercise from source list to limit repetition, if the exercise was picked from a fresh list, it won't be present so calling remove will just do nothing
                         exercisesSourceList.remove(exercisePicked)
-                        listOfExercises.add(exercisePicked)
+                        resultListOfExercises.add(exercisePicked)
                         // add asymmetrical exercises twice as they have to be done once for each side
-                        if (exercisePicked.asymmetrical) listOfExercises.add(exercisePicked)
-                        if (listOfExercises.size == wantedNumberOfExercises) {
+                        if (exercisePicked.asymmetrical) resultListOfExercises.add(exercisePicked)
+                        if (resultListOfExercises.size == wantedNumberOfExercises) {
                             // we have reached the expected number of exercises: stop looping
                             break@pickLoop
                         }
@@ -87,19 +67,94 @@ class ComposeExercisesListForSessionUseCase
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
                         "execute::DONE::expected: ${numberOfWorkPeriodsPerCycle * numberOfCycles}, " +
-                            "size is ${listOfExercises.size} -- list = $listOfExercises",
+                            "size is ${resultListOfExercises.size} -- list = $resultListOfExercises",
                 )
-                listOfExercises.toList()
+                resultListOfExercises.toList()
             }
 
-        private fun listOfExercisesOfSelectedTypes(selectedExerciseTypes: List<ExerciseType>): List<Exercise> =
-            Exercise.entries.filter { selectedExerciseTypes.contains(it.exerciseType) }
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun buildSourceListForSelectedTypes(
+            selectedExerciseTypes: List<ExerciseType>,
+            wantedNumberOfExercises: Int,
+        ): MutableList<Exercise> {
+            val exercisesOfSelectedTypesSourceList =
+                Exercise.entries.filter { selectedExerciseTypes.contains(it.exerciseType) }
 
-        private fun numberOfAvailableExercises(exercisesList: List<Exercise>): Int {
+            val exercisesSourceList = exercisesOfSelectedTypesSourceList.toMutableList()
+            // todo: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
+            while (wantedNumberOfExercises > numberOfAvailableExercises(exercisesSourceList)) {
+                hiitLogger.d(
+                    tag = "ComposeExercisesListForSessionUseCase",
+                    msg =
+                        "buildSourceListForSelectedTypes:: build a list for a total of $wantedNumberOfExercises exercises," +
+                            " when selected list contains ${exercisesSourceList.size}." +
+                            " -> Adding the whole pack of exercises again in source list to pick from",
+                )
+                // TODO: display warning in presentation layer for exercises duplication
+                exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
+            }
+            return exercisesSourceList
+        }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun numberOfAvailableExercises(exercisesList: List<Exercise>): Int {
             val numberOfAsymmetricalExercises = exercisesList.filter { it.asymmetrical }.size
             val numberOfSymmetricalExercises = exercisesList.filter { !it.asymmetrical }.size
             val realTotalNumberOfAvailableExercises =
                 numberOfSymmetricalExercises.plus(2.times(numberOfAsymmetricalExercises))
             return realTotalNumberOfAvailableExercises
         }
+
+        @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+        fun buildPickingListForOneType(
+            typeToPick: ExerciseType,
+            isLastExerciseToPick: Boolean,
+            exercisesSourceList: MutableList<Exercise>,
+            lastPickedExercise: Exercise?,
+        ): List<Exercise> =
+            if (isLastExerciseToPick) {
+                // we're picking the last item
+                hiitLogger.d(
+                    tag = "ComposeExercisesListForSessionUseCase",
+                    msg =
+                        "buildPickingListForType::preparing picking list for last exercise of type: $typeToPick," +
+                            " it has to be symmetrical and different from the last picked one",
+                )
+                exercisesSourceList
+                    .filter { it.exerciseType == typeToPick && it != lastPickedExercise && !it.asymmetrical }
+                    .ifEmpty {
+                        hiitLogger.e(
+                            tag = "ComposeExercisesListForSessionUseCase",
+                            msg =
+                                "buildPickingListForType::filtering for last item to pick" +
+                                    " is an empty list, returning a fresh filtered list",
+                        )
+                        Exercise.entries.filter {
+                            it.exerciseType == typeToPick &&
+                                !it.asymmetrical &&
+                                it != lastPickedExercise
+                        }
+                    }
+            } else {
+                hiitLogger.d(
+                    tag = "ComposeExercisesListForSessionUseCase",
+                    msg =
+                        "buildPickingListForType::preparing picking list for exercise" +
+                            " of type: $typeToPick, it has to be different from the last picked one",
+                )
+                exercisesSourceList
+                    .filter { it.exerciseType == typeToPick && it != lastPickedExercise }
+                    .ifEmpty {
+                        hiitLogger.e(
+                            tag = "ComposeExercisesListForSessionUseCase",
+                            msg =
+                                "buildPickingListForType::filtering for an item to pick" +
+                                    " is an empty list, returning a fresh filtered list",
+                        )
+                        Exercise.entries.filter {
+                            it.exerciseType == typeToPick &&
+                                it != lastPickedExercise
+                        }
+                    }
+            }
     }

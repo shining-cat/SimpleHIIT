@@ -84,22 +84,29 @@ class BuildSessionUseCase
                 }
                 for ((index, exercise) in exercisesList.withIndex()) {
                     // we're not checking the asymmetrical attribute here as it has already been taking into consideration while building this exercisesList by adding asymmetrical exercises twice.
+                    // we have to check the asymmetrical attribute first in case a non-asymmetrical exercise has been added twice in a row by picking into the same list several times (when we need more exercises than the selected ones contain)
                     val stepExerciseSide =
-                        when (exercise) {
-                            exercisesList.getOrNull(index - 1) -> {
-                                // if previous exercise was the same, then we are handling an asymmetrical for the second side
-                                AsymmetricalExerciseSideOrder.SECOND.side
-                            }
+                        if (exercise.asymmetrical) {
+                            when (exercise) {
+                                exercisesList.getOrNull(index - 1) -> {
+                                    // if previous exercise was the same, then we are handling an asymmetrical for the second side
+                                    AsymmetricalExerciseSideOrder.SECOND.side
+                                }
 
-                            exercisesList.getOrNull(index + 1) -> {
-                                // if next exercise will be the same, then we are handling an asymmetrical for the first side
-                                AsymmetricalExerciseSideOrder.FIRST.side
-                            }
+                                exercisesList.getOrNull(index + 1) -> {
+                                    // if next exercise will be the same, then we are handling an asymmetrical for the first side
+                                    AsymmetricalExerciseSideOrder.FIRST.side
+                                }
 
-                            else -> { // otherwise we are handling a symmetrical exercise
-                                ExerciseSide.NONE
+                                else -> { // this should not happen
+                                    hiitLogger.e("BuildSessionStepsList", "Error while identifying asymmetrical exercises")
+                                    ExerciseSide.NONE
+                                }
                             }
+                        } else { // symmetrical exercise
+                            ExerciseSide.NONE
                         }
+
                     //
                     val remainingExercisesAfterStep = totalSteps.minus(index).minus(1)
                     val restStepDurationFormatted =
