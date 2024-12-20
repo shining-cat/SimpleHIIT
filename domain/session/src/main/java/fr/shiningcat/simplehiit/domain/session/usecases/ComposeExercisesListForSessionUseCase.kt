@@ -24,7 +24,8 @@ class ComposeExercisesListForSessionUseCase
                 hiitLogger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
-                        "execute::START: numberOfWorkPeriodsPerCycle = $numberOfWorkPeriodsPerCycle numberOfCycles = $numberOfCycles selectedExerciseTypes = $selectedExerciseTypes",
+                        "execute::START: numberOfWorkPeriodsPerCycle = $numberOfWorkPeriodsPerCycle" +
+                            " numberOfCycles = $numberOfCycles selectedExerciseTypes = $selectedExerciseTypes",
                 )
                 val wantedNumberOfExercises = numberOfWorkPeriodsPerCycle * numberOfCycles
 

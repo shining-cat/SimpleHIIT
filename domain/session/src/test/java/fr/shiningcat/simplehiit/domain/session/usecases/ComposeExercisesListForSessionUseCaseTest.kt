@@ -34,7 +34,8 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val numberOfWorkPeriodsPerCycle =
                 Random.nextInt(
                     1,
-                    exercisesForSelectedTypesAvailable.div(2), // leave some margin to ensure maxNumberOfCyclesForTest is larger than 0
+                    // leave some margin to ensure maxNumberOfCyclesForTest is larger than 0
+                    exercisesForSelectedTypesAvailable.div(2),
                 ) // thus we should always have at least 1 cycle
             // now we want to do tests for when there are enough exercises for the total number requested
             val maxNumberOfCyclesForTest =
@@ -126,13 +127,15 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val previousExercise = result.getOrNull(index - 1)
             if (checkingAsymmetricalInAPair) {
                 assertTrue(exercise.asymmetrical) {
-                    "previous exercise $previousExercise was first asymmetrical in an expected pair but this one is not: $exercise"
+                    "previous exercise $previousExercise was first asymmetrical in an expected pair" +
+                        " but this one is not: $exercise"
                 }
             }
             if (exercise.asymmetrical) {
                 if (checkingAsymmetricalInAPair) {
                     assertTrue(exercise == previousExercise) {
-                        "previous exercise $previousExercise was first asymmetrical in an expected pair but this one does not match: $exercise"
+                        "previous exercise $previousExercise was first asymmetrical in an expected" +
+                            " pair but this one does not match: $exercise"
                     }
                     checkingAsymmetricalInAPair = false
                 } else {
