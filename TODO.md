@@ -28,7 +28,7 @@
 
 ## General technical improvements
 
-* ensure val window = (view.context as Activity).window in HomeScreen runs no risk of mistyping and crashing
+* Improve StatusBar tinting and remove the need for deprecated window.statusBarColor=Color. See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7
 * connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?
 * provide previews with a placeholder where gifs can't be rendered,
