@@ -12,8 +12,8 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
 
         dependencies {
             val bom = libs.findLibrary("androidx.compose.bom").get()
-            add("implementation", platform(bom))
-            add("androidTestImplementation", platform(bom))
+            add(configurationName = "implementation", dependencyNotation = platform(bom))
+            add(configurationName = "androidTestImplementation", dependencyNotation = platform(bom))
         }
     }
 }
