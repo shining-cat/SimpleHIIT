@@ -67,6 +67,7 @@ check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/
 
 ## Miscellaneous / nice to have
 
+* update readme, lots of changes have made it a bit obsolete... maybe aim for a lot simpler version
 * design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.

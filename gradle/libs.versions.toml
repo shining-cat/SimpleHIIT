@@ -1,37 +1,32 @@
 [versions]
-agp = "8.7.1"
-javapoet = "1.13.0"
-# kgp has to be kept in sync with kotlinCompilerExtension version below. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
-kgp = "2.0.20"
-# this has to be kept in sync with kotlin-gradle-plugin version (kgp above). See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility:
-kotlinComposeCompiler = "1.5.15"
-ksp = "2.0.20-1.0.25"
-ktlintComposeRuleset = "0.4.16"
-ktlintGradlePlugin = "12.1.1"
+agp = "8.8.0"
+kgp = "2.1.10"
+ksp = "2.1.10-1.0.29"
+ktlintComposeRuleset = "0.4.22"
+ktlintGradlePlugin = "12.1.2"
 dependencyGraphPlugin = "0.12"
-dependencyUpdatePlugin = "0.51.0"
-gmazzoJacocoReportAggregation = "2.2.1"
-hilt = "2.52"
+dependencyUpdatePlugin = "0.52.0"
+gmazzoJacocoReportAggregation = "2.3.1"
+hilt = "2.55"
 room = "2.6.1"
-mockk = "1.13.13"
+mockk = "1.13.16"
 junit = "1.2.1"
-jupiter = "5.11.2"
+jupiter = "5.11.4"
 testRunner = "1.6.2"
 archCoreTest = "2.2.0"
-jetBrainsCoroutinesTest = "1.9.0"
+jetBrainsCoroutinesTest = "1.10.1"
 appCompat = "1.7.0"
-datastore = "1.1.1"
+datastore = "1.1.2"
 material = "1.12.0"
 # see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
-lifecycleProcess = "2.8.6"
-coil = "2.7.0"
+lifecycleProcess = "2.8.7"
 glide = "1.0.0-beta01"
-composeBom = "2024.09.03"
-composeNavigation = "2.8.2"
+composeBom = "2025.01.01"
+composeNavigation = "2.8.6"
 composeNavigationHilt = "1.2.0"
 tvMaterial = "1.0.0"
 # see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements:
-tvFoundation = "1.0.0-alpha11"
+tvFoundation = "1.0.0-alpha12"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
@@ -69,7 +64,6 @@ dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compil
 # Glide
 glide = {module="com.github.bumptech.glide:compose", version.ref = "glide"}
 # Misc
-javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
 ktlint-compose-ruleset = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeRuleset" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "jupiter" }
