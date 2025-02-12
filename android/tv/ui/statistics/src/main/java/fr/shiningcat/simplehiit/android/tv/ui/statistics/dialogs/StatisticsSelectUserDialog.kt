@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,8 +25,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import androidx.tv.foundation.lazy.grid.TvGridCells
-import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
@@ -77,8 +77,8 @@ fun StatisticsSelectUserDialog(
                 val gridHeight =
                     2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1)
 
-                TvLazyVerticalGrid(
-                    columns = TvGridCells.Fixed(numberOfColumns),
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(numberOfColumns),
                     modifier = Modifier.height(gridHeight),
                     verticalArrangement = Arrangement.spacedBy(spacing),
                     horizontalArrangement = Arrangement.spacedBy(spacing),

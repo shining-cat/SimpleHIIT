@@ -9,6 +9,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,10 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.grid.TvGridCells
-import androidx.tv.foundation.lazy.grid.TvGridItemSpan
-import androidx.tv.foundation.lazy.grid.TvLazyGridItemSpanScope
-import androidx.tv.foundation.lazy.grid.TvLazyVerticalGrid
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
@@ -61,15 +61,15 @@ fun StatisticsNominalContent(
         val gridPadding = 16.dp
         // this is to avoid dropped shadow of the first row to be clipped:
         val forcedTopMargin = 8.dp
-        val doubleSpan: (TvLazyGridItemSpanScope) -> TvGridItemSpan = {
-            TvGridItemSpan(columnsCount)
+        val doubleSpan: (LazyGridItemSpanScope) -> GridItemSpan = {
+            GridItemSpan(columnsCount)
         }
-        TvLazyVerticalGrid(
+        LazyVerticalGrid(
             modifier =
                 Modifier
                     .padding(8.dp)
                     .fillMaxSize(),
-            columns = TvGridCells.Fixed(2),
+            columns = GridCells.Fixed(2),
             verticalArrangement =
                 StickyFooterArrangement(gridPadding),
             horizontalArrangement = Arrangement.spacedBy(gridPadding),

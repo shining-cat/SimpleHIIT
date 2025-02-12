@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -22,7 +23,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import androidx.tv.foundation.lazy.list.TvLazyColumn
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
@@ -72,7 +72,7 @@ fun SettingsNominalContent(
         }
     }
 
-    TvLazyColumn(
+    LazyColumn(
         modifier =
             Modifier
                 .padding(horizontal = 16.dp)
@@ -230,24 +230,24 @@ private fun SettingsNominalContentPreviewPhonePortrait(
 
 internal class SettingsNominalContentPreviewParameterProvider : PreviewParameterProvider<SettingsViewState.Nominal> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

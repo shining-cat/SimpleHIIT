@@ -1,10 +1,7 @@
 [versions]
-agp = "8.7.1"
+agp = "8.7.3"
 javapoet = "1.13.0"
-# kgp has to be kept in sync with kotlinCompilerExtension version below. See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility
 kgp = "2.0.20"
-# this has to be kept in sync with kotlin-gradle-plugin version (kgp above). See https://developer.android.com/jetpack/androidx/releases/compose-kotlin for kotlin and compose compile version compatibility:
-kotlinComposeCompiler = "1.5.15"
 ksp = "2.0.20-1.0.25"
 ktlintComposeRuleset = "0.4.16"
 ktlintGradlePlugin = "12.1.1"
@@ -20,18 +17,18 @@ testRunner = "1.6.2"
 archCoreTest = "2.2.0"
 jetBrainsCoroutinesTest = "1.9.0"
 appCompat = "1.7.0"
-datastore = "1.1.1"
+datastore = "1.1.2"
 material = "1.12.0"
 # see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
-lifecycleProcess = "2.8.6"
+lifecycleProcess = "2.8.7"
 coil = "2.7.0"
 glide = "1.0.0-beta01"
-composeBom = "2024.09.03"
-composeNavigation = "2.8.2"
+composeBom = "2025.01.01"
+composeNavigation = "2.8.6"
 composeNavigationHilt = "1.2.0"
 tvMaterial = "1.0.0"
 # see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements:
-tvFoundation = "1.0.0-alpha11"
+tvFoundation = "1.0.0-alpha12"
 
 [libraries]
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
