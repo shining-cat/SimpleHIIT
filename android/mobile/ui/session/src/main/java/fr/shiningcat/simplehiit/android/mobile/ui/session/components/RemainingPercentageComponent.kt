@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -37,13 +38,16 @@ fun RemainingPercentageComponent(
             style = MaterialTheme.typography.titleLarge,
         )
         LinearProgressIndicator(
+            progress = { percentage },
             modifier =
                 Modifier
                     .height(thickness)
                     .fillMaxWidth(),
-            progress = percentage,
             color = MaterialTheme.colorScheme.secondary,
-            trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
+            strokeCap = StrokeCap.Butt,
+            gapSize = 0.dp,
+            drawStopIndicator = {},
         )
     }
 }

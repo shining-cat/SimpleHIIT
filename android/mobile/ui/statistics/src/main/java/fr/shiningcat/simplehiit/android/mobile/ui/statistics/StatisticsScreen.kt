@@ -151,12 +151,12 @@ private fun StatisticsScreenPreviewPhonePortrait(
 
 @Preview(
     showSystemUi = true,
-    device = Devices.TABLET,
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
     showSystemUi = true,
-    device = Devices.TABLET,
+    device = "spec:width=1280dp,height=800dp,dpi=240",
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
