@@ -13,7 +13,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 /**
  * This will load and display a DrawableRes as a Gif, and play it in loop
  * @param gifResId: the gif resource pointer
- * @param mirrored: whether to reverse the display along the left-right middle axis
+ * @param mirrored: whether to reverse the display along the vertical middle axis
  */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
