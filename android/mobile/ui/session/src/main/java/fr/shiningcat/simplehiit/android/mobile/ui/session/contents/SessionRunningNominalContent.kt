@@ -133,10 +133,12 @@ fun HorizontalSessionRunningNominalContent(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         ExerciseDisplayComponent(
-            modifier = Modifier.weight(1f)
-                .height(availableHeight.dp)
-                .aspectRatio(1f)
-                .align(Alignment.CenterVertically),
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .height(availableHeight.dp)
+                    .aspectRatio(1f)
+                    .align(Alignment.CenterVertically),
             exercise = exercise,
             exerciseSide = exerciseSide,
             countDown = countDown,
