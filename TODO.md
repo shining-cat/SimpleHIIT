@@ -3,6 +3,7 @@
 ## Missing features / issues
 
 * session running screen issue when it does not fit vertically on mobile phone screen... should it scroll or be constrained?
+* small scren horizontal user selection should be a list to allow for more room to read users' names
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface

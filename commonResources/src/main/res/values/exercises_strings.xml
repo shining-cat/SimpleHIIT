@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--Cat-->
-    <string name="exercise_cat_bird_dogs">Cat : Crossed Arm and Leg Lift</string>
-    <string name="exercise_cat_knee_and_elbow_pressup">Cat : Press Up From Knees and Elbows</string>
-    <string name="exercise_cat_knee_pushup">Cat : Push-Up on the Knees</string>
-    <string name="exercise_cat_back_leg_lift">Cat : Extended Backward Leg Lift</string>
-    <string name="exercise_cat_donkey_kick_twist">Cat : Donkey Kick Twist</string>
+    <string name="exercise_cat_bird_dogs">Cat: Crossed Arm and Leg Lift</string>
+    <string name="exercise_cat_knee_and_elbow_pressup">Cat: Press Up From Knees and Elbows</string>
+    <string name="exercise_cat_knee_pushup">Cat: Push-Up on the Knees</string>
+    <string name="exercise_cat_back_leg_lift">Cat: Extended Backward Leg Lift</string>
+    <string name="exercise_cat_donkey_kick_twist">Cat: Donkey Kick Twist</string>
     <!--Crab-->
-    <string name="exercise_crab_advanced_bridge">Crab : Advanced Bridge</string>
-    <string name="exercise_crab_bridge_twist">Crab : Bridge Twist</string>
-    <string name="exercise_crab_kicks">Crab : Kicks</string>
-    <string name="exercise_crab_toe_touches">Crab : Toes Touches</string>
-    <string name="exercise_crab_single_leg_triceps_dips">Crab : Single Leg Triceps Dips</string>
+    <string name="exercise_crab_advanced_bridge">Crab: Advanced Bridge</string>
+    <string name="exercise_crab_bridge_twist">Crab: Bridge Twist</string>
+    <string name="exercise_crab_kicks">Crab: Kicks</string>
+    <string name="exercise_crab_toe_touches">Crab: Toes Touches</string>
+    <string name="exercise_crab_single_leg_triceps_dips">Crab: Single Leg Triceps Dips</string>
     <!--Lunges-->
-    <string name="exercise_lunge_alternate_front_raise">Lunges : Alternate to the Front Raising Arms in Front</string>
-    <string name="exercise_lunge_alternate_side_touch">Lunges : Alternate to the Side Touching Toes</string>
-    <string name="exercise_lunge_arms_cross_side">Lunges : Alternate to the Side Crossing Arms</string>
-    <string name="exercise_lunge_alternate_curtsy">Lunges : Alternate Cursty</string>
-    <string name="exercise_lunge_twist">Lunges : Alternate and Twist Arms Extended to the Front</string>
-    <string name="exercise_lunge_basic">Lunges : Alternate to the Front</string>
-    <string name="exercise_lunge_shoulders_squeeze_reverse">Lunges : Alternate to the Back Squeezing Shoulder Blades</string>
-    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Lunges : Alternate Curtsy and Raising One Extended Leg to the Side and Opposite Extended Arm</string>
-    <string name="exercise_lunge_curtsy_side_kick">Lunges : Alternate Curtsy and High Kick to the Side One Leg</string>
-    <string name="exercise_lunge_front_and_back">Lunges : Alternate Front and Back One Leg</string>
-    <string name="exercise_lunge_back_kick">Lunges : Alternate Lunge and Back Kick One Leg</string>
-    <string name="exercise_lunge_front_kick">Lunges : Alternate Lunge and Front Kick One Leg</string>
-    <string name="exercise_lunge_side_to_curtsy">Lunges : Alternate Lunge to the Side and Curtsy One Leg</string>
-    <string name="exercise_lunge_side">Lunges : Side Lunge One Leg</string>
-    <string name="exercise_lunge_split_squat">Lunges : Split Squat One Leg</string>
+    <string name="exercise_lunge_alternate_front_raise">Lunges: Alternate to the Front Raising Arms in Front</string>
+    <string name="exercise_lunge_alternate_side_touch">Lunges: Alternate to the Side Touching Toes</string>
+    <string name="exercise_lunge_arms_cross_side">Lunges: Alternate to the Side Crossing Arms</string>
+    <string name="exercise_lunge_alternate_curtsy">Lunges: Alternate Cursty</string>
+    <string name="exercise_lunge_twist">Lunges: Alternate and Twist Arms Extended to the Front</string>
+    <string name="exercise_lunge_basic">Lunges: Alternate to the Front</string>
+    <string name="exercise_lunge_shoulders_squeeze_reverse">Lunges: Alternate to the Back Squeezing Shoulder Blades</string>
+    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Lunges: Alternate Curtsy and Raising One Extended Leg to the Side and Opposite Extended Arm</string>
+    <string name="exercise_lunge_curtsy_side_kick">Lunges: Alternate Curtsy and High Kick to the Side One Leg</string>
+    <string name="exercise_lunge_front_and_back">Lunges: Alternate Front and Back One Leg</string>
+    <string name="exercise_lunge_back_kick">Lunges: Alternate Lunge and Back Kick One Leg</string>
+    <string name="exercise_lunge_front_kick">Lunges: Alternate Lunge and Front Kick One Leg</string>
+    <string name="exercise_lunge_side_to_curtsy">Lunges: Alternate Lunge to the Side and Curtsy One Leg</string>
+    <string name="exercise_lunge_side">Lunges: Side Lunge One Leg</string>
+    <string name="exercise_lunge_split_squat">Lunges: Split Squat One Leg</string>
     <!--Lying-->
-    <string name="exercise_lying_dead_bug">Lying : The Dead Bug</string>
-    <string name="exercise_lying_reverse_crunches">Lying : Reverse Crunches</string>
-    <string name="exercise_lying_scissor_kicks">Lying : Scissor Kicks</string>
-    <string name="exercise_lying_star_toe_touch_sit_up">Lying : Star to Toe Touch Sit Ups</string>
-    <string name="exercise_lying_superman_twist">Lying : Superman Twist</string>
-    <string name="exercise_lying_side_leg_lift">Lying : Side Leg Lift One Side</string>
+    <string name="exercise_lying_dead_bug">Lying: The Dead Bug</string>
+    <string name="exercise_lying_reverse_crunches">Lying: Reverse Crunches</string>
+    <string name="exercise_lying_scissor_kicks">Lying: Scissor Kicks</string>
+    <string name="exercise_lying_star_toe_touch_sit_up">Lying: Star to Toe Touch Sit Ups</string>
+    <string name="exercise_lying_superman_twist">Lying: Superman Twist</string>
+    <string name="exercise_lying_side_leg_lift">Lying: Side Leg Lift One Side</string>
     <!--Planks-->
-    <string name="exercise_plank_mountain_climber_twist">Planks : Mountain climber twist</string>
-    <string name="exercise_plank_mountain_climber">Planks : Mountain climber</string>
-    <string name="exercise_plank_bird_dogs">Planks : Bird and Dog</string>
-    <string name="exercise_plank_shoulder_tap">Planks : Shoulder tap</string>
-    <string name="exercise_plank_reverse_leg_raise">Planks : Reverse Leg raise</string>
-    <string name="exercise_plank_spiderman">Planks : Spiderman</string>
-    <string name="exercise_plank_knee_to_elbow_kickback">Planks : Knee to elbow kickback</string>
-    <string name="exercise_plank_side_arm_rotation">Planks : Side rotation</string>
+    <string name="exercise_plank_mountain_climber_twist">Planks: Mountain climber twist</string>
+    <string name="exercise_plank_mountain_climber">Planks: Mountain climber</string>
+    <string name="exercise_plank_bird_dogs">Planks: Bird and Dog</string>
+    <string name="exercise_plank_shoulder_tap">Planks: Shoulder tap</string>
+    <string name="exercise_plank_reverse_leg_raise">Planks: Reverse Leg raise</string>
+    <string name="exercise_plank_spiderman">Planks: Spiderman</string>
+    <string name="exercise_plank_knee_to_elbow_kickback">Planks: Knee to elbow kickback</string>
+    <string name="exercise_plank_side_arm_rotation">Planks: Side rotation</string>
     <!--Sitting-->
-    <string name="exercise_sitting_boat_twist">Sitting : Lifted Feet Twist Extended Arms to the Sides</string>
-    <string name="exercise_sitting_knee_hugs">Sitting : Knee Hugs</string>
-    <string name="exercise_sitting_rope_climb_crunches">Sitting : Rope Climbing Crunches</string>
-    <string name="exercise_sitting_touch_floor_twist">Sitting : Feet on the Floor Twist and Touch Ground on the Sides</string>
-    <string name="exercise_sitting_knee_tucks">Sitting : Hands on the Floor Fold and Extend Legs</string>
-    <string name="exercise_sitting_twist_bicycle">Sitting : Twist Upper Body While Cycling in the Air</string>
+    <string name="exercise_sitting_boat_twist">Sitting: Lifted Feet Twist Extended Arms to the Sides</string>
+    <string name="exercise_sitting_knee_hugs">Sitting: Knee Hugs</string>
+    <string name="exercise_sitting_rope_climb_crunches">Sitting: Rope Climbing Crunches</string>
+    <string name="exercise_sitting_touch_floor_twist">Sitting: Feet on the Floor Twist and Touch Ground on the Sides</string>
+    <string name="exercise_sitting_knee_tucks">Sitting: Hands on the Floor Fold and Extend Legs</string>
+    <string name="exercise_sitting_twist_bicycle">Sitting: Twist Upper Body While Cycling in the Air</string>
     <!--Squat-->
-    <string name="exercise_squat_boxer_punch">Squat : Boxer Punch</string>
-    <string name="exercise_squat_cossack">Squat : The Cossack</string>
-    <string name="exercise_squat_half_cross_jab">Squat : Static and Cross Jab Punches</string>
-    <string name="exercise_squat_kick_back">Squat : Alternate Squat and Kickback</string>
-    <string name="exercise_squat_overhead_triceps_extension">Squat : Alternate Squat and Overhead Triceps Extension</string>
-    <string name="exercise_squat_basic">Squat : Basic Squat</string>
-    <string name="exercise_squat_sumo">Squat : The Sumo</string>
-    <string name="exercise_squat_baseball_bat_hit">Squat : Alternate Squat and Hit Baseball Bat to one Side</string>
+    <string name="exercise_squat_boxer_punch">Squat: Boxer Punch</string>
+    <string name="exercise_squat_cossack">Squat: The Cossack</string>
+    <string name="exercise_squat_half_cross_jab">Squat: Static and Cross Jab Punches</string>
+    <string name="exercise_squat_kick_back">Squat: Alternate Squat and Kickback</string>
+    <string name="exercise_squat_overhead_triceps_extension">Squat: Alternate Squat and Overhead Triceps Extension</string>
+    <string name="exercise_squat_basic">Squat: Basic Squat</string>
+    <string name="exercise_squat_sumo">Squat: The Sumo</string>
+    <string name="exercise_squat_baseball_bat_hit">Squat: Alternate Squat and Hit Baseball Bat to one Side</string>
     <!--Standing-->
-    <string name="exercise_standing_bent_over_twist">Standing : Alternate Standing Arms Extended to the Sides and Twist to Touch Opposite Foot</string>
-    <string name="exercise_standing_touch_feet_jacks">Standing : Alternate Raising Foot to Touch with Opposite Hand</string>
-    <string name="exercise_standing_kick_crunches">Standing : Alternate Raise Extended Leg to the Front and Touching Foot with Opposite Hand</string>
-    <string name="exercise_standing_skater">Standing : The Skater</string>
-    <string name="exercise_standing_skating_windmill">Standing : Alternate Skate Touching Floor and Standing Tall</string>
-    <string name="exercise_standing_criss_cross_crunches">Standing : Standing Tall Hands on the Neck Raise a Knee to Touch Opposite Elbow</string>
-    <string name="exercise_standing_mountain_climber">Standing : The Mountain Climber</string>
-    <string name="exercise_standing_balance_chops">Standing : "Knee to the Face" One Side </string>
+    <string name="exercise_standing_bent_over_twist">Standing: Alternate Standing Arms Extended to the Sides and Twist to Touch Opposite Foot</string>
+    <string name="exercise_standing_touch_feet_jacks">Standing: Alternate Raising Foot to Touch with Opposite Hand</string>
+    <string name="exercise_standing_kick_crunches">Standing: Alternate Raise Extended Leg to the Front and Touching Foot with Opposite Hand</string>
+    <string name="exercise_standing_skater">Standing: The Skater</string>
+    <string name="exercise_standing_skating_windmill">Standing: Alternate Skate Touching Floor and Standing Tall</string>
+    <string name="exercise_standing_criss_cross_crunches">Standing: Standing Tall Hands on the Neck Raise a Knee to Touch Opposite Elbow</string>
+    <string name="exercise_standing_mountain_climber">Standing: The Mountain Climber</string>
+    <string name="exercise_standing_balance_chops">Standing: "Knee to the Face" One Side </string>
 
 </resources>
