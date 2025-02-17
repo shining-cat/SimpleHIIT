@@ -1,15 +1,23 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -77,7 +85,8 @@ fun VerticalSessionRunningNominalContent(
         modifier =
             Modifier
                 .padding(8.dp)
-                .fillMaxWidth(),
+                .fillMaxSize(),
+        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ExerciseDisplayComponent(
@@ -86,7 +95,6 @@ fun VerticalSessionRunningNominalContent(
                     .fillMaxWidth()
                     .padding(horizontal = 8.dp, vertical = 24.dp),
             exercise = exercise,
-            periodType = periodType,
             exerciseSide = exerciseSide,
             countDown = countDown,
             hiitLogger = hiitLogger,
@@ -111,28 +119,33 @@ fun HorizontalSessionRunningNominalContent(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
+    hiitLogger?.d("HorizontalSessionRunningNominalContent", "ready")
+    var availableHeight by remember { mutableStateOf(0) }
     Row(
         modifier =
             Modifier
                 .padding(8.dp)
-                .fillMaxWidth(),
+                .fillMaxSize()
+                .onGloballyPositioned { coordinates ->
+                    availableHeight = coordinates.size.height
+                    hiitLogger?.d("ExerciseDisplayComponent", "availableHeight = $availableHeight")
+                },
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         ExerciseDisplayComponent(
             modifier =
                 Modifier
                     .weight(1f)
-                    .fillMaxHeight(),
+                    .height(availableHeight.dp)
+                    .aspectRatio(1f)
+                    .align(Alignment.CenterVertically),
             exercise = exercise,
-            periodType = periodType,
             exerciseSide = exerciseSide,
             countDown = countDown,
             hiitLogger = hiitLogger,
         )
         RunningSessionStepInfoDisplayComponent(
-            modifier =
-                Modifier
-                    .weight(1f)
-                    .fillMaxHeight(),
+            modifier = Modifier.weight(1f),
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
@@ -157,6 +170,32 @@ fun HorizontalSessionRunningNominalContent(
 )
 @Composable
 private fun SessionRunningNominalContentPreviewPhonePortrait(
+    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
+) {
+    SimpleHiitMobileTheme {
+        Surface {
+            SessionRunningNominalContent(
+                uiArrangement = UiArrangement.VERTICAL,
+                viewState = viewState,
+            )
+        }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    device = "spec:width=400dp,height=700dp,dpi=240",
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+    widthDp = 400,
+)
+@Preview(
+    showSystemUi = true,
+    device = "spec:width=400dp,height=700dp,dpi=240",
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    widthDp = 400,
+)
+@Composable
+private fun SessionRunningNominalContentPreviewSmallPhonePortrait(
     @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
     SimpleHiitMobileTheme {
@@ -235,7 +274,7 @@ internal class SessionRunningNominalContentPreviewParameterProvider : PreviewPar
                 ),
                 SessionViewState.RunningNominal(
                     periodType = RunningSessionStepType.WORK,
-                    displayedExercise = Exercise.LungesSideToCurtsy,
+                    displayedExercise = Exercise.SquatBasic,
                     side = AsymmetricalExerciseSideOrder.SECOND.side,
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .02f,

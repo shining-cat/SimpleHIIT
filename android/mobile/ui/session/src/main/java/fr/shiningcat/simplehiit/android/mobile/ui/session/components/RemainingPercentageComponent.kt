@@ -29,7 +29,7 @@ fun RemainingPercentageComponent(
     bicolor: Boolean,
 ) {
     Column(
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.spacedBy(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
@@ -44,7 +44,7 @@ fun RemainingPercentageComponent(
                     .height(thickness)
                     .fillMaxWidth(),
             color = MaterialTheme.colorScheme.secondary,
-            trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
+            trackColor = if (bicolor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onBackground,
             strokeCap = StrokeCap.Butt,
             gapSize = 0.dp,
             drawStopIndicator = {},
@@ -71,8 +71,7 @@ private fun RemainingPercentageComponentPreview() {
                 RemainingPercentageComponent(
                     modifier =
                         Modifier
-                            .padding(horizontal = 64.dp)
-                            .height(100.dp),
+                            .padding(horizontal = 16.dp),
                     label = "Next exercise in 3s",
                     percentage = .3f,
                     thickness = 8.dp,
@@ -81,8 +80,7 @@ private fun RemainingPercentageComponentPreview() {
                 RemainingPercentageComponent(
                     modifier =
                         Modifier
-                            .padding(horizontal = 64.dp)
-                            .height(100.dp),
+                            .padding(horizontal = 16.dp),
                     label = "Next rest in 23s",
                     percentage = .8f,
                     thickness = 8.dp,
@@ -91,8 +89,7 @@ private fun RemainingPercentageComponentPreview() {
                 RemainingPercentageComponent(
                     modifier =
                         Modifier
-                            .padding(horizontal = 64.dp)
-                            .height(100.dp),
+                            .padding(horizontal = 16.dp),
                     label = "Total remaining: 20mn 37s",
                     percentage = .79f,
                     thickness = 16.dp,
