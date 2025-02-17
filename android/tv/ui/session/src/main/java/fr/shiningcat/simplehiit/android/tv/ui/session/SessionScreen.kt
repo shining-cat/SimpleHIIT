@@ -5,7 +5,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,6 +20,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NavigationDrawer
@@ -87,8 +87,8 @@ fun SessionScreen(
         }
     }
     //
-    val screenViewState by viewModel.screenViewState.collectAsState()
-    val dialogViewState by viewModel.dialogViewState.collectAsState()
+    val screenViewState by viewModel.screenViewState.collectAsStateWithLifecycle()
+    val dialogViewState by viewModel.dialogViewState.collectAsStateWithLifecycle()
     //
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },

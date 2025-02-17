@@ -10,7 +10,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -92,8 +92,8 @@ fun SessionScreen(
         }
     }
     //
-    val screenViewState by viewModel.screenViewState.collectAsState()
-    val dialogViewState by viewModel.dialogViewState.collectAsState()
+    val screenViewState by viewModel.screenViewState.collectAsStateWithLifecycle()
+    val dialogViewState by viewModel.dialogViewState.collectAsStateWithLifecycle()
     //
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },

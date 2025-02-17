@@ -11,7 +11,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
@@ -22,6 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -50,8 +50,8 @@ fun HomeScreen(
             seconds = stringResource(id = R.string.seconds_short),
         )
     viewModel.init(durationsFormatter)
-    val viewState = viewModel.screenViewState.collectAsState().value
-    val dialogViewState = viewModel.dialogViewState.collectAsState().value
+    val viewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
+    val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
     HomeScreen(
         navigateTo = navigateTo,
