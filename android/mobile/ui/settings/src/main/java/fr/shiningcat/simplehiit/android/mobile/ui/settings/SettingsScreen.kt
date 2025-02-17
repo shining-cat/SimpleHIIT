@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -15,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
@@ -46,8 +46,8 @@ fun SettingsScreen(
             seconds = stringResource(id = R.string.seconds_short),
         )
     viewModel.init(durationsFormatter)
-    val screenViewState = viewModel.screenViewState.collectAsState().value
-    val dialogViewState = viewModel.dialogViewState.collectAsState().value
+    val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
+    val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
     SettingsScreen(
         navigateTo = navigateTo,

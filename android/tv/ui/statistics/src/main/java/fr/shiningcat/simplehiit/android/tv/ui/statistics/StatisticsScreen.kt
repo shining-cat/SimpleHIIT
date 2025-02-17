@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
@@ -12,6 +11,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
@@ -42,8 +42,8 @@ fun StatisticsScreen(
         )
     viewModel.init(durationsFormatter)
     //
-    val screenViewState = viewModel.screenViewState.collectAsState().value
-    val dialogViewState = viewModel.dialogViewState.collectAsState().value
+    val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
+    val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
     StatisticsScreen(
         navigateTo = navigateTo,
