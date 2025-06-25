@@ -16,7 +16,9 @@ testRunner = "1.6.2"
 archCoreTest = "2.2.0"
 jetBrainsCoroutinesTest = "1.10.2"
 appCompat = "1.7.1"
-datastore = "1.1.7"
+# using the 1.2 alpha instead of 1.1.7 to avoid unit tests crashing on Windows. see https://issuetracker.google.com/issues/244807661?pli=1
+# unit tests still failing, let's see if they pass on the CI and on macOS
+datastore = "1.2.0-alpha02"
 material = "1.12.0"
 # see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
 lifecycleProcess = "2.9.1"
