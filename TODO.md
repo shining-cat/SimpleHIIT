@@ -2,6 +2,7 @@
 
 ## Missing features / issues
 
+* enable edge-to-edge and fixes
 * session running screen issue when it does not fit vertically on mobile phone screen... should it scroll or be constrained?
 * small scren horizontal user selection should be a list to allow for more room to read users' names
 * TV: exercise display in session running screen is messed up, components positions are all wrong
@@ -18,7 +19,7 @@
 
 ## Assets production
 
-* refine statistics cards design and find/create icons for each
+[//]: # (* refine statistics cards design and find/create icons for each)
     * longest streak: icon of a cup and a calendar showing checked days
     * current streak: icon of a calendar showing checked days - IF current streak == longest, switch
       to same icon as longest streak to make it more clear
