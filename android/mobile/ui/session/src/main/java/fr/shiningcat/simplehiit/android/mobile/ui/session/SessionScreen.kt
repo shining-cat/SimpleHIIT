@@ -16,8 +16,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -26,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
@@ -34,7 +33,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.session.components.SessionSide
 import fr.shiningcat.simplehiit.android.mobile.ui.session.contents.SessionContentHolder
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
@@ -47,16 +45,6 @@ fun SessionScreen(
     viewModel: SessionViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
-    val durationsFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-            seconds = stringResource(id = R.string.seconds_short),
-        )
-    viewModel.init(durationsFormatter)
     // Handling the sound loading in the viewModel's soundPool:
     if (viewModel.noSoundLoadingRequestedYet) {
         hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")

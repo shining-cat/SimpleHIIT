@@ -32,6 +32,7 @@ class SessionViewModel
         private val mapper: SessionViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val timeProvider: TimeProvider,
+        private val durationStringFormatter: DurationStringFormatter,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
         private val _screenViewState =
@@ -41,8 +42,6 @@ class SessionViewModel
         val dialogViewState = _dialogViewState.asStateFlow()
 
         //
-        private var isInitialized = false
-        private var durationStringFormatter = DurationStringFormatter()
         private var session: Session? = null
         private var currentSessionStepIndex = 0
         private var stepTimerJob: Job? = null
@@ -51,32 +50,27 @@ class SessionViewModel
         var noSoundLoadingRequestedYet = true
 
         //
-        fun init(durationStringFormatter: DurationStringFormatter) {
-            if (!isInitialized) {
-                hiitLogger.d("SessionViewModel", "initializing")
-                this.durationStringFormatter = durationStringFormatter
-                //
-                setUpSoundPool()
+        init {
+            hiitLogger.d("SessionViewModel", "initializing")
+            //
+            setUpSoundPool()
+            hiitLogger.d(
+                "SessionViewModel",
+                "soundPool created, awaiting sound to be loaded to proceed",
+            )
+            soundPool?.setOnLoadCompleteListener { _, _, _ ->
                 hiitLogger.d(
                     "SessionViewModel",
-                    "soundPool created, awaiting sound to be loaded to proceed",
+                    "sound loaded in soundPool, proceeding with SessionViewModel initialization...",
                 )
-                soundPool?.setOnLoadCompleteListener { _, _, _ ->
-                    hiitLogger.d(
-                        "SessionViewModel",
-                        "sound loaded in soundPool, proceeding with SessionViewModel initialization...",
-                    )
-                    setupTicker()
-                    //
-                    retrieveSettingsAndProceed()
-                }
+                setupTicker()
+                //
+                retrieveSettingsAndProceed()
             }
-            //
-            isInitialized = true
         }
 
         private fun setUpSoundPool() {
-            // This SoundPool is hosted in the ViewModel to shield it from recomposition events
+            // This SoundPool is hoisted in the ViewModel to shield it from recomposition events
             soundPool =
                 SoundPool
                     .Builder()
@@ -351,7 +345,6 @@ class SessionViewModel
 
         override fun onCleared() {
             super.onCleared()
-            isInitialized = false
             noSoundLoadingRequestedYet = true
             hiitLogger.d("SessionViewModel", "onCleared::cancelling stepTimerJob")
             stepTimerJob?.cancel()
