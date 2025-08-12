@@ -37,7 +37,7 @@ fun RemainingPercentageComponent(
         Text(
             text = label,
             style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         LinearProgressIndicator(
             progress = { percentage },
