@@ -27,15 +27,7 @@ import java.util.stream.Stream
 internal class SessionViewStateMapperTest : AbstractMockkTest() {
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
-    private val durationStringFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = "",
-            hoursMinutesNoSeconds = "",
-            hoursNoMinutesNoSeconds = "",
-            minutesSeconds = "",
-            minutesNoSeconds = "",
-            seconds = "",
-        )
+    private val durationStringFormatter = DurationStringFormatter()
 
     @BeforeEach
     fun setUpMock() {

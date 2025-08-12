@@ -1,13 +1,13 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.components.GifImage
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -37,7 +37,7 @@ fun ExerciseDisplayComponent(
         )
         if (countDown != null) {
             CountDownComponent(
-                size = 48.dp,
+                baseSize = 48.dp,
                 countDown = countDown,
                 hiitLogger = hiitLogger,
             )
@@ -46,12 +46,8 @@ fun ExerciseDisplayComponent(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
 @Composable
 private fun ExerciseDisplayComponentPreview() {
     SimpleHiitMobileTheme {

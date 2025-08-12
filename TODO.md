@@ -30,7 +30,8 @@
 
 ## General technical improvements
 
-* upgrade to androidx.navigation3 (in alpha as of Aug.25) see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
+* upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
+* extract all dimensions to res dimen
 * Improve StatusBar tinting and remove the need for deprecated window.statusBarColor=Color. See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7
 * connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?

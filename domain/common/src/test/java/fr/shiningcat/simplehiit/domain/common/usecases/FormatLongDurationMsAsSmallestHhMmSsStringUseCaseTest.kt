@@ -29,10 +29,10 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
     ) {
         val durationsFormatter =
             DurationStringFormatter(
-                hoursMinutesSeconds = "%1\$dh %2$02dmn %3$02ds",
-                hoursMinutesNoSeconds = "%1\$dh %2$02dmn",
+                hoursMinutesSeconds = "%1\$dh\u00A0%2$02dmn\u00A0%3$02ds",
+                hoursMinutesNoSeconds = "%1\$dh\u00A0%2$02dmn",
                 hoursNoMinutesNoSeconds = "%1\$dh",
-                minutesSeconds = "%1\$dmn %2\$02ds",
+                minutesSeconds = "%1\$dmn\u00A0%2\$02ds",
                 minutesNoSeconds = "%1\$dmn",
                 seconds = "%ds",
             )
@@ -71,15 +71,15 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(32000L, "32s"),
                 Arguments.of(180000L, "3mn"),
                 Arguments.of(780000L, "13mn"),
-                Arguments.of(124000L, "2mn 04s"),
-                Arguments.of(103000L, "1mn 43s"),
+                Arguments.of(124000L, "2mn\u00A004s"),
+                Arguments.of(103000L, "1mn\u00A043s"),
                 Arguments.of(3600000L, "1h"),
                 Arguments.of(57600000L, "16h"),
-                Arguments.of(46825000L, "13h 00mn 25s"),
-                Arguments.of(7380000L, "2h 03mn"),
-                Arguments.of(13500000L, "3h 45mn"),
-                Arguments.of(11045000L, "3h 04mn 05s"),
-                Arguments.of(443096000L, "123h 04mn 56s"),
+                Arguments.of(46825000L, "13h\u00A000mn\u00A025s"),
+                Arguments.of(7380000L, "2h\u00A003mn"),
+                Arguments.of(13500000L, "3h\u00A045mn"),
+                Arguments.of(11045000L, "3h\u00A004mn\u00A005s"),
+                Arguments.of(443096000L, "123h\u00A004mn\u00A056s"),
             )
     }
 }
