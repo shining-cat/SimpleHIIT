@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.google.material)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.lifecycle)
