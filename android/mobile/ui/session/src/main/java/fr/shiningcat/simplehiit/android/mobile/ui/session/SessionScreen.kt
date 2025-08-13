@@ -141,6 +141,7 @@ fun SessionScreen(
                     navigateUp,
                 )
         }
+    // manually building layout instead of using native Scaffold to get more flexibility:
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             SessionSideBarComponent(

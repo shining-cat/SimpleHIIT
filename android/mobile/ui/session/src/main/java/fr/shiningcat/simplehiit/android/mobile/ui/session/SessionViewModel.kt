@@ -34,6 +34,7 @@ class SessionViewModel
         private val soundPool: SoundPool,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
+        //
         private val _screenViewState =
             MutableStateFlow<SessionViewState>(SessionViewState.Loading)
         val screenViewState = _screenViewState.asStateFlow()

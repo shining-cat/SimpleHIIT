@@ -95,27 +95,6 @@ class SessionViewStateMapper
                             sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                             countDown = periodCountDown,
                         )
-                /*
-                                is SessionStep.RestStep -> SessionViewState.RestNominal(
-                                    nextExercise = currentStep.exercise,
-                                    side = currentStep.side,
-                                    restRemainingTime = stepRemainingFormatted,
-                                    restRemainingPercentage = stepRemainingPercentage,
-                                    sessionRemainingTime = sessionRemainingFormatted,
-                                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
-                                    countDown = periodCountDown,
-                                )
-
-                                is SessionStep.WorkStep -> SessionViewState.WorkNominal(
-                                    currentExercise = currentStep.exercise,
-                                    side = currentStep.side,
-                                    exerciseRemainingTime = stepRemainingFormatted,
-                                    exerciseRemainingPercentage = stepRemainingPercentage,
-                                    sessionRemainingTime = sessionRemainingFormatted,
-                                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
-                                    countDown = periodCountDown,
-                                )
-                 */
                 }
             }
     }
