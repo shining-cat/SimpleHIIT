@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.SideBarItem
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
@@ -27,11 +28,12 @@ fun SessionNavigationSideBar(
     onBackButtonClick: () -> Unit = {},
     @StringRes backButtonLabel: Int,
 ) {
+    val adaptedWidth = adaptDpToFontScale(160.dp)
     Column(
         modifier =
             Modifier
                 .fillMaxHeight()
-                .width(160.dp)
+                .width(adaptedWidth)
                 .background(MaterialTheme.colorScheme.primary)
                 .padding(16.dp),
     ) {

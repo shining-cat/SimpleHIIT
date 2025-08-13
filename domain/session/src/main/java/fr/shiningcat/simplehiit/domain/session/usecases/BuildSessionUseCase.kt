@@ -3,7 +3,6 @@ package fr.shiningcat.simplehiit.domain.session.usecases
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.Session
@@ -22,10 +21,7 @@ class BuildSessionUseCase
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
     ) {
-        suspend fun execute(
-            sessionSettings: SessionSettings,
-            durationStringFormatter: DurationStringFormatter,
-        ): Session =
+        suspend fun execute(sessionSettings: SessionSettings): Session =
             withContext(defaultDispatcher) {
                 val totalSessionLengthMs =
                     sessionSettings.cycleLengthMs
@@ -39,7 +35,6 @@ class BuildSessionUseCase
                         workPeriodLengthMs = sessionSettings.workPeriodLengthMs,
                         periodsStartCountDownLengthMs = sessionSettings.periodsStartCountDownLengthMs,
                         sessionStartCountDownLengthMs = sessionSettings.sessionStartCountDownLengthMs,
-                        durationStringFormatter = durationStringFormatter,
                     )
                 Session(
                     steps = steps,
@@ -66,7 +61,6 @@ class BuildSessionUseCase
             workPeriodLengthMs: Long,
             periodsStartCountDownLengthMs: Long,
             sessionStartCountDownLengthMs: Long,
-            durationStringFormatter: DurationStringFormatter,
         ): List<SessionStep> =
             withContext(defaultDispatcher) {
                 val allSteps = mutableListOf<SessionStep>()
@@ -99,7 +93,10 @@ class BuildSessionUseCase
                                 }
 
                                 else -> { // this should not happen
-                                    hiitLogger.e("BuildSessionStepsList", "Error while identifying asymmetrical exercises")
+                                    hiitLogger.e(
+                                        "BuildSessionStepsList",
+                                        "Error while identifying asymmetrical exercises",
+                                    )
                                     ExerciseSide.NONE
                                 }
                             }
@@ -111,13 +108,11 @@ class BuildSessionUseCase
                     val remainingExercisesAfterStep = totalSteps.minus(index).minus(1)
                     val restStepDurationFormatted =
                         formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                            restPeriodLengthMs,
-                            durationStringFormatter,
+                            durationMs = restPeriodLengthMs,
                         )
                     val workStepDurationFormatter =
                         formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                            workPeriodLengthMs,
-                            durationStringFormatter,
+                            durationMs = workPeriodLengthMs,
                         )
                     val remainingSessionDurationMsAfterRest =
                         (remainingExercisesAfterStep.plus(1)).times(workPeriodLengthMs) +

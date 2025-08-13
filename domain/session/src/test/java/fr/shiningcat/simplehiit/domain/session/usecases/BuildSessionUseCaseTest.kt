@@ -1,7 +1,6 @@
 package fr.shiningcat.simplehiit.domain.session.usecases
 
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
@@ -31,22 +30,12 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
     private val mockComposeExercisesListForSessionUseCase =
         mockk<ComposeExercisesListForSessionUseCase>()
-    private val durationStringFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = "",
-            hoursMinutesNoSeconds = "",
-            hoursNoMinutesNoSeconds = "",
-            minutesSeconds = "",
-            minutesNoSeconds = "",
-            seconds = "",
-        )
 
     @BeforeEach
     fun setUpMock() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                any(),
-                any(),
+                durationMs = any(),
             )
         } returns MOCK_DURATION_STRING
     }
@@ -67,29 +56,27 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
             )
         coEvery {
             mockComposeExercisesListForSessionUseCase.execute(
-                any(),
-                any(),
-                any(),
+                numberOfWorkPeriodsPerCycle = any(),
+                numberOfCycles = any(),
+                selectedExerciseTypes = any(),
             )
         } returns exercisesList
         val result =
             testedUseCase.execute(
                 sessionSettings,
-                durationStringFormatter = durationStringFormatter,
             )
         //
         coVerify(exactly = 1) {
             mockComposeExercisesListForSessionUseCase.execute(
-                sessionSettings.numberOfWorkPeriods,
-                sessionSettings.numberCumulatedCycles,
-                any(),
+                numberOfWorkPeriodsPerCycle = sessionSettings.numberOfWorkPeriods,
+                numberOfCycles = sessionSettings.numberCumulatedCycles,
+                selectedExerciseTypes = any(),
             )
         }
         val expectedNumberOfCalls = exercisesList.size.times(2)
         coVerify(exactly = expectedNumberOfCalls) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                any(),
-                any(),
+                durationMs = any(),
             )
         }
         val expectedStepsNumber =

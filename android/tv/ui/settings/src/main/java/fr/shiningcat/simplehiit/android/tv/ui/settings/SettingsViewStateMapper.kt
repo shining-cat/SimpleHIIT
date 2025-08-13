@@ -5,8 +5,8 @@ import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState.Nominal
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -17,17 +17,14 @@ class SettingsViewStateMapper
         private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
         private val hiitLogger: HiitLogger,
     ) {
-        fun map(
-            generalSettingsOutput: Output<GeneralSettings>,
-            durationStringFormatter: DurationStringFormatter,
-        ): SettingsViewState =
+        fun map(generalSettingsOutput: Output<GeneralSettings>): SettingsViewState =
             when (generalSettingsOutput) {
                 is Output.Success<GeneralSettings> -> {
                     val generalSettings = generalSettingsOutput.result
                     val cycleLengthDisplay =
                         formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                            generalSettings.cycleLengthMs,
-                            durationStringFormatter,
+                            durationMs = generalSettings.cycleLengthMs,
+                            formatStyle = DurationFormatStyle.SHORT,
                         )
                     // these other values are only displayed as seconds to the user, as we don't expect any other format to be relevant
                     val workPeriodLengthAsSeconds =

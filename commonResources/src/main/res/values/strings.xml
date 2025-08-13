@@ -130,6 +130,12 @@
     <string name="exercise_type_lying">Lying</string>
 
     <!-- DURATION DISPLAY FORMATTING STRINGS-->
+    <string name="hours_minutes_seconds_digits">%1$02d:%2$02d:%3$02d</string>
+    <string name="hours_minutes_no_seconds_digits">%1$02d:%2$02d:%3$02d</string>
+    <string name="hours_no_minutes_no_seconds_digits">%1$02d:%2$02d:%3$02d</string>
+    <string name="minutes_seconds_digits">%1$02d:%2$02d</string>
+    <string name="minutes_no_seconds_digits">%1$02d:%2$02d</string>
+    <string name="seconds_digits">%02d</string>
     <string name="hours_minutes_seconds_short">%1$dh\u00A0%2$02dmn\u00A0%3$02ds</string>
     <string name="hours_minutes_no_seconds_short">%1$dh\u00A0%2$02dmn</string>
     <string name="hours_no_minutes_no_seconds_short">%1$dh</string>

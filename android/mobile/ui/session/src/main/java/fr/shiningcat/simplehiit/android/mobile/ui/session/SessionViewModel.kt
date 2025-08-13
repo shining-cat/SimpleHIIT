@@ -9,12 +9,12 @@ import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,7 +30,6 @@ class SessionViewModel
         private val mapper: SessionViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val timeProvider: TimeProvider,
-        private val durationStringFormatter: DurationStringFormatter,
         private val soundPool: SoundPool,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
@@ -111,7 +110,6 @@ class SessionViewModel
                             session =
                                 sessionInteractor.buildSession(
                                     sessionSettings = sessionSettingsResult,
-                                    durationStringFormatter = durationStringFormatter,
                                 )
                             launchSession()
                         }
@@ -171,7 +169,6 @@ class SessionViewModel
                                 session = immutableSession,
                                 currentSessionStepIndex = currentSessionStepIndex,
                                 currentStepTimerState = stepTimerState,
-                                durationStringFormatter = durationStringFormatter,
                             )
                         maybePlayBeepSound(currentState = currentState)
                         _screenViewState.emit(currentState)
@@ -247,8 +244,8 @@ class SessionViewModel
                     )
                     val actualSessionLengthFormatted =
                         sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(
-                            actualSessionLength,
-                            durationStringFormatter,
+                            durationMs = actualSessionLength,
+                            formatStyle = DurationFormatStyle.SHORT,
                         )
                     val workingStepsDoneDisplay =
                         workingStepsDone.map {

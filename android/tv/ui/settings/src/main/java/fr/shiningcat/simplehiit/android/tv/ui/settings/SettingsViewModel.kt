@@ -7,7 +7,6 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,12 +33,12 @@ class SettingsViewModel
 
         private var isInitialized = false
 
-        fun init(durationStringFormatter: DurationStringFormatter) {
+        fun init() {
             if (!isInitialized) {
                 viewModelScope.launch(context = mainDispatcher) {
                     settingsInteractor.getGeneralSettings().collect {
                         _screenViewState.emit(
-                            mapper.map(it, durationStringFormatter),
+                            mapper.map(it),
                         )
                     }
                 }

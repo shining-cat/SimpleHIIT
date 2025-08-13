@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common.usecases
 
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
@@ -9,7 +9,30 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractMockkTest() {
-    private val testedUseCase = FormatLongDurationMsAsSmallestHhMmSsStringUseCase(mockHiitLogger)
+    private val durationsFormatterShort =
+        DurationStringFormatter(
+            hoursMinutesSeconds = "%1\$dh\u00A0%2$02dmn\u00A0%3$02ds",
+            hoursMinutesNoSeconds = "%1\$dh\u00A0%2$02dmn",
+            hoursNoMinutesNoSeconds = "%1\$dh",
+            minutesSeconds = "%1\$dmn\u00A0%2\$02ds",
+            minutesNoSeconds = "%1\$dmn",
+            seconds = "%ds",
+        )
+    private val durationsFormatterDigits =
+        DurationStringFormatter(
+            hoursMinutesSeconds = "%1$02d:%2$02d:%3$02d",
+            hoursMinutesNoSeconds = "%1$02d:%2$02d:%3$02d",
+            hoursNoMinutesNoSeconds = "%1$02d:%2$02d:%3$02d",
+            minutesSeconds = "%1$02d:%2$02d",
+            minutesNoSeconds = "%1$02d:%2$02d",
+            seconds = "%02d",
+        )
+    private val testedUseCase =
+        FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
+            durationStringFormatterDigits = durationsFormatterDigits,
+            durationStringFormatterShort = durationsFormatterShort,
+            hiitLogger = mockHiitLogger,
+        )
 
     @ParameterizedTest(name = "{index} -> {0} should become {1}")
     @MethodSource("convertLongToStringArguments")
@@ -17,7 +40,21 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
         inputDurationMs: Long,
         expectedOutput: String,
     ) {
-        val result = testedUseCase.execute(inputDurationMs, DurationStringFormatter())
+        val result = testedUseCase.execute(durationMs = inputDurationMs)
+        assertEquals(expectedOutput, result)
+    }
+
+    @ParameterizedTest(name = "{index} -> {0} should become {1}")
+    @MethodSource("convertLongToStringArguments")
+    fun `returns correctly formatted string with digits formatting options`(
+        inputDurationMs: Long,
+        expectedOutput: String,
+    ) {
+        val result =
+            testedUseCase.execute(
+                durationMs = inputDurationMs,
+                formatStyle = DurationFormatStyle.DIGITS_ONLY,
+            )
         assertEquals(expectedOutput, result)
     }
 
@@ -27,19 +64,10 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
         inputDurationMs: Long,
         expectedOutput: String,
     ) {
-        val durationsFormatter =
-            DurationStringFormatter(
-                hoursMinutesSeconds = "%1\$dh\u00A0%2$02dmn\u00A0%3$02ds",
-                hoursMinutesNoSeconds = "%1\$dh\u00A0%2$02dmn",
-                hoursNoMinutesNoSeconds = "%1\$dh",
-                minutesSeconds = "%1\$dmn\u00A0%2\$02ds",
-                minutesNoSeconds = "%1\$dmn",
-                seconds = "%ds",
-            )
         val result =
             testedUseCase.execute(
-                inputDurationMs,
-                durationsFormatter,
+                durationMs = inputDurationMs,
+                formatStyle = DurationFormatStyle.SHORT,
             )
         assertEquals(expectedOutput, result)
     }

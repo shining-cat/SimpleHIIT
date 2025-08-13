@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.common
+package fr.shiningcat.simplehiit.android.common.ui.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalDensity

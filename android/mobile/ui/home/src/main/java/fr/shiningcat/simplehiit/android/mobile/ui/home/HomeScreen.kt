@@ -14,7 +14,6 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -27,9 +26,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSi
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
@@ -40,16 +37,7 @@ fun HomeScreen(
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val durationsFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-            seconds = stringResource(id = R.string.seconds_short),
-        )
-    viewModel.init(durationsFormatter)
+    viewModel.init()
     val viewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //

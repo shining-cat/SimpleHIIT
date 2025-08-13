@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.session
 
-import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -10,30 +9,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.tv.material3.ExperimentalTvMaterial3Api
-import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NavigationDrawer
-import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.components.SessionNavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.session.contents.SessionContentHolder
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
-import fr.shiningcat.simplehiit.domain.common.models.Exercise
-import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
-import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 
 @Composable
 fun SessionScreen(
@@ -42,28 +28,11 @@ fun SessionScreen(
     viewModel: SessionViewModel = hiltViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
-    val durationsFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-            seconds = stringResource(id = R.string.seconds_short),
-        )
-    viewModel.init(durationsFormatter)
     // Handling the sound loading in the viewModel's soundPool:
-    if (viewModel.noSoundLoadingRequestedYet) {
+    if (viewModel.isSoundLoaded().not()) {
         hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
         // we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
-        val beepSoundLoadedInPool =
-            viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
-        viewModel.noSoundLoadingRequestedYet = false
-        if (beepSoundLoadedInPool == null) {
-            hiitLogger.e("SessionScreen", "beepSoundLoadedInPool is null, no sound will be played")
-        } else {
-            viewModel.setLoadedSound(beepSoundLoadedInPool)
-        }
+        viewModel.getSoundPool()?.load(LocalContext.current, R.raw.sound_beep, 0)
     }
     // Setting up a LifeCycle observer to catch the onPause event of the Android Lifecycle so we can pause the session
     var lifecycleEvent by remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
@@ -102,7 +71,7 @@ fun SessionScreen(
 }
 
 @Composable
-private fun SessionScreen(
+fun SessionScreen(
     navigateUp: () -> Boolean = { true },
     onAbortSession: () -> Unit = {},
     pause: () -> Unit = {},
@@ -182,133 +151,4 @@ private fun SessionScreen(
             hiitLogger = hiitLogger,
         )
     }
-}
-
-// Previews
-@ExperimentalTvMaterial3Api
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun SessionScreenPreviewPhonePortrait(
-    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState,
-) {
-    SimpleHiitTvTheme {
-        Surface(shape = MaterialTheme.shapes.extraSmall) {
-            SessionScreen(
-                dialogViewState = SessionDialog.None,
-                screenViewState = viewState,
-            )
-        }
-    }
-}
-
-internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<SessionViewState> {
-    override val values: Sequence<SessionViewState>
-        get() =
-            sequenceOf(
-                SessionViewState.Loading,
-                SessionViewState.Error("Blabla error code"),
-                SessionViewState.InitialCountDownSession(
-                    countDown =
-                        CountDown(
-                            secondsDisplay = "3",
-                            progress = .5f,
-                            playBeep = true,
-                        ),
-                ),
-                SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.REST,
-                    displayedExercise = Exercise.CatBackLegLift,
-                    side = ExerciseSide.RIGHT,
-                    stepRemainingTime = "25s",
-                    stepRemainingPercentage = .53f,
-                    sessionRemainingTime = "16mn 23s",
-                    sessionRemainingPercentage = .24f,
-                ),
-                SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.REST,
-                    displayedExercise = Exercise.CatBackLegLift,
-                    side = ExerciseSide.RIGHT,
-                    stepRemainingTime = "25s",
-                    stepRemainingPercentage = .53f,
-                    sessionRemainingTime = "16mn 23s",
-                    sessionRemainingPercentage = .24f,
-                    countDown =
-                        CountDown(
-                            secondsDisplay = "3",
-                            progress = .5f,
-                            playBeep = true,
-                        ),
-                ),
-                SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.REST,
-                    displayedExercise = Exercise.CatBackLegLift,
-                    side = ExerciseSide.RIGHT,
-                    stepRemainingTime = "25s",
-                    stepRemainingPercentage = .23f,
-                    sessionRemainingTime = "16mn 23s",
-                    sessionRemainingPercentage = .57f,
-                ),
-                SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.WORK,
-                    displayedExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.NONE,
-                    stepRemainingTime = "3s",
-                    stepRemainingPercentage = .7f,
-                    sessionRemainingTime = "5mn 12s",
-                    sessionRemainingPercentage = .3f,
-                ),
-                SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.WORK,
-                    displayedExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.NONE,
-                    stepRemainingTime = "3s",
-                    stepRemainingPercentage = .7f,
-                    sessionRemainingTime = "5mn 12s",
-                    sessionRemainingPercentage = .3f,
-                    countDown =
-                        CountDown(
-                            secondsDisplay = "5",
-                            progress = 0f,
-                            playBeep = false,
-                        ),
-                ),
-                SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.WORK,
-                    displayedExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.LEFT,
-                    stepRemainingTime = "3s",
-                    stepRemainingPercentage = .5f,
-                    sessionRemainingTime = "5mn 12s",
-                    sessionRemainingPercentage = .2f,
-                ),
-                SessionViewState.Finished(
-                    "16mn",
-                    workingStepsDone =
-                        listOf(
-                            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-                            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-                            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-                            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-                            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-                            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
-                        ),
-                ),
-            )
 }

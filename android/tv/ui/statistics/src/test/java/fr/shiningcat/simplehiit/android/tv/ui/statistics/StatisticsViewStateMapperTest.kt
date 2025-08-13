@@ -2,9 +2,9 @@ package fr.shiningcat.simplehiit.android.tv.ui.statistics
 
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -31,8 +31,8 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
     fun setUpMock() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                any(),
-                any(),
+                durationMs = any(),
+                formatStyle = any(),
             )
         } returns MOCK_DURATION_STRING
     }
@@ -47,19 +47,18 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
             testedMapper.map(
                 showUsersSwitch = input.first,
                 userStats = input.second,
-                durationStringFormatter = DurationStringFormatter(),
             )
         //
         coVerify(exactly = 1) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = input.second.cumulatedTimeOfExerciseMs,
-                durationStringFormatter = DurationStringFormatter(),
+                formatStyle = DurationFormatStyle.SHORT,
             )
         }
         coVerify(exactly = 1) {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs = input.second.averageSessionLengthMs,
-                durationStringFormatter = DurationStringFormatter(),
+                formatStyle = DurationFormatStyle.SHORT,
             )
         }
         assertEquals(expectedOutput, result)
@@ -81,11 +80,13 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
             testedMapper.map(
                 showUsersSwitch = showUsersSwitch,
                 userStats = input,
-                durationStringFormatter = DurationStringFormatter(),
             )
         //
         coVerify(exactly = 0) {
-            mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any())
+            mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                durationMs = any(),
+                formatStyle = any(),
+            )
         }
         assertEquals(expectedOutput, result)
     }

@@ -1,19 +1,28 @@
 package fr.shiningcat.simplehiit.domain.common.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
+import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
+import fr.shiningcat.simplehiit.domain.common.di.DigitsFormat
+import fr.shiningcat.simplehiit.domain.common.di.ShortFormat
 import java.util.MissingFormatArgumentException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
+enum class DurationFormatStyle {
+    DIGITS_ONLY,
+    SHORT,
+}
+
 class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
     @Inject
     constructor(
+        @DigitsFormat private val durationStringFormatterDigits: DurationStringFormatter,
+        @ShortFormat private val durationStringFormatterShort: DurationStringFormatter,
         private val hiitLogger: HiitLogger,
     ) {
         /**
          * format a Long duration in Milliseconds to a HMS String
-         * no leading zero, zero smallest units are removed if corresponding string formats are provided
+         * no leading zero, zero smallest units are removed according to provided string formatters
          * examples of formatting:
          * value in MS -> return with provided string formats / return with default values
          * arguments all have default values leading to the basic Hh:Mm:Ss formatting
@@ -22,8 +31,17 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
          **/
         fun execute(
             durationMs: Long,
-            durationStringFormatter: DurationStringFormatter,
+            formatStyle: DurationFormatStyle = DurationFormatStyle.DIGITS_ONLY,
         ): String {
+            hiitLogger.d(
+                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
+                "execute::durationStringFormatterDigits = $durationStringFormatterDigits // durationStringFormatterShort = $durationStringFormatterShort",
+            )
+            val durationStringFormatter =
+                when (formatStyle) {
+                    DurationFormatStyle.DIGITS_ONLY -> durationStringFormatterDigits
+                    DurationFormatStyle.SHORT -> durationStringFormatterShort
+                }
             val hours = TimeUnit.MILLISECONDS.toHours(durationMs)
             val minutes = TimeUnit.MILLISECONDS.toMinutes(durationMs) % 60
             val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMs) % 60
@@ -49,11 +67,24 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
                             }
                         }
                         // ex: 2mn04s / 1mn43s / 23mn52s
-                        else ->
+                        else -> {
+                            hiitLogger.d(
+                                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
+                                "execute::durationStringFormatter.minutesSeconds = ${durationStringFormatter.minutesSeconds}",
+                            )
+                            hiitLogger.d(
+                                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
+                                "execute::minutes = $minutes",
+                            )
+                            hiitLogger.d(
+                                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
+                                "execute::seconds = $seconds",
+                            )
                             durationStringFormatter.minutesSeconds.format(
                                 minutes,
                                 seconds,
                             )
+                        }
                     }
 
                 else ->
