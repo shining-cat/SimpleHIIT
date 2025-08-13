@@ -2,7 +2,8 @@
 
 ## Missing features / issues
 
-* enable edge-to-edge and fixes
+* enable edge-to-edge and fixes (in HomeScreen there is tinting of the status bar that is now
+  deprecated)
 * session running screen issue when it does not fit vertically on mobile phone screen... should it scroll or be constrained?
 * small scren horizontal user selection should be a list to allow for more room to read users' names
 * TV: exercise display in session running screen is messed up, components positions are all wrong
