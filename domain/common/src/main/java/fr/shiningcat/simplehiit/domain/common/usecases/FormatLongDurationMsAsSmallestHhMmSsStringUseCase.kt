@@ -33,10 +33,6 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
             durationMs: Long,
             formatStyle: DurationFormatStyle = DurationFormatStyle.DIGITS_ONLY,
         ): String {
-            hiitLogger.d(
-                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
-                "execute::durationStringFormatterDigits = $durationStringFormatterDigits // durationStringFormatterShort = $durationStringFormatterShort",
-            )
             val durationStringFormatter =
                 when (formatStyle) {
                     DurationFormatStyle.DIGITS_ONLY -> durationStringFormatterDigits
@@ -68,18 +64,6 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
                         }
                         // ex: 2mn04s / 1mn43s / 23mn52s
                         else -> {
-                            hiitLogger.d(
-                                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
-                                "execute::durationStringFormatter.minutesSeconds = ${durationStringFormatter.minutesSeconds}",
-                            )
-                            hiitLogger.d(
-                                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
-                                "execute::minutes = $minutes",
-                            )
-                            hiitLogger.d(
-                                "FormatLongDurationMsAsSmallestHhMmSsStringUseCase",
-                                "execute::seconds = $seconds",
-                            )
                             durationStringFormatter.minutesSeconds.format(
                                 minutes,
                                 seconds,

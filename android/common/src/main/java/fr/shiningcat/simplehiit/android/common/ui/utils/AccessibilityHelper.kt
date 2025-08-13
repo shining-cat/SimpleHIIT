@@ -11,7 +11,7 @@ val minimumTouchSize: Dp = 44.dp
 fun adaptDpToFontScale(
     baseSize: Dp,
     coerceMinSize: Dp? = null,
-    coerceMaxSize: Dp? = null
+    coerceMaxSize: Dp? = null,
 ): Dp {
     val density = LocalDensity.current
     val fontScale = density.fontScale
