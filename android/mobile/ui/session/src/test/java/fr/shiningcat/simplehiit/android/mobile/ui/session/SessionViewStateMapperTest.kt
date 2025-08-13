@@ -2,7 +2,6 @@ package fr.shiningcat.simplehiit.android.mobile.ui.session
 
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState.InitialCountDownSession
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.Session
@@ -27,21 +26,11 @@ import java.util.stream.Stream
 internal class SessionViewStateMapperTest : AbstractMockkTest() {
     private val mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase =
         mockk<FormatLongDurationMsAsSmallestHhMmSsStringUseCase>()
-    private val durationStringFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = "",
-            hoursMinutesNoSeconds = "",
-            hoursNoMinutesNoSeconds = "",
-            minutesSeconds = "",
-            minutesNoSeconds = "",
-            seconds = "",
-        )
 
     @BeforeEach
     fun setUpMock() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                any(),
                 any(),
             )
         } returns MOCK_DURATION_STRING
@@ -66,7 +55,6 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                 session = sessionMapperTestParameter.session,
                 currentSessionStepIndex = sessionMapperTestParameter.currentSessionStepIndex,
                 currentStepTimerState = sessionMapperTestParameter.currentStepTimerState,
-                durationStringFormatter = durationStringFormatter,
             )
         //
         assertEquals(expectedViewStateOutput, result)

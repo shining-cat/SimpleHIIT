@@ -2,10 +2,10 @@ package fr.shiningcat.simplehiit.android.tv.ui.session
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -23,7 +23,6 @@ class SessionViewStateMapper
             session: Session,
             currentSessionStepIndex: Int,
             currentStepTimerState: StepTimerState,
-            durationStringFormatter: DurationStringFormatter,
         ): SessionViewState =
             withContext(defaultDispatcher) {
                 val currentStep = session.steps[currentSessionStepIndex]
@@ -32,7 +31,7 @@ class SessionViewStateMapper
                 val stepRemainingFormatted =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         durationMs = stepRemainingMilliSeconds,
-                        durationStringFormatter = durationStringFormatter,
+                        formatStyle = DurationFormatStyle.DIGITS_ONLY,
                     )
                 val stepRemainingPercentage =
                     stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())
@@ -56,7 +55,7 @@ class SessionViewStateMapper
                 val sessionRemainingFormatted =
                     formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                         durationMs = sessionRemainingMilliSeconds,
-                        durationStringFormatter = durationStringFormatter,
+                        formatStyle = DurationFormatStyle.DIGITS_ONLY,
                     )
                 //
                 when (currentStep) {
@@ -95,27 +94,6 @@ class SessionViewStateMapper
                             sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                             countDown = periodCountDown,
                         )
-                /*
-                                is SessionStep.RestStep -> SessionViewState.RestNominal(
-                                    nextExercise = currentStep.exercise,
-                                    side = currentStep.side,
-                                    restRemainingTime = stepRemainingFormatted,
-                                    restRemainingPercentage = stepRemainingPercentage,
-                                    sessionRemainingTime = sessionRemainingFormatted,
-                                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
-                                    countDown = periodCountDown,
-                                )
-
-                                is SessionStep.WorkStep -> SessionViewState.WorkNominal(
-                                    currentExercise = currentStep.exercise,
-                                    side = currentStep.side,
-                                    exerciseRemainingTime = stepRemainingFormatted,
-                                    exerciseRemainingPercentage = stepRemainingPercentage,
-                                    sessionRemainingTime = sessionRemainingFormatted,
-                                    sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
-                                    countDown = periodCountDown,
-                                )
-                 */
                 }
             }
     }

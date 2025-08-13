@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -36,6 +37,7 @@ fun RemainingPercentageComponent(
         Text(
             text = label,
             style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
         )
         LinearProgressIndicator(
             progress = { percentage },
@@ -53,12 +55,8 @@ fun RemainingPercentageComponent(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
 @Composable
 private fun RemainingPercentageComponentPreview() {
     SimpleHiitMobileTheme {
@@ -81,7 +79,7 @@ private fun RemainingPercentageComponentPreview() {
                     modifier =
                         Modifier
                             .padding(horizontal = 16.dp),
-                    label = "Next rest in 23s",
+                    label = "Next rest in 7mn\u00A023s",
                     percentage = .8f,
                     thickness = 8.dp,
                     bicolor = false,
@@ -90,7 +88,7 @@ private fun RemainingPercentageComponentPreview() {
                     modifier =
                         Modifier
                             .padding(horizontal = 16.dp),
-                    label = "Total remaining: 20mn 37s",
+                    label = "Total remaining: 1h\u00A020mn\u00A037s",
                     percentage = .79f,
                     thickness = 16.dp,
                     bicolor = true,

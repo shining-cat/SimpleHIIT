@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.android.tv.ui.statistics
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import javax.inject.Inject
 
@@ -18,7 +18,6 @@ class StatisticsViewStateMapper
         fun map(
             showUsersSwitch: Boolean,
             userStats: UserStatistics,
-            durationStringFormatter: DurationStringFormatter,
         ): StatisticsViewState {
             if (userStats.totalNumberOfSessions == 0) {
                 return StatisticsViewState.NoSessions(
@@ -29,13 +28,13 @@ class StatisticsViewStateMapper
             //
             val cumulatedTimeOfExerciseFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    userStats.cumulatedTimeOfExerciseMs,
-                    durationStringFormatter,
+                    durationMs = userStats.cumulatedTimeOfExerciseMs,
+                    formatStyle = DurationFormatStyle.SHORT,
                 )
             val averageSessionLengthFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    userStats.averageSessionLengthMs,
-                    durationStringFormatter,
+                    durationMs = userStats.averageSessionLengthMs,
+                    formatStyle = DurationFormatStyle.SHORT,
                 )
             val displayStatistics =
                 listOf(

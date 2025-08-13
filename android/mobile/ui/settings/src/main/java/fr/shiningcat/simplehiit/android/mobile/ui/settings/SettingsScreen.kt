@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -23,7 +22,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.contents.SettingsCont
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -36,16 +34,7 @@ fun SettingsScreen(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
 ) {
-    val durationsFormatter =
-        DurationStringFormatter(
-            hoursMinutesSeconds = stringResource(id = R.string.hours_minutes_seconds_short),
-            hoursMinutesNoSeconds = stringResource(id = R.string.hours_minutes_no_seconds_short),
-            hoursNoMinutesNoSeconds = stringResource(id = R.string.hours_no_minutes_no_seconds_short),
-            minutesSeconds = stringResource(id = R.string.minutes_seconds_short),
-            minutesNoSeconds = stringResource(id = R.string.minutes_no_seconds_short),
-            seconds = stringResource(id = R.string.seconds_short),
-        )
-    viewModel.init(durationsFormatter)
+    viewModel.init()
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //

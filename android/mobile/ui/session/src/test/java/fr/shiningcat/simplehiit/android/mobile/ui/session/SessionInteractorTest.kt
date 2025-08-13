@@ -1,11 +1,11 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session
 
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
@@ -42,7 +42,6 @@ internal class SessionInteractorTest : AbstractMockkTest() {
     private val testFormattedDuration = "formatted duration"
     private val stepTimerState = MutableStateFlow(StepTimerState())
     private val testReturnInt = 123
-    private val testDurationStringFormatter = DurationStringFormatter()
     private val mockSessionRecord = mockk<SessionRecord>()
 
     private val testedInteractor =
@@ -57,11 +56,11 @@ internal class SessionInteractorTest : AbstractMockkTest() {
     @BeforeEach
     fun setUpMock() {
         coEvery { mockGetSessionSettingsUseCase.execute() } answers { settingsFlow }
-        coEvery { mockBuildSessionUseCase.execute(any(), any()) } returns mockSession
+        coEvery { mockBuildSessionUseCase.execute(any()) } returns mockSession
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                any(),
-                any(),
+                durationMs = any(),
+                formatStyle = any(),
             )
         } returns testFormattedDuration
         coEvery { mockStepTimerUseCase.start(any()) } just Runs
@@ -81,11 +80,10 @@ internal class SessionInteractorTest : AbstractMockkTest() {
     fun `calls on interactor buildSession calls BuildSessionUseCase`() =
         runTest(UnconfinedTestDispatcher()) {
             val result =
-                testedInteractor.buildSession(mockSessionSettings, testDurationStringFormatter)
+                testedInteractor.buildSession(mockSessionSettings)
             coVerify(exactly = 1) {
                 mockBuildSessionUseCase.execute(
                     mockSessionSettings,
-                    testDurationStringFormatter,
                 )
             }
             assertEquals(mockSession, result)
@@ -96,13 +94,13 @@ internal class SessionInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             val result =
                 testedInteractor.formatLongDurationMsAsSmallestHhMmSsString(
-                    123L,
-                    testDurationStringFormatter,
+                    durationMs = 123L,
+                    formatStyle = DurationFormatStyle.SHORT,
                 )
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    123L,
-                    testDurationStringFormatter,
+                    durationMs = 123L,
+                    formatStyle = DurationFormatStyle.SHORT,
                 )
             }
             assertEquals(testFormattedDuration, result)

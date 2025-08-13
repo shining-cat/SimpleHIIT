@@ -2,9 +2,9 @@ package fr.shiningcat.simplehiit.android.tv.ui.home
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -30,8 +30,8 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
     fun setUpMock() {
         coEvery {
             mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                any(),
-                any(),
+                durationMs = any(),
+                formatStyle = any(),
             )
         } returns MOCK_DURATION_STRING
     }
@@ -45,25 +45,27 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
         val result =
             testedMapper.map(
                 homeSettingsOutput = input,
-                durationStringFormatter = DurationStringFormatter(),
             )
         //
         if (input is Output.Success) {
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = input.result.cycleLengthMs,
-                    durationStringFormatter = DurationStringFormatter(),
+                    formatStyle = DurationFormatStyle.SHORT,
                 )
             }
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                     durationMs = (input.result.cycleLengthMs.times(input.result.numberCumulatedCycles)),
-                    durationStringFormatter = DurationStringFormatter(),
+                    formatStyle = DurationFormatStyle.SHORT,
                 )
             }
         } else {
             coVerify(exactly = 0) {
-                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(any(), any())
+                mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+                    durationMs = any(),
+                    formatStyle = any(),
+                )
             }
         }
         assertEquals(expectedOutput, result)

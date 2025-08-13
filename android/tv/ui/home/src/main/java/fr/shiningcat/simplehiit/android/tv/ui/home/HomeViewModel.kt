@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,12 +29,12 @@ class HomeViewModel
 
         private var isInitialized = false
 
-        fun init(durationStringFormatter: DurationStringFormatter) {
+        fun init() {
             if (!isInitialized) {
                 viewModelScope.launch(context = mainDispatcher) {
                     homeInteractor.getHomeSettings().collect {
                         _screenViewState.emit(
-                            homeViewStateMapper.map(it, durationStringFormatter),
+                            homeViewStateMapper.map(it),
                         )
                     }
                 }

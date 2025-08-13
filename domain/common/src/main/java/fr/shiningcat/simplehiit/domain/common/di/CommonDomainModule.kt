@@ -19,3 +19,11 @@ object DispatcherModule {
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class TimerDispatcher
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class DigitsFormat
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ShortFormat

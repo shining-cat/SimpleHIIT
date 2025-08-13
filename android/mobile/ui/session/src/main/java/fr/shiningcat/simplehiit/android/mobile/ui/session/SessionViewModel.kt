@@ -1,7 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session
 
-import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.SoundPool
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,12 +9,12 @@ import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,8 +30,10 @@ class SessionViewModel
         private val mapper: SessionViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val timeProvider: TimeProvider,
+        private val soundPool: SoundPool,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
+        //
         private val _screenViewState =
             MutableStateFlow<SessionViewState>(SessionViewState.Loading)
         val screenViewState = _screenViewState.asStateFlow()
@@ -41,70 +41,42 @@ class SessionViewModel
         val dialogViewState = _dialogViewState.asStateFlow()
 
         //
-        private var isInitialized = false
-        private var durationStringFormatter = DurationStringFormatter()
         private var session: Session? = null
         private var currentSessionStepIndex = 0
         private var stepTimerJob: Job? = null
-        private var soundPool: SoundPool? = null
         private var beepSoundLoadedId: Int? = null
-        var noSoundLoadingRequestedYet = true
 
         //
-        fun init(durationStringFormatter: DurationStringFormatter) {
-            if (!isInitialized) {
-                hiitLogger.d("SessionViewModel", "initializing")
-                this.durationStringFormatter = durationStringFormatter
-                //
-                setUpSoundPool()
-                hiitLogger.d(
-                    "SessionViewModel",
-                    "soundPool created, awaiting sound to be loaded to proceed",
-                )
-                soundPool?.setOnLoadCompleteListener { _, _, _ ->
+        init {
+            hiitLogger.d("SessionViewModel", "initializing")
+            //
+            hiitLogger.d(
+                "SessionViewModel",
+                "soundPool created, awaiting sound to be loaded to proceed",
+            )
+            soundPool.setOnLoadCompleteListener { _: SoundPool, sampleId: Int, loadingStatus: Int ->
+                // loading success if status == 0
+                if (loadingStatus == 0) {
+                    this.beepSoundLoadedId = sampleId
                     hiitLogger.d(
                         "SessionViewModel",
                         "sound loaded in soundPool, proceeding with SessionViewModel initialization...",
                     )
-                    setupTicker()
-                    //
-                    retrieveSettingsAndProceed()
+                } else {
+                    hiitLogger.e(
+                        "SessionViewModel",
+                        "SOUND FAILED LOADING IN SOUNDPOOL, proceeding with SessionViewModel initialization...",
+                    )
                 }
+                setupTicker()
+                //
+                retrieveSettingsAndProceed()
             }
-            //
-            isInitialized = true
         }
 
-        private fun setUpSoundPool() {
-            // This SoundPool is hosted in the ViewModel to shield it from recomposition events
-            soundPool =
-                SoundPool
-                    .Builder()
-                    .setMaxStreams(1) // we only ever need to play one sound at a time
-                    .setAudioAttributes(
-                        AudioAttributes
-                            .Builder()
-                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                            .setUsage(AudioAttributes.USAGE_GAME)
-                            .setFlags(AudioAttributes.FLAG_AUDIBILITY_ENFORCED)
-                            .setLegacyStreamType(AudioManager.STREAM_MUSIC)
-                            .build(),
-                    ).build()
-        }
+        fun getSoundPool(): SoundPool? = soundPool
 
-        fun getSoundPool(): SoundPool? {
-            if (soundPool == null) {
-                hiitLogger.e("SessionViewModel", "getSoundPool::no SoundPool found!")
-            }
-            return soundPool
-        }
-
-        fun setLoadedSound(loadedSoundId: Int) {
-            // the sound is loaded from the SessionScreen as we need access to a Context and the raw resources,
-            // but we will need its stream id to play it through the SoundPool
-            hiitLogger.d("SessionViewModel", "setLoadedSound")
-            this.beepSoundLoadedId = loadedSoundId
-        }
+        fun isSoundLoaded() = beepSoundLoadedId != null
 
         private fun setupTicker() {
             viewModelScope.launch(context = mainDispatcher) {
@@ -138,7 +110,6 @@ class SessionViewModel
                             session =
                                 sessionInteractor.buildSession(
                                     sessionSettings = sessionSettingsResult,
-                                    durationStringFormatter = durationStringFormatter,
                                 )
                             launchSession()
                         }
@@ -198,7 +169,6 @@ class SessionViewModel
                                 session = immutableSession,
                                 currentSessionStepIndex = currentSessionStepIndex,
                                 currentStepTimerState = stepTimerState,
-                                durationStringFormatter = durationStringFormatter,
                             )
                         maybePlayBeepSound(currentState = currentState)
                         _screenViewState.emit(currentState)
@@ -231,7 +201,7 @@ class SessionViewModel
                 )
                 return
             }
-            soundPool?.play(loadedSound, 1f, 1f, 0, 0, 1f)
+            soundPool.play(loadedSound, 1f, 1f, 0, 0, 1f)
         }
 
         private fun emitSessionEndState() {
@@ -274,8 +244,8 @@ class SessionViewModel
                     )
                     val actualSessionLengthFormatted =
                         sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(
-                            actualSessionLength,
-                            durationStringFormatter,
+                            durationMs = actualSessionLength,
+                            formatStyle = DurationFormatStyle.SHORT,
                         )
                     val workingStepsDoneDisplay =
                         workingStepsDone.map {
@@ -351,11 +321,9 @@ class SessionViewModel
 
         override fun onCleared() {
             super.onCleared()
-            isInitialized = false
-            noSoundLoadingRequestedYet = true
             hiitLogger.d("SessionViewModel", "onCleared::cancelling stepTimerJob")
             stepTimerJob?.cancel()
             hiitLogger.d("SessionViewModel", "onCleared::releasing SoundPool")
-            soundPool?.release()
+            soundPool.release()
         }
     }

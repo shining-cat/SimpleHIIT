@@ -1,11 +1,11 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session
 
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
@@ -18,14 +18,11 @@ import javax.inject.Inject
 interface SessionInteractor {
     fun getSessionSettings(): Flow<Output<SessionSettings>>
 
-    suspend fun buildSession(
-        sessionSettings: SessionSettings,
-        durationStringFormatter: DurationStringFormatter,
-    ): Session
+    suspend fun buildSession(sessionSettings: SessionSettings): Session
 
     fun formatLongDurationMsAsSmallestHhMmSsString(
         durationMs: Long,
-        durationStringFormatter: DurationStringFormatter,
+        formatStyle: DurationFormatStyle,
     ): String
 
     suspend fun startStepTimer(totalMilliSeconds: Long)
@@ -46,18 +43,15 @@ class SessionInteractorImpl
     ) : SessionInteractor {
         override fun getSessionSettings(): Flow<Output<SessionSettings>> = getSessionSettingsUseCase.execute()
 
-        override suspend fun buildSession(
-            sessionSettings: SessionSettings,
-            durationStringFormatter: DurationStringFormatter,
-        ): Session = buildSessionUseCase.execute(sessionSettings, durationStringFormatter)
+        override suspend fun buildSession(sessionSettings: SessionSettings): Session = buildSessionUseCase.execute(sessionSettings)
 
         override fun formatLongDurationMsAsSmallestHhMmSsString(
             durationMs: Long,
-            durationStringFormatter: DurationStringFormatter,
+            formatStyle: DurationFormatStyle,
         ): String =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
                 durationMs,
-                durationStringFormatter,
+                formatStyle,
             )
 
         override suspend fun startStepTimer(totalMilliSeconds: Long) = stepTimerUseCase.start(totalMilliSeconds)

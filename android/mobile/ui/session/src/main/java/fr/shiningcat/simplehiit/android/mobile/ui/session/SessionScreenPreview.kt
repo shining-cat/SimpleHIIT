@@ -1,151 +1,57 @@
-package fr.shiningcat.simplehiit.android.tv.ui.session.contents
+package fr.shiningcat.simplehiit.android.mobile.ui.session
 
-import android.content.res.Configuration
+import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.tv.material3.ExperimentalTvMaterial3Api
-import androidx.tv.material3.MaterialTheme
-import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ChoiceDialog
-import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionDialog
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
-import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 
+// Previews
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-fun SessionContentHolder(
-    dialogViewState: SessionDialog,
-    screenViewState: SessionViewState,
-    onAbortSession: () -> Unit = {},
-    resume: () -> Unit = {},
-    navigateUp: () -> Boolean = { true },
-    @Suppress("UNUSED_PARAMETER")
-    hiitLogger: HiitLogger? = null,
+fun SessionScreenPreview(
+    @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
-    when (screenViewState) {
-        SessionViewState.Loading -> BasicLoading()
-
-        is SessionViewState.Error ->
-            SessionErrorStateContent(
-                screenViewState = screenViewState,
-                navigateUp = navigateUp,
-                onAbort = onAbortSession,
-                hiitLogger = hiitLogger,
-            )
-
-        is SessionViewState.InitialCountDownSession ->
-            SessionPrepareContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger,
-            )
-
-        is SessionViewState.RunningNominal ->
-            SessionRunningNominalContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger,
-            )
-
-        is SessionViewState.Finished -> {
-            if (screenViewState.workingStepsDone.isEmpty()) {
-                navigateUp()
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
             } else {
-                SessionFinishedContent(
-                    viewState = screenViewState,
-                    hiitLogger = hiitLogger,
-                )
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
             }
         }
-    }
-    when (dialogViewState) {
-        SessionDialog.None -> {} // Do nothing
-        SessionDialog.Pause ->
-            ChoiceDialog(
-                title = stringResource(id = R.string.pause),
-                message = stringResource(id = R.string.pause_explanation),
-                primaryButtonLabel = stringResource(id = R.string.resume_button_label),
-                primaryAction = resume,
-                secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
-                secondaryAction = onAbortSession,
-                dismissAction = resume,
-            )
-    }
-}
-
-// Previews
-@ExperimentalTvMaterial3Api
-@Preview(
-    name = "light mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun SessionContentHolderPreview(
-    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
-) {
-    SimpleHiitTvTheme {
-        Surface(shape = MaterialTheme.shapes.extraSmall) {
-            SessionContentHolder(
+    SimpleHiitMobileTheme {
+        Surface {
+            SessionScreen(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
+                uiArrangement = previewUiArrangement,
             )
         }
     }
 }
 
-internal class SessionContentHolderPreviewParameterProvider : PreviewParameterProvider<SessionViewState> {
+internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<SessionViewState> {
     override val values: Sequence<SessionViewState>
         get() =
             sequenceOf(
                 SessionViewState.Loading,
-                SessionViewState.Error("Tralala error code"),
+                SessionViewState.Error("Blabla error code"),
                 SessionViewState.InitialCountDownSession(
                     countDown =
                         CountDown(

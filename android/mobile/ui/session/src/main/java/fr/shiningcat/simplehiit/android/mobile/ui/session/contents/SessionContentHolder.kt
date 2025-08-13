@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
-import android.content.res.Configuration
 import android.view.View
 import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -10,10 +10,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ChoiceDialog
@@ -127,80 +130,30 @@ private fun handleScreenLock(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-private fun SessionContentHolderPreviewPhonePortrait(
+private fun SessionContentHolderPreview(
     @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SessionContentHolder(
-                dialogViewState = SessionDialog.None,
-                screenViewState = viewState,
-                uiArrangement = UiArrangement.VERTICAL,
-            )
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
         }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun SessionContentHolderPreviewTabletLandscape(
-    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
-) {
     SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun SessionContentHolderPreviewPhoneLandscape(
-    @PreviewParameter(SessionContentHolderPreviewParameterProvider::class) viewState: SessionViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SessionContentHolder(
-                dialogViewState = SessionDialog.None,
-                screenViewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
             )
         }
     }

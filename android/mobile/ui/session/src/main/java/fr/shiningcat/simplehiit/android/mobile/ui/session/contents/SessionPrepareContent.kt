@@ -1,13 +1,13 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
@@ -26,7 +26,7 @@ fun SessionPrepareContent(
         contentAlignment = Alignment.Center,
     ) {
         CountDownComponent(
-            size = 64.dp,
+            baseSize = 64.dp,
             countDown = viewState.countDown,
             hiitLogger = hiitLogger,
         )
@@ -34,12 +34,8 @@ fun SessionPrepareContent(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
 @Composable
 private fun SessionPrepareContentPreview() {
     SimpleHiitMobileTheme {

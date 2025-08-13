@@ -18,9 +18,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
@@ -47,7 +49,7 @@ fun SessionErrorStateContent(
         Image(
             modifier =
                 Modifier
-                    .size(120.dp)
+                    .size(adaptDpToFontScale(120.dp))
                     .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description),
@@ -96,14 +98,47 @@ fun SessionErrorStateContent(
 }
 
 // Previews
+@ExperimentalTvMaterial3Api
 @Preview(
+    name = "light mode, fontscale 1",
     showSystemUi = true,
     device = Devices.TV_1080p,
+    fontScale = 1f,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
+    name = "dark mode, fontscale 1",
     showSystemUi = true,
     device = Devices.TV_1080p,
+    fontScale = 1f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Preview(
+    name = "light mode, fontscale 1.5",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 1.5f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "dark mode, fontscale 1.5",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 1.5f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Preview(
+    name = "light mode, fontscale 2",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 2f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "dark mode, fontscale 2",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 2f,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable

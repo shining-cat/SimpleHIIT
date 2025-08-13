@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,10 +17,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -156,102 +156,17 @@ fun HorizontalSessionRunningNominalContent(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-private fun SessionRunningNominalContentPreviewPhonePortrait(
+private fun SessionRunningNominalContentPreview(
     @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
     SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
                 uiArrangement = UiArrangement.VERTICAL,
-                viewState = viewState,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=400dp,height=700dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=400dp,height=700dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
-@Composable
-private fun SessionRunningNominalContentPreviewSmallPhonePortrait(
-    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SessionRunningNominalContent(
-                uiArrangement = UiArrangement.VERTICAL,
-                viewState = viewState,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun SessionRunningNominalContentPreviewTabletLandscape(
-    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SessionRunningNominalContent(
-                uiArrangement = UiArrangement.HORIZONTAL,
-                viewState = viewState,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun SessionRunningNominalContentPreviewPhoneLandscape(
-    @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SessionRunningNominalContent(
-                uiArrangement = UiArrangement.HORIZONTAL,
                 viewState = viewState,
             )
         }

@@ -8,7 +8,6 @@ import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,11 +36,8 @@ class StatisticsViewModel
         // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
         private var allUsers = emptyList<User>()
 
-        private var durationStringFormatter = DurationStringFormatter()
-
-        fun init(durationStringFormatter: DurationStringFormatter) {
+        fun init() {
             if (!isInitialized) {
-                this.durationStringFormatter = durationStringFormatter
                 //
                 viewModelScope.launch(context = mainDispatcher) {
                     statisticsInteractor.getAllUsers().collect {
@@ -81,7 +77,6 @@ class StatisticsViewModel
                             mapper.map(
                                 showUsersSwitch = moreThanOneUser,
                                 userStats = statisticsOutput.result,
-                                durationStringFormatter = durationStringFormatter,
                             ),
                         )
                     }
