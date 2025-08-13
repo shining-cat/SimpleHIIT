@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -59,7 +60,6 @@ fun NumberCyclesComponent(
                     text = stringResource(id = R.string.minus),
                     fontWeight = FontWeight.Bold,
                     fontSize = 44.sp,
-//                    lineHeight = 28.sp
                 )
             }
             Spacer(modifier = Modifier.width(8.dp))
@@ -81,7 +81,6 @@ fun NumberCyclesComponent(
                     text = stringResource(id = R.string.plus),
                     fontWeight = FontWeight.Bold,
                     fontSize = 44.sp,
-//                    lineHeight = 28.sp
                 )
             }
         }
@@ -95,12 +94,9 @@ fun NumberCyclesComponent(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
 private fun NumberCyclesComponentPreview() {
     SimpleHiitMobileTheme {

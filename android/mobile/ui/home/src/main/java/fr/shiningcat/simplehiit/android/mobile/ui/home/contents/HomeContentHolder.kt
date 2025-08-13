@@ -1,13 +1,17 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.contents
 
-import android.content.res.Configuration
 import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.WarningDialog
@@ -43,7 +47,7 @@ fun HomeContentHolder(
 
         is HomeViewState.MissingUsers ->
             HomeMissingUsersContent(
-                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) },
+                navigateToSettings = { navigateTo(Screen.Settings.route) },
             )
 
         is HomeViewState.Nominal ->
@@ -56,7 +60,7 @@ fun HomeContentHolder(
                 uiArrangement = uiArrangement,
                 users = screenViewState.users,
                 toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
+                navigateToSession = { navigateTo(Screen.Session.route) },
                 hiitLogger = hiitLogger,
             )
     }
@@ -74,78 +78,28 @@ fun HomeContentHolder(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
-@Composable
-private fun HomeContentHolderPreviewPhonePortrait(
-    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            HomeContentHolder(
-                uiArrangement = UiArrangement.VERTICAL,
-                screenViewState = viewState,
-                dialogViewState = HomeDialog.None,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun HomeContentHolderPreviewTabletLandscape(
-    @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            HomeContentHolder(
-                uiArrangement = UiArrangement.HORIZONTAL,
-                screenViewState = viewState,
-                dialogViewState = HomeDialog.None,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
 private fun HomeContentHolderPreviewPhoneLandscape(
     @PreviewParameter(HomeContentHolderPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
             HomeContentHolder(
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
                 screenViewState = viewState,
                 dialogViewState = HomeDialog.None,
             )
