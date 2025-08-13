@@ -33,7 +33,6 @@ fun HomeScreen(
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    viewModel.init()
     val viewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
@@ -105,13 +104,45 @@ private fun HomeScreen(
 // Previews
 @ExperimentalTvMaterial3Api
 @Preview(
+    name = "light mode, fontscale 1",
     showSystemUi = true,
     device = Devices.TV_1080p,
+    fontScale = 1f,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Preview(
+    name = "dark mode, fontscale 1",
     showSystemUi = true,
     device = Devices.TV_1080p,
+    fontScale = 1f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Preview(
+    name = "light mode, fontscale 1.5",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 1.5f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "dark mode, fontscale 1.5",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 1.5f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Preview(
+    name = "light mode, fontscale 2",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 2f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "dark mode, fontscale 2",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 2f,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable

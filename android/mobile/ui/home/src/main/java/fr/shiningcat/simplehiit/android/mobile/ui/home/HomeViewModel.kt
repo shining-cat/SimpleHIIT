@@ -27,18 +27,15 @@ class HomeViewModel
         private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
-        private var isInitialized = false
-
-        fun init() {
-            if (!isInitialized) {
-                viewModelScope.launch(context = mainDispatcher) {
-                    homeInteractor.getHomeSettings().collect {
-                        _screenViewState.emit(
-                            homeViewStateMapper.map(it),
-                        )
-                    }
-                }
-                isInitialized = true
+        init {
+            hiitLogger.d("HomeViewModel", "initializing")
+            //
+            viewModelScope.launch(context = mainDispatcher) {
+                homeInteractor.getHomeSettings().collect {
+                    _screenViewState.emit(
+                        homeViewStateMapper.map(it),
+                    )
+            }
             }
         }
 
