@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -10,15 +9,19 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -200,78 +203,24 @@ private fun HorizontalHomeNominalContent(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
-@Composable
-private fun HomeNominalContentPreviewPhonePortrait(
-    @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            HomeNominalContent(
-                numberOfCycles = 5,
-                lengthOfCycle = "4mn",
-                totalLengthFormatted = "20mn",
-                users = users,
-                uiArrangement = UiArrangement.VERTICAL,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-fun HomeNominalContentPreviewTabletLandscape(
-    @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            HomeNominalContent(
-                numberOfCycles = 5,
-                lengthOfCycle = "4mn",
-                totalLengthFormatted = "20mn",
-                users = users,
-                uiArrangement = UiArrangement.HORIZONTAL,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
 private fun HomeNominalContentPreviewPhoneLandscape(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
             HomeNominalContent(
@@ -279,7 +228,7 @@ private fun HomeNominalContentPreviewPhoneLandscape(
                 lengthOfCycle = "4mn",
                 totalLengthFormatted = "20mn",
                 users = users,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
             )
         }
     }

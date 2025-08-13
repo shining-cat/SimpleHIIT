@@ -1,7 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home
 
 import android.app.Activity
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
@@ -9,18 +8,22 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -37,7 +40,6 @@ fun HomeScreen(
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    viewModel.init()
     val viewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
@@ -119,82 +121,28 @@ private fun HomeScreen(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-private fun HomeScreenPreviewPhonePortrait(
+private fun HomeScreenPreviewPhone(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState,
 ) {
-    SimpleHiitMobileTheme {
-        Surface {
-            HomeScreen(
-                uiArrangement = UiArrangement.VERTICAL,
-                viewState = viewState,
-                dialogViewState = HomeDialog.None,
-            )
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
         }
-    }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun HomeScreenPreviewTabletLandscape(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState,
-) {
     SimpleHiitMobileTheme {
         Surface {
             HomeScreen(
-                uiArrangement = UiArrangement.HORIZONTAL,
-                viewState = viewState,
-                dialogViewState = HomeDialog.None,
-            )
-        }
-    }
-}
-
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun HomeScreenPreviewPhoneLandscape(
-    @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            HomeScreen(
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
                 viewState = viewState,
                 dialogViewState = HomeDialog.None,
             )

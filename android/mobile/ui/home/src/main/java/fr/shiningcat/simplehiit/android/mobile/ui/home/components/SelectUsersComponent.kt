@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
@@ -16,9 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -69,12 +70,9 @@ fun SelectUsersComponent(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
 private fun SelectUsersComponentPreview(
     @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>,
