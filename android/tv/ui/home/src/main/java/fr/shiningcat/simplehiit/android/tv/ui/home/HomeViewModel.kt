@@ -35,7 +35,7 @@ class HomeViewModel
                     _screenViewState.emit(
                         homeViewStateMapper.map(it),
                     )
-            }
+                }
             }
         }
 
