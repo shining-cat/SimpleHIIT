@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,10 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
@@ -34,7 +34,6 @@ fun SettingsScreen(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
 ) {
-    viewModel.init()
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
@@ -164,72 +163,11 @@ private fun SettingsScreen(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-private fun SettingsScreenPreviewPhonePortrait(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SettingsScreen(
-                uiArrangement = UiArrangement.VERTICAL,
-                screenViewState = viewState,
-                dialogViewState = SettingsDialog.None,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun SettingsScreenPreviewTabletLandscape(
-    @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SettingsScreen(
-                uiArrangement = UiArrangement.HORIZONTAL,
-                screenViewState = viewState,
-                dialogViewState = SettingsDialog.None,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun SettingsScreenPreviewPhoneLandscape(
+private fun SettingsScreenPreview(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
 ) {
     SimpleHiitMobileTheme {
@@ -245,24 +183,24 @@ private fun SettingsScreenPreviewPhoneLandscape(
 
 internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider<SettingsViewState> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

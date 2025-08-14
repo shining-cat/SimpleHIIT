@@ -31,18 +31,15 @@ class SettingsViewModel
         private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
-        private var isInitialized = false
-
-        fun init() {
-            if (!isInitialized) {
-                viewModelScope.launch(context = mainDispatcher) {
-                    settingsInteractor.getGeneralSettings().collect {
-                        _screenViewState.emit(
-                            mapper.map(it),
-                        )
-                    }
-                }
-                isInitialized = true
+        init {
+            hiitLogger.d("SettingsViewModel", "initializing")
+            //
+            viewModelScope.launch(context = mainDispatcher) {
+                settingsInteractor.getGeneralSettings().collect {
+                    _screenViewState.emit(
+                        mapper.map(it),
+                    )
+            }
             }
         }
 

@@ -12,6 +12,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
@@ -30,7 +31,6 @@ fun SettingsScreen(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
 ) {
-    viewModel.init()
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
@@ -148,17 +148,48 @@ private fun SettingsScreen(
 }
 
 // Previews
+@ExperimentalTvMaterial3Api
 @Preview(
+    name = "light mode, fontscale 1",
     showSystemUi = true,
     device = Devices.TV_1080p,
+    fontScale = 1f,
     uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
 )
 @Preview(
+    name = "dark mode, fontscale 1",
     showSystemUi = true,
     device = Devices.TV_1080p,
+    fontScale = 1f,
     uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
+)
+@Preview(
+    name = "light mode, fontscale 1.5",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 1.5f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "dark mode, fontscale 1.5",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 1.5f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+)
+@Preview(
+    name = "light mode, fontscale 2",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 2f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO,
+)
+@Preview(
+    name = "dark mode, fontscale 2",
+    showSystemUi = true,
+    device = Devices.TV_1080p,
+    fontScale = 2f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
 private fun SettingsScreenPreview(
