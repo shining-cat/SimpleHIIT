@@ -1,7 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,6 +37,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
@@ -59,9 +59,6 @@ enum class InputDialogTextFieldSize(
     LARGE(224.dp),
 }
 
-/**
- *
- */
 @Composable
 fun InputDialog(
     dialogTitle: String = "",
@@ -79,25 +76,214 @@ fun InputDialog(
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     pickErrorMessage: (Constants.InputError) -> Int = { -1 },
 ) {
-    // TODO: auto-focus on input field when opening dialog
-
-    // TODO: open keyboard when auto-focusing
-
-    // TODO: set cursor position at end of inputFieldValue in input field when auto-focusing. Only affect this position once on dialog opening
-
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
     val isError =
         rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
 
-    val primaryButton =
+    Dialog(onDismissRequest = dismissAction) {
+        Surface(
+            color = MaterialTheme.colorScheme.surface,
+            shape = MaterialTheme.shapes.medium,
+        ) {
+            val dialogPadding = 8.dp
+            BoxWithConstraints {
+                val density = LocalDensity.current
+                val dialogAvailableWidthDp = this.maxWidth
+                val effectiveDialogContentWidthDp = dialogAvailableWidthDp - 2 * dialogPadding
+
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(dialogPadding)
+                            .verticalScroll(rememberScrollState()),
+                ) {
+                    if (dialogTitle.isNotBlank()) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            text = dialogTitle,
+                            style = MaterialTheme.typography.headlineSmall,
+                        )
+                    }
+                    InputDialogBodyContent(
+                        inputValue = input.value,
+                        onInputValueChange = {
+                            input.value = it
+                            val validationResult = validateInput(it)
+                            val errorStringRes = pickErrorMessage(validationResult)
+                            isError.value =
+                                validationResult != Constants.InputError.NONE
+                            errorMessageStringRes.intValue =
+                                errorStringRes
+                        },
+                        isError = isError.value,
+                        errorMessageResId = errorMessageStringRes.intValue,
+                        onKeyboardDoneAction = {
+                            if (!isError.value) primaryAction(input.value)
+                        },
+                        inputFieldSingleLine = inputFieldSingleLine,
+                        inputFieldSize = inputFieldSize,
+                        keyboardType = keyboardType,
+                        errorTrailingIconComposable =
+                            errorTrailingIcon(
+                                isError = isError.value,
+                                inputFieldSize = inputFieldSize,
+                                errorMessageStringRes = errorMessageStringRes.intValue,
+                            ),
+                        inputFieldPostfixText = inputFieldPostfix,
+                        effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
+                        density = density,
+                    )
+                    InputDialogButtonsLayout(
+                        primaryButtonLabel = primaryButtonLabel,
+                        onPrimaryClick = { primaryAction(input.value) },
+                        secondaryButtonLabel = secondaryButtonLabel,
+                        onSecondaryClick = secondaryAction,
+                        dismissButtonLabel = dismissButtonLabel,
+                        onDismissClick = dismissAction,
+                        isError = isError.value,
+                        effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
+                        density = density,
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun InputDialogBodyContent(
+    inputValue: String,
+    onInputValueChange: (String) -> Unit,
+    isError: Boolean,
+    errorMessageResId: Int,
+    onKeyboardDoneAction: () -> Unit,
+    inputFieldSingleLine: Boolean,
+    inputFieldSize: InputDialogTextFieldSize,
+    keyboardType: KeyboardType,
+    errorTrailingIconComposable: @Composable (() -> Unit)?,
+    inputFieldPostfixText: String,
+    effectiveDialogContentWidthDp: Dp,
+    density: Density,
+) {
+    val inputSpacing = 12.dp
+    val dialogHorizontalPadding = 8.dp
+
+    val inputFieldPostfixStyle = MaterialTheme.typography.bodyMedium
+    val inputFieldPostfixLayout =
+        TextLayoutInfo(
+            text = inputFieldPostfixText,
+            style = inputFieldPostfixStyle,
+        )
+
+    val inputFieldWidthPx = with(density) { inputFieldSize.width.toPx() }.toInt()
+    val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
+    val dialogHorizontalPaddingPx = with(density) { dialogHorizontalPadding.toPx() }.toInt()
+    val effectiveDialogContentWidthForBodyPx =
+        with(density) { effectiveDialogContentWidthDp.toPx() }.toInt()
+
+    val inputFieldPostfixLayoutAvailableWidth =
+        (effectiveDialogContentWidthForBodyPx - 2 * dialogHorizontalPaddingPx) - inputFieldWidthPx - inputSpacingPx
+
+    val fieldAndPostfixFitOneLine =
+        fitsOnXLines(
+            textLayoutInfo = inputFieldPostfixLayout,
+            numberOfLines = 1,
+            availableWidthPx = inputFieldPostfixLayoutAvailableWidth,
+        )
+
+    Column(Modifier.fillMaxWidth()) {
+        Row(
+            Modifier
+                .padding(
+                    start = dialogHorizontalPadding,
+                    end = dialogHorizontalPadding,
+                    top = 24.dp,
+                    bottom = 8.dp,
+                ).align(Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(inputSpacing),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            OutlinedTextField(
+                value = inputValue,
+                singleLine = inputFieldSingleLine,
+                onValueChange = onInputValueChange,
+                isError = isError,
+                trailingIcon = errorTrailingIconComposable,
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = keyboardType,
+                        imeAction = ImeAction.Done,
+                    ),
+                keyboardActions = KeyboardActions(onDone = { onKeyboardDoneAction() }),
+                modifier =
+                    Modifier
+                        .then(
+                            if (fieldAndPostfixFitOneLine) {
+                                Modifier
+                                    .width(inputFieldSize.width)
+                                    .alignByBaseline()
+                            } else {
+                                Modifier.fillMaxWidth()
+                            },
+                        ),
+            )
+            if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
+                Text(
+                    modifier = Modifier.alignByBaseline(),
+                    text = inputFieldPostfixLayout.text,
+                    style = inputFieldPostfixLayout.style,
+                )
+            }
+        }
+        if (!fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
+            Text(
+                modifier =
+                    Modifier
+                        .padding(horizontal = dialogHorizontalPadding)
+                        .fillMaxWidth(),
+                text = inputFieldPostfixLayout.text,
+                style = inputFieldPostfixLayout.style,
+                textAlign = TextAlign.End,
+            )
+        }
+        if (isError && errorMessageResId != -1) {
+            Text(
+                text = stringResource(id = errorMessageResId),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = dialogHorizontalPadding)
+                        .padding(top = 4.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun InputDialogButtonsLayout(
+    primaryButtonLabel: String,
+    onPrimaryClick: () -> Unit,
+    secondaryButtonLabel: String,
+    onSecondaryClick: () -> Unit,
+    dismissButtonLabel: String,
+    onDismissClick: () -> Unit,
+    isError: Boolean,
+    effectiveDialogContentWidthDp: Dp,
+    density: Density,
+) {
+    val primaryButtonInfo =
         ButtonLayoutInfo(
             label = primaryButtonLabel,
             style = MaterialTheme.typography.labelMedium,
             type = ButtonType.FILLED,
         )
-    val secondaryButton =
+    val secondaryButtonInfo =
         if (secondaryButtonLabel.isNotBlank()) {
             ButtonLayoutInfo(
                 label = secondaryButtonLabel,
@@ -107,7 +293,7 @@ fun InputDialog(
         } else {
             null
         }
-    val dismissButton =
+    val dismissButtonInfo =
         if (dismissButtonLabel.isNotBlank()) {
             ButtonLayoutInfo(
                 label = dismissButtonLabel,
@@ -117,220 +303,87 @@ fun InputDialog(
         } else {
             null
         }
-    Dialog(onDismissRequest = dismissAction) {
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            shape = MaterialTheme.shapes.medium,
-        ) {
-            val dialogPadding = 8.dp
-            // wrapping the whole dialog in a BoxWithConstraints enables retrieval of its actual width
-            // at runtime and in previews to adapt the layout to fontscale and available space
-            BoxWithConstraints {
-                val density = LocalDensity.current
-                val dialogAvailableWidthDp = this.maxWidth
-                val effectiveDialogContentWidthDp = dialogAvailableWidthDp - 2 * dialogPadding
-                val effectiveDialogContentWidthPx =
-                    with(density) { effectiveDialogContentWidthDp.toPx() }.toInt()
 
-                Column(
-                    modifier =
-                        Modifier
-                            .padding(dialogPadding)
-                            .verticalScroll(rememberScrollState()),
-                ) {
-                    // TITLE
-                    if (dialogTitle.isNotBlank()) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            text = dialogTitle,
-                            style = MaterialTheme.typography.headlineSmall,
-                        )
-                    }
-                    // BODY
-                    // Do the input field and the postfix fit in one line?
-                    val inputFieldPostfixLayout =
-                        TextLayoutInfo(
-                            text = inputFieldPostfix,
-                            style = MaterialTheme.typography.bodyMedium,
-                        )
-                    val inputFieldWidthPx = with(density) { inputFieldSize.width.toPx() }.toInt()
-                    val inputSpacing = 12.dp
-                    val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
-                    val dialogBodyPaddingDp = 8.dp
-                    val dialogBodyPaddingPx = with(density) { dialogBodyPaddingDp.toPx() }.toInt()
-                    // Calculate available width for postfix, considering everything
-                    val inputFieldPostfixLayoutAvailableWidth =
-                        effectiveDialogContentWidthPx - 2 * dialogBodyPaddingPx - inputFieldWidthPx - inputSpacingPx
-                    val fieldAndPostfixFitOneLine =
-                        fitsOnXLines(
-                            textLayoutInfo = inputFieldPostfixLayout,
-                            numberOfLines = 1,
-                            availableWidthPx = inputFieldPostfixLayoutAvailableWidth,
-                        )
-                    //
-                    Row(
-                        Modifier
-                            .padding(
-                                start = dialogBodyPaddingDp,
-                                end = dialogBodyPaddingDp,
-                                top = 24.dp,
-                                bottom = 8.dp,
-                            ).align(Alignment.CenterHorizontally),
-                        horizontalArrangement = Arrangement.spacedBy(inputSpacing),
-                    ) {
-                        OutlinedTextField(
-                            value = input.value,
-                            singleLine = inputFieldSingleLine,
-                            onValueChange = {
-                                input.value = it
-                                val validationResult = validateInput(it)
-                                val errorStringRes = pickErrorMessage(validationResult)
-                                isError.value =
-                                    validationResult != Constants.InputError.NONE // updating the error state Boolean
-                                errorMessageStringRes.intValue =
-                                    errorStringRes // updating the eventual error message String resource pointer
-                            },
-                            isError = isError.value,
-                            trailingIcon =
-                                errorTrailingIcon(
-                                    isError = isError.value,
-                                    inputFieldSize = inputFieldSize,
-                                    errorMessageStringRes = errorMessageStringRes.intValue,
-                                ),
-                            keyboardOptions =
-                                KeyboardOptions(
-                                    keyboardType = keyboardType,
-                                    imeAction = ImeAction.Done,
-                                ),
-                            keyboardActions =
-                                KeyboardActions(onDone = {
-                                    if (!isError.value) primaryAction(input.value)
-                                }),
-                            modifier =
-                                Modifier
-                                    .then(
-                                        if (fieldAndPostfixFitOneLine) {
-                                            Modifier
-                                                .width(inputFieldSize.width)
-                                                .alignByBaseline()
-                                        } else {
-                                            Modifier.fillMaxWidth()
-                                        },
-                                    ),
-                        )
-                        if (fieldAndPostfixFitOneLine) {
-                            Text(
-                                modifier = Modifier.alignByBaseline(),
-                                text = inputFieldPostfixLayout.text,
-                                style = inputFieldPostfixLayout.style,
-                            )
-                        }
-                    }
-                    if (!fieldAndPostfixFitOneLine) {
-                        Text(
-                            modifier =
-                                Modifier
-                                    .padding(horizontal = dialogBodyPaddingDp)
-                                    .fillMaxWidth(),
-                            text = inputFieldPostfixLayout.text,
-                            style = inputFieldPostfixLayout.style,
-                            textAlign = TextAlign.End,
-                        )
-                    }
-                    if (isError.value && errorMessageStringRes.intValue != -1) {
-                        Text(
-                            text = stringResource(id = errorMessageStringRes.intValue),
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.error,
-                            // the error message needs all the room available so it won't follow the input row constraints
-                            modifier =
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(horizontal = dialogBodyPaddingDp),
-                        )
-                    }
-                    val buttons = listOfNotNull(primaryButton, secondaryButton, dismissButton)
-                    val buttonsSpacingDp = 12.dp
-                    val buttonsFitOnOneLine =
-                        buttonsFitOnOneLine(
-                            buttons = buttons,
-                            availableWidthPx = effectiveDialogContentWidthPx,
-                            horizontalSpacingDp = buttonsSpacingDp,
-                        )
-                    if (buttonsFitOnOneLine) {
-                        Row(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 0.dp, vertical = 24.dp),
-                            horizontalArrangement =
-                                Arrangement.spacedBy(
-                                    space = buttonsSpacingDp,
-                                    alignment = Alignment.End,
-                                ),
-                        ) {
-                            if (secondaryButtonLabel.isNotBlank()) {
-                                TextButton(onClick = secondaryAction) {
-                                    Text(
-                                        text = secondaryButtonLabel,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        maxLines = 1,
-                                    )
-                                }
-                            }
-                            if (dismissButtonLabel.isNotBlank()) {
-                                OutlinedButton(onClick = dismissAction) {
-                                    Text(
-                                        text = dismissButtonLabel,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        maxLines = 1,
-                                    )
-                                }
-                            }
-                            Button(onClick = { if (!isError.value) primaryAction(input.value) }) {
-                                Text(
-                                    text = primaryButtonLabel,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    maxLines = 1,
-                                )
-                            }
-                        }
-                    } else {
-                        Column(
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 0.dp, vertical = 24.dp),
-                            verticalArrangement = spacedBy(buttonsSpacingDp),
-                            horizontalAlignment = Alignment.End,
-                        ) {
-                            Button(onClick = { if (!isError.value) primaryAction(input.value) }) {
-                                Text(
-                                    text = primaryButtonLabel,
-                                    style = MaterialTheme.typography.labelMedium,
-                                    maxLines = 1,
-                                )
-                            }
-                            if (secondaryButtonLabel.isNotBlank()) {
-                                TextButton(onClick = secondaryAction) {
-                                    Text(
-                                        text = secondaryButtonLabel,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        maxLines = 1,
-                                    )
-                                }
-                            }
-                            if (dismissButtonLabel.isNotBlank()) {
-                                OutlinedButton(onClick = dismissAction) {
-                                    Text(
-                                        text = dismissButtonLabel,
-                                        style = MaterialTheme.typography.labelMedium,
-                                        maxLines = 1,
-                                    )
-                                }
-                            }
-                        }
-                    }
+    val buttons = listOfNotNull(primaryButtonInfo, secondaryButtonInfo, dismissButtonInfo)
+    val buttonsSpacingDp = 12.dp
+    val effectiveDialogContentWidthPx =
+        with(density) { effectiveDialogContentWidthDp.toPx() }.toInt()
+
+    val buttonsFitOnOneLine =
+        buttonsFitOnOneLine(
+            buttons = buttons,
+            availableWidthPx = effectiveDialogContentWidthPx,
+            horizontalSpacingDp = buttonsSpacingDp,
+        )
+
+    if (buttonsFitOnOneLine) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 0.dp, vertical = 24.dp),
+            horizontalArrangement =
+                Arrangement.spacedBy(
+                    space = buttonsSpacingDp,
+                    alignment = Alignment.End,
+                ),
+        ) {
+            if (secondaryButtonLabel.isNotBlank()) {
+                TextButton(onClick = onSecondaryClick) {
+                    Text(
+                        text = secondaryButtonLabel,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                    )
+                }
+            }
+            if (dismissButtonLabel.isNotBlank()) {
+                OutlinedButton(onClick = onDismissClick) {
+                    Text(
+                        text = dismissButtonLabel,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                    )
+                }
+            }
+            Button(onClick = { if (!isError) onPrimaryClick() }) {
+                Text(
+                    text = primaryButtonLabel,
+                    style = MaterialTheme.typography.labelMedium,
+                    maxLines = 1,
+                )
+            }
+        }
+    } else {
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 0.dp, vertical = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(buttonsSpacingDp),
+            horizontalAlignment = Alignment.End,
+        ) {
+            Button(onClick = { if (!isError) onPrimaryClick() }) {
+                Text(
+                    text = primaryButtonLabel,
+                    style = MaterialTheme.typography.labelMedium,
+                    maxLines = 1,
+                )
+            }
+            if (secondaryButtonLabel.isNotBlank()) {
+                TextButton(onClick = onSecondaryClick) {
+                    Text(
+                        text = secondaryButtonLabel,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                    )
+                }
+            }
+            if (dismissButtonLabel.isNotBlank()) {
+                OutlinedButton(onClick = onDismissClick) {
+                    Text(
+                        text = dismissButtonLabel,
+                        style = MaterialTheme.typography.labelMedium,
+                        maxLines = 1,
+                    )
                 }
             }
         }
@@ -342,20 +395,18 @@ fun errorTrailingIcon(
     isError: Boolean,
     inputFieldSize: InputDialogTextFieldSize,
     errorMessageStringRes: Int,
-): @Composable (() -> Unit)? {
-    // small input field can not fit the trailing icon plus content // todo: change this, we want the icon for all field sizes
-    return if (isError && inputFieldSize != InputDialogTextFieldSize.SMALL) {
+): @Composable (() -> Unit)? =
+    if (isError && inputFieldSize != InputDialogTextFieldSize.SMALL) {
         {
             Icon(
                 imageVector = Icons.Filled.Info,
-                contentDescription = stringResource(id = errorMessageStringRes),
+                contentDescription = if (errorMessageStringRes != -1) stringResource(id = errorMessageStringRes) else "",
                 tint = MaterialTheme.colorScheme.error,
             )
         }
     } else {
         null
     }
-}
 
 // Previews
 @PreviewLightDark
@@ -436,7 +487,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                 InputDialogPreviewObject(
                     inputFieldValue =
                         "This is a very long input value so it takes a lot of place," +
-                            " and it could grow indefinitely depending only on the user's choice," +
+                            " and it could grow indefinitely depending only on the user\'s choice," +
                             " so we need to be able to display this correctly on screen",
                     singleLine = false,
                     postfix = "seconds",
