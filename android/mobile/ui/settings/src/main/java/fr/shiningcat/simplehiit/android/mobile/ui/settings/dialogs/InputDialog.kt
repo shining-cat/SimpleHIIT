@@ -30,11 +30,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices.DESKTOP
+import androidx.compose.ui.tooling.preview.Devices.FOLDABLE
+import androidx.compose.ui.tooling.preview.Devices.PHONE
+import androidx.compose.ui.tooling.preview.Devices.TABLET
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -50,11 +54,11 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
 enum class InputDialogTextFieldSize(
-    val charCount: Int, // Changed from width: Dp
+    val charCount: Int,
 ) {
-    SMALL(2), // Represents roughly 3 characters
-    MEDIUM(10), // Represents roughly 10 characters
-    LARGE(24), // Represents roughly 24 characters
+    SMALL(2),
+    MEDIUM(10),
+    LARGE(24),
 }
 
 @Composable
@@ -206,7 +210,8 @@ private fun InputDialogBodyContent(
                     end = dialogHorizontalPadding,
                     top = 24.dp,
                     bottom = 8.dp,
-                ).align(Alignment.CenterHorizontally),
+                )
+                .align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -395,11 +400,21 @@ private fun InputDialogButtonsLayout(
 }
 
 // Previews
+// we add each device preview manually here instead of using PreviewScreenSizes
+// because we want no showSystemUi which overlaps the system status bar to the dialog preview
 @PreviewLightDark
 @PreviewFontScale
-@PreviewScreenSizes
+@Preview(name = "Phone", device = PHONE, showSystemUi = false)
+@Preview(
+    name = "Phone - Landscape",
+    device = "spec:width=411dp,height=891dp,orientation=landscape,dpi=420",
+    showSystemUi = false,
+)
+@Preview(name = "Unfolded Foldable", device = FOLDABLE, showSystemUi = false)
+@Preview(name = "Tablet", device = TABLET, showSystemUi = false)
+@Preview(name = "Desktop", device = DESKTOP, showSystemUi = false)
 @Composable
-private fun InputDialogPreviewPhone(
+private fun InputDialogPreview(
     @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject,
 ) {
     SimpleHiitMobileTheme {
