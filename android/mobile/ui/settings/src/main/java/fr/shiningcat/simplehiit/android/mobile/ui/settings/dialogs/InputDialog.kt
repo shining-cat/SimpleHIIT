@@ -36,13 +36,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import fr.shiningcat.simplehiit.android.common.ui.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.common.ui.utils.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
 import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.mobile.ui.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
@@ -203,7 +203,8 @@ private fun InputDialogBodyContent(
                     end = dialogHorizontalPadding,
                     top = 24.dp,
                     bottom = 8.dp,
-                ).align(Alignment.CenterHorizontally),
+                )
+                .align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
         ) {

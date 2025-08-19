@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -13,14 +12,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -52,6 +54,7 @@ fun SideBarItem(
         Icon(
             imageVector = ImageVector.vectorResource(icon),
             contentDescription = stringResource(id = label),
+            modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
         )
         Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(text = stringResource(label))
@@ -59,12 +62,8 @@ fun SideBarItem(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun SideBarItemPreview() {
     SimpleHiitTvTheme {

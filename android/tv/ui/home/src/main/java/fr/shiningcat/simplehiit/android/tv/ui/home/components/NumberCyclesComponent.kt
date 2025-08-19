@@ -24,7 +24,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -100,7 +100,7 @@ fun NumberCyclesComponent(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun NumberCyclesComponentPreview() {
     SimpleHiitTvTheme {

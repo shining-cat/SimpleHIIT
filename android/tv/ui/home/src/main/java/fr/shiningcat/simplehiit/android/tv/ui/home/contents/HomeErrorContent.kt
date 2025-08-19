@@ -23,7 +23,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import kotlinx.coroutines.delay
@@ -84,7 +84,7 @@ fun HomeErrorContent(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun HomeErrorContentPreview() {
     SimpleHiitTvTheme {

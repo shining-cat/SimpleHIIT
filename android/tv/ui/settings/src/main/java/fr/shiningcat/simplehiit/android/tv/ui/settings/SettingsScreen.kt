@@ -14,7 +14,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.contents.SettingsContentHolder
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -148,7 +148,7 @@ private fun SettingsScreen(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun SettingsScreenPreview(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,

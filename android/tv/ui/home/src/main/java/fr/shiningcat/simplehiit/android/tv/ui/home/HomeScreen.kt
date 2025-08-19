@@ -17,7 +17,7 @@ import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.home.contents.HomeContentHolder
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -101,7 +101,7 @@ private fun HomeScreen(
 
 // Previews
 @OptIn(ExperimentalTvMaterial3Api::class)
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun HomeScreenPreviewTV(
     @PreviewParameter(HomeScreenPreviewParameterProvider::class) viewState: HomeViewState,

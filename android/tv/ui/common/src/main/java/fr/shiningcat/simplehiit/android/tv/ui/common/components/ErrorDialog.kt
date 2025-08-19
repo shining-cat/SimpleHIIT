@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,14 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -57,7 +56,7 @@ fun ErrorDialog(
                 Image(
                     modifier =
                         Modifier
-                            .size(120.dp)
+                            .size(adaptDpToFontScale(120.dp))
                             .align(Alignment.CenterHorizontally)
                             .padding(horizontal = 0.dp, vertical = 24.dp),
                     painter = painterResource(id = R.drawable.warning),
@@ -92,12 +91,14 @@ fun ErrorDialog(
                     text = stringResource(id = R.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                Row(modifier = Modifier.fillMaxWidth().padding(top = 24.dp)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)) {
                     Spacer(modifier = Modifier.weight(.3f))
                     ButtonText(
                         modifier =
                             Modifier
-                                .height(48.dp)
+                                .height(adaptDpToFontScale(48.dp))
                                 .weight(weight = .3f, fill = true),
                         label = dismissButtonLabel,
                         onClick = dismissAction,
@@ -110,16 +111,7 @@ fun ErrorDialog(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewTvScreensNoUi
 @Composable
 private fun ErrorDialogPreview() {
     SimpleHiitTvTheme {

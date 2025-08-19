@@ -9,7 +9,7 @@ import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ErrorDialog
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.WarningDialog
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsDialog
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState
@@ -174,7 +174,7 @@ fun SettingsContentHolder(
 }
 
 // Previews
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun SettingsContentHolderPreviewPhonePortrait(
     @PreviewParameter(SettingsContentHolderPreviewParameterProvider::class) viewState: SettingsViewState,

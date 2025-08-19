@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
@@ -36,7 +36,7 @@ fun SessionPrepareContent(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun SessionPrepareContentPreview() {
     SimpleHiitTvTheme {

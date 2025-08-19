@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsExercisesSelectedComponent
@@ -205,7 +205,7 @@ fun SettingsNominalContent(
 }
 
 // Previews
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun SettingsNominalContentPreviewPhonePortrait(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,

@@ -22,7 +22,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.NumberCyclesComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SelectUsersComponent
@@ -115,7 +115,7 @@ fun HomeNominalContent(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun HomeNominalContentPreviewPhonePortrait(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,

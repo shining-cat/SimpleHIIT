@@ -21,7 +21,7 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonToggle
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -71,7 +71,7 @@ fun SelectUsersComponent(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@PreviewTvScreen
+@PreviewTvScreens
 @Composable
 private fun SelectUsersComponentPreview(
     @PreviewParameter(SelectUsersComponentPreviewParameterProvider::class) users: List<User>,
