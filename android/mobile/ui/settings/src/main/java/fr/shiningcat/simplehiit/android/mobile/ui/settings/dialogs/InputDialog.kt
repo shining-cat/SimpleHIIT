@@ -11,10 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -31,6 +28,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -52,11 +50,11 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
 enum class InputDialogTextFieldSize(
-    val width: Dp,
+    val charCount: Int, // Changed from width: Dp
 ) {
-    SMALL(56.dp),
-    MEDIUM(112.dp),
-    LARGE(224.dp),
+    SMALL(2), // Represents roughly 3 characters
+    MEDIUM(10), // Represents roughly 10 characters
+    LARGE(24), // Represents roughly 24 characters
 }
 
 @Composable
@@ -126,12 +124,11 @@ fun InputDialog(
                         inputFieldSingleLine = inputFieldSingleLine,
                         inputFieldSize = inputFieldSize,
                         keyboardType = keyboardType,
-                        errorTrailingIconComposable =
-                            errorTrailingIcon(
-                                isError = isError.value,
-                                inputFieldSize = inputFieldSize,
-                                errorMessageStringRes = errorMessageStringRes.intValue,
-                            ),
+                        errorTrailingIconComposable = null,
+                        /*   errorTrailingIcon(
+                               isError = isError.value,
+                               errorMessageStringRes = errorMessageStringRes.intValue,
+                           ),*/
                         inputFieldPostfixText = inputFieldPostfix,
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
@@ -177,8 +174,15 @@ private fun InputDialogBodyContent(
             text = inputFieldPostfixText,
             style = inputFieldPostfixStyle,
         )
-
-    val inputFieldWidthPx = with(density) { inputFieldSize.width.toPx() }.toInt()
+    val textMeasurer = rememberTextMeasurer()
+    val textFieldTextStyle = MaterialTheme.typography.bodyLarge // Style for measurement
+    val sampleString = "M".repeat(inputFieldSize.charCount)
+    val measuredTextOnlyWidthPx =
+        textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
+    val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
+    val textFieldInternalHorizontalPaddingDp = 24.dp // Assumed 12.dp on each side
+    val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
+    val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
     val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
     val dialogHorizontalPaddingPx = with(density) { dialogHorizontalPadding.toPx() }.toInt()
     val effectiveDialogContentWidthForBodyPx =
@@ -223,7 +227,7 @@ private fun InputDialogBodyContent(
                         .then(
                             if (fieldAndPostfixFitOneLine) {
                                 Modifier
-                                    .width(inputFieldSize.width)
+                                    .width(inputFieldWidthDp)
                                     .alignByBaseline()
                             } else {
                                 Modifier.fillMaxWidth()
@@ -389,24 +393,6 @@ private fun InputDialogButtonsLayout(
         }
     }
 }
-
-@Composable
-fun errorTrailingIcon(
-    isError: Boolean,
-    inputFieldSize: InputDialogTextFieldSize,
-    errorMessageStringRes: Int,
-): @Composable (() -> Unit)? =
-    if (isError && inputFieldSize != InputDialogTextFieldSize.SMALL) {
-        {
-            Icon(
-                imageVector = Icons.Filled.Info,
-                contentDescription = if (errorMessageStringRes != -1) stringResource(id = errorMessageStringRes) else "",
-                tint = MaterialTheme.colorScheme.error,
-            )
-        }
-    } else {
-        null
-    }
 
 // Previews
 @PreviewLightDark
