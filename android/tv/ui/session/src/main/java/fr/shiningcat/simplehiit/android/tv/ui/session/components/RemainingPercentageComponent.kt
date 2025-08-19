@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.session.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,11 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -54,49 +52,8 @@ fun RemainingPercentageComponent(
 }
 
 // Previews
-@ExperimentalTvMaterial3Api
-@Preview(
-    name = "light mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun RemainingPercentageComponentPreview() {
     SimpleHiitTvTheme {

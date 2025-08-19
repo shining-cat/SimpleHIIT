@@ -1,20 +1,19 @@
 package fr.shiningcat.simplehiit.android.tv.ui.session.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -24,9 +23,23 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
+/**
+ * Composable function that displays a countdown timer, dynamically adapts to fontscale
+ *
+ * This function takes a `baseSize` parameter to determine the size of the countdown timer,
+ * a `countDown` parameter to display the current countdown progress, and an optional `hiitLogger`
+ * parameter for logging purposes.
+ *
+ * The countdown timer is displayed as a circular progress indicator with the remaining seconds
+ * displayed in the center. The progress indicator's color and thickness can be customized.
+ *
+ * @param baseSize The base size of the countdown timer. defaults to 100.dp, a reasonable size for a 3-digits display
+ * @param countDown The current countdown progress.
+ * @param hiitLogger An optional logger for logging purposes.
+ */
 @Composable
 fun CountDownComponent(
-    baseSize: Dp,
+    baseSize: Dp = 100.dp,
     countDown: CountDown,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
@@ -61,66 +74,26 @@ fun CountDownComponent(
 }
 
 // Previews
-@ExperimentalTvMaterial3Api
-@Preview(
-    name = "light mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun CountDownCircularProgressPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            Row(
+            Column(
                 modifier = Modifier.fillMaxSize(),
+                verticalArrangement = spacedBy(adaptDpToFontScale(8.dp)),
             ) {
                 CountDownComponent(
-                    baseSize = 230.dp,
+                    baseSize = 100.dp,
                     countDown = CountDown(secondsDisplay = "35", progress = 1f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 230.dp,
+                    baseSize = 100.dp,
                     countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 230.dp,
+                    baseSize = 100.dp,
                     countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true),
                 )
             }
