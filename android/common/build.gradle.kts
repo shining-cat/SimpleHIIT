@@ -19,6 +19,8 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.google.material)
     implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.compose.preview)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.glide)
     //
     testImplementation(libs.hilt.android.testing)

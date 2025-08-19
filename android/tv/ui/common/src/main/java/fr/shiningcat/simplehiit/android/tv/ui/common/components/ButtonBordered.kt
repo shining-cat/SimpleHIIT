@@ -1,7 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import android.content.res.Configuration
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -22,15 +20,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -38,9 +39,8 @@ import fr.shiningcat.simplehiit.commonresources.R
 fun ButtonBordered(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    label: String,
-    @DrawableRes
-    icon: Int = -1,
+    label: String? = null,
+    icon: ImageVector? = null,
     @StringRes
     iconContentDescription: Int = -1,
     enabled: Boolean = true,
@@ -105,9 +105,10 @@ fun ButtonBordered(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            if (icon != -1) {
+            if (icon != null) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(icon),
+                    imageVector = icon,
+                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
                     contentDescription =
                         if (iconContentDescription != -1) {
                             stringResource(id = iconContentDescription)
@@ -117,20 +118,18 @@ fun ButtonBordered(
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }
-            Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            if (label != null) {
+                Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
         }
     }
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
-private fun FilledButtonPreview() {
+private fun BorderedButtonPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
@@ -138,18 +137,79 @@ private fun FilledButtonPreview() {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ButtonBordered(
-                    modifier = Modifier.height(48.dp).width(120.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                 )
                 ButtonBordered(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(R.drawable.cog),
                 )
                 ButtonBordered(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    enabled = false,
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                    label = "I'm a button",
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                    label = "I'm a button",
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                    label = "I'm a button",
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    enabled = false,
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                    icon = ImageVector.vectorResource(R.drawable.cog),
+                )
+                ButtonBordered(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
+                    icon = ImageVector.vectorResource(R.drawable.cog),
                     enabled = false,
                 )
             }

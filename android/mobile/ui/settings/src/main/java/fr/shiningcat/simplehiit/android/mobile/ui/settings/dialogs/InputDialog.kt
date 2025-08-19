@@ -11,13 +11,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,11 +27,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices.DESKTOP
-import androidx.compose.ui.tooling.preview.Devices.FOLDABLE
-import androidx.compose.ui.tooling.preview.Devices.PHONE
-import androidx.compose.ui.tooling.preview.Devices.TABLET
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -44,10 +36,11 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonLayoutInfo
+import fr.shiningcat.simplehiit.android.common.ui.previews.PreviewMobileScreensNoUI
+import fr.shiningcat.simplehiit.android.common.ui.utils.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
+import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.buttonsFitOnOneLine
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
@@ -210,8 +203,7 @@ private fun InputDialogBodyContent(
                     end = dialogHorizontalPadding,
                     top = 24.dp,
                     bottom = 8.dp,
-                )
-                .align(Alignment.CenterHorizontally),
+                ).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -287,27 +279,31 @@ private fun InputDialogButtonsLayout(
     density: Density,
 ) {
     val primaryButtonInfo =
-        ButtonLayoutInfo(
+        DialogButtonConfig(
             label = primaryButtonLabel,
             style = MaterialTheme.typography.labelMedium,
             type = ButtonType.FILLED,
+            enabled = !isError,
+            onClick = onPrimaryClick,
         )
     val secondaryButtonInfo =
         if (secondaryButtonLabel.isNotBlank()) {
-            ButtonLayoutInfo(
+            DialogButtonConfig(
                 label = secondaryButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
                 type = ButtonType.OUTLINED,
+                onClick = onSecondaryClick,
             )
         } else {
             null
         }
     val dismissButtonInfo =
         if (dismissButtonLabel.isNotBlank()) {
-            ButtonLayoutInfo(
+            DialogButtonConfig(
                 label = dismissButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
                 type = ButtonType.OUTLINED,
+                onClick = onDismissClick,
             )
         } else {
             null
@@ -315,88 +311,14 @@ private fun InputDialogButtonsLayout(
 
     val buttons = listOfNotNull(primaryButtonInfo, secondaryButtonInfo, dismissButtonInfo)
     val buttonsSpacingDp = 12.dp
-    val effectiveDialogContentWidthPx =
-        with(density) { effectiveDialogContentWidthDp.toPx() }.toInt()
 
-    val buttonsFitOnOneLine =
-        buttonsFitOnOneLine(
-            buttons = buttons,
-            availableWidthPx = effectiveDialogContentWidthPx,
-            horizontalSpacingDp = buttonsSpacingDp,
-        )
-
-    if (buttonsFitOnOneLine) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp, vertical = 24.dp),
-            horizontalArrangement =
-                Arrangement.spacedBy(
-                    space = buttonsSpacingDp,
-                    alignment = Alignment.End,
-                ),
-        ) {
-            if (secondaryButtonLabel.isNotBlank()) {
-                TextButton(onClick = onSecondaryClick) {
-                    Text(
-                        text = secondaryButtonLabel,
-                        style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1,
-                    )
-                }
-            }
-            if (dismissButtonLabel.isNotBlank()) {
-                OutlinedButton(onClick = onDismissClick) {
-                    Text(
-                        text = dismissButtonLabel,
-                        style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1,
-                    )
-                }
-            }
-            Button(onClick = { if (!isError) onPrimaryClick() }) {
-                Text(
-                    text = primaryButtonLabel,
-                    style = MaterialTheme.typography.labelMedium,
-                    maxLines = 1,
-                )
-            }
-        }
-    } else {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 0.dp, vertical = 24.dp),
-            verticalArrangement = Arrangement.spacedBy(buttonsSpacingDp),
-            horizontalAlignment = Alignment.End,
-        ) {
-            Button(onClick = { if (!isError) onPrimaryClick() }) {
-                Text(
-                    text = primaryButtonLabel,
-                    style = MaterialTheme.typography.labelMedium,
-                    maxLines = 1,
-                )
-            }
-            if (secondaryButtonLabel.isNotBlank()) {
-                TextButton(onClick = onSecondaryClick) {
-                    Text(
-                        text = secondaryButtonLabel,
-                        style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1,
-                    )
-                }
-            }
-            if (dismissButtonLabel.isNotBlank()) {
-                OutlinedButton(onClick = onDismissClick) {
-                    Text(
-                        text = dismissButtonLabel,
-                        style = MaterialTheme.typography.labelMedium,
-                        maxLines = 1,
-                    )
-                }
-            }
-        }
-    }
+    AdaptiveDialogButtonsLayout(
+        buttons = buttons,
+        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+        dialogContentWidthDp = effectiveDialogContentWidthDp,
+        horizontalSpacingDp = buttonsSpacingDp,
+        verticalSpacingDp = buttonsSpacingDp,
+    )
 }
 
 // Previews
@@ -404,15 +326,7 @@ private fun InputDialogButtonsLayout(
 // because we want no showSystemUi which overlaps the system status bar to the dialog preview
 @PreviewLightDark
 @PreviewFontScale
-@Preview(name = "Phone", device = PHONE, showSystemUi = false)
-@Preview(
-    name = "Phone - Landscape",
-    device = "spec:width=411dp,height=891dp,orientation=landscape,dpi=420",
-    showSystemUi = false,
-)
-@Preview(name = "Unfolded Foldable", device = FOLDABLE, showSystemUi = false)
-@Preview(name = "Tablet", device = TABLET, showSystemUi = false)
-@Preview(name = "Desktop", device = DESKTOP, showSystemUi = false)
+@PreviewMobileScreensNoUI
 @Composable
 private fun InputDialogPreview(
     @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject,

@@ -12,6 +12,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -102,7 +103,7 @@ private fun SettingsScreen(
     Row(modifier = Modifier.fillMaxSize()) {
         NavigationSideBar(
             navigateTo = navigateTo,
-            currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Settings,
+            currentDestination = Screen.Settings,
             showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty(),
         )
         Column(
@@ -164,24 +165,24 @@ private fun SettingsScreenPreview(
 
 internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider<SettingsViewState> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

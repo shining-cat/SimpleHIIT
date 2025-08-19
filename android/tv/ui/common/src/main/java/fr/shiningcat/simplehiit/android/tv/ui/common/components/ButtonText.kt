@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
@@ -21,14 +20,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -64,6 +66,7 @@ fun ButtonText(
                         } else {
                             ""
                         },
+                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
                 )
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }
@@ -92,31 +95,36 @@ fun transparentButtonTextColors() =
     )
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun ButtonTextPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
-                modifier = Modifier.width(300.dp),
+                modifier = Modifier.width(adaptDpToFontScale(300.dp)),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ButtonText(
-                    modifier = Modifier.height(48.dp).width(120.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(48.dp))
+                            .width(adaptDpToFontScale(120.dp)),
                     label = "I'm a button",
                 )
                 ButtonText(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(48.dp))
+                            .width(adaptDpToFontScale(120.dp)),
                     label = "I'm a button",
                     icon = R.drawable.cog,
                 )
                 ButtonText(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(48.dp))
+                            .width(adaptDpToFontScale(120.dp)),
                     label = "I'm a button",
                     icon = R.drawable.cog,
                     enabled = false,

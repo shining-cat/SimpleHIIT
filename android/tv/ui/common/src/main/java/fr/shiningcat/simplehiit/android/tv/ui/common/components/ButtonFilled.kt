@@ -1,12 +1,12 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import android.content.res.Configuration
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -18,14 +18,18 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.MINIMUM_TOUCH_SIZE_DP
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -41,7 +45,11 @@ fun ButtonFilled(
     enabled: Boolean = true,
 ) {
     Button(
-        modifier = modifier,
+        modifier =
+            modifier.defaultMinSize(
+                minWidth = MINIMUM_TOUCH_SIZE_DP,
+                minHeight = MINIMUM_TOUCH_SIZE_DP,
+            ),
         enabled = enabled,
         onClick = { onClick() },
         colors =
@@ -69,6 +77,7 @@ fun ButtonFilled(
             if (icon != null) {
                 Icon(
                     imageVector = icon,
+                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
                     contentDescription =
                         if (iconContentDescription != -1) {
                             stringResource(id = iconContentDescription)
@@ -88,12 +97,8 @@ fun ButtonFilled(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun ButtonFilledPreview() {
     SimpleHiitTvTheme {
@@ -103,54 +108,84 @@ private fun ButtonFilledPreview() {
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     enabled = false,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                     accentColor = true,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     label = "I'm a button",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
                     enabled = false,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     enabled = false,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     accentColor = true,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
                 )
                 ButtonFilled(
-                    modifier = Modifier.height(48.dp).width(150.dp),
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(44.dp))
+                            .width(adaptDpToFontScale(150.dp)),
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     accentColor = true,
                     enabled = false,

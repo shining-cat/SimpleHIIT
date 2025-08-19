@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.common.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.shiningcat.simplehiit.android.common.ui.previews.PreviewMobileScreensNoUI
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -50,7 +51,7 @@ fun ErrorDialog(
                 Image(
                     modifier =
                         Modifier
-                            .size(120.dp)
+                            .size(adaptDpToFontScale(120.dp))
                             .align(Alignment.CenterHorizontally)
                             .padding(horizontal = 0.dp, vertical = 24.dp),
                     painter = painterResource(id = R.drawable.warning),
@@ -94,16 +95,9 @@ fun ErrorDialog(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewMobileScreensNoUI
 @Composable
 private fun ErrorDialogPreview() {
     SimpleHiitMobileTheme {

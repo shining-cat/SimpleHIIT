@@ -1,10 +1,7 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings.contents
 
-import android.content.res.Configuration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.MaterialTheme
@@ -12,6 +9,7 @@ import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ErrorDialog
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.WarningDialog
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreen
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsDialog
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState
@@ -176,16 +174,7 @@ fun SettingsContentHolder(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewTvScreen
 @Composable
 private fun SettingsContentHolderPreviewPhonePortrait(
     @PreviewParameter(SettingsContentHolderPreviewParameterProvider::class) viewState: SettingsViewState,
@@ -202,24 +191,24 @@ private fun SettingsContentHolderPreviewPhonePortrait(
 
 internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterProvider<SettingsViewState> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 
