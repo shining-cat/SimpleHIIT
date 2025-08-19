@@ -39,7 +39,7 @@ class SettingsViewModel
                     _screenViewState.emit(
                         mapper.map(it),
                     )
-            }
+                }
             }
         }
 

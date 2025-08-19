@@ -18,16 +18,21 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+
+val toggleButtonLostWidthDp: Dp = FilterChipDefaults.IconSize + 8.dp * 4
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ToggleButton(
     modifier: Modifier = Modifier,
     label: String,
+    labelStyle: TextStyle,
     selected: Boolean,
     onToggle: () -> Unit,
 ) {
@@ -35,7 +40,14 @@ fun ToggleButton(
         modifier = modifier.height(48.dp),
         selected = selected,
         onClick = { onToggle() },
-        label = { Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis) },
+        label = {
+            Text(
+                text = label,
+                maxLines = 1,
+                style = labelStyle,
+                overflow = TextOverflow.Ellipsis,
+            )
+        },
         colors =
             FilterChipDefaults.filterChipColors(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -73,17 +85,20 @@ private fun ToggleButtonPreview() {
             ) {
                 ToggleButton(
                     label = "I'm selected",
+                    labelStyle = MaterialTheme.typography.labelMedium,
                     selected = true,
                     onToggle = {},
                 )
                 ToggleButton(
                     label = "I'm NOT selected",
+                    labelStyle = MaterialTheme.typography.labelMedium,
                     selected = false,
                     onToggle = {},
                 )
                 ToggleButton(
                     // causing a truncation
                     modifier = Modifier.width(86.dp),
+                    labelStyle = MaterialTheme.typography.labelMedium,
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {},
