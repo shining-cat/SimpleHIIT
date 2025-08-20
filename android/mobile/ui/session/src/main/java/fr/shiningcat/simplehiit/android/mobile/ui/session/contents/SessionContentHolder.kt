@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import android.view.View
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -8,6 +9,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -61,7 +63,7 @@ fun SessionContentHolder(
         }
     }
     when (screenViewState) {
-        SessionViewState.Loading -> BasicLoading()
+        SessionViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
 
         is SessionViewState.Error ->
             SessionErrorStateContent(

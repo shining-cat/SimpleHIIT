@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.contents
 
 import androidx.compose.foundation.layout.Box // Added import
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun HomeContentHolder(
+    modifier: Modifier = Modifier,
     navigateTo: (String) -> Unit = {},
     resetWholeApp: () -> Unit = {},
     resetWholeAppDeleteEverything: () -> Unit = {},
@@ -37,11 +39,10 @@ fun HomeContentHolder(
     screenViewState: HomeViewState,
     dialogViewState: HomeDialog,
     hiitLogger: HiitLogger? = null,
-    modifier: Modifier = Modifier, // Added modifier parameter
 ) {
-    Box(modifier = modifier) { // Apply modifier to a wrapping Box
+    Box(modifier = modifier) {
         when (screenViewState) {
-            is HomeViewState.Loading -> BasicLoading()
+            is HomeViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
 
             is HomeViewState.Error ->
                 HomeErrorContent(

@@ -38,6 +38,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun SettingsNominalContent(
+    modifier: Modifier = Modifier,
     editWorkPeriodLength: () -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
     editNumberOfWorkPeriods: () -> Unit = {},
@@ -54,7 +55,7 @@ fun SettingsNominalContent(
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(horizontal = 8.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),

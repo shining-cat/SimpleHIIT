@@ -1,8 +1,10 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -39,7 +41,7 @@ fun StatisticsContentHolder(
     hiitLogger: HiitLogger? = null,
 ) {
     when (screenViewState) {
-        StatisticsViewState.Loading -> BasicLoading()
+        StatisticsViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
 
         is StatisticsViewState.Nominal -> {
             StatisticsNominalContent(
