@@ -247,8 +247,7 @@ private fun InputDialogBodyContent(
                     end = dialogHorizontalPadding,
                     top = 24.dp,
                     bottom = 8.dp,
-                )
-                .align(Alignment.CenterHorizontally),
+                ).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
         ) {

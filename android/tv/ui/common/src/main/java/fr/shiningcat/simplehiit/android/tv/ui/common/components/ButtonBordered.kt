@@ -135,8 +135,7 @@ fun ButtonBordered(
                     } else {
                         Modifier
                     },
-                )
-                .then(
+                ).then(
                     if (fillHeight) {
                         Modifier.fillMaxHeight()
                     } else {

@@ -8,6 +8,7 @@
   See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7)
 * small screen horizontal user selection should be a list to allow for more room to read users'
   names
+* ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
