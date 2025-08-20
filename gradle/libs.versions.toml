@@ -25,6 +25,7 @@ lifecycleProcess = "2.9.2"
 glide = "1.0.0-beta01"
 composeBom = "2025.08.00"
 composeNavigation = "2.9.3"
+activityCompose = "1.10.1"
 composeNavigationHilt = "1.2.0"
 tvMaterial = "1.0.1"
 # see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements:
@@ -42,6 +43,7 @@ androidx-tv-material = { module = "androidx.tv:tv-material", version.ref = "tvMa
 androidx-tv-foundation = { module = "androidx.tv:tv-foundation", version.ref = "tvFoundation" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
 test-runner = { module = "androidx.test:runner", version.ref = "testRunner" }
 androidx-archcore-testing = { module = "androidx.arch.core:core-testing", version.ref = "archCoreTest" }

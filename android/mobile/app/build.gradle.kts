@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.activity.compose)
 }
 
 tasks {

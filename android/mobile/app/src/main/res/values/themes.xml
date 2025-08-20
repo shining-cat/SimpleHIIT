@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Mobile specific theme inheriting from the common one -->
+    <style name="Theme.SimpleHIIT.Mobile" parent="Theme.SimpleHIIT">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

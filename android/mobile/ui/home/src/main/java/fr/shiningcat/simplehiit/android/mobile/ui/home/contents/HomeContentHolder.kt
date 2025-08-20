@@ -1,8 +1,10 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.contents
 
+import androidx.compose.foundation.layout.Box // Added import
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier // Added import
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -35,35 +37,39 @@ fun HomeContentHolder(
     screenViewState: HomeViewState,
     dialogViewState: HomeDialog,
     hiitLogger: HiitLogger? = null,
+    modifier: Modifier = Modifier, // Added modifier parameter
 ) {
-    when (screenViewState) {
-        is HomeViewState.Loading -> BasicLoading()
+    Box(modifier = modifier) { // Apply modifier to a wrapping Box
+        when (screenViewState) {
+            is HomeViewState.Loading -> BasicLoading()
 
-        is HomeViewState.Error ->
-            HomeErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetWholeApp = resetWholeApp,
-            )
+            is HomeViewState.Error ->
+                HomeErrorContent(
+                    errorCode = screenViewState.errorCode,
+                    resetWholeApp = resetWholeApp,
+                )
 
-        is HomeViewState.MissingUsers ->
-            HomeMissingUsersContent(
-                navigateToSettings = { navigateTo(Screen.Settings.route) },
-            )
+            is HomeViewState.MissingUsers ->
+                HomeMissingUsersContent(
+                    navigateToSettings = { navigateTo(Screen.Settings.route) },
+                )
 
-        is HomeViewState.Nominal ->
-            HomeNominalContent(
-                decreaseNumberOfCycles = decreaseNumberOfCycles,
-                increaseNumberOfCycles = increaseNumberOfCycles,
-                numberOfCycles = screenViewState.numberCumulatedCycles,
-                lengthOfCycle = screenViewState.cycleLength,
-                totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
-                uiArrangement = uiArrangement,
-                users = screenViewState.users,
-                toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = { navigateTo(Screen.Session.route) },
-                hiitLogger = hiitLogger,
-            )
+            is HomeViewState.Nominal ->
+                HomeNominalContent(
+                    decreaseNumberOfCycles = decreaseNumberOfCycles,
+                    increaseNumberOfCycles = increaseNumberOfCycles,
+                    numberOfCycles = screenViewState.numberCumulatedCycles,
+                    lengthOfCycle = screenViewState.cycleLength,
+                    totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
+                    uiArrangement = uiArrangement,
+                    users = screenViewState.users,
+                    toggleSelectedUser = toggleSelectedUser,
+                    navigateToSession = { navigateTo(Screen.Session.route) },
+                    hiitLogger = hiitLogger,
+                )
+        }
     }
+    // Dialogs are typically drawn on top of everything, so they don't need the main content modifier
     when (dialogViewState) {
         is HomeDialog.ConfirmWholeReset ->
             WarningDialog(
@@ -77,7 +83,7 @@ fun HomeContentHolder(
     }
 }
 
-// Previews
+// Previews ( остальное без изменений )
 @PreviewLightDark
 @PreviewFontScale
 @PreviewScreenSizes
