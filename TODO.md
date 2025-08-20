@@ -5,13 +5,13 @@
 * enable edge-to-edge and fixes (in HomeScreen there is tinting of the status bar that is now
   deprecated)
 * session running screen issue when it does not fit vertically on mobile phone screen... should it scroll or be constrained?
-* small scren horizontal user selection should be a list to allow for more room to read users' names
+* small screen horizontal user selection should be a list to allow for more room to read users'
+  names
 * TV: exercise display in session running screen is messed up, components positions are all wrong
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
-* run ktlintCheck finds issues in a file after auto-format. Fix contradiction between the two
 * some deprecated objects used in the TV version now that it supports part of the compose foundation
 
 ## Publication
@@ -31,17 +31,21 @@
 
 ## General technical improvements
 
-* upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 * extract all dimensions to res dimen
+* upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 * Improve StatusBar tinting and remove the need for deprecated window.statusBarColor=Color. See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7
-* replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
-* connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
-  report is created?
-* explore improvement of inter-modules dependencies management, maybe try out https://github.com/jraska/modules-graph-assert
+* explore improvement of inter-modules dependencies management, maybe try
+  out https://github.com/jraska/modules-graph-assert
 * Missing data extraction rules,
   see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore,
   and https://developer.android.com/guide/topics/data/autobackup, find how to set up
   backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
+
+### test coverage
+
+* replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
+* connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
+  report is created?
 * had to exclude the external instrumented tests module from report aggregation plugin, see testAggregation block in build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
 * fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified  project jacoco_exp to investigate
 

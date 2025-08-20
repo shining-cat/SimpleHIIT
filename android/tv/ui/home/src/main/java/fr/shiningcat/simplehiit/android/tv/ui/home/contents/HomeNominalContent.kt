@@ -57,6 +57,7 @@ fun HomeNominalContent(
             Modifier
                 .padding(8.dp)
                 .fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (users.size == 1) {
             SingleUserHeaderComponent(
