@@ -52,6 +52,24 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                     ),
                     Constants.InputError.TOO_LONG,
                 ),
+                Arguments.of(
+                    User(
+                        id = 123L,
+                        name =
+                            "",
+                    ),
+                    emptyList<User>(),
+                    Constants.InputError.VALUE_EMPTY,
+                ),
+                Arguments.of(
+                    User(
+                        id = 123L,
+                        name =
+                            "    ",
+                    ),
+                    emptyList<User>(),
+                    Constants.InputError.VALUE_EMPTY,
+                ),
                 // picking the same name for the same user id:
                 Arguments.of(
                     User(id = 123L, name = "user test 1"),

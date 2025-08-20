@@ -48,6 +48,7 @@ fun SettingsEditUserDialog(
 
 private fun setUserNameErrorMessage(error: Constants.InputError): Int =
     when (error) {
+        Constants.InputError.VALUE_EMPTY -> R.string.user_name_empty_error
         Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
         Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1

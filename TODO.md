@@ -2,7 +2,8 @@
 
 ## Missing features / issues
 
-* user can save empty name user
+* ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
+* ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * enable edge-to-edge and fixes (in HomeScreen there is tinting of the status bar that is now
   deprecated) (Connected: Improve StatusBar tinting and remove the need for deprecated
   window.statusBarColor=Color.
@@ -15,6 +16,7 @@
   scroll or be constrained?
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
+* StatisticsSelectUserDialog: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
 
 ## Publication
 

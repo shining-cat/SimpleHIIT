@@ -14,11 +14,16 @@ class ValidateInputUserNameUseCase
             user: User,
             existingUsers: List<User>,
         ): Constants.InputError =
-            if (existingUsers.find { it.name == user.name && it.id != user.id } != null) {
-                Constants.InputError.VALUE_ALREADY_TAKEN
-            } else if (user.name.length < 25) {
-                Constants.InputError.NONE
-            } else {
-                Constants.InputError.TOO_LONG
+            when {
+                user.name.isBlank() -> Constants.InputError.VALUE_EMPTY
+                existingUsers.find { it.name == user.name && it.id != user.id } != null -> {
+                    Constants.InputError.VALUE_ALREADY_TAKEN
+                }
+                user.name.length < 25 -> {
+                    Constants.InputError.NONE
+                }
+                else -> {
+                    Constants.InputError.TOO_LONG
+                }
             }
     }

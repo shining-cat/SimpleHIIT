@@ -40,6 +40,7 @@ object Constants {
         NONE,
         WRONG_FORMAT,
         TOO_LONG,
+        VALUE_EMPTY,
         VALUE_TOO_SMALL,
         VALUE_TOO_BIG,
         VALUE_ALREADY_TAKEN,

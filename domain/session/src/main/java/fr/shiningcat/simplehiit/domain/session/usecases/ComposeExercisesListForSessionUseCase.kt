@@ -81,7 +81,6 @@ class ComposeExercisesListForSessionUseCase
                 Exercise.entries.filter { selectedExerciseTypes.contains(it.exerciseType) }
 
             val exercisesSourceList = exercisesOfSelectedTypesSourceList.toMutableList()
-            // todo: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
             while (wantedNumberOfExercises > numberOfAvailableExercises(exercisesSourceList)) {
                 hiitLogger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
@@ -90,7 +89,6 @@ class ComposeExercisesListForSessionUseCase
                             " when selected list contains ${exercisesSourceList.size}." +
                             " -> Adding the whole pack of exercises again in source list to pick from",
                 )
-                // TODO: display warning in presentation layer for exercises duplication
                 exercisesSourceList.addAll(exercisesOfSelectedTypesSourceList)
             }
             return exercisesSourceList
