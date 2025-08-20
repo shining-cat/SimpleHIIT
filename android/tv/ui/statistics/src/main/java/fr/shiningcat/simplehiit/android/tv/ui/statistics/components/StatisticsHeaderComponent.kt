@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.statistics.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,16 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.Icon
-import androidx.tv.material3.IconButton
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -61,27 +60,20 @@ fun StatisticsHeaderComponent(
         )
         if (showUsersSwitch) {
             Spacer(modifier = Modifier.width(32.dp))
-            IconButton(
+            ButtonFilled(
                 modifier = Modifier.focusRequester(focusRequester),
                 onClick = { openUserPicker() },
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.switch_user),
-                    contentDescription = stringResource(id = R.string.statistics_page_switch_user),
-                    tint = MaterialTheme.colorScheme.primary,
-                )
-            }
+                icon = ImageVector.vectorResource(R.drawable.switch_user),
+                iconContentDescription = R.string.statistics_page_switch_user,
+            )
         }
     }
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
+@PreviewTvScreensNoUi
 @Composable
 private fun StatisticsHeaderPreview() {
     SimpleHiitTvTheme {

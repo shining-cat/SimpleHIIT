@@ -1,19 +1,22 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 
-import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
@@ -111,78 +114,28 @@ private fun StatisticsScreen(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-private fun StatisticsScreenPreviewPhonePortrait(
+private fun StatisticsScreenPreview(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState,
 ) {
-    SimpleHiitMobileTheme {
-        Surface {
-            StatisticsScreen(
-                uiArrangement = UiArrangement.VERTICAL,
-                screenViewState = viewState,
-                dialogViewState = StatisticsDialog.None,
-            )
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
         }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun StatisticsScreenPreviewTabletLandscape(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState,
-) {
     SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
-                uiArrangement = UiArrangement.HORIZONTAL,
-                screenViewState = viewState,
-                dialogViewState = StatisticsDialog.None,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun StatisticsScreenPreviewPhoneLandscape(
-    @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            StatisticsScreen(
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
                 screenViewState = viewState,
                 dialogViewState = StatisticsDialog.None,
             )
@@ -212,11 +165,20 @@ internal class StatisticsScreenPreviewParameterProvider : PreviewParameterProvid
                     statistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic(
+                                "5h 23mn 64s",
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME,
+                            ),
+                            DisplayedStatistic(
+                                "15mn 13s",
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH,
+                            ),
                             DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic(
+                                "3,5",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
+                            ),
                         ),
                     showUsersSwitch = true,
                 ),
@@ -225,11 +187,20 @@ internal class StatisticsScreenPreviewParameterProvider : PreviewParameterProvid
                     statistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic(
+                                "5h 23mn 64s",
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME,
+                            ),
+                            DisplayedStatistic(
+                                "15mn 13s",
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH,
+                            ),
                             DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic(
+                                "3,5",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
+                            ),
                         ),
                     showUsersSwitch = false,
                 ),

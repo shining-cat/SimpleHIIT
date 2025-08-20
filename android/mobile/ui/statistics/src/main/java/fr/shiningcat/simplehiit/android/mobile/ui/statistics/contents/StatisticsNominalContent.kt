@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,18 +13,22 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticCardComponent
@@ -104,76 +107,28 @@ fun StatisticsNominalContent(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewMobileScreensNoUI
 @Composable
-private fun StatisticsNominalContentPreviewPhonePortrait(
+private fun StatisticsNominalContentPreview(
     @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal,
 ) {
-    SimpleHiitMobileTheme {
-        Surface {
-            StatisticsNominalContent(
-                uiArrangement = UiArrangement.VERTICAL,
-                viewState = viewState,
-            )
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
         }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun StatisticsNominalContentPreviewTabletLandscape(
-    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal,
-) {
     SimpleHiitMobileTheme {
         Surface {
             StatisticsNominalContent(
-                uiArrangement = UiArrangement.HORIZONTAL,
-                viewState = viewState,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun StatisticsNominalContentPreviewPhoneLandscape(
-    @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            StatisticsNominalContent(
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
                 viewState = viewState,
             )
         }

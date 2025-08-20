@@ -28,6 +28,7 @@ import androidx.tv.material3.Border
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Surface
@@ -151,7 +152,7 @@ fun ButtonBordered(
         ) {
             if (icon != null) {
                 Icon(
-                    modifier = Modifier.size(adaptDpToFontScale(24.dp)),
+                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
                     imageVector = icon,
                     contentDescription = null,
                 )

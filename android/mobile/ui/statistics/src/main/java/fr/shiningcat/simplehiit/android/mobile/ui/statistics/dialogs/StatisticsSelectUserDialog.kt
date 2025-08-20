@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.dialogs
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -17,12 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -79,18 +79,9 @@ fun StatisticsSelectUserDialog(
 }
 
 // Previews
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewMobileScreensNoUI
 @Composable
 private fun StatisticsPickUserDialogPreview(
     @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>,

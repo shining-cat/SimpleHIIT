@@ -30,6 +30,7 @@ import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonBordered
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -116,6 +117,7 @@ fun StatisticsSelectUserDialog(
 // Previews
 @PreviewFontScale
 @PreviewLightDark
+@PreviewTvScreensNoUi
 @Composable
 private fun StatisticsPickUserDialogPreview(
     @PreviewParameter(StatisticsPickUserDialogPreviewParameterProvider::class) users: List<User>,

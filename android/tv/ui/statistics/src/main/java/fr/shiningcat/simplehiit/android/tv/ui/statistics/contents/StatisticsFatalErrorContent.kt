@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.statistics.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,13 +16,15 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import kotlinx.coroutines.delay
@@ -50,7 +51,7 @@ fun StatisticsFatalErrorContent(
         Image(
             modifier =
                 Modifier
-                    .size(120.dp)
+                    .size(adaptDpToFontScale(120.dp))
                     .align(Alignment.CenterHorizontally)
                     .padding(horizontal = 0.dp, vertical = 16.dp),
             painter = painterResource(id = R.drawable.warning),
@@ -87,16 +88,9 @@ fun StatisticsFatalErrorContent(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
+@PreviewTvScreensNoUi
 @Composable
 private fun SettingsErrorContentPreview() {
     SimpleHiitTvTheme {

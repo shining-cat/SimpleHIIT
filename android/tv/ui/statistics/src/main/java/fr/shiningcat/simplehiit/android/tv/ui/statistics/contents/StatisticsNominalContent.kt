@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.statistics.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -26,6 +25,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.components.StatisticCardComponent
@@ -85,7 +85,9 @@ fun StatisticsNominalContent(
                 )
             }
             item(span = doubleSpan) {
-                Row(modifier = Modifier.fillMaxWidth().padding(top = 24.dp)) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp)) {
                     Spacer(modifier = Modifier.weight(.3f))
                     ButtonText(
                         modifier =
@@ -107,16 +109,9 @@ fun StatisticsNominalContent(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
+@PreviewTvScreensNoUi
 @Composable
 fun StatisticsNominalContentPreviewTabletLandscape(
     @PreviewParameter(StatisticsNominalContentPreviewParameterProvider::class) viewState: StatisticsViewState.Nominal,

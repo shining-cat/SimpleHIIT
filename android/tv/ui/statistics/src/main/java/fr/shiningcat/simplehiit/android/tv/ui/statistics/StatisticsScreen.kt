@@ -1,12 +1,9 @@
 package fr.shiningcat.simplehiit.android.tv.ui.statistics
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,6 +11,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.contents.StatisticsContentHolder
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -86,16 +84,7 @@ private fun StatisticsScreen(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewTvScreens
 @Composable
 private fun StatisticsScreenPreview(
     @PreviewParameter(StatisticsScreenPreviewParameterProvider::class) viewState: StatisticsViewState,
