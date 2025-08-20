@@ -1,25 +1,27 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun ButtonToggle(
     modifier: Modifier = Modifier,
+    fillWidth: Boolean = false,
+    fillHeight: Boolean = false,
     label: String,
     selected: Boolean,
     onToggle: () -> Unit,
@@ -27,6 +29,8 @@ fun ButtonToggle(
     if (selected) {
         ButtonFilled(
             modifier = modifier,
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
             onClick = { onToggle() },
             label = label,
             icon = Icons.Filled.Done,
@@ -35,6 +39,8 @@ fun ButtonToggle(
     } else {
         ButtonBordered(
             modifier = modifier,
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
             onClick = { onToggle() },
             label = label,
         )
@@ -42,28 +48,26 @@ fun ButtonToggle(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun ButtonTogglePreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            Column(
+                modifier = Modifier.width(adaptDpToFontScale(300.dp)),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 ButtonToggle(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    fillHeight = true,
                     label = "I'm selected",
                     selected = true,
                     onToggle = {},
                 )
                 ButtonToggle(
-                    modifier = Modifier.height(48.dp),
+                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    fillHeight = true,
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {},
@@ -72,8 +76,10 @@ private fun ButtonTogglePreview() {
                     // causing a truncation
                     modifier =
                         Modifier
-                            .height(48.dp)
-                            .width(124.dp),
+                            .height(adaptDpToFontScale(48.dp))
+                            .width(adaptDpToFontScale(128.dp)),
+                    fillHeight = true,
+                    fillWidth = true,
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {},

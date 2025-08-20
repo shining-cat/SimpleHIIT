@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.home.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,10 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -63,6 +61,8 @@ fun NumberCyclesComponent(
                         .height(adaptDpToFontScale(48.dp))
                         .width(adaptDpToFontScale(48.dp))
                         .focusProperties { canFocus = minusButtonActive },
+                fillHeight = true,
+                fillWidth = true,
                 onClick = decreaseNumberOfCycles,
                 accentColor = false,
                 icon = Icons.Filled.KeyboardArrowDown,
@@ -85,6 +85,8 @@ fun NumberCyclesComponent(
                     Modifier
                         .height(adaptDpToFontScale(48.dp))
                         .width(adaptDpToFontScale(48.dp)),
+                fillHeight = true,
+                fillWidth = true,
                 onClick = increaseNumberOfCycles,
                 accentColor = false,
                 icon = Icons.Filled.KeyboardArrowUp,
@@ -101,49 +103,8 @@ fun NumberCyclesComponent(
 }
 
 // Previews
-@ExperimentalTvMaterial3Api
-@Preview(
-    name = "light mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewFontScale
+@PreviewLightDark
 @Composable
 private fun NumberCyclesComponentPreview() {
     SimpleHiitTvTheme {

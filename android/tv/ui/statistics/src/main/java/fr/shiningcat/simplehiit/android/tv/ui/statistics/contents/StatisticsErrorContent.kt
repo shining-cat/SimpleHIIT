@@ -49,6 +49,7 @@ fun StatisticsErrorContent(
                 .padding(8.dp)
                 .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
             openUserPicker = openUserPicker,

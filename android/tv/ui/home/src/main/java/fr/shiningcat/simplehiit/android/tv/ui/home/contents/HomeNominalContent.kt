@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.ui.home.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,8 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -25,6 +22,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.NumberCyclesComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SelectUsersComponent
@@ -98,6 +96,8 @@ fun HomeNominalContent(
                             .height(48.dp)
                             .weight(.3f)
                             .focusRequester(focusRequester),
+                    fillWidth = true,
+                    fillHeight = true,
                     // calling focus on the launch button on opening
                     label =
                         if (canLaunchSession) {
@@ -117,48 +117,7 @@ fun HomeNominalContent(
 
 // Previews
 @ExperimentalTvMaterial3Api
-@Preview(
-    name = "light mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 1.5",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 1.5f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Preview(
-    name = "light mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    name = "dark mode, fontscale 2",
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    fontScale = 2f,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewTvScreens
 @Composable
 private fun HomeNominalContentPreviewPhonePortrait(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,

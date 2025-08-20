@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.contents
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +8,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Divider
+import androidx.compose.material3.DividerDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -17,10 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
+import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
@@ -107,31 +108,34 @@ fun SettingsNominalContent(
                 ),
             onClick = editSessionStartCountDown,
         )
-        Divider(
+        HorizontalDivider(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
             thickness = Dp.Hairline,
+            color = DividerDefaults.color,
         )
         SettingsUsersComponent(users = viewState.users, onClickUser = editUser, onAddUser = addUser)
-        Divider(
+        HorizontalDivider(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
             thickness = Dp.Hairline,
+            color = DividerDefaults.color,
         )
         SettingsExercisesSelectedComponent(
             exerciseTypes = viewState.exerciseTypes,
             onToggle = toggleExerciseType,
         )
-        Divider(
+        HorizontalDivider(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = 8.dp),
             thickness = Dp.Hairline,
+            color = DividerDefaults.color,
         )
         TextButton(
             modifier =
@@ -146,70 +150,11 @@ fun SettingsNominalContent(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.PIXEL_4,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@PreviewLightDark
+@PreviewFontScale
+@PreviewScreenSizes
 @Composable
-private fun SettingsNominalContentPreviewPhonePortrait(
-    @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SettingsNominalContent(
-                viewState = viewState,
-                uiArrangement = UiArrangement.VERTICAL,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:width=1280dp,height=800dp,dpi=240",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
-@Composable
-private fun SettingsNominalContentPreviewTabletLandscape(
-    @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,
-) {
-    SimpleHiitMobileTheme {
-        Surface {
-            SettingsNominalContent(
-                viewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
-            )
-        }
-    }
-}
-
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    heightDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = "spec:parent=pixel_4,orientation=landscape",
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    heightDp = 400,
-)
-@Composable
-private fun SettingsNominalContentPreviewPhoneLandscape(
+private fun SettingsNominalContentPreview(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,
 ) {
     SimpleHiitMobileTheme {
@@ -224,24 +169,24 @@ private fun SettingsNominalContentPreviewPhoneLandscape(
 
 internal class SettingsNominalContentPreviewParameterProvider : PreviewParameterProvider<SettingsViewState.Nominal> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

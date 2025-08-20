@@ -1,20 +1,20 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.contents.SettingsContentHolder
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -30,7 +30,6 @@ fun SettingsScreen(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
 ) {
-    viewModel.init()
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
@@ -104,7 +103,7 @@ private fun SettingsScreen(
     Row(modifier = Modifier.fillMaxSize()) {
         NavigationSideBar(
             navigateTo = navigateTo,
-            currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Settings,
+            currentDestination = Screen.Settings,
             showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty(),
         )
         Column(
@@ -148,18 +147,8 @@ private fun SettingsScreen(
 }
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-    widthDp = 400,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-    widthDp = 400,
-)
+@ExperimentalTvMaterial3Api
+@PreviewTvScreens
 @Composable
 private fun SettingsScreenPreview(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
@@ -176,24 +165,24 @@ private fun SettingsScreenPreview(
 
 internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider<SettingsViewState> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

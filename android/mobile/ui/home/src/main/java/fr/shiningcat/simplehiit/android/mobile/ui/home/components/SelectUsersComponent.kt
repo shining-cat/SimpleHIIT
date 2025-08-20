@@ -13,6 +13,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -21,10 +23,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.toggleButtonLostWidthDp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
+import kotlin.math.roundToInt
 
 @Composable
 fun SelectUsersComponent(
@@ -33,9 +39,7 @@ fun SelectUsersComponent(
     toggleSelectedUser: (User) -> Unit = {},
 ) {
     Column(
-        modifier =
-            modifier
-                .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
     ) {
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -43,15 +47,34 @@ fun SelectUsersComponent(
             text = stringResource(id = R.string.selected_users_setting_title),
             style = MaterialTheme.typography.headlineLarge,
         )
-
+        val availableWidthPix = LocalWindowInfo.current.containerSize.width
+        val spacingDp = 8.dp
+        val density = LocalDensity.current
+        val spacingPix = with(density) { spacingDp.toPx() }
+        val toggleButtonLostWidthPix = with(density) { toggleButtonLostWidthDp.toPx() }
+        val oneHalfColumnAvailableWidth =
+            (availableWidthPix - 2 * spacingPix) / 2f - toggleButtonLostWidthPix
+        val useTwoColumn =
+            users.all {
+                fitsOnXLines(
+                    textLayoutInfo =
+                        TextLayoutInfo(
+                            text = it.name,
+                            style = MaterialTheme.typography.labelMedium,
+                        ),
+                    numberOfLines = 1,
+                    availableWidthPx = oneHalfColumnAvailableWidth.roundToInt(),
+                )
+            }
+        val numberOfColumns = if (useTwoColumn) 2 else 1
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(numberOfColumns),
             modifier =
                 Modifier
                     .padding(top = 16.dp)
                     .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(spacingDp),
+            verticalArrangement = Arrangement.spacedBy(spacingDp),
         ) {
             items(users.size) {
                 val user = users[it]
@@ -61,6 +84,7 @@ fun SelectUsersComponent(
                             .height(56.dp)
                             .defaultMinSize(minWidth = 112.dp),
                     label = user.name,
+                    labelStyle = MaterialTheme.typography.labelMedium,
                     selected = user.selected,
                     onToggle = { toggleSelectedUser(user) },
                 )
@@ -100,7 +124,7 @@ internal class SelectUsersComponentPreviewParameterProvider : PreviewParameterPr
                     User(123L, "User 1", selected = true),
                     User(234L, "User pouet 2", selected = false),
                     User(345L, "User ping 3", selected = true),
-                    User(345L, "User 4 hase a very long name", selected = true),
+                    User(345L, "User 4 a long name", selected = true),
                     User(123L, "User tralala 5", selected = true),
                     User(234L, "User tudut 6", selected = false),
                     User(345L, "User toto 7", selected = true),
