@@ -195,24 +195,24 @@ private fun SettingsContentHolderPreviewPhoneLandscape(
 
 internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterProvider<SettingsViewState> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

@@ -15,7 +15,7 @@ object Constants {
         const val PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT = 5000L
         const val NUMBER_CUMULATED_CYCLES_DEFAULT = 1
         val DEFAULT_SELECTED_EXERCISES_TYPES =
-            ExerciseType.values().toList().map { ExerciseTypeSelected(it, true) }
+            ExerciseType.entries.map { ExerciseTypeSelected(it, true) }
     }
 
     const val NO_RESULTS_FOUND = "no results found"

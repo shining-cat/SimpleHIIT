@@ -143,7 +143,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
         }
 
     private fun randomListOfExerciseTypesSelected() =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = Random.nextBoolean(),
