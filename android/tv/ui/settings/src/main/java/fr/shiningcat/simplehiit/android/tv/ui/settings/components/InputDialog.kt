@@ -276,7 +276,8 @@ private fun InputDialogBodyContent(
                             } else {
                                 Modifier.fillMaxWidth()
                             },
-                        ).focusRequester(focusRequester),
+                        )
+                        .focusRequester(focusRequester),
                 decorationBox = {
                     InputDialogDecoration(
                         innerTextField = it,
@@ -337,7 +338,8 @@ fun InputDialogDecoration(
                             color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.border,
                         ),
                     shape = MaterialTheme.shapes.small,
-                ).padding(16.dp),
+                )
+                .padding(16.dp),
     ) {
         innerTextField()
         errorTrailingIcon(
