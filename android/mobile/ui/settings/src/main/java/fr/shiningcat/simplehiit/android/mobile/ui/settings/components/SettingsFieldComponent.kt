@@ -19,9 +19,8 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
+import fr.shiningcat.simplehiit.android.common.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import kotlin.math.roundToInt
 
 @Composable
 fun SettingsFieldComponent(
@@ -51,34 +50,28 @@ fun SettingsFieldComponent(
             text = secondaryValue,
             style = MaterialTheme.typography.labelMedium,
         )
-    val elementsLeftList =
+    val elementsFirstLine =
         listOf(
             mainLabelStyled,
-            secondaryLabelStyled,
-        )
-    val elementsRightList =
-        listOf(
             valueStyled,
+        )
+    val elementsSecondLine =
+        listOf(
+            secondaryLabelStyled,
             secondaryValueStyled,
         )
     val availableWidthPix = LocalWindowInfo.current.containerSize.width
-    val leftAvailableWidthPix = 2 * availableWidthPix / 3f
-    val rightAvailableWidthPix = availableWidthPix / 3f
     val useHorizontalLayout =
-        elementsLeftList.all {
-            fitsOnXLines(
-                textLayoutInfo = it,
-                numberOfLines = 1,
-                availableWidthPx = leftAvailableWidthPix.roundToInt(),
+        fitsInWidth(
+            textLayoutInfos = elementsFirstLine,
+            availableWidthPx = availableWidthPix,
+            spacingDp = 4.dp,
+        ) &&
+            fitsInWidth(
+                textLayoutInfos = elementsSecondLine,
+                availableWidthPx = availableWidthPix,
+                spacingDp = 4.dp,
             )
-        } &&
-            elementsRightList.all {
-                fitsOnXLines(
-                    textLayoutInfo = it,
-                    numberOfLines = 1,
-                    availableWidthPx = rightAvailableWidthPix.roundToInt(),
-                )
-            }
     val modifier =
         Modifier
             .fillMaxWidth()

@@ -22,11 +22,10 @@ import androidx.tv.material3.MaterialTheme.typography
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
+import fr.shiningcat.simplehiit.android.common.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import kotlin.math.roundToInt
 
 @Composable
 fun SettingsFieldComponent(
@@ -59,34 +58,28 @@ fun SettingsFieldComponent(
             text = secondaryValue,
             style = typography.labelMedium,
         )
-    val elementsLeftList =
+    val elementsFirstLine =
         listOf(
             mainLabelStyled,
-            secondaryLabelStyled,
-        )
-    val elementsRightList =
-        listOf(
             valueStyled,
+        )
+    val elementsSecondLine =
+        listOf(
+            secondaryLabelStyled,
             secondaryValueStyled,
         )
     val availableWidthPix = LocalWindowInfo.current.containerSize.width
-    val leftAvailableWidthPix = 2 * availableWidthPix / 3f
-    val rightAvailableWidthPix = availableWidthPix / 3f
     val useHorizontalLayout =
-        elementsLeftList.all {
-            fitsOnXLines(
-                textLayoutInfo = it,
-                numberOfLines = 1,
-                availableWidthPx = leftAvailableWidthPix.roundToInt(),
+        fitsInWidth(
+            textLayoutInfos = elementsFirstLine,
+            availableWidthPx = availableWidthPix,
+            spacingDp = 4.dp,
+        ) &&
+            fitsInWidth(
+                textLayoutInfos = elementsSecondLine,
+                availableWidthPx = availableWidthPix,
+                spacingDp = 4.dp,
             )
-        } &&
-            elementsRightList.all {
-                fitsOnXLines(
-                    textLayoutInfo = it,
-                    numberOfLines = 1,
-                    availableWidthPx = rightAvailableWidthPix.roundToInt(),
-                )
-            }
     val modifier =
         modifier
             .fillMaxWidth()
@@ -131,7 +124,10 @@ fun SettingsFieldComponent(
                     }
                 }
             } else {
-                Column(modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                ) {
                     Text(
                         text = label,
                         style = typography.headlineSmall,
@@ -160,39 +156,6 @@ fun SettingsFieldComponent(
             }
         }
     }
-    /*Row(modifier = Modifier.fillMaxWidth()) {
-        Spacer(modifier = Modifier.weight(.15f))
-        Button(
-            modifier =
-                modifier
-                    .weight(weight = .6f, fill = true)
-                    .defaultMinSize(minHeight = 48.dp)
-                    .padding(bottom = 8.dp),
-            onClick = { onClick() },
-            colors = transparentButtonTextColors(),
-            shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Column(horizontalAlignment = Alignment.Start) {
-                    Text(text = label, style = MaterialTheme.typography.headlineSmall)
-                    if (secondaryLabel.isNotBlank()) {
-                        Text(text = secondaryLabel, style = MaterialTheme.typography.labelMedium)
-                    }
-                }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text(text = value, style = MaterialTheme.typography.headlineSmall)
-                    if (secondaryValue.isNotBlank()) {
-                        Text(text = secondaryValue, style = MaterialTheme.typography.labelMedium)
-                    }
-                }
-            }
-        }
-        Spacer(modifier = Modifier.weight(.15f))
-    }*/
 }
 
 // Previews
@@ -207,8 +170,8 @@ private fun SettingsFieldComponentPreview() {
         ) {
             Column {
                 SettingsFieldComponent(
-                    label = "This is a Setting Field",
-                    value = "value",
+                    label = "Setting",
+                    value = "2s",
                     secondaryLabel = "It has a secondary label",
                     secondaryValue = "Secondary value",
                 )
