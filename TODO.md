@@ -2,12 +2,10 @@
 
 ## Missing features / issues
 
+* enable edge-to-edge and fixes for session screen, should be pretty straight forward
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
-* enable edge-to-edge and fixes (in HomeScreen there is tinting of the status bar that is now
-  deprecated) (Connected: Improve StatusBar tinting and remove the need for deprecated
-  window.statusBarColor=Color.
   See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7)
 * user selection should be a flowrow rather
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS

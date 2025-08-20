@@ -30,6 +30,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun StatisticsErrorContent(
+    modifier: Modifier = Modifier,
     userName: String,
     errorCode: String,
     deleteSessionsForUser: () -> Unit = {},
@@ -38,7 +39,7 @@ fun StatisticsErrorContent(
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
@@ -105,6 +106,7 @@ private fun StatisticsErrorContentPreview() {
                 userName = "Charles-Antoine",
                 errorCode = "ABCD-123",
                 showUsersSwitch = true,
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

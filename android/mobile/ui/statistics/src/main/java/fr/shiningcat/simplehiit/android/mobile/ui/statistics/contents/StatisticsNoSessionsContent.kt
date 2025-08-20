@@ -28,13 +28,14 @@ import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun StatisticsNoSessionsContent(
+    modifier: Modifier = Modifier,
     userName: String,
     showUsersSwitch: Boolean,
     openUserPicker: () -> Unit = {},
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
@@ -75,6 +76,7 @@ private fun StatisticsNoSessionsContentPreview() {
             StatisticsNoSessionsContent(
                 userName = "Georges",
                 showUsersSwitch = true,
+                modifier = Modifier.fillMaxSize(),
             )
         }
     }

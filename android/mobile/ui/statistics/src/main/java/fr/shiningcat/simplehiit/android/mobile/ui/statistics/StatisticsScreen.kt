@@ -3,7 +3,12 @@ package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -17,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
@@ -77,7 +83,7 @@ private fun StatisticsScreen(
             // in this case, we are in the statistics screen, so obviously we want to show this button
             NavigationSideBar(
                 navigateTo = navigateTo,
-                currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Statistics,
+                currentDestination = Screen.Statistics,
                 showStatisticsButton = true,
             )
         }
@@ -90,7 +96,7 @@ private fun StatisticsScreen(
                 NavigateUpTopBar(
                     // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     navigateUp = {
-                        navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home.route)
+                        navigateTo(Screen.Home.route)
                         true
                     },
                     title = R.string.statistics_page_title,
@@ -108,6 +114,12 @@ private fun StatisticsScreen(
                 screenViewState = screenViewState,
                 dialogViewState = dialogViewState,
                 hiitLogger = hiitLogger,
+                modifier =
+                    if (uiArrangement == UiArrangement.HORIZONTAL) {
+                        Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+                    } else {
+                        Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
+                    },
             )
         }
     }

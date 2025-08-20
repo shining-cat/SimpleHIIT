@@ -15,12 +15,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SimpleHIIT"
+        android:theme="@style/Theme.SimpleHIIT.Mobile"
         tools:targetApi="31">
         <activity
             android:name="fr.shiningcat.simplehiit.android.mobile.app.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.SimpleHIIT">
+            android:theme="@style/Theme.SimpleHIIT.Mobile"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

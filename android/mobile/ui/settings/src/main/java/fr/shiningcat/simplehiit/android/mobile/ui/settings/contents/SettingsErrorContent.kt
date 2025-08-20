@@ -30,14 +30,14 @@ import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun SettingsErrorContent(
+    modifier: Modifier,
     errorCode: String,
     resetSettings: () -> Unit = {},
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
-                .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -99,7 +99,7 @@ fun SettingsErrorContent(
 private fun SettingsErrorContentPreview() {
     SimpleHiitMobileTheme {
         Surface {
-            SettingsErrorContent(errorCode = "ABCD-123")
+            SettingsErrorContent(modifier = Modifier.fillMaxSize(), errorCode = "ABCD-123")
         }
     }
 }

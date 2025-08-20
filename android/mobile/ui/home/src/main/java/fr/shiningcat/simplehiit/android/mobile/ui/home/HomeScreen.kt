@@ -1,25 +1,24 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home
 
-import android.app.Activity
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowHeightSizeClass
@@ -72,33 +71,21 @@ private fun HomeScreen(
     dialogViewState: HomeDialog,
     hiitLogger: HiitLogger? = null,
 ) {
-    val view = LocalView.current
-    val primaryAsInt = MaterialTheme.colorScheme.primary.toArgb()
-    val darkMode = isSystemInDarkTheme()
-    if (!view.isInEditMode) {
-        SideEffect {
-            // applying primary color to Status bar
-            val window = (view.context as Activity).window
-            window.statusBarColor = primaryAsInt
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkMode
-        }
-    }
-    //
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             NavigationSideBar(
+                // This component handles its own insets
                 navigateTo = navigateTo,
                 currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Home,
                 showStatisticsButton = viewState is HomeViewState.Nominal,
             )
         }
         Column(
-            modifier =
-                Modifier
-                    .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 HomeTopBarComponent(
+                    // This component handles its own insets
                     navigateTo = navigateTo,
                     screenViewState = viewState,
                 )
@@ -115,6 +102,17 @@ private fun HomeScreen(
                 screenViewState = viewState,
                 dialogViewState = dialogViewState,
                 hiitLogger = hiitLogger,
+                // Modifier for HomeContentHolder handles its specific padding needs
+                modifier =
+                    Modifier
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
+                        .then(
+                            if (uiArrangement == UiArrangement.HORIZONTAL) {
+                                Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                            } else {
+                                Modifier
+                            },
+                        ),
             )
         }
     }

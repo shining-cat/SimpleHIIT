@@ -1,8 +1,11 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -26,6 +29,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsContentHolder(
+    modifier: Modifier = Modifier,
     openUserPicker: () -> Unit = {},
     selectUser: (User) -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
@@ -38,41 +42,47 @@ fun StatisticsContentHolder(
     dialogViewState: StatisticsDialog,
     hiitLogger: HiitLogger? = null,
 ) {
-    when (screenViewState) {
-        StatisticsViewState.Loading -> BasicLoading()
+    Box(modifier = modifier) {
+        when (screenViewState) {
+            StatisticsViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
 
-        is StatisticsViewState.Nominal -> {
-            StatisticsNominalContent(
-                openUserPicker = openUserPicker,
-                deleteAllSessionsForUser = deleteAllSessionsForUser,
-                viewState = screenViewState,
-                uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger,
-            )
+            is StatisticsViewState.Nominal -> {
+                StatisticsNominalContent(
+                    openUserPicker = openUserPicker,
+                    deleteAllSessionsForUser = deleteAllSessionsForUser,
+                    viewState = screenViewState,
+                    uiArrangement = uiArrangement,
+                    hiitLogger = hiitLogger,
+                    modifier = Modifier.fillMaxSize(),
+                )
+            }
+
+            is StatisticsViewState.NoSessions ->
+                StatisticsNoSessionsContent(
+                    userName = screenViewState.user.name,
+                    showUsersSwitch = screenViewState.showUsersSwitch,
+                    openUserPicker = openUserPicker,
+                    modifier = Modifier.fillMaxSize(),
+                )
+
+            StatisticsViewState.NoUsers -> StatisticsNoUsersContent(modifier = Modifier.fillMaxSize())
+            is StatisticsViewState.Error ->
+                StatisticsErrorContent(
+                    userName = screenViewState.user.name,
+                    errorCode = screenViewState.errorCode,
+                    deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) },
+                    showUsersSwitch = screenViewState.showUsersSwitch,
+                    openUserPicker = openUserPicker,
+                    modifier = Modifier.fillMaxSize(),
+                )
+
+            is StatisticsViewState.FatalError ->
+                StatisticsFatalErrorContent(
+                    errorCode = screenViewState.errorCode,
+                    resetWholeApp = resetWholeApp,
+                    modifier = Modifier.fillMaxSize(),
+                )
         }
-
-        is StatisticsViewState.NoSessions ->
-            StatisticsNoSessionsContent(
-                userName = screenViewState.user.name,
-                showUsersSwitch = screenViewState.showUsersSwitch,
-                openUserPicker = openUserPicker,
-            )
-
-        StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
-        is StatisticsViewState.Error ->
-            StatisticsErrorContent(
-                userName = screenViewState.user.name,
-                errorCode = screenViewState.errorCode,
-                deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.user) },
-                showUsersSwitch = screenViewState.showUsersSwitch,
-                openUserPicker = openUserPicker,
-            )
-
-        is StatisticsViewState.FatalError ->
-            StatisticsFatalErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetWholeApp = resetWholeApp,
-            )
     }
     when (dialogViewState) {
         StatisticsDialog.None -> {} // Do nothing

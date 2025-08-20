@@ -1,7 +1,10 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.contents
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -29,6 +32,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun SettingsContentHolder(
+    modifier: Modifier = Modifier,
     editWorkPeriodLength: () -> Unit = {},
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
@@ -59,31 +63,36 @@ fun SettingsContentHolder(
     screenViewState: SettingsViewState,
     dialogViewState: SettingsDialog,
 ) {
-    when (screenViewState) {
-        SettingsViewState.Loading -> BasicLoading()
+    Box(modifier = modifier) {
+        when (screenViewState) {
+            SettingsViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
 
-        is SettingsViewState.Error ->
-            SettingsErrorContent(
-                errorCode = screenViewState.errorCode,
-                resetSettings = resetSettings,
-            )
+            is SettingsViewState.Error ->
+                SettingsErrorContent(
+                    modifier = Modifier.fillMaxSize(),
+                    errorCode = screenViewState.errorCode,
+                    resetSettings = resetSettings,
+                )
 
-        is SettingsViewState.Nominal ->
-            SettingsNominalContent(
-                editWorkPeriodLength = editWorkPeriodLength,
-                editRestPeriodLength = editRestPeriodLength,
-                editNumberOfWorkPeriods = editNumberOfWorkPeriods,
-                toggleBeepSound = toggleBeepSound,
-                editSessionStartCountDown = editSessionStartCountDown,
-                editPeriodStartCountDown = editPeriodStartCountDown,
-                editUser = editUser,
-                addUser = addUser,
-                toggleExerciseType = toggleExerciseType,
-                resetSettings = resetSettings,
-                viewState = screenViewState,
-                uiArrangement = uiArrangement,
-            )
+            is SettingsViewState.Nominal ->
+                SettingsNominalContent(
+                    modifier = Modifier.fillMaxSize(),
+                    editWorkPeriodLength = editWorkPeriodLength,
+                    editRestPeriodLength = editRestPeriodLength,
+                    editNumberOfWorkPeriods = editNumberOfWorkPeriods,
+                    toggleBeepSound = toggleBeepSound,
+                    editSessionStartCountDown = editSessionStartCountDown,
+                    editPeriodStartCountDown = editPeriodStartCountDown,
+                    editUser = editUser,
+                    addUser = addUser,
+                    toggleExerciseType = toggleExerciseType,
+                    resetSettings = resetSettings,
+                    viewState = screenViewState,
+                    uiArrangement = uiArrangement,
+                )
+        }
     }
+
     when (dialogViewState) {
         SettingsDialog.None -> { // do nothing
         }
@@ -152,7 +161,6 @@ fun SettingsContentHolder(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = { deleteUserConfirm(dialogViewState.user) },
-                // coming back to the edit user dialog instead of closing simply the dialog
                 dismissAction = { deleteUserCancel(dialogViewState.user) },
             )
 
@@ -166,7 +174,8 @@ fun SettingsContentHolder(
 
         is SettingsDialog.Error ->
             ErrorDialog(
-                errorMessage = "",
+                // Explicitly using common ErrorDialog
+                errorMessage = "", // Consider passing a real message if available
                 errorCode = dialogViewState.errorCode,
                 dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
                 dismissAction = cancelDialog,
