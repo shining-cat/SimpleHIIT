@@ -72,7 +72,7 @@ private fun ButtonErrorPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp), // Added padding for better preview visibility
+                modifier = Modifier.padding(16.dp),
             ) {
                 ButtonError(
                     label = "Short Error",
@@ -84,12 +84,12 @@ private fun ButtonErrorPreview() {
                 )
                 ButtonError(
                     modifier = Modifier.width(200.dp),
-                    fillWidth = true, // Should center within the 200dp
+                    fillWidth = true,
                     label = "Fill Width Error",
                 )
                 ButtonError(
                     modifier = Modifier.height(100.dp),
-                    fillHeight = true, // Should center within the 100dp
+                    fillHeight = true,
                     label = "Fill Height Error",
                 )
                 ButtonError(

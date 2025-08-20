@@ -91,9 +91,12 @@ fun ErrorDialog(
                     text = stringResource(id = R.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                Row(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp)) {
+                Row(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(top = 24.dp),
+                ) {
                     Spacer(modifier = Modifier.weight(.3f))
                     ButtonText(
                         modifier =

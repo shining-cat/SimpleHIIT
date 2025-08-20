@@ -42,7 +42,7 @@ fun SettingsUsersComponent(
     onAddUser: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 8.dp), // Add some horizontal padding for the overall column
+        modifier = Modifier.padding(horizontal = 8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -59,17 +59,18 @@ fun SettingsUsersComponent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
             verticalArrangement = Arrangement.spacedBy(spacing),
-            maxItemsInEachRow = Int.MAX_VALUE, // Allow items to fill rows naturally
+            // Allow items to fill rows naturally
+            maxItemsInEachRow = Int.MAX_VALUE,
         ) {
             users.forEach { user ->
                 OutlinedButton(
                     modifier =
                         Modifier
                             .height(itemHeight)
-                            .defaultMinSize(minWidth = 80.dp), // Adjusted minWidth, can be removed if not desired
+                            .defaultMinSize(minWidth = 80.dp),
                     onClick = { onClickUser(user) },
                 ) {
-                    Text(text = user.name) // Removed maxLines and overflow
+                    Text(text = user.name)
                 }
             }
         }

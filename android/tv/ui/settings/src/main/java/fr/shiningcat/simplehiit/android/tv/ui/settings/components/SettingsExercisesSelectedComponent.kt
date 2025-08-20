@@ -46,7 +46,7 @@ fun SettingsExercisesSelectedComponent(
                 Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
-                style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
         )
         val itemHeight = adaptDpToFontScale(56.dp)

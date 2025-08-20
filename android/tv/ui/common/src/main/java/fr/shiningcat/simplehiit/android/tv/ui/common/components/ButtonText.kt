@@ -75,12 +75,12 @@ fun ButtonText(
             Modifier
                 .then(if (fillWidth) Modifier.fillMaxWidth() else Modifier)
                 .then(if (fillHeight) Modifier.fillMaxHeight() else Modifier)
-                .padding(horizontal = 16.dp, vertical = 8.dp) // Consistent padding
+                .padding(horizontal = 16.dp, vertical = 8.dp)
 
         Row(
             modifier = rowModifier,
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center, // Center content horizontally
+            horizontalArrangement = Arrangement.Center,
         ) {
             if (icon != -1) {
                 Icon(
@@ -96,7 +96,6 @@ fun ButtonText(
                 Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }
             Text(
-                // modifier = Modifier.weight(weight = 1f, fill = true), // Removed weight
                 text = label,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -129,10 +128,9 @@ private fun ButtonTextPreview() {
             Column(
                 modifier =
                     Modifier
-                        .width(adaptDpToFontScale(400.dp)) // Wider column for more examples
-                        .height(adaptDpToFontScale(600.dp)) // Taller column for more examples
+                        .width(adaptDpToFontScale(400.dp))
+                        .height(adaptDpToFontScale(600.dp))
                         .verticalScroll(rememberScrollState()),
-                // Make column scrollable
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -184,10 +182,10 @@ private fun ButtonTextPreview() {
                     fillHeight = true,
                 )
                 ButtonText(
-                    modifier = Modifier.fillMaxWidth(), // ButtonText fills parent width
+                    modifier = Modifier.fillMaxWidth(),
                     label = "ButtonText fillMaxWidth()",
                     icon = R.drawable.cog,
-                    fillWidth = true, // Inner Row also fills
+                    fillWidth = true,
                 )
 
                 Text(color = Color.Blue, text = "Disabled:")

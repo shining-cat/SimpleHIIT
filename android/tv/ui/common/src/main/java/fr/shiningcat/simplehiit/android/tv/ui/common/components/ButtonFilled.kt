@@ -112,10 +112,9 @@ private fun ButtonFilledPreview() {
             Column(
                 modifier =
                     Modifier
-                        .width(adaptDpToFontScale(350.dp)) // Increased width for more examples
+                        .width(adaptDpToFontScale(350.dp))
                         .padding(16.dp)
                         .verticalScroll(rememberScrollState()),
-                // Make column scrollable
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 Text(text = "Default (wrap content):")
@@ -150,7 +149,7 @@ private fun ButtonFilledPreview() {
 
                 Text(text = "fillWidth & fillHeight = true:")
                 ButtonFilled(
-                    modifier = Modifier.height(adaptDpToFontScale(64.dp)), // Explicit height for demo
+                    modifier = Modifier.height(adaptDpToFontScale(64.dp)),
                     label = "Fill Both",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     fillWidth = true,
@@ -165,8 +164,8 @@ private fun ButtonFilledPreview() {
                             .height(adaptDpToFontScale(72.dp)),
                     label = "Fixed Size",
                     icon = ImageVector.vectorResource(R.drawable.cog),
-                    fillWidth = true, // To make content use the given space for centering
-                    fillHeight = true, // To make content use the given space for centering
+                    fillWidth = true,
+                    fillHeight = true,
                 )
 
                 Text(text = "Explicit width, wrap height (content should center vertically within its natural height):")
@@ -174,7 +173,7 @@ private fun ButtonFilledPreview() {
                     modifier = Modifier.width(adaptDpToFontScale(250.dp)),
                     label = "Fixed Width Wrap Height",
                     icon = ImageVector.vectorResource(R.drawable.cog),
-                    fillWidth = true, // To make content use the given space for centering
+                    fillWidth = true,
                 )
 
                 Text(text = "Accent Color & fillWidth:")

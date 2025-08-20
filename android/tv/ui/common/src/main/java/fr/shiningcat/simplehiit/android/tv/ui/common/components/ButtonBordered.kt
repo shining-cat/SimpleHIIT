@@ -235,10 +235,10 @@ private fun BorderedButtonPreview() {
 
                 Text("fillWidth=true, no explicit height (should take parent width, wrap height):")
                 ButtonBordered(
-                    modifier = Modifier.width(adaptDpToFontScale(300.dp)), // Parent gives width
+                    modifier = Modifier.width(adaptDpToFontScale(300.dp)),
                     label = "Label for fillWidth",
                     icon = ImageVector.vectorResource(R.drawable.cog),
-                    fillWidth = true, // Inner Row tries to fill this width
+                    fillWidth = true,
                     onClick = {},
                 )
             }

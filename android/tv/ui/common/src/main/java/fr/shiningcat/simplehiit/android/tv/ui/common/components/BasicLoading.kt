@@ -43,7 +43,11 @@ fun BasicLoading(
             typeConverter = Int.VectorConverter,
             animationSpec =
                 infiniteRepeatable(
-                    animation = tween(durationMillis = halfCycleDurationMs * 2, easing = LinearEasing),
+                    animation =
+                        tween(
+                            durationMillis = halfCycleDurationMs * 2,
+                            easing = LinearEasing,
+                        ),
                     repeatMode = RepeatMode.Restart,
                 ),
             label = "animatedPosition",
@@ -54,7 +58,11 @@ fun BasicLoading(
             typeConverter = Float.VectorConverter,
             animationSpec =
                 infiniteRepeatable(
-                    animation = tween(durationMillis = halfCycleDurationMs * 20, easing = LinearEasing),
+                    animation =
+                        tween(
+                            durationMillis = halfCycleDurationMs * 20,
+                            easing = LinearEasing,
+                        ),
                     repeatMode = RepeatMode.Restart,
                 ),
             label = "animatedRotation",

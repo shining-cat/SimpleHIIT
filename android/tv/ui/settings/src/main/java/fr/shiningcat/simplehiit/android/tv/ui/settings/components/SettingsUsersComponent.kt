@@ -48,7 +48,7 @@ fun SettingsUsersComponent(
                 Modifier
                     .fillMaxWidth()
                     .padding(bottom = spacing),
-                style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.users_list_setting_label),
         )
         val itemHeight = adaptDpToFontScale(48.dp)
@@ -110,16 +110,16 @@ internal class SettingsUsersComponentPreviewParameterProvider : PreviewParameter
             User(123L, "User 1", selected = true),
             User(234L, "User pouet 2", selected = false),
             User(345L, "User ping 3", selected = true),
-            User(345L, "User 4 has a very very long name", selected = true), // Longer name
+            User(345L, "User 4 has a very very long name", selected = true),
             User(123L, "User tralala 5", selected = true),
             User(
                 234L,
                 "User tudut 6 with an even longer name to test wrapping",
                 selected = false,
-            ), // Much longer name
+            ),
             User(345L, "User toto 7", selected = true),
-            User(345L, "UserWithAVeryLongNameIndeed 8", selected = true), // Another long name
-            User(345L, "User 9", selected = true), // Added one more
+            User(345L, "UserWithAVeryLongNameIndeed 8", selected = true),
+            User(345L, "User 9", selected = true),
         )
 
     override val values: Sequence<List<User>>
