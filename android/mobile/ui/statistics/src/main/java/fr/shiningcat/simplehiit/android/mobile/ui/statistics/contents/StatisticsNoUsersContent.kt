@@ -26,10 +26,10 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
-fun StatisticsNoUsersContent() {
+fun StatisticsNoUsersContent(modifier: Modifier = Modifier) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
@@ -61,7 +61,7 @@ fun StatisticsNoUsersContent() {
 private fun StatisticsNoUsersContentPreview() {
     SimpleHiitMobileTheme {
         Surface {
-            StatisticsNoUsersContent()
+            StatisticsNoUsersContent(modifier = Modifier.fillMaxSize())
         }
     }
 }

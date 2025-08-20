@@ -29,12 +29,13 @@ import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun StatisticsFatalErrorContent(
+    modifier: Modifier = Modifier,
     errorCode: String,
     resetWholeApp: () -> Unit = {},
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
@@ -91,7 +92,10 @@ fun StatisticsFatalErrorContent(
 private fun StatisticsFatalErrorContentPreview() {
     SimpleHiitMobileTheme {
         Surface {
-            StatisticsFatalErrorContent(errorCode = "ABCD-123")
+            StatisticsFatalErrorContent(
+                errorCode = "ABCD-123",
+                modifier = Modifier.fillMaxSize(),
+            )
         }
     }
 }
