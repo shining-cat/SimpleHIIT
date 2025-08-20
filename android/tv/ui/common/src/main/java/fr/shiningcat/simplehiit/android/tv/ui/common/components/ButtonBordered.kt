@@ -71,7 +71,10 @@ fun ButtonBordered(
     onClick: () -> Unit,
 ) {
     OutlinedButton(
-        modifier = modifier.padding(1.dp), // Minimal padding to ensure border visibility
+        modifier =
+            modifier
+                // Minimal padding to ensure border visibility
+                .padding(1.dp),
         onClick = onClick,
         enabled = enabled,
         colors =
@@ -131,13 +134,15 @@ fun ButtonBordered(
                     } else {
                         Modifier
                     },
-                ).then(
+                )
+                .then(
                     if (fillHeight) {
                         Modifier.fillMaxHeight()
                     } else {
                         Modifier
                     },
-                ).padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+                .padding(horizontal = 8.dp, vertical = 4.dp)
 
         Row(
             modifier = rowModifier,

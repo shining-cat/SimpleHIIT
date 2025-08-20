@@ -69,7 +69,8 @@ fun ButtonText(
         enabled = enabled,
         colors = transparentButtonTextColors(),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        contentPadding = PaddingValues(), // Set to zero, inner Row handles padding
+        // Set to zero, inner Row handles padding
+        contentPadding = PaddingValues(),
     ) {
         val rowModifier =
             Modifier

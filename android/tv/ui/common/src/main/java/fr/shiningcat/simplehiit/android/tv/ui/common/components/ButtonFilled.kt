@@ -67,7 +67,8 @@ fun ButtonFilled(
                 disabledContentColor = MaterialTheme.colorScheme.onPrimary,
             ),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        contentPadding = PaddingValues(), // Set to none, inner Row will handle padding
+        // Set to none, inner Row will handle padding
+        contentPadding = PaddingValues(),
     ) {
         val rowModifier =
             Modifier

@@ -44,7 +44,8 @@ fun ButtonError(
                 pressedContentColor = MaterialTheme.colorScheme.onError,
             ),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        contentPadding = PaddingValues(), // Set to none, inner content will handle padding
+        // Set to none, inner content will handle padding
+        contentPadding = PaddingValues(),
     ) {
         Row(
             modifier =
