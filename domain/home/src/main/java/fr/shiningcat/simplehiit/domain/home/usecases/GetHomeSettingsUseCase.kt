@@ -75,7 +75,8 @@ class GetHomeSettingsUseCase
                                                     failedTogglingUser,
                                                 ),
                                             )
-                                        } // else: unique user has successfully been toggled to selected, a new emission of simpleHiitRepository.getUsers is expected to be triggered by the toggling
+                                        }
+                                        // else: unique user has successfully been toggled to selected, a new emission of simpleHiitRepository.getUsers is expected to be triggered by the toggling
                                     }
                                 }
                             } else {
