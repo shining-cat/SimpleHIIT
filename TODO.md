@@ -2,12 +2,13 @@
 
 ## Missing features / issues
 
+* ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
+* ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * enable edge-to-edge and fixes (in HomeScreen there is tinting of the status bar that is now
   deprecated) (Connected: Improve StatusBar tinting and remove the need for deprecated
   window.statusBarColor=Color.
   See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7)
-* small screen horizontal user selection should be a list to allow for more room to read users'
-  names
+* user selection should be a flowrow rather
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
@@ -15,6 +16,7 @@
   scroll or be constrained?
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
+* StatisticsSelectUserDialog: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
 
 ## Publication
 
