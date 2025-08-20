@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
-import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsExercisesSelectedComponent
@@ -192,6 +192,8 @@ fun SettingsNominalContent(
                         Modifier
                             .padding(vertical = 24.dp)
                             .weight(weight = .3f, fill = true),
+                    fillHeight = true,
+                    fillWidth = true,
                     onClick = resetSettings,
                     label = stringResource(id = R.string.reset_settings_button_label),
                 )
@@ -205,7 +207,7 @@ fun SettingsNominalContent(
 }
 
 // Previews
-@PreviewTvScreens
+@PreviewTvScreensNoUi
 @Composable
 private fun SettingsNominalContentPreviewPhonePortrait(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,

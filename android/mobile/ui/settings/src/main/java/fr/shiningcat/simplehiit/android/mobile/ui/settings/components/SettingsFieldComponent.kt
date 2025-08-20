@@ -17,7 +17,6 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
@@ -169,7 +168,6 @@ fun SettingsFieldComponent(
 // Previews
 @PreviewLightDark
 @PreviewFontScale
-@PreviewScreenSizes
 @Composable
 private fun SelectUsersComponentPreview() {
     SimpleHiitMobileTheme {

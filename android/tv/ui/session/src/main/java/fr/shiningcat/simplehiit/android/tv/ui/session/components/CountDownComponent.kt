@@ -82,7 +82,7 @@ private fun CountDownCircularProgressPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = spacedBy(adaptDpToFontScale(8.dp)),
+                verticalArrangement = spacedBy(adaptDpToFontScale(2.dp)),
             ) {
                 CountDownComponent(
                     baseSize = 100.dp,

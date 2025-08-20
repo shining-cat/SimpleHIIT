@@ -45,6 +45,7 @@ fun StatisticsFatalErrorContent(
                 .padding(8.dp)
                 .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             modifier =

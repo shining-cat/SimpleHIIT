@@ -76,7 +76,9 @@ fun WarningDialog(
                                 Modifier
                                     .height(adaptDpToFontScale(48.dp))
                                     .weight(1f),
-                                onClick = dismissAction,
+                            fillWidth = true,
+                            fillHeight = true,
+                            onClick = dismissAction,
                             label = dismissButtonLabel,
                         )
                     }
@@ -84,8 +86,10 @@ fun WarningDialog(
                         modifier =
                             Modifier
                                 .height(adaptDpToFontScale(48.dp))
-                            .weight(1f),
-                            onClick = proceedAction,
+                                .weight(1f),
+                        fillWidth = true,
+                        fillHeight = true,
+                        onClick = proceedAction,
                         label = proceedButtonLabel,
                     )
                 }

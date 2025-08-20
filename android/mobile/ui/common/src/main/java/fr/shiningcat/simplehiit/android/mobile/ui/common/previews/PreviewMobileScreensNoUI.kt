@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.previews
+package fr.shiningcat.simplehiit.android.mobile.ui.common.previews
 
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview

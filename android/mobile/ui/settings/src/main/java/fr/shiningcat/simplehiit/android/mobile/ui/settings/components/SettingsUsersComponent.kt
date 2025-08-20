@@ -1,16 +1,15 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -25,20 +24,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
-import kotlin.math.ceil
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SettingsUsersComponent(
     users: List<User>,
@@ -46,7 +42,7 @@ fun SettingsUsersComponent(
     onAddUser: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier,
+        modifier = Modifier.padding(horizontal = 8.dp), // Add some horizontal padding for the overall column
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -56,36 +52,33 @@ fun SettingsUsersComponent(
             text = stringResource(id = R.string.users_list_setting_label),
         )
         Spacer(modifier = Modifier.height(8.dp))
-        val itemHeight = 48.dp
-        val numberOfColumns = 3
+        val itemHeight = adaptDpToFontScale(48.dp)
         val spacing = 8.dp
-        val totalNumberOfItems = users.size
-        val rowsCount = ceil(totalNumberOfItems.toFloat() / numberOfColumns.toFloat()).toInt()
-        val gridHeight = (itemHeight + spacing) * rowsCount
-        LazyVerticalStaggeredGrid(
-            modifier = Modifier.height(gridHeight),
-            columns = StaggeredGridCells.Fixed(numberOfColumns),
-            verticalItemSpacing = spacing,
-            horizontalArrangement = Arrangement.spacedBy(spacing),
-            userScrollEnabled = false,
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(spacing),
+            maxItemsInEachRow = Int.MAX_VALUE, // Allow items to fill rows naturally
         ) {
-            items(users.size) {
-                val user = users[it]
+            users.forEach { user ->
                 OutlinedButton(
                     modifier =
                         Modifier
                             .height(itemHeight)
-                            .defaultMinSize(minWidth = 112.dp),
+                            .defaultMinSize(minWidth = 80.dp), // Adjusted minWidth, can be removed if not desired
                     onClick = { onClickUser(user) },
                 ) {
-                    Text(text = user.name, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(text = user.name) // Removed maxLines and overflow
                 }
             }
         }
+        Spacer(modifier = Modifier.height(16.dp)) // Add some space before the add button
         Button(
             modifier =
                 Modifier
                     .height(itemHeight)
+                    .fillMaxWidth() // Make button wider for better tap target
                     .padding(horizontal = 32.dp),
             onClick = onAddUser,
             colors =
@@ -107,7 +100,6 @@ fun SettingsUsersComponent(
 // Previews
 @PreviewLightDark
 @PreviewFontScale
-@PreviewScreenSizes
 @Composable
 private fun SettingsUsersComponentPreviewPhonePortrait(
     @PreviewParameter(SettingsUsersComponentPreviewParameterProvider::class) users: List<User>,
@@ -127,12 +119,12 @@ internal class SettingsUsersComponentPreviewParameterProvider : PreviewParameter
             User(123L, "User 1", selected = true),
             User(234L, "User pouet 2", selected = false),
             User(345L, "User ping 3", selected = true),
-            User(345L, "User 4 hase a very long name", selected = true),
+            User(345L, "User 4 has a very long name", selected = true),
             User(123L, "User tralala 5", selected = true),
             User(234L, "User tudut 6", selected = false),
             User(345L, "User toto 7", selected = true),
-            User(345L, "UserWithLongName 8", selected = true),
-            User(345L, "UserWithLongName 9", selected = true),
+            User(345L, "UserWithAVeryLongNameIndeed 8", selected = true),
+            User(345L, "UserWithQuiteALongName 9", selected = true),
         )
 
     override val values: Sequence<List<User>>

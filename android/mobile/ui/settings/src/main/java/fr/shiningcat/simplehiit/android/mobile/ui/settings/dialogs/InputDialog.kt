@@ -41,8 +41,8 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
 import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
+import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
@@ -121,11 +121,6 @@ fun InputDialog(
                         inputFieldSingleLine = inputFieldSingleLine,
                         inputFieldSize = inputFieldSize,
                         keyboardType = keyboardType,
-                        errorTrailingIconComposable = null,
-                        /*   errorTrailingIcon(
-                               isError = isError.value,
-                               errorMessageStringRes = errorMessageStringRes.intValue,
-                           ),*/
                         inputFieldPostfixText = inputFieldPostfix,
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
@@ -157,7 +152,6 @@ private fun InputDialogBodyContent(
     inputFieldSingleLine: Boolean,
     inputFieldSize: InputDialogTextFieldSize,
     keyboardType: KeyboardType,
-    errorTrailingIconComposable: @Composable (() -> Unit)?,
     inputFieldPostfixText: String,
     effectiveDialogContentWidthDp: Dp,
     density: Density,
@@ -203,8 +197,7 @@ private fun InputDialogBodyContent(
                     end = dialogHorizontalPadding,
                     top = 24.dp,
                     bottom = 8.dp,
-                )
-                .align(Alignment.CenterHorizontally),
+                ).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -213,17 +206,16 @@ private fun InputDialogBodyContent(
                 singleLine = inputFieldSingleLine,
                 onValueChange = onInputValueChange,
                 isError = isError,
-                trailingIcon = errorTrailingIconComposable,
                 keyboardOptions =
                     KeyboardOptions(
                         keyboardType = keyboardType,
                         imeAction = ImeAction.Done,
                     ),
-                keyboardActions = KeyboardActions(onDone = { onKeyboardDoneAction() }),
+                keyboardActions = KeyboardActions(onDone = { if (isError.not()) onKeyboardDoneAction() }),
                 modifier =
                     Modifier
                         .then(
-                            if (fieldAndPostfixFitOneLine) {
+                            if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
                                 Modifier
                                     .width(inputFieldWidthDp)
                                     .alignByBaseline()

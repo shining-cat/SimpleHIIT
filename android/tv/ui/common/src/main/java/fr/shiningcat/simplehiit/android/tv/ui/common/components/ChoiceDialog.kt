@@ -94,6 +94,8 @@ fun ChoiceDialog(
                                 Modifier
                                     .height(adaptDpToFontScale(48.dp))
                                     .weight(1f),
+                            fillWidth = true,
+                            fillHeight = true,
                             onClick = secondaryAction,
                             label = secondaryButtonLabel,
                         )
@@ -104,6 +106,8 @@ fun ChoiceDialog(
                                 Modifier
                                     .height(adaptDpToFontScale(48.dp))
                                     .weight(1f),
+                            fillWidth = true,
+                            fillHeight = true,
                             onClick = dismissAction,
                             label = dismissButtonLabel,
                         )
@@ -113,6 +117,8 @@ fun ChoiceDialog(
                             Modifier
                                 .height(adaptDpToFontScale(48.dp))
                                 .weight(1f),
+                        fillWidth = true,
+                        fillHeight = true,
                         onClick = primaryAction,
                         label = primaryButtonLabel,
                     )

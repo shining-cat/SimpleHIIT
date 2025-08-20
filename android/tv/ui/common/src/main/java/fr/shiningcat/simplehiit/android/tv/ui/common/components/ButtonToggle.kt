@@ -20,6 +20,8 @@ import fr.shiningcat.simplehiit.commonresources.R
 @Composable
 fun ButtonToggle(
     modifier: Modifier = Modifier,
+    fillWidth: Boolean = false,
+    fillHeight: Boolean = false,
     label: String,
     selected: Boolean,
     onToggle: () -> Unit,
@@ -27,6 +29,8 @@ fun ButtonToggle(
     if (selected) {
         ButtonFilled(
             modifier = modifier,
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
             onClick = { onToggle() },
             label = label,
             icon = Icons.Filled.Done,
@@ -35,6 +39,8 @@ fun ButtonToggle(
     } else {
         ButtonBordered(
             modifier = modifier,
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
             onClick = { onToggle() },
             label = label,
         )
@@ -54,12 +60,14 @@ private fun ButtonTogglePreview() {
             ) {
                 ButtonToggle(
                     modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    fillHeight = true,
                     label = "I'm selected",
                     selected = true,
                     onToggle = {},
                 )
                 ButtonToggle(
                     modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    fillHeight = true,
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {},
@@ -70,6 +78,8 @@ private fun ButtonTogglePreview() {
                         Modifier
                             .height(adaptDpToFontScale(48.dp))
                             .width(adaptDpToFontScale(128.dp)),
+                    fillHeight = true,
+                    fillWidth = true,
                     label = "I'm NOT selected",
                     selected = false,
                     onToggle = {},

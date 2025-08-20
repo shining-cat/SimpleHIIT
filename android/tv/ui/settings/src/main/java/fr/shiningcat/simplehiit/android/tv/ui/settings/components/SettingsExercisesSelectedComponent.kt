@@ -1,12 +1,11 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
@@ -15,7 +14,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
@@ -23,7 +21,9 @@ import androidx.compose.ui.unit.times
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonToggle
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -42,12 +42,14 @@ fun SettingsExercisesSelectedComponent(
     Column {
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.headlineMedium,
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        val itemHeight = 56.dp
+        val itemHeight = adaptDpToFontScale(56.dp)
         val numberOfColumns = 3
         val spacing = 24.dp
         // this is to avoid the zoomed-in focused buttons of the first row to be clipped:
@@ -91,12 +93,7 @@ fun SettingsExercisesSelectedComponent(
 }
 
 // Previews
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewTvScreensNoUi
 @Composable
 private fun SettingsExercisesSelectedComponentPreview(
     @PreviewParameter(SettingsExercisesSelectedComponentPreviewParameterProvider::class) exercises: List<ExerciseTypeSelected>,
@@ -110,24 +107,24 @@ private fun SettingsExercisesSelectedComponentPreview(
 
 internal class SettingsExercisesSelectedComponentPreviewParameterProvider : PreviewParameterProvider<List<ExerciseTypeSelected>> {
     private val exerciseTypeSelectedAllTrue =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = true,
             )
         }
     private val exerciseTypeSelectedAllFalse =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
                 selected = false,
             )
         }
     private val exerciseTypeSelectedMixed =
-        ExerciseType.values().toList().map {
+        ExerciseType.entries.map {
             ExerciseTypeSelected(
                 type = it,
-                selected = (ExerciseType.values().indexOf(it) % 2 == 0),
+                selected = (ExerciseType.entries.indexOf(it) % 2 == 0),
             )
         }
 

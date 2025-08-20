@@ -24,8 +24,8 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.AdaptiveDialogButtonsLay
 import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
 import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable

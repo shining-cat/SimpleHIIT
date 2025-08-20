@@ -3,6 +3,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.session.components
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,7 +54,8 @@ fun ExerciseDisplayComponent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .align(Alignment.TopCenter),
+                        .align(Alignment.TopCenter)
+                        .padding(top = 32.dp),
             )
         }
         if (countDown != null) {

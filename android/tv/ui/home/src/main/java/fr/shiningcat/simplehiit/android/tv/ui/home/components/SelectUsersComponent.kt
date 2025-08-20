@@ -2,13 +2,13 @@ package fr.shiningcat.simplehiit.android.tv.ui.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -33,33 +33,32 @@ fun SelectUsersComponent(
     toggleSelectedUser: (User) -> Unit = {},
 ) {
     Column(
-        modifier =
-            modifier
-                .fillMaxWidth(),
+        modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        val spacing = 24.dp
         Text(
-            modifier = Modifier.fillMaxWidth(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = spacing),
             textAlign = TextAlign.Center,
             text = stringResource(id = R.string.selected_users_setting_title),
             style = MaterialTheme.typography.headlineLarge,
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-            modifier =
-                Modifier
-                    .padding(top = 24.dp)
-                    .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(24.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
+        FlowRow(
+            horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
+            verticalArrangement = Arrangement.spacedBy(spacing),
+            maxItemsInEachRow = 3,
         ) {
-            items(users.size) {
-                val user = users[it]
+            users.forEach { user ->
                 ButtonToggle(
                     modifier =
                         Modifier
-                            .height(adaptDpToFontScale(56.dp))
-                            .defaultMinSize(minWidth = 112.dp),
+                            .height(adaptDpToFontScale(56.dp)),
+                    fillWidth = false,
+                    fillHeight = true,
                     label = user.name,
                     selected = user.selected,
                     onToggle = { toggleSelectedUser(user) },
@@ -98,7 +97,7 @@ internal class SelectUsersComponentPreviewParameterProvider : PreviewParameterPr
                 listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User pouet 2", selected = false),
-                    User(345L, "User ping 3", selected = true),
+                    User(345L, "User ping 3", selected = false),
                     User(345L, "User 4 hase a very long name", selected = true),
                     User(123L, "User tralala 5", selected = true),
                     User(234L, "User tudut 6", selected = false),

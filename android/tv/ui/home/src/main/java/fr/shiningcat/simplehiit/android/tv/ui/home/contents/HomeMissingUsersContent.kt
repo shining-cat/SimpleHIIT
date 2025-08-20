@@ -82,6 +82,8 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                     Modifier
                         .weight(weight = .3f, fill = false)
                         .focusRequester(focusRequester),
+                fillHeight = true,
+                fillWidth = true,
                 // calling focus on the first setting on opening
                 label = stringResource(id = R.string.go_to_settings),
                 icon = ImageVector.vectorResource(R.drawable.cog),

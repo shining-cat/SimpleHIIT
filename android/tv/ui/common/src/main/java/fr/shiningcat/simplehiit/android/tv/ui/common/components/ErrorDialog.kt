@@ -100,6 +100,8 @@ fun ErrorDialog(
                             Modifier
                                 .height(adaptDpToFontScale(48.dp))
                                 .weight(weight = .3f, fill = true),
+                        fillWidth = true,
+                        fillHeight = true,
                         label = dismissButtonLabel,
                         onClick = dismissAction,
                     )

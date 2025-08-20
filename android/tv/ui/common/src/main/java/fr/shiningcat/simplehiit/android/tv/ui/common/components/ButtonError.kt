@@ -2,9 +2,17 @@ package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -18,6 +26,8 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 @Composable
 fun ButtonError(
     modifier: Modifier = Modifier,
+    fillWidth: Boolean = false,
+    fillHeight: Boolean = false,
     onClick: () -> Unit = {},
     label: String,
 ) {
@@ -34,8 +44,22 @@ fun ButtonError(
                 pressedContentColor = MaterialTheme.colorScheme.onError,
             ),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
+        contentPadding = PaddingValues(), // Set to none, inner content will handle padding
     ) {
-        Text(text = label)
+        Row(
+            modifier =
+                Modifier
+                    .run { if (fillWidth) fillMaxWidth() else this }
+                    .run { if (fillHeight) fillMaxHeight() else this }
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = label,
+                textAlign = TextAlign.Center,
+            )
+        }
     }
 }
 
@@ -48,9 +72,33 @@ private fun ButtonErrorPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
+                modifier = Modifier.padding(16.dp), // Added padding for better preview visibility
             ) {
                 ButtonError(
-                    modifier = Modifier.height(48.dp),
+                    label = "Short Error",
+                )
+                ButtonError(
+                    modifier = Modifier.width(200.dp),
+                    fillWidth = true,
+                    label = "Fixed Width Error",
+                )
+                ButtonError(
+                    modifier = Modifier.width(200.dp),
+                    fillWidth = true, // Should center within the 200dp
+                    label = "Fill Width Error",
+                )
+                ButtonError(
+                    modifier = Modifier.height(100.dp),
+                    fillHeight = true, // Should center within the 100dp
+                    label = "Fill Height Error",
+                )
+                ButtonError(
+                    modifier =
+                        Modifier
+                            .height(48.dp)
+                            .width(132.dp),
+                    fillWidth = true,
+                    fillHeight = true,
                     label = "Erreur!!",
                 )
             }

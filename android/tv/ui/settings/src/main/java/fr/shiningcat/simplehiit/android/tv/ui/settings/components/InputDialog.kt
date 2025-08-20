@@ -1,12 +1,11 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings.components
 
-import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -27,40 +27,44 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Devices
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonBordered
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
+import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
 enum class InputDialogTextFieldSize(
-    val width: Dp,
+    val charCount: Int,
 ) {
-    SMALL(56.dp),
-    MEDIUM(112.dp),
-    LARGE(224.dp),
+    SMALL(2),
+    MEDIUM(10),
+    LARGE(24),
 }
 
-/**
- *
- */
 @Composable
 fun InputDialog(
     dialogTitle: String = "",
@@ -78,11 +82,13 @@ fun InputDialog(
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     pickErrorMessage: (Constants.InputError) -> Int = { -1 },
 ) {
+    val dialogPadding = 8.dp
+
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
     val isError =
         rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
     val errorMessageStringRes =
-        rememberSaveable { mutableStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
+        rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -91,110 +97,92 @@ fun InputDialog(
         Surface(
             shape = MaterialTheme.shapes.medium,
         ) {
-            val dialogPadding = 8.dp
-            val internalPadding = 8.dp
-            Column(
-                modifier =
-                    Modifier
-                        .padding(dialogPadding)
-                        .fillMaxWidth()
-                        .verticalScroll(rememberScrollState()),
-            ) {
-                if (dialogTitle.isNotBlank()) {
-                    Text(
-                        textAlign = TextAlign.Left,
-                        text = dialogTitle,
-                        style = MaterialTheme.typography.headlineSmall,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-                Row(
-                    Modifier
-                        .padding(horizontal = internalPadding, vertical = 24.dp)
-                        .align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.SpaceBetween,
+            BoxWithConstraints {
+                val density = LocalDensity.current
+                val dialogAvailableWidthDp = this.maxWidth
+                val effectiveDialogContentWidthDp = dialogAvailableWidthDp - 2 * dialogPadding
+
+                Column(
+                    modifier =
+                        Modifier
+                            .padding(dialogPadding)
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
                 ) {
-                    BasicTextField(
-                        value = input.value,
-                        singleLine = inputFieldSingleLine,
-                        onValueChange = {
+                    if (dialogTitle.isNotBlank()) {
+                        Text(
+                            textAlign = TextAlign.Left,
+                            text = dialogTitle,
+                            style = MaterialTheme.typography.headlineSmall,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                        )
+                    }
+                    InputDialogBodyContent(
+                        inputValue = input.value,
+                        onInputValueChange = {
                             input.value = it
                             val validationResult = validateInput(it)
                             val errorStringRes = pickErrorMessage(validationResult)
                             isError.value =
-                                validationResult != Constants.InputError.NONE // updating the error state Boolean
-                            errorMessageStringRes.value =
-                                errorStringRes // updating the eventual error message String resource pointer
+                                validationResult != Constants.InputError.NONE
+                            errorMessageStringRes.intValue =
+                                errorStringRes
                         },
-                        keyboardOptions =
-                            KeyboardOptions(
-                                keyboardType = keyboardType,
-                                imeAction = ImeAction.Done,
-                            ),
-                        keyboardActions =
-                            KeyboardActions(onDone = {
-                                if (!isError.value) primaryAction(input.value)
-                            }),
-                        modifier =
-                            Modifier
-                                .width(inputFieldSize.width)
-                                .alignByBaseline()
-                                .focusRequester(focusRequester),
-                        decorationBox = {
-                            InputDialogDecoration(
-                                innerTextField = it,
-                                isError = isError.value,
-                                inputFieldSize = inputFieldSize,
-                                errorMessageStringRes = errorMessageStringRes.value,
+                        isError = isError.value,
+                        errorMessageResId = errorMessageStringRes.intValue,
+                        onKeyboardDoneAction = {
+                            if (!isError.value) primaryAction(input.value)
+                        },
+                        inputFieldSingleLine = inputFieldSingleLine,
+                        inputFieldSize = inputFieldSize,
+                        keyboardType = keyboardType,
+                        inputFieldPostfixText = inputFieldPostfix,
+                        effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
+                        density = density,
+                    )
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 0.dp, vertical = 24.dp),
+                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                    ) {
+                        if (secondaryButtonLabel.isNotBlank()) {
+                            ButtonText(
+                                modifier =
+                                    Modifier
+                                        .height(adaptDpToFontScale(48.dp))
+                                        .weight(1f),
+                                fillWidth = true,
+                                fillHeight = true,
+                                onClick = secondaryAction,
+                                label = secondaryButtonLabel,
                             )
-                        },
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        modifier = Modifier.alignByBaseline(),
-                        text = inputFieldPostfix,
-                        style = MaterialTheme.typography.bodyMedium,
-                    )
-                }
-                if (isError.value && errorMessageStringRes.value != -1) {
-                    Text(
-                        text = stringResource(id = errorMessageStringRes.value),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.error,
-                        textAlign = TextAlign.Center,
-                        // the error message needs all the room available so it won't follow the input row constraints
-                        modifier =
-                            Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = internalPadding),
-                    )
-                }
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp),
-                ) {
-                    if (secondaryButtonLabel.isNotBlank()) {
-                        ButtonText(
-                            modifier = Modifier.height(48.dp).weight(1f),
-                            onClick = secondaryAction,
-                            label = secondaryButtonLabel,
+                        }
+                        if (dismissButtonLabel.isNotBlank()) {
+                            ButtonBordered(
+                                modifier =
+                                    Modifier
+                                        .height(adaptDpToFontScale(48.dp))
+                                        .weight(1f),
+                                fillWidth = true,
+                                fillHeight = true,
+                                onClick = dismissAction,
+                                label = dismissButtonLabel,
+                            )
+                        }
+                        ButtonFilled(
+                            modifier =
+                                Modifier
+                                    .height(adaptDpToFontScale(48.dp))
+                                    .weight(1f),
+                            fillHeight = true,
+                            fillWidth = true,
+                            onClick = { if (isError.value.not()) primaryAction(input.value) },
+                            label = primaryButtonLabel,
+                            enabled = isError.value.not(),
                         )
                     }
-                    if (dismissButtonLabel.isNotBlank()) {
-                        ButtonBordered(
-                            modifier = Modifier.height(48.dp).weight(1f),
-                            onClick = dismissAction,
-                            label = dismissButtonLabel,
-                        )
-                    }
-                    ButtonFilled(
-                        modifier = Modifier.height(48.dp).weight(1f),
-                        onClick = { if (!isError.value) primaryAction(input.value) },
-                        label = primaryButtonLabel,
-                    )
                 }
             }
         }
@@ -202,10 +190,140 @@ fun InputDialog(
 }
 
 @Composable
+private fun InputDialogBodyContent(
+    inputValue: String,
+    onInputValueChange: (String) -> Unit,
+    isError: Boolean,
+    errorMessageResId: Int,
+    onKeyboardDoneAction: () -> Unit,
+    inputFieldSingleLine: Boolean,
+    inputFieldSize: InputDialogTextFieldSize,
+    keyboardType: KeyboardType,
+    inputFieldPostfixText: String,
+    effectiveDialogContentWidthDp: Dp,
+    density: Density,
+) {
+    val inputSpacing = 12.dp
+    val dialogHorizontalPadding = 8.dp
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+
+    val inputFieldPostfixStyle = MaterialTheme.typography.bodyMedium
+    val inputFieldPostfixLayout =
+        TextLayoutInfo(
+            text = inputFieldPostfixText,
+            style = inputFieldPostfixStyle,
+        )
+    val textMeasurer = rememberTextMeasurer()
+    val textFieldTextStyle = MaterialTheme.typography.bodyLarge // Style for measurement
+    val sampleString = "M".repeat(inputFieldSize.charCount)
+    val measuredTextOnlyWidthPx =
+        textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
+    val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
+    val textFieldInternalHorizontalPaddingDp = 24.dp // Assumed 12.dp on each side
+    val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
+    val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
+    val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
+    val dialogHorizontalPaddingPx = with(density) { dialogHorizontalPadding.toPx() }.toInt()
+    val effectiveDialogContentWidthForBodyPx =
+        with(density) { effectiveDialogContentWidthDp.toPx() }.toInt()
+
+    val inputFieldPostfixLayoutAvailableWidth =
+        (effectiveDialogContentWidthForBodyPx - 2 * dialogHorizontalPaddingPx) - inputFieldWidthPx - inputSpacingPx
+
+    val fieldAndPostfixFitOneLine =
+        fitsOnXLines(
+            textLayoutInfo = inputFieldPostfixLayout,
+            numberOfLines = 1,
+            availableWidthPx = inputFieldPostfixLayoutAvailableWidth,
+        )
+
+    Column(Modifier.fillMaxWidth()) {
+        Row(
+            Modifier
+                .padding(
+                    start = dialogHorizontalPadding,
+                    end = dialogHorizontalPadding,
+                    top = 24.dp,
+                    bottom = 8.dp,
+                ).align(Alignment.CenterHorizontally),
+            horizontalArrangement = Arrangement.spacedBy(inputSpacing),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            BasicTextField(
+                value = inputValue,
+                singleLine = inputFieldSingleLine,
+                onValueChange = onInputValueChange,
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                keyboardOptions =
+                    KeyboardOptions(
+                        keyboardType = keyboardType,
+                        imeAction = ImeAction.Done,
+                    ),
+                keyboardActions =
+                    KeyboardActions(onDone = {
+                        if (isError.not()) onKeyboardDoneAction
+                    }),
+                modifier =
+                    Modifier
+                        .then(
+                            if (fieldAndPostfixFitOneLine) {
+                                Modifier
+                                    .width(inputFieldWidthDp)
+                                    .alignByBaseline()
+                            } else {
+                                Modifier.fillMaxWidth()
+                            },
+                        ).focusRequester(focusRequester),
+                decorationBox = {
+                    InputDialogDecoration(
+                        innerTextField = it,
+                        isError = isError,
+                        errorMessageStringRes = errorMessageResId,
+                    )
+                },
+            )
+            if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
+                Text(
+                    modifier = Modifier.alignByBaseline(),
+                    text = inputFieldPostfixLayout.text,
+                    style = inputFieldPostfixLayout.style,
+                )
+            }
+        }
+    }
+    if (!fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
+        Text(
+            modifier =
+                Modifier
+                    .padding(horizontal = dialogHorizontalPadding)
+                    .fillMaxWidth(),
+            text = inputFieldPostfixLayout.text,
+            style = inputFieldPostfixLayout.style,
+            textAlign = TextAlign.End,
+        )
+    }
+    if (isError && errorMessageResId != -1) {
+        Text(
+            text = stringResource(id = errorMessageResId),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.error,
+            textAlign = TextAlign.Center,
+            // the error message needs all the room available so it won't follow the input row constraints
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = dialogHorizontalPadding)
+                    .padding(top = 4.dp),
+        )
+    }
+}
+
+@Composable
 fun InputDialogDecoration(
     innerTextField: @Composable () -> Unit,
     isError: Boolean,
-    inputFieldSize: InputDialogTextFieldSize,
     errorMessageStringRes: Int,
 ) {
     Row(
@@ -218,12 +336,12 @@ fun InputDialogDecoration(
                             color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.border,
                         ),
                     shape = MaterialTheme.shapes.small,
-                ).padding(16.dp),
+                )
+                .padding(16.dp),
     ) {
         innerTextField()
         errorTrailingIcon(
             isError = isError,
-            inputFieldSize = inputFieldSize,
             errorMessageStringRes = errorMessageStringRes,
         )
     }
@@ -232,11 +350,9 @@ fun InputDialogDecoration(
 @Composable
 fun errorTrailingIcon(
     isError: Boolean,
-    inputFieldSize: InputDialogTextFieldSize,
     errorMessageStringRes: Int,
-): @Composable (() -> Unit)? {
-    // small input field can not fit the trailing icon plus content
-    return if (isError && inputFieldSize != InputDialogTextFieldSize.SMALL) {
+): @Composable (() -> Unit)? =
+    if (isError) {
         {
             Icon(
                 imageVector = Icons.Filled.Info,
@@ -247,19 +363,9 @@ fun errorTrailingIcon(
     } else {
         null
     }
-}
 
 // Previews
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_NO,
-)
-@Preview(
-    showSystemUi = true,
-    device = Devices.TV_1080p,
-    uiMode = Configuration.UI_MODE_NIGHT_YES,
-)
+@PreviewTvScreensNoUi
 @Composable
 private fun InputDialogPreview(
     @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject,

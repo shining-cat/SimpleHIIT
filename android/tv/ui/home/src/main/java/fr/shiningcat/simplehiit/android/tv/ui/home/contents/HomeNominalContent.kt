@@ -96,6 +96,8 @@ fun HomeNominalContent(
                             .height(48.dp)
                             .weight(.3f)
                             .focusRequester(focusRequester),
+                    fillWidth = true,
+                    fillHeight = true,
                     // calling focus on the launch button on opening
                     label =
                         if (canLaunchSession) {

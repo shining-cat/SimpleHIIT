@@ -61,6 +61,8 @@ fun NumberCyclesComponent(
                         .height(adaptDpToFontScale(48.dp))
                         .width(adaptDpToFontScale(48.dp))
                         .focusProperties { canFocus = minusButtonActive },
+                fillHeight = true,
+                fillWidth = true,
                 onClick = decreaseNumberOfCycles,
                 accentColor = false,
                 icon = Icons.Filled.KeyboardArrowDown,
@@ -83,6 +85,8 @@ fun NumberCyclesComponent(
                     Modifier
                         .height(adaptDpToFontScale(48.dp))
                         .width(adaptDpToFontScale(48.dp)),
+                fillHeight = true,
+                fillWidth = true,
                 onClick = increaseNumberOfCycles,
                 accentColor = false,
                 icon = Icons.Filled.KeyboardArrowUp,

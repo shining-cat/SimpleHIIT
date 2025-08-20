@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 
@@ -54,7 +53,6 @@ fun SettingsToggleComponent(
 // Previews
 @PreviewLightDark
 @PreviewFontScale
-@PreviewScreenSizes
 @Composable
 private fun SettingsToggleComponentPreview() {
     SimpleHiitMobileTheme {
