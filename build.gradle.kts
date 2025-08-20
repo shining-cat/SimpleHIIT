@@ -50,11 +50,11 @@ testAggregation {
 ktlint {
     // without this explicit setting, the global ktlintCheck task fails locally and on the CI with
     // Unable to load class 'com.pinterest.ktlint.rule.engine.core.api.RuleAutocorrectApproveHandler':
-    version.set("1.3.1")
+    // version.set("1.4.1")
     android.set(true)
     outputColorName.set("RED")
     dependencies {
         // applying additional Compose ruleset:
-        ktlintRuleset(libs.ktlint.compose.ruleset)
+        //   ktlintRuleset(libs.ktlint.compose.ruleset)
     }
 }

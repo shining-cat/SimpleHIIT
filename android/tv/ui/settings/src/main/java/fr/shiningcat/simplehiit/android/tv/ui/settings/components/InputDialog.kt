@@ -247,8 +247,7 @@ private fun InputDialogBodyContent(
                     end = dialogHorizontalPadding,
                     top = 24.dp,
                     bottom = 8.dp,
-                )
-                .align(Alignment.CenterHorizontally),
+                ).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -276,8 +275,7 @@ private fun InputDialogBodyContent(
                             } else {
                                 Modifier.fillMaxWidth()
                             },
-                        )
-                        .focusRequester(focusRequester),
+                        ).focusRequester(focusRequester),
                 decorationBox = {
                     InputDialogDecoration(
                         innerTextField = it,
@@ -338,8 +336,7 @@ fun InputDialogDecoration(
                             color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.border,
                         ),
                     shape = MaterialTheme.shapes.small,
-                )
-                .padding(16.dp),
+                ).padding(16.dp),
     ) {
         innerTextField()
         errorTrailingIcon(
