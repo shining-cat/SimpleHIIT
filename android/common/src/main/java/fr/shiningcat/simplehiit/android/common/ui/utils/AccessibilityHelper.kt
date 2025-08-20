@@ -74,3 +74,43 @@ fun fitsOnXLines(
         )
     return result.lineCount <= numberOfLines
 }
+
+/**
+ * Checks if a list of text elements, each with its own style, fits horizontally within a given width.
+ *
+ * This Composable function calculates the combined width of all text elements specified in
+ * the `textLayoutInfos` list. Each text element's width is measured based on its content and
+ * [TextStyle]. It then compares this combined width against the `availableWidthPx`.
+ *
+ * @param textLayoutInfos A list of [TextLayoutInfo] objects, where each object contains a
+ *                        text string and its corresponding [TextStyle].
+ * @param availableWidthPx The available width in pixels for the combined text elements.
+ *                         Defaults to 1 pixel.
+ * @return `true` if the combined width of all text elements is less than or equal to
+ *         `availableWidthPx`, `false` otherwise. Also returns `false` if `availableWidthPx`
+ *         is less than or equal to 0.
+ */
+@Composable
+fun fitsInWidth(
+    textLayoutInfos: List<TextLayoutInfo>,
+    spacingDp: Dp = 0.dp,
+    availableWidthPx: Int = 1,
+): Boolean {
+    if (availableWidthPx <= 0) return false
+    val density = LocalDensity.current
+    val horizontalSpacingPx = with(density) { spacingDp.toPx() }
+    val textMeasurer = rememberTextMeasurer()
+    var totalWidth = 0f
+    textLayoutInfos.forEachIndexed { index, textLayoutInfo ->
+        val itemWidth =
+            textMeasurer
+                .measure(
+                    text = textLayoutInfo.text,
+                    style = textLayoutInfo.style,
+                    constraints = Constraints(),
+                ).size.width
+        totalWidth += itemWidth
+        if (index > 0) totalWidth += horizontalSpacingPx
+    }
+    return totalWidth <= availableWidthPx
+}

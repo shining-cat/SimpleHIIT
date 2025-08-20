@@ -4,6 +4,7 @@
 
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
+* input dialog should autofocus on input field, with caret after the last character, and open keyboard
 * enable edge-to-edge and fixes (in HomeScreen there is tinting of the status bar that is now
   deprecated) (Connected: Improve StatusBar tinting and remove the need for deprecated
   window.statusBarColor=Color.
@@ -24,8 +25,7 @@
 
 ## Assets production
 
-[//]: # (* refine statistics cards design and find/create icons for each)
-
+* refine statistics cards design and find/create icons for each)
     * longest streak: icon of a cup and a calendar showing checked days
     * current streak: icon of a calendar showing checked days - IF current streak == longest, switch
       to same icon as longest streak to make it more clear
