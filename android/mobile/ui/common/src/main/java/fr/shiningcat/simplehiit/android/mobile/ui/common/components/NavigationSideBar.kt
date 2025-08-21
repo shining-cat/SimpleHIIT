@@ -4,7 +4,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
-import androidx.compose.material3.NavigationRailDefaults // Added import
+import androidx.compose.material3.NavigationRailDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +36,7 @@ fun NavigationSideBar(
                 modifier = Modifier.padding(16.dp),
             )
         },
-        windowInsets = NavigationRailDefaults.windowInsets, // Added this line
+        windowInsets = NavigationRailDefaults.windowInsets,
     ) {
         SideBarItem(
             onClick = { navigateTo(Screen.Home.route) },

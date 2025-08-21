@@ -1,7 +1,9 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,12 +19,13 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
 @Composable
 fun SessionPrepareContent(
+    modifier: Modifier = Modifier,
     viewState: SessionViewState.InitialCountDownSession,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
     Box(
-        Modifier.fillMaxSize(),
+        modifier = modifier.windowInsetsPadding(WindowInsets.safeDrawing),
         contentAlignment = Alignment.Center,
     ) {
         CountDownComponent(
@@ -41,6 +44,7 @@ private fun SessionPrepareContentPreview() {
     SimpleHiitMobileTheme {
         Surface {
             SessionPrepareContent(
+                modifier = Modifier,
                 viewState =
                     SessionViewState.InitialCountDownSession(
                         countDown =

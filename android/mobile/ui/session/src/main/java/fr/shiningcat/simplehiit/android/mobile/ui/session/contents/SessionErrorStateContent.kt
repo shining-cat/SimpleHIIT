@@ -2,9 +2,12 @@ package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -36,11 +39,13 @@ fun SessionErrorStateContent(
     onAbort: () -> Unit,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
+                .windowInsetsPadding(WindowInsets.safeDrawing)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -114,6 +119,7 @@ private fun SessionErrorStateContentPreview(
     SimpleHiitMobileTheme {
         Surface {
             SessionErrorStateContent(
+                modifier = Modifier,
                 screenViewState = sessionViewState,
                 navigateUp = { true },
                 onAbort = {},

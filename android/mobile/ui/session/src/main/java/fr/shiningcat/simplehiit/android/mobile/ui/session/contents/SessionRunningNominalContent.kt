@@ -3,15 +3,19 @@ package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -23,6 +27,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
@@ -37,6 +43,7 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 
 @Composable
 fun SessionRunningNominalContent(
+    modifier: Modifier = Modifier,
     uiArrangement: UiArrangement,
     viewState: SessionViewState.RunningNominal,
     @Suppress("UNUSED_PARAMETER")
@@ -51,6 +58,7 @@ fun SessionRunningNominalContent(
     when (uiArrangement) {
         UiArrangement.VERTICAL ->
             VerticalSessionRunningNominalContent(
+                modifier = modifier,
                 exercise = exercise,
                 periodType = periodType,
                 exerciseSide = exerciseSide,
@@ -61,6 +69,7 @@ fun SessionRunningNominalContent(
 
         UiArrangement.HORIZONTAL ->
             HorizontalSessionRunningNominalContent(
+                modifier = modifier,
                 exercise = exercise,
                 periodType = periodType,
                 exerciseSide = exerciseSide,
@@ -73,6 +82,7 @@ fun SessionRunningNominalContent(
 
 @Composable
 fun VerticalSessionRunningNominalContent(
+    modifier: Modifier = Modifier,
     exercise: Exercise,
     periodType: RunningSessionStepType,
     exerciseSide: ExerciseSide,
@@ -83,9 +93,9 @@ fun VerticalSessionRunningNominalContent(
 ) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
-                .fillMaxSize(),
+                .windowInsetsPadding(WindowInsets.safeDrawing),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -111,6 +121,7 @@ fun VerticalSessionRunningNominalContent(
 
 @Composable
 fun HorizontalSessionRunningNominalContent(
+    modifier: Modifier = Modifier,
     exercise: Exercise,
     periodType: RunningSessionStepType,
     exerciseSide: ExerciseSide,
@@ -120,12 +131,12 @@ fun HorizontalSessionRunningNominalContent(
     hiitLogger: HiitLogger? = null,
 ) {
     hiitLogger?.d("HorizontalSessionRunningNominalContent", "ready")
-    var availableHeight by remember { mutableStateOf(0) }
+    var availableHeight by remember { mutableIntStateOf(0) }
     Row(
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
-                .fillMaxSize()
+                .windowInsetsPadding(WindowInsets.safeDrawing)
                 .onGloballyPositioned { coordinates ->
                     availableHeight = coordinates.size.height
                     hiitLogger?.d("ExerciseDisplayComponent", "availableHeight = $availableHeight")
@@ -163,10 +174,22 @@ fun HorizontalSessionRunningNominalContent(
 private fun SessionRunningNominalContentPreview(
     @PreviewParameter(SessionRunningNominalContentPreviewParameterProvider::class) viewState: SessionViewState.RunningNominal,
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
             SessionRunningNominalContent(
-                uiArrangement = UiArrangement.VERTICAL,
+                modifier = Modifier.fillMaxSize(),
+                uiArrangement = previewUiArrangement,
                 viewState = viewState,
             )
         }

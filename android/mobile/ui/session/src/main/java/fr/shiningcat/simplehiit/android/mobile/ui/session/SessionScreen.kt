@@ -166,6 +166,7 @@ fun SessionScreen(
                 )
             }
             SessionContentHolder(
+                modifier = Modifier.fillMaxSize(),
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
                 uiArrangement = uiArrangement,
