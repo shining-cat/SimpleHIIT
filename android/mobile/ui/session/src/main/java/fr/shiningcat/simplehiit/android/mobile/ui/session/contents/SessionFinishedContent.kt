@@ -4,10 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Surface
@@ -33,15 +36,16 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 
 @Composable
 fun SessionFinishedContent(
+    modifier: Modifier = Modifier,
     viewState: SessionViewState.Finished,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
     LazyColumn(
         modifier =
-            Modifier
+            modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxSize(),
+                .windowInsetsPadding(WindowInsets.safeDrawing),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(0.dp),
     ) {
@@ -147,7 +151,10 @@ private fun SessionFinishedContentPreview(
 ) {
     SimpleHiitMobileTheme {
         Surface {
-            SessionFinishedContent(viewState = viewState)
+            SessionFinishedContent(
+                modifier = Modifier.fillMaxSize(),
+                viewState = viewState,
+            )
         }
     }
 }

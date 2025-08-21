@@ -2,13 +2,15 @@
 
 ## Missing features / issues
 
-* enable edge-to-edge and fixes for session screen, should be pretty straight forward
+* trying to interrupt session it starts right back up again, the timer must keep running and trigger the state instead of being shut down
+* when navigating back from session we end up on settings page?
+* timer seems a bit off when running session: doesn't update for each seconds, gives a feeling of lagging
+* circular progress tracks' ends' shape seems a bit weird with latest updates: looks like the rounded edge is in the wrong direction
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
   See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7)
-* user selection should be a flowrow rather
-* ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
+* user selection could be a flowrow rather than a grid
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
@@ -24,17 +26,18 @@
 ## Assets production
 
 * refine statistics cards design and find/create icons for each)
-    * longest streak: icon of a cup and a calendar showing checked days
-    * current streak: icon of a calendar showing checked days - IF current streak == longest, switch
-      to same icon as longest streak to make it more clear
-    * average session length: icon of the app above a clock
-    * total time : icon of a clock
-    * average session count per week: icon of the app above a calendar
-    * total sessions count: laurels crown
+      * longest streak: icon of a cup and a calendar showing checked days
+      * current streak: icon of a calendar showing checked days - IF current streak == longest, switch
+  to same icon as longest streak to make it more clear
+      * average session length: icon of the app above a clock
+      * total time : icon of a clock
+      * average session count per week: icon of the app above a calendar
+      * total sessions count: laurels crown
 
 ## General technical improvements
 
 * extract all dimensions to res dimen
+* ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 * explore improvement of inter-modules dependencies management, maybe try
@@ -47,29 +50,24 @@
 ### test coverage
 
 * replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
-* connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
+* [jacoco] connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?
-* had to exclude the external instrumented tests module from report aggregation plugin, see
+* [jacoco] had to exclude the external instrumented tests module from report aggregation plugin, see
   testAggregation block in
   build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
-* fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified
+* [jacoco] fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified
   project jacoco_exp to investigate
 
 ## CI/Github actions
 
 * check
   out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
-* CI github actions for publishing app on Google
-  play [see article](https://medium.com/geekculture/how-to-build-sign-and-publish-android-application-using-github-actions-aa6346679254)
-  or[ this one](https://proandroiddev.com/create-android-release-using-github-actions-c052006f6b0b?source=rss----c72404660798---4)
 * See automation of build scripts verification:
   github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools
 
 ## Form factors (phone - AndroidTV - smartWatch)
 
-*
-
-check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
+* check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have
 

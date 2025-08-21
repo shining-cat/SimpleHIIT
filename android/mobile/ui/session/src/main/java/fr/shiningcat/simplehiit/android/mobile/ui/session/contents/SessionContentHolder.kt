@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import android.view.View
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -35,6 +36,7 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 
 @Composable
 fun SessionContentHolder(
+    modifier: Modifier = Modifier,
     dialogViewState: SessionDialog,
     screenViewState: SessionViewState,
     uiArrangement: UiArrangement,
@@ -62,38 +64,44 @@ fun SessionContentHolder(
             hiitLogger?.d("SessionContentHolder", "onDispose:: removing lock screen")
         }
     }
-    when (screenViewState) {
-        SessionViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
+    Box(modifier = modifier) {
+        when (screenViewState) {
+            SessionViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
 
-        is SessionViewState.Error ->
-            SessionErrorStateContent(
-                screenViewState = screenViewState,
-                navigateUp = navigateUp,
-                onAbort = onAbortSession,
-                hiitLogger = hiitLogger,
-            )
+            is SessionViewState.Error ->
+                SessionErrorStateContent(
+                    modifier = Modifier.fillMaxSize(),
+                    screenViewState = screenViewState,
+                    navigateUp = navigateUp,
+                    onAbort = onAbortSession,
+                    hiitLogger = hiitLogger,
+                )
 
-        is SessionViewState.InitialCountDownSession ->
-            SessionPrepareContent(
-                viewState = screenViewState,
-                hiitLogger = hiitLogger,
-            )
-
-        is SessionViewState.RunningNominal ->
-            SessionRunningNominalContent(
-                uiArrangement = uiArrangement,
-                viewState = screenViewState,
-                hiitLogger = hiitLogger,
-            )
-
-        is SessionViewState.Finished -> {
-            if (screenViewState.workingStepsDone.isEmpty()) {
-                navigateUp()
-            } else {
-                SessionFinishedContent(
+            is SessionViewState.InitialCountDownSession ->
+                SessionPrepareContent(
+                    modifier = Modifier.fillMaxSize(),
                     viewState = screenViewState,
                     hiitLogger = hiitLogger,
                 )
+
+            is SessionViewState.RunningNominal ->
+                SessionRunningNominalContent(
+                    modifier = Modifier.fillMaxSize(),
+                    uiArrangement = uiArrangement,
+                    viewState = screenViewState,
+                    hiitLogger = hiitLogger,
+                )
+
+            is SessionViewState.Finished -> {
+                if (screenViewState.workingStepsDone.isEmpty()) {
+                    navigateUp()
+                } else {
+                    SessionFinishedContent(
+                        modifier = Modifier.fillMaxSize(),
+                        viewState = screenViewState,
+                        hiitLogger = hiitLogger,
+                    )
+                }
             }
         }
     }
@@ -153,6 +161,7 @@ private fun SessionContentHolderPreview(
     SimpleHiitMobileTheme {
         Surface {
             SessionContentHolder(
+                modifier = Modifier.fillMaxSize(),
                 dialogViewState = SessionDialog.None,
                 screenViewState = viewState,
                 uiArrangement = previewUiArrangement,
