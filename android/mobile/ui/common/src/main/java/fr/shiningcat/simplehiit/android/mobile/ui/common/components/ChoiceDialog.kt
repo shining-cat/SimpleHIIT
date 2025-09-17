@@ -30,7 +30,6 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun ChoiceDialog(
@@ -40,9 +39,9 @@ fun ChoiceDialog(
     message: String = "",
     primaryButtonLabel: String,
     primaryAction: () -> Unit,
-    secondaryButtonLabel: String = "",
+    secondaryButtonLabel: String? = null,
     secondaryAction: () -> Unit = {},
-    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
+    dismissButtonLabel: String? = null,
     dismissAction: () -> Unit,
 ) {
     val dialogPadding = 8.dp
@@ -106,9 +105,9 @@ fun ChoiceDialog(
 private fun ChoiceDialogButtonsLayout(
     primaryButtonLabel: String,
     onPrimaryClick: () -> Unit,
-    secondaryButtonLabel: String,
+    secondaryButtonLabel: String?,
     onSecondaryClick: () -> Unit,
-    dismissButtonLabel: String,
+    dismissButtonLabel: String?,
     onDismissClick: () -> Unit,
     effectiveDialogContentWidthDp: Dp,
 ) {
@@ -120,7 +119,7 @@ private fun ChoiceDialogButtonsLayout(
             onClick = onPrimaryClick,
         )
     val secondaryButtonInfo =
-        if (secondaryButtonLabel.isNotBlank()) {
+        if (secondaryButtonLabel.isNullOrBlank().not()) {
             DialogButtonConfig(
                 label = secondaryButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
@@ -131,7 +130,7 @@ private fun ChoiceDialogButtonsLayout(
             null
         }
     val dismissButtonInfo =
-        if (dismissButtonLabel.isNotBlank()) {
+        if (dismissButtonLabel.isNullOrBlank().not()) {
             DialogButtonConfig(
                 label = dismissButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
