@@ -3,7 +3,6 @@
 ## Missing features / issues
 
 * OnBackInvokedCallback is not enabled for the application. Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
-* when pausing session, dialog offers resume/end/cancel, resume and cancel have the same result, so merge them
 * when navigating back from session we end up on settings page?
 * timer seems a bit off when running session: doesn't update for each seconds, gives a feeling of lagging
 * circular progress tracks' ends' shape seems a bit weird with latest updates: looks like the rounded edge is in the wrong direction
