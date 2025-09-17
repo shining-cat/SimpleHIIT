@@ -126,6 +126,7 @@ class SessionViewModel
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
                 }
             } else {
+                stepTimerJob?.cancel()
                 val wholeSessionDuration = immutableSession.durationMs
                 stepTimerJob =
                     viewModelScope.launch {
@@ -144,6 +145,11 @@ class SessionViewModel
             } else {
                 val currentStep = immutableSession.steps[currentSessionStepIndex]
                 val sessionRemainingMs = stepTimerState.milliSecondsRemaining
+                hiitLogger.d(
+                    tag = "SessionViewModel",
+                    msg =
+                        "tick: step $currentStep: remaining ms: $sessionRemainingMs",
+                )
                 if (sessionRemainingMs == 0L) { // whole session end
                     // play last (when timer reaches 0) beep sound
                     maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
@@ -275,20 +281,24 @@ class SessionViewModel
 
         fun pause() {
             hiitLogger.d("SessionViewModel", "pause")
-            viewModelScope.launch(context = mainDispatcher) {
-                val immutableSession = session
-                if (immutableSession == null) {
+//            viewModelScope.launch(context = mainDispatcher) {
+            val immutableSession = session
+            if (immutableSession == null) {
+                viewModelScope.launch(context = mainDispatcher) {
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
-                } else {
-                    hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
-                    stepTimerJob?.cancel()
-                    val currentStep = immutableSession.steps[currentSessionStepIndex]
-                    if (currentStep is SessionStep.WorkStep) {
-                        currentSessionStepIndex -= 1 // safe as the first step will always be a REST
-                    }
+                }
+            } else {
+                hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
+                stepTimerJob?.cancel()
+                val currentStep = immutableSession.steps[currentSessionStepIndex]
+                if (currentStep is SessionStep.WorkStep) {
+                    currentSessionStepIndex -= 1 // safe as the first step will always be a REST
+                }
+                viewModelScope.launch(context = mainDispatcher) {
                     _dialogViewState.emit(SessionDialog.Pause)
                 }
             }
+//            }
         }
 
         fun resume() {
