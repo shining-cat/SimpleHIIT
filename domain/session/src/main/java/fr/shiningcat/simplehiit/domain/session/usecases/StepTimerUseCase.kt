@@ -5,6 +5,8 @@ import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.domain.common.di.TimerDispatcher
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,6 +14,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.coroutineContext
+import kotlin.math.max
 
 class StepTimerUseCase
     @Inject
@@ -24,7 +28,6 @@ class StepTimerUseCase
         val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
 
         private var startTimeStamp = 0L
-        private var nextTickTimeStamp = 0L
 
         suspend fun start(totalMilliSeconds: Long) {
             hiitLogger.d("StepTimerUseCase", "start::totalMilliSeconds = $totalMilliSeconds")
@@ -42,7 +45,6 @@ class StepTimerUseCase
         private fun initTimer(totalMilliSeconds: Long): Flow<StepTimerState> =
             flow {
                 startTimeStamp = timeProvider.getCurrentTimeMillis()
-                val expectedEndTimeMillis = startTimeStamp + totalMilliSeconds
                 // emit starting state
                 emit(
                     StepTimerState(
@@ -50,30 +52,34 @@ class StepTimerUseCase
                         totalMilliSeconds = totalMilliSeconds,
                     ),
                 )
-                var totalReached = false
-                var remainingMilliSeconds = totalMilliSeconds
-                while (!totalReached) {
-                    nextTickTimeStamp = timeProvider.getCurrentTimeMillis() + oneSecondAsMs
-                    var secondComplete = false
-                    while (!secondComplete) {
-                        secondComplete = timeProvider.getCurrentTimeMillis() >= nextTickTimeStamp
+                var remainingMs = totalMilliSeconds
+                var elapsedTicks = 0
+                while (remainingMs > 0L) {
+                    // making the loop cancellation cooperative:
+                    coroutineContext.ensureActive()
+                    // adjusting each tick delay to prevent ticker drift:
+                    elapsedTicks++
+                    val nextTickWallClockTime = startTimeStamp + (elapsedTicks * oneSecondAsMs)
+                    val currentTime = timeProvider.getCurrentTimeMillis()
+                    val adjustedDelay = nextTickWallClockTime - currentTime
+                    hiitLogger.d("StepTimerUseCase", "initTimer::ticker loop::adjustedDelay = $adjustedDelay")
+                    if (adjustedDelay > 0) {
+                        delay(adjustedDelay)
                     }
-                    remainingMilliSeconds -= oneSecondAsMs
-                    // emit every second
+                    // If delayFor <= 0, we're already at or past the tick time, proceed to emit.
+
+                    // Calculate the actual remaining time based on ticks passed, clamp to 0
+                    val newRemainingMs = totalMilliSeconds - (elapsedTicks * oneSecondAsMs)
+                    val emitMs = max(0L, newRemainingMs)
+
                     emit(
                         StepTimerState(
-                            milliSecondsRemaining = remainingMilliSeconds,
+                            milliSecondsRemaining = emitMs,
                             totalMilliSeconds = totalMilliSeconds,
                         ),
                     )
-                    totalReached = timeProvider.getCurrentTimeMillis() >= expectedEndTimeMillis
+
+                    remainingMs = emitMs // Update remainingMs for the loop
                 }
-                // emit finish state
-                emit(
-                    StepTimerState(
-                        milliSecondsRemaining = 0,
-                        totalMilliSeconds = totalMilliSeconds,
-                    ),
-                )
             }
     }
