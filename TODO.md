@@ -2,7 +2,6 @@
 
 ## Missing features / issues
 
-* circular progress tracks' ends' shape seems a bit weird with latest updates: looks like the rounded edge is in the wrong direction
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
