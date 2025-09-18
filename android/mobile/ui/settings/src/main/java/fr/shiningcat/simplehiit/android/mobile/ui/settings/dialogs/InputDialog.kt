@@ -295,14 +295,14 @@ private fun InputDialogButtonsLayout(
             DialogButtonConfig(
                 label = dismissButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
-                type = ButtonType.OUTLINED,
+                type = ButtonType.TEXT,
                 onClick = onDismissClick,
             )
         } else {
             null
         }
 
-    val buttons = listOfNotNull(primaryButtonInfo, secondaryButtonInfo, dismissButtonInfo)
+    val buttons = listOfNotNull(dismissButtonInfo, secondaryButtonInfo, primaryButtonInfo)
     val buttonsSpacingDp = 12.dp
 
     AdaptiveDialogButtonsLayout(
