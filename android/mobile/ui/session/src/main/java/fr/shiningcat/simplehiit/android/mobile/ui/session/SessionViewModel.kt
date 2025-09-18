@@ -260,15 +260,24 @@ class SessionViewModel
                                 side = it.side,
                             )
                         }
-                    // record session done
-                    val sessionRecord =
-                        SessionRecord(
-                            timeStamp = timeProvider.getCurrentTimeMillis(),
-                            durationMs = actualSessionLength,
-                            usersIds = session?.users?.map { it.id } ?: emptyList(),
+                    // record session done if it's not empty
+                    if (actualSessionLength > 0L) {
+                        val sessionRecord =
+                            SessionRecord(
+                                timeStamp = timeProvider.getCurrentTimeMillis(),
+                                durationMs = actualSessionLength,
+                                usersIds = session?.users?.map { it.id } ?: emptyList(),
+                            )
+                        hiitLogger.d(
+                            "SessionViewModel",
+                            "emitSessionEndState::sessionRecord: $sessionRecord",
                         )
-                    hiitLogger.d("SessionViewModel", "sessionRecord: $sessionRecord")
-                    sessionInteractor.insertSession(sessionRecord)
+                        sessionInteractor.insertSession(sessionRecord)
+                    }
+                    hiitLogger.d(
+                        "SessionViewModel",
+                        "emitSessionEndState emitting finished state: $actualSessionLengthFormatted",
+                    )
                     _screenViewState.emit(
                         SessionViewState.Finished(
                             sessionDurationFormatted = actualSessionLengthFormatted,
@@ -281,7 +290,6 @@ class SessionViewModel
 
         fun pause() {
             hiitLogger.d("SessionViewModel", "pause")
-//            viewModelScope.launch(context = mainDispatcher) {
             val immutableSession = session
             if (immutableSession == null) {
                 viewModelScope.launch(context = mainDispatcher) {
@@ -298,7 +306,6 @@ class SessionViewModel
                     _dialogViewState.emit(SessionDialog.Pause)
                 }
             }
-//            }
         }
 
         fun resume() {

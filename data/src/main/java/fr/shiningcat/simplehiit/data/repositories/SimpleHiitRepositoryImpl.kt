@@ -180,6 +180,10 @@ class SimpleHiitRepositoryImpl
                 try {
                     val sessionEntities = sessionMapper.convert(sessionRecord)
                     val insertedIds = sessionRecordsDao.insert(sessionEntities)
+                    hiitLogger.d(
+                        "SimpleHiitRepositoryImpl",
+                        "insertSessionRecord::inserted ${insertedIds.size} sessions",
+                    )
                     Output.Success(insertedIds.size)
                 } catch (exception: Exception) {
                     this.coroutineContext.ensureActive()

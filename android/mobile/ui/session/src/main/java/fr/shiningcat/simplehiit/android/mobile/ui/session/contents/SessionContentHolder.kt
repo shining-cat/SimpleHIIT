@@ -94,7 +94,14 @@ fun SessionContentHolder(
 
             is SessionViewState.Finished -> {
                 if (screenViewState.workingStepsDone.isEmpty()) {
-                    navigateUp()
+                    // ensure navigateUp is never triggered more than once:
+                    LaunchedEffect(Unit) {
+                        hiitLogger?.d(
+                            "SessionContentHolder",
+                            "SessionViewState.workingStepsDone is empty, invoke navigateUp",
+                        )
+                        navigateUp()
+                    }
                 } else {
                     SessionFinishedContent(
                         modifier = Modifier.fillMaxSize(),

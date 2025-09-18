@@ -25,28 +25,40 @@ fun SimpleHiitNavigation(
     ) {
         composable(route = Screen.Home.route) {
             HomeScreen(
-                navigateTo = { navController.navigate(it) },
+                navigateTo = {
+                    hiitLogger.d("SimpleHiitNavigation", "HomeScreen::navigateTo::$it")
+                    navController.navigate(it)
+                },
                 uiArrangement = uiArrangement,
                 hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Settings.route) {
             SettingsScreen(
-                navigateTo = { navController.navigate(it) },
+                navigateTo = {
+                    hiitLogger.d("SimpleHiitNavigation", "SettingsScreen::navigateTo::$it")
+                    navController.navigate(it)
+                },
                 uiArrangement = uiArrangement,
                 hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Statistics.route) {
             StatisticsScreen(
-                navigateTo = { navController.navigate(it) },
+                navigateTo = {
+                    hiitLogger.d("SimpleHiitNavigation", "StatisticsScreen::navigateTo::$it")
+                    navController.navigate(it)
+                },
                 uiArrangement = uiArrangement,
                 hiitLogger = hiitLogger,
             )
         }
         composable(route = Screen.Session.route) {
             SessionScreen(
-                navigateUp = { navController.navigateUp() },
+                navigateUp = {
+                    hiitLogger.d("SimpleHiitNavigation", "SessionScreen::navigateTo::$it")
+                    navController.navigateUp()
+                },
                 uiArrangement = uiArrangement,
                 hiitLogger = hiitLogger,
             )
