@@ -261,17 +261,23 @@ class SessionViewModel
                             )
                         }
                     // record session done if it's not empty
-                    if(actualSessionLength > 0L) {
+                    if (actualSessionLength > 0L) {
                         val sessionRecord =
                             SessionRecord(
                                 timeStamp = timeProvider.getCurrentTimeMillis(),
                                 durationMs = actualSessionLength,
                                 usersIds = session?.users?.map { it.id } ?: emptyList(),
                             )
-                        hiitLogger.d("SessionViewModel", "emitSessionEndState::sessionRecord: $sessionRecord")
+                        hiitLogger.d(
+                            "SessionViewModel",
+                            "emitSessionEndState::sessionRecord: $sessionRecord",
+                        )
                         sessionInteractor.insertSession(sessionRecord)
                     }
-                    hiitLogger.d("SessionViewModel", "emitSessionEndState emitting finished state: $actualSessionLengthFormatted")
+                    hiitLogger.d(
+                        "SessionViewModel",
+                        "emitSessionEndState emitting finished state: $actualSessionLengthFormatted",
+                    )
                     _screenViewState.emit(
                         SessionViewState.Finished(
                             sessionDurationFormatted = actualSessionLengthFormatted,
