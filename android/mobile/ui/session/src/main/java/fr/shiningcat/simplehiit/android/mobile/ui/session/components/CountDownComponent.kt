@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
@@ -40,16 +41,6 @@ fun CountDownComponent(
         contentAlignment = Alignment.Center,
         modifier = Modifier.size(adaptedSize),
     ) {
-        // this first never-moving one is to simulate the trackColor from a LinearProgressIndicator
-        CircularProgressIndicator(
-            modifier =
-                Modifier
-                    .align(Alignment.Center)
-                    .fillMaxSize(),
-            progress = { 1f },
-            strokeWidth = 5.dp,
-            color = MaterialTheme.colorScheme.primary,
-        )
         CircularProgressIndicator(
             modifier =
                 Modifier
@@ -57,7 +48,10 @@ fun CountDownComponent(
                     .fillMaxSize(),
             progress = { countDown.progress },
             strokeWidth = 5.dp,
+            strokeCap = StrokeCap.Butt,
+            trackColor = MaterialTheme.colorScheme.primary,
             color = MaterialTheme.colorScheme.secondary,
+            gapSize = 0.dp,
         )
         Text(
             modifier = Modifier.align(Alignment.Center),
