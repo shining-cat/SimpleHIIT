@@ -88,7 +88,7 @@ fun WarningDialog(
                         } else {
                             null
                         }
-                    val buttons = listOfNotNull(primaryButtonInfo, dismissButtonInfo)
+                    val buttons = listOfNotNull(dismissButtonInfo, primaryButtonInfo)
                     val buttonsSpacingDp = 12.dp
                     AdaptiveDialogButtonsLayout(
                         buttons = buttons,

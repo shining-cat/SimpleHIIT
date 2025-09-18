@@ -3,8 +3,6 @@
 ## Missing features / issues
 
 * when navigating back from session we end up on settings page?
-* verify dialogs buttons are placed in a consistent manner between different dialogs, seems the confirm button is not always the one to the right
-* timer seems a bit off when running session: doesn't update for each seconds, gives a feeling of lagging
 * circular progress tracks' ends' shape seems a bit weird with latest updates: looks like the rounded edge is in the wrong direction
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
