@@ -13,6 +13,7 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -29,6 +30,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.components.LaunchSessionB
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.NumberCyclesComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SingleUserHeaderComponent
+import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.User
 
@@ -91,7 +93,7 @@ private fun VerticalHomeNominalContent(
     Column(
         modifier =
             Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize(),
     ) {
         if (users.size == 1) {
@@ -110,7 +112,7 @@ private fun VerticalHomeNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             thickness = Dp.Hairline,
         )
         NumberCyclesComponent(
@@ -124,7 +126,7 @@ private fun VerticalHomeNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             thickness = Dp.Hairline,
         )
         LaunchSessionButton(
@@ -151,7 +153,7 @@ private fun HorizontalHomeNominalContent(
     Row(
         modifier =
             Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize(),
     ) {
         if (users.size == 1) {
@@ -190,7 +192,7 @@ private fun HorizontalHomeNominalContent(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = dimensionResource(R.dimen.spacing_1)),
                     thickness = Dp.Hairline,
                 )
                 LaunchSessionButton(

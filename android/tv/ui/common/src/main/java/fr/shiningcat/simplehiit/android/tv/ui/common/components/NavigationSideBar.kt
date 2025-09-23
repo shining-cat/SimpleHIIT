@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
@@ -32,7 +33,7 @@ fun NavigationSideBar(
                 .fillMaxHeight()
                 .width(adaptDpToFontScale(160.dp))
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(16.dp),
+                .padding(dimensionResource(R.dimen.spacing_2)),
     ) {
         Text(
             text = stringResource(R.string.app_name),
@@ -40,7 +41,7 @@ fun NavigationSideBar(
             style = MaterialTheme.typography.titleLarge,
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_4)))
 
         SideBarItem(
             onClick = { navigateTo(Screen.Home.route) },
@@ -48,7 +49,7 @@ fun NavigationSideBar(
             label = R.string.home_page_title,
             selected = currentDestination == Screen.Home,
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2)))
 
         SideBarItem(
             onClick = { navigateTo(Screen.Settings.route) },
@@ -57,7 +58,7 @@ fun NavigationSideBar(
             selected = currentDestination == Screen.Settings,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2)))
 
         if (showStatisticsButton) {
             SideBarItem(

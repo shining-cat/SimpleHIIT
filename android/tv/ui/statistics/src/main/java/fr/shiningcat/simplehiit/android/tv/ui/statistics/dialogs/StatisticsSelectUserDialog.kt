@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -54,11 +55,11 @@ fun StatisticsSelectUserDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(R.dimen.spacing_1))
                         .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val spacing = 24.dp
+                val spacing = dimensionResource(R.dimen.spacing_3)
                 Text(
                     textAlign = TextAlign.Left,
                     text = stringResource(id = R.string.user_pick_dialog_title),
@@ -71,7 +72,7 @@ fun StatisticsSelectUserDialog(
                 val itemHeight = 48.dp
                 val numberOfColumns = 3
                 // this is to avoid the zoomed-in focused buttons of the first row to be clipped
-                val forcedTopMargin = 8.dp
+                val forcedTopMargin = dimensionResource(R.dimen.spacing_1)
                 val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
                 // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
                 val gridHeight =

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,7 @@ import androidx.tv.material3.SwitchDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun SettingsToggleComponent(
@@ -34,7 +36,7 @@ fun SettingsToggleComponent(
             modifier =
                 modifier
                     .defaultMinSize(minHeight = 48.dp)
-                    .padding(bottom = 8.dp),
+                    .padding(bottom = dimensionResource(R.dimen.spacing_1)),
             onClick = { onToggle() },
             colors = transparentButtonTextColors(),
             shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),

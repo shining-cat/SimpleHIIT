@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="minimum_touch_size">44dp</dimen>
+
+    <dimen name="stroke_025">2dp</dimen>
+
+    <dimen name="spacing_025">2dp</dimen>
+    <dimen name="spacing_05">4dp</dimen>
+    <dimen name="spacing_1">8dp</dimen>
+    <dimen name="spacing_15">12dp</dimen>
+    <dimen name="spacing_2">16dp</dimen>
+    <dimen name="spacing_3">24dp</dimen>
+    <dimen name="spacing_35">28dp</dimen>
+    <dimen name="spacing_4">32dp</dimen>
+    <dimen name="spacing_6">48dp</dimen>
+
+    <dimen name="corner_radius_2">4dp</dimen>
+
+</resources>

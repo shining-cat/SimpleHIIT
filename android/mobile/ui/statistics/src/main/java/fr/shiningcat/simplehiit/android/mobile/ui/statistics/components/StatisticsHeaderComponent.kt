@@ -15,12 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
@@ -37,7 +37,7 @@ fun StatisticsHeaderComponent(
     Row(
         modifier =
             Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(R.dimen.spacing_2))
                 .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -48,7 +48,7 @@ fun StatisticsHeaderComponent(
             text = currentUserName,
         )
         if (showUsersSwitch) {
-            Spacer(modifier = Modifier.width(32.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_4)))
             IconButton(onClick = { openUserPicker() }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.switch_user),

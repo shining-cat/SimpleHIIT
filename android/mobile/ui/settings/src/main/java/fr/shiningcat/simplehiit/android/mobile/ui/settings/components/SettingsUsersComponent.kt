@@ -23,17 +23,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.mobile.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -43,18 +44,18 @@ fun SettingsUsersComponent(
     onAddUser: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier.padding(horizontal = 8.dp),
+        modifier = Modifier.padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_1)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.users_list_setting_label),
+            text = stringResource(id = CommonResourcesR.string.users_list_setting_label),
         )
-        Spacer(modifier = Modifier.height(8.dp))
-        val itemHeight = adaptDpToFontScale(48.dp)
-        val spacing = 8.dp
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_1)))
+        val itemHeight = adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.minimum_touch_size))
+        val spacing = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
@@ -68,20 +69,20 @@ fun SettingsUsersComponent(
                     modifier =
                         Modifier
                             .height(itemHeight)
-                            .defaultMinSize(minWidth = 80.dp),
+                            .defaultMinSize(minWidth = dimensionResource(R.dimen.user_button_min_width)),
                     onClick = { onClickUser(user) },
                 ) {
                     Text(text = user.name)
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp)) // Add some space before the add button
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2))) // Add some space before the add button
         Button(
             modifier =
                 Modifier
                     .height(itemHeight)
-                    .width(adaptDpToFontScale(200.dp))
-                    .padding(horizontal = 32.dp),
+                    .width(adaptDpToFontScale(dimensionResource(R.dimen.add_user_button_width)))
+                    .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_4)),
             onClick = onAddUser,
             colors =
                 ButtonDefaults.buttonColors(
@@ -91,8 +92,8 @@ fun SettingsUsersComponent(
         ) {
             Icon(
                 imageVector = Icons.Filled.Add,
-                contentDescription = stringResource(id = R.string.add_user_button_label),
-                modifier = Modifier.size(adaptDpToFontScale(32.dp)),
+                contentDescription = stringResource(id = CommonResourcesR.string.add_user_button_label),
+                modifier = Modifier.size(adaptDpToFontScale(dimensionResource(R.dimen.add_user_button_icon_size))),
                 tint = MaterialTheme.colorScheme.onSecondary,
             )
         }

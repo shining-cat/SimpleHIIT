@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
@@ -34,7 +35,7 @@ fun SessionNavigationSideBar(
                 .fillMaxHeight()
                 .width(adaptedWidth)
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(16.dp),
+                .padding(dimensionResource(R.dimen.spacing_2)),
     ) {
         Text(
             text = stringResource(id = title),
@@ -42,7 +43,7 @@ fun SessionNavigationSideBar(
             style = MaterialTheme.typography.titleLarge,
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_4)))
 
         SideBarItem(
             onClick = onBackButtonClick,

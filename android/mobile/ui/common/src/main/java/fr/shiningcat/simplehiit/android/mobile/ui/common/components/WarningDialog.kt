@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,19 +25,20 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.AdaptiveDialogButtonsLay
 import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
 import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.mobile.ui.common.R
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as commonResourcesR
 
 @Composable
 fun WarningDialog(
     message: String = "",
     proceedButtonLabel: String,
     proceedAction: () -> Unit,
-    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
+    dismissButtonLabel: String = stringResource(id = commonResourcesR.string.cancel_button_label),
     dismissAction: () -> Unit,
 ) {
-    val dialogPadding = 8.dp
+    val dialogPadding = dimensionResource(commonResourcesR.dimen.spacing_1)
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -49,23 +51,29 @@ fun WarningDialog(
                 Column(
                     modifier =
                         Modifier
-                            .padding(8.dp)
+                            .padding(dimensionResource(commonResourcesR.dimen.spacing_1))
                             .fillMaxWidth(),
                 ) {
                     Image(
                         modifier =
                             Modifier
-                                .size(adaptDpToFontScale(120.dp))
+                                .size(adaptDpToFontScale(dimensionResource(R.dimen.dialog_main_icon_size)))
                                 .align(Alignment.CenterHorizontally)
-                                .padding(horizontal = 0.dp, vertical = 24.dp),
-                        painter = painterResource(id = R.drawable.warning),
-                        contentDescription = stringResource(id = R.string.warning_icon_content_description),
+                                .padding(
+                                    horizontal = 0.dp,
+                                    vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                ),
+                        painter = painterResource(id = commonResourcesR.drawable.warning),
+                        contentDescription = stringResource(id = commonResourcesR.string.warning_icon_content_description),
                     )
                     Text(
                         textAlign = TextAlign.Center,
                         modifier =
                             Modifier
-                                .padding(horizontal = 0.dp, vertical = 24.dp)
+                                .padding(
+                                    horizontal = 0.dp,
+                                    vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                )
                                 .fillMaxWidth(),
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
@@ -89,10 +97,14 @@ fun WarningDialog(
                             null
                         }
                     val buttons = listOfNotNull(dismissButtonInfo, primaryButtonInfo)
-                    val buttonsSpacingDp = 12.dp
+                    val buttonsSpacingDp = dimensionResource(commonResourcesR.dimen.spacing_15)
                     AdaptiveDialogButtonsLayout(
                         buttons = buttons,
-                        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                            ),
                         dialogContentWidthDp = effectiveDialogContentWidthDp,
                         horizontalSpacingDp = buttonsSpacingDp,
                         verticalSpacingDp = buttonsSpacingDp,

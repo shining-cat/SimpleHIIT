@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -74,7 +75,10 @@ fun ButtonFilled(
             Modifier
                 .run { if (fillWidth) fillMaxWidth() else this }
                 .run { if (fillHeight) fillMaxHeight() else this }
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(
+                    horizontal = dimensionResource(R.dimen.spacing_2),
+                    vertical = dimensionResource(R.dimen.spacing_1)
+                )
 
         Row(
             modifier = rowModifier,
@@ -114,9 +118,9 @@ private fun ButtonFilledPreview() {
                 modifier =
                     Modifier
                         .width(adaptDpToFontScale(350.dp))
-                        .padding(16.dp)
+                        .padding(dimensionResource(R.dimen.spacing_2))
                         .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
             ) {
                 Text(text = "Default (wrap content):")
                 ButtonFilled(

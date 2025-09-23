@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -37,7 +38,7 @@ fun RunningSessionStepInfoDisplayComponent(
     hiitLogger: HiitLogger? = null,
 ) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_4)))
         Row(
             modifier = Modifier.weight(2f, true),
             verticalAlignment = Alignment.CenterVertically,
@@ -89,7 +90,7 @@ fun RunningSessionStepInfoDisplayComponent(
                 bicolor = true,
             )
         }
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_4)))
     }
 }
 

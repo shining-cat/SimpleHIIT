@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -96,7 +97,7 @@ fun ButtonBordered(
                 border =
                     Border(
                         BorderStroke(
-                            width = 2.dp,
+                            width = dimensionResource(R.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.primary,
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -104,7 +105,7 @@ fun ButtonBordered(
                 focusedBorder =
                     Border(
                         BorderStroke(
-                            width = 2.dp,
+                            width = dimensionResource(R.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.secondary,
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -112,7 +113,7 @@ fun ButtonBordered(
                 pressedBorder =
                     Border(
                         BorderStroke(
-                            width = 2.dp,
+                            width = dimensionResource(R.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.primary,
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -120,7 +121,7 @@ fun ButtonBordered(
                 disabledBorder =
                     Border(
                         BorderStroke(
-                            width = 2.dp,
+                            width = dimensionResource(R.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .6f),
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -141,7 +142,10 @@ fun ButtonBordered(
                     } else {
                         Modifier
                     },
-                ).padding(horizontal = 8.dp, vertical = 4.dp)
+                ).padding(
+                    horizontal = dimensionResource(R.dimen.spacing_1),
+                    vertical = dimensionResource(R.dimen.spacing_05)
+                )
 
         Row(
             modifier = rowModifier,
@@ -155,7 +159,7 @@ fun ButtonBordered(
                     contentDescription = null,
                 )
                 if (label != null) {
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_1)))
                 }
             }
             if (label != null) {
@@ -177,10 +181,10 @@ fun ButtonBordered(
 @Composable
 private fun BorderedButtonPreview() {
     SimpleHiitTvTheme {
-        Surface(shape = MaterialTheme.shapes.extraSmall, modifier = Modifier.padding(16.dp)) {
+        Surface(shape = MaterialTheme.shapes.extraSmall, modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2))) {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text("Default (wrap content):")
@@ -192,7 +196,6 @@ private fun BorderedButtonPreview() {
 
                 Text("fillWidth = true (fixed height):")
                 ButtonBordered(
-                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
                     label = "Fill Width",
                     icon = ImageVector.vectorResource(R.drawable.cog),
                     fillWidth = true,

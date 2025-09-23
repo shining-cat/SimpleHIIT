@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -47,7 +48,7 @@ fun StatisticsErrorContent(
     Column(
         modifier =
             Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -63,13 +64,19 @@ fun StatisticsErrorContent(
                 Modifier
                     .size(adaptDpToFontScale(120.dp))
                     .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2)
+                    ),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier = Modifier.padding(
+                horizontal = 0.dp,
+                vertical = dimensionResource(R.dimen.spacing_2)
+            ),
             text = stringResource(id = R.string.error_irrecoverable_statistics, userName),
             style = MaterialTheme.typography.headlineMedium,
         )
@@ -78,7 +85,10 @@ fun StatisticsErrorContent(
                 textAlign = TextAlign.Center,
                 modifier =
                     Modifier
-                        .padding(horizontal = 0.dp, vertical = 16.dp)
+                        .padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(R.dimen.spacing_2)
+                        )
                         .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
                 style = MaterialTheme.typography.headlineSmall,
@@ -87,7 +97,10 @@ fun StatisticsErrorContent(
         ButtonError(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2)
+                    )
                     .focusRequester(focusRequester),
             // calling focus on button on opening
             onClick = deleteSessionsForUser,

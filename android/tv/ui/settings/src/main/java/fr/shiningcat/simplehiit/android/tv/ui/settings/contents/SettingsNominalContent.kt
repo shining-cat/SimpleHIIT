@@ -16,10 +16,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
@@ -73,11 +73,11 @@ fun SettingsNominalContent(
     LazyColumn(
         modifier =
             Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = dimensionResource(R.dimen.spacing_2))
                 .fillMaxSize(),
     ) {
         item {
-            Spacer(modifier = Modifier.height(16.dp)) // cheating to avoid truncating zoom-in focus effect on first item
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2))) // cheating to avoid truncating zoom-in focus effect on first item
         }
         item {
             SettingsFieldComponent(
@@ -146,7 +146,7 @@ fun SettingsNominalContent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             )
         }
         item {
@@ -161,7 +161,7 @@ fun SettingsNominalContent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             )
         }
         item {
@@ -181,7 +181,7 @@ fun SettingsNominalContent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             )
         }
         item {
@@ -190,7 +190,7 @@ fun SettingsNominalContent(
                 ButtonText(
                     modifier =
                         Modifier
-                            .padding(vertical = 24.dp)
+                            .padding(vertical = dimensionResource(R.dimen.spacing_3))
                             .weight(weight = .3f, fill = true),
                     fillHeight = true,
                     fillWidth = true,
@@ -201,7 +201,7 @@ fun SettingsNominalContent(
             }
         }
         item {
-            Spacer(modifier = Modifier.height(16.dp)) // cheating to avoid truncating zoom-in focus effect on last item
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2))) // cheating to avoid truncating zoom-in focus effect on last item
         }
     }
 }

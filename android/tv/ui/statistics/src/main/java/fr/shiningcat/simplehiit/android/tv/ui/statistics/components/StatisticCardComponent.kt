@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -52,7 +53,7 @@ fun StatisticCardComponent(
             Border(
                 border =
                     BorderStroke(
-                        width = 2.dp,
+                        width = dimensionResource(R.dimen.stroke_025),
                         color = MaterialTheme.colorScheme.primary,
                     ),
                 shape = MaterialTheme.shapes.small,
@@ -64,7 +65,7 @@ fun StatisticCardComponent(
             ),
         shape = MaterialTheme.shapes.small,
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2))) {
             Text(
                 text =
                     if (statistic.type == DisplayStatisticType.LONGEST_STREAK || statistic.type == DisplayStatisticType.CURRENT_STREAK) {

@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -49,7 +50,10 @@ fun NumberCyclesComponent(
         )
         Row(
             Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
+                .padding(
+                    horizontal = 0.dp,
+                    vertical = dimensionResource(R.dimen.spacing_2)
+                )
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -69,7 +73,7 @@ fun NumberCyclesComponent(
                 iconContentDescription = R.string.minus_cycle_description,
                 enabled = minusButtonActive,
             )
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_3)))
             Text(
                 text =
                     stringResource(
@@ -79,7 +83,7 @@ fun NumberCyclesComponent(
                     ),
                 style = MaterialTheme.typography.headlineMedium,
             )
-            Spacer(modifier = Modifier.width(24.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_3)))
             ButtonFilled(
                 modifier =
                     Modifier

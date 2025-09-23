@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -44,12 +45,15 @@ fun ErrorDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(R.dimen.spacing_1))
                         .fillMaxWidth(),
             ) {
                 Text(
                     textAlign = TextAlign.Left,
-                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 4.dp),
+                    modifier = Modifier.padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_05)
+                    ),
                     text = stringResource(id = R.string.error_title),
                     style = MaterialTheme.typography.headlineSmall,
                 )
@@ -58,7 +62,10 @@ fun ErrorDialog(
                         Modifier
                             .size(adaptDpToFontScale(120.dp))
                             .align(Alignment.CenterHorizontally)
-                            .padding(horizontal = 0.dp, vertical = 24.dp),
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(R.dimen.spacing_3)
+                            ),
                     painter = painterResource(id = R.drawable.warning),
                     contentDescription = stringResource(id = R.string.warning_icon_content_description),
                 )
@@ -67,7 +74,10 @@ fun ErrorDialog(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = 8.dp),
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(R.dimen.spacing_1)
+                            ),
                     text = stringResource(id = R.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium,
                 )
@@ -77,7 +87,10 @@ fun ErrorDialog(
                         modifier =
                             Modifier
                                 .fillMaxWidth()
-                                .padding(horizontal = 0.dp, vertical = 8.dp),
+                                .padding(
+                                    horizontal = 0.dp,
+                                    vertical = dimensionResource(R.dimen.spacing_1)
+                                ),
                         text = errorMessage,
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -87,7 +100,10 @@ fun ErrorDialog(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = 8.dp),
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(R.dimen.spacing_1)
+                            ),
                     text = stringResource(id = R.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium,
                 )
@@ -95,7 +111,7 @@ fun ErrorDialog(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(top = 24.dp),
+                            .padding(top = dimensionResource(R.dimen.spacing_3)),
                 ) {
                     Spacer(modifier = Modifier.weight(.3f))
                     ButtonText(

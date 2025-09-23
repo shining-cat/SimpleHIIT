@@ -14,11 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -48,7 +48,7 @@ fun StatisticsHeaderComponent(
     Row(
         modifier =
             Modifier
-                .padding(16.dp)
+                .padding(dimensionResource(R.dimen.spacing_2))
                 .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -59,7 +59,7 @@ fun StatisticsHeaderComponent(
             text = currentUserName,
         )
         if (showUsersSwitch) {
-            Spacer(modifier = Modifier.width(32.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_4)))
             ButtonFilled(
                 modifier = Modifier.focusRequester(focusRequester),
                 onClick = { openUserPicker() },

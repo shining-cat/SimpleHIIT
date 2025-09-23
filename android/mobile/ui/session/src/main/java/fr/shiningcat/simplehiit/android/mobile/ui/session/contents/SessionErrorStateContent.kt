@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -27,10 +28,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun SessionErrorStateContent(
@@ -44,7 +46,7 @@ fun SessionErrorStateContent(
     Column(
         modifier =
             modifier
-                .padding(8.dp)
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                 .windowInsetsPadding(WindowInsets.safeDrawing)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
@@ -53,19 +55,26 @@ fun SessionErrorStateContent(
         Image(
             modifier =
                 Modifier
-                    .size(120.dp)
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description),
+                    .size(dimensionResource(R.dimen.error_symbol_size))
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    ),
+            painter = painterResource(id = CommonResourcesR.drawable.warning),
+            contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier =
+                Modifier.padding(
+                    horizontal = 0.dp,
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                ),
             text =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                    stringResource(id = R.string.error_session_abort)
+                    stringResource(id = CommonResourcesR.string.error_session_abort)
                 } else {
-                    stringResource(id = R.string.error_session_retry)
+                    stringResource(id = CommonResourcesR.string.error_session_retry)
                 },
             style = MaterialTheme.typography.headlineMedium,
         )
@@ -74,8 +83,15 @@ fun SessionErrorStateContent(
                 textAlign = TextAlign.Center,
                 modifier =
                     Modifier
-                        .padding(horizontal = 0.dp, vertical = 16.dp),
-                text = stringResource(id = R.string.error_code, screenViewState.errorCode),
+                        .padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                        ),
+                text =
+                    stringResource(
+                        id = CommonResourcesR.string.error_code,
+                        screenViewState.errorCode,
+                    ),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
@@ -89,7 +105,10 @@ fun SessionErrorStateContent(
         Button(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    ),
             onClick = clickAction,
             colors =
                 ButtonDefaults.buttonColors(
@@ -100,9 +119,9 @@ fun SessionErrorStateContent(
             Text(
                 text =
                     if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                        stringResource(id = R.string.abort_session_button_label)
+                        stringResource(id = CommonResourcesR.string.abort_session_button_label)
                     } else {
-                        stringResource(id = R.string.exit_button_label)
+                        stringResource(id = CommonResourcesR.string.exit_button_label)
                     },
             )
         }

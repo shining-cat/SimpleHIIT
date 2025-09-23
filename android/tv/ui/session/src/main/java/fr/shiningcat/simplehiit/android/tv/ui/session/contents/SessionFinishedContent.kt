@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -40,7 +41,7 @@ fun SessionFinishedContent(
     LazyColumn(
         modifier =
             Modifier
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = dimensionResource(R.dimen.spacing_2))
                 .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(0.dp),
@@ -56,7 +57,7 @@ fun SessionFinishedContent(
             SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
         }
         item {
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_3)))
         }
     }
 }
@@ -69,7 +70,7 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 48.dp),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_6)),
             style = MaterialTheme.typography.headlineLarge,
             text = stringResource(id = R.string.finish_page_title),
         )
@@ -82,7 +83,7 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(24.dp),
+                .height(dimensionResource(R.dimen.spacing_3)),
         )
         Text(
             textAlign = TextAlign.Center,
@@ -93,7 +94,7 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(16.dp),
+                .height(dimensionResource(R.dimen.spacing_2)),
         )
         Text(
             textAlign = TextAlign.Center,
@@ -104,7 +105,7 @@ fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
         Spacer(
             Modifier
                 .fillMaxWidth()
-                .height(16.dp),
+                .height(dimensionResource(R.dimen.spacing_2)),
         )
     }
 }
@@ -118,7 +119,10 @@ fun SessionFinishedExerciseDoneItemComponent(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(vertical = 4.dp, horizontal = 16.dp),
+                .padding(
+                    vertical = dimensionResource(R.dimen.spacing_05),
+                    horizontal = dimensionResource(R.dimen.spacing_2)
+                ),
     ) {
         var displayText = stringResource(id = exerciseDoneRes)
         val displaySideRes =

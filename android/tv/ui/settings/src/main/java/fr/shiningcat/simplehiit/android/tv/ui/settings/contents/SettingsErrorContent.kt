@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -43,7 +44,7 @@ fun SettingsErrorContent(
     Column(
         modifier =
             Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
@@ -53,13 +54,19 @@ fun SettingsErrorContent(
                 Modifier
                     .size(adaptDpToFontScale(120.dp))
                     .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2)
+                    ),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier = Modifier.padding(
+                horizontal = 0.dp,
+                vertical = dimensionResource(R.dimen.spacing_2)
+            ),
             text = stringResource(id = R.string.error_irrecoverable_state_settings),
             style = MaterialTheme.typography.headlineMedium,
         )
@@ -68,7 +75,10 @@ fun SettingsErrorContent(
                 textAlign = TextAlign.Center,
                 modifier =
                     Modifier
-                        .padding(horizontal = 0.dp, vertical = 16.dp)
+                        .padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(R.dimen.spacing_2)
+                        )
                         .align(Alignment.CenterHorizontally),
                 text = stringResource(id = R.string.error_code, errorCode),
                 style = MaterialTheme.typography.headlineSmall,
@@ -77,7 +87,10 @@ fun SettingsErrorContent(
         ButtonError(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2)
+                    )
                     .align(Alignment.CenterHorizontally)
                     .focusRequester(focusRequester),
             // calling focus on button on opening

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -45,15 +46,15 @@ fun SettingsExercisesSelectedComponent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+                    .padding(bottom = dimensionResource(R.dimen.spacing_1)),
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
         )
         val itemHeight = adaptDpToFontScale(56.dp)
         val numberOfColumns = 3
-        val spacing = 24.dp
+        val spacing = dimensionResource(R.dimen.spacing_3)
         // this is to avoid the zoomed-in focused buttons of the first row to be clipped:
-        val forcedTopMargin = 8.dp
+        val forcedTopMargin = dimensionResource(R.dimen.spacing_1)
         val rowsCount = ceil(exerciseTypes.size.toFloat() / numberOfColumns.toFloat()).toInt()
         // adding forcedMargin on top and bottom for symmetry, rather than a last spacing:
         val gridHeight = 2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1)

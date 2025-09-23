@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -53,7 +54,7 @@ fun ChoiceDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(R.dimen.spacing_1))
                         .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -72,21 +73,31 @@ fun ChoiceDialog(
                             Modifier
                                 .size(adaptDpToFontScale(120.dp))
                                 .align(Alignment.CenterHorizontally)
-                                .padding(horizontal = 0.dp, vertical = 24.dp),
+                                .padding(
+                                    horizontal = 0.dp,
+                                    vertical = dimensionResource(R.dimen.spacing_3),
+                                ),
                         painter = painterResource(id = image),
                         contentDescription = stringResource(id = imageContentDescription),
                     )
                 }
                 Text(
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+                    modifier =
+                        Modifier.padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(R.dimen.spacing_3),
+                        ),
                     text = message,
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Row(
                     Modifier
-                        .padding(horizontal = 0.dp, vertical = 24.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp),
+                        .padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(R.dimen.spacing_3),
+                        ),
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_3)),
                 ) {
                     if (secondaryButtonLabel.isNotBlank()) {
                         ButtonText(

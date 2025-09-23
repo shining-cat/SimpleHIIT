@@ -14,11 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
 /**
@@ -98,7 +100,12 @@ fun PreviewCustomLinearProgressIndicator() {
                     .height(150.dp),
             shape = MaterialTheme.shapes.extraSmall,
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+            Column(
+                verticalArrangement =
+                    Arrangement.spacedBy(
+                        dimensionResource(R.dimen.spacing_2),
+                    ),
+            ) {
                 CustomLinearProgressIndicator(
                     modifier =
                         Modifier

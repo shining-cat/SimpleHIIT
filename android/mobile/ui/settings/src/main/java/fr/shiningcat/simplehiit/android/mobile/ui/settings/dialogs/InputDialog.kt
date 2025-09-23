@@ -22,6 +22,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -82,7 +83,7 @@ fun InputDialog(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
         ) {
-            val dialogPadding = 8.dp
+            val dialogPadding = dimensionResource(R.dimen.spacing_1)
             BoxWithConstraints {
                 val density = LocalDensity.current
                 val dialogAvailableWidthDp = this.maxWidth
@@ -156,8 +157,8 @@ private fun InputDialogBodyContent(
     effectiveDialogContentWidthDp: Dp,
     density: Density,
 ) {
-    val inputSpacing = 12.dp
-    val dialogHorizontalPadding = 8.dp
+    val inputSpacing = dimensionResource(R.dimen.spacing_15)
+    val dialogHorizontalPadding = dimensionResource(R.dimen.spacing_1)
 
     val inputFieldPostfixStyle = MaterialTheme.typography.bodyMedium
     val inputFieldPostfixLayout =
@@ -171,7 +172,7 @@ private fun InputDialogBodyContent(
     val measuredTextOnlyWidthPx =
         textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
     val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
-    val textFieldInternalHorizontalPaddingDp = 24.dp // Assumed 12.dp on each side
+    val textFieldInternalHorizontalPaddingDp = dimensionResource(R.dimen.spacing_3) // Assumed 12.dp on each side
     val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
     val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
     val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
@@ -195,8 +196,8 @@ private fun InputDialogBodyContent(
                 .padding(
                     start = dialogHorizontalPadding,
                     end = dialogHorizontalPadding,
-                    top = 24.dp,
-                    bottom = 8.dp,
+                    top = dimensionResource(R.dimen.spacing_3),
+                    bottom = dimensionResource(R.dimen.spacing_1),
                 ).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
@@ -253,7 +254,7 @@ private fun InputDialogBodyContent(
                     Modifier
                         .fillMaxWidth()
                         .padding(horizontal = dialogHorizontalPadding)
-                        .padding(top = 4.dp),
+                        .padding(top = dimensionResource(R.dimen.spacing_05)),
             )
         }
     }
@@ -303,11 +304,14 @@ private fun InputDialogButtonsLayout(
         }
 
     val buttons = listOfNotNull(dismissButtonInfo, secondaryButtonInfo, primaryButtonInfo)
-    val buttonsSpacingDp = 12.dp
+    val buttonsSpacingDp = dimensionResource(R.dimen.spacing_15)
 
     AdaptiveDialogButtonsLayout(
         buttons = buttons,
-        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+        modifier = Modifier.padding(
+            horizontal = 0.dp,
+            vertical = dimensionResource(R.dimen.spacing_3)
+        ),
         dialogContentWidthDp = effectiveDialogContentWidthDp,
         horizontalSpacingDp = buttonsSpacingDp,
         verticalSpacingDp = buttonsSpacingDp,

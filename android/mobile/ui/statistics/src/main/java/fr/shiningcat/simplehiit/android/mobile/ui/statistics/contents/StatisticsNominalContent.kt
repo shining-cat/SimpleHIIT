@@ -17,6 +17,7 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -53,7 +54,7 @@ fun StatisticsNominalContent(
         modifier =
             modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(dimensionResource(R.dimen.spacing_1)),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // we don't want the name to scroll along with the grid (sticky header)
@@ -64,12 +65,12 @@ fun StatisticsNominalContent(
         )
         //
         val columnsCount = 2
-        val gridPadding = 16.dp
+        val gridPadding = dimensionResource(R.dimen.spacing_2)
         val doubleSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(columnsCount) }
         LazyVerticalGrid(
             modifier =
                 Modifier
-                    .padding(8.dp)
+                    .padding(dimensionResource(R.dimen.spacing_1))
                     .fillMaxSize(),
             columns = GridCells.Fixed(2),
             verticalArrangement =
@@ -85,13 +86,16 @@ fun StatisticsNominalContent(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = dimensionResource(R.dimen.spacing_1)),
                     thickness = Dp.Hairline,
                 )
                 TextButton(
                     modifier =
                         Modifier
-                            .padding(horizontal = 0.dp, vertical = 16.dp),
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(R.dimen.spacing_2)
+                            ),
                     onClick = { deleteAllSessionsForUser(viewState.user) },
                 ) {
                     Text(

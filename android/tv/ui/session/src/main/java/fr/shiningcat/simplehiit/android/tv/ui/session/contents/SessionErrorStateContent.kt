@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -39,7 +40,7 @@ fun SessionErrorStateContent(
     Column(
         modifier =
             Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -48,13 +49,19 @@ fun SessionErrorStateContent(
             modifier =
                 Modifier
                     .size(adaptDpToFontScale(120.dp))
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2)
+                    ),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 0.dp, vertical = 16.dp),
+            modifier = Modifier.padding(
+                horizontal = 0.dp,
+                vertical = dimensionResource(R.dimen.spacing_2)
+            ),
             text =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
                     stringResource(id = R.string.error_session_abort)
@@ -68,7 +75,10 @@ fun SessionErrorStateContent(
                 textAlign = TextAlign.Center,
                 modifier =
                     Modifier
-                        .padding(horizontal = 0.dp, vertical = 16.dp),
+                        .padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(R.dimen.spacing_2)
+                        ),
                 text = stringResource(id = R.string.error_code, screenViewState.errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
@@ -83,7 +93,7 @@ fun SessionErrorStateContent(
         ButtonError(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp),
+                    .padding(horizontal = 0.dp, vertical = dimensionResource(R.dimen.spacing_2)),
             onClick = clickAction,
             label =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="large_button_height">56dp</dimen>
+    <dimen name="error_symbol_size">120dp</dimen>
+    <dimen name="user_select_toggle_button_height">56dp</dimen>
+    <dimen name="user_select_toggle_button_min_width">112dp</dimen>
+</resources>

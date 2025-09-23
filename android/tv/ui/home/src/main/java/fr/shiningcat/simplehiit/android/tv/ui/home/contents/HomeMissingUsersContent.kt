@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -45,7 +46,7 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
     Column(
         modifier =
             Modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -62,7 +63,10 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                 Modifier
                     .size(120.dp)
                     .align(Alignment.CenterHorizontally)
-                    .padding(horizontal = 0.dp, vertical = 24.dp),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_3)
+                    ),
             painter = painterResource(id = R.drawable.warning),
             contentDescription = stringResource(id = R.string.warning_icon_content_description),
         )
@@ -73,7 +77,10 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 0.dp, vertical = 24.dp),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_3)
+                    ),
         )
         Row {
             Spacer(modifier = Modifier.weight(.3f))

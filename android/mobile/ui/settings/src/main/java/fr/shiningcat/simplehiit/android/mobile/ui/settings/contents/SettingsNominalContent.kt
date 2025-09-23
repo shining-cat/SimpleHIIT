@@ -16,6 +16,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -56,11 +57,11 @@ fun SettingsNominalContent(
     Column(
         modifier =
             modifier
-                .padding(horizontal = 8.dp)
+                .padding(horizontal = dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
     ) {
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_1)))
         SettingsFieldComponent(
             label = stringResource(id = R.string.work_period_length_label),
             value =
@@ -113,7 +114,7 @@ fun SettingsNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             thickness = Dp.Hairline,
             color = DividerDefaults.color,
         )
@@ -122,7 +123,7 @@ fun SettingsNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             thickness = Dp.Hairline,
             color = DividerDefaults.color,
         )
@@ -134,14 +135,17 @@ fun SettingsNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 8.dp),
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
             thickness = Dp.Hairline,
             color = DividerDefaults.color,
         )
         TextButton(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2)
+                    )
                     .align(Alignment.CenterHorizontally),
             onClick = resetSettings,
         ) {

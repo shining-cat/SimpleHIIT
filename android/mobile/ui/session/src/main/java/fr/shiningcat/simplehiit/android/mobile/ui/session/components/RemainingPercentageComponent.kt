@@ -14,12 +14,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.mobile.ui.session.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun RemainingPercentageComponent(
@@ -30,7 +33,7 @@ fun RemainingPercentageComponent(
     bicolor: Boolean,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
@@ -69,28 +72,28 @@ private fun RemainingPercentageComponentPreview() {
                 RemainingPercentageComponent(
                     modifier =
                         Modifier
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
                     label = "Next exercise in 3s",
                     percentage = .3f,
-                    thickness = 8.dp,
+                    thickness = dimensionResource(R.dimen.step_remaining_progress_thickness),
                     bicolor = false,
                 )
                 RemainingPercentageComponent(
                     modifier =
                         Modifier
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
                     label = "Next rest in 7mn\u00A023s",
                     percentage = .8f,
-                    thickness = 8.dp,
+                    thickness = dimensionResource(R.dimen.step_remaining_progress_thickness),
                     bicolor = false,
                 )
                 RemainingPercentageComponent(
                     modifier =
                         Modifier
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
                     label = "Total remaining: 1h\u00A020mn\u00A037s",
                     percentage = .79f,
-                    thickness = 16.dp,
+                    thickness = dimensionResource(R.dimen.session_remaining_progress_thickness),
                     bicolor = true,
                 )
             }

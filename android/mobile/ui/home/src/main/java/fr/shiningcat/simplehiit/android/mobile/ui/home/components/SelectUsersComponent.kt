@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -26,11 +27,12 @@ import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
-import fr.shiningcat.simplehiit.android.mobile.ui.common.components.toggleButtonLostWidthDp
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleButtonLostWidthDp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.mobile.ui.home.R
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlin.math.roundToInt
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun SelectUsersComponent(
@@ -44,14 +46,14 @@ fun SelectUsersComponent(
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.selected_users_setting_title),
+            text = stringResource(id = CommonResourcesR.string.selected_users_setting_title),
             style = MaterialTheme.typography.headlineLarge,
         )
         val availableWidthPix = LocalWindowInfo.current.containerSize.width
-        val spacingDp = 8.dp
+        val spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_1)
         val density = LocalDensity.current
         val spacingPix = with(density) { spacingDp.toPx() }
-        val toggleButtonLostWidthPix = with(density) { toggleButtonLostWidthDp.toPx() }
+        val toggleButtonLostWidthPix = getToggleButtonLostWidthDp()
         val oneHalfColumnAvailableWidth =
             (availableWidthPix - 2 * spacingPix) / 2f - toggleButtonLostWidthPix
         val useTwoColumn =
@@ -71,7 +73,7 @@ fun SelectUsersComponent(
             columns = GridCells.Fixed(numberOfColumns),
             modifier =
                 Modifier
-                    .padding(top = 16.dp)
+                    .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_2))
                     .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(spacingDp),
             verticalArrangement = Arrangement.spacedBy(spacingDp),
@@ -81,8 +83,8 @@ fun SelectUsersComponent(
                 ToggleButton(
                     modifier =
                         Modifier
-                            .height(56.dp)
-                            .defaultMinSize(minWidth = 112.dp),
+                            .height(dimensionResource(R.dimen.user_select_toggle_button_height))
+                            .defaultMinSize(minWidth = dimensionResource(R.dimen.user_select_toggle_button_min_width)),
                     label = user.name,
                     labelStyle = MaterialTheme.typography.labelMedium,
                     selected = user.selected,

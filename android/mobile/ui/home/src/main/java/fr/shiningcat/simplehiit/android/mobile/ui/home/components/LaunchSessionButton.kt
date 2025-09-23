@@ -10,13 +10,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.mobile.ui.home.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun LaunchSessionButton(
@@ -28,8 +29,8 @@ fun LaunchSessionButton(
         enabled = canLaunchSession,
         modifier =
             modifier
-                .padding(vertical = 24.dp)
-                .height(56.dp),
+                .padding(vertical = dimensionResource(CommonResourcesR.dimen.spacing_3))
+                .height(dimensionResource(R.dimen.large_button_height)),
         onClick = navigateToSession,
         colors =
             ButtonDefaults.buttonColors(
@@ -38,9 +39,9 @@ fun LaunchSessionButton(
             ),
     ) {
         if (canLaunchSession) {
-            Text(text = stringResource(id = R.string.launch_session_label))
+            Text(text = stringResource(id = CommonResourcesR.string.launch_session_label))
         } else {
-            Text(text = stringResource(id = R.string.cannot_launch_session_label))
+            Text(text = stringResource(id = CommonResourcesR.string.cannot_launch_session_label))
         }
     }
 }
