@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
@@ -20,7 +21,9 @@ import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
+import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 /**
  * Displays a circular progress indicator with a countdown timer.
@@ -47,7 +50,7 @@ fun CountDownComponent(
                     .align(Alignment.Center)
                     .fillMaxSize(),
             progress = { countDown.progress },
-            strokeWidth = 5.dp,
+            strokeWidth = dimensionResource(R.dimen.countdown_stroke_width),
             strokeCap = StrokeCap.Butt,
             trackColor = MaterialTheme.colorScheme.primary,
             color = MaterialTheme.colorScheme.secondary,
@@ -75,35 +78,35 @@ private fun CountDownCircularProgressPreview() {
                 verticalArrangement = Arrangement.SpaceEvenly,
             ) {
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "35.5", progress = 1f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "21", progress = .9f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "17", progress = .7f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "9", progress = .5f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "4", progress = .3f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "3", progress = .2f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 48.dp,
+                    baseSize = dimensionResource(CommonResourcesR.dimen.minimum_touch_size),
                     countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true),
                 )
             }

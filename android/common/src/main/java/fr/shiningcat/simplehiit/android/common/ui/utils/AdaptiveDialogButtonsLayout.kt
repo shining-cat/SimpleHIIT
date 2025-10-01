@@ -15,11 +15,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shiningcat.simplehiit.commonresources.R
 
 /**
  * Configuration for a single button within the AdaptiveDialogButtonsLayout.
@@ -60,9 +62,11 @@ fun AdaptiveDialogButtonsLayout(
     buttons: List<DialogButtonConfig>,
     modifier: Modifier = Modifier,
     dialogContentWidthDp: Dp,
-    horizontalSpacingDp: Dp = 8.dp,
-    verticalSpacingDp: Dp = 8.dp,
+    horizontalSpacingDp: Dp? = null,
+    verticalSpacingDp: Dp? = null,
 ) {
+    val actualHorizontalSpacingDp = horizontalSpacingDp ?: dimensionResource(R.dimen.spacing_1)
+    val actualVerticalSpacingDp = verticalSpacingDp ?: dimensionResource(R.dimen.spacing_1)
     if (buttons.isEmpty()) {
         return // No buttons to lay out
     }
@@ -89,7 +93,7 @@ fun AdaptiveDialogButtonsLayout(
         buttonsFitOnOneLine(
             buttons = buttonLayoutInfos,
             availableWidthPx = availableWidthPx,
-            horizontalSpacingDp = horizontalSpacingDp,
+            horizontalSpacingDp = actualHorizontalSpacingDp,
         )
 
     if (fitOnOneLine) {
@@ -101,14 +105,14 @@ fun AdaptiveDialogButtonsLayout(
             buttons.forEachIndexed { index, config ->
                 RenderDialogButton(config = config)
                 if (index < buttons.size - 1) {
-                    Spacer(modifier = Modifier.width(horizontalSpacingDp))
+                    Spacer(modifier = Modifier.width(actualHorizontalSpacingDp))
                 }
             }
         }
     } else {
         Column(
             modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(verticalSpacingDp),
+            verticalArrangement = Arrangement.spacedBy(actualVerticalSpacingDp),
         ) {
             buttons.forEach { config ->
                 RenderDialogButton(
@@ -194,11 +198,11 @@ private fun buttonsFitOnOneLine(
     val paddingsDp =
         mapOf(
             // ButtonDefaults.TextButtonHorizontalPadding:
-            ButtonType.TEXT to 12.dp,
+            ButtonType.TEXT to dimensionResource(R.dimen.spacing_15),
             // ButtonDefaults.ButtonHorizontalPadding:
-            ButtonType.OUTLINED to 24.dp,
+            ButtonType.OUTLINED to dimensionResource(R.dimen.spacing_3),
             // ButtonDefaults.ButtonHorizontalPadding:
-            ButtonType.FILLED to 24.dp,
+            ButtonType.FILLED to dimensionResource(R.dimen.spacing_3),
         )
     // calculate what width would be needed to have all buttons unconstrained in a line
     var totalWidth = 0f

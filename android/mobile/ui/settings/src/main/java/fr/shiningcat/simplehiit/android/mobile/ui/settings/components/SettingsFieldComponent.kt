@@ -14,13 +14,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun SettingsFieldComponent(
@@ -65,18 +66,18 @@ fun SettingsFieldComponent(
         fitsInWidth(
             textLayoutInfos = elementsFirstLine,
             availableWidthPx = availableWidthPix,
-            spacingDp = 4.dp,
+            spacingDp = dimensionResource(R.dimen.spacing_05),
         ) &&
             fitsInWidth(
                 textLayoutInfos = elementsSecondLine,
                 availableWidthPx = availableWidthPix,
-                spacingDp = 4.dp,
+                spacingDp = dimensionResource(R.dimen.spacing_05),
             )
     val modifier =
         Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 48.dp)
-            .padding(bottom = 8.dp)
+            .defaultMinSize(minHeight = dimensionResource(R.dimen.minimum_touch_size))
+            .padding(bottom = dimensionResource(R.dimen.spacing_1))
             .clickable { onClick() }
 
     if (useHorizontalLayout) {
@@ -166,7 +167,7 @@ private fun SelectUsersComponentPreview() {
     SimpleHiitMobileTheme {
         Surface {
             Column(
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_15)),
             ) {
                 SettingsFieldComponent(
                     label = "This is a Setting Field",

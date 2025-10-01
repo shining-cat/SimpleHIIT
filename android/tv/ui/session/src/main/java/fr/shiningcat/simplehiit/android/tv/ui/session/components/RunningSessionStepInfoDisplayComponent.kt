@@ -8,23 +8,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
+import fr.shiningcat.simplehiit.android.tv.ui.session.R
 import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun RunningSessionStepInfoDisplayComponent(
@@ -37,7 +38,7 @@ fun RunningSessionStepInfoDisplayComponent(
     hiitLogger: HiitLogger? = null,
 ) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_4)))
         Row(
             modifier = Modifier.weight(2f, true),
             verticalAlignment = Alignment.CenterVertically,
@@ -47,8 +48,8 @@ fun RunningSessionStepInfoDisplayComponent(
         Spacer(modifier = Modifier.weight(.2f))
         val remainingPercentageStringRes =
             when (periodType) {
-                RunningSessionStepType.REST -> R.string.rest_remaining_in_s
-                RunningSessionStepType.WORK -> R.string.exercise_remaining_in_s
+                RunningSessionStepType.REST -> CommonResourcesR.string.rest_remaining_in_s
+                RunningSessionStepType.WORK -> CommonResourcesR.string.exercise_remaining_in_s
             }
         Row(
             modifier = Modifier.weight(1f, true),
@@ -57,15 +58,15 @@ fun RunningSessionStepInfoDisplayComponent(
             RemainingPercentageComponent(
                 modifier =
                     Modifier
-                        .padding(horizontal = 64.dp)
-                        .height(100.dp),
+                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_8))
+                        .height(dimensionResource(R.dimen.running_session_step_remaining_progress_height)),
                 label =
                     stringResource(
                         id = remainingPercentageStringRes,
                         viewState.stepRemainingTime,
                     ),
                 percentage = viewState.stepRemainingPercentage,
-                thickness = 16.dp,
+                thickness = dimensionResource(R.dimen.running_session_step_remaining_progress_thickness),
                 bicolor = false,
             )
         }
@@ -77,19 +78,19 @@ fun RunningSessionStepInfoDisplayComponent(
             RemainingPercentageComponent(
                 modifier =
                     Modifier
-                        .padding(horizontal = 64.dp)
-                        .height(100.dp),
+                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_8))
+                        .height(dimensionResource(R.dimen.running_session_session_remaining_progress_height)),
                 label =
                     stringResource(
-                        id = R.string.session_time_remaining,
+                        id = CommonResourcesR.string.session_time_remaining,
                         viewState.sessionRemainingTime,
                     ),
                 percentage = viewState.sessionRemainingPercentage,
-                thickness = 8.dp,
+                thickness = dimensionResource(R.dimen.running_session_session_remaining_progress_thickness),
                 bicolor = true,
             )
         }
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_4)))
     }
 }
 

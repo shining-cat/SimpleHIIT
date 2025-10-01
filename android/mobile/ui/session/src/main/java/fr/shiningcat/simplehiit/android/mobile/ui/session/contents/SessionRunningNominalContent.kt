@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -36,6 +37,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.ExerciseDisplayComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.RunningSessionStepInfoDisplayComponent
+import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
@@ -94,7 +96,7 @@ fun VerticalSessionRunningNominalContent(
     Column(
         modifier =
             modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .windowInsetsPadding(WindowInsets.safeDrawing),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,7 +105,10 @@ fun VerticalSessionRunningNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 8.dp, vertical = 24.dp),
+                    .padding(
+                        horizontal = dimensionResource(R.dimen.spacing_1),
+                        vertical = dimensionResource(R.dimen.spacing_3),
+                    ),
             exercise = exercise,
             exerciseSide = exerciseSide,
             countDown = countDown,
@@ -135,7 +140,7 @@ fun HorizontalSessionRunningNominalContent(
     Row(
         modifier =
             modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .windowInsetsPadding(WindowInsets.safeDrawing)
                 .onGloballyPositioned { coordinates ->
                     availableHeight = coordinates.size.height

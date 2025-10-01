@@ -8,11 +8,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
+import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.CountDownComponent
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -29,7 +30,7 @@ fun SessionPrepareContent(
         contentAlignment = Alignment.Center,
     ) {
         CountDownComponent(
-            baseSize = 64.dp,
+            baseSize = dimensionResource(R.dimen.countdown_large_size),
             countDown = viewState.countDown,
             hiitLogger = hiitLogger,
         )

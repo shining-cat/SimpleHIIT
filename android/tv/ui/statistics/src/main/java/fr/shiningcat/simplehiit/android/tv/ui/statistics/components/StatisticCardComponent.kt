@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -13,7 +14,6 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.Glow
 import androidx.tv.material3.MaterialTheme
@@ -22,9 +22,10 @@ import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.statistics.R
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun StatisticCardComponent(
@@ -33,12 +34,12 @@ fun StatisticCardComponent(
 ) {
     val label =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(R.string.sessions_total)
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(R.string.time_total)
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(R.string.average)
-            DisplayStatisticType.LONGEST_STREAK -> stringResource(R.string.longest_streak)
-            DisplayStatisticType.CURRENT_STREAK -> stringResource(R.string.current_streak)
-            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(R.string.average_sessions_week)
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.sessions_total)
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResourcesR.string.time_total)
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR.string.average)
+            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResourcesR.string.longest_streak)
+            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResourcesR.string.current_streak)
+            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(CommonResourcesR.string.average_sessions_week)
         }
 
     Surface(
@@ -46,13 +47,13 @@ fun StatisticCardComponent(
         glow =
             Glow(
                 elevationColor = MaterialTheme.colorScheme.onBackground,
-                elevation = 5.dp,
+                elevation = dimensionResource(R.dimen.stats_card_elevation),
             ),
         border =
             Border(
                 border =
                     BorderStroke(
-                        width = 2.dp,
+                        width = dimensionResource(CommonResourcesR.dimen.stroke_025),
                         color = MaterialTheme.colorScheme.primary,
                     ),
                 shape = MaterialTheme.shapes.small,
@@ -64,13 +65,13 @@ fun StatisticCardComponent(
             ),
         shape = MaterialTheme.shapes.small,
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
+        Column(modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
             Text(
                 text =
                     if (statistic.type == DisplayStatisticType.LONGEST_STREAK || statistic.type == DisplayStatisticType.CURRENT_STREAK) {
                         val numberOfDays = statistic.displayValue.toInt()
                         pluralStringResource(
-                            R.plurals.statistics_number_of_days,
+                            CommonResourcesR.plurals.statistics_number_of_days,
                             numberOfDays,
                             numberOfDays,
                         )

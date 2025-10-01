@@ -13,6 +13,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -42,7 +43,7 @@ fun StatisticsSelectUserDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(R.dimen.spacing_1))
                         .fillMaxWidth(),
             ) {
                 Text(
@@ -55,7 +56,7 @@ fun StatisticsSelectUserDialog(
                 LazyColumn(
                     modifier =
                         Modifier
-                            .padding(vertical = 4.dp)
+                            .padding(vertical = dimensionResource(R.dimen.spacing_05))
                             .fillMaxWidth()
                             .weight(1f),
                     horizontalAlignment = Alignment.CenterHorizontally,

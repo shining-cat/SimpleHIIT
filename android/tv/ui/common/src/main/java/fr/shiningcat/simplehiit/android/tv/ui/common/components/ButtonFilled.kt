@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,8 +33,9 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun ButtonFilled(
@@ -74,7 +76,10 @@ fun ButtonFilled(
             Modifier
                 .run { if (fillWidth) fillMaxWidth() else this }
                 .run { if (fillHeight) fillMaxHeight() else this }
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(
+                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
+                )
 
         Row(
             modifier = rowModifier,
@@ -114,21 +119,21 @@ private fun ButtonFilledPreview() {
                 modifier =
                     Modifier
                         .width(adaptDpToFontScale(350.dp))
-                        .padding(16.dp)
+                        .padding(dimensionResource(CommonResourcesR.dimen.spacing_2))
                         .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
             ) {
                 Text(text = "Default (wrap content):")
                 ButtonFilled(
                     label = "Wrap Me",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                 )
 
                 Text(text = "fillWidth = true:")
                 ButtonFilled(
-                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    modifier = Modifier.height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height))),
                     label = "Fill Width",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     fillHeight = true,
                 )
@@ -137,14 +142,14 @@ private fun ButtonFilledPreview() {
                 ButtonFilled(
                     modifier = Modifier.width(adaptDpToFontScale(200.dp)),
                     label = "Fill Height",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillHeight = true,
                 )
 
                 Text(text = "fillHeight = true (wrap width):")
                 ButtonFilled(
                     label = "Fill Height Wrap Width",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillHeight = true,
                 )
 
@@ -152,7 +157,7 @@ private fun ButtonFilledPreview() {
                 ButtonFilled(
                     modifier = Modifier.height(adaptDpToFontScale(64.dp)),
                     label = "Fill Both",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     fillHeight = true,
                 )
@@ -164,7 +169,7 @@ private fun ButtonFilledPreview() {
                             .width(adaptDpToFontScale(250.dp))
                             .height(adaptDpToFontScale(72.dp)),
                     label = "Fixed Size",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     fillHeight = true,
                 )
@@ -173,14 +178,14 @@ private fun ButtonFilledPreview() {
                 ButtonFilled(
                     modifier = Modifier.width(adaptDpToFontScale(250.dp)),
                     label = "Fixed Width Wrap Height",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                 )
 
                 Text(text = "Accent Color & fillWidth:")
                 ButtonFilled(
                     label = "Accent Fill",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     accentColor = true,
                     fillWidth = true,
                 )
@@ -188,20 +193,20 @@ private fun ButtonFilledPreview() {
                 Text(text = "Disabled & fillWidth:")
                 ButtonFilled(
                     label = "Disabled Fill",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     enabled = false,
                     fillWidth = true,
                 )
 
                 Text(text = "Icon only, wrap:")
                 ButtonFilled(
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                 )
 
                 Text(text = "Icon only, fillHeight (fixed width):")
                 ButtonFilled(
                     modifier = Modifier.width(adaptDpToFontScale(80.dp)),
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillHeight = true,
                     fillWidth = true,
                 )

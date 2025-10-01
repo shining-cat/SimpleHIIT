@@ -12,11 +12,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -25,11 +25,12 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonToggle
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import kotlin.math.ceil
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun SettingsExercisesSelectedComponent(
@@ -45,15 +46,16 @@ fun SettingsExercisesSelectedComponent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+                    .padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
+            text = stringResource(id = CommonResourcesR.string.selected_exercise_types_list_setting_label),
         )
-        val itemHeight = adaptDpToFontScale(56.dp)
+        val itemHeight =
+            adaptDpToFontScale(dimensionResource(R.dimen.settings_select_exercise_height))
         val numberOfColumns = 3
-        val spacing = 24.dp
+        val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
         // this is to avoid the zoomed-in focused buttons of the first row to be clipped:
-        val forcedTopMargin = 8.dp
+        val forcedTopMargin = dimensionResource(CommonResourcesR.dimen.spacing_1)
         val rowsCount = ceil(exerciseTypes.size.toFloat() / numberOfColumns.toFloat()).toInt()
         // adding forcedMargin on top and bottom for symmetry, rather than a last spacing:
         val gridHeight = 2 * forcedTopMargin + (itemHeight) * rowsCount + spacing * (rowsCount - 1)

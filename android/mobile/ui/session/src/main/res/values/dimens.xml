@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="countdown_large_size">64dp</dimen>
+    <dimen name="countdown_size">48dp</dimen>
+    <dimen name="countdown_stroke_width">5dp</dimen>
+    <dimen name="step_remaining_progress_thickness">16dp</dimen>
+    <dimen name="session_remaining_progress_thickness">8dp</dimen>
+    <dimen name="error_symbol_size">120dp</dimen>
+
+</resources>

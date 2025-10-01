@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -21,7 +22,9 @@ import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun ButtonError(
@@ -52,7 +55,10 @@ fun ButtonError(
                 Modifier
                     .run { if (fillWidth) fillMaxWidth() else this }
                     .run { if (fillHeight) fillMaxHeight() else this }
-                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                    .padding(
+                        horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
+                    ),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -72,8 +78,8 @@ private fun ButtonErrorPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
+                modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2)),
             ) {
                 ButtonError(
                     label = "Short Error",
@@ -96,7 +102,7 @@ private fun ButtonErrorPreview() {
                 ButtonError(
                     modifier =
                         Modifier
-                            .height(48.dp)
+                            .height(dimensionResource(R.dimen.dialog_standard_button_height))
                             .width(132.dp),
                     fillWidth = true,
                     fillHeight = true,

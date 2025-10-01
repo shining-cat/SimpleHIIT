@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -54,8 +55,9 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 enum class InputDialogTextFieldSize(
     val charCount: Int,
@@ -82,7 +84,7 @@ fun InputDialog(
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     pickErrorMessage: (Constants.InputError) -> Int = { -1 },
 ) {
-    val dialogPadding = 8.dp
+    val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
     val input = rememberSaveable { mutableStateOf(inputFieldValue) }
     val isError =
@@ -144,14 +146,22 @@ fun InputDialog(
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = 24.dp),
-                        horizontalArrangement = Arrangement.spacedBy(24.dp),
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                            ),
+                        horizontalArrangement =
+                            Arrangement.spacedBy(
+                                dimensionResource(
+                                    CommonResourcesR.dimen.spacing_3,
+                                ),
+                            ),
                     ) {
                         if (secondaryButtonLabel.isNotBlank()) {
                             ButtonText(
                                 modifier =
                                     Modifier
-                                        .height(adaptDpToFontScale(48.dp))
+                                        .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
                                         .weight(1f),
                                 fillWidth = true,
                                 fillHeight = true,
@@ -163,7 +173,7 @@ fun InputDialog(
                             ButtonBordered(
                                 modifier =
                                     Modifier
-                                        .height(adaptDpToFontScale(48.dp))
+                                        .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
                                         .weight(1f),
                                 fillWidth = true,
                                 fillHeight = true,
@@ -174,7 +184,7 @@ fun InputDialog(
                         ButtonFilled(
                             modifier =
                                 Modifier
-                                    .height(adaptDpToFontScale(48.dp))
+                                    .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
                                     .weight(1f),
                             fillHeight = true,
                             fillWidth = true,
@@ -203,8 +213,8 @@ private fun InputDialogBodyContent(
     effectiveDialogContentWidthDp: Dp,
     density: Density,
 ) {
-    val inputSpacing = 12.dp
-    val dialogHorizontalPadding = 8.dp
+    val inputSpacing = dimensionResource(CommonResourcesR.dimen.spacing_15)
+    val dialogHorizontalPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
     val focusRequester = remember { FocusRequester() }
 
     LaunchedEffect(Unit) { focusRequester.requestFocus() }
@@ -221,7 +231,8 @@ private fun InputDialogBodyContent(
     val measuredTextOnlyWidthPx =
         textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
     val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
-    val textFieldInternalHorizontalPaddingDp = 24.dp // Assumed 12.dp on each side
+    val textFieldInternalHorizontalPaddingDp =
+        dimensionResource(CommonResourcesR.dimen.spacing_3) // Assumed 12.dp on each side
     val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
     val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
     val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
@@ -245,8 +256,8 @@ private fun InputDialogBodyContent(
                 .padding(
                     start = dialogHorizontalPadding,
                     end = dialogHorizontalPadding,
-                    top = 24.dp,
-                    bottom = 8.dp,
+                    top = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                    bottom = dimensionResource(CommonResourcesR.dimen.spacing_1),
                 ).align(Alignment.CenterHorizontally),
             horizontalArrangement = Arrangement.spacedBy(inputSpacing),
             verticalAlignment = Alignment.CenterVertically,
@@ -315,7 +326,7 @@ private fun InputDialogBodyContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = dialogHorizontalPadding)
-                    .padding(top = 4.dp),
+                    .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_05)),
         )
     }
 }
@@ -332,11 +343,11 @@ fun InputDialogDecoration(
                 .border(
                     border =
                         BorderStroke(
-                            width = 2.dp,
+                            width = dimensionResource(CommonResourcesR.dimen.stroke_025),
                             color = if (isError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.border,
                         ),
                     shape = MaterialTheme.shapes.small,
-                ).padding(16.dp),
+                ).padding(dimensionResource(CommonResourcesR.dimen.spacing_2)),
     ) {
         innerTextField()
         errorTrailingIcon(
@@ -452,7 +463,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.LARGE,
                         validateInput = { Constants.InputError.WRONG_FORMAT },
-                        errorMessage = { R.string.invalid_input_error },
+                        errorMessage = { CommonResourcesR.string.invalid_input_error },
                     ),
                     InputDialogPreviewObject(
                         inputFieldValue = "30",
@@ -463,7 +474,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.SMALL,
                         validateInput = { Constants.InputError.WRONG_FORMAT },
-                        errorMessage = { R.string.invalid_input_error },
+                        errorMessage = { CommonResourcesR.string.invalid_input_error },
                     ),
                 )
             return sequenceOf

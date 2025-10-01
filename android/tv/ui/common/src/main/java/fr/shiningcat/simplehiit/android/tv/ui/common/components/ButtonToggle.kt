@@ -8,14 +8,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun ButtonToggle(
@@ -34,7 +36,7 @@ fun ButtonToggle(
             onClick = { onToggle() },
             label = label,
             icon = Icons.Filled.Done,
-            iconContentDescription = R.string.active,
+            iconContentDescription = CommonResourcesR.string.active,
         )
     } else {
         ButtonBordered(
@@ -56,17 +58,17 @@ private fun ButtonTogglePreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 modifier = Modifier.width(adaptDpToFontScale(300.dp)),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
             ) {
                 ButtonToggle(
-                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    modifier = Modifier.height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height))),
                     fillHeight = true,
                     label = "I'm selected",
                     selected = true,
                     onToggle = {},
                 )
                 ButtonToggle(
-                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    modifier = Modifier.height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height))),
                     fillHeight = true,
                     label = "I'm NOT selected",
                     selected = false,
@@ -76,7 +78,7 @@ private fun ButtonTogglePreview() {
                     // causing a truncation
                     modifier =
                         Modifier
-                            .height(adaptDpToFontScale(48.dp))
+                            .height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height)))
                             .width(adaptDpToFontScale(128.dp)),
                     fillHeight = true,
                     fillWidth = true,

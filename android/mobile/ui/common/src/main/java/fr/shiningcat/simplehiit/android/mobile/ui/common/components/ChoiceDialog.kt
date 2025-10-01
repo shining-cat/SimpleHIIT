@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -28,8 +29,10 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.AdaptiveDialogButtonsLay
 import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
 import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.mobile.ui.common.R
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.commonresources.R as commonResourcesR
 
 @Composable
 fun ChoiceDialog(
@@ -44,7 +47,7 @@ fun ChoiceDialog(
     dismissButtonLabel: String? = null,
     dismissAction: () -> Unit,
 ) {
-    val dialogPadding = 8.dp
+    val dialogPadding = dimensionResource(commonResourcesR.dimen.spacing_1)
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -57,7 +60,7 @@ fun ChoiceDialog(
                 Column(
                     modifier =
                         Modifier
-                            .padding(8.dp)
+                            .padding(dimensionResource(commonResourcesR.dimen.spacing_1))
                             .fillMaxWidth(),
                 ) {
                     if (title.isNotBlank()) {
@@ -73,16 +76,23 @@ fun ChoiceDialog(
                         Image(
                             modifier =
                                 Modifier
-                                    .size(adaptDpToFontScale(120.dp))
+                                    .size(adaptDpToFontScale(dimensionResource(R.dimen.dialog_main_icon_size)))
                                     .align(Alignment.CenterHorizontally)
-                                    .padding(horizontal = 0.dp, vertical = 24.dp),
+                                    .padding(
+                                        horizontal = 0.dp,
+                                        vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                    ),
                             painter = painterResource(id = image),
                             contentDescription = stringResource(id = imageContentDescription),
                         )
                     }
                     Text(
                         textAlign = TextAlign.Center,
-                        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+                        modifier =
+                            Modifier.padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                            ),
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -142,10 +152,14 @@ private fun ChoiceDialogButtonsLayout(
         }
 
     val buttons = listOfNotNull(dismissButtonInfo, secondaryButtonInfo, primaryButtonInfo)
-    val buttonsSpacingDp = 12.dp
+    val buttonsSpacingDp = dimensionResource(commonResourcesR.dimen.spacing_15)
     AdaptiveDialogButtonsLayout(
         buttons = buttons,
-        modifier = Modifier.padding(horizontal = 0.dp, vertical = 24.dp),
+        modifier =
+            Modifier.padding(
+                horizontal = 0.dp,
+                vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+            ),
         dialogContentWidthDp = effectiveDialogContentWidthDp,
         horizontalSpacingDp = buttonsSpacingDp,
         verticalSpacingDp = buttonsSpacingDp,

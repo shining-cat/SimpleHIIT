@@ -6,12 +6,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.components.GifImage
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
+import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseGifMapper
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
@@ -37,7 +38,7 @@ fun ExerciseDisplayComponent(
         )
         if (countDown != null) {
             CountDownComponent(
-                baseSize = 48.dp,
+                baseSize = dimensionResource(R.dimen.countdown_size),
                 countDown = countDown,
                 hiitLogger = hiitLogger,
             )

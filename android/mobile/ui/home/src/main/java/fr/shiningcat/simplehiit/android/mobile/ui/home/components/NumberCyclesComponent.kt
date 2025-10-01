@@ -14,6 +14,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -46,8 +47,10 @@ fun NumberCyclesComponent(
         )
         Row(
             Modifier
-                .padding(horizontal = 0.dp, vertical = 16.dp)
-                .fillMaxWidth(),
+                .padding(
+                    horizontal = 0.dp,
+                    vertical = dimensionResource(R.dimen.spacing_2),
+                ).fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -62,7 +65,7 @@ fun NumberCyclesComponent(
                     fontSize = 44.sp,
                 )
             }
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_1)))
             Text(
                 text =
                     stringResource(
@@ -72,7 +75,7 @@ fun NumberCyclesComponent(
                     ),
                 style = MaterialTheme.typography.headlineMedium,
             )
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_1)))
             TextButton(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = increaseNumberOfCycles,

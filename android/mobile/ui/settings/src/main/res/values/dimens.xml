@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="error_text_max_width">600dp</dimen>
+    <dimen name="error_symbol_size">120dp</dimen>
+    <dimen name="add_user_button_width">200dp</dimen>
+    <dimen name="add_user_button_icon_size">32dp</dimen>
+    <dimen name="user_button_min_width">80dp</dimen>
+    <dimen name="exercise_select_button_height">56dp</dimen>
+
+</resources>

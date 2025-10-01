@@ -5,7 +5,7 @@
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
-  See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7)
+  See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7) and https://medium.com/@sohamsagar/unlocking-edge-to-edge-ui-in-android-build-sleek-modern-apps-807291013da0
 * user selection could be a flowrow rather than a grid
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
@@ -32,7 +32,6 @@
 
 ## General technical improvements
 
-* extract all dimensions to res dimen
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f

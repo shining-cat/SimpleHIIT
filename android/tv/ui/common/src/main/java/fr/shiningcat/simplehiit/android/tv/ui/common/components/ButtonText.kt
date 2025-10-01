@@ -20,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -76,7 +77,10 @@ fun ButtonText(
             Modifier
                 .then(if (fillWidth) Modifier.fillMaxWidth() else Modifier)
                 .then(if (fillHeight) Modifier.fillMaxHeight() else Modifier)
-                .padding(horizontal = 16.dp, vertical = 8.dp)
+                .padding(
+                    horizontal = dimensionResource(R.dimen.spacing_2),
+                    vertical = dimensionResource(R.dimen.spacing_1),
+                )
 
         Row(
             modifier = rowModifier,
@@ -132,7 +136,7 @@ private fun ButtonTextPreview() {
                         .width(adaptDpToFontScale(400.dp))
                         .height(adaptDpToFontScale(600.dp))
                         .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(color = Color.Blue, text = "Default (wrap content):")

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="navigation_side_bar_width">160dp</dimen>
+    <dimen name="dialog_main_icon_size">120dp</dimen>
+    <dimen name="dialog_standard_button_height">48dp</dimen>
+    <dimen name="border_thin_stroke">1dp</dimen>
+
+</resources>

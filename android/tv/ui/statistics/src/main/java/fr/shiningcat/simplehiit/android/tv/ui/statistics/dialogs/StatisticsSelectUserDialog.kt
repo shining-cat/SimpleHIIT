@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,7 +22,6 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import androidx.tv.material3.MaterialTheme
@@ -32,9 +32,10 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonBordered
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.statistics.R
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlin.math.ceil
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun StatisticsSelectUserDialog(
@@ -54,24 +55,24 @@ fun StatisticsSelectUserDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(8.dp)
+                        .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                         .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                val spacing = 24.dp
+                val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
                 Text(
                     textAlign = TextAlign.Left,
-                    text = stringResource(id = R.string.user_pick_dialog_title),
+                    text = stringResource(id = CommonResourcesR.string.user_pick_dialog_title),
                     style = MaterialTheme.typography.headlineSmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Spacer(modifier = Modifier.height(spacing))
 
-                val itemHeight = 48.dp
+                val itemHeight = dimensionResource(R.dimen.button_height)
                 val numberOfColumns = 3
                 // this is to avoid the zoomed-in focused buttons of the first row to be clipped
-                val forcedTopMargin = 8.dp
+                val forcedTopMargin = dimensionResource(CommonResourcesR.dimen.spacing_1)
                 val rowsCount = ceil(users.size.toFloat() / numberOfColumns.toFloat()).toInt()
                 // adding forcedMargin on top and bottom for symmetry, rather than a last spacing
                 val gridHeight =
@@ -92,7 +93,7 @@ fun StatisticsSelectUserDialog(
                                 Modifier
                                     .height(itemHeight)
                                     .offset(y = forcedTopMargin)
-                                    .defaultMinSize(minWidth = 112.dp),
+                                    .defaultMinSize(minWidth = dimensionResource(R.dimen.stats_select_user_button_min_width)),
                             onClick = { selectUser(user) },
                             label = user.name,
                         )
@@ -104,10 +105,10 @@ fun StatisticsSelectUserDialog(
                 ButtonText(
                     modifier =
                         Modifier
-                            .height(48.dp)
-                            .width(150.dp),
+                            .height(dimensionResource(R.dimen.button_height))
+                            .width(dimensionResource(R.dimen.stats_select_user_cancel_button_width)),
                     onClick = dismissAction,
-                    label = stringResource(id = R.string.cancel_button_label),
+                    label = stringResource(id = CommonResourcesR.string.cancel_button_label),
                 )
             }
         }

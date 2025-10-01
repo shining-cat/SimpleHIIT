@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
@@ -21,6 +22,7 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.CustomCircularProgressIndicator
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
+import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
 /**
@@ -39,7 +41,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
  */
 @Composable
 fun CountDownComponent(
-    baseSize: Dp = 100.dp,
+    baseSize: Dp,
     countDown: CountDown,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
@@ -82,7 +84,7 @@ private fun CountDownCircularProgressPreview() {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
                 modifier = Modifier.fillMaxSize(),
-                verticalArrangement = spacedBy(adaptDpToFontScale(2.dp)),
+                verticalArrangement = spacedBy(adaptDpToFontScale(dimensionResource(R.dimen.spacing_025))),
             ) {
                 CountDownComponent(
                     baseSize = 100.dp,

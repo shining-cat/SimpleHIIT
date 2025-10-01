@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,7 +37,7 @@ fun StatisticsNoSessionsContent(
     Column(
         modifier =
             modifier
-                .padding(8.dp)
+                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
@@ -57,8 +58,10 @@ fun StatisticsNoSessionsContent(
             textAlign = TextAlign.Center,
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = 16.dp)
-                    .fillMaxWidth(),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(R.dimen.spacing_2),
+                    ).fillMaxWidth(),
             text = stringResource(id = R.string.no_users_found_error_message),
             style = MaterialTheme.typography.headlineMedium,
         )

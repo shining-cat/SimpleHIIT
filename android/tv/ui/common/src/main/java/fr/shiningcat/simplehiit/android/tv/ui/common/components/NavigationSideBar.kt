@@ -9,16 +9,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun NavigationSideBar(
@@ -30,40 +31,40 @@ fun NavigationSideBar(
         modifier =
             Modifier
                 .fillMaxHeight()
-                .width(adaptDpToFontScale(160.dp))
+                .width(adaptDpToFontScale(dimensionResource(R.dimen.navigation_side_bar_width)))
                 .background(MaterialTheme.colorScheme.primary)
-                .padding(16.dp),
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_2)),
     ) {
         Text(
-            text = stringResource(R.string.app_name),
+            text = stringResource(CommonResourcesR.string.app_name),
             color = MaterialTheme.colorScheme.onPrimary,
             style = MaterialTheme.typography.titleLarge,
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_4)))
 
         SideBarItem(
             onClick = { navigateTo(Screen.Home.route) },
-            icon = R.drawable.home,
-            label = R.string.home_page_title,
+            icon = CommonResourcesR.drawable.home,
+            label = CommonResourcesR.string.home_page_title,
             selected = currentDestination == Screen.Home,
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
         SideBarItem(
             onClick = { navigateTo(Screen.Settings.route) },
-            icon = R.drawable.cog,
-            label = R.string.settings_button_content_label,
+            icon = CommonResourcesR.drawable.cog,
+            label = CommonResourcesR.string.settings_button_content_label,
             selected = currentDestination == Screen.Settings,
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
         if (showStatisticsButton) {
             SideBarItem(
                 onClick = { navigateTo(Screen.Statistics.route) },
-                icon = R.drawable.bar_chart,
-                label = R.string.statistics_button_content_label,
+                icon = CommonResourcesR.drawable.bar_chart,
+                label = CommonResourcesR.string.statistics_button_content_label,
                 selected = currentDestination == Screen.Statistics,
             )
         }

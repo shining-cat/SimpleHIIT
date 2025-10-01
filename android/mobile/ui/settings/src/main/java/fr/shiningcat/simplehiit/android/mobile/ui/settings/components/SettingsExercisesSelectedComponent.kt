@@ -14,22 +14,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
-import fr.shiningcat.simplehiit.android.mobile.ui.common.components.toggleButtonLostWidthDp
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleButtonLostWidthDp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.mobile.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import kotlin.math.roundToInt
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun SettingsExercisesSelectedComponent(
@@ -41,14 +42,14 @@ fun SettingsExercisesSelectedComponent(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.selected_exercise_types_list_setting_label),
+            text = stringResource(id = CommonResourcesR.string.selected_exercise_types_list_setting_label),
         )
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_1)))
         val availableWidthPix = LocalWindowInfo.current.containerSize.width
-        val spacingDp = 8.dp
+        val spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_1)
         val density = LocalDensity.current
         val spacingPix = with(density) { spacingDp.toPx() }
-        val toggleButtonLostWidthPix = with(density) { toggleButtonLostWidthDp.toPx() }
+        val toggleButtonLostWidthPix = getToggleButtonLostWidthDp()
         val oneThirdColumnAvailableWidth =
             (availableWidthPix - 2 * spacingPix) / 3f - toggleButtonLostWidthPix
         val use3Columns =
@@ -64,7 +65,7 @@ fun SettingsExercisesSelectedComponent(
                 )
             }
         val numberOfColumns = if (use3Columns) 3 else 2
-        val itemHeightDp = 56.dp
+        val itemHeightDp = dimensionResource(R.dimen.exercise_select_button_height)
         val rowsCount = (exerciseTypes.size.toFloat() / numberOfColumns.toFloat()).roundToInt()
         val gridHeightDp = (itemHeightDp + spacingDp) * rowsCount
         LazyVerticalGrid(
