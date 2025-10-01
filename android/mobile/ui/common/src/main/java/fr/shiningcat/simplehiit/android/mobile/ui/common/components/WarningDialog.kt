@@ -73,8 +73,7 @@ fun WarningDialog(
                                 .padding(
                                     horizontal = 0.dp,
                                     vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
-                                )
-                                .fillMaxWidth(),
+                                ).fillMaxWidth(),
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
                     )

@@ -77,7 +77,8 @@ fun SettingsNominalContent(
                 .fillMaxSize(),
     ) {
         item {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2))) // cheating to avoid truncating zoom-in focus effect on first item
+            // cheating to avoid truncating zoom-in focus effect on first item
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2)))
         }
         item {
             SettingsFieldComponent(
@@ -201,7 +202,8 @@ fun SettingsNominalContent(
             }
         }
         item {
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2))) // cheating to avoid truncating zoom-in focus effect on last item
+            // cheating to avoid truncating zoom-in focus effect on last item
+            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2)))
         }
     }
 }

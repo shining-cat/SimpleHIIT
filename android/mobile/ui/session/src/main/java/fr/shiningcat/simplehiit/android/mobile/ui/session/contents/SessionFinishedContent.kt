@@ -125,7 +125,7 @@ fun SessionFinishedExerciseDoneItemComponent(
                 .fillMaxWidth()
                 .padding(
                     vertical = dimensionResource(R.dimen.spacing_05),
-                    horizontal = dimensionResource(R.dimen.spacing_2)
+                    horizontal = dimensionResource(R.dimen.spacing_2),
                 ),
     ) {
         var displayText = stringResource(id = exerciseDoneRes)

@@ -98,9 +98,8 @@ fun StatisticsNominalContent(
                             Modifier
                                 .padding(
                                     horizontal = 0.dp,
-                                    vertical = dimensionResource(R.dimen.spacing_2)
-                                )
-                                .weight(weight = .3f, fill = true),
+                                    vertical = dimensionResource(R.dimen.spacing_2),
+                                ).weight(weight = .3f, fill = true),
                         onClick = { deleteAllSessionsForUser(viewState.user) },
                         label =
                             stringResource(

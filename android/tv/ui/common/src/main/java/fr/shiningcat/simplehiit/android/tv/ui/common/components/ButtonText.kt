@@ -79,7 +79,7 @@ fun ButtonText(
                 .then(if (fillHeight) Modifier.fillMaxHeight() else Modifier)
                 .padding(
                     horizontal = dimensionResource(R.dimen.spacing_2),
-                    vertical = dimensionResource(R.dimen.spacing_1)
+                    vertical = dimensionResource(R.dimen.spacing_1),
                 )
 
         Row(

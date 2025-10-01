@@ -60,18 +60,23 @@ fun StatisticsErrorContent(
                     .align(Alignment.CenterHorizontally)
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
                     ),
             painter = painterResource(id = CommonResourcesR.drawable.warning),
             contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(
-                horizontal = 0.dp,
-                vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
-            ),
-            text = stringResource(id = CommonResourcesR.string.error_irrecoverable_statistics, userName),
+            modifier =
+                Modifier.padding(
+                    horizontal = 0.dp,
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                ),
+            text =
+                stringResource(
+                    id = CommonResourcesR.string.error_irrecoverable_statistics,
+                    userName,
+                ),
             style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
@@ -81,9 +86,8 @@ fun StatisticsErrorContent(
                     Modifier
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
-                        )
-                        .align(Alignment.CenterHorizontally),
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                        ).align(Alignment.CenterHorizontally),
                 text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
@@ -93,9 +97,8 @@ fun StatisticsErrorContent(
                 Modifier
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
-                    )
-                    .align(Alignment.CenterHorizontally),
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    ).align(Alignment.CenterHorizontally),
             onClick = deleteSessionsForUser,
             colors =
                 ButtonDefaults.buttonColors(

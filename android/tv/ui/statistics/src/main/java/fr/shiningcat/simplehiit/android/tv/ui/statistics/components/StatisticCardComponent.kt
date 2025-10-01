@@ -36,7 +36,7 @@ fun StatisticCardComponent(
         when (statistic.type) {
             DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.sessions_total)
             DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResourcesR.string.time_total)
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR .string.average)
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR.string.average)
             DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResourcesR.string.longest_streak)
             DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResourcesR.string.current_streak)
             DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(CommonResourcesR.string.average_sessions_week)

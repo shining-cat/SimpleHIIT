@@ -28,7 +28,8 @@ fun SessionNavigationSideBar(
     onBackButtonClick: () -> Unit = {},
     @StringRes backButtonLabel: Int,
 ) {
-    val adaptedWidth = adaptDpToFontScale(dimensionResource(CommonResourcesTvR.dimen.navigation_side_bar_width))
+    val adaptedWidth =
+        adaptDpToFontScale(dimensionResource(CommonResourcesTvR.dimen.navigation_side_bar_width))
     Column(
         modifier =
             Modifier

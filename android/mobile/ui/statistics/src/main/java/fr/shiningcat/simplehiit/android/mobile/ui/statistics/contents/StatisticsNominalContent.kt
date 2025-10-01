@@ -94,7 +94,7 @@ fun StatisticsNominalContent(
                         Modifier
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(R.dimen.spacing_2)
+                                vertical = dimensionResource(R.dimen.spacing_2),
                             ),
                     onClick = { deleteAllSessionsForUser(viewState.user) },
                 ) {

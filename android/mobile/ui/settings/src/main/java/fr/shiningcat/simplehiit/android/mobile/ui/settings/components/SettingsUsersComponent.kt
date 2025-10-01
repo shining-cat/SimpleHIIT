@@ -54,7 +54,8 @@ fun SettingsUsersComponent(
             text = stringResource(id = CommonResourcesR.string.users_list_setting_label),
         )
         Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_1)))
-        val itemHeight = adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.minimum_touch_size))
+        val itemHeight =
+            adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.minimum_touch_size))
         val spacing = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
         FlowRow(

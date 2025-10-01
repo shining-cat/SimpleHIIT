@@ -145,7 +145,7 @@ fun ButtonBordered(
                     },
                 ).padding(
                     horizontal = dimensionResource(CommonResourcesR.dimen.spacing_1),
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_05)
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_05),
                 )
 
         Row(
@@ -182,7 +182,10 @@ fun ButtonBordered(
 @Composable
 private fun BorderedButtonPreview() {
     SimpleHiitTvTheme {
-        Surface(shape = MaterialTheme.shapes.extraSmall, modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
+        Surface(
+            shape = MaterialTheme.shapes.extraSmall,
+            modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2)),
+        ) {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
                 verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),

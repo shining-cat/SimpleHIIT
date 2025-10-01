@@ -43,7 +43,7 @@
   backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
 
 ### test coverage
-µ
+
 * replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
 * [jacoco] connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?

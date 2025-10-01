@@ -143,11 +143,20 @@ internal class StatisticsContentHolderPreviewParameterProvider : PreviewParamete
                     statistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic(
+                                "5h 23mn 64s",
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME,
+                            ),
+                            DisplayedStatistic(
+                                "15mn 13s",
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH,
+                            ),
                             DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic(
+                                "3,5",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
+                            ),
                         ),
                     showUsersSwitch = true,
                 ),
@@ -156,11 +165,20 @@ internal class StatisticsContentHolderPreviewParameterProvider : PreviewParamete
                     statistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
-                            DisplayedStatistic("5h 23mn 64s", DisplayStatisticType.TOTAL_EXERCISE_TIME),
-                            DisplayedStatistic("15mn 13s", DisplayStatisticType.AVERAGE_SESSION_LENGTH),
+                            DisplayedStatistic(
+                                "5h 23mn 64s",
+                                DisplayStatisticType.TOTAL_EXERCISE_TIME,
+                            ),
+                            DisplayedStatistic(
+                                "15mn 13s",
+                                DisplayStatisticType.AVERAGE_SESSION_LENGTH,
+                            ),
                             DisplayedStatistic("25", DisplayStatisticType.LONGEST_STREAK),
                             DisplayedStatistic("7", DisplayStatisticType.CURRENT_STREAK),
-                            DisplayedStatistic("3,5", DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK),
+                            DisplayedStatistic(
+                                "3,5",
+                                DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
+                            ),
                         ),
                     showUsersSwitch = false,
                 ),

@@ -52,17 +52,18 @@ fun SessionErrorStateContent(
                     .size(adaptDpToFontScale(dimensionResource(R.dimen.error_icon_size)))
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResources.dimen.spacing_2)
+                        vertical = dimensionResource(CommonResources.dimen.spacing_2),
                     ),
             painter = painterResource(id = CommonResources.drawable.warning),
             contentDescription = stringResource(id = CommonResources.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(
-                horizontal = 0.dp,
-                vertical = dimensionResource(CommonResources.dimen.spacing_2)
-            ),
+            modifier =
+                Modifier.padding(
+                    horizontal = 0.dp,
+                    vertical = dimensionResource(CommonResources.dimen.spacing_2),
+                ),
             text =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
                     stringResource(id = CommonResources.string.error_session_abort)
@@ -78,9 +79,13 @@ fun SessionErrorStateContent(
                     Modifier
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(CommonResources.dimen.spacing_2)
+                            vertical = dimensionResource(CommonResources.dimen.spacing_2),
                         ),
-                text = stringResource(id = CommonResources.string.error_code, screenViewState.errorCode),
+                text =
+                    stringResource(
+                        id = CommonResources.string.error_code,
+                        screenViewState.errorCode,
+                    ),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
@@ -94,7 +99,10 @@ fun SessionErrorStateContent(
         ButtonError(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = dimensionResource(CommonResources.dimen.spacing_2)),
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(CommonResources.dimen.spacing_2),
+                    ),
             onClick = clickAction,
             label =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {

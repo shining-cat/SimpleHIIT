@@ -49,9 +49,8 @@ fun NumberCyclesComponent(
             Modifier
                 .padding(
                     horizontal = 0.dp,
-                    vertical = dimensionResource(R.dimen.spacing_2)
-                )
-                .fillMaxWidth(),
+                    vertical = dimensionResource(R.dimen.spacing_2),
+                ).fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {

@@ -48,9 +48,8 @@ fun StatisticsNoUsersContent(modifier: Modifier = Modifier) {
                 Modifier
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2)
-                    )
-                    .fillMaxWidth(),
+                        vertical = dimensionResource(R.dimen.spacing_2),
+                    ).fillMaxWidth(),
             text = stringResource(id = R.string.no_users_found_error_message),
             style = MaterialTheme.typography.headlineMedium,
         )

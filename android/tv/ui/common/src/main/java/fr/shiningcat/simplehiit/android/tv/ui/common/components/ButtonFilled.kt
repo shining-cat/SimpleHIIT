@@ -78,7 +78,7 @@ fun ButtonFilled(
                 .run { if (fillHeight) fillMaxHeight() else this }
                 .padding(
                     horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1)
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                 )
 
         Row(

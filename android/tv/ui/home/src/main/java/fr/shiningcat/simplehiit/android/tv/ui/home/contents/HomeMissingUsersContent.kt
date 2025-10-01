@@ -66,7 +66,7 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                     .align(Alignment.CenterHorizontally)
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                     ),
             painter = painterResource(id = CommonResourcesR.drawable.warning),
             contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
@@ -80,7 +80,7 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                     .fillMaxWidth()
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                     ),
         )
         Row {

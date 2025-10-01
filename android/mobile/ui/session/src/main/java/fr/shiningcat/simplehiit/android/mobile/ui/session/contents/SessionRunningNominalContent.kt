@@ -107,7 +107,7 @@ fun VerticalSessionRunningNominalContent(
                     .fillMaxWidth()
                     .padding(
                         horizontal = dimensionResource(R.dimen.spacing_1),
-                        vertical = dimensionResource(R.dimen.spacing_3)
+                        vertical = dimensionResource(R.dimen.spacing_3),
                     ),
             exercise = exercise,
             exerciseSide = exerciseSide,

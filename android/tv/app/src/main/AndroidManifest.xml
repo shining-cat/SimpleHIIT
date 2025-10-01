@@ -10,18 +10,18 @@
         android:required="true" />
 
     <application
-        android:enableOnBackInvokedCallback="true"
+        android:name="fr.shiningcat.simplehiit.android.tv.app.SimpleHIITApplication"
         android:allowBackup="true"
+        android:banner="@mipmap/tv_banner"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleHIIT"
-        android:name="fr.shiningcat.simplehiit.android.tv.app.SimpleHIITApplication"
-        tools:targetApi="31"
-        android:banner="@mipmap/tv_banner">
+        tools:targetApi="31">
         <activity
             android:name="fr.shiningcat.simplehiit.android.tv.app.MainActivity"
             android:exported="true"

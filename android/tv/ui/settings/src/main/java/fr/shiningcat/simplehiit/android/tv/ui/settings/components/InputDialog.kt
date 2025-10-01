@@ -146,8 +146,16 @@ fun InputDialog(
                     Row(
                         Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 0.dp, vertical = dimensionResource(CommonResourcesR.dimen.spacing_3)),
-                        horizontalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_3)),
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                            ),
+                        horizontalArrangement =
+                            Arrangement.spacedBy(
+                                dimensionResource(
+                                    CommonResourcesR.dimen.spacing_3,
+                                ),
+                            ),
                     ) {
                         if (secondaryButtonLabel.isNotBlank()) {
                             ButtonText(
@@ -223,7 +231,8 @@ private fun InputDialogBodyContent(
     val measuredTextOnlyWidthPx =
         textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
     val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
-    val textFieldInternalHorizontalPaddingDp = dimensionResource(CommonResourcesR.dimen.spacing_3) // Assumed 12.dp on each side
+    val textFieldInternalHorizontalPaddingDp =
+        dimensionResource(CommonResourcesR.dimen.spacing_3) // Assumed 12.dp on each side
     val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
     val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
     val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()

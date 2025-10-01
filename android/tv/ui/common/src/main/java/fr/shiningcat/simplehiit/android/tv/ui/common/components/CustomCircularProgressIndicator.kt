@@ -162,7 +162,7 @@ fun CustomCircularProgressIndicator(
                             color = color,
                             start = start,
                             end = end,
-                            strokeWidth = subdivisionsStrokeWidth.toPx() ,
+                            strokeWidth = subdivisionsStrokeWidth.toPx(),
                         )
                     }
                 }

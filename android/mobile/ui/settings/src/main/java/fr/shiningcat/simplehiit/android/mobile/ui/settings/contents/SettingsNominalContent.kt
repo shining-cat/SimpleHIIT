@@ -144,9 +144,8 @@ fun SettingsNominalContent(
                 Modifier
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2)
-                    )
-                    .align(Alignment.CenterHorizontally),
+                        vertical = dimensionResource(R.dimen.spacing_2),
+                    ).align(Alignment.CenterHorizontally),
             onClick = resetSettings,
         ) {
             Text(text = stringResource(id = R.string.reset_settings_button_label))

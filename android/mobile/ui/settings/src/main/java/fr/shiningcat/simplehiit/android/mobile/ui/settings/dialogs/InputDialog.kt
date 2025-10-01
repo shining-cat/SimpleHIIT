@@ -172,7 +172,8 @@ private fun InputDialogBodyContent(
     val measuredTextOnlyWidthPx =
         textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
     val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
-    val textFieldInternalHorizontalPaddingDp = dimensionResource(R.dimen.spacing_3) // Assumed 12.dp on each side
+    val textFieldInternalHorizontalPaddingDp =
+        dimensionResource(R.dimen.spacing_3) // Assumed 12.dp on each side
     val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
     val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
     val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
@@ -308,10 +309,11 @@ private fun InputDialogButtonsLayout(
 
     AdaptiveDialogButtonsLayout(
         buttons = buttons,
-        modifier = Modifier.padding(
-            horizontal = 0.dp,
-            vertical = dimensionResource(R.dimen.spacing_3)
-        ),
+        modifier =
+            Modifier.padding(
+                horizontal = 0.dp,
+                vertical = dimensionResource(R.dimen.spacing_3),
+            ),
         dialogContentWidthDp = effectiveDialogContentWidthDp,
         horizontalSpacingDp = buttonsSpacingDp,
         verticalSpacingDp = buttonsSpacingDp,
