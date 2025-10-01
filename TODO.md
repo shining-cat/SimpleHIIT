@@ -32,7 +32,6 @@
 
 ## General technical improvements
 
-* extract all dimensions to res dimen
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
@@ -44,7 +43,7 @@
   backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
 
 ### test coverage
-
+µ
 * replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
 * [jacoco] connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?
