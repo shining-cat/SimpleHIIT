@@ -5,7 +5,7 @@
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
-  See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7)
+  See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7) and https://medium.com/@sohamsagar/unlocking-edge-to-edge-ui-in-android-build-sleek-modern-apps-807291013da0
 * user selection could be a flowrow rather than a grid
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface

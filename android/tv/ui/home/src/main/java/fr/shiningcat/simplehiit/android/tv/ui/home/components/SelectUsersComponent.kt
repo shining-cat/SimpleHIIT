@@ -24,8 +24,9 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonToggle
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.home.R
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun SelectUsersComponent(
@@ -38,14 +39,14 @@ fun SelectUsersComponent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val spacing = dimensionResource(R.dimen.spacing_3)
+        val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
         Text(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(bottom = spacing),
             textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.selected_users_setting_title),
+            text = stringResource(id = CommonResourcesR.string.selected_users_setting_title),
             style = MaterialTheme.typography.headlineLarge,
         )
         FlowRow(
@@ -57,7 +58,7 @@ fun SelectUsersComponent(
                 ButtonToggle(
                     modifier =
                         Modifier
-                            .height(adaptDpToFontScale(56.dp)),
+                            .height(adaptDpToFontScale(dimensionResource(R.dimen.user_select_button_height))),
                     fillWidth = false,
                     fillHeight = true,
                     label = user.name,

@@ -18,20 +18,20 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.android.tv.ui.home.R
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.NumberCyclesComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SelectUsersComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SingleUserHeaderComponent
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.delay
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun HomeNominalContent(
@@ -56,7 +56,7 @@ fun HomeNominalContent(
     Row(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                 .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -95,7 +95,7 @@ fun HomeNominalContent(
                 ButtonFilled(
                     modifier =
                         Modifier
-                            .height(48.dp)
+                            .height(dimensionResource(R.dimen.button_height))
                             .weight(.3f)
                             .focusRequester(focusRequester),
                     fillWidth = true,
@@ -103,9 +103,9 @@ fun HomeNominalContent(
                     // calling focus on the launch button on opening
                     label =
                         if (canLaunchSession) {
-                            stringResource(id = R.string.launch_session_label)
+                            stringResource(id = CommonResourcesR.string.launch_session_label)
                         } else {
-                            stringResource(id = R.string.cannot_launch_session_label)
+                            stringResource(id = CommonResourcesR.string.cannot_launch_session_label)
                         },
                     accentColor = true,
                     enabled = canLaunchSession,

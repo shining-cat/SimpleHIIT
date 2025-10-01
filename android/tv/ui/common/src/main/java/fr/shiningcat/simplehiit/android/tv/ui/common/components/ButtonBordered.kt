@@ -35,8 +35,9 @@ import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 /**
  * A Composable function that creates an outlined button with an optional icon and label.
@@ -76,7 +77,7 @@ fun ButtonBordered(
         modifier =
             modifier
                 // Minimal padding to ensure border visibility
-                .padding(1.dp),
+                .padding(dimensionResource(R.dimen.border_thin_stroke)),
         onClick = onClick,
         enabled = enabled,
         colors =
@@ -97,7 +98,7 @@ fun ButtonBordered(
                 border =
                     Border(
                         BorderStroke(
-                            width = dimensionResource(R.dimen.stroke_025),
+                            width = dimensionResource(CommonResourcesR.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.primary,
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -105,7 +106,7 @@ fun ButtonBordered(
                 focusedBorder =
                     Border(
                         BorderStroke(
-                            width = dimensionResource(R.dimen.stroke_025),
+                            width = dimensionResource(CommonResourcesR.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.secondary,
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -113,7 +114,7 @@ fun ButtonBordered(
                 pressedBorder =
                     Border(
                         BorderStroke(
-                            width = dimensionResource(R.dimen.stroke_025),
+                            width = dimensionResource(CommonResourcesR.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.primary,
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -121,7 +122,7 @@ fun ButtonBordered(
                 disabledBorder =
                     Border(
                         BorderStroke(
-                            width = dimensionResource(R.dimen.stroke_025),
+                            width = dimensionResource(CommonResourcesR.dimen.stroke_025),
                             color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .6f),
                         ),
                         shape = MaterialTheme.shapes.small,
@@ -143,8 +144,8 @@ fun ButtonBordered(
                         Modifier
                     },
                 ).padding(
-                    horizontal = dimensionResource(R.dimen.spacing_1),
-                    vertical = dimensionResource(R.dimen.spacing_05)
+                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_1),
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_05)
                 )
 
         Row(
@@ -159,7 +160,7 @@ fun ButtonBordered(
                     contentDescription = null,
                 )
                 if (label != null) {
-                    Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_1)))
+                    Spacer(modifier = Modifier.width(dimensionResource(CommonResourcesR.dimen.spacing_1)))
                 }
             }
             if (label != null) {
@@ -181,23 +182,23 @@ fun ButtonBordered(
 @Composable
 private fun BorderedButtonPreview() {
     SimpleHiitTvTheme {
-        Surface(shape = MaterialTheme.shapes.extraSmall, modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2))) {
+        Surface(shape = MaterialTheme.shapes.extraSmall, modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
             Column(
                 modifier = Modifier.verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text("Default (wrap content):")
                 ButtonBordered(
                     label = "Short Label",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     onClick = {},
                 )
 
                 Text("fillWidth = true (fixed height):")
                 ButtonBordered(
                     label = "Fill Width",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     onClick = {},
                 )
@@ -206,7 +207,7 @@ private fun BorderedButtonPreview() {
                 ButtonBordered(
                     modifier = Modifier.width(adaptDpToFontScale(200.dp)),
                     label = "Fill Height",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillHeight = true,
                     fillWidth = true,
                     onClick = {},
@@ -219,7 +220,7 @@ private fun BorderedButtonPreview() {
                             .width(adaptDpToFontScale(250.dp))
                             .height(adaptDpToFontScale(64.dp)),
                     label = "Fill Both",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     fillHeight = true,
                     onClick = {},
@@ -227,16 +228,16 @@ private fun BorderedButtonPreview() {
 
                 Text("Wrapped content, long text (explicit height):")
                 ButtonBordered(
-                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
+                    modifier = Modifier.height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height))),
                     label = "This is a very long label that should wrap or ellipsis",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     onClick = {},
                 )
 
                 Text("Wrapped content, icon only (explicit height):")
                 ButtonBordered(
-                    modifier = Modifier.height(adaptDpToFontScale(48.dp)),
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    modifier = Modifier.height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height))),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     onClick = {},
                 )
 
@@ -244,7 +245,7 @@ private fun BorderedButtonPreview() {
                 ButtonBordered(
                     modifier = Modifier.width(adaptDpToFontScale(300.dp)),
                     label = "Label for fillWidth",
-                    icon = ImageVector.vectorResource(R.drawable.cog),
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     onClick = {},
                 )

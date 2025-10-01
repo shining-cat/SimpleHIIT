@@ -41,7 +41,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
  */
 @Composable
 fun CountDownComponent(
-    baseSize: Dp = 100.dp,
+    baseSize: Dp,
     countDown: CountDown,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,

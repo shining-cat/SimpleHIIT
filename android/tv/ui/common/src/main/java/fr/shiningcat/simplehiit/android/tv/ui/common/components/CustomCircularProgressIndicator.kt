@@ -25,12 +25,13 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.sin
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 /**
  * The CircularProgressIndicator used in the mobile version is not (yet) available in the material TV library.
@@ -65,6 +66,7 @@ fun CustomCircularProgressIndicator(
     var circleCenter by remember {
         mutableStateOf(Offset.Zero)
     }
+    val subdivisionsStrokeWidth = dimensionResource(R.dimen.border_thin_stroke)
 
     Box(
         modifier = modifier,
@@ -160,7 +162,7 @@ fun CustomCircularProgressIndicator(
                             color = color,
                             start = start,
                             end = end,
-                            strokeWidth = 1.dp.toPx(),
+                            strokeWidth = subdivisionsStrokeWidth.toPx() ,
                         )
                     }
                 }
@@ -175,7 +177,7 @@ fun CustomCircularProgressIndicator(
 fun PreviewCustomCircularProgressIndicator() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2))) {
+            Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
                 CustomCircularProgressIndicator(
                     modifier =
                         Modifier

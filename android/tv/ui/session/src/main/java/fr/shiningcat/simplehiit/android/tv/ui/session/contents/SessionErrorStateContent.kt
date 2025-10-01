@@ -24,10 +24,11 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.android.tv.ui.session.R
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.commonresources.R as CommonResources
 
 @Composable
 fun SessionErrorStateContent(
@@ -40,7 +41,7 @@ fun SessionErrorStateContent(
     Column(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
+                .padding(dimensionResource(CommonResources.dimen.spacing_1))
                 .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -48,25 +49,25 @@ fun SessionErrorStateContent(
         Image(
             modifier =
                 Modifier
-                    .size(adaptDpToFontScale(120.dp))
+                    .size(adaptDpToFontScale(dimensionResource(R.dimen.error_icon_size)))
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2)
+                        vertical = dimensionResource(CommonResources.dimen.spacing_2)
                     ),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description),
+            painter = painterResource(id = CommonResources.drawable.warning),
+            contentDescription = stringResource(id = CommonResources.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(
                 horizontal = 0.dp,
-                vertical = dimensionResource(R.dimen.spacing_2)
+                vertical = dimensionResource(CommonResources.dimen.spacing_2)
             ),
             text =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                    stringResource(id = R.string.error_session_abort)
+                    stringResource(id = CommonResources.string.error_session_abort)
                 } else {
-                    stringResource(id = R.string.error_session_retry)
+                    stringResource(id = CommonResources.string.error_session_retry)
                 },
             style = MaterialTheme.typography.headlineMedium,
         )
@@ -77,9 +78,9 @@ fun SessionErrorStateContent(
                     Modifier
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(R.dimen.spacing_2)
+                            vertical = dimensionResource(CommonResources.dimen.spacing_2)
                         ),
-                text = stringResource(id = R.string.error_code, screenViewState.errorCode),
+                text = stringResource(id = CommonResources.string.error_code, screenViewState.errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
@@ -93,13 +94,13 @@ fun SessionErrorStateContent(
         ButtonError(
             modifier =
                 Modifier
-                    .padding(horizontal = 0.dp, vertical = dimensionResource(R.dimen.spacing_2)),
+                    .padding(horizontal = 0.dp, vertical = dimensionResource(CommonResources.dimen.spacing_2)),
             onClick = clickAction,
             label =
                 if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                    stringResource(id = R.string.abort_session_button_label)
+                    stringResource(id = CommonResources.string.abort_session_button_label)
                 } else {
-                    stringResource(id = R.string.exit_button_label)
+                    stringResource(id = CommonResources.string.exit_button_label)
                 },
         )
     }

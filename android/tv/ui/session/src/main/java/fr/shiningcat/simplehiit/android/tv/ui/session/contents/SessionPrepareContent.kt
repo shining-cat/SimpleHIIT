@@ -5,13 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
+import fr.shiningcat.simplehiit.android.tv.ui.session.R
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.tv.ui.session.components.CountDownComponent
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -27,7 +28,7 @@ fun SessionPrepareContent(
         contentAlignment = Alignment.Center,
     ) {
         CountDownComponent(
-            baseSize = 250.dp,
+            baseSize = dimensionResource(R.dimen.session_prepare_countdown_size),
             countDown = viewState.countDown,
             hiitLogger = hiitLogger,
         )

@@ -26,8 +26,9 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun SettingsFieldComponent(
@@ -75,25 +76,24 @@ fun SettingsFieldComponent(
         fitsInWidth(
             textLayoutInfos = elementsFirstLine,
             availableWidthPx = availableWidthPix,
-            spacingDp = dimensionResource(R.dimen.spacing_05),
+            spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_05),
         ) &&
             fitsInWidth(
                 textLayoutInfos = elementsSecondLine,
                 availableWidthPx = availableWidthPix,
-                spacingDp = dimensionResource(R.dimen.spacing_05),
+                spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_05),
             )
     val modifier =
         modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = 48.dp)
-            .padding(bottom = dimensionResource(R.dimen.spacing_1))
+            .padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1))
     Row(modifier = modifier) {
         Button(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = 48.dp)
-                    .padding(bottom = dimensionResource(R.dimen.spacing_1)),
+                    .defaultMinSize(minHeight = dimensionResource(R.dimen.button_height))
+                    .padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
             onClick = { onClick() },
             colors = transparentButtonTextColors(),
             shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
@@ -128,7 +128,7 @@ fun SettingsFieldComponent(
             } else {
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_025)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_025)),
                 ) {
                     Text(
                         text = label,

@@ -22,16 +22,17 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun WarningDialog(
     message: String = "",
     proceedButtonLabel: String,
     proceedAction: () -> Unit,
-    dismissButtonLabel: String = stringResource(id = R.string.cancel_button_label),
+    dismissButtonLabel: String = stringResource(id = CommonResourcesR.string.cancel_button_label),
     dismissAction: () -> Unit,
 ) {
     Dialog(onDismissRequest = dismissAction) {
@@ -46,28 +47,28 @@ fun WarningDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(dimensionResource(R.dimen.spacing_1))
+                        .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                         .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Image(
                     modifier =
                         Modifier
-                            .size(adaptDpToFontScale(120.dp))
+                            .size(adaptDpToFontScale(dimensionResource(R.dimen.dialog_main_icon_size)))
                             .align(Alignment.CenterHorizontally)
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(R.dimen.spacing_3),
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                             ),
-                    painter = painterResource(id = R.drawable.warning),
-                    contentDescription = stringResource(id = R.string.warning_icon_content_description),
+                    painter = painterResource(id = CommonResourcesR.drawable.warning),
+                    contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
                 )
                 Text(
                     textAlign = TextAlign.Center,
                     modifier =
                         Modifier.padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(R.dimen.spacing_3),
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                         ),
                     text = message,
                     style = MaterialTheme.typography.bodyMedium,
@@ -77,15 +78,15 @@ fun WarningDialog(
                         .fillMaxWidth()
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(R.dimen.spacing_3),
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                         ),
-                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_3)),
+                    horizontalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_3)),
                 ) {
                     if (dismissButtonLabel.isNotBlank()) {
                         ButtonBordered(
                             modifier =
                                 Modifier
-                                    .height(adaptDpToFontScale(48.dp))
+                                    .height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height)))
                                     .weight(1f),
                             fillWidth = true,
                             fillHeight = true,
@@ -96,7 +97,7 @@ fun WarningDialog(
                     ButtonFilled(
                         modifier =
                             Modifier
-                                .height(adaptDpToFontScale(48.dp))
+                                .height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height)))
                                 .weight(1f),
                         fillWidth = true,
                         fillHeight = true,

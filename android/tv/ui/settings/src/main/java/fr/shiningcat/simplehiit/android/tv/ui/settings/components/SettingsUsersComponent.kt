@@ -21,7 +21,6 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -29,8 +28,9 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonBordered
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -42,7 +42,7 @@ fun SettingsUsersComponent(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        val spacing = dimensionResource(R.dimen.spacing_3)
+        val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
         Text(
             textAlign = TextAlign.Center,
             modifier =
@@ -50,9 +50,9 @@ fun SettingsUsersComponent(
                     .fillMaxWidth()
                     .padding(bottom = spacing),
             style = MaterialTheme.typography.headlineMedium,
-            text = stringResource(id = R.string.users_list_setting_label),
+            text = stringResource(id = CommonResourcesR.string.users_list_setting_label),
         )
-        val itemHeight = adaptDpToFontScale(48.dp)
+        val itemHeight = adaptDpToFontScale(dimensionResource(R.dimen.button_height))
 
         if (users.isNotEmpty()) {
             FlowRow(
@@ -77,13 +77,13 @@ fun SettingsUsersComponent(
             modifier =
                 Modifier
                     .height(itemHeight)
-                    .width(200.dp),
+                    .width(dimensionResource(R.dimen.settings_add_user_button_width)),
             fillWidth = true,
             fillHeight = true,
             onClick = onAddUser,
             accentColor = true,
             icon = Icons.Filled.Add,
-            iconContentDescription = R.string.add_user_button_label,
+            iconContentDescription = CommonResourcesR.string.add_user_button_label,
         )
     }
 }

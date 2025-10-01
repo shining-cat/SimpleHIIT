@@ -22,8 +22,9 @@ import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun ButtonError(
@@ -55,8 +56,8 @@ fun ButtonError(
                     .run { if (fillWidth) fillMaxWidth() else this }
                     .run { if (fillHeight) fillMaxHeight() else this }
                     .padding(
-                        horizontal = dimensionResource(R.dimen.spacing_2),
-                        vertical = dimensionResource(R.dimen.spacing_1)
+                        horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                     ),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -77,8 +78,8 @@ private fun ButtonErrorPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
             Column(
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
-                modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
+                modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2)),
             ) {
                 ButtonError(
                     label = "Short Error",
@@ -101,7 +102,7 @@ private fun ButtonErrorPreview() {
                 ButtonError(
                     modifier =
                         Modifier
-                            .height(48.dp)
+                            .height(dimensionResource(R.dimen.dialog_standard_button_height))
                             .width(132.dp),
                     fillWidth = true,
                     fillHeight = true,

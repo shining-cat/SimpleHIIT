@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="button_height">48dp</dimen>
+    <dimen name="user_select_button_height">56dp</dimen>
+    <dimen name="error_icon_size">120dp</dimen>
+    <dimen name="exercise_display_countdown_size">160dp</dimen>
+    <dimen name="session_prepare_countdown_size">250dp</dimen>
+    <dimen name="running_session_step_remaining_progress_height">100dp</dimen>
+    <dimen name="running_session_step_remaining_progress_thickness">16dp</dimen>
+    <dimen name="running_session_session_remaining_progress_height">100dp</dimen>
+    <dimen name="running_session_session_remaining_progress_thickness">8dp</dimen>
+
+</resources>

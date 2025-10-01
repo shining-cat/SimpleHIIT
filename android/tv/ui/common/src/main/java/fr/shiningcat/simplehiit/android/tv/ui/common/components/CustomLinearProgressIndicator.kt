@@ -19,9 +19,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonresources.R as CommonResources
 
 /**
  * The LinearProgressIndicator used in the mobile version is not (yet) available in the material TV library.
@@ -57,7 +58,7 @@ fun CustomLinearProgressIndicator(
                     .then(
                         if (borderColor != null) {
                             Modifier.border(
-                                width = 1.dp,
+                                width = dimensionResource(R.dimen.border_thin_stroke),
                                 color = borderColor,
                             )
                         } else {
@@ -103,7 +104,7 @@ fun PreviewCustomLinearProgressIndicator() {
             Column(
                 verticalArrangement =
                     Arrangement.spacedBy(
-                        dimensionResource(R.dimen.spacing_2),
+                        dimensionResource(CommonResources.dimen.spacing_2),
                     ),
             ) {
                 CustomLinearProgressIndicator(

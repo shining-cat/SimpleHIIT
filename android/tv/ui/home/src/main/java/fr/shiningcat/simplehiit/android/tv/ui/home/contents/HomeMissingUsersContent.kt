@@ -32,8 +32,9 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.home.R
 import kotlinx.coroutines.delay
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
@@ -46,7 +47,7 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
     Column(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.SpaceEvenly,
@@ -55,31 +56,31 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.no_user_exist_title),
+            text = stringResource(id = CommonResourcesR.string.no_user_exist_title),
             style = MaterialTheme.typography.headlineLarge,
         )
         Image(
             modifier =
                 Modifier
-                    .size(120.dp)
+                    .size(dimensionResource(R.dimen.error_icon_size))
                     .align(Alignment.CenterHorizontally)
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_3)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3)
                     ),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description),
+            painter = painterResource(id = CommonResourcesR.drawable.warning),
+            contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.warning_no_user_exist),
+            text = stringResource(id = CommonResourcesR.string.warning_no_user_exist),
             style = MaterialTheme.typography.headlineMedium,
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_3)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3)
                     ),
         )
         Row {
@@ -92,9 +93,9 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                 fillHeight = true,
                 fillWidth = true,
                 // calling focus on the first setting on opening
-                label = stringResource(id = R.string.go_to_settings),
-                icon = ImageVector.vectorResource(R.drawable.cog),
-                iconContentDescription = R.string.settings_button_content_label,
+                label = stringResource(id = CommonResourcesR.string.go_to_settings),
+                icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
+                iconContentDescription = CommonResourcesR.string.settings_button_content_label,
                 accentColor = true,
                 onClick = navigateToSettings,
             )

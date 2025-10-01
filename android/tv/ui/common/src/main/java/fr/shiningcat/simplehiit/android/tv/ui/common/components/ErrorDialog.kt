@@ -22,9 +22,10 @@ import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun ErrorDialog(
@@ -45,29 +46,30 @@ fun ErrorDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(dimensionResource(R.dimen.spacing_1))
+                        .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                         .fillMaxWidth(),
             ) {
                 Text(
                     textAlign = TextAlign.Left,
-                    modifier = Modifier.padding(
-                        horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_05)
-                    ),
-                    text = stringResource(id = R.string.error_title),
+                    modifier =
+                        Modifier.padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_05),
+                        ),
+                    text = stringResource(id = CommonResourcesR.string.error_title),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Image(
                     modifier =
                         Modifier
-                            .size(adaptDpToFontScale(120.dp))
+                            .size(adaptDpToFontScale(dimensionResource(R.dimen.dialog_main_icon_size)))
                             .align(Alignment.CenterHorizontally)
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(R.dimen.spacing_3)
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                             ),
-                    painter = painterResource(id = R.drawable.warning),
-                    contentDescription = stringResource(id = R.string.warning_icon_content_description),
+                    painter = painterResource(id = CommonResourcesR.drawable.warning),
+                    contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
                 )
                 Text(
                     textAlign = TextAlign.Center,
@@ -76,9 +78,9 @@ fun ErrorDialog(
                             .fillMaxWidth()
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(R.dimen.spacing_1)
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                             ),
-                    text = stringResource(id = R.string.error_notice),
+                    text = stringResource(id = CommonResourcesR.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 if (errorMessage.isNotBlank()) {
@@ -89,7 +91,7 @@ fun ErrorDialog(
                                 .fillMaxWidth()
                                 .padding(
                                     horizontal = 0.dp,
-                                    vertical = dimensionResource(R.dimen.spacing_1)
+                                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                                 ),
                         text = errorMessage,
                         style = MaterialTheme.typography.bodyMedium,
@@ -102,22 +104,22 @@ fun ErrorDialog(
                             .fillMaxWidth()
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(R.dimen.spacing_1)
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                             ),
-                    text = stringResource(id = R.string.error_code, errorCode),
+                    text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Row(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(top = dimensionResource(R.dimen.spacing_3)),
+                            .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_3)),
                 ) {
                     Spacer(modifier = Modifier.weight(.3f))
                     ButtonText(
                         modifier =
                             Modifier
-                                .height(adaptDpToFontScale(48.dp))
+                                .height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height)))
                                 .weight(weight = .3f, fill = true),
                         fillWidth = true,
                         fillHeight = true,

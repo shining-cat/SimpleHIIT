@@ -27,9 +27,10 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.android.tv.ui.statistics.R
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.components.StatisticsHeaderComponent
-import fr.shiningcat.simplehiit.commonresources.R
 import kotlinx.coroutines.delay
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun StatisticsErrorContent(
@@ -48,7 +49,7 @@ fun StatisticsErrorContent(
     Column(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                 .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -62,22 +63,22 @@ fun StatisticsErrorContent(
         Image(
             modifier =
                 Modifier
-                    .size(adaptDpToFontScale(120.dp))
+                    .size(adaptDpToFontScale(dimensionResource(R.dimen.error_icon_size)))
                     .align(Alignment.CenterHorizontally)
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
                     ),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description),
+            painter = painterResource(id = CommonResourcesR.drawable.warning),
+            contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(
                 horizontal = 0.dp,
-                vertical = dimensionResource(R.dimen.spacing_2)
+                vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
             ),
-            text = stringResource(id = R.string.error_irrecoverable_statistics, userName),
+            text = stringResource(id = CommonResourcesR.string.error_irrecoverable_statistics, userName),
             style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
@@ -87,10 +88,10 @@ fun StatisticsErrorContent(
                     Modifier
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(R.dimen.spacing_2)
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
                         )
                         .align(Alignment.CenterHorizontally),
-                text = stringResource(id = R.string.error_code, errorCode),
+                text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
@@ -99,12 +100,12 @@ fun StatisticsErrorContent(
                 Modifier
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2)
                     )
                     .focusRequester(focusRequester),
             // calling focus on button on opening
             onClick = deleteSessionsForUser,
-            label = stringResource(id = R.string.delete_button_label),
+            label = stringResource(id = CommonResourcesR.string.delete_button_label),
         )
     }
 }

@@ -26,8 +26,9 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.home.R
 import kotlinx.coroutines.delay
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun HomeErrorContent(
@@ -43,7 +44,7 @@ fun HomeErrorContent(
     Column(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                 .fillMaxSize(),
         verticalArrangement = Arrangement.SpaceEvenly,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -51,22 +52,23 @@ fun HomeErrorContent(
         Image(
             modifier =
                 Modifier
-                    .size(adaptDpToFontScale(120.dp))
+                    .size(adaptDpToFontScale(dimensionResource(R.dimen.error_icon_size)))
                     .align(Alignment.CenterHorizontally)
                     .padding(
                         horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2)
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
                     ),
-            painter = painterResource(id = R.drawable.warning),
-            contentDescription = stringResource(id = R.string.warning_icon_content_description),
+            painter = painterResource(id = CommonResourcesR.drawable.warning),
+            contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(
-                horizontal = 0.dp,
-                vertical = dimensionResource(R.dimen.spacing_2)
-            ),
-            text = stringResource(id = R.string.error_irrecoverable_state),
+            modifier =
+                Modifier.padding(
+                    horizontal = 0.dp,
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                ),
+            text = stringResource(id = CommonResourcesR.string.error_irrecoverable_state),
             style = MaterialTheme.typography.headlineMedium,
         )
         if (errorCode.isNotBlank()) {
@@ -76,10 +78,9 @@ fun HomeErrorContent(
                     Modifier
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(R.dimen.spacing_2)
-                        )
-                        .align(Alignment.CenterHorizontally),
-                text = stringResource(id = R.string.error_code, errorCode),
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                        ).align(Alignment.CenterHorizontally),
+                text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
@@ -87,7 +88,7 @@ fun HomeErrorContent(
             // calling focus on button on opening
             modifier = Modifier.focusRequester(focusRequester),
             onClick = resetWholeApp,
-            label = stringResource(id = R.string.reset_app_button_label),
+            label = stringResource(id = CommonResourcesR.string.reset_app_button_label),
         )
     }
 }
