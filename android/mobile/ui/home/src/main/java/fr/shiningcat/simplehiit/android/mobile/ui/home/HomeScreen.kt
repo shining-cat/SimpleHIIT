@@ -105,7 +105,7 @@ private fun HomeScreen(
                 // Modifier for HomeContentHolder handles its specific padding needs
                 modifier =
                     Modifier
-                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
+                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
                         .then(
                             if (uiArrangement == UiArrangement.HORIZONTAL) {
                                 Modifier.windowInsetsPadding(WindowInsets.statusBars)

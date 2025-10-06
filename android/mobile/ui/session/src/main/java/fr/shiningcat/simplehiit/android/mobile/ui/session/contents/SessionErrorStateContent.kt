@@ -2,12 +2,9 @@ package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
@@ -47,7 +44,6 @@ fun SessionErrorStateContent(
         modifier =
             modifier
                 .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
-                .windowInsetsPadding(WindowInsets.safeDrawing)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.contents
 
+import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -153,8 +154,12 @@ private fun HorizontalHomeNominalContent(
     Row(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
-                .fillMaxSize(),
+                .padding(
+                    top = dimensionResource(R.dimen.spacing_1),
+                    start = dimensionResource(R.dimen.spacing_1),
+                    end = dimensionResource(R.dimen.spacing_1),
+                ).fillMaxSize(),
+        horizontalArrangement = spacedBy(dimensionResource(R.dimen.spacing_1)),
     ) {
         if (users.size == 1) {
             SingleUserHeaderComponent(
