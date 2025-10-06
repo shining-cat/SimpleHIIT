@@ -5,13 +5,13 @@ ksp = "2.2.10-2.0.2"
 ktlintComposeRuleset = "0.4.27"
 ktlintGradlePlugin = "13.0.0"
 dependencyGraphPlugin = "0.12"
-dependencyUpdatePlugin = "0.52.0"
+dependencyUpdatePlugin = "0.53.0"
 gmazzoJacocoReportAggregation = "2.4.6"
-hilt = "2.57"
-room = "2.7.2"
-mockk = "1.14.5"
+hilt = "2.57.2"
+room = "2.8.1"
+mockk = "1.14.6"
 junit = "1.3.0"
-jupiter = "5.13.4"
+jupiter = "6.0.0"
 testRunner = "1.7.0"
 archCoreTest = "2.2.0"
 jetBrainsCoroutinesTest = "1.10.2"
@@ -19,14 +19,14 @@ appCompat = "1.7.1"
 # using the 1.2 alpha instead of 1.1.7 to avoid unit tests crashing on Windows. see https://issuetracker.google.com/issues/244807661?pli=1
 # unit tests still failing, let's see if they pass on the CI and on macOS
 datastore = "1.2.0-alpha02"
-material = "1.12.0"
+material = "1.13.0"
 # see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
-lifecycleProcess = "2.9.2"
-glide = "1.0.0-beta01"
-composeBom = "2025.08.00"
-composeNavigation = "2.9.3"
-activityCompose = "1.10.1"
-composeNavigationHilt = "1.2.0"
+lifecycleProcess = "2.9.4"
+glide = "1.0.0-beta08"
+composeBom = "2025.09.01"
+composeNavigation = "2.9.5"
+activityCompose = "1.11.0"
+composeNavigationHilt = "1.3.0"
 tvMaterial = "1.0.1"
 # see https://developer.android.com/jetpack/androidx/releases/tv for releases announcements:
 tvFoundation = "1.0.0-alpha12"
@@ -50,6 +50,7 @@ androidx-archcore-testing = { module = "androidx.arch.core:core-testing", versio
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
+androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-adaptive = { module = "androidx.compose.material3.adaptive:adaptive" }
 androidx-compose-preview-debug = { module = "androidx.compose.ui:ui-tooling" }

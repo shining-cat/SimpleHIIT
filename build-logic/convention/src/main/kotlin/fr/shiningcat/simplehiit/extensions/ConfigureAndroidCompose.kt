@@ -14,6 +14,10 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
             val bom = libs.findLibrary("androidx.compose.bom").get()
             add(configurationName = "implementation", dependencyNotation = platform(bom))
             add(configurationName = "androidTestImplementation", dependencyNotation = platform(bom))
+
+            // Add Material Icons Core for all Compose modules
+            val iconsCore = libs.findLibrary("androidx.compose.material.icons.core").get()
+            add(configurationName = "implementation", dependencyNotation = iconsCore)
         }
     }
 }
