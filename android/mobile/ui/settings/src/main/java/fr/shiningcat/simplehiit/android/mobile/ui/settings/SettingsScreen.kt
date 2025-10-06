@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -133,13 +134,15 @@ private fun SettingsScreen(
                 )
             }
             SettingsContentHolder(
-                modifier =
-                    if (uiArrangement == UiArrangement.HORIZONTAL) {
-                        Modifier.windowInsetsPadding(WindowInsets.safeDrawing) // Pad all sides for system bars
-                    } else {
-                        // For VERTICAL, top bar handles top padding, so only pad horizontal and bottom here
-                        Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Bottom))
-                    },
+                Modifier
+                    .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
+                    .then(
+                        if (uiArrangement == UiArrangement.HORIZONTAL) {
+                            Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                        } else {
+                            Modifier
+                        },
+                    ),
                 editWorkPeriodLength = editWorkPeriodLength,
                 saveWorkPeriodLength = saveWorkPeriodLength,
                 editRestPeriodLength = editRestPeriodLength,

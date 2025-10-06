@@ -4,7 +4,13 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -169,7 +175,15 @@ fun SessionScreen(
                 )
             }
             SessionContentHolder(
-                modifier = Modifier.fillMaxSize(),
+                Modifier
+                    .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
+                    .then(
+                        if (uiArrangement == UiArrangement.HORIZONTAL) {
+                            Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                        } else {
+                            Modifier
+                        },
+                    ),
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
                 uiArrangement = uiArrangement,

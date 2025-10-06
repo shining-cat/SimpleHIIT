@@ -1,9 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +24,7 @@ fun SessionPrepareContent(
     hiitLogger: HiitLogger? = null,
 ) {
     Box(
-        modifier = modifier.windowInsetsPadding(WindowInsets.safeDrawing),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         CountDownComponent(

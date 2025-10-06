@@ -5,14 +5,11 @@
 * ComposeExercisesListForSessionUseCase: display warning if wantedNumberOfExercises < selectedExerciseTypes.size: we won't have an exercise for each type in the resulting list
 * ComposeExercisesListForSessionUseCase: display warning in presentation layer for exercises duplication
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
-  See https://proandroiddev.com/going-edge-to-edge-with-compose-without-losing-it-be6cd093aef7) and https://medium.com/@sohamsagar/unlocking-edge-to-edge-ui-in-android-build-sleek-modern-apps-807291013da0
 * user selection could be a flowrow rather than a grid
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
   scroll or be constrained?
-* When user unselect ALL exercise types, allow the session to still run, without showing any
-  exercise, as a timer only. Show a message instead of the missing gifs.
 * StatisticsSelectUserDialog: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
 
 ## Publication
@@ -66,6 +63,8 @@
 
 ## Miscellaneous / nice to have
 
+* When user unselect ALL exercise types, allow the session to still run, without showing any
+  exercise, as a timer only. Show a message instead of the missing gifs.
 * design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.
