@@ -20,9 +20,9 @@ const val APPLICATION_ID = "fr.shiningcat.simplehiit"
 object ConfigHandheld {
     val config =
         AndroidConfig(
-            minSdkVersion = 21,
-            targetSdkVersion = 35,
-            compileSdkVersion = 35,
+            minSdkVersion = 23,
+            targetSdkVersion = 36,
+            compileSdkVersion = 36,
             applicationId = APPLICATION_ID,
             versionCode = 21100003,
             versionName = "0.03",
@@ -38,9 +38,9 @@ object ConfigHandheld {
 object ConfigTv {
     val config =
         AndroidConfig(
-            minSdkVersion = 21,
-            targetSdkVersion = 35,
-            compileSdkVersion = 35,
+            minSdkVersion = 23,
+            targetSdkVersion = 36,
+            compileSdkVersion = 36,
             applicationId = APPLICATION_ID,
             versionCode = 21010003,
             versionName = "0.03",
