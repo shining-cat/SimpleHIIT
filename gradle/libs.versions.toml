@@ -1,9 +1,9 @@
 [versions]
-agp = "8.12.1"
-kgp = "2.2.10"
-ksp = "2.2.10-2.0.2"
+agp = "8.13.0"
+kgp = "2.2.20"
+ksp = "2.2.20-2.0.3"
 ktlintComposeRuleset = "0.4.27"
-ktlintGradlePlugin = "13.0.0"
+ktlintGradlePlugin = "13.1.0"
 dependencyGraphPlugin = "0.12"
 dependencyUpdatePlugin = "0.53.0"
 gmazzoJacocoReportAggregation = "2.4.6"
@@ -17,7 +17,6 @@ archCoreTest = "2.2.0"
 jetBrainsCoroutinesTest = "1.10.2"
 appCompat = "1.7.1"
 # using the 1.2 alpha instead of 1.1.7 to avoid unit tests crashing on Windows. see https://issuetracker.google.com/issues/244807661?pli=1
-# unit tests still failing, let's see if they pass on the CI and on macOS
 datastore = "1.2.0-alpha02"
 material = "1.13.0"
 # see https://developer.android.com/jetpack/androidx/releases/lifecycle for releases announcements:
