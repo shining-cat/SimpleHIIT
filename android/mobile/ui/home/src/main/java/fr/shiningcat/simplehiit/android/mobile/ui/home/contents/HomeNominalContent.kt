@@ -33,6 +33,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersCom
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SingleUserHeaderComponent
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
@@ -46,6 +47,7 @@ fun HomeNominalContent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
     navigateToSession: () -> Unit = {},
+    warning: LaunchSessionWarning? = null,
     hiitLogger: HiitLogger? = null,
 ) {
     when (uiArrangement) {
@@ -59,6 +61,7 @@ fun HomeNominalContent(
                 users = users,
                 toggleSelectedUser = toggleSelectedUser,
                 navigateToSession = navigateToSession,
+                warning = warning,
                 hiitLogger = hiitLogger,
             )
 
@@ -72,6 +75,7 @@ fun HomeNominalContent(
                 users = users,
                 toggleSelectedUser = toggleSelectedUser,
                 navigateToSession = navigateToSession,
+                warning = warning,
                 hiitLogger = hiitLogger,
             )
     }
@@ -87,6 +91,7 @@ private fun VerticalHomeNominalContent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
     navigateToSession: () -> Unit = {},
+    warning: LaunchSessionWarning? = null,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
@@ -134,6 +139,7 @@ private fun VerticalHomeNominalContent(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             canLaunchSession = canLaunchSession,
             navigateToSession = navigateToSession,
+            launchSessionWarning = warning,
         )
     }
 }
@@ -148,6 +154,7 @@ private fun HorizontalHomeNominalContent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
     navigateToSession: () -> Unit = {},
+    warning: LaunchSessionWarning? = null,
     hiitLogger: HiitLogger? = null,
 ) {
     val canLaunchSession = users.any { it.selected }
@@ -203,6 +210,7 @@ private fun HorizontalHomeNominalContent(
                 LaunchSessionButton(
                     canLaunchSession = canLaunchSession,
                     navigateToSession = navigateToSession,
+                    launchSessionWarning = warning,
                 )
             }
         }

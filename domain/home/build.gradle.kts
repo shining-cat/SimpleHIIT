@@ -6,6 +6,12 @@ plugins {
 
 android {
     namespace = "fr.shiningcat.simplehiit.domain.home"
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -21,8 +27,12 @@ dependencies {
     kspAndroidTest(libs.dagger.hilt.android.compiler)
 }
 
-tasks {
-    withType<Test> {
-        useJUnitPlatform()
-    }
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+
+    // Configure test task to return after execution for IDE integration
+    ignoreFailures = false
+
+    // Ensure test results are always generated
+    outputs.upToDateWhen { false }
 }

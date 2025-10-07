@@ -26,10 +26,16 @@ import kotlin.random.Random
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
     private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockDetectSessionWarningUseCase =
+        mockk<DetectSessionWarningUseCase> {
+            coEvery { execute(any()) } returns null
+        }
+
     private val testedUseCase =
         GetHomeSettingsUseCase(
-            mockSimpleHiitRepository,
-            mockHiitLogger,
+            simpleHiitRepository = mockSimpleHiitRepository,
+            detectSessionWarningUseCase = mockDetectSessionWarningUseCase,
+            simpleHiitLogger = mockHiitLogger,
         )
 
     private val testSettingsValue =
@@ -126,6 +132,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = settingsValue1.numberCumulatedCycles,
                         cycleLengthMs = 240000L,
                         users = usersList1.result,
+                        warning = null,
                     ),
                 )
             assertEquals(expectedResult1, homeSettingsResult1)
@@ -140,6 +147,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = settingsValue2.numberCumulatedCycles,
                         cycleLengthMs = 123165L,
                         users = usersList1.result,
+                        warning = null,
                     ),
                 )
             assertEquals(expectedResult2, homeSettingsResult2)
@@ -155,6 +163,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = settingsValue3.numberCumulatedCycles,
                         cycleLengthMs = 408879L,
                         users = usersList2.result,
+                        warning = null,
                     ),
                 )
             assertEquals(expectedResult3, homeSettingsResult3)
@@ -325,6 +334,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                         numberCumulatedCycles = settingsValue.numberCumulatedCycles,
                         cycleLengthMs = 123165L,
                         users = usersList2.result,
+                        warning = null,
                     ),
                 )
             assertEquals(expectedResult, homeSettingsResult)

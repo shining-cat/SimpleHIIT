@@ -5,6 +5,12 @@ plugins {
 
 android {
     namespace = "fr.shiningcat.simplehiit.testutils"
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -22,8 +28,8 @@ dependencies {
     implementation(project(":commonUtils"))
 }
 
-tasks {
-    withType<Test> {
-        useJUnitPlatform()
-    }
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    ignoreFailures = false
+    outputs.upToDateWhen { false }
 }

@@ -54,3 +54,16 @@ ktlint {
         // no necessary additional ruleset needed as of 2025.08
     }
 }
+
+// Configure all test tasks to emit test events for IDE integration
+subprojects {
+    tasks.withType<Test> {
+        testLogging {
+            events("passed", "skipped", "failed")
+            showStandardStreams = false
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+        }
+    }
+}

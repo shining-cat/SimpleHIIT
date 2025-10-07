@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home
 
 import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 
 @ExcludeFromJacocoGeneratedReport
@@ -12,6 +13,7 @@ sealed interface HomeViewState {
         val cycleLength: String,
         val users: List<User>,
         val totalSessionLengthFormatted: String,
+        val warning: LaunchSessionWarning? = null,
     ) : HomeViewState
 
     data class MissingUsers(
