@@ -5,6 +5,7 @@ import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
+import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
 import javax.inject.Inject
@@ -13,6 +14,7 @@ class GetHomeSettingsUseCase
     @Inject
     constructor(
         private val simpleHiitRepository: SimpleHiitRepository,
+        private val detectSessionWarningUseCase: DetectSessionWarningUseCase,
         private val simpleHiitLogger: HiitLogger,
     ) {
         fun execute(): Flow<Output<HomeSettings>> {
@@ -101,12 +103,30 @@ class GetHomeSettingsUseCase
                                 settings.numberOfWorkPeriods.times(
                                     (settings.workPeriodLengthMs.plus(settings.restPeriodLengthMs)),
                                 )
+
+                            // Detect session warnings
+                            val sessionSettings =
+                                SessionSettings(
+                                    numberCumulatedCycles = settings.numberCumulatedCycles,
+                                    workPeriodLengthMs = settings.workPeriodLengthMs,
+                                    restPeriodLengthMs = settings.restPeriodLengthMs,
+                                    numberOfWorkPeriods = settings.numberOfWorkPeriods,
+                                    cycleLengthMs = totalCycleLength,
+                                    beepSoundCountDownActive = settings.beepSoundActive,
+                                    sessionStartCountDownLengthMs = settings.sessionCountDownLengthMs,
+                                    periodsStartCountDownLengthMs = settings.PeriodCountDownLengthMs,
+                                    users = usersOutput.result,
+                                    exerciseTypes = settings.selectedExercisesTypes,
+                                )
+                            val warning = detectSessionWarningUseCase.execute(sessionSettings)
+
                             emit(
                                 Output.Success(
                                     HomeSettings(
                                         numberCumulatedCycles = settings.numberCumulatedCycles,
                                         cycleLengthMs = totalCycleLength,
                                         users = usersOutput.result,
+                                        warning = warning,
                                     ),
                                 ),
                             )

@@ -45,6 +45,7 @@ class HomeViewStateMapper
                             cycleLength = cycleLengthFormatted,
                             users = homeSettingsOutput.result.users,
                             totalSessionLengthFormatted = totalSessionLengthFormatted,
+                            warning = homeSettingsOutput.result.warning,
                         )
                     }
                 }

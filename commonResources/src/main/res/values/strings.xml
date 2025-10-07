@@ -34,6 +34,10 @@
     <string name="single_user_header_title">Hello</string>
     <string name="launch_session_label">Launch session</string>
     <string name="cannot_launch_session_label">Select at least one user</string>
+    <string name="launch_session_warning_duplicated_exercises">Due to the length of your session and the exercises available, there will be duplicated exercises</string>
+    <string name="launch_session_warning_skipped_exercise_types">Due to the length of your session and the exercises types selected, not all types will be present</string>
+    <string name="launch_session_warning_no_user_selected">You need to select at least one user to start a session</string>
+    <string name="launch_session_info_indicator_content_description">Session information</string>
     <string name="input_number_cycles_dialog_title">Number of repetitions</string>
     <string name="input_number_cycles_dialog_postfix">cycle(s)</string>
     <string name="warning_session_length_will_cause_duplicated_exercises">Please note that the length of the session and the number of available exercises of the selected types will cause some exercises to be duplicated</string>

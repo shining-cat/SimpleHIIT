@@ -6,6 +6,12 @@ plugins {
 
 android {
     namespace = "fr.shiningcat.simplehiit.commonutils"
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -18,8 +24,8 @@ dependencies {
     testImplementation(libs.jetbrains.coroutines.test)
 }
 
-tasks {
-    withType<Test> {
-        useJUnitPlatform()
-    }
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    ignoreFailures = false
+    outputs.upToDateWhen { false }
 }

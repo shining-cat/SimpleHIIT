@@ -14,6 +14,12 @@ android {
             applicationIdSuffix = SimpleHiitBuildType.DEBUG.applicationIdSuffix
         }
     }
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -35,8 +41,8 @@ dependencies {
     implementation(libs.androidx.activity.compose)
 }
 
-tasks {
-    withType<Test> {
-        useJUnitPlatform()
-    }
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    ignoreFailures = false
+    outputs.upToDateWhen { false }
 }

@@ -7,6 +7,12 @@ plugins {
 
 android {
     namespace = "fr.shiningcat.simplehiit.android.tv.ui.common"
+
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
 }
 
 dependencies {
@@ -31,9 +37,8 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
 }
-
-tasks {
-    withType<Test> {
-        useJUnitPlatform()
-    }
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+    ignoreFailures = false
+    outputs.upToDateWhen { false }
 }
