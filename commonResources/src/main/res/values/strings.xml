@@ -118,6 +118,12 @@
     <string name="user_pick_button_content_label">Users</string>
     <string name="user_pick_dialog_title">Pick a user</string>
     <string name="doge_icon_content_description">Doge meme icon</string>
+    <string name="clock_icon_content_description">Icon of a stopwatch with a highlighted elapsed time</string>
+    <string name="calendar_icon_content_description">Icon of a calendar page with some checked days</string>
+    <string name="figure_and_calendar_icon_content_description">Icon of a silhouette doing an exercise below a calendar page with some checked days</string>
+    <string name="figure_and_clock_icon_content_description">Icon of a silhouette doing an exercise below a stopwatch with a highlighted elapsed time</string>
+    <string name="laurels_icon_content_description">Icon of a laurel crown</string>
+    <string name="trophy_icon_content_description">Icon of a trophy</string>
     <string name="no_users_found_error_message">Wow, such empty!</string>
     <string name="reset_statistics_button_label">Delete all sessions stored for %1$s</string> <!-- insert user's name -->
     <string name="reset_statistics_confirmation_button_label">Click again to confirm. This will delete all sessions stored for %1$s</string> <!-- insert user's name -->

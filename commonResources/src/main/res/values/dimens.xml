@@ -2,6 +2,7 @@
 <resources>
     <dimen name="minimum_touch_size">44dp</dimen>
 
+    <dimen name="stroke_012">1dp</dimen>
     <dimen name="stroke_025">2dp</dimen>
 
     <dimen name="spacing_025">2dp</dimen>

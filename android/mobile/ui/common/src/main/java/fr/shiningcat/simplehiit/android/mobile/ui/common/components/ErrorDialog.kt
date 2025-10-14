@@ -24,7 +24,7 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.R
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R as commonResourcesR
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun ErrorDialog(
@@ -41,7 +41,7 @@ fun ErrorDialog(
             Column(
                 modifier =
                     Modifier
-                        .padding(dimensionResource(commonResourcesR.dimen.spacing_1))
+                        .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                         .fillMaxWidth(),
             ) {
                 Text(
@@ -49,9 +49,9 @@ fun ErrorDialog(
                     modifier =
                         Modifier.padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(commonResourcesR.dimen.spacing_05),
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_05),
                         ),
-                    text = stringResource(id = commonResourcesR.string.error_title),
+                    text = stringResource(id = CommonResourcesR.string.error_title),
                     style = MaterialTheme.typography.headlineSmall,
                 )
                 Image(
@@ -61,10 +61,10 @@ fun ErrorDialog(
                             .align(Alignment.CenterHorizontally)
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                             ),
-                    painter = painterResource(id = commonResourcesR.drawable.warning),
-                    contentDescription = stringResource(id = commonResourcesR.string.warning_icon_content_description),
+                    painter = painterResource(id = CommonResourcesR.drawable.warning),
+                    contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
                 )
                 Text(
                     textAlign = TextAlign.Center,
@@ -73,9 +73,9 @@ fun ErrorDialog(
                             .fillMaxWidth()
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(commonResourcesR.dimen.spacing_1),
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                             ),
-                    text = stringResource(id = commonResourcesR.string.error_notice),
+                    text = stringResource(id = CommonResourcesR.string.error_notice),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 if (errorMessage.isNotBlank()) {
@@ -86,7 +86,7 @@ fun ErrorDialog(
                                 .fillMaxWidth()
                                 .padding(
                                     horizontal = 0.dp,
-                                    vertical = dimensionResource(commonResourcesR.dimen.spacing_1),
+                                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                                 ),
                         text = errorMessage,
                         style = MaterialTheme.typography.bodyMedium,
@@ -99,9 +99,9 @@ fun ErrorDialog(
                             .fillMaxWidth()
                             .padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(commonResourcesR.dimen.spacing_1),
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                             ),
-                    text = stringResource(id = commonResourcesR.string.error_code, errorCode),
+                    text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 TextButton(onClick = dismissAction) {

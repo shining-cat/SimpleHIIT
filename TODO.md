@@ -15,14 +15,7 @@
 
 ## Assets production
 
-* refine statistics cards design and find/create icons for each)
-      * longest streak: icon of a cup and a calendar showing checked days
-      * current streak: icon of a calendar showing checked days - IF current streak == longest, switch
-  to same icon as longest streak to make it more clear
-      * average session length: icon of the app above a clock
-      * total time : icon of a clock
-      * average session count per week: icon of the app above a calendar
-      * total sessions count: laurels crown
+* redo app icon using recommended vectors instead of png
 
 ## General technical improvements
 
@@ -62,7 +55,6 @@
 
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
-* design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?

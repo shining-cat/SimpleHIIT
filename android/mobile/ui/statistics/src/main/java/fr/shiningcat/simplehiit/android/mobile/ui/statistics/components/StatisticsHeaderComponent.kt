@@ -53,7 +53,7 @@ fun StatisticsHeaderComponent(
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.switch_user),
                     contentDescription = stringResource(id = R.string.statistics_page_switch_user),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.align(Alignment.CenterVertically),
                 )
             }
