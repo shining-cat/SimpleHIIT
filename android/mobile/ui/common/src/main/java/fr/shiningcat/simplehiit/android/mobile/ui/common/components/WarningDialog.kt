@@ -28,17 +28,17 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.R
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R as commonResourcesR
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun WarningDialog(
     message: String = "",
     proceedButtonLabel: String,
     proceedAction: () -> Unit,
-    dismissButtonLabel: String = stringResource(id = commonResourcesR.string.cancel_button_label),
+    dismissButtonLabel: String = stringResource(id = CommonResourcesR.string.cancel_button_label),
     dismissAction: () -> Unit,
 ) {
-    val dialogPadding = dimensionResource(commonResourcesR.dimen.spacing_1)
+    val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -51,7 +51,7 @@ fun WarningDialog(
                 Column(
                     modifier =
                         Modifier
-                            .padding(dimensionResource(commonResourcesR.dimen.spacing_1))
+                            .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                             .fillMaxWidth(),
                 ) {
                     Image(
@@ -61,10 +61,10 @@ fun WarningDialog(
                                 .align(Alignment.CenterHorizontally)
                                 .padding(
                                     horizontal = 0.dp,
-                                    vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                                 ),
-                        painter = painterResource(id = commonResourcesR.drawable.warning),
-                        contentDescription = stringResource(id = commonResourcesR.string.warning_icon_content_description),
+                        painter = painterResource(id = CommonResourcesR.drawable.warning),
+                        contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
                     )
                     Text(
                         textAlign = TextAlign.Center,
@@ -72,7 +72,7 @@ fun WarningDialog(
                             Modifier
                                 .padding(
                                     horizontal = 0.dp,
-                                    vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                                 ).fillMaxWidth(),
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
@@ -96,13 +96,13 @@ fun WarningDialog(
                             null
                         }
                     val buttons = listOfNotNull(dismissButtonInfo, primaryButtonInfo)
-                    val buttonsSpacingDp = dimensionResource(commonResourcesR.dimen.spacing_15)
+                    val buttonsSpacingDp = dimensionResource(CommonResourcesR.dimen.spacing_15)
                     AdaptiveDialogButtonsLayout(
                         buttons = buttons,
                         modifier =
                             Modifier.padding(
                                 horizontal = 0.dp,
-                                vertical = dimensionResource(commonResourcesR.dimen.spacing_3),
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                             ),
                         dialogContentWidthDp = effectiveDialogContentWidthDp,
                         horizontalSpacingDp = buttonsSpacingDp,

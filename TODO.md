@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* alias for commonresourcesr should be PascalCase
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
 * user selection could be a flowrow rather than a grid
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
