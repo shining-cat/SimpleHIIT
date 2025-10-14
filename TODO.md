@@ -16,13 +16,12 @@
 ## Assets production
 
 * refine statistics cards design and find/create icons for each)
-      * longest streak: icon of a cup and a calendar showing checked days
-      * current streak: icon of a calendar showing checked days - IF current streak == longest, switch
-  to same icon as longest streak to make it more clear
-      * average session length: icon of the app above a clock
-      * total time : icon of a clock
-      * average session count per week: icon of the app above a calendar
-      * total sessions count: laurels crown
+  * longest streak: icon of a trophy
+  * current streak: icon of a calendar showing checked days
+  * total time : icon of a clock
+  * average session length: icon of the app with a clock
+  * average session count per week: icon of the app with a calendar
+  * total sessions count: laurels crown
 
 ## General technical improvements
 
