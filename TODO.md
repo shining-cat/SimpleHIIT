@@ -1,6 +1,7 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* alias for commonresourcesr should be PascalCase
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
 * user selection could be a flowrow rather than a grid
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
@@ -15,6 +16,7 @@
 
 ## Assets production
 
+* redo app icon using recommended vectors instead of png
 * refine statistics cards design and find/create icons for each)
   * longest streak: icon of a trophy
   * current streak: icon of a calendar showing checked days
@@ -25,6 +27,7 @@
 
 ## General technical improvements
 
+* vector drawables should use theme attributes instead of hard coded colors
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
