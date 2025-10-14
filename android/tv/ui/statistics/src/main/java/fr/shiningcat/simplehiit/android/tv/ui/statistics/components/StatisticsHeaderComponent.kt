@@ -65,6 +65,7 @@ fun StatisticsHeaderComponent(
                 onClick = { openUserPicker() },
                 icon = ImageVector.vectorResource(R.drawable.switch_user),
                 iconContentDescription = R.string.statistics_page_switch_user,
+                accentColor = true,
             )
         }
     }

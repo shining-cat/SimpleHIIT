@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,38 +30,38 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.R
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
-import fr.shiningcat.simplehiit.commonresources.R as CommonResources
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun StatisticCardComponent(statistic: DisplayedStatistic) {
     val label =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResources.string.sessions_total)
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResources.string.time_total)
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResources.string.average)
-            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResources.string.longest_streak)
-            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResources.string.current_streak)
-            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(CommonResources.string.average_sessions_week)
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.sessions_total)
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResourcesR.string.time_total)
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR.string.average)
+            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResourcesR.string.longest_streak)
+            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResourcesR.string.current_streak)
+            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> stringResource(CommonResourcesR.string.average_sessions_week)
         }
     val illustrationDrawableId =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> CommonResources.drawable.laurels
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> CommonResources.drawable.clock
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> CommonResources.drawable.figure_and_clock
-            DisplayStatisticType.LONGEST_STREAK -> CommonResources.drawable.trophy
-            DisplayStatisticType.CURRENT_STREAK -> CommonResources.drawable.calendar_checked
-            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> CommonResources.drawable.figure_and_calendar
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> CommonResourcesR.drawable.laurels
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> CommonResourcesR.drawable.clock
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> CommonResourcesR.drawable.figure_and_clock
+            DisplayStatisticType.LONGEST_STREAK -> CommonResourcesR.drawable.trophy
+            DisplayStatisticType.CURRENT_STREAK -> CommonResourcesR.drawable.calendar_checked
+            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> CommonResourcesR.drawable.figure_and_calendar
         }
     val illustrationContentDescription =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResources.string.laurels_icon_content_description)
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResources.string.clock_icon_content_description)
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResources.string.figure_and_clock_icon_content_description)
-            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResources.string.trophy_icon_content_description)
-            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResources.string.calendar_icon_content_description)
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.laurels_icon_content_description)
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResourcesR.string.clock_icon_content_description)
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR.string.figure_and_clock_icon_content_description)
+            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResourcesR.string.trophy_icon_content_description)
+            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResourcesR.string.calendar_icon_content_description)
             DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK ->
                 stringResource(
-                    CommonResources.string.figure_and_calendar_icon_content_description,
+                    CommonResourcesR.string.figure_and_calendar_icon_content_description,
                 )
         }
     Card(
@@ -69,8 +70,13 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 containerColor = MaterialTheme.colorScheme.surface,
                 contentColor = MaterialTheme.colorScheme.onSurface,
             ),
+        border =
+            BorderStroke(
+                width = dimensionResource(CommonResourcesR.dimen.stroke_012),
+                color = MaterialTheme.colorScheme.onSurface,
+            ),
     ) {
-        Column(modifier = Modifier.padding(dimensionResource(CommonResources.dimen.spacing_2))) {
+        Column(modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
             Image(
                 modifier =
                     Modifier
@@ -78,7 +84,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                         .align(Alignment.CenterHorizontally)
                         .padding(
                             horizontal = 0.dp,
-                            vertical = dimensionResource(CommonResources.dimen.spacing_3),
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
                         ),
                 painter = painterResource(id = illustrationDrawableId),
                 contentDescription = illustrationContentDescription,
@@ -88,7 +94,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                     if (statistic.type == DisplayStatisticType.LONGEST_STREAK || statistic.type == DisplayStatisticType.CURRENT_STREAK) {
                         val numberOfDays = statistic.displayValue.toInt()
                         pluralStringResource(
-                            CommonResources.plurals.statistics_number_of_days,
+                            CommonResourcesR.plurals.statistics_number_of_days,
                             numberOfDays,
                             numberOfDays,
                         )
@@ -106,6 +112,8 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.headlineSmall,
+                minLines = 2,
+                maxLines = 2,
             )
         }
     }

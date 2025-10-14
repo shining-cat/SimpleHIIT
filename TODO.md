@@ -17,17 +17,9 @@
 ## Assets production
 
 * redo app icon using recommended vectors instead of png
-* refine statistics cards design and find/create icons for each)
-  * longest streak: icon of a trophy
-  * current streak: icon of a calendar showing checked days
-  * total time : icon of a clock
-  * average session length: icon of the app with a clock
-  * average session count per week: icon of the app with a calendar
-  * total sessions count: laurels crown
 
 ## General technical improvements
 
-* vector drawables should use theme attributes instead of hard coded colors
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
@@ -64,7 +56,6 @@
 
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
-* design for statistics needs some love, see assets creation
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.
 * translate to FR and SV. Maybe add language selection in settings to be able to demo it?
