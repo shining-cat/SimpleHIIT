@@ -67,12 +67,22 @@
       android:pathData="M2.8471,2.6184 L2.5853,2.8805 3.0907,3.3853 3.7826,2.6927 3.5206,2.4309 3.0906,2.8615Z"
       android:strokeWidth="0.132292"
       android:fillColor="#4db6ac"
-      android:strokeColor="#000000"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="square"/>
+  <path
+      android:pathData="M3.5215,2.3379 L3.0898,2.7676 2.8477,2.5254 2.8008,2.5723 2.4922,2.8809 3.0898,3.4785 3.877,2.6934ZM3.5215,2.5254L3.6895,2.6934 3.0898,3.291 2.6797,2.8809 2.8477,2.7129 3.0898,2.9551Z"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
       android:strokeLineCap="square"/>
   <path
       android:pathData="M1.4439,2.6184 L1.1821,2.8805 1.6875,3.3853 2.3794,2.6927 2.1174,2.4309 1.6874,2.8615Z"
       android:strokeWidth="0.132292"
       android:fillColor="#4db6ac"
-      android:strokeColor="#000000"
+      android:strokeColor="#00000000"
+      android:strokeLineCap="square"/>
+  <path
+      android:pathData="M2.1172,2.3379 L1.6875,2.7676 1.4434,2.5254 1.3965,2.5723 1.0879,2.8809 1.6875,3.4785 2.4727,2.6934ZM2.1172,2.5254L2.2852,2.6934 1.6875,3.291 1.2754,2.8809 1.4434,2.7129 1.6875,2.9551Z"
+      android:fillColor="#000000"
+      android:strokeColor="#00000000"
       android:strokeLineCap="square"/>
 </vector>
