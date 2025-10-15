@@ -12,7 +12,7 @@
     <application
         android:name="fr.shiningcat.simplehiit.android.tv.app.SimpleHIITApplication"
         android:allowBackup="true"
-        android:banner="@mipmap/tv_banner"
+        android:banner="@mipmap/tv_banner_figure_and_clock_bicolor_secondary"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"

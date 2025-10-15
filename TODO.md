@@ -15,8 +15,7 @@
 
 ## Assets production / design
 
-* redo app icon using recommended vectors instead of png
-* change statistics switch button to button with a background for better readability
+* statistics: move user switch button to top app bar and user select to drop down menu from there
 
 ## General technical improvements
 
