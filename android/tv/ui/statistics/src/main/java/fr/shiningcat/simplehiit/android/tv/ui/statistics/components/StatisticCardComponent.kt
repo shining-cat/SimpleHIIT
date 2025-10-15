@@ -49,12 +49,12 @@ fun StatisticCardComponent(
         }
     val illustrationDrawableId =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> CommonResourcesR.drawable.laurels
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> CommonResourcesR.drawable.clock
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> CommonResourcesR.drawable.figure_and_clock
-            DisplayStatisticType.LONGEST_STREAK -> CommonResourcesR.drawable.trophy
-            DisplayStatisticType.CURRENT_STREAK -> CommonResourcesR.drawable.calendar_checked
-            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> CommonResourcesR.drawable.figure_and_calendar
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> CommonResourcesR.drawable.laurels_bicolor_primary
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> CommonResourcesR.drawable.clock_bicolor_primary
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> CommonResourcesR.drawable.figure_and_clock_bicolor_primary
+            DisplayStatisticType.LONGEST_STREAK -> CommonResourcesR.drawable.trophy_bicolor_primary
+            DisplayStatisticType.CURRENT_STREAK -> CommonResourcesR.drawable.calendar_checked_bicolor_primary
+            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> CommonResourcesR.drawable.figure_and_calendar_bicolor_primary
         }
     val illustrationContentDescription =
         when (statistic.type) {
