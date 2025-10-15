@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -21,10 +23,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.mobile.ui.statistics.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun StatisticsHeaderComponent(
@@ -37,7 +41,7 @@ fun StatisticsHeaderComponent(
     Row(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_2))
+                .padding(dimensionResource(CommonResourcesR.dimen.spacing_2))
                 .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -48,12 +52,22 @@ fun StatisticsHeaderComponent(
             text = currentUserName,
         )
         if (showUsersSwitch) {
-            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_4)))
-            IconButton(onClick = { openUserPicker() }) {
+            Spacer(modifier = Modifier.width(dimensionResource(CommonResourcesR.dimen.spacing_4)))
+            Button(
+                modifier =
+                    Modifier
+                        .height(dimensionResource(CommonResourcesR.dimen.minimum_touch_size))
+                        .width(adaptDpToFontScale(dimensionResource(R.dimen.switch_user_button_width))),
+                onClick = openUserPicker,
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.secondary,
+                        contentColor = MaterialTheme.colorScheme.onSecondary,
+                    ),
+            ) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.switch_user),
-                    contentDescription = stringResource(id = R.string.statistics_page_switch_user),
-                    tint = MaterialTheme.colorScheme.secondary,
+                    imageVector = ImageVector.vectorResource(CommonResourcesR.drawable.switch_user),
+                    contentDescription = stringResource(id = CommonResourcesR.string.statistics_page_switch_user),
                     modifier = Modifier.align(Alignment.CenterVertically),
                 )
             }

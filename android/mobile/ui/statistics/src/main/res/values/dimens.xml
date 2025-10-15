@@ -2,5 +2,6 @@
 <resources>
     <dimen name="error_symbol_size">120dp</dimen>
     <dimen name="stats_card_illustration_size">120dp</dimen>
+    <dimen name="switch_user_button_width">100dp</dimen>
 
 </resources>
