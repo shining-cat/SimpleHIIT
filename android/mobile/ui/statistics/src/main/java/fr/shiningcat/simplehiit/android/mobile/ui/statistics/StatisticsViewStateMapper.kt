@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -16,6 +17,13 @@ class StatisticsViewStateMapper
         @Suppress("UNUSED_PARAMETER")
         private val hiitLogger: HiitLogger,
     ) {
+        fun mapUsersError(errorCode: Constants.Errors): StatisticsViewState =
+            if (errorCode == Constants.Errors.NO_USERS_FOUND) {
+                StatisticsViewState.NoUsers
+            } else {
+                StatisticsViewState.FatalError(errorCode.code)
+            }
+
         fun map(
             allUsers: List<User>,
             selectedUserStatistics: UserStatistics,

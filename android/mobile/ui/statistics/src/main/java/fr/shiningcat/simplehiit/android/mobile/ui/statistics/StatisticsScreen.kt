@@ -41,9 +41,6 @@ fun StatisticsScreen(
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel(),
 ) {
-    //
-    viewModel.init()
-    //
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
     //
