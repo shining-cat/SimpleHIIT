@@ -8,7 +8,10 @@ import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,23 +24,17 @@ class HomeViewModel
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
-        private val _screenViewState = MutableStateFlow<HomeViewState>(HomeViewState.Loading)
-        val screenViewState = _screenViewState.asStateFlow()
+        val screenViewState =
+            homeInteractor.getHomeSettings()
+                .map { homeViewStateMapper.map(it) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                    initialValue = HomeViewState.Loading,
+                )
 
         private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
-
-        init {
-            hiitLogger.d("HomeViewModel", "initializing")
-            //
-            viewModelScope.launch(context = mainDispatcher) {
-                homeInteractor.getHomeSettings().collect {
-                    _screenViewState.emit(
-                        homeViewStateMapper.map(it),
-                    )
-                }
-            }
-        }
 
         fun cancelDialog() {
             viewModelScope.launch(context = mainDispatcher) {
