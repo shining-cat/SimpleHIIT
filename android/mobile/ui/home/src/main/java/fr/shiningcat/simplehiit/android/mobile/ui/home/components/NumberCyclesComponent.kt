@@ -3,10 +3,8 @@ package fr.shiningcat.simplehiit.android.mobile.ui.home.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -35,10 +33,7 @@ fun NumberCyclesComponent(
     lengthOfCycle: String,
     totalLengthFormatted: String,
 ) {
-    Column(
-        modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.Center,
-    ) {
+    Column(modifier = modifier.fillMaxWidth()) {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
@@ -49,14 +44,13 @@ fun NumberCyclesComponent(
             Modifier
                 .padding(
                     horizontal = 0.dp,
-                    vertical = dimensionResource(R.dimen.spacing_2),
+                    vertical = dimensionResource(R.dimen.spacing_1),
                 ).fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             TextButton(
                 enabled = numberOfCycles > 1,
-                modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = decreaseNumberOfCycles,
             ) {
                 Text(
@@ -65,7 +59,6 @@ fun NumberCyclesComponent(
                     fontSize = 44.sp,
                 )
             }
-            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_1)))
             Text(
                 text =
                     stringResource(
@@ -74,8 +67,8 @@ fun NumberCyclesComponent(
                         lengthOfCycle,
                     ),
                 style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1)),
             )
-            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_1)))
             TextButton(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = increaseNumberOfCycles,
@@ -105,9 +98,9 @@ private fun NumberCyclesComponentPreview() {
     SimpleHiitMobileTheme {
         Surface {
             NumberCyclesComponent(
-                numberOfCycles = 5,
-                lengthOfCycle = "4mn",
-                totalLengthFormatted = "20mn",
+                numberOfCycles = 2,
+                lengthOfCycle = "42s",
+                totalLengthFormatted = "1mn 24s",
             )
         }
     }

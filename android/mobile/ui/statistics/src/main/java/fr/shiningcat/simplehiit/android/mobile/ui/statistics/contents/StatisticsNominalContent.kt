@@ -17,8 +17,10 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -43,67 +45,84 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 @Composable
 fun StatisticsNominalContent(
     modifier: Modifier = Modifier,
-    openUserPicker: () -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
-    viewState: StatisticsViewState.Nominal,
-    @Suppress("UNUSED_PARAMETER")
+    nominalViewState: StatisticsViewState.Nominal,
     uiArrangement: UiArrangement,
+    onUserSelected: (User) -> Unit = {},
     hiitLogger: HiitLogger? = null,
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
-                .padding(dimensionResource(R.dimen.spacing_1)),
+                .padding(
+                    vertical = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp,
+                    horizontal = dimensionResource(R.dimen.spacing_1),
+                ),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // we don't want the name to scroll along with the grid (sticky header)
-        StatisticsHeaderComponent(
-            openUserPicker = openUserPicker,
-            currentUserName = viewState.user.name,
-            showUsersSwitch = viewState.showUsersSwitch,
-        )
+        if (uiArrangement == UiArrangement.VERTICAL) {
+            // we don't want the name to scroll along with the grid (sticky header)
+            StatisticsHeaderComponent(
+                currentUserName = nominalViewState.selectedUser.name,
+                allUsers = nominalViewState.allUsers,
+                uiArrangement = uiArrangement,
+                onUserSelected = onUserSelected,
+            )
+        }
         //
-        val columnsCount = 2
-        val gridPadding = dimensionResource(R.dimen.spacing_2)
-        val doubleSpan: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(columnsCount) }
+        val fontscale = LocalDensity.current.fontScale
+        val columnsCount = if (fontscale > 1.3f) 1 else 2
+        val spacingDp = dimensionResource(R.dimen.spacing_2)
+        val wholeWidth: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(columnsCount) }
         LazyVerticalGrid(
             modifier =
                 Modifier
-                    .padding(dimensionResource(R.dimen.spacing_1))
+                    .padding(top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp)
                     .fillMaxSize(),
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(columnsCount),
             verticalArrangement =
-                StickyFooterArrangement(gridPadding),
-            horizontalArrangement = Arrangement.spacedBy(gridPadding),
+                StickyFooterArrangement(spacingDp),
+            horizontalArrangement = Arrangement.spacedBy(spacingDp),
         ) {
-            items(viewState.statistics.size) {
-                val displayStatistic = viewState.statistics[it]
+            if (uiArrangement == UiArrangement.HORIZONTAL) {
+                // we want the header to scroll up with the page to optimize available screen space
+                item(span = wholeWidth) {
+                    StatisticsHeaderComponent(
+                        currentUserName = nominalViewState.selectedUser.name,
+                        allUsers = nominalViewState.allUsers,
+                        uiArrangement = uiArrangement,
+                        onUserSelected = onUserSelected,
+                    )
+                }
+            }
+            items(nominalViewState.selectedUserStatistics.size) {
+                val displayStatistic = nominalViewState.selectedUserStatistics[it]
                 StatisticCardComponent(displayStatistic)
             }
-            item(span = doubleSpan) {
+            item(span = wholeWidth) {
                 HorizontalDivider(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .padding(vertical = dimensionResource(R.dimen.spacing_1)),
+                            .padding(vertical = dimensionResource(R.dimen.spacing_2)),
                     thickness = Dp.Hairline,
                 )
                 TextButton(
                     modifier =
                         Modifier
                             .padding(
-                                horizontal = 0.dp,
-                                vertical = dimensionResource(R.dimen.spacing_2),
+                                bottom = dimensionResource(R.dimen.spacing_3),
                             ),
-                    onClick = { deleteAllSessionsForUser(viewState.user) },
+                    onClick = { deleteAllSessionsForUser(nominalViewState.selectedUser) },
                 ) {
                     Text(
                         text =
                             stringResource(
                                 id = R.string.reset_statistics_button_label,
-                                viewState.user.name,
+                                nominalViewState.selectedUser.name,
                             ),
+                        textAlign = TextAlign.Center,
                     )
                 }
             }
@@ -134,7 +153,7 @@ private fun StatisticsNominalContentPreview(
         Surface {
             StatisticsNominalContent(
                 uiArrangement = previewUiArrangement,
-                viewState = viewState,
+                nominalViewState = viewState,
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -146,8 +165,14 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
         get() =
             sequenceOf(
                 StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    statistics =
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    selectedUserStatistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -165,11 +190,16 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
-                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    statistics =
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    selectedUserStatistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -187,11 +217,16 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
-                    showUsersSwitch = false,
                 ),
                 StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    statistics =
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    selectedUserStatistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -284,7 +319,6 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
-                    showUsersSwitch = true,
                 ),
             )
 }

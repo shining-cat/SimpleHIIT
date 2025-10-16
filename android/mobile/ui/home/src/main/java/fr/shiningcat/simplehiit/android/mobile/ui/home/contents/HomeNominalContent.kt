@@ -118,7 +118,7 @@ private fun VerticalHomeNominalContent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
+                    .padding(bottom = dimensionResource(R.dimen.spacing_1)),
             thickness = Dp.Hairline,
         )
         NumberCyclesComponent(
@@ -161,11 +161,8 @@ private fun HorizontalHomeNominalContent(
     Row(
         modifier =
             Modifier
-                .padding(
-                    top = dimensionResource(R.dimen.spacing_1),
-                    start = dimensionResource(R.dimen.spacing_1),
-                    end = dimensionResource(R.dimen.spacing_1),
-                ).fillMaxSize(),
+                .padding(horizontal = dimensionResource(R.dimen.spacing_1))
+                .fillMaxSize(),
         horizontalArrangement = spacedBy(dimensionResource(R.dimen.spacing_1)),
     ) {
         if (users.size == 1) {
