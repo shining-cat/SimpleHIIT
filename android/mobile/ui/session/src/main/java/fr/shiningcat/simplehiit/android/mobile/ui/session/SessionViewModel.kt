@@ -33,23 +33,29 @@ class SessionViewModel
         private val soundPool: SoundPool,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
-        //
+        // Screen state - manually managed due to complex ViewModel-internal state dependencies
+        // (session object, currentSessionStepIndex) that can't be purely derived from flows
         private val _screenViewState =
             MutableStateFlow<SessionViewState>(SessionViewState.Loading)
         val screenViewState = _screenViewState.asStateFlow()
+
+        // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<SessionDialog>(SessionDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
-        //
+        // Timer state - reactive data stream from interactor
+        // Note: We don't use stateIn here because we need the raw StateFlow from the use case
+        // to maintain timer continuity. The timer must keep running even when UI is not observing.
+        private val timerStateFlow = sessionInteractor.getStepTimerState()
+
+        // ViewModel-internal state for session management
         private var session: Session? = null
         private var currentSessionStepIndex = 0
         private var stepTimerJob: Job? = null
         private var beepSoundLoadedId: Int? = null
 
-        //
         init {
-            hiitLogger.d("SessionViewModel", "initializing")
-            //
+            hiitLogger.d("SessionViewModel", "initializing with hybrid state management")
             hiitLogger.d(
                 "SessionViewModel",
                 "soundPool created, awaiting sound to be loaded to proceed",
@@ -69,7 +75,6 @@ class SessionViewModel
                     )
                 }
                 setupTicker()
-                //
                 retrieveSettingsAndProceed()
             }
         }
@@ -80,7 +85,7 @@ class SessionViewModel
 
         private fun setupTicker() {
             viewModelScope.launch(context = mainDispatcher) {
-                sessionInteractor.getStepTimerState().collect { stepTimerState ->
+                timerStateFlow.collect { stepTimerState ->
                     if (stepTimerState != StepTimerState()) { // excluding first emission with default value
                         tick(stepTimerState)
                     }
