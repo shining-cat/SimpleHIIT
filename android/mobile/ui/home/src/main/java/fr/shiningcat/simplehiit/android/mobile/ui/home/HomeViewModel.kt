@@ -25,7 +25,8 @@ class HomeViewModel
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
         val screenViewState =
-            homeInteractor.getHomeSettings()
+            homeInteractor
+                .getHomeSettings()
                 .map { homeViewStateMapper.map(it) }
                 .stateIn(
                     scope = viewModelScope,

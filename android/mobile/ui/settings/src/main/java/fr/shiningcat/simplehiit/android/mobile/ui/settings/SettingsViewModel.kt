@@ -28,7 +28,8 @@ class SettingsViewModel
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
         val screenViewState =
-            settingsInteractor.getGeneralSettings()
+            settingsInteractor
+                .getGeneralSettings()
                 .map { mapper.map(it) }
                 .stateIn(
                     scope = viewModelScope,

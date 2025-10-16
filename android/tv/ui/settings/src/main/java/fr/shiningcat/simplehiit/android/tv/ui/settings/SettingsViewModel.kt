@@ -11,7 +11,10 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,21 +27,23 @@ class SettingsViewModel
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
-        private val _screenViewState =
-            MutableStateFlow<SettingsViewState>(SettingsViewState.Loading)
-        val screenViewState = _screenViewState.asStateFlow()
+        // Reactive data stream - automatically starts/stops based on UI lifecycle
+        val screenViewState =
+            settingsInteractor
+                .getGeneralSettings()
+                .map { mapper.map(it) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                    initialValue = SettingsViewState.Loading,
+                )
 
+        // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
         init {
-            viewModelScope.launch(context = mainDispatcher) {
-                settingsInteractor.getGeneralSettings().collect {
-                    _screenViewState.emit(
-                        mapper.map(it),
-                    )
-                }
-            }
+            hiitLogger.d("SettingsViewModel", "initialized with reactive state management")
         }
 
         fun editWorkPeriodLength() {
