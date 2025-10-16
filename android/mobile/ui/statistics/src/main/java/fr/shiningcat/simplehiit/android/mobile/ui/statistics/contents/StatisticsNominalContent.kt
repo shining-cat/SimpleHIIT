@@ -43,13 +43,13 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 @Composable
 fun StatisticsNominalContent(
     modifier: Modifier = Modifier,
-    openUserPicker: () -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
-    viewState: StatisticsViewState.Nominal,
-    @Suppress("UNUSED_PARAMETER")
+    nominalViewState: StatisticsViewState.Nominal,
     uiArrangement: UiArrangement,
+    onUserSelected: (User) -> Unit = {},
     hiitLogger: HiitLogger? = null,
 ) {
+
     Column(
         modifier =
             modifier
@@ -59,9 +59,10 @@ fun StatisticsNominalContent(
     ) {
         // we don't want the name to scroll along with the grid (sticky header)
         StatisticsHeaderComponent(
-            openUserPicker = openUserPicker,
-            currentUserName = viewState.user.name,
-            showUsersSwitch = viewState.showUsersSwitch,
+            currentUserName = nominalViewState.selectedUser.name,
+            allUsers = nominalViewState.allUsers,
+            uiArrangement = uiArrangement,
+            onUserSelected = onUserSelected,
         )
         //
         val columnsCount = 2
@@ -77,8 +78,8 @@ fun StatisticsNominalContent(
                 StickyFooterArrangement(gridPadding),
             horizontalArrangement = Arrangement.spacedBy(gridPadding),
         ) {
-            items(viewState.statistics.size) {
-                val displayStatistic = viewState.statistics[it]
+            items(nominalViewState.selectedUserStatistics.size) {
+                val displayStatistic = nominalViewState.selectedUserStatistics[it]
                 StatisticCardComponent(displayStatistic)
             }
             item(span = doubleSpan) {
@@ -96,13 +97,13 @@ fun StatisticsNominalContent(
                                 horizontal = 0.dp,
                                 vertical = dimensionResource(R.dimen.spacing_2),
                             ),
-                    onClick = { deleteAllSessionsForUser(viewState.user) },
+                    onClick = { deleteAllSessionsForUser(nominalViewState.selectedUser) },
                 ) {
                     Text(
                         text =
                             stringResource(
                                 id = R.string.reset_statistics_button_label,
-                                viewState.user.name,
+                                nominalViewState.selectedUser.name,
                             ),
                     )
                 }
@@ -134,7 +135,7 @@ private fun StatisticsNominalContentPreview(
         Surface {
             StatisticsNominalContent(
                 uiArrangement = previewUiArrangement,
-                viewState = viewState,
+                nominalViewState = viewState,
                 modifier = Modifier.fillMaxSize(),
             )
         }
@@ -146,8 +147,14 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
         get() =
             sequenceOf(
                 StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    statistics =
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    selectedUserStatistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -165,11 +172,16 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
-                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    statistics =
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    selectedUserStatistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -187,11 +199,16 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
-                    showUsersSwitch = false,
                 ),
                 StatisticsViewState.Nominal(
-                    user = User(name = "Sven Svensson"),
-                    statistics =
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    selectedUserStatistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -284,7 +301,6 @@ internal class StatisticsNominalContentPreviewParameterProvider : PreviewParamet
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
-                    showUsersSwitch = true,
                 ),
             )
 }

@@ -13,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,22 +23,28 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
-import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
+import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.R
+import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
+import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun StatisticsErrorContent(
     modifier: Modifier = Modifier,
-    userName: String,
-    errorCode: String,
+    errorViewState: StatisticsViewState.Error,
     deleteSessionsForUser: () -> Unit = {},
-    showUsersSwitch: Boolean = false,
-    openUserPicker: () -> Unit = {},
+    uiArrangement: UiArrangement,
+    onUserSelected: (User) -> Unit = {},
 ) {
     Column(
         modifier =
@@ -48,9 +55,10 @@ fun StatisticsErrorContent(
         verticalArrangement = Arrangement.Center,
     ) {
         StatisticsHeaderComponent(
-            openUserPicker = openUserPicker,
-            currentUserName = userName,
-            showUsersSwitch = showUsersSwitch,
+            currentUserName = errorViewState.selectedUser.name,
+            allUsers = errorViewState.allUsers,
+            uiArrangement = uiArrangement,
+            onUserSelected = onUserSelected,
         )
 
         Image(
@@ -75,11 +83,11 @@ fun StatisticsErrorContent(
             text =
                 stringResource(
                     id = CommonResourcesR.string.error_irrecoverable_statistics,
-                    userName,
+                    errorViewState.selectedUser.name,
                 ),
             style = MaterialTheme.typography.headlineMedium,
         )
-        if (errorCode.isNotBlank()) {
+        if (errorViewState.errorCode.isNotBlank()) {
             Text(
                 textAlign = TextAlign.Center,
                 modifier =
@@ -88,7 +96,11 @@ fun StatisticsErrorContent(
                             horizontal = 0.dp,
                             vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
                         ).align(Alignment.CenterHorizontally),
-                text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
+                text =
+                    stringResource(
+                        id = CommonResourcesR.string.error_code,
+                        errorViewState.errorCode,
+                    ),
                 style = MaterialTheme.typography.headlineSmall,
             )
         }
@@ -114,17 +126,53 @@ fun StatisticsErrorContent(
 // Previews
 @PreviewLightDark
 @PreviewFontScale
-@PreviewMobileScreensNoUI
+@PreviewScreenSizes
 @Composable
-private fun StatisticsErrorContentPreview() {
+private fun StatisticsErrorContentPreview(
+    @PreviewParameter(StatisticsErrorContentPreviewParameterProvider::class) viewState: StatisticsViewState.Error,
+) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
             StatisticsErrorContent(
-                userName = "Charles-Antoine",
-                errorCode = "ABCD-123",
-                showUsersSwitch = true,
-                modifier = Modifier.fillMaxSize(),
+                uiArrangement = previewUiArrangement,
+                errorViewState = viewState,
             )
         }
     }
+}
+
+internal class StatisticsErrorContentPreviewParameterProvider : PreviewParameterProvider<StatisticsViewState.Error> {
+    override val values: Sequence<StatisticsViewState.Error>
+        get() =
+            sequenceOf(
+                StatisticsViewState.Error(
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    errorCode = "error code preview 1",
+                ),
+                StatisticsViewState.Error(
+                    allUsers =
+                        listOf(
+                            User(name = "Sven"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                    errorCode = "error code preview 1",
+                ),
+            )
 }

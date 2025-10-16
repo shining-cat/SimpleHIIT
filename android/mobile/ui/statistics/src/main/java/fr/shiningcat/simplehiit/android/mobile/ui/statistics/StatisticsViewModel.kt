@@ -70,13 +70,12 @@ class StatisticsViewModel
                 val now = timeProvider.getCurrentTimeMillis()
                 val statisticsOutput =
                     statisticsInteractor.getStatsForUser(user = user, now = now)
-                val moreThanOneUser = allUsers.size > 1
                 when (statisticsOutput) {
                     is Output.Success -> {
                         _screenViewState.emit(
                             mapper.map(
-                                showUsersSwitch = moreThanOneUser,
-                                userStats = statisticsOutput.result,
+                                allUsers = allUsers,
+                                selectedUserStatistics = statisticsOutput.result,
                             ),
                         )
                     }
@@ -84,25 +83,13 @@ class StatisticsViewModel
                     is Output.Error -> { // failed retrieving statistics for selected user -> special error for this user
                         _screenViewState.emit(
                             StatisticsViewState.Error(
+                                allUsers = allUsers,
+                                selectedUser = user,
                                 errorCode = statisticsOutput.errorCode.code,
-                                user = user,
-                                showUsersSwitch = moreThanOneUser,
                             ),
                         )
                     }
                 }
-            }
-        }
-
-        fun openPickUser() {
-            viewModelScope.launch(context = mainDispatcher) {
-                if (allUsers.size < 2) {
-                    hiitLogger.e(
-                        "StatisticsViewModel",
-                        "openPickUser called but there is only 1 user or less",
-                    )
-                }
-                _dialogViewState.emit(StatisticsDialog.SelectUser(allUsers))
             }
         }
 

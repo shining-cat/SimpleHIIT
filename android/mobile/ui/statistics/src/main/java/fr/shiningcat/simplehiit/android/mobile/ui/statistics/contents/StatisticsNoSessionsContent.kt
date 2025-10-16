@@ -11,6 +11,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,18 +22,25 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
-import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsNoSessionsContent(
     modifier: Modifier = Modifier,
-    userName: String,
-    showUsersSwitch: Boolean,
-    openUserPicker: () -> Unit = {},
+    noSessionsViewState: StatisticsViewState.NoSessions,
+    uiArrangement: UiArrangement,
+    onUserSelected: (User) -> Unit = {},
 ) {
     Column(
         modifier =
@@ -44,9 +52,10 @@ fun StatisticsNoSessionsContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
-            openUserPicker = openUserPicker,
-            currentUserName = userName,
-            showUsersSwitch = showUsersSwitch,
+            currentUserName = noSessionsViewState.selectedUser.name,
+            allUsers = noSessionsViewState.allUsers,
+            uiArrangement = uiArrangement,
+            onUserSelected = onUserSelected,
         )
 
         Icon(
@@ -71,16 +80,51 @@ fun StatisticsNoSessionsContent(
 // Previews
 @PreviewLightDark
 @PreviewFontScale
-@PreviewMobileScreensNoUI
+@PreviewScreenSizes
 @Composable
-private fun StatisticsNoSessionsContentPreview() {
+private fun StatisticsNoSessionsContentPreview(
+    @PreviewParameter(StatisticsNoSessionsContentPreviewParameterProvider::class) viewState: StatisticsViewState.NoSessions,
+) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
             StatisticsNoSessionsContent(
-                userName = "Georges",
-                showUsersSwitch = true,
-                modifier = Modifier.fillMaxSize(),
+                uiArrangement = previewUiArrangement,
+                noSessionsViewState = viewState,
             )
         }
     }
+}
+
+internal class StatisticsNoSessionsContentPreviewParameterProvider : PreviewParameterProvider<StatisticsViewState.NoSessions> {
+    override val values: Sequence<StatisticsViewState.NoSessions>
+        get() =
+            sequenceOf(
+                StatisticsViewState.NoSessions(
+                    allUsers =
+                        listOf(
+                            User(name = "Alice"),
+                            User(name = "Bob"),
+                            User(name = "Charlie"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                ),
+                StatisticsViewState.NoSessions(
+                    allUsers =
+                        listOf(
+                            User(name = "Sven"),
+                        ),
+                    selectedUser = User(name = "Sven Svensson"),
+                ),
+            )
 }

@@ -9,20 +9,20 @@ sealed interface StatisticsViewState {
     object Loading : StatisticsViewState
 
     data class Nominal(
-        val user: User,
-        val statistics: List<DisplayedStatistic>,
-        val showUsersSwitch: Boolean,
+        val allUsers: List<User>,
+        val selectedUser: User,
+        val selectedUserStatistics: List<DisplayedStatistic>,
     ) : StatisticsViewState
 
     data class NoSessions(
-        val user: User,
-        val showUsersSwitch: Boolean,
+        val allUsers: List<User>,
+        val selectedUser: User,
     ) : StatisticsViewState
 
     data class Error(
+        val allUsers: List<User>,
+        val selectedUser: User,
         val errorCode: String,
-        val user: User,
-        val showUsersSwitch: Boolean,
     ) : StatisticsViewState
 
     data class FatalError(
@@ -35,10 +35,6 @@ sealed interface StatisticsViewState {
 @ExcludeFromJacocoGeneratedReport
 sealed interface StatisticsDialog {
     object None : StatisticsDialog
-
-    data class SelectUser(
-        val users: List<User>,
-    ) : StatisticsDialog
 
     data class ConfirmDeleteAllSessionsForUser(
         val user: User,

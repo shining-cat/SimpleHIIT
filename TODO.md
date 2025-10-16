@@ -7,7 +7,6 @@
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
   scroll or be constrained?
-* StatisticsSelectUserDialog: we want the dialog height to be between two fractions of the screen's height. This is forcing it to be 80%, even if it is nearly empty
 
 ## Publication
 
@@ -15,10 +14,11 @@
 
 ## Assets production / design
 
-* statistics: move user switch button to top app bar and user select to drop down menu from there
+  * statistics improve layout on landscape, lots of lost space
 
 ## General technical improvements
 
+* get rid of the obsolete 'init' logic in viewmodels
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
