@@ -23,7 +23,6 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -83,8 +82,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                         .size(adaptDpToFontScale(dimensionResource(R.dimen.stats_card_illustration_size)))
                         .align(Alignment.CenterHorizontally)
                         .padding(
-                            horizontal = 0.dp,
-                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                            bottom = dimensionResource(CommonResourcesR.dimen.spacing_3),
                         ),
                 painter = painterResource(id = illustrationDrawableId),
                 contentDescription = illustrationContentDescription,
@@ -111,7 +109,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 text = label,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.bodyLarge,
                 minLines = 2,
                 maxLines = 2,
             )

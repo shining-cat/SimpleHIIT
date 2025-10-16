@@ -70,13 +70,13 @@ fun SelectUsersComponent(
             }
         val numberOfColumns = if (useTwoColumn) 2 else 1
         LazyVerticalGrid(
-            columns = GridCells.Fixed(numberOfColumns),
             modifier =
                 Modifier
-                    .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_2))
+                    .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_1))
                     .fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(spacingDp),
+            columns = GridCells.Fixed(numberOfColumns),
             verticalArrangement = Arrangement.spacedBy(spacingDp),
+            horizontalArrangement = Arrangement.spacedBy(spacingDp),
         ) {
             items(users.size) {
                 val user = users[it]

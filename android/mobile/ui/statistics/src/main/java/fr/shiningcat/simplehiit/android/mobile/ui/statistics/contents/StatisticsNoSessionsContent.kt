@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -45,10 +44,11 @@ fun StatisticsNoSessionsContent(
     Column(
         modifier =
             modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center,
+                .padding(
+                    vertical = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp,
+                    horizontal = dimensionResource(R.dimen.spacing_1),
+                ).verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
@@ -62,6 +62,7 @@ fun StatisticsNoSessionsContent(
             imageVector = ImageVector.vectorResource(R.drawable.doge),
             contentDescription = stringResource(id = R.string.doge_icon_content_description),
             tint = MaterialTheme.colorScheme.onPrimary,
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_1)),
         )
         Text(
             textAlign = TextAlign.Center,

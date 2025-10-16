@@ -63,7 +63,12 @@ fun StatisticsContentHolder(
                     modifier = Modifier.fillMaxSize(),
                 )
 
-            StatisticsViewState.NoUsers -> StatisticsNoUsersContent(modifier = Modifier.fillMaxSize())
+            StatisticsViewState.NoUsers ->
+                StatisticsNoUsersContent(
+                    modifier = Modifier.fillMaxSize(),
+                    uiArrangement = uiArrangement,
+                )
+
             is StatisticsViewState.Error ->
                 StatisticsErrorContent(
                     errorViewState = screenViewState,

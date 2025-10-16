@@ -76,7 +76,6 @@ private fun StatisticsScreen(
     dialogViewState: StatisticsDialog,
     hiitLogger: HiitLogger? = null,
 ) {
-
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             // in this case, we are in the statistics screen, so obviously we want to show this button
@@ -92,13 +91,13 @@ private fun StatisticsScreen(
                     .fillMaxSize(),
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
-
-                val allUsers: List<User>? = when(screenViewState){
-                    is StatisticsViewState.Error -> screenViewState.allUsers
-                    is StatisticsViewState.NoSessions -> screenViewState.allUsers
-                    is StatisticsViewState.Nominal -> screenViewState.allUsers
-                    StatisticsViewState.Loading, StatisticsViewState.NoUsers, is StatisticsViewState.FatalError -> null
-                }
+                val allUsers: List<User>? =
+                    when (screenViewState) {
+                        is StatisticsViewState.Error -> screenViewState.allUsers
+                        is StatisticsViewState.NoSessions -> screenViewState.allUsers
+                        is StatisticsViewState.Nominal -> screenViewState.allUsers
+                        StatisticsViewState.Loading, StatisticsViewState.NoUsers, is StatisticsViewState.FatalError -> null
+                    }
 
                 StatisticsTopAppBar(
                     // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)

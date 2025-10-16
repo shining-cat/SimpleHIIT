@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -54,16 +53,13 @@ fun StatisticsHeaderComponent(
     var showUserMenu by remember { mutableStateOf(false) }
 
     Row(
-        modifier =
-            Modifier
-                .padding(dimensionResource(CommonResourcesR.dimen.spacing_2))
-                .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.headlineLarge,
             text = currentUserName,
         )
         if (uiArrangement == UiArrangement.HORIZONTAL && allUsers != null && allUsers.size > 1) {

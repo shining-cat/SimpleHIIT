@@ -1,7 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -49,10 +48,18 @@ fun StatisticsErrorContent(
     Column(
         modifier =
             modifier
-                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center,
+                .padding(
+                    top =
+                        if (uiArrangement == UiArrangement.VERTICAL) {
+                            dimensionResource(
+                                CommonResourcesR.dimen.spacing_1,
+                            )
+                        } else {
+                            0.dp
+                        },
+                ).verticalScroll(rememberScrollState()),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
             currentUserName = errorViewState.selectedUser.name,

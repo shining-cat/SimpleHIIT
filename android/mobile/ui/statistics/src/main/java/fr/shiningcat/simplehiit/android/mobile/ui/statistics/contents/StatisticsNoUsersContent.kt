@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +10,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,25 +22,39 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
-fun StatisticsNoUsersContent(modifier: Modifier = Modifier) {
+fun StatisticsNoUsersContent(
+    modifier: Modifier = Modifier,
+    uiArrangement: UiArrangement,
+) {
     Column(
         modifier =
             modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
+                .padding(top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp)
                 .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        StatisticsHeaderComponent(
+            currentUserName = stringResource(R.string.no_users_found_page_title),
+            allUsers = null,
+            uiArrangement = uiArrangement,
+            onUserSelected = {},
+        )
+
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.doge),
             contentDescription = stringResource(id = R.string.doge_icon_content_description),
             tint = MaterialTheme.colorScheme.onPrimary,
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_1)),
         )
         Text(
             textAlign = TextAlign.Center,
@@ -62,9 +76,23 @@ fun StatisticsNoUsersContent(modifier: Modifier = Modifier) {
 @PreviewMobileScreensNoUI
 @Composable
 private fun StatisticsNoUsersContentPreview() {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
-            StatisticsNoUsersContent(modifier = Modifier.fillMaxSize())
+            StatisticsNoUsersContent(
+                modifier = Modifier.fillMaxSize(),
+                uiArrangement = previewUiArrangement,
+            )
         }
     }
 }

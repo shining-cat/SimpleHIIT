@@ -15,6 +15,8 @@
 ## Assets production / design
 
   * statistics improve layout on landscape, lots of lost space
+  * statistics maybe remove seconds from displays to reduce clutter?
+  * improve 200% fontscale layouts
 
 ## General technical improvements
 
