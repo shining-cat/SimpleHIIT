@@ -20,7 +20,8 @@
 
 ## General technical improvements
 
-* get rid of the obsolete 'init' logic in viewmodels
+* add tests on viewmodels
+* screenshot tests if they can run on github for free
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f

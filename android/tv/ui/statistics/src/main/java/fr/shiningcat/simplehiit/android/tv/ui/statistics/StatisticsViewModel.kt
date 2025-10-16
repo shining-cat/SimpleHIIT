@@ -6,12 +6,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,70 +26,72 @@ class StatisticsViewModel
         private val timeProvider: TimeProvider,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
+        // Statistics are loaded on-demand per user, not a continuous reactive stream
         private val _screenViewState =
             MutableStateFlow<StatisticsViewState>(StatisticsViewState.Loading)
         val screenViewState = _screenViewState.asStateFlow()
+
+        // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<StatisticsDialog>(StatisticsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
-        private var isInitialized = false
+        // Reactive data stream for users list - automatically starts/stops based on UI lifecycle
+        private val usersFlow =
+            statisticsInteractor
+                .getAllUsers()
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                    initialValue = Output.Success(emptyList()),
+                )
 
-        // the list of users can't be modified from this screen so it's safe to tie this to the whole lifetime of this ViewModel
-        private var allUsers = emptyList<User>()
-
-        fun init() {
-            if (!isInitialized) {
-                //
-                viewModelScope.launch(context = mainDispatcher) {
-                    statisticsInteractor.getAllUsers().collect {
-                        when (it) {
-                            is Output.Success -> {
-                                // nominal case
-                                allUsers = it.result
-                                retrieveStatsForUser(it.result[0])
-                            }
-
-                            is Output.Error -> {
-                                if (it.errorCode == Constants.Errors.NO_USERS_FOUND) {
-                                    // users list retrieved is empty -> no users yet. Special case
-                                    _screenViewState.emit(StatisticsViewState.NoUsers)
-                                } else {
-                                    // failed retrieving users list -> fatal error
-                                    _screenViewState.emit(StatisticsViewState.FatalError(it.errorCode.code))
-                                }
-                            }
-                        }
+        init {
+            hiitLogger.d("StatisticsViewModel", "initialized with hybrid state management")
+            // Observe users and load stats for first user when available
+            viewModelScope.launch(context = mainDispatcher) {
+                usersFlow.collect { usersOutput ->
+                    when (usersOutput) {
+                        is Output.Success -> retrieveStatsForUser(usersOutput.result[0])
+                        is Output.Error -> _screenViewState.emit(mapper.mapUsersError(usersOutput.errorCode))
                     }
                 }
-                isInitialized = true
             }
         }
 
         fun retrieveStatsForUser(user: User) {
             hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
             viewModelScope.launch(context = mainDispatcher) {
-                val now = timeProvider.getCurrentTimeMillis()
-                val statisticsOutput =
-                    statisticsInteractor.getStatsForUser(user = user, now = now)
-                val moreThanOneUser = allUsers.size > 1
-                when (statisticsOutput) {
+                val usersOutput = usersFlow.value
+                when (usersOutput) {
                     is Output.Success -> {
+                        val moreThanOneUser = usersOutput.result.size > 1
+                        val now = timeProvider.getCurrentTimeMillis()
+                        val statisticsOutput =
+                            statisticsInteractor.getStatsForUser(user = user, now = now)
                         _screenViewState.emit(
-                            mapper.map(
-                                showUsersSwitch = moreThanOneUser,
-                                userStats = statisticsOutput.result,
-                            ),
+                            when (statisticsOutput) {
+                                is Output.Success ->
+                                    mapper.map(
+                                        showUsersSwitch = moreThanOneUser,
+                                        userStats = statisticsOutput.result,
+                                    )
+
+                                is Output.Error ->
+                                    StatisticsViewState.Error(
+                                        errorCode = statisticsOutput.errorCode.code,
+                                        user = user,
+                                        showUsersSwitch = moreThanOneUser,
+                                    )
+                            },
                         )
                     }
 
-                    is Output.Error -> { // failed retrieving statistics for selected user -> special error for this user
-                        _screenViewState.emit(
-                            StatisticsViewState.Error(
-                                errorCode = statisticsOutput.errorCode.code,
-                                user = user,
-                                showUsersSwitch = moreThanOneUser,
-                            ),
+                    is Output.Error -> {
+                        hiitLogger.e(
+                            "StatisticsViewModel",
+                            "retrieveStatsForUser called but users flow is in error state",
                         )
+                        _screenViewState.emit(mapper.mapUsersError(usersOutput.errorCode))
                     }
                 }
             }
@@ -96,13 +99,25 @@ class StatisticsViewModel
 
         fun openPickUser() {
             viewModelScope.launch(context = mainDispatcher) {
-                if (allUsers.size < 2) {
-                    hiitLogger.e(
-                        "StatisticsViewModel",
-                        "openPickUser called but there is only 1 user or less",
-                    )
+                val usersOutput = usersFlow.value
+                when (usersOutput) {
+                    is Output.Success -> {
+                        if (usersOutput.result.size < 2) {
+                            hiitLogger.e(
+                                "StatisticsViewModel",
+                                "openPickUser called but there is only 1 user or less",
+                            )
+                        }
+                        _dialogViewState.emit(StatisticsDialog.SelectUser(usersOutput.result))
+                    }
+
+                    is Output.Error -> {
+                        hiitLogger.e(
+                            "StatisticsViewModel",
+                            "openPickUser called but users flow is in error state",
+                        )
+                    }
                 }
-                _dialogViewState.emit(StatisticsDialog.SelectUser(allUsers))
             }
         }
 
