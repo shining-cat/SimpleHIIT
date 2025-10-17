@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.tv.ui.statistics.contents
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +17,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
-import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -33,14 +33,13 @@ fun StatisticsNoUsersContent() {
                 .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
     ) {
-        Icon(
+        Image(
             modifier =
                 Modifier
                     .weight(.5f, true)
                     .align(Alignment.CenterHorizontally),
-            imageVector = ImageVector.vectorResource(R.drawable.doge),
-            contentDescription = stringResource(id = R.string.doge_icon_content_description),
-            tint = MaterialTheme.colorScheme.onPrimary,
+            imageVector = ImageVector.vectorResource(R.drawable.crying_cat_multicolor),
+            contentDescription = stringResource(id = R.string.sad_cat_icon_content_description),
         )
         Text(
             textAlign = TextAlign.Center,

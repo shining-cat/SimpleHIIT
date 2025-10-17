@@ -2,7 +2,7 @@
 
 ## Missing features / issues
 * input dialog should autofocus on input field, with caret after the last character, and open keyboard
-* user selection could be a flowrow rather than a grid
+* user selection in phone vertical could be a flowrow rather than a grid, makes more sense when we have other content below
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
@@ -16,7 +16,6 @@
 
   * statistics maybe remove seconds from displays to reduce clutter?
   * improve 200% fontscale layouts
-  * replace doge icon with proper square icon (sad cat?)
 
 ## General technical improvements
 

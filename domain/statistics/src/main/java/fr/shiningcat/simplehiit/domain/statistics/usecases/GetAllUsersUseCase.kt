@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.domain.statistics.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonutils.NonEmptyList
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Constants.NO_RESULTS_FOUND
 import fr.shiningcat.simplehiit.domain.common.Output
@@ -16,12 +17,13 @@ class GetAllUsersUseCase
         private val simpleHiitRepository: SimpleHiitRepository,
         private val simpleHiitLogger: HiitLogger,
     ) {
-        fun execute(): Flow<Output<List<User>>> {
+        fun execute(): Flow<Output<NonEmptyList<User>>> {
             val allUsersFlow =
                 simpleHiitRepository.getUsers().map {
                     when (it) {
-                        is Output.Success ->
-                            if (it.result.isEmpty()) {
+                        is Output.Success -> {
+                            val nonEmptyList = NonEmptyList.fromList(it.result)
+                            if (nonEmptyList == null) {
                                 simpleHiitLogger.e("GetAllUsersUseCase", "No users found")
                                 val emptyResultException = Exception(NO_RESULTS_FOUND)
                                 Output.Error(
@@ -29,8 +31,9 @@ class GetAllUsersUseCase
                                     exception = emptyResultException,
                                 )
                             } else {
-                                it
+                                Output.Success(nonEmptyList)
                             }
+                        }
 
                         is Output.Error -> it
                     }

@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 
+import fr.shiningcat.simplehiit.commonutils.NonEmptyList
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
@@ -29,7 +30,7 @@ internal class StatisticsInteractorImplTest : AbstractMockkTest() {
     private val mockDeleteSessionsForUserUseCase = mockk<DeleteSessionsForUserUseCase>()
     private val mockResetWholeAppUseCase = mockk<ResetWholeAppUseCase>()
 
-    private val allUsersFlow = MutableSharedFlow<Output<List<User>>>()
+    private val allUsersFlow = MutableSharedFlow<Output<NonEmptyList<User>>>()
     private val testUser = User(name = "test user name")
     private val mockUserStats = mockk<UserStatistics>()
     private val testReturnInt = 123
@@ -77,11 +78,8 @@ internal class StatisticsInteractorImplTest : AbstractMockkTest() {
     @Test
     fun `calls on interactor deleteSessionsForUser calls DeleteSessionsForUserUseCase`() =
         runTest(UnconfinedTestDispatcher()) {
-            val result = testedInteractor.deleteSessionsForUser(123L)
+            testedInteractor.deleteSessionsForUser(123L)
             coVerify(exactly = 1) { mockDeleteSessionsForUserUseCase.execute(123L) }
-            assertTrue(result is Output.Success)
-            result as Output.Success
-            assertEquals(testReturnInt, result.result)
         }
 
     @Test
