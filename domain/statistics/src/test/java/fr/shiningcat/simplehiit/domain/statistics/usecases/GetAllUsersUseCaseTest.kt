@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.domain.statistics.usecases
 
+import fr.shiningcat.simplehiit.commonutils.NonEmptyList
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
@@ -38,7 +39,7 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
             coEvery { mockSimpleHiitRepository.getUsers() } answers { usersFlow }
             //
-            val usersFlowAsList = mutableListOf<Output<List<User>>>()
+            val usersFlowAsList = mutableListOf<Output<NonEmptyList<User>>>()
             val collectJob =
                 launch(UnconfinedTestDispatcher()) {
                     testedUseCase.execute().toList(usersFlowAsList)
@@ -47,12 +48,16 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
             usersFlow.emit(usersList1)
             assertEquals(1, usersFlowAsList.size)
             val users1 = usersFlowAsList[0]
-            assertEquals(usersList1, users1)
+            assertTrue(users1 is Output.Success)
+            users1 as Output.Success
+            assertEquals(listOf(user1, user3), users1.result.toList())
             //
             usersFlow.emit(usersList2)
             assertEquals(2, usersFlowAsList.size)
             val users2 = usersFlowAsList[1]
-            assertEquals(usersList2, users2)
+            assertTrue(users2 is Output.Success)
+            users2 as Output.Success
+            assertEquals(listOf(user1, user2, user4), users2.result.toList())
             //
             collectJob.cancel()
         }
@@ -64,7 +69,7 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
             coEvery { mockSimpleHiitRepository.getUsers() } answers { usersFlow }
             //
-            val usersFlowAsList = mutableListOf<Output<List<User>>>()
+            val usersFlowAsList = mutableListOf<Output<NonEmptyList<User>>>()
             val collectJob =
                 launch(UnconfinedTestDispatcher()) {
                     testedUseCase.execute().toList(usersFlowAsList)
@@ -89,13 +94,13 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
             coEvery { mockSimpleHiitRepository.getUsers() } answers { usersFlow }
             //
-            val usersFlowAsList = mutableListOf<Output<List<User>>>()
+            val usersFlowAsList = mutableListOf<Output<NonEmptyList<User>>>()
             val collectJob =
                 launch(UnconfinedTestDispatcher()) {
                     testedUseCase.execute().toList(usersFlowAsList)
                 }
             //
-            usersFlow.emit(usersError)
+            usersFlow.emit(Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException))
             assertEquals(1, usersFlowAsList.size)
             val users = usersFlowAsList[0]
             assertEquals(usersError, users)

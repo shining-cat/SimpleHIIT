@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 
+import fr.shiningcat.simplehiit.commonutils.NonEmptyList
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
@@ -11,14 +12,14 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 interface StatisticsInteractor {
-    fun getAllUsers(): Flow<Output<List<User>>>
+    fun getAllUsers(): Flow<Output<NonEmptyList<User>>>
 
     suspend fun getStatsForUser(
         user: User,
         now: Long,
     ): Output<UserStatistics>
 
-    suspend fun deleteSessionsForUser(userId: Long): Output<Int>
+    suspend fun deleteSessionsForUser(userId: Long)
 
     suspend fun resetWholeApp()
 }
@@ -31,14 +32,16 @@ class StatisticsInteractorImpl
         private val deleteSessionsForUserUseCase: DeleteSessionsForUserUseCase,
         private val resetWholeAppUseCase: ResetWholeAppUseCase,
     ) : StatisticsInteractor {
-        override fun getAllUsers(): Flow<Output<List<User>>> = getAllUsersUseCase.execute()
+        override fun getAllUsers(): Flow<Output<NonEmptyList<User>>> = getAllUsersUseCase.execute()
 
         override suspend fun getStatsForUser(
             user: User,
             now: Long,
         ): Output<UserStatistics> = getStatsForUserUseCase.execute(user, now)
 
-        override suspend fun deleteSessionsForUser(userId: Long): Output<Int> = deleteSessionsForUserUseCase.execute(userId)
+        override suspend fun deleteSessionsForUser(userId: Long) {
+            deleteSessionsForUserUseCase.execute(userId)
+        }
 
         override suspend fun resetWholeApp() = resetWholeAppUseCase.execute()
     }

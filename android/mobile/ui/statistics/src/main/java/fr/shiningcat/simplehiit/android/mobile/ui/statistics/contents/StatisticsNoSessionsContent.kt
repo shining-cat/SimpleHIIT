@@ -1,12 +1,12 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -58,21 +58,18 @@ fun StatisticsNoSessionsContent(
             onUserSelected = onUserSelected,
         )
 
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.doge),
-            contentDescription = stringResource(id = R.string.doge_icon_content_description),
-            tint = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_1)),
+        Image(
+            imageVector = ImageVector.vectorResource(R.drawable.crying_cat_multicolor),
+            contentDescription = stringResource(id = R.string.sad_cat_icon_content_description),
+            modifier = Modifier.padding(dimensionResource(R.dimen.spacing_1)),
         )
         Text(
             textAlign = TextAlign.Center,
             modifier =
                 Modifier
-                    .padding(
-                        horizontal = 0.dp,
-                        vertical = dimensionResource(R.dimen.spacing_2),
-                    ).fillMaxWidth(),
-            text = stringResource(id = R.string.no_users_found_error_message),
+                    .padding(horizontal = 0.dp)
+                    .fillMaxWidth(),
+            text = stringResource(id = R.string.no_sessions_found_error_message),
             style = MaterialTheme.typography.headlineMedium,
         )
     }
