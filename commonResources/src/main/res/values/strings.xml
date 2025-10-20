@@ -21,12 +21,12 @@
     <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
     <string name="reset_app_button_label">Reset the whole app</string>
     <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
-    <string name="minus">-</string>
+    <string name="minus" translatable="false">-</string>
     <string name="minus_cycle_description">One cycle less</string>
-    <string name="plus">+</string>
+    <string name="plus" translatable="false">+</string>
     <string name="plus_cycle_description">One cycle more</string>
     <string name="number_of_cycle_setting_title">Choose a number of cycles</string>
-    <string name="number_of_cycle_setting">%1$d x %2$s</string>
+    <string name="number_of_cycle_setting" translatable="false">%1$d x %2$s</string>
     <string name="total_length">Total time: %1$s</string>
     <string name="settings_button_content_label">Settings</string>
     <string name="statistics_button_content_label">Statistics</string>
@@ -47,9 +47,14 @@
 
     <!-- SETTINGS PAGE -->
     <string name="settings_page_title">Settings</string>
+    <string name="language_setting_label">Language</string>
+    <string name="language_english" translatable="false">English</string>
+    <string name="language_french" translatable="false">Français</string>
+    <string name="language_swedish" translatable="false">Svenska</string>
+    <string name="language_system_default">Par défaut du système</string>
     <string name="work_period_length_label">Work period length</string>
     <string name="seconds">seconds</string>
-    <string name="seconds_setting_value">%1$s s</string>
+    <string name="seconds_setting_value" translatable="false">%1$s s</string>
     <string name="rest_period_length_label">Rest period length</string>
     <string name="number_of_periods_label">Number of work period</string>
     <string name="number_of_exercises_per_cycle">Exercises per cycle</string>
@@ -72,7 +77,7 @@
     <string name="reset_settings_confirmation_button_label">Click again to confirm. This will NOT delete registered users or their stored sessions.</string>
     <string name="save_settings_button_label">Save</string>
     <string name="create_user_field_hint">Enter a user name</string>
-    <string name="seconds_settings_button_label">s</string>
+    <string name="seconds_settings_button_label" translatable="false">s</string>
     <string name="delete_confirmation_button_label">Click again to confirm. Deleting the user will delete associated sessions.</string>
 
     <!-- SESSION PAGE -->
@@ -143,17 +148,17 @@
     <string name="exercise_type_lying">Lying</string>
 
     <!-- DURATION DISPLAY FORMATTING STRINGS-->
-    <string name="hours_minutes_seconds_digits">%1$02d:%2$02d:%3$02d</string>
-    <string name="hours_minutes_no_seconds_digits">%1$02d:%2$02d:%3$02d</string>
-    <string name="hours_no_minutes_no_seconds_digits">%1$02d:%2$02d:%3$02d</string>
-    <string name="minutes_seconds_digits">%1$02d:%2$02d</string>
-    <string name="minutes_no_seconds_digits">%1$02d:%2$02d</string>
-    <string name="seconds_digits">%02d</string>
-    <string name="hours_minutes_seconds_short">%1$dh\u00A0%2$02dmn\u00A0%3$02ds</string>
-    <string name="hours_minutes_no_seconds_short">%1$dh\u00A0%2$02dmn</string>
-    <string name="hours_no_minutes_no_seconds_short">%1$dh</string>
-    <string name="minutes_seconds_short">%1$dmn\u00A0%2$02ds</string>
-    <string name="minutes_no_seconds_short">%1$dmn</string>
-    <string name="seconds_short">%ds</string>
+    <string name="hours_minutes_seconds_digits" translatable="false">%1$02d:%2$02d:%3$02d</string>
+    <string name="hours_minutes_no_seconds_digits" translatable="false">%1$02d:%2$02d:%3$02d</string>
+    <string name="hours_no_minutes_no_seconds_digits" translatable="false">%1$02d:%2$02d:%3$02d</string>
+    <string name="minutes_seconds_digits" translatable="false">%1$02d:%2$02d</string>
+    <string name="minutes_no_seconds_digits" translatable="false">%1$02d:%2$02d</string>
+    <string name="seconds_digits" translatable="false">%02d</string>
+    <string name="hours_minutes_seconds_short" translatable="false">%1$dh\u00A0%2$02dmn\u00A0%3$02ds</string>
+    <string name="hours_minutes_no_seconds_short" translatable="false">%1$dh\u00A0%2$02dmn</string>
+    <string name="hours_no_minutes_no_seconds_short" translatable="false">%1$dh</string>
+    <string name="minutes_seconds_short" translatable="false">%1$dmn\u00A0%2$02ds</string>
+    <string name="minutes_no_seconds_short" translatable="false">%1$dmn</string>
+    <string name="seconds_short" translatable="false">%ds</string>
 
 </resources>

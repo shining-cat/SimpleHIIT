@@ -1,0 +1,141 @@
+<resources>
+    <string name="app_name">SimpleHIIT</string>
+    <string name="back_button_content_label">Tillbaka</string>
+    <string name="close_button_content_label">Stäng</string>
+    <string name="error_title">Hoppsan!</string>
+    <string name="error_notice">Något gick fel.</string>
+    <string name="error_code">Felkod: %1$s</string>
+    <string name="warning_icon_content_description">Varningssymbol</string>
+    <string name="delete_button_label">RADERA</string>
+    <string name="reset_button_label">ÅTERSTÄLL</string>
+    <string name="cancel_button_label">Avbryt</string>
+    <string name="error">Fel</string>
+    <string name="invalid_input_error">Ogiltig inmatning</string>
+    <string name="ok">OK</string>
+    <string name="active">aktiv</string>
+
+    <!-- HOME PAGE -->
+    <string name="home_page_title">Hem</string>
+    <string name="hiit_description">Principen för en HIIT-träning är att växla mellan högintensivt arbete och viloperioder, vanligtvis enligt en 20s/10s-cykel över 4 minuter.</string>
+    <string name="short_instruction">Här kan du snabbt välja hur många cykler du vill kedja i ditt pass. I inställningarna kan du förfina själva cykelstrukturen.</string>
+    <string name="error_irrecoverable_state">Appen verkar vara allvarligt skadad. Försök att stänga den och starta om. Om detta fortsätter måste du försöka radera all lagrad data</string>
+    <string name="reset_app_button_label">Återställ hela appen</string>
+    <string name="error_confirm_whole_reset">Radera all lagrad data? Detta kommer att radera alla användare, alla lagrade pass och alla inställningar</string>
+    <string name="minus_cycle_description">En cykel mindre</string>
+    <string name="plus_cycle_description">En cykel mer</string>
+    <string name="number_of_cycle_setting_title">Välj antal cykler</string>
+    <string name="total_length">Total tid: %1$s</string>
+    <string name="settings_button_content_label">Inställningar</string>
+    <string name="statistics_button_content_label">Statistik</string>
+    <string name="selected_users_setting_title">Välj användare</string>
+    <string name="single_user_header_title">Hej</string>
+    <string name="launch_session_label">Starta pass</string>
+    <string name="cannot_launch_session_label">Välj minst en användare</string>
+    <string name="launch_session_warning_duplicated_exercises">På grund av längden på ditt pass och tillgängliga övningar kommer det att finnas duplicerade övningar</string>
+    <string name="launch_session_warning_skipped_exercise_types">På grund av längden på ditt pass och de valda övningstyperna kommer inte alla typer att finnas med</string>
+    <string name="launch_session_warning_no_user_selected">Du måste välja minst en användare för att starta ett pass</string>
+    <string name="launch_session_info_indicator_content_description">Passinformation</string>
+    <string name="input_number_cycles_dialog_title">Antal repetitioner</string>
+    <string name="input_number_cycles_dialog_postfix">cykel/cykler</string>
+    <string name="warning_session_length_will_cause_duplicated_exercises">Observera att längden på passet och antalet tillgängliga övningar av de valda typerna kommer att orsaka att vissa övningar dupliceras</string>
+    <string name="no_user_exist_title">Ingen användare registrerad</string>
+    <string name="warning_no_user_exist">Skapa din första användare i inställningarna för att börja</string>
+    <string name="go_to_settings">Öppna inställningar</string>
+
+    <!-- SETTINGS PAGE -->
+    <string name="settings_page_title">Inställningar</string>
+    <string name="language_setting_label">Språk</string>
+    <string name="language_system_default">Systemstandard</string>
+    <string name="work_period_length_label">Arbetsperiodens längd</string>
+    <string name="seconds">sekunder</string>
+    <string name="rest_period_length_label">Viloperiods längd</string>
+    <string name="number_of_periods_label">Antal arbetsperioder</string>
+    <string name="number_of_exercises_per_cycle">Övningar per cykel</string>
+    <string name="total_cycle_length_label">Total cykellängd</string>
+    <string name="beep_sound_setting_label">Ljudsignal för nedräkning</string>
+    <string name="session_start_countdown_length_setting_label">Nedräkning vid passstart</string>
+    <string name="period_start_countdown_length_setting_label">Nedräkning vid periodstart</string>
+    <string name="period_length_too_short_constraint">Detta kan inte vara kortare än nedräkningslängden</string>
+    <string name="period_start_countdown_length_too_long_error">Detta kan inte vara längre än en periods längd</string>
+    <string name="users_list_setting_label">Hantera användare</string>
+    <string name="add_user_button_label">Lägg till användare</string>
+    <string name="create_user_dialog_title">Välj ett namn</string>
+    <string name="user_name_taken_error">Detta namn är redan taget</string>
+    <string name="edit_user_dialog_title">Ändra namn / radera användare</string>
+    <string name="error_irrecoverable_state_settings">Det uppstod ett fel vid hämtning av inställningar. Försök att stänga appen och starta om. Om detta fortsätter måste du försöka återställa inställningarna till standardvärdena</string>
+    <string name="user_name_empty_error">Namnet kan inte vara tomt</string>
+    <string name="user_name_too_long_error">Detta namn är för långt</string>
+    <string name="selected_exercise_types_list_setting_label">Övningstyper att välja från</string>
+    <string name="reset_settings_button_label">Återställ inställningar till standardvärden</string>
+    <string name="reset_settings_confirmation_button_label">Klicka igen för att bekräfta. Detta kommer INTE att radera registrerade användare eller deras lagrade pass.</string>
+    <string name="save_settings_button_label">Spara</string>
+    <string name="create_user_field_hint">Ange ett användarnamn</string>
+    <string name="delete_confirmation_button_label">Klicka igen för att bekräfta. Att radera användaren kommer att radera associerade pass.</string>
+
+    <!-- SESSION PAGE -->
+    <string name="session_loading_page_topBar">Bygger pass…</string>
+    <string name="session_prepare_page_title">Gör dig redo!</string>
+    <string name="session_work_page_title">Arbete</string>
+    <string name="session_rest_page_title">Vila</string>
+    <string name="abort_session_button_label">Avsluta pass</string>
+    <string name="error_session_abort">Något gick fel, vi måste avbryta passet.</string>
+    <string name="error_session_retry">Något gick fel, låt oss försöka igen.</string>
+    <string name="exit_button_label">Avsluta</string>
+    <string name="pause">Paus…</string>
+    <string name="pause_explanation">Du kan antingen avsluta passet här eller återuppta det. Återupptagning tar dig tillbaka till början av viloperioden före den aktuella övningen, så du har tid att förbereda dig.</string>
+    <string name="resume_button_label">Återuppta</string>
+    <string name="exercise_remaining_in_s">Ge allt i %1$s!</string>
+    <string name="session_time_remaining">Passet slutar om: %1$s</string>
+    <string name="coming_next">Nästa:</string>
+    <string name="rest_remaining_in_s">Vila i %1$s</string>
+
+    <!-- FINISH PAGE -->
+    <string name="finish_page_topbar">Klart</string>
+    <string name="finish_page_title">Grattis!</string>
+    <string name="session_length_summary">Du har precis gjort ett %1$s HIIT-pass!</string>
+    <string name="session_finished_tips">Nu är det dags att stretcha försiktigt. Kom ihåg att dricka vatten!</string>
+    <string name="summary_session">Här är listan över övningar du har gjort:</string>
+    <string name="exercise_side_left">Vänster sida</string>
+    <string name="exercise_side_right">Höger sida</string>
+
+    <!-- STATISTICS PAGE -->
+    <string name="statistics_page_title">Statistik</string>
+    <string name="statistics_page_title_with_user_name">%1$s statistik</string>
+    <plurals name="statistics_number_of_days">
+        <item quantity="one">%1$d\u00A0dag</item>
+        <item quantity="other">%1$d\u00A0dagar</item>
+    </plurals>
+    <string name="statistics_page_switch_user">Byt användare</string>
+    <string name="sessions_total">pass</string>
+    <string name="time_total">ackumulerad tid</string>
+    <string name="average">genomsnittlig passlängd</string>
+    <string name="longest_streak">längsta sviten</string>
+    <string name="current_streak">nuvarande svit</string>
+    <string name="average_sessions_week">genomsnittliga pass/vecka</string>
+    <string name="user_pick_button_content_label">Användare</string>
+    <string name="user_pick_dialog_title">Välj en användare</string>
+    <string name="sad_cat_icon_content_description">Ikon av en ledsen katts ansikte</string>
+    <string name="clock_icon_content_description">Ikon av ett stoppur med markerad förfluten tid</string>
+    <string name="calendar_icon_content_description">Ikon av en kalendersida med några markerade dagar</string>
+    <string name="figure_and_calendar_icon_content_description">Ikon av en siluett som gör en övning under en kalendersida med några markerade dagar</string>
+    <string name="figure_and_clock_icon_content_description">Ikon av en siluett som gör en övning under ett stoppur med markerad förfluten tid</string>
+    <string name="laurels_icon_content_description">Ikon av en lagerkrans</string>
+    <string name="trophy_icon_content_description">Ikon av en trofé</string>
+    <string name="no_users_found_page_title">Ingen användare hittades</string>
+    <string name="no_users_found_error_message">Inga användare hittades!</string>
+    <string name="no_sessions_found_error_message">Inga passregister hittades!</string>
+    <string name="reset_statistics_button_label">Radera alla lagrade pass för %1$s</string>
+    <string name="reset_statistics_confirmation_button_label">Klicka igen för att bekräfta. Detta kommer att radera alla lagrade pass för %1$s</string>
+    <string name="error_irrecoverable_statistics">Det uppstod ett fel vid hämtning av %1$s statistik. Försök att stänga appen och starta om. Om detta fortsätter måste du försöka radera %1$s lagrade pass</string>
+
+    <!-- EXERCISES TYPES-->
+    <string name="exercise_type_standing">Stående</string>
+    <string name="exercise_type_squat">Knäböj</string>
+    <string name="exercise_type_cat">Katt</string>
+    <string name="exercise_type_plank">Plankan</string>
+    <string name="exercise_type_sitting">Sittande</string>
+    <string name="exercise_type_crab">Krabba</string>
+    <string name="exercise_type_lunge">Utfall</string>
+    <string name="exercise_type_lying">Liggande</string>
+
+</resources>
