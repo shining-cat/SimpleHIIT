@@ -162,5 +162,4 @@ internal class LanguageRepositoryImplTest : AbstractMockkTest() {
             // Should have called LocaleManager multiple times to check for changes
             verify(atLeast = 2) { mockLocaleManager.getCurrentLanguage() }
         }
-
 }

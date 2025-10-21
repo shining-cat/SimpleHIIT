@@ -339,12 +339,14 @@ class SettingsViewModel
             }
         }
 
-    //TODO: issue with language switching: the current value is persisted across activity recreation despite the correct value being active, as shown if one exits settings screen and comes back
         fun editLanguage() {
             val currentViewState = screenViewState.value
             if (currentViewState is SettingsViewState.Nominal) {
                 viewModelScope.launch(context = mainDispatcher) {
-                    hiitLogger.d("SettingsViewModel", "editLanguage::currentLanguage:: ${currentViewState.currentLanguage}")
+                    hiitLogger.d(
+                        "SettingsViewModel",
+                        "editLanguage::currentLanguage:: ${currentViewState.currentLanguage}",
+                    )
                     _dialogViewState.emit(
                         SettingsDialog.PickLanguage(currentViewState.currentLanguage),
                     )
