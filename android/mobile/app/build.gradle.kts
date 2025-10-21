@@ -33,12 +33,18 @@ dependencies {
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.data)
+    testImplementation(projects.testUtils)
     //
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.activity.compose)
+    //
+    testImplementation(libs.hilt.android.testing)
+    testImplementation(libs.test.runner)
+    testImplementation(libs.jupiter)
+    testImplementation(libs.mockk)
 }
 
 tasks.withType<Test>().configureEach {

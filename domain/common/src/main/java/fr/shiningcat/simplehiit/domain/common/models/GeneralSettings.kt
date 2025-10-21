@@ -13,4 +13,5 @@ data class GeneralSettings(
     val periodsStartCountDownLengthMs: Long,
     val users: List<User>,
     val exerciseTypes: List<ExerciseTypeSelected>,
+    val currentLanguage: AppLanguage,
 )

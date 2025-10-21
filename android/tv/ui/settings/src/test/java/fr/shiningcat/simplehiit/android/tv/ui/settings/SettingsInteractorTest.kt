@@ -2,6 +2,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.settings
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
@@ -11,6 +12,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.DeleteUserUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.GetGeneralSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -52,6 +54,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
     private val mockDeleteUserUseCase = mockk<DeleteUserUseCase>()
     private val mockCreateUserUseCase = mockk<CreateUserUseCase>()
     private val mockSaveSelectedExerciseTypesUseCase = mockk<SaveSelectedExerciseTypesUseCase>()
+    private val mockSetAppLanguageUseCase = mockk<SetAppLanguageUseCase>()
     private val mockResetAllSettingsUseCase = mockk<ResetAllSettingsUseCase>()
     private val mockValidatePeriodLengthUseCase = mockk<ValidatePeriodLengthUseCase>()
     private val mockValidateNumberOfWorkPeriodsUseCase = mockk<ValidateNumberOfWorkPeriodsUseCase>()
@@ -88,6 +91,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             mockDeleteUserUseCase,
             mockCreateUserUseCase,
             mockSaveSelectedExerciseTypesUseCase,
+            mockSetAppLanguageUseCase,
             mockResetAllSettingsUseCase,
             mockValidatePeriodLengthUseCase,
             mockValidateNumberOfWorkPeriodsUseCase,
@@ -110,6 +114,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         coEvery { mockDeleteUserUseCase.execute(any()) } returns Output.Success(testReturnInt)
         coEvery { mockCreateUserUseCase.execute(any()) } returns Output.Success(testReturnLong)
         coEvery { mockSaveSelectedExerciseTypesUseCase.execute(any()) } just Runs
+        coEvery { mockSetAppLanguageUseCase.execute(any()) } returns Output.Success(testReturnInt)
         coEvery { mockResetAllSettingsUseCase.execute() } just Runs
         coEvery {
             mockValidatePeriodLengthUseCase.execute(
@@ -225,6 +230,16 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             testedInteractor.saveSelectedExerciseTypes(testListExercises)
             coVerify(exactly = 1) { mockSaveSelectedExerciseTypesUseCase.execute(testListExercises) }
+        }
+
+    @Test
+    fun `calls on interactor setAppLanguage calls SetAppLanguageUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val result = testedInteractor.setAppLanguage(AppLanguage.FRENCH)
+            coVerify(exactly = 1) { mockSetAppLanguageUseCase.execute(AppLanguage.FRENCH) }
+            assertTrue(result is Output.Success)
+            result as Output.Success
+            assertEquals(testReturnInt, result.result)
         }
 
     @Test

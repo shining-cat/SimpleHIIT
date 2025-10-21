@@ -1,0 +1,142 @@
+<resources>
+    <string name="app_name">SimpleHIIT</string>
+    <string name="back_button_content_label">Retour</string>
+    <string name="close_button_content_label">Fermer</string>
+    <string name="error_title">Oups !</string>
+    <string name="error_notice">Quelque chose s\'est mal passé.</string>
+    <string name="error_code">Code d\'erreur : %1$s</string>
+    <string name="warning_icon_content_description">Symbole d\'avertissement</string>
+    <string name="delete_button_label">SUPPRIMER</string>
+    <string name="reset_button_label">RÉINITIALISER</string>
+    <string name="cancel_button_label">Annuler</string>
+    <string name="error">Erreur</string>
+    <string name="invalid_input_error">Saisie invalide</string>
+    <string name="ok">OK</string>
+    <string name="active">actif</string>
+
+    <!-- HOME PAGE -->
+    <string name="home_page_title">Accueil</string>
+    <string name="hiit_description">Le principe d\'un entraînement HIIT est d\'alterner des périodes de travail à haute intensité et des périodes de repos, généralement selon un cycle de 20s/10s sur 4 minutes.</string>
+    <string name="short_instruction">Ici, vous pouvez rapidement sélectionner combien de cycles vous souhaitez enchaîner dans votre session. Dans les paramètres, vous pouvez affiner la structure du cycle elle-même.</string>
+    <string name="error_irrecoverable_state">L\'application semble être gravement endommagée. Veuillez essayer de la fermer et de la relancer. Si cela persiste, vous devrez essayer de supprimer toutes les données stockées</string>
+    <string name="reset_app_button_label">Réinitialiser toute l\'application</string>
+    <string name="error_confirm_whole_reset">Supprimer toutes les données stockées ? Cela effacera tous les utilisateurs, toutes les sessions enregistrées et tous les paramètres</string>
+    <string name="minus_cycle_description">Un cycle de moins</string>
+    <string name="plus_cycle_description">Un cycle de plus</string>
+    <string name="number_of_cycle_setting_title">Choisir un nombre de cycles</string>
+    <string name="total_length">Durée totale : %1$s</string>
+    <string name="settings_button_content_label">Paramètres</string>
+    <string name="statistics_button_content_label">Statistiques</string>
+    <string name="selected_users_setting_title">Sélectionner utilisateur(s)</string>
+    <string name="single_user_header_title">Bonjour</string>
+    <string name="launch_session_label">Lancer la session</string>
+    <string name="cannot_launch_session_label">Sélectionnez au moins un utilisateur</string>
+    <string name="launch_session_warning_duplicated_exercises">En raison de la durée de votre session et des exercices disponibles, il y aura des exercices en double</string>
+    <string name="launch_session_warning_skipped_exercise_types">En raison de la durée de votre session et des types d\'exercices sélectionnés, tous les types ne seront pas présents</string>
+    <string name="launch_session_warning_no_user_selected">Vous devez sélectionner au moins un utilisateur pour démarrer une session</string>
+    <string name="launch_session_info_indicator_content_description">Informations sur la session</string>
+    <string name="input_number_cycles_dialog_title">Nombre de répétitions</string>
+    <string name="input_number_cycles_dialog_postfix">cycle(s)</string>
+    <string name="warning_session_length_will_cause_duplicated_exercises">Veuillez noter que la durée de la session et le nombre d\'exercices disponibles des types sélectionnés entraîneront la duplication de certains exercices</string>
+    <string name="no_user_exist_title">Aucun utilisateur enregistré</string>
+    <string name="warning_no_user_exist">Veuillez créer votre premier utilisateur dans les paramètres pour commencer</string>
+    <string name="go_to_settings">Ouvrir les paramètres</string>
+
+    <!-- SETTINGS PAGE -->
+    <string name="settings_page_title">Paramètres</string>
+    <string name="language_setting_label">Langue</string>
+    <string name="language_system_default">Par défaut du système</string>
+    <string name="work_period_length_label">Durée de la période de travail</string>
+    <string name="seconds">secondes</string>
+    <string name="rest_period_length_label">Durée de la période de repos</string>
+    <string name="number_of_periods_label">Nombre de périodes de travail</string>
+    <string name="number_of_exercises_per_cycle">Exercices par cycle</string>
+    <string name="total_cycle_length_label">Durée totale du cycle</string>
+    <string name="beep_sound_setting_label">Compte à rebours sonore</string>
+    <string name="session_start_countdown_length_setting_label">Compte à rebours de début de session</string>
+    <string name="period_start_countdown_length_setting_label">Compte à rebours de début de période</string>
+    <string name="period_length_too_short_constraint">Cela ne peut pas être plus court que la durée du compte à rebours</string>
+    <string name="period_start_countdown_length_too_long_error">Cela ne peut pas être plus long que la durée d\'une période</string>
+    <string name="users_list_setting_label">Gérer les utilisateurs</string>
+    <string name="add_user_button_label">Ajouter un utilisateur</string>
+    <string name="create_user_dialog_title">Choisir un nom</string>
+    <string name="user_name_taken_error">Ce nom est déjà pris</string>
+    <string name="edit_user_dialog_title">Modifier le nom / supprimer l\'utilisateur</string>
+    <string name="error_irrecoverable_state_settings">Une erreur s\'est produite lors de la récupération des paramètres. Veuillez essayer de fermer l\'application et de la relancer. Si cela persiste, vous devrez essayer de réinitialiser les paramètres aux valeurs par défaut</string>
+    <string name="user_name_empty_error">Le nom ne peut pas être vide</string>
+    <string name="user_name_too_long_error">Ce nom est trop long</string>
+    <string name="selected_exercise_types_list_setting_label">Types d\'exercices à choisir</string>
+    <string name="reset_settings_button_label">Réinitialiser les paramètres aux valeurs par défaut</string>
+    <string name="reset_settings_confirmation_button_label">Cliquez à nouveau pour confirmer. Cela ne supprimera PAS les utilisateurs enregistrés ni leurs sessions stockées.</string>
+    <string name="save_settings_button_label">Enregistrer</string>
+    <string name="create_user_field_hint">Entrez un nom d\'utilisateur</string>
+    <string name="delete_confirmation_button_label">Cliquez à nouveau pour confirmer. La suppression de l\'utilisateur supprimera les sessions associées.</string>
+
+    <!-- SESSION PAGE -->
+    <string name="session_loading_page_topBar">Construction de la session…</string>
+    <string name="session_prepare_page_title">Préparez-vous !</string>
+    <string name="session_work_page_title">Travail</string>
+    <string name="session_rest_page_title">Repos</string>
+    <string name="abort_session_button_label">Terminer la session</string>
+    <string name="error_session_abort">Quelque chose s\'est mal passé, nous devons abandonner la session.</string>
+    <string name="error_session_retry">Quelque chose s\'est mal passé, essayons à nouveau.</string>
+    <string name="exit_button_label">Quitter</string>
+    <string name="pause">Pause…</string>
+    <string name="pause_explanation">Vous pouvez soit terminer la session ici, soit la reprendre. La reprise vous ramènera au début de la période de repos précédant l\'exercice actuel, vous aurez donc le temps de vous préparer.</string>
+    <string name="resume_button_label">Reprendre</string>
+    <string name="exercise_remaining_in_s">Donnez tout pendant %1$s !</string>
+    <string name="session_time_remaining">Fin de la session dans : %1$s</string>
+    <string name="coming_next">À venir :</string>
+    <string name="rest_remaining_in_s">Reposez-vous pendant %1$s</string>
+
+    <!-- FINISH PAGE -->
+    <string name="finish_page_topbar">Terminé</string>
+    <string name="finish_page_title">Félicitations !</string>
+    <string name="session_length_summary">Vous venez de faire une session de HIIT de %1$s !</string>
+    <string name="session_finished_tips">C\'est maintenant le moment de vous étirer doucement. N\'oubliez pas de vous hydrater !</string>
+    <string name="summary_session">Voici la liste des exercices que vous avez effectués :</string>
+    <string name="exercise_side_left">Côté gauche</string>
+    <string name="exercise_side_right">Côté droit</string>
+
+    <!-- STATISTICS PAGE -->
+    <string name="statistics_page_title">Statistiques</string>
+    <string name="statistics_page_title_with_user_name">Statistiques de %1$s</string>
+    <plurals name="statistics_number_of_days">
+        <item quantity="one">%1$d\u00A0jour</item>
+        <item quantity="other">%1$d\u00A0jours</item>
+    </plurals>
+    <string name="statistics_page_switch_user">Changer d\'utilisateur</string>
+    <string name="sessions_total">sessions</string>
+    <string name="time_total">temps cumulé</string>
+    <string name="average">durée moyenne de session</string>
+    <string name="longest_streak">plus longue série</string>
+    <string name="current_streak">série actuelle</string>
+    <string name="average_sessions_week">moyenne sessions/semaine</string>
+    <string name="user_pick_button_content_label">Utilisateurs</string>
+    <string name="user_pick_dialog_title">Choisir un utilisateur</string>
+    <string name="sad_cat_icon_content_description">Icône d\'un visage de chat triste</string>
+    <string name="clock_icon_content_description">Icône d\'un chronomètre avec un temps écoulé mis en évidence</string>
+    <string name="calendar_icon_content_description">Icône d\'une page de calendrier avec des jours cochés</string>
+    <string name="figure_and_calendar_icon_content_description">Icône d\'une silhouette faisant un exercice sous une page de calendrier avec des jours cochés</string>
+    <string name="figure_and_clock_icon_content_description">Icône d\'une silhouette faisant un exercice sous un chronomètre avec un temps écoulé mis en évidence</string>
+    <string name="laurels_icon_content_description">Icône d\'une couronne de lauriers</string>
+    <string name="trophy_icon_content_description">Icône d\'un trophée</string>
+    <string name="no_users_found_page_title">Aucun utilisateur trouvé</string>
+    <string name="no_users_found_error_message">Aucun utilisateur trouvé !</string>
+    <string name="no_sessions_found_error_message">Aucun enregistrement de session trouvé !</string>
+    <string name="reset_statistics_button_label">Supprimer toutes les sessions stockées pour %1$s</string>
+    <string name="reset_statistics_confirmation_button_label">Cliquez à nouveau pour confirmer. Cela supprimera toutes les sessions stockées pour %1$s</string>
+    <string name="error_irrecoverable_statistics">Une erreur s\'est produite lors de la récupération des statistiques de %1$s. Veuillez essayer de fermer l\'application et de la relancer. Si cela persiste, vous devrez essayer de supprimer les sessions stockées de %1$s</string>
+
+    <!-- EXERCISES TYPES-->
+    <string name="exercise_type_standing">Debout</string>
+    <string name="exercise_type_squat">Squat</string>
+    <string name="exercise_type_cat">Chat</string>
+    <string name="exercise_type_plank">Planche</string>
+    <string name="exercise_type_sitting">Assis</string>
+    <string name="exercise_type_crab">Crabe</string>
+    <string name="exercise_type_lunge">Fente</string>
+    <string name="exercise_type_lying">Allongé</string>
+    <string name="language_dialog_pick_title">Choisissez une langue</string>
+
+</resources>

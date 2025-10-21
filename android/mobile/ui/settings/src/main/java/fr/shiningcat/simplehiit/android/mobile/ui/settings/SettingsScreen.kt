@@ -28,6 +28,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.contents.SettingsCont
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -68,6 +69,8 @@ fun SettingsScreen(
         deleteUserConfirm = { viewModel.deleteUserConfirmation(it) },
         toggleExerciseType = { viewModel.toggleSelectedExercise(it) },
         validateInputNameString = { viewModel.validateInputUserNameString(it) },
+        editLanguage = { viewModel.editLanguage() },
+        saveLanguage = { viewModel.setLanguage(it) },
         resetSettings = { viewModel.resetAllSettings() },
         resetSettingsConfirmation = { viewModel.resetAllSettingsConfirmation() },
         cancelDialog = { viewModel.cancelDialog() },
@@ -103,6 +106,8 @@ private fun SettingsScreen(
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
     validateInputNameString: (User) -> Constants.InputError = { Constants.InputError.NONE },
+    editLanguage: () -> Unit = {},
+    saveLanguage: (AppLanguage) -> Unit = {},
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -166,6 +171,8 @@ private fun SettingsScreen(
                 deleteUserConfirm = deleteUserConfirm,
                 toggleExerciseType = toggleExerciseType,
                 validateInputNameString = validateInputNameString,
+                editLanguage = editLanguage,
+                saveLanguage = saveLanguage,
                 resetSettings = resetSettings,
                 resetSettingsConfirmation = resetSettingsConfirmation,
                 cancelDialog = cancelDialog,
@@ -247,6 +254,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = emptyList(),
                     exerciseTypes = exerciseTypeSelectedAllTrue,
+                    currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -258,6 +266,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfOneUser,
                     exerciseTypes = exerciseTypeSelectedAllTrue,
+                    currentLanguage = AppLanguage.ENGLISH,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -269,6 +278,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfTwoUser,
                     exerciseTypes = exerciseTypeSelectedAllFalse,
+                    currentLanguage = AppLanguage.FRENCH,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -280,6 +290,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfMoreUser,
                     exerciseTypes = exerciseTypeSelectedMixed,
+                    currentLanguage = AppLanguage.SWEDISH,
                 ),
             )
 }

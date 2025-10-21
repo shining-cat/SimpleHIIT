@@ -33,6 +33,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsFi
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsToggleComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsUsersComponent
 import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -49,6 +50,7 @@ fun SettingsNominalContent(
     editUser: (User) -> Unit = {},
     addUser: () -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
+    editLanguage: () -> Unit = {},
     resetSettings: () -> Unit = {},
     viewState: SettingsViewState.Nominal,
     @Suppress("UNUSED_PARAMETER")
@@ -139,6 +141,19 @@ fun SettingsNominalContent(
             thickness = Dp.Hairline,
             color = DividerDefaults.color,
         )
+        SettingsFieldComponent(
+            label = stringResource(id = R.string.language_setting_label),
+            value = getLanguageDisplayName(viewState.currentLanguage),
+            onClick = editLanguage,
+        )
+        HorizontalDivider(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = dimensionResource(R.dimen.spacing_1)),
+            thickness = Dp.Hairline,
+            color = DividerDefaults.color,
+        )
         TextButton(
             modifier =
                 Modifier
@@ -152,6 +167,14 @@ fun SettingsNominalContent(
         }
     }
 }
+
+private fun getLanguageDisplayName(language: AppLanguage): String =
+    when (language) {
+        AppLanguage.SYSTEM_DEFAULT -> "System default"
+        AppLanguage.ENGLISH -> "English"
+        AppLanguage.FRENCH -> "Français"
+        AppLanguage.SWEDISH -> "Svenska"
+    }
 
 // Previews
 @PreviewLightDark
@@ -218,6 +241,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = emptyList(),
                     exerciseTypes = exerciseTypeSelectedAllTrue,
+                    currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -229,6 +253,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfOneUser,
                     exerciseTypes = exerciseTypeSelectedAllTrue,
+                    currentLanguage = AppLanguage.ENGLISH,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -240,6 +265,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfTwoUser,
                     exerciseTypes = exerciseTypeSelectedAllFalse,
+                    currentLanguage = AppLanguage.FRENCH,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -251,6 +277,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfMoreUser,
                     exerciseTypes = exerciseTypeSelectedMixed,
+                    currentLanguage = AppLanguage.SWEDISH,
                 ),
             )
 }

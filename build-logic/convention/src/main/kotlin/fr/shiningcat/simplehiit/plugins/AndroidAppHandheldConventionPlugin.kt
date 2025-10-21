@@ -7,6 +7,8 @@ import fr.shiningcat.simplehiit.extensions.configureBuildTypes
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.kotlin
 
 class AndroidAppHandheldConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -25,6 +27,10 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
                     versionName = ConfigHandheld.config.versionName
                 }
                 configureBuildTypes(this)
+            }
+            dependencies {
+                add("androidTestImplementation", kotlin("test"))
+                add("testImplementation", kotlin("test"))
             }
         }
     }

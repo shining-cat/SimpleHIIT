@@ -7,6 +7,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
@@ -335,6 +336,33 @@ class SettingsViewModel
                     "SettingsViewModel",
                     "toggleSelectedExercise::current state does not allow this now",
                 )
+            }
+        }
+
+        fun editLanguage() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    hiitLogger.d(
+                        "SettingsViewModel",
+                        "editLanguage::currentLanguage:: ${currentViewState.currentLanguage}",
+                    )
+                    _dialogViewState.emit(
+                        SettingsDialog.PickLanguage(currentViewState.currentLanguage),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editLanguage::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setLanguage(language: AppLanguage) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+                settingsInteractor.setAppLanguage(language)
             }
         }
 

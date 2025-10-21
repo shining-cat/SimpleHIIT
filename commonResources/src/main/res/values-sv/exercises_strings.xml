@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Cat-->
+    <string name="exercise_cat_bird_dogs">Katt: Korsad arm- och benlyft</string>
+    <string name="exercise_cat_knee_and_elbow_pressup">Katt: Armhävning från knän och armbågar</string>
+    <string name="exercise_cat_knee_pushup">Katt: Armhävning på knäna</string>
+    <string name="exercise_cat_back_leg_lift">Katt: Utsträckt bakåt benlyft</string>
+    <string name="exercise_cat_donkey_kick_twist">Katt: Åsnespark med vridning</string>
+    <!--Crab-->
+    <string name="exercise_crab_advanced_bridge">Krabba: Avancerad bro</string>
+    <string name="exercise_crab_bridge_twist">Krabba: Bro med vridning</string>
+    <string name="exercise_crab_kicks">Krabba: Sparkar</string>
+    <string name="exercise_crab_toe_touches">Krabba: Tåtouchningar</string>
+    <string name="exercise_crab_single_leg_triceps_dips">Krabba: Triceps dips på ett ben</string>
+    <!--Lunges-->
+    <string name="exercise_lunge_alternate_front_raise">Utfall: Alternerande framåt med armlyft framåt</string>
+    <string name="exercise_lunge_alternate_side_touch">Utfall: Alternerande åt sidan och röra tårna</string>
+    <string name="exercise_lunge_arms_cross_side">Utfall: Alternerande åt sidan med korsade armar</string>
+    <string name="exercise_lunge_alternate_curtsy">Utfall: Alternerande nigning</string>
+    <string name="exercise_lunge_twist">Utfall: Alternerande med vridning och utsträckta armar framåt</string>
+    <string name="exercise_lunge_basic">Utfall: Alternerande framåt</string>
+    <string name="exercise_lunge_shoulders_squeeze_reverse">Utfall: Alternerande bakåt med sammanpressade skulderblad</string>
+    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Utfall: Alternerande nigning och lyft av ett utsträckt ben åt sidan med motsatt utsträckt arm</string>
+    <string name="exercise_lunge_curtsy_side_kick">Utfall: Alternerande nigning och hög spark åt sidan med ett ben</string>
+    <string name="exercise_lunge_front_and_back">Utfall: Alternerande fram och bak ett ben</string>
+    <string name="exercise_lunge_back_kick">Utfall: Alternerande utfall och bakspark ett ben</string>
+    <string name="exercise_lunge_front_kick">Utfall: Alternerande utfall och framspark ett ben</string>
+    <string name="exercise_lunge_side_to_curtsy">Utfall: Alternerande utfall åt sidan och nigning ett ben</string>
+    <string name="exercise_lunge_side">Utfall: Sidoutfall ett ben</string>
+    <string name="exercise_lunge_split_squat">Utfall: Delad knäböj ett ben</string>
+    <!--Lying-->
+    <string name="exercise_lying_dead_bug">Liggande: Den döda insekten</string>
+    <string name="exercise_lying_reverse_crunches">Liggande: Omvända crunches</string>
+    <string name="exercise_lying_scissor_kicks">Liggande: Saxsparkar</string>
+    <string name="exercise_lying_star_toe_touch_sit_up">Liggande: Stjärna till tåtouchning sit-ups</string>
+    <string name="exercise_lying_superman_twist">Liggande: Superman med vridning</string>
+    <string name="exercise_lying_side_leg_lift">Liggande: Sidbenlyft en sida</string>
+    <!--Planks-->
+    <string name="exercise_plank_mountain_climber_twist">Plankan: Bergsklättrare med vridning</string>
+    <string name="exercise_plank_mountain_climber">Plankan: Bergsklättrare</string>
+    <string name="exercise_plank_bird_dogs">Plankan: Fågel och hund</string>
+    <string name="exercise_plank_shoulder_tap">Plankan: Axeltouchning</string>
+    <string name="exercise_plank_reverse_leg_raise">Plankan: Omvänd benlyft</string>
+    <string name="exercise_plank_spiderman">Plankan: Spiderman</string>
+    <string name="exercise_plank_knee_to_elbow_kickback">Plankan: Knä till armbåge och tillbaka</string>
+    <string name="exercise_plank_side_arm_rotation">Plankan: Sidrotation</string>
+    <!--Sitting-->
+    <string name="exercise_sitting_boat_twist">Sittande: Lyfta fötter vridning med utsträckta armar åt sidorna</string>
+    <string name="exercise_sitting_knee_hugs">Sittande: Knäkramar</string>
+    <string name="exercise_sitting_rope_climb_crunches">Sittande: Repklättring crunches</string>
+    <string name="exercise_sitting_touch_floor_twist">Sittande: Fötter på golvet vridning och röra marken på sidorna</string>
+    <string name="exercise_sitting_knee_tucks">Sittande: Händer på golvet vik och sträck benen</string>
+    <string name="exercise_sitting_twist_bicycle">Sittande: Vrid överkroppen medan du cyklar i luften</string>
+    <!--Squat-->
+    <string name="exercise_squat_boxer_punch">Knäböj: Boxarslag</string>
+    <string name="exercise_squat_cossack">Knäböj: Kosacken</string>
+    <string name="exercise_squat_half_cross_jab">Knäböj: Statisk och korsade slag</string>
+    <string name="exercise_squat_kick_back">Knäböj: Alternerande knäböj och bakspark</string>
+    <string name="exercise_squat_overhead_triceps_extension">Knäböj: Alternerande knäböj och triceps extension över huvudet</string>
+    <string name="exercise_squat_basic">Knäböj: Grundläggande knäböj</string>
+    <string name="exercise_squat_sumo">Knäböj: Sumon</string>
+    <string name="exercise_squat_baseball_bat_hit">Knäböj: Alternerande knäböj och baseballträ slag åt ena sidan</string>
+    <!--Standing-->
+    <string name="exercise_standing_bent_over_twist">Stående: Alternerande stående med utsträckta armar åt sidorna och vridning för att röra motsatt fot</string>
+    <string name="exercise_standing_touch_feet_jacks">Stående: Alternerande lyft fot för att röra med motsatt hand</string>
+    <string name="exercise_standing_kick_crunches">Stående: Alternerande lyft utsträckt ben framåt och röra foten med motsatt hand</string>
+    <string name="exercise_standing_skater">Stående: Skridskoåkaren</string>
+    <string name="exercise_standing_skating_windmill">Stående: Alternerande åka skridskor röra golvet och stå upp</string>
+    <string name="exercise_standing_criss_cross_crunches">Stående: Stående händer på nacken lyft ett knä för att röra motsatt armbåge</string>
+    <string name="exercise_standing_mountain_climber">Stående: Bergsklättraren</string>
+    <string name="exercise_standing_balance_chops">Stående: "Knä till ansiktet" en sida</string>
+
+</resources>

@@ -24,8 +24,10 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditP
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditPeriodStartCountDownDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditUserDialog
+import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsPickLanguageDialog
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -56,6 +58,8 @@ fun SettingsContentHolder(
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
     validateInputNameString: (User) -> Constants.InputError = { Constants.InputError.NONE },
+    editLanguage: () -> Unit = {},
+    saveLanguage: (AppLanguage) -> Unit = {},
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -86,6 +90,7 @@ fun SettingsContentHolder(
                     editUser = editUser,
                     addUser = addUser,
                     toggleExerciseType = toggleExerciseType,
+                    editLanguage = editLanguage,
                     resetSettings = resetSettings,
                     viewState = screenViewState,
                     uiArrangement = uiArrangement,
@@ -162,6 +167,13 @@ fun SettingsContentHolder(
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = { deleteUserConfirm(dialogViewState.user) },
                 dismissAction = { deleteUserCancel(dialogViewState.user) },
+            )
+
+        is SettingsDialog.PickLanguage ->
+            SettingsPickLanguageDialog(
+                currentLanguage = dialogViewState.currentLanguage,
+                onLanguageSelected = saveLanguage,
+                onCancel = cancelDialog,
             )
 
         SettingsDialog.ConfirmResetAllSettings ->
@@ -253,6 +265,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = emptyList(),
                     exerciseTypes = exerciseTypeSelectedAllTrue,
+                    currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -264,6 +277,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfOneUser,
                     exerciseTypes = exerciseTypeSelectedAllTrue,
+                    currentLanguage = AppLanguage.ENGLISH,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -275,6 +289,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfTwoUser,
                     exerciseTypes = exerciseTypeSelectedAllFalse,
+                    currentLanguage = AppLanguage.FRENCH,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -286,6 +301,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfMoreUser,
                     exerciseTypes = exerciseTypeSelectedMixed,
+                    currentLanguage = AppLanguage.SWEDISH,
                 ),
             )
 }

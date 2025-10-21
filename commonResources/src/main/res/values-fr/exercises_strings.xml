@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Cat-->
+    <string name="exercise_cat_bird_dogs">Chat : Levée croisée bras et jambe</string>
+    <string name="exercise_cat_knee_and_elbow_pressup">Chat : Pompe depuis genoux et coudes</string>
+    <string name="exercise_cat_knee_pushup">Chat : Pompe sur les genoux</string>
+    <string name="exercise_cat_back_leg_lift">Chat : Levée de jambe arrière tendue</string>
+    <string name="exercise_cat_donkey_kick_twist">Chat : Coup de pied d\'âne avec rotation</string>
+    <!--Crab-->
+    <string name="exercise_crab_advanced_bridge">Crabe : Pont avancé</string>
+    <string name="exercise_crab_bridge_twist">Crabe : Pont avec rotation</string>
+    <string name="exercise_crab_kicks">Crabe : Coups de pied</string>
+    <string name="exercise_crab_toe_touches">Crabe : Toucher des orteils</string>
+    <string name="exercise_crab_single_leg_triceps_dips">Crabe : Dips triceps sur une jambe</string>
+    <!--Lunges-->
+    <string name="exercise_lunge_alternate_front_raise">Fentes : Alternées vers l\'avant en levant les bras devant</string>
+    <string name="exercise_lunge_alternate_side_touch">Fentes : Alternées sur le côté en touchant les orteils</string>
+    <string name="exercise_lunge_arms_cross_side">Fentes : Alternées sur le côté en croisant les bras</string>
+    <string name="exercise_lunge_alternate_curtsy">Fentes : Révérence alternée</string>
+    <string name="exercise_lunge_twist">Fentes : Alternées avec rotation bras tendus devant</string>
+    <string name="exercise_lunge_basic">Fentes : Alternées vers l\'avant</string>
+    <string name="exercise_lunge_shoulders_squeeze_reverse">Fentes : Alternées vers l\'arrière en serrant les omoplates</string>
+    <string name="exercise_lunge_curtsy_side_kick_lateral_raise">Fentes : Révérence alternée et levée d\'une jambe tendue sur le côté avec bras opposé tendu</string>
+    <string name="exercise_lunge_curtsy_side_kick">Fentes : Révérence alternée et coup de pied haut sur le côté d\'une jambe</string>
+    <string name="exercise_lunge_front_and_back">Fentes : Alternées avant et arrière une jambe</string>
+    <string name="exercise_lunge_back_kick">Fentes : Fente alternée et coup de pied arrière une jambe</string>
+    <string name="exercise_lunge_front_kick">Fentes : Fente alternée et coup de pied avant une jambe</string>
+    <string name="exercise_lunge_side_to_curtsy">Fentes : Fente alternée sur le côté et révérence une jambe</string>
+    <string name="exercise_lunge_side">Fentes : Fente latérale une jambe</string>
+    <string name="exercise_lunge_split_squat">Fentes : Squat fendu une jambe</string>
+    <!--Lying-->
+    <string name="exercise_lying_dead_bug">Allongé : L\'insecte mort</string>
+    <string name="exercise_lying_reverse_crunches">Allongé : Crunchs inversés</string>
+    <string name="exercise_lying_scissor_kicks">Allongé : Ciseaux</string>
+    <string name="exercise_lying_star_toe_touch_sit_up">Allongé : Étoile vers toucher d\'orteils relevés</string>
+    <string name="exercise_lying_superman_twist">Allongé : Superman avec rotation</string>
+    <string name="exercise_lying_side_leg_lift">Allongé : Levée de jambe latérale un côté</string>
+    <!--Planks-->
+    <string name="exercise_plank_mountain_climber_twist">Planche : Grimpeur avec rotation</string>
+    <string name="exercise_plank_mountain_climber">Planche : Grimpeur</string>
+    <string name="exercise_plank_bird_dogs">Planche : Oiseau et chien</string>
+    <string name="exercise_plank_shoulder_tap">Planche : Toucher d\'épaule</string>
+    <string name="exercise_plank_reverse_leg_raise">Planche : Levée de jambe inversée</string>
+    <string name="exercise_plank_spiderman">Planche : Spiderman</string>
+    <string name="exercise_plank_knee_to_elbow_kickback">Planche : Genou vers coude et retour</string>
+    <string name="exercise_plank_side_arm_rotation">Planche : Rotation latérale</string>
+    <!--Sitting-->
+    <string name="exercise_sitting_boat_twist">Assis : Pieds levés rotation bras tendus sur les côtés</string>
+    <string name="exercise_sitting_knee_hugs">Assis : Étreinte des genoux</string>
+    <string name="exercise_sitting_rope_climb_crunches">Assis : Crunchs d\'escalade de corde</string>
+    <string name="exercise_sitting_touch_floor_twist">Assis : Pieds au sol rotation et toucher le sol sur les côtés</string>
+    <string name="exercise_sitting_knee_tucks">Assis : Mains au sol plier et tendre les jambes</string>
+    <string name="exercise_sitting_twist_bicycle">Assis : Rotation du haut du corps en pédalant dans l\'air</string>
+    <!--Squat-->
+    <string name="exercise_squat_boxer_punch">Squat : Coup de poing de boxeur</string>
+    <string name="exercise_squat_cossack">Squat : Le cosaque</string>
+    <string name="exercise_squat_half_cross_jab">Squat : Statique et coups de poing croisés</string>
+    <string name="exercise_squat_kick_back">Squat : Squat alterné et coup de pied arrière</string>
+    <string name="exercise_squat_overhead_triceps_extension">Squat : Squat alterné et extension triceps au-dessus de la tête</string>
+    <string name="exercise_squat_basic">Squat : Squat de base</string>
+    <string name="exercise_squat_sumo">Squat : Le sumo</string>
+    <string name="exercise_squat_baseball_bat_hit">Squat : Squat alterné et frappe de batte de baseball d\'un côté</string>
+    <!--Standing-->
+    <string name="exercise_standing_bent_over_twist">Debout : Alterné debout bras tendus sur les côtés et rotation pour toucher le pied opposé</string>
+    <string name="exercise_standing_touch_feet_jacks">Debout : Lever alternativement un pied pour toucher avec la main opposée</string>
+    <string name="exercise_standing_kick_crunches">Debout : Lever alternativement une jambe tendue devant et toucher le pied avec la main opposée</string>
+    <string name="exercise_standing_skater">Debout : Le patineur</string>
+    <string name="exercise_standing_skating_windmill">Debout : Patinage alterné en touchant le sol et debout</string>
+    <string name="exercise_standing_criss_cross_crunches">Debout : Debout mains sur la nuque lever un genou pour toucher le coude opposé</string>
+    <string name="exercise_standing_mountain_climber">Debout : Le grimpeur</string>
+    <string name="exercise_standing_balance_chops">Debout : "Genou au visage" un côté</string>
+
+</resources>

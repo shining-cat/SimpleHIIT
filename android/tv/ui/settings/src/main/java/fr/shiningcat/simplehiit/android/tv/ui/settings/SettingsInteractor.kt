@@ -2,6 +2,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.settings
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -10,6 +11,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.DeleteUserUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.GetGeneralSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -48,6 +50,8 @@ interface SettingsInteractor {
     suspend fun createUser(user: User): Output<Long>
 
     suspend fun saveSelectedExerciseTypes(listOfSelectedExerciseTypes: List<ExerciseTypeSelected>)
+
+    suspend fun setAppLanguage(language: AppLanguage): Output<Int>
 
     suspend fun resetAllSettings()
 
@@ -91,6 +95,7 @@ class SettingsInteractorImpl
         private val deleteUserUseCase: DeleteUserUseCase,
         private val createUserUseCase: CreateUserUseCase,
         private val saveSelectedExerciseTypesUseCase: SaveSelectedExerciseTypesUseCase,
+        private val setAppLanguageUseCase: SetAppLanguageUseCase,
         private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
         private val validatePeriodLengthUseCase: ValidatePeriodLengthUseCase,
         private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
@@ -121,6 +126,8 @@ class SettingsInteractorImpl
 
         override suspend fun saveSelectedExerciseTypes(listOfSelectedExerciseTypes: List<ExerciseTypeSelected>) =
             saveSelectedExerciseTypesUseCase.execute(listOfSelectedExerciseTypes)
+
+        override suspend fun setAppLanguage(language: AppLanguage) = setAppLanguageUseCase.execute(language)
 
         override suspend fun resetAllSettings() = resetAllSettingsUseCase.execute()
 

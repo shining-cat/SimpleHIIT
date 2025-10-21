@@ -52,6 +52,7 @@ class SettingsViewStateMapper
                             periodsStartCountDownLengthAsSeconds = periodsStartCountDownLengthAsSeconds,
                             users = generalSettings.users,
                             exerciseTypes = generalSettings.exerciseTypes,
+                            currentLanguage = generalSettings.currentLanguage,
                         )
                     }
                 }

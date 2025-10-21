@@ -1,19 +1,34 @@
 package fr.shiningcat.simplehiit.android.mobile.app.di
 
 import android.content.Context
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import fr.shiningcat.simplehiit.android.mobile.app.locale.LocaleManagerImpl
 import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonutils.AndroidVersionProvider
+import fr.shiningcat.simplehiit.commonutils.AndroidVersionProviderImpl
+import fr.shiningcat.simplehiit.data.local.localemanager.LocaleManager
 import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.di.DigitsFormat
 import fr.shiningcat.simplehiit.domain.common.di.ShortFormat
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModule {
+interface AppModule {
+    @Binds
+    fun bindsLocaleManager(localeManagerImpl: LocaleManagerImpl): LocaleManager
+
+    @Binds
+    fun bindsAndroidVersionProvider(androidVersionProviderImpl: AndroidVersionProviderImpl): AndroidVersionProvider
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModuleProvides {
     @DigitsFormat
     @Provides
     fun provideDurationStringFormatterDigits(
