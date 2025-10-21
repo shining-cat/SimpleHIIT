@@ -1,9 +1,6 @@
 package fr.shiningcat.simplehiit.data.repositories
 
-import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
-import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
-import fr.shiningcat.simplehiit.data.mappers.SessionMapper
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
@@ -18,12 +15,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() {
+internal class UsersRepositoryImplDeleteAllUsersTest : AbstractMockkTest() {
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
-    private val mockSessionMapper = mockk<SessionMapper>()
-    private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
 // ////////////
 //   DELETE USER
@@ -31,22 +25,19 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
     @Test
     fun `delete all users returns error when usersDao delete all users throws exception`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             val thrownException = Exception("this is a test exception")
             coEvery { mockUsersDao.deleteAllUsers() } throws thrownException
             //
             assertThrows<Exception> {
-                simpleHiitRepository.deleteAllUsers()
+                usersRepository.deleteAllUsers()
             }
             //
             coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
@@ -56,20 +47,17 @@ internal class SimpleHiitRepositoryImplDeleteAllUsersTest : AbstractMockkTest() 
     @Test
     fun `delete all user returns nothing when usersDao delete all users succeeds`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             coEvery { mockUsersDao.deleteAllUsers() } just Runs
             //
-            simpleHiitRepository.deleteAllUsers()
+            usersRepository.deleteAllUsers()
             //
             coVerify(exactly = 1) { mockUsersDao.deleteAllUsers() }
         }

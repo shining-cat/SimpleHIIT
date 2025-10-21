@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.statistics.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
@@ -24,7 +24,7 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSessionsRepository = mockk<SessionsRepository>()
     private val mockCalculateCurrentStreakUseCase = mockk<CalculateCurrentStreakUseCase>()
     private val mockCalculateLongestStreakUseCase = mockk<CalculateLongestStreakUseCase>()
     private val mockCalculateAverageSessionsPerWeekUseCase =
@@ -37,7 +37,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 GetStatsForUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    sessionsRepository = mockSessionsRepository,
                     calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
                     calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
                     calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
@@ -50,11 +50,11 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
                     errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
                     exception = testException,
                 )
-            coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers { testError }
+            coEvery { mockSessionsRepository.getSessionRecordsForUser(any()) } answers { testError }
             //
             val result = testedUseCase.execute(testUser, testNow)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
+            coVerify(exactly = 1) { mockSessionsRepository.getSessionRecordsForUser(testUser) }
             assertEquals(testError, result)
         }
 
@@ -63,7 +63,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 GetStatsForUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    sessionsRepository = mockSessionsRepository,
                     calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
                     calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
                     calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
@@ -71,7 +71,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
                     simpleHiitLogger = mockHiitLogger,
                 )
             val testSessionRecords = emptyList<SessionRecord>()
-            coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers {
+            coEvery { mockSessionsRepository.getSessionRecordsForUser(any()) } answers {
                 Output.Success(
                     testSessionRecords,
                 )
@@ -82,7 +82,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             //
             val output = testedUseCase.execute(testUser, testNow)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
+            coVerify(exactly = 1) { mockSessionsRepository.getSessionRecordsForUser(testUser) }
             coVerify(exactly = 0) { mockCalculateCurrentStreakUseCase.execute(any(), any()) }
             coVerify(exactly = 0) { mockCalculateLongestStreakUseCase.execute(any(), any()) }
             coVerify(exactly = 0) {
@@ -112,7 +112,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase =
             GetStatsForUserUseCase(
-                simpleHiitRepository = mockSimpleHiitRepository,
+                sessionsRepository = mockSessionsRepository,
                 calculateCurrentStreakUseCase = mockCalculateCurrentStreakUseCase,
                 calculateLongestStreakUseCase = mockCalculateLongestStreakUseCase,
                 calculateAverageSessionsPerWeekUseCase = mockCalculateAverageSessionsPerWeekUseCase,
@@ -122,7 +122,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         val testCurrentStreak = Random.nextInt(10, 5000)
         val testLongestStreak = Random.nextInt(5000, 10000)
         val testAverageWeek = (Random.nextInt(1, 100).toDouble() / 100.toDouble()).toString()
-        coEvery { mockSimpleHiitRepository.getSessionRecordsForUser(any()) } answers {
+        coEvery { mockSessionsRepository.getSessionRecordsForUser(any()) } answers {
             Output.Success(
                 testSessionRecords,
             )
@@ -148,7 +148,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
         //
         val output = testedUseCase.execute(testUser, testNow)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.getSessionRecordsForUser(testUser) }
+        coVerify(exactly = 1) { mockSessionsRepository.getSessionRecordsForUser(testUser) }
         coVerify(exactly = expectedNumberOfCallsSubUseCases) {
             mockCalculateCurrentStreakUseCase.execute(
                 any(),

@@ -3,7 +3,7 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -12,13 +12,13 @@ import javax.inject.Inject
 class CheckIfAnotherUserUsesThatNameUseCase
     @Inject
     constructor(
-        private val simpleHiitRepository: SimpleHiitRepository,
+        private val usersRepository: UsersRepository,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
         private val simpleHiitLogger: HiitLogger,
     ) {
         suspend fun execute(user: User): Output<Boolean> =
             withContext(defaultDispatcher) {
-                val existingUsers = simpleHiitRepository.getUsersList()
+                val existingUsers = usersRepository.getUsersList()
                 when (existingUsers) {
                     is Output.Success -> {
                         if (existingUsers.result.find { it.name == user.name && it.id != user.id } != null) {

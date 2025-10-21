@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -14,21 +14,21 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ResetAllSettingsUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSettingsRepository = mockk<SettingsRepository>()
 
     @Test
     fun `calls resetAllSettings repo`() =
         runTest {
             val testedUseCase =
                 ResetAllSettingsUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
-            coEvery { mockSimpleHiitRepository.resetAllSettings() } just Runs
+            coEvery { mockSettingsRepository.resetAllSettings() } just Runs
             //
             testedUseCase.execute()
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.resetAllSettings() }
+            coVerify(exactly = 1) { mockSettingsRepository.resetAllSettings() }
         }
 }

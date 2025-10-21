@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.domain.common.usecases
 
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -14,23 +15,25 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class ResetWholeAppUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSettingsRepository = mockk<SettingsRepository>()
+    private val mockUsersRepository = mockk<UsersRepository>()
 
     @Test
     fun `calls resetAllSettings repo`() =
         runTest {
             val testedUseCase =
                 ResetWholeAppUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    settingsRepository = mockSettingsRepository,
+                    usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
-            coEvery { mockSimpleHiitRepository.resetAllSettings() } just Runs
-            coEvery { mockSimpleHiitRepository.deleteAllUsers() } just Runs
+            coEvery { mockSettingsRepository.resetAllSettings() } just Runs
+            coEvery { mockUsersRepository.deleteAllUsers() } just Runs
             //
             testedUseCase.execute()
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.resetAllSettings() }
-            coVerify(exactly = 1) { mockSimpleHiitRepository.deleteAllUsers() }
+            coVerify(exactly = 1) { mockSettingsRepository.resetAllSettings() }
+            coVerify(exactly = 1) { mockUsersRepository.deleteAllUsers() }
         }
 }

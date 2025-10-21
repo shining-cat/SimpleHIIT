@@ -19,7 +19,6 @@
 
 ## General technical improvements
 
-* split repository
 * do the instrumented tests for the data module still make sense or should we simply inject the framework objects and mock them for testing ours?
 * add tests on viewmodels
 * screenshot tests if they can run on github for free

@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.session.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -16,14 +16,14 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class InsertSessionUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSessionsRepository = mockk<SessionsRepository>()
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() =
         runTest {
             val testedUseCase =
                 InsertSessionUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    sessionsRepository = mockSessionsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
@@ -35,11 +35,11 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
                     usersIds = listOf(1234L, 2345L),
                 )
             val successFromRepo = Output.Success(2)
-            coEvery { mockSimpleHiitRepository.insertSessionRecord(any()) } answers { successFromRepo }
+            coEvery { mockSessionsRepository.insertSessionRecord(any()) } answers { successFromRepo }
             //
             val result = testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.insertSessionRecord(testValue) }
+            coVerify(exactly = 1) { mockSessionsRepository.insertSessionRecord(testValue) }
             assertEquals(successFromRepo, result)
         }
 
@@ -48,7 +48,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 InsertSessionUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    sessionsRepository = mockSessionsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
@@ -62,11 +62,11 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
                 Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-            coEvery { mockSimpleHiitRepository.insertSessionRecord(any()) } answers { errorFromRepo }
+            coEvery { mockSessionsRepository.insertSessionRecord(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.insertSessionRecord(testValue) }
+            coVerify(exactly = 1) { mockSessionsRepository.insertSessionRecord(testValue) }
             assertEquals(errorFromRepo, result)
         }
 }

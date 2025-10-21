@@ -1,11 +1,8 @@
 package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
-import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
-import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
-import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
@@ -32,12 +29,9 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
-    private val mockUsersDao = mockk<UsersDao>()
+internal class SessionsRepositoryImplInsertSessionTest : AbstractMockkTest() {
     private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
-    private val mockUserMapper = mockk<UserMapper>()
     private val mockSessionMapper = mockk<SessionMapper>()
-    private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
 // ////////////
 //   INSERT SESSION
@@ -63,13 +57,10 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     @Test
     fun `insert session returns error when users list is empty`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
-                    usersDao = mockUsersDao,
+            val sessionsRepository =
+                SessionsRepositoryImpl(
                     sessionRecordsDao = mockSessionRecordsDao,
-                    userMapper = mockUserMapper,
                     sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                 )
@@ -81,7 +72,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
                     usersIds = emptyList(),
                 )
             //
-            val actual = simpleHiitRepository.insertSessionRecord(sessionRecord)
+            val actual = sessionsRepository.insertSessionRecord(sessionRecord)
             //
             coVerify(exactly = 1) {
                 mockHiitLogger.e(
@@ -99,13 +90,10 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     @Test
     fun `insert session throws CancellationException when job is cancelled`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
-                    usersDao = mockUsersDao,
+            val sessionsRepository =
+                SessionsRepositoryImpl(
                     sessionRecordsDao = mockSessionRecordsDao,
-                    userMapper = mockUserMapper,
                     sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                 )
@@ -129,7 +117,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
             val job = Job()
             launch(job) {
                 assertThrows<CancellationException> {
-                    simpleHiitRepository.insertSessionRecord(testSessionRecord)
+                    sessionsRepository.insertSessionRecord(testSessionRecord)
                 }
             }
             delay(50L)
@@ -145,13 +133,10 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     @Test
     fun `insert session catches rogue CancellationException`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
-                    usersDao = mockUsersDao,
+            val sessionsRepository =
+                SessionsRepositoryImpl(
                     sessionRecordsDao = mockSessionRecordsDao,
-                    userMapper = mockUserMapper,
                     sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                 )
@@ -164,7 +149,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
             val thrownException = CancellationException()
             coEvery { mockSessionRecordsDao.insert(any()) } throws thrownException
             //
-            val actual = simpleHiitRepository.insertSessionRecord(testSessionRecord)
+            val actual = sessionsRepository.insertSessionRecord(testSessionRecord)
             //
             coVerify(exactly = 1) { mockSessionMapper.convert(testSessionRecord) }
             coVerify(exactly = 1) { mockSessionRecordsDao.insert(listOf(testSessionEntity)) }
@@ -180,13 +165,10 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
     @Test
     fun `insert user session error when dao insert throws exception`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
-                    usersDao = mockUsersDao,
+            val sessionsRepository =
+                SessionsRepositoryImpl(
                     sessionRecordsDao = mockSessionRecordsDao,
-                    userMapper = mockUserMapper,
                     sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                 )
@@ -199,7 +181,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
             val thrownException = Exception("this is a test exception")
             coEvery { mockSessionRecordsDao.insert(any()) } throws thrownException
             //
-            val actual = simpleHiitRepository.insertSessionRecord(testSessionRecord)
+            val actual = sessionsRepository.insertSessionRecord(testSessionRecord)
             //
             coVerify(exactly = 1) { mockSessionMapper.convert(testSessionRecord) }
             coVerify(exactly = 1) { mockSessionRecordsDao.insert(listOf(testSessionEntity)) }
@@ -225,13 +207,10 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         converterOutput: List<SessionEntity>,
         daoAnswer: List<Long>,
     ) = runTest {
-        val simpleHiitRepository =
-            SimpleHiitRepositoryImpl(
-                usersDao = mockUsersDao,
+        val sessionsRepository =
+            SessionsRepositoryImpl(
                 sessionRecordsDao = mockSessionRecordsDao,
-                userMapper = mockUserMapper,
                 sessionMapper = mockSessionMapper,
-                hiitDataStoreManager = mockSimpleHiitDataStoreManager,
                 hiitLogger = mockHiitLogger,
                 ioDispatcher = UnconfinedTestDispatcher(testScheduler),
             )
@@ -239,7 +218,7 @@ internal class SimpleHiitRepositoryImplInsertSessionTest : AbstractMockkTest() {
         coEvery { mockSessionMapper.convert(any<SessionRecord>()) } answers { converterOutput }
         coEvery { mockSessionRecordsDao.insert(any()) } answers { daoAnswer }
         //
-        val actual = simpleHiitRepository.insertSessionRecord(inputSessionRecord)
+        val actual = sessionsRepository.insertSessionRecord(inputSessionRecord)
         //
         coVerify(exactly = 1) { mockSessionMapper.convert(inputSessionRecord) }
         val entityListSlot = slot<List<SessionEntity>>()

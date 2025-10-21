@@ -1,10 +1,7 @@
 package fr.shiningcat.simplehiit.data.repositories
 
-import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
-import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
-import fr.shiningcat.simplehiit.data.mappers.SessionMapper
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
@@ -31,12 +28,9 @@ import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() {
+internal class UsersRepositoryImplGetUsersAsListTest : AbstractMockkTest() {
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
-    private val mockSessionMapper = mockk<SessionMapper>()
-    private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
 // ////////////
 //   GET USERS
@@ -45,22 +39,19 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
     @MethodSource("getUsersArguments")
     fun `get users as list returns success when dao get users succeeds`(daoOutput: List<UserEntity>) =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             coEvery { mockUsersDao.getUsersList() } returns daoOutput
             val mappedUser = User(name = "user name test")
             coEvery { mockUserMapper.convert(any<UserEntity>()) } returns mappedUser
             //
-            val output = simpleHiitRepository.getUsersList()
+            val output = usersRepository.getUsersList()
             //
             assertTrue(output is Output.Success)
             output as Output.Success
@@ -73,21 +64,18 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
     @Test
     fun `get users as list returns error when dao get users throws exception`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             val thrownException = Exception("this is a test exception")
             coEvery { mockUsersDao.getUsersList() } throws thrownException
             //
-            val output = simpleHiitRepository.getUsersList()
+            val output = usersRepository.getUsersList()
             //
             coVerify(exactly = 1) { mockUsersDao.getUsersList() }
             coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
@@ -107,15 +95,12 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
     @Test
     fun `get users as list throws CancellationException when job is cancelled`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             val mappedUser = User(name = "user name test")
@@ -131,7 +116,7 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
             val job = Job()
             launch(job) {
                 assertThrows<CancellationException> {
-                    simpleHiitRepository.getUsersList()
+                    usersRepository.getUsersList()
                 }
             }
             delay(50L)
@@ -146,21 +131,18 @@ internal class SimpleHiitRepositoryImplGetUsersAsListTest : AbstractMockkTest() 
     @Test
     fun `get users as list catches rogue CancellationException`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             val thrownException = CancellationException()
             coEvery { mockUsersDao.getUsersList() } throws thrownException
             //
-            val actual = simpleHiitRepository.getUsersList()
+            val actual = usersRepository.getUsersList()
             //
             coVerify(exactly = 1) { mockUsersDao.getUsersList() }
             coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }

@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -21,25 +21,25 @@ import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockUsersRepository = mockk<UsersRepository>()
 
     @Test
     fun `calls repo and return error if repo returns error`() =
         runTest {
             val testedUseCase =
                 CheckIfAnotherUserUsesThatNameUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
             val testUser = User(name = "this is a test name")
             val testException1 = Exception("this is a test exception 1")
             val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException1)
-            coEvery { mockSimpleHiitRepository.getUsersList() } answers { usersError }
+            coEvery { mockUsersRepository.getUsersList() } answers { usersError }
             //
             val output = testedUseCase.execute(testUser)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.getUsersList() }
+            coVerify(exactly = 1) { mockUsersRepository.getUsersList() }
             assertEquals(usersError, output)
         }
 
@@ -52,15 +52,15 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase =
             CheckIfAnotherUserUsesThatNameUseCase(
-                simpleHiitRepository = mockSimpleHiitRepository,
+                usersRepository = mockUsersRepository,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                 simpleHiitLogger = mockHiitLogger,
             )
-        coEvery { mockSimpleHiitRepository.getUsersList() } answers { Output.Success(usersList) }
+        coEvery { mockUsersRepository.getUsersList() } answers { Output.Success(usersList) }
         //
         val output = testedUseCase.execute(input)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.getUsersList() }
+        coVerify(exactly = 1) { mockUsersRepository.getUsersList() }
         assertTrue(output is Output.Success)
         output as Output.Success
         assertEquals(expectedResult, output.result)

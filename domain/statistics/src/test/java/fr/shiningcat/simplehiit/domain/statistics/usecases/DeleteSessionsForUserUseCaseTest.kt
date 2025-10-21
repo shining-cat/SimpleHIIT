@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.statistics.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,7 +17,7 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSessionsRepository = mockk<SessionsRepository>()
 
     @ParameterizedTest(name = "{index} -> when repo returns {0} should return success with {0}")
     @ValueSource(ints = [0, 1, 5, 9, 23, 64])
@@ -25,17 +25,17 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 DeleteSessionsForUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    sessionsRepository = mockSessionsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
             val testValue = 123L
             val successFromRepo = Output.Success(1)
-            coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers { successFromRepo }
+            coEvery { mockSessionsRepository.deleteSessionRecordsForUser(any()) } answers { successFromRepo }
             //
             val result = testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionRecordsForUser(testValue) }
+            coVerify(exactly = 1) { mockSessionsRepository.deleteSessionRecordsForUser(testValue) }
             assertEquals(successFromRepo, result)
         }
 
@@ -44,7 +44,7 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 DeleteSessionsForUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    sessionsRepository = mockSessionsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
@@ -52,11 +52,11 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
                 Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-            coEvery { mockSimpleHiitRepository.deleteSessionRecordsForUser(any()) } answers { errorFromRepo }
+            coEvery { mockSessionsRepository.deleteSessionRecordsForUser(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.deleteSessionRecordsForUser(testValue) }
+            coVerify(exactly = 1) { mockSessionsRepository.deleteSessionRecordsForUser(testValue) }
             assertEquals(errorFromRepo, result)
         }
 }

@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
@@ -19,7 +19,7 @@ import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSettingsRepository = mockk<SettingsRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @MethodSource("selectedExerciseTypesArguments")
@@ -29,15 +29,15 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
     ) = runTest {
         val testedUseCase =
             SaveSelectedExerciseTypesUseCase(
-                simpleHiitRepository = mockSimpleHiitRepository,
+                settingsRepository = mockSettingsRepository,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                 simpleHiitLogger = mockHiitLogger,
             )
-        coEvery { mockSimpleHiitRepository.setExercisesTypesSelected(any()) } just Runs
+        coEvery { mockSettingsRepository.setExercisesTypesSelected(any()) } just Runs
         //
         testedUseCase.execute(testValue)
         //
-        coVerify(exactly = 1) { mockSimpleHiitRepository.setExercisesTypesSelected(expectedOutput) }
+        coVerify(exactly = 1) { mockSettingsRepository.setExercisesTypesSelected(expectedOutput) }
     }
 
     // //////////////////////

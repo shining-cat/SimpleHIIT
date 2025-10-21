@@ -3,7 +3,8 @@ package fr.shiningcat.simplehiit.domain.home.usecases
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import kotlinx.coroutines.flow.Flow
@@ -13,14 +14,15 @@ import javax.inject.Inject
 class GetHomeSettingsUseCase
     @Inject
     constructor(
-        private val simpleHiitRepository: SimpleHiitRepository,
+        private val usersRepository: UsersRepository,
+        private val settingsRepository: SettingsRepository,
         private val detectSessionWarningUseCase: DetectSessionWarningUseCase,
         private val simpleHiitLogger: HiitLogger,
     ) {
         fun execute(): Flow<Output<HomeSettings>> {
             var firstTogglingAttempt = true
-            val usersFlow = simpleHiitRepository.getUsers()
-            val settingsFlow = simpleHiitRepository.getPreferences()
+            val usersFlow = usersRepository.getUsers()
+            val settingsFlow = settingsRepository.getPreferences()
             return usersFlow.combineTransform(settingsFlow) { usersOutput, settings ->
                 when (usersOutput) {
                     is Output.Error -> {
@@ -44,7 +46,7 @@ class GetHomeSettingsUseCase
                                 val toggleUniqueUserToSelected =
                                     usersOutput.result[0].copy(selected = true)
                                 val togglingUser =
-                                    simpleHiitRepository.updateUser(toggleUniqueUserToSelected)
+                                    usersRepository.updateUser(toggleUniqueUserToSelected)
                                 when (togglingUser) {
                                     is Output.Error -> {
                                         simpleHiitLogger.e(

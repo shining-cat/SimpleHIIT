@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class CreateUserUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockUsersRepository = mockk<UsersRepository>()
     private val mockCheckIfAnotherUserUsesThatNameUseCase =
         mockk<CheckIfAnotherUserUsesThatNameUseCase>()
 
@@ -26,21 +26,21 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 CreateUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val successFromRepo = Output.Success(1L)
-            coEvery { mockSimpleHiitRepository.insertUser(any()) } answers { successFromRepo }
+            coEvery { mockUsersRepository.insertUser(any()) } answers { successFromRepo }
             val successFromNameCheck = Output.Success(false)
             coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { successFromNameCheck }
             //
             val result = testedUseCase.execute(testValue)
             //
             coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
-            coVerify(exactly = 1) { mockSimpleHiitRepository.insertUser(testValue) }
+            coVerify(exactly = 1) { mockUsersRepository.insertUser(testValue) }
             assertEquals(successFromRepo, result)
         }
 
@@ -49,7 +49,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 CreateUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
@@ -63,7 +63,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val result = testedUseCase.execute(testValue)
             //
             coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
-            coVerify(exactly = 0) { mockSimpleHiitRepository.insertUser(testValue) }
+            coVerify(exactly = 0) { mockUsersRepository.insertUser(testValue) }
             assertEquals(errorFromRepo, result)
         }
 
@@ -72,7 +72,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 CreateUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
@@ -84,7 +84,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val result = testedUseCase.execute(testValue)
             //
             coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
-            coVerify(exactly = 0) { mockSimpleHiitRepository.insertUser(testValue) }
+            coVerify(exactly = 0) { mockUsersRepository.insertUser(testValue) }
             val expectedErrorCode = Constants.Errors.USER_NAME_TAKEN
             val expectedExceptionCode = Constants.Errors.USER_NAME_TAKEN.code
             assertTrue(result is Output.Error)
@@ -98,7 +98,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 CreateUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     checkIfAnotherUserUsesThatNameUseCase = mockCheckIfAnotherUserUsesThatNameUseCase,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
@@ -107,14 +107,14 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
                 Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-            coEvery { mockSimpleHiitRepository.insertUser(any()) } answers { errorFromRepo }
+            coEvery { mockUsersRepository.insertUser(any()) } answers { errorFromRepo }
             val successFromNameCheck = Output.Success(false)
             coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { successFromNameCheck }
             //
             val result = testedUseCase.execute(testValue)
             //
             coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
-            coVerify(exactly = 1) { mockSimpleHiitRepository.insertUser(testValue) }
+            coVerify(exactly = 1) { mockUsersRepository.insertUser(testValue) }
             assertEquals(errorFromRepo, result)
         }
 }
