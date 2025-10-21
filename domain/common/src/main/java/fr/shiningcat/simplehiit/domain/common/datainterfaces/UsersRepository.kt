@@ -1,0 +1,23 @@
+package fr.shiningcat.simplehiit.domain.common.datainterfaces
+
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.User
+import kotlinx.coroutines.flow.Flow
+
+@ExcludeFromJacocoGeneratedReport
+interface UsersRepository {
+    suspend fun insertUser(user: User): Output<Long>
+
+    fun getUsers(): Flow<Output<List<User>>>
+
+    suspend fun getUsersList(): Output<List<User>>
+
+    fun getSelectedUsers(): Flow<Output<List<User>>>
+
+    suspend fun updateUser(user: User): Output<Int>
+
+    suspend fun deleteUser(user: User): Output<Int>
+
+    suspend fun deleteAllUsers()
+}

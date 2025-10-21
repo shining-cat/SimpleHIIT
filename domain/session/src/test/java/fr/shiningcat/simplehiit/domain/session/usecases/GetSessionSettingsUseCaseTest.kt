@@ -2,7 +2,8 @@ package fr.shiningcat.simplehiit.domain.session.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
@@ -23,10 +24,12 @@ import kotlin.random.Random
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockUsersRepository = mockk<UsersRepository>()
+    private val mockSettingsRepository = mockk<SettingsRepository>()
     private val testedUseCase =
         GetSessionSettingsUseCase(
-            mockSimpleHiitRepository,
+            mockUsersRepository,
+            mockSettingsRepository,
             mockHiitLogger,
         )
 
@@ -57,7 +60,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                     numberCumulatedCycles = 3,
                 )
             val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
-            coEvery { mockSimpleHiitRepository.getPreferences() } answers { settingsFlow }
+            coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
             //
             val user1 = User(id = 123L, name = "user 1 name", selected = true)
             val user2 = User(id = 234L, name = "user 2 name", selected = true)
@@ -66,7 +69,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
             val usersList1 = Output.Success(listOf(user1, user3))
             val usersList2 = Output.Success(listOf(user1, user2, user4))
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
-            coEvery { mockSimpleHiitRepository.getSelectedUsers() } answers { usersFlow }
+            coEvery { mockUsersRepository.getSelectedUsers() } answers { usersFlow }
             //
             val generalSettingsFlowAsList = mutableListOf<Output<SessionSettings>>()
             val collectJob =
@@ -165,12 +168,12 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                     numberCumulatedCycles = 5,
                 )
             val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
-            coEvery { mockSimpleHiitRepository.getPreferences() } answers { settingsFlow }
+            coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
             //
             val testException = Exception("this is a test exception")
             val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException)
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
-            coEvery { mockSimpleHiitRepository.getSelectedUsers() } answers { usersFlow }
+            coEvery { mockUsersRepository.getSelectedUsers() } answers { usersFlow }
             //
             val generalSettingsFlowAsList = mutableListOf<Output<SessionSettings>>()
             val collectJob =

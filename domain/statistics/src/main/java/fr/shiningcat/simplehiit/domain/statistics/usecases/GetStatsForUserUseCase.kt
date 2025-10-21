@@ -3,7 +3,7 @@ package fr.shiningcat.simplehiit.domain.statistics.usecases
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class GetStatsForUserUseCase
     @Inject
     constructor(
-        private val simpleHiitRepository: SimpleHiitRepository,
+        private val sessionsRepository: SessionsRepository,
         private val calculateCurrentStreakUseCase: CalculateCurrentStreakUseCase,
         private val calculateLongestStreakUseCase: CalculateLongestStreakUseCase,
         private val calculateAverageSessionsPerWeekUseCase: CalculateAverageSessionsPerWeekUseCase,
@@ -26,7 +26,7 @@ class GetStatsForUserUseCase
             now: Long,
         ): Output<UserStatistics> =
             withContext(defaultDispatcher) {
-                val sessionsForUserOutput = simpleHiitRepository.getSessionRecordsForUser(user)
+                val sessionsForUserOutput = sessionsRepository.getSessionRecordsForUser(user)
                 when (sessionsForUserOutput) {
                     is Output.Error -> {
                         simpleHiitLogger.e(

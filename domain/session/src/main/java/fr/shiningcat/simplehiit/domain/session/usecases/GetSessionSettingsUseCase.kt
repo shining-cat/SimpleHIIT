@@ -3,7 +3,8 @@ package fr.shiningcat.simplehiit.domain.session.usecases
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
@@ -12,12 +13,13 @@ import javax.inject.Inject
 class GetSessionSettingsUseCase
     @Inject
     constructor(
-        private val simpleHiitRepository: SimpleHiitRepository,
+        private val usersRepository: UsersRepository,
+        private val settingsRepository: SettingsRepository,
         private val simpleHiitLogger: HiitLogger,
     ) {
         fun execute(): Flow<Output<SessionSettings>> {
-            val usersFlow = simpleHiitRepository.getSelectedUsers()
-            val settingsFlow = simpleHiitRepository.getPreferences()
+            val usersFlow = usersRepository.getSelectedUsers()
+            val settingsFlow = settingsRepository.getPreferences()
             return usersFlow.combineTransform(settingsFlow) { usersOutput, settings ->
                 if (usersOutput is Output.Error) {
                     val exception = usersOutput.exception

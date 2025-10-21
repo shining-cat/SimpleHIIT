@@ -2,7 +2,7 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -16,24 +16,24 @@ import org.junit.jupiter.api.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class DeleteUserUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockUsersRepository = mockk<UsersRepository>()
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() =
         runTest {
             val testedUseCase =
                 DeleteUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
             val testValue = User(name = "test user name", selected = true)
             val successFromRepo = Output.Success(1)
-            coEvery { mockSimpleHiitRepository.deleteUser(any()) } answers { successFromRepo }
+            coEvery { mockUsersRepository.deleteUser(any()) } answers { successFromRepo }
             //
             val result = testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.deleteUser(testValue) }
+            coVerify(exactly = 1) { mockUsersRepository.deleteUser(testValue) }
             assertEquals(successFromRepo, result)
         }
 
@@ -42,7 +42,7 @@ internal class DeleteUserUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 DeleteUserUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
@@ -50,11 +50,11 @@ internal class DeleteUserUseCaseTest : AbstractMockkTest() {
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
                 Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
-            coEvery { mockSimpleHiitRepository.deleteUser(any()) } answers { errorFromRepo }
+            coEvery { mockUsersRepository.deleteUser(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.deleteUser(testValue) }
+            coVerify(exactly = 1) { mockUsersRepository.deleteUser(testValue) }
             assertEquals(errorFromRepo, result)
         }
 }

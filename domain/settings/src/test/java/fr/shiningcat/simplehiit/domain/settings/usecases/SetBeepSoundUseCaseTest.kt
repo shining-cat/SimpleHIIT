@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SetBeepSoundUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSettingsRepository = mockk<SettingsRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(booleans = [true, false])
@@ -23,14 +23,14 @@ internal class SetBeepSoundUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 SetBeepSoundUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
-            coEvery { mockSimpleHiitRepository.setBeepSound(any()) } just Runs
+            coEvery { mockSettingsRepository.setBeepSound(any()) } just Runs
             //
             testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.setBeepSound(testValue) }
+            coVerify(exactly = 1) { mockSettingsRepository.setBeepSound(testValue) }
         }
 }

@@ -3,7 +3,8 @@ package fr.shiningcat.simplehiit.domain.settings.usecases
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -12,13 +13,14 @@ import javax.inject.Inject
 class GetGeneralSettingsUseCase
     @Inject
     constructor(
-        private val simpleHiitRepository: SimpleHiitRepository,
+        private val usersRepository: UsersRepository,
+        private val settingsRepository: SettingsRepository,
         private val getCurrentAppLanguageUseCase: GetCurrentAppLanguageUseCase,
         private val simpleHiitLogger: HiitLogger,
     ) {
         fun execute(): Flow<Output<GeneralSettings>> {
-            val usersFlow = simpleHiitRepository.getUsers()
-            val settingsFlow = simpleHiitRepository.getPreferences()
+            val usersFlow = usersRepository.getUsers()
+            val settingsFlow = settingsRepository.getPreferences()
             val languageFlow = getCurrentAppLanguageUseCase.execute()
             return combine(usersFlow, settingsFlow, languageFlow) { usersOutput, settings, currentLanguage ->
                 if (usersOutput is Output.Error) {

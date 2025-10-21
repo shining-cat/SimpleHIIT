@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.datainterfaces.SimpleHiitRepository
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class SetPeriodStartCountDownUseCaseTest : AbstractMockkTest() {
-    private val mockSimpleHiitRepository = mockk<SimpleHiitRepository>()
+    private val mockSettingsRepository = mockk<SettingsRepository>()
 
     @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
     @ValueSource(longs = [5000L, 7000L, 15000L])
@@ -23,14 +23,14 @@ internal class SetPeriodStartCountDownUseCaseTest : AbstractMockkTest() {
         runTest {
             val testedUseCase =
                 SetPeriodStartCountDownUseCase(
-                    simpleHiitRepository = mockSimpleHiitRepository,
+                    settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     simpleHiitLogger = mockHiitLogger,
                 )
-            coEvery { mockSimpleHiitRepository.setPeriodStartCountdown(any()) } just Runs
+            coEvery { mockSettingsRepository.setPeriodStartCountdown(any()) } just Runs
             //
             testedUseCase.execute(testValue)
             //
-            coVerify(exactly = 1) { mockSimpleHiitRepository.setPeriodStartCountdown(testValue) }
+            coVerify(exactly = 1) { mockSettingsRepository.setPeriodStartCountdown(testValue) }
         }
 }

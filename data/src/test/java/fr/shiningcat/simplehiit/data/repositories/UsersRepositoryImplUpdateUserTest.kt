@@ -1,10 +1,7 @@
 package fr.shiningcat.simplehiit.data.repositories
 
-import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
-import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
-import fr.shiningcat.simplehiit.data.mappers.SessionMapper
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
@@ -22,16 +19,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
+import java.util.stream.Stream
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
+internal class UsersRepositoryImplUpdateUserTest : AbstractMockkTest() {
     private val mockUsersDao = mockk<UsersDao>()
-    private val mockSessionRecordsDao = mockk<SessionRecordsDao>()
     private val mockUserMapper = mockk<UserMapper>()
-    private val mockSessionMapper = mockk<SessionMapper>()
-    private val mockSimpleHiitDataStoreManager = mockk<SimpleHiitDataStoreManager>()
 
     private val testUserId = 123L
     private val testUserName = "test user name"
@@ -42,57 +41,50 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
         UserEntity(userId = testUserId, name = testUserName, selected = testIsSelected)
 
     // ////////////
-//   INSERT USER
+//   UPDATE USER
     @Test
-    fun `insert user returns success when dao insert succeeds`() =
+    fun `update user returns success output when dao returns 1`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
-            coEvery { mockUsersDao.insert(any()) } answers { testUserId }
+            coEvery { mockUsersDao.update(any()) } returns 1
             //
-            val actual = simpleHiitRepository.insertUser(testUserModel)
+            val actual = usersRepository.updateUser(testUserModel)
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
-            coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
-            val expectedOutput = Output.Success(result = testUserId)
-            assertEquals(expectedOutput, actual)
+            coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
+            assertEquals(Output.Success(1), actual)
         }
 
     @Test
-    fun `insert user throws CancellationException when job is cancelled`() =
+    fun `update user throws CancellationException when job is cancelled`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
-            coEvery { mockUsersDao.insert(any()) } coAnswers {
+            coEvery { mockUsersDao.update(any()) } coAnswers {
                 println("inserting delay in DAO call to allow for job cancellation before result is returned")
                 delay(100L)
-                testUserId
+                1
             }
             //
             val job = Job()
             launch(job) {
                 assertThrows<CancellationException> {
-                    simpleHiitRepository.insertUser(testUserModel)
+                    usersRepository.updateUser(testUserModel)
                 }
             }
             delay(50L)
@@ -100,81 +92,125 @@ internal class SimpleHiitRepositoryImplInsertUserTest : AbstractMockkTest() {
             job.cancelAndJoin()
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
-            coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
+            coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
             coVerify(exactly = 0) { mockHiitLogger.e(any(), any(), any()) }
         }
 
+    @ParameterizedTest(name = "{index} -> when DAO update user returns {0} should return error")
+    @MethodSource("updateUserArguments")
+    fun `update user returns correct output`(
+        daoAnswer: Int,
+        expectedOutput: Output.Error,
+    ) = runTest {
+        val usersRepository =
+            UsersRepositoryImpl(
+                usersDao = mockUsersDao,
+                userMapper = mockUserMapper,
+                ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                hiitLogger = mockHiitLogger,
+            )
+        //
+        coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
+        coEvery { mockUsersDao.update(any()) } answers { daoAnswer }
+        //
+        val actual = usersRepository.updateUser(testUserModel)
+        //
+        coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
+        coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
+        coVerify(exactly = 1) { mockHiitLogger.e(any(), "failed updating user") }
+        assertTrue(actual is Output.Error)
+        actual as Output.Error
+        assertEquals(expectedOutput.errorCode, actual.errorCode)
+        assertEquals(expectedOutput.exception.message, actual.exception.message)
+    }
+
     @Test
-    fun `insert user returns error when dao insert throws exception`() =
+    fun `update user returns error when dao update users throws exception`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
             val thrownException = Exception("this is a test exception")
-            coEvery { mockUsersDao.insert(any()) } throws thrownException
+            coEvery { mockUsersDao.update(any()) } throws thrownException
             //
-            val actual = simpleHiitRepository.insertUser(testUserModel)
+            val actual = usersRepository.updateUser(testUserModel)
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
-            coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
+            coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
             coVerify(exactly = 1) {
                 mockHiitLogger.e(
                     any(),
-                    "failed inserting user",
+                    "failed updating user",
                     thrownException,
                 )
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
         }
 
     @Test
-    fun `insert user catches rogue CancellationException`() =
+    fun `update rethrows catches rogue CancellationException`() =
         runTest {
-            val simpleHiitRepository =
-                SimpleHiitRepositoryImpl(
+            val usersRepository =
+                UsersRepositoryImpl(
                     usersDao = mockUsersDao,
-                    sessionRecordsDao = mockSessionRecordsDao,
                     userMapper = mockUserMapper,
-                    sessionMapper = mockSessionMapper,
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
-                    hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
                 )
             //
             coEvery { mockUserMapper.convert(any<User>()) } answers { testUserEntity }
             val thrownException = CancellationException()
-            coEvery { mockUsersDao.insert(any()) } throws thrownException
+            coEvery { mockUsersDao.update(any()) } throws thrownException
             //
-            val actual = simpleHiitRepository.insertUser(testUserModel)
+            val actual = usersRepository.updateUser(testUserModel)
             //
             coVerify(exactly = 1) { mockUserMapper.convert(testUserModel) }
-            coVerify(exactly = 1) { mockUsersDao.insert(testUserEntity) }
+            coVerify(exactly = 1) { mockUsersDao.update(testUserEntity) }
             coVerify(exactly = 1) {
                 mockHiitLogger.e(
                     any(),
-                    "failed inserting user",
+                    "failed updating user",
                     thrownException,
                 )
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
         }
+
+    // //////////////////////
+    private companion object {
+        @JvmStatic
+        fun updateUserArguments() =
+            Stream.of(
+                Arguments.of(
+                    0,
+                    Output.Error(
+                        errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                        exception = Exception("failed updating user"),
+                    ),
+                ),
+                Arguments.of(
+                    7,
+                    Output.Error(
+                        errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                        exception = Exception("failed updating user"),
+                    ),
+                ),
+            )
+    }
 }
