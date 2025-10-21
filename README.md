@@ -17,13 +17,13 @@ This is a simple HIIT Android App for Android TV and mobile devices.
 
 ## Caracteristics:
 
-* "Clean architecture"
-* ~~single-module~~ multi-module app (see transition telling below)
+* MVVM - Clean architecture
+* multi-module
 * Dagger-hilt for DI
 * pure kotlin
 * coroutines and flows / stateflows
 * Jacoco for test coverage report generation
-* Compose for UI
+* Full-Compose for UI
 * handle device form-factor variation (TV / mobile) in the same project
 
 ## This is a WIP: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/TODO.md)
@@ -111,8 +111,8 @@ Current state of the inter-modules relations, generated
 with [Savvas Dalkitsis' plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
 ![](project_dependencies_graph.png)
 Note: this graph only shows "normal" dependencies between modules, not "test" or "
-testImplementation" ones. Since it stills shows the testUtils and dataInstrumentedTests modules,
-this allows us to check that no module has any "normal" dependency on those two.
+testImplementation" ones. Since it stills shows the testUtils module,
+this allows us to check that no module has any "normal" dependency on it.
 
 ### Process
 
@@ -130,16 +130,6 @@ The _**data**_ layer has been extracted as a single module, although it might be
 This is less certain though, as we only have little data management, and only two sources for it:
 Room and DataStore. The databases for users and sessions are joined, so splitting them appart to
 follow the features' separation would mean losing the benefit of this joint.<br/>
-**Note on Instrumented tests for the data layer**: while extracting the data layer from the app
-module, I lost the ability to run the instrumented tests. For some reason I wasn't able to
-understand, I never managed to get them working, when they still worked fine if placed back in the
-app module.
-I always had build failures claiming I was missing a dependency on coroutines.test, which I had
-added.
-This led me to an workaround, as I didn't want to keep those tests in the app module, inspired
-by [this article about dedicating modules to tests](https://proandroiddev.com/effective-testing-with-android-test-only-modules-3164ed9b20a0)
-and [this short mention in the Google's doc](https://developer.android.com/studio/test/advanced-test-setup#use-separate-test-modules-for-instrumented-tests).
-This is the origin story of the test-module _dataInstrumentedTests_. <br/>
 
 ## Credits
 
@@ -194,4 +184,3 @@ Mazzola: https://github.com/gmazzo/gradle-android-test-aggregation-plugin
 see below testAggregation block for included modules declaration
 launch with: jacocoAggregatedReport (for coverage) and testAggregateReport (for results) in
 SimpleHIIT>Tasks>verification
-

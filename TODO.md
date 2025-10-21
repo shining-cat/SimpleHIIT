@@ -19,7 +19,6 @@
 
 ## General technical improvements
 
-* do the instrumented tests for the data module still make sense or should we simply inject the framework objects and mock them for testing ours?
 * add tests on viewmodels
 * screenshot tests if they can run on github for free
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
@@ -60,7 +59,7 @@
   exercise, as a timer only. Show a message instead of the missing gifs.
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.
-* translate to FR and SV. Maybe add language selection in settings to be able to demo it?
+* refine fr and swedish translations
 * create an onboarding feature, including the user creation then selection and the multiple cycles
   mechanics
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this
