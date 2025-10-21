@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.app.locale
 
+import android.annotation.SuppressLint
 import android.app.LocaleManager
 import android.content.Context
 import android.os.Build
@@ -7,6 +8,7 @@ import android.os.LocaleList
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
+import fr.shiningcat.simplehiit.commonutils.AndroidVersionProvider
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import javax.inject.Inject
@@ -17,15 +19,17 @@ import fr.shiningcat.simplehiit.data.local.localemanager.LocaleManager as DataLo
  * Handles platform-specific locale APIs with proper fallbacks.
  * Uses system LocaleManager on Android 13+, AppCompatDelegate on older versions.
  */
+@SuppressLint("NewApi")
 class LocaleManagerImpl
     @Inject
     constructor(
         @ApplicationContext private val context: Context,
+        private val androidVersionProvider: AndroidVersionProvider,
         private val hiitLogger: HiitLogger,
     ) : DataLocaleManager {
         override fun setAppLanguage(language: AppLanguage): Boolean =
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (androidVersionProvider.getSdkVersion() >= Build.VERSION_CODES.TIRAMISU) {
                     // Android 13+ (API 33+): Use system LocaleManager
                     val localeManager = context.getSystemService(LocaleManager::class.java)
                     val localeList =
@@ -57,7 +61,7 @@ class LocaleManagerImpl
         override fun getCurrentLanguage(): AppLanguage =
             try {
                 val result =
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (androidVersionProvider.getSdkVersion() >= Build.VERSION_CODES.TIRAMISU) {
                         // Android 13+ (API 33+): Use system LocaleManager
                         val localeManager = context.getSystemService(LocaleManager::class.java)
                         val currentLocales = localeManager.applicationLocales
