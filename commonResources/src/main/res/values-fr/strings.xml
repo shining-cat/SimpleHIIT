@@ -137,5 +137,6 @@
     <string name="exercise_type_crab">Crabe</string>
     <string name="exercise_type_lunge">Fente</string>
     <string name="exercise_type_lying">Allongé</string>
+    <string name="language_dialog_pick_title">Choisissez une langue</string>
 
 </resources>

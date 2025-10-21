@@ -19,6 +19,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleHIIT.Mobile"
         tools:targetApi="31">
+        <service
+            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+            android:enabled="false"
+            android:exported="false">
+            <meta-data
+                android:name="autoStoreLocales"
+                android:value="true" />
+        </service>
         <activity
             android:name="fr.shiningcat.simplehiit.android.mobile.app.MainActivity"
             android:exported="true"

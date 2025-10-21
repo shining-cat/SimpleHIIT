@@ -137,5 +137,6 @@
     <string name="exercise_type_crab">Krabba</string>
     <string name="exercise_type_lunge">Utfall</string>
     <string name="exercise_type_lying">Liggande</string>
+    <string name="language_dialog_pick_title">Välj språket</string>
 
 </resources>

@@ -2,6 +2,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.settings
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
@@ -96,6 +97,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                                     testExerciseTypeSelected1,
                                     testExerciseTypeSelected4,
                                 ),
+                            currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                         ),
                     ),
                     SettingsViewState.Nominal(
@@ -112,6 +114,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                                 testExerciseTypeSelected1,
                                 testExerciseTypeSelected4,
                             ),
+                        currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                     ),
                 ),
                 Arguments.of(
@@ -131,6 +134,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                                     testExerciseTypeSelected3,
                                     testExerciseTypeSelected1,
                                 ),
+                            currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                         ),
                     ),
                     SettingsViewState.Nominal(
@@ -148,6 +152,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                                 testExerciseTypeSelected3,
                                 testExerciseTypeSelected1,
                             ),
+                        currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                     ),
                 ),
                 Arguments.of(
@@ -182,6 +187,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                                     testExerciseTypeSelected3,
                                     testExerciseTypeSelected1,
                                 ),
+                            currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                         ),
                     ),
                     SettingsViewState.Nominal(
@@ -199,6 +205,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                                 testExerciseTypeSelected3,
                                 testExerciseTypeSelected1,
                             ),
+                        currentLanguage = AppLanguage.SYSTEM_DEFAULT,
                     ),
                 ),
             )

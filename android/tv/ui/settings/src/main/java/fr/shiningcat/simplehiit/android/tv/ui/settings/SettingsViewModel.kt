@@ -344,6 +344,27 @@ class SettingsViewModel
             }
         }
 
+        fun editLanguage() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    _dialogViewState.emit(SettingsDialog.PickLanguage(currentViewState.currentLanguage))
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editLanguage::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setLanguage(language: fr.shiningcat.simplehiit.domain.common.models.AppLanguage) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+                settingsInteractor.setAppLanguage(language)
+            }
+        }
+
         fun resetAllSettings() {
             viewModelScope.launch(context = mainDispatcher) {
                 _dialogViewState.emit(SettingsDialog.ConfirmResetAllSettings)

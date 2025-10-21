@@ -34,6 +34,7 @@ object Constants {
         EMPTY_RESULT("0301"),
         CONVERSION_ERROR("0401"),
         SESSION_NOT_FOUND("0501"),
+        LANGUAGE_SET_FAILED("0601"),
     }
 
     enum class InputError {

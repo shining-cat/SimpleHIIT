@@ -48,6 +48,7 @@
     <!-- SETTINGS PAGE -->
     <string name="settings_page_title">Settings</string>
     <string name="language_setting_label">Language</string>
+    <string name="language_dialog_pick_title">Pick a language</string>
     <string name="language_english" translatable="false">English</string>
     <string name="language_french" translatable="false">Français</string>
     <string name="language_swedish" translatable="false">Svenska</string>

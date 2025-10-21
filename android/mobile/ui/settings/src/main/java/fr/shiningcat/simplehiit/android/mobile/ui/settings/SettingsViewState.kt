@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
 import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 
@@ -18,6 +19,7 @@ sealed interface SettingsViewState {
         val periodsStartCountDownLengthAsSeconds: String,
         val users: List<User>,
         val exerciseTypes: List<ExerciseTypeSelected>,
+        val currentLanguage: AppLanguage,
     ) : SettingsViewState
 
     data class Error(
@@ -59,6 +61,10 @@ sealed interface SettingsDialog {
 
     data class ConfirmDeleteUser(
         val user: User,
+    ) : SettingsDialog
+
+    data class PickLanguage(
+        val currentLanguage: AppLanguage,
     ) : SettingsDialog
 
     object ConfirmResetAllSettings : SettingsDialog
