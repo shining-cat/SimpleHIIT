@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-   Sample data extraction rules file; uncomment and customize as necessary.
+   Data extraction rules file for devices with API 31+ (Android 12+)
    See https://developer.android.com/about/versions/12/backup-restore#xml-changes
    for details.
 -->
 <data-extraction-rules>
     <cloud-backup>
-        <!-- TODO: Use <include> and <exclude> to control what is backed up.
-        <include .../>
-        <exclude .../>
-        -->
+        <!-- Include all SharedPreferences -->
+        <include
+            domain="sharedpref"
+            path="." />
+        <!-- Exclude device-specific preferences -->
+        <exclude
+            domain="sharedpref"
+            path="device.xml" />
+        <!-- Include Room database -->
+        <include
+            domain="database"
+            path="everyday_database.db" />
+        <include
+            domain="database"
+            path="everyday_database.db-shm" />
+        <include
+            domain="database"
+            path="everyday_database.db-wal" />
     </cloud-backup>
-    <!--
     <device-transfer>
-        <include .../>
-        <exclude .../>
+        <!-- Include all SharedPreferences -->
+        <include
+            domain="sharedpref"
+            path="." />
+        <!-- Exclude device-specific preferences -->
+        <exclude
+            domain="sharedpref"
+            path="device.xml" />
+        <!-- Include Room database -->
+        <include
+            domain="database"
+            path="everyday_database.db" />
+        <include
+            domain="database"
+            path="everyday_database.db-shm" />
+        <include
+            domain="database"
+            path="everyday_database.db-wal" />
     </device-transfer>
-    -->
 </data-extraction-rules>
