@@ -43,7 +43,6 @@ testAggregation {
     modules {
         // we can either explicitly declare everything (include and excludes) or simply the exclusion.
         // The latter is more straightforward:
-        exclude(project(":dataInstrumentedTests"))
     }
 }
 

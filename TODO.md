@@ -60,7 +60,7 @@
   exercise, as a timer only. Show a message instead of the missing gifs.
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.
-* translate to FR and SV. Maybe add language selection in settings to be able to demo it?
+* refine fr and swedish translations
 * create an onboarding feature, including the user creation then selection and the multiple cycles
   mechanics
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this
