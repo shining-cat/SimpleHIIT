@@ -1,11 +1,9 @@
 package fr.shiningcat.simplehiit.domain.common.datainterfaces
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.flow.Flow
 
-@ExcludeFromJacocoGeneratedReport
 interface UsersRepository {
     suspend fun insertUser(user: User): Output<Long>
 

@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
-    jacoco
 }
 
 android {

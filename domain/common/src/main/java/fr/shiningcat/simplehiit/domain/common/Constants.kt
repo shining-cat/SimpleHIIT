@@ -1,10 +1,8 @@
 package fr.shiningcat.simplehiit.domain.common
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 
-@ExcludeFromJacocoGeneratedReport
 object Constants {
     object SettingsDefaultValues {
         const val WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT = 20000L

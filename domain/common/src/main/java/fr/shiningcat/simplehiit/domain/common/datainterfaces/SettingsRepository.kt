@@ -1,11 +1,9 @@
 package fr.shiningcat.simplehiit.domain.common.datainterfaces
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.flow.Flow
 
-@ExcludeFromJacocoGeneratedReport
 interface SettingsRepository {
     fun getPreferences(): Flow<SimpleHiitPreferences>
 

@@ -1,9 +1,7 @@
 package fr.shiningcat.simplehiit.android.tv.ui.home
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.User
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface HomeViewState {
     object Loading : HomeViewState
 
@@ -25,7 +23,6 @@ sealed interface HomeViewState {
     ) : HomeViewState
 }
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface HomeDialog {
     object None : HomeDialog
 

@@ -1,7 +1,22 @@
 plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
-    jacoco
+    alias(libs.plugins.kover)
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                // Exclude by annotation (Dagger generates with @DaggerGenerated)
+                annotatedBy("dagger.internal.DaggerGenerated")
+
+                // Also try pattern like BuildConfig (which works)
+                classes("*._Factory")
+                classes("*._MembersInjector")
+            }
+        }
+    }
 }
 
 android {

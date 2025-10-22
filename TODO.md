@@ -24,16 +24,6 @@
 * explore improvement of inter-modules dependencies management, maybe try
   out https://github.com/jraska/modules-graph-assert
 
-### test coverage
-* replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
-* [jacoco] connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
-  report is created?
-* [jacoco] had to exclude the external instrumented tests module from report aggregation plugin, see
-  testAggregation block in
-  build.gradle. [ongoing discussion with author...](https://github.com/gmazzo/gradle-android-test-aggregation-plugin/issues/32)
-* [jacoco] fix test coverage task for instrumented tests not reporting any coverage. use dedicated simplified
-  project jacoco_exp to investigate
-
 ## CI/Github actions
 * check
   out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)

@@ -21,6 +21,7 @@ dependencies {
     compileOnly(libs.android.gradle.plugin)
     compileOnly(libs.kotlin.gradle.plugin)
     compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.kover.gradlePlugin)
 }
 
 gradlePlugin {

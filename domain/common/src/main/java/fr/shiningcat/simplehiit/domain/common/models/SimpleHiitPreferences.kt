@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
@@ -10,7 +9,6 @@ import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.RE
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 
-@ExcludeFromJacocoGeneratedReport
 data class SimpleHiitPreferences(
     val workPeriodLengthMs: Long = WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
     val restPeriodLengthMs: Long = REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
