@@ -9,16 +9,13 @@
   scroll or be constrained?
 
 ## Publication
-
 * Find how to publish on Fdroid?
 
 ## Assets production / design
-
-  * statistics maybe remove seconds from displays to reduce clutter?
-  * improve 200% fontscale layouts
+* statistics maybe remove seconds from displays to reduce clutter?
+* improve 200% fontscale layouts
 
 ## General technical improvements
-
 * add tests on viewmodels
 * screenshot tests if they can run on github for free
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
@@ -26,13 +23,8 @@
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 * explore improvement of inter-modules dependencies management, maybe try
   out https://github.com/jraska/modules-graph-assert
-* Missing data extraction rules,
-  see https://developer.android.com/about/versions/12/behavior-changes-12#backup-restore,
-  and https://developer.android.com/guide/topics/data/autobackup, find how to set up
-  backup_rules.xml and data_extraction_rules.xml in commonResources>src>main>res>xml
 
 ### test coverage
-
 * replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
 * [jacoco] connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?
@@ -43,18 +35,15 @@
   project jacoco_exp to investigate
 
 ## CI/Github actions
-
 * check
   out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
 * See automation of build scripts verification:
   github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools
 
 ## Form factors (phone - AndroidTV - smartWatch)
-
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have
-
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
