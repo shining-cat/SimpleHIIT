@@ -22,7 +22,7 @@ This is a simple HIIT Android App for Android TV and mobile devices.
 * Dagger-hilt for DI
 * pure kotlin
 * coroutines and flows / stateflows
-* Jacoco for test coverage report generation
+* Kover for test coverage report generation
 * Full-Compose for UI
 * handle device form-factor variation (TV / mobile) in the same project
 
@@ -139,7 +139,7 @@ free web app
 ### External libraries / plugins
 
 * [Ben Mannes' Gradle version plugin](https://github.com/ben-manes/gradle-versions-plugin#gradle-versions-plugin)
-* [GMazzo's jacoco test coverage aggregation gradle plugin](https://github.com/gmazzo/gradle-android-test-aggregation-plugin#gradle-android-test-aggregation-plugin)
+* [Kover - Kotlin code coverage by JetBrains](https://github.com/Kotlin/kotlinx-kover)
 * [Savvas Dalkitsis' Inter-modules dependencies graph generator plugin](https://github.com/savvasdalkitsis/module-dependency-graph#module-dependency-graph)
 * [Mockk library](https://mockk.io/)
 * [Glide Compose image loading library](https://github.com/bumptech/glide)
@@ -179,8 +179,16 @@ the task is also listed in the gradle window under SimpleHIIT>Tasks>help>depende
 
 #### Test coverage:
 
-Jacoco aggregation plugin by Guillermo
-Mazzola: https://github.com/gmazzo/gradle-android-test-aggregation-plugin
-see below testAggregation block for included modules declaration
-launch with: jacocoAggregatedReport (for coverage) and testAggregateReport (for results) in
-SimpleHIIT>Tasks>verification
+**Kover** - Kotlin code coverage tool by JetBrains
+See [detailed Kover documentation](docs/KOVER_CODE_COVERAGE.md) for complete setup and usage guide.
+
+Quick start:
+```bash
+# Generate coverage report
+./gradlew testDebugUnitTest koverHtmlReport
+
+# View report
+open build/reports/kover/html/index.html
+```
+
+From IDE: Run `testDebugUnitTest` then `koverHtmlReport` from Gradle tasks panel

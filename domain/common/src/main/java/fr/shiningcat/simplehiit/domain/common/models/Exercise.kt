@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.CAT
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.CRAB
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.LUNGE
@@ -13,7 +12,6 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseType.STANDING
 /**
  *  The order of exercises types set here is what will determine the order in practice
  */
-@ExcludeFromJacocoGeneratedReport
 enum class ExerciseType {
     STANDING,
     SQUAT,
@@ -25,7 +23,6 @@ enum class ExerciseType {
     LYING,
 }
 
-@ExcludeFromJacocoGeneratedReport
 enum class Exercise(
     val exerciseType: ExerciseType,
     val asymmetrical: Boolean,

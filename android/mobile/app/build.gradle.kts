@@ -3,8 +3,8 @@ import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 plugins {
     alias(libs.plugins.simplehiit.android.application.handheld)
     alias(libs.plugins.simplehiit.hilt)
-    jacoco
     alias(libs.plugins.simplehiit.android.application.compose)
+    alias(libs.plugins.kover)
 }
 
 android {

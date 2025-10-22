@@ -1,11 +1,9 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface SettingsViewState {
     object Loading : SettingsViewState
 
@@ -27,7 +25,6 @@ sealed interface SettingsViewState {
     ) : SettingsViewState
 }
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface SettingsDialog {
     object None : SettingsDialog
 

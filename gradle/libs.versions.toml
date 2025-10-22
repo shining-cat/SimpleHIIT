@@ -6,7 +6,7 @@ ktlintComposeRuleset = "0.4.27"
 ktlintGradlePlugin = "13.1.0"
 dependencyGraphPlugin = "0.12"
 dependencyUpdatePlugin = "0.53.0"
-gmazzoJacocoReportAggregation = "2.4.6"
+kover = "0.9.3"
 hilt = "2.57.2"
 room = "2.8.1"
 mockk = "1.14.6"
@@ -34,6 +34,7 @@ tvFoundation = "1.0.0-alpha12"
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kgp" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+kover-gradlePlugin = { module = "org.jetbrains.kotlinx:kover-gradle-plugin", version.ref = "kover" }
 # AndroidX:
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appCompat" }
 androidx-datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
@@ -82,8 +83,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kg
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
 dependencygraph = { id = "com.savvasdalkitsis.module-dependency-graph", version.ref = "dependencyGraphPlugin" }
 dependencyupdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin" }
-gmazzo-jacoco-test-coverage = { id = "io.github.gmazzo.test.aggregation.coverage", version.ref = "gmazzoJacocoReportAggregation" }
-gmazzo-jacoco-test-results = { id = "io.github.gmazzo.test.aggregation.results", version.ref = "gmazzoJacocoReportAggregation" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 # plugins defined in this project:
 simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld" }
 simplehiit-android-application-tv = { id = "fr.shiningcat.simplehiit.android.application.tv" }

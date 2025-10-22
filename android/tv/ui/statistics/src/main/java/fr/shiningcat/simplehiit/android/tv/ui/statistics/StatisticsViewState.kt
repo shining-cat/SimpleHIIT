@@ -1,10 +1,8 @@
 package fr.shiningcat.simplehiit.android.tv.ui.statistics
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface StatisticsViewState {
     object Loading : StatisticsViewState
 
@@ -32,7 +30,6 @@ sealed interface StatisticsViewState {
     object NoUsers : StatisticsViewState
 }
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface StatisticsDialog {
     object None : StatisticsDialog
 

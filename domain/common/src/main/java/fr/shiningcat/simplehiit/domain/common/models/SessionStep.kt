@@ -1,11 +1,7 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
-
-@ExcludeFromJacocoGeneratedReport
 enum class ExerciseSide { NONE, LEFT, RIGHT }
 
-@ExcludeFromJacocoGeneratedReport
 enum class AsymmetricalExerciseSideOrder(
     val side: ExerciseSide,
 ) {
@@ -13,13 +9,11 @@ enum class AsymmetricalExerciseSideOrder(
     SECOND(ExerciseSide.LEFT),
 }
 
-@ExcludeFromJacocoGeneratedReport
 sealed class SessionStep(
     open val durationMs: Long,
     open val remainingSessionDurationMsAfterMe: Long,
     open val countDownLengthMs: Long,
 ) {
-    @ExcludeFromJacocoGeneratedReport
     data class PrepareStep(
         override val durationMs: Long,
         override val remainingSessionDurationMsAfterMe: Long,
@@ -30,7 +24,6 @@ sealed class SessionStep(
             countDownLengthMs,
         )
 
-    @ExcludeFromJacocoGeneratedReport
     data class WorkStep(
         val exercise: Exercise,
         val side: ExerciseSide,
@@ -45,7 +38,6 @@ sealed class SessionStep(
             countDownLengthMs,
         )
 
-    @ExcludeFromJacocoGeneratedReport
     data class RestStep(
         val exercise: Exercise,
         val side: ExerciseSide,
@@ -61,7 +53,6 @@ sealed class SessionStep(
         )
 }
 
-@ExcludeFromJacocoGeneratedReport
 data class SessionStepDisplay(
     val exercise: Exercise,
     val side: ExerciseSide,

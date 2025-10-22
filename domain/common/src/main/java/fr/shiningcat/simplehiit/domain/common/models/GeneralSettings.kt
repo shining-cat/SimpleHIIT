@@ -1,8 +1,5 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
-
-@ExcludeFromJacocoGeneratedReport
 data class GeneralSettings(
     val workPeriodLengthMs: Long,
     val restPeriodLengthMs: Long,

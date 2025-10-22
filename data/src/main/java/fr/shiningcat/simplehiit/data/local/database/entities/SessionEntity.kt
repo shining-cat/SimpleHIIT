@@ -4,10 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity.Companion.SESSIONS_TABLE_NAME
 
-@ExcludeFromJacocoGeneratedReport
 @Entity(
     tableName = SESSIONS_TABLE_NAME,
     foreignKeys = [

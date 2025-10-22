@@ -15,4 +15,6 @@
 .cxx
 local.properties
 **/build/intermediates/ktLint/
+**/build/kover/
+**/build/reports/kover/
 .kotlin/

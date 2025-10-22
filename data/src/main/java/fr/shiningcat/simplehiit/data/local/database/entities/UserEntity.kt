@@ -3,10 +3,8 @@ package fr.shiningcat.simplehiit.data.local.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity.Companion.USERS_TABLE_NAME
 
-@ExcludeFromJacocoGeneratedReport
 @Entity(tableName = USERS_TABLE_NAME)
 data class UserEntity(
     @PrimaryKey(autoGenerate = true)

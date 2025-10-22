@@ -25,7 +25,7 @@
   out https://github.com/jraska/modules-graph-assert
 
 ### test coverage
-* replace jacoco with Klover and experiment: https://github.com/Kotlin/kotlinx-kover
+* replace jacoco with Kover and experiment: https://github.com/Kotlin/kotlinx-kover
 * [jacoco] connect deleting jacoco report on build>clean task, it seems that if the folder exists, no new
   report is created?
 * [jacoco] had to exclude the external instrumented tests module from report aggregation plugin, see

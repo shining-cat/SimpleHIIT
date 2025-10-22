@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
-    jacoco
+    alias(libs.plugins.kover)
 }
 
 android {

@@ -1,11 +1,9 @@
 package fr.shiningcat.simplehiit.android.tv.ui.session
 
-import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromJacocoGeneratedReport
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface SessionViewState {
     object Loading : SessionViewState
 
@@ -36,14 +34,12 @@ sealed interface SessionViewState {
 
 enum class RunningSessionStepType { REST, WORK }
 
-@ExcludeFromJacocoGeneratedReport
 data class CountDown(
     val secondsDisplay: String,
     val progress: Float,
     val playBeep: Boolean,
 )
 
-@ExcludeFromJacocoGeneratedReport
 sealed interface SessionDialog {
     object None : SessionDialog
 
