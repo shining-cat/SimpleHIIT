@@ -7,13 +7,10 @@
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
   scroll or be constrained?
+* improve 200% fontscale layouts
 
 ## Publication
 * Find how to publish on Fdroid?
-
-## Assets production / design
-* statistics maybe remove seconds from displays to reduce clutter?
-* improve 200% fontscale layouts
 
 ## General technical improvements
 * add tests on viewmodels
@@ -28,6 +25,7 @@
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
+* move the whole thing to KMP and build other platforms
 
 ## Miscellaneous / nice to have
 * When user unselect ALL exercise types, allow the session to still run, without showing any
@@ -35,6 +33,7 @@
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
   hiit_description.
 * refine fr and swedish translations
+* statistics maybe remove seconds from displays to reduce clutter?
 * create an onboarding feature, including the user creation then selection and the multiple cycles
   mechanics
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this
@@ -44,5 +43,4 @@
 * add home screen shortcut launchers for start session and statistics
 * Nice to have and study
   case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)
-* [performance study case](https://proandroiddev.com/jetpack-compose-tutorial-improving-performance-in-dribbble-audio-app-b19848cf12e3)
 
