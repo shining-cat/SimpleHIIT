@@ -37,6 +37,53 @@ The dependency graph is **automatically updated** by CI on every PR. After succe
 - Feature-specific UI modules under each platform
 - Shared common UI modules per platform
 
+**Common Modules**
+- `:commonUtils` - Foundation utilities, no dependencies
+- `:commonResources` - Shared resources (strings, drawables, themes)
+- `:android:common` - Platform common components
+
+### Special Design Pattern: Type-Safe Resources
+
+**Why `commonResources` → `domain:common`?**
+
+The `commonResources` module depends on `domain:common` to enable **type-safe resource management**. This pattern:
+
+1. **Mapper classes connect domain to resources**
+   - Domain enums/sealed classes represent pure business concepts (e.g., `Exercise`)
+   - `commonResources` contains mapper classes (e.g., `ExerciseDisplayNameMapper`)
+   - Mappers translate domain objects to resource IDs: `mapper.map(exercise) → R.string.exercise_name`
+
+2. **Benefits:**
+   - **Domain stays pure**: No Android resource references in business logic
+   - **Compile-time safety**: Exhaustive `when` expressions ensure all domain cases handled
+   - **Centralized mapping**: All domain-to-resource logic in one place
+   - **Type-safe**: Can't request resources for non-existent domain objects
+   - **Testable**: Mappers are simple, pure functions easy to unit test
+   - **Refactoring-friendly**: IDE renames domain types → mapper updates automatically
+
+3. **No circular dependency:**
+   - Resources depend on domain types (to map them)
+   - Domain layer never depends on resources (pure business logic)
+   - UI injects mappers and uses them: `getString(exerciseMapper.map(exercise))`
+
+**Example:**
+```kotlin
+// Domain (pure)
+sealed class Exercise { object Lunges : Exercise() }
+
+// commonResources (mapper)
+class ExerciseDisplayNameMapper {
+    fun map(exercise: Exercise): Int = when (exercise) {
+        Exercise.Lunges -> R.string.exercise_lunges
+    }
+}
+
+// UI (uses mapper)
+val name = getString(exerciseMapper.map(exercise))
+```
+
+This creates a clean dependency chain: `UI → commonResources (mappers) → domain:common (types)` where mappers act as a type-safe bridge between pure domain concepts and their visual representation.
+
 ## Dependency Rules
 
 This project enforces **strict clean architecture** with automated validation.

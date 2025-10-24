@@ -21,12 +21,8 @@
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
-* explore improvement of inter-modules dependencies management, maybe try
-  out https://github.com/jraska/modules-graph-assert
 
 ## CI/Github actions
-* check
-  out [this article about including the inter-modules dependencies graph generation to the CI](https://medium.com/google-developer-experts/how-to-display-your-android-project-dependency-graph-in-your-ticke-file-e52dcadafa7a)
 * See automation of build scripts verification:
   github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools
 
