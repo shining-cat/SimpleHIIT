@@ -12,7 +12,7 @@ the project uses a **matrix-like structure** where:
 - **Columns** represent features (Home, Settings, Session, Statistics)
 - **Rows** represent architectural layers (Presentation, Domain, Data)
 
-![Module Matrix Concept](../modules_matrix.png)
+![Module Matrix Concept](modules_matrix.png)
 
 ### Current Module Structure
 

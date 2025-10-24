@@ -58,20 +58,17 @@ jobs:
           path: project_dependencies_graph.png
           retention-days: 90
 
-      - name: Commit Updated Dependency Graph
+      - name: Commit and Push Updated Dependency Graph
         if: success()
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add project_dependencies_graph.png
-          git diff --staged --quiet || git commit -m "Update module dependency graph [skip ci]"
-
-      - name: Push Updated Graph
-        if: success()
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.head_ref }}
+          if ! git diff --staged --quiet; then
+            git commit -m "Update module dependency graph [skip ci]"
+            git pull --rebase origin ${{ github.head_ref }}
+            git push origin HEAD:${{ github.head_ref }}
+          fi
 
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest

@@ -13,7 +13,7 @@ This is a simple HIIT Android App for Android TV and mobile devices.
   looping gif image. A summary of the exercises done is shown at the end of the session.
 * A statistics screen allows to see (and delete) basic statistics for each user.
 
-![Features and UX description](simpleHIIT_UX_description.png)
+![Features and UX description](docs/simpleHIIT_UX_description.png)
 
 ## Caracteristics:
 
