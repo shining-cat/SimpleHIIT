@@ -1,0 +1,76 @@
+#!/bin/bash
+#
+# Pre-push hook to automatically pull remote changes before pushing
+# This handles the case where CI commits (e.g., dependency graph) to the branch
+#
+# To install: ln -sf ../../.githooks/pre-push .git/hooks/pre-push
+# Or run: git config core.hooksPath .githooks
+
+# Get current branch
+current_branch=$(git rev-parse --abbrev-ref HEAD)
+
+# Don't run on master/develop (protected branches)
+if [ "$current_branch" = "master" ] || [ "$current_branch" = "develop" ]; then
+    exit 0
+fi
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo -e "${YELLOW}Pre-push: Checking for remote changes...${NC}"
+
+# Fetch the remote branch quietly
+git fetch origin "$current_branch" 2>/dev/null
+
+# Check if remote exists
+if ! git rev-parse "origin/$current_branch" >/dev/null 2>&1; then
+    # Remote branch doesn't exist yet (first push)
+    echo -e "${GREEN}Pre-push: First push to this branch, proceeding...${NC}"
+    exit 0
+fi
+
+# Get commit counts
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "origin/$current_branch")
+BASE=$(git merge-base @ "origin/$current_branch")
+
+if [ "$LOCAL" = "$REMOTE" ]; then
+    # Up to date
+    echo -e "${GREEN}Pre-push: Branch is up to date${NC}"
+    exit 0
+elif [ "$LOCAL" = "$BASE" ]; then
+    # Need to pull (remote is ahead)
+    echo -e "${YELLOW}Pre-push: Remote has new commits (likely CI updates)${NC}"
+    echo -e "${YELLOW}Pre-push: Automatically merging...${NC}"
+    
+    if git merge "origin/$current_branch" --no-edit -m "Merge CI updates"; then
+        echo -e "${GREEN}Pre-push: Successfully merged, proceeding with push${NC}"
+        exit 0
+    else
+        echo -e "${RED}Pre-push: Merge failed - conflicts need manual resolution${NC}"
+        echo -e "${YELLOW}Resolve conflicts, then: git merge --continue${NC}"
+        echo -e "${YELLOW}Or abort with: git merge --abort${NC}"
+        exit 1
+    fi
+elif [ "$REMOTE" = "$BASE" ]; then
+    # Local is ahead (normal case)
+    echo -e "${GREEN}Pre-push: Local changes only, proceeding...${NC}"
+    exit 0
+else
+    # Diverged - both have changes
+    echo -e "${YELLOW}Pre-push: Branches have diverged${NC}"
+    echo -e "${YELLOW}Pre-push: Attempting to merge...${NC}"
+    
+    if git merge "origin/$current_branch" --no-edit -m "Merge CI updates"; then
+        echo -e "${GREEN}Pre-push: Successfully merged, proceeding with push${NC}"
+        exit 0
+    else
+        echo -e "${RED}Pre-push: Merge failed - conflicts need manual resolution${NC}"
+        echo -e "${YELLOW}Resolve conflicts, then: git merge --continue${NC}"
+        echo -e "${YELLOW}Or abort with: git merge --abort${NC}"
+        exit 1
+    fi
+fi

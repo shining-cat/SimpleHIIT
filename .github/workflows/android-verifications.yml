@@ -32,6 +32,44 @@ jobs:
         run: ./gradlew ktlintCheck
         continue-on-error: false
 
+      - name: Verify Module Dependencies
+        run: ./gradlew assertModuleGraph --no-configure-on-demand
+        continue-on-error: false
+
+      - name: Generate Module Dependency Graph
+        if: success()
+        run: |
+          ./gradlew :android:mobile:app:generateModulesGraphvizText -Pmodules.graph.of.module=:android:mobile:app -Pmodules.graph.output.gv=build/reports/dependency-graph --no-configure-on-demand
+          mv build/reports/dependency-graph build/reports/dependency-graph.gv
+
+      - name: Install Graphviz
+        if: success()
+        run: sudo apt-get install -y graphviz
+
+      - name: Convert Graph to PNG
+        if: success()
+        run: dot -Tpng build/reports/dependency-graph.gv -o project_dependencies_graph.png
+
+      - name: Upload Dependency Graph
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-graph
+          path: project_dependencies_graph.png
+          retention-days: 90
+
+      - name: Commit and Push Updated Dependency Graph
+        if: success()
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add project_dependencies_graph.png
+          if ! git diff --staged --quiet; then
+            git commit -m "Update module dependency graph [skip ci]"
+            git pull --rebase origin ${{ github.head_ref }}
+            git push origin HEAD:${{ github.head_ref }}
+          fi
+
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 

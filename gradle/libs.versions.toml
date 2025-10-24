@@ -4,8 +4,8 @@ kgp = "2.2.20"
 ksp = "2.2.20-2.0.3"
 ktlintComposeRuleset = "0.4.27"
 ktlintGradlePlugin = "13.1.0"
-dependencyGraphPlugin = "0.12"
 dependencyUpdatePlugin = "0.53.0"
+modulesGraphAssert = "2.9.0"
 kover = "0.9.3"
 hilt = "2.57.2"
 room = "2.8.1"
@@ -81,8 +81,8 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp" }
 # add-ons:
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
-dependencygraph = { id = "com.savvasdalkitsis.module-dependency-graph", version.ref = "dependencyGraphPlugin" }
 dependencyupdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin" }
+modules-graph-assert = { id = "com.jraska.module.graph.assertion", version.ref = "modulesGraphAssert" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 # plugins defined in this project:
 simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld" }
