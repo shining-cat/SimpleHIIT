@@ -77,13 +77,21 @@ git commit -m "Your message"
 ```
 
 ### Pre-Commit Hook (Enabled)
-A git pre-commit hook has been set up at `.git/hooks/pre-commit` that automatically runs ktlint before each commit:
+A git pre-commit hook has been set up in `.githooks/pre-commit` that automatically runs ktlint before each commit:
 - Runs `./gradlew ktlintCheck --daemon` before allowing commits
 - If ktlint finds issues, the commit is blocked
 - Provides instructions to fix issues with `./gradlew ktlintFormat`
 - Can be bypassed (not recommended) with `git commit --no-verify`
 
 This ensures you never accidentally commit code that violates ktlint rules.
+
+**Setup:**
+The hook is configured via `.githooks/setup.sh`. If you cloned the repo and haven't set up hooks yet, run:
+```bash
+./.githooks/setup.sh
+```
+
+See `.githooks/GITHOOKS.md` for more details about all available git hooks.
 
 ## Understanding the .editorconfig
 

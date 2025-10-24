@@ -1,0 +1,33 @@
+#!/bin/bash
+#
+# Ktlint pre-commit hook
+# This hook runs ktlintCheck before allowing a commit
+# If ktlint finds issues, the commit will be blocked
+#
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
+cd "$REPO_ROOT"
+
+echo "Running ktlint check..."
+
+# Run ktlintCheck with daemon for faster execution
+if ./gradlew ktlintCheck --daemon; then
+    echo "✅ Ktlint check passed!"
+    exit 0
+else
+    echo ""
+    echo "❌ Ktlint check failed! Commit blocked."
+    echo ""
+    echo "To fix the issues, run:"
+    echo "  ./gradlew ktlintFormat"
+    echo ""
+    echo "Then stage your changes and commit again."
+    echo ""
+    echo "To bypass this check (not recommended), use:"
+    echo "  git commit --no-verify"
+    exit 1
+fi
