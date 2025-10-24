@@ -28,6 +28,16 @@ This is a simple HIIT Android App for Android TV and mobile devices.
 
 ## This is a WIP: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/TODO.md)
 
+## Setup for Contributors
+
+After cloning the repository, run the git hooks setup to enable automatic handling of CI-generated commits:
+
+```bash
+./.githooks/setup.sh
+```
+
+This configures a pre-push hook that automatically merges remote changes (like dependency graph updates from CI) before pushing. See [.githooks/GITHOOKS.md](.githooks/GITHOOKS.md) for details.
+
 ## Threading Strategy
 
 This project uses **dispatcher injection** for clean thread management across architecture layers:
