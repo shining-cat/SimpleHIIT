@@ -18,12 +18,18 @@ git config core.hooksPath .githooks
 
 # Make hooks executable
 chmod +x "$SCRIPT_DIR/pre-push"
+chmod +x "$SCRIPT_DIR/pre-commit"
 
 echo "✓ Git hooks configured successfully!"
 echo ""
-echo "The pre-push hook will now automatically:"
-echo "  - Check for remote changes before pushing"
-echo "  - Automatically rebase CI commits (like dependency graph updates)"
-echo "  - Prevent push conflicts"
+echo "Active hooks:"
+echo "  pre-commit: Runs ktlint checks before commits"
+echo "  pre-push:   Auto-merges remote changes before pushing"
 echo ""
-echo "To disable hooks temporarily: git push --no-verify"
+echo "The hooks will now automatically:"
+echo "  - Enforce code style with ktlint (pre-commit)"
+echo "  - Handle remote CI commits like dependency graph updates (pre-push)"
+echo ""
+echo "To disable hooks temporarily:"
+echo "  git commit --no-verify"
+echo "  git push --no-verify"

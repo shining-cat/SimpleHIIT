@@ -15,9 +15,42 @@ Or manually:
 ```bash
 git config core.hooksPath .githooks
 chmod +x .githooks/pre-push
+chmod +x .githooks/pre-commit
 ```
 
 ## Available Hooks
+
+### pre-commit
+
+Runs ktlint code style checks before allowing commits.
+
+**What it does:**
+1. Runs `./gradlew ktlintCheck --daemon` before each commit
+2. Blocks the commit if ktlint finds formatting violations
+3. Provides instructions to fix issues
+
+**Why it helps:**
+- Prevents accidentally committing code that violates ktlint rules
+- Ensures consistent code style across the project
+- Catches formatting issues early, before CI/PR review
+
+**When it runs:**
+Every time you execute `git commit`
+
+**If violations are found:**
+```bash
+❌ Ktlint check failed! Commit blocked.
+
+To fix the issues, run:
+  ./gradlew ktlintFormat
+
+Then stage your changes and commit again.
+```
+
+**Bypass if needed:**
+```bash
+git commit --no-verify
+```
 
 ### pre-push
 
