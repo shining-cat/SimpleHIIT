@@ -10,4 +10,32 @@ insert_final_newline = true
 end_of_line = lf
 
 [*.{kt,kts}]
+# Ktlint-specific rules to align with ktlint formatting
 ktlint_function_naming_ignore_when_annotated_with = Composable
+
+# Enable ktlint standard rules for chain wrapping
+# This ensures dot operators stay at the end of lines when wrapping method chains
+ktlint_standard_chain-wrapping = enabled
+ktlint_standard_wrapping = enabled
+
+# IntelliJ/Android Studio Kotlin code style settings
+# IMPORTANT: These settings attempt to align Android Studio's formatter with ktlint
+# However, Android Studio's formatter has limitations and cannot fully match ktlint
+# For bulk formatting operations, always use: ./gradlew ktlintFormat
+
+# Method call chain wrapping - keep dot at the end of the line
+ij_kotlin_method_call_chain_wrap = off
+ij_kotlin_wrap_first_method_in_call_chain = false
+
+# Continuation indent
+ij_continuation_indent_size = 4
+
+# Trailing commas
+ij_kotlin_allow_trailing_comma = true
+ij_kotlin_allow_trailing_comma_on_call_site = true
+
+# Blank lines
+ij_kotlin_blank_lines_around_block_when_branches = 0
+
+# Line wrapping
+ij_kotlin_line_break_after_multiline_when_entry = false
