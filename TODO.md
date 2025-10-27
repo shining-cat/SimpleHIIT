@@ -13,7 +13,6 @@
 * Find how to publish on Fdroid?
 
 ## General technical improvements
-* split CI checks into individual tasks to see them easier on the PR page, maybe plug individual badges
 * add tests on viewmodels
 * screenshot tests if they can run on github for free
 * ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
