@@ -28,11 +28,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -57,6 +60,7 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNo
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.Constants
+import kotlinx.coroutines.delay
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 enum class InputDialogTextFieldSize(
@@ -86,14 +90,31 @@ fun InputDialog(
 ) {
     val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
-    val input = rememberSaveable { mutableStateOf(inputFieldValue) }
+    val input =
+        rememberSaveable(stateSaver = TextFieldValue.Saver) {
+            mutableStateOf(
+                TextFieldValue(
+                    text = inputFieldValue,
+                    selection = TextRange(inputFieldValue.length),
+                ),
+            )
+        }
     val isError =
         rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
+    LaunchedEffect(Unit) {
+        delay(300) // Delay to ensure dialog is fully composed and rendered
+        try {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        } catch (e: Exception) {
+            // Focus request may fail if composable is not yet ready
+        }
+    }
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -124,7 +145,7 @@ fun InputDialog(
                         inputValue = input.value,
                         onInputValueChange = {
                             input.value = it
-                            val validationResult = validateInput(it)
+                            val validationResult = validateInput(it.text)
                             val errorStringRes = pickErrorMessage(validationResult)
                             isError.value =
                                 validationResult != Constants.InputError.NONE
@@ -134,7 +155,7 @@ fun InputDialog(
                         isError = isError.value,
                         errorMessageResId = errorMessageStringRes.intValue,
                         onKeyboardDoneAction = {
-                            if (!isError.value) primaryAction(input.value)
+                            if (!isError.value) primaryAction(input.value.text)
                         },
                         inputFieldSingleLine = inputFieldSingleLine,
                         inputFieldSize = inputFieldSize,
@@ -142,6 +163,7 @@ fun InputDialog(
                         inputFieldPostfixText = inputFieldPostfix,
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
+                        focusRequester = focusRequester,
                     )
                     Row(
                         Modifier
@@ -188,7 +210,7 @@ fun InputDialog(
                                     .weight(1f),
                             fillHeight = true,
                             fillWidth = true,
-                            onClick = { if (isError.value.not()) primaryAction(input.value) },
+                            onClick = { if (isError.value.not()) primaryAction(input.value.text) },
                             label = primaryButtonLabel,
                             enabled = isError.value.not(),
                         )
@@ -201,8 +223,8 @@ fun InputDialog(
 
 @Composable
 private fun InputDialogBodyContent(
-    inputValue: String,
-    onInputValueChange: (String) -> Unit,
+    inputValue: TextFieldValue,
+    onInputValueChange: (TextFieldValue) -> Unit,
     isError: Boolean,
     errorMessageResId: Int,
     onKeyboardDoneAction: () -> Unit,
@@ -212,12 +234,10 @@ private fun InputDialogBodyContent(
     inputFieldPostfixText: String,
     effectiveDialogContentWidthDp: Dp,
     density: Density,
+    focusRequester: FocusRequester,
 ) {
     val inputSpacing = dimensionResource(CommonResourcesR.dimen.spacing_15)
     val dialogHorizontalPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
-    val focusRequester = remember { FocusRequester() }
-
-    LaunchedEffect(Unit) { focusRequester.requestFocus() }
 
     val inputFieldPostfixStyle = MaterialTheme.typography.bodyMedium
     val inputFieldPostfixLayout =
@@ -273,9 +293,11 @@ private fun InputDialogBodyContent(
                         imeAction = ImeAction.Done,
                     ),
                 keyboardActions =
-                    KeyboardActions(onDone = {
-                        if (isError.not()) onKeyboardDoneAction
-                    }),
+                    KeyboardActions(
+                        onDone = {
+                            if (isError.not()) onKeyboardDoneAction()
+                        },
+                    ),
                 modifier =
                     Modifier
                         .then(

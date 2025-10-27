@@ -16,16 +16,23 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -46,6 +53,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileS
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
+import kotlinx.coroutines.delay
 
 enum class InputDialogTextFieldSize(
     val charCount: Int,
@@ -72,11 +80,31 @@ fun InputDialog(
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     pickErrorMessage: (Constants.InputError) -> Int = { -1 },
 ) {
-    val input = rememberSaveable { mutableStateOf(inputFieldValue) }
+    val input =
+        rememberSaveable(stateSaver = TextFieldValue.Saver) {
+            mutableStateOf(
+                TextFieldValue(
+                    text = inputFieldValue,
+                    selection = TextRange(inputFieldValue.length),
+                ),
+            )
+        }
     val isError =
         rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
+    val focusRequester = remember { FocusRequester() }
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    LaunchedEffect(Unit) {
+        delay(300) // Delay to ensure dialog is fully composed and rendered
+        try {
+            focusRequester.requestFocus()
+            keyboardController?.show()
+        } catch (e: Exception) {
+            // Focus request may fail if composable is not yet ready
+        }
+    }
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -107,7 +135,7 @@ fun InputDialog(
                         inputValue = input.value,
                         onInputValueChange = {
                             input.value = it
-                            val validationResult = validateInput(it)
+                            val validationResult = validateInput(it.text)
                             val errorStringRes = pickErrorMessage(validationResult)
                             isError.value =
                                 validationResult != Constants.InputError.NONE
@@ -117,7 +145,7 @@ fun InputDialog(
                         isError = isError.value,
                         errorMessageResId = errorMessageStringRes.intValue,
                         onKeyboardDoneAction = {
-                            if (!isError.value) primaryAction(input.value)
+                            if (!isError.value) primaryAction(input.value.text)
                         },
                         inputFieldSingleLine = inputFieldSingleLine,
                         inputFieldSize = inputFieldSize,
@@ -125,10 +153,11 @@ fun InputDialog(
                         inputFieldPostfixText = inputFieldPostfix,
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
+                        focusRequester = focusRequester,
                     )
                     InputDialogButtonsLayout(
                         primaryButtonLabel = primaryButtonLabel,
-                        onPrimaryClick = { primaryAction(input.value) },
+                        onPrimaryClick = { primaryAction(input.value.text) },
                         secondaryButtonLabel = secondaryButtonLabel,
                         onSecondaryClick = secondaryAction,
                         dismissButtonLabel = dismissButtonLabel,
@@ -145,8 +174,8 @@ fun InputDialog(
 
 @Composable
 private fun InputDialogBodyContent(
-    inputValue: String,
-    onInputValueChange: (String) -> Unit,
+    inputValue: TextFieldValue,
+    onInputValueChange: (TextFieldValue) -> Unit,
     isError: Boolean,
     errorMessageResId: Int,
     onKeyboardDoneAction: () -> Unit,
@@ -156,6 +185,7 @@ private fun InputDialogBodyContent(
     inputFieldPostfixText: String,
     effectiveDialogContentWidthDp: Dp,
     density: Density,
+    focusRequester: FocusRequester,
 ) {
     val inputSpacing = dimensionResource(R.dimen.spacing_15)
     val dialogHorizontalPadding = dimensionResource(R.dimen.spacing_1)
@@ -216,6 +246,7 @@ private fun InputDialogBodyContent(
                 keyboardActions = KeyboardActions(onDone = { if (isError.not()) onKeyboardDoneAction() }),
                 modifier =
                     Modifier
+                        .focusRequester(focusRequester)
                         .then(
                             if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
                                 Modifier
