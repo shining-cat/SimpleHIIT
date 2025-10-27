@@ -82,6 +82,7 @@ jobs:
 
       - name: Generate Module Dependency Graph
         run: |
+          mkdir -p build/reports
           ./gradlew :android:mobile:app:generateModulesGraphvizText -Pmodules.graph.of.module=:android:mobile:app -Pmodules.graph.output.gv=build/reports/dependency-graph --no-configure-on-demand
           mv build/reports/dependency-graph build/reports/dependency-graph.gv
 
