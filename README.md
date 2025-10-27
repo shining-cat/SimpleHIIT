@@ -1,4 +1,6 @@
-![[https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml]](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml/badge.svg)
+[![Ktlint Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Ktlint%20Check)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
+[![Module Dependencies](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Module%20Dependencies)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
+[![Unit Tests](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Unit%20Tests)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
 
 # SimpleHIIT
