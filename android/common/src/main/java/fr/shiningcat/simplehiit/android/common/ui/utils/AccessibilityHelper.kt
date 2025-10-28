@@ -49,7 +49,11 @@ data class TextLayoutInfo(
  * Checks if the given text, when styled with the provided [TextLayoutInfo.style], fits within
  * the specified [numberOfLines] given the [availableWidthPx].
  *
- * @param textLayoutInfo A [TextLayoutInfo] object containing the text string and its [TextStyle].
+ * **Note:** The [TextLayoutInfo.style] MUST use fontSize in sp units (e.g., 14.sp)
+ *          for font scale accessibility to work correctly. Using dp or px units
+ *          will not respect the user's font size settings.
+ *
+ *  @param textLayoutInfo A [TextLayoutInfo] object containing the text string and its [TextStyle]
  * @param numberOfLines The maximum number of lines the text is allowed to occupy.
  * @param availableWidthPx The available width in pixels for the text to be rendered in.
  * @return `true` if the text fits within the specified constraints, `false` otherwise.
