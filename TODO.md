@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* user selection in phone vertical could be a flowrow rather than a grid, makes more sense when we have other content below
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * session running screen issue when it does not fit vertically on mobile phone screen... should it
@@ -31,6 +30,7 @@
   if possible
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user
   decide? (follow system (would be default), force dark, force light)
+* user object could expose the timestamp of their last session so we could sort them on this on the home for convenience
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the

@@ -29,7 +29,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
-fun getToggleButtonLostWidthDp(): Float {
+fun getToggleButtonLostWidthPix(): Float {
     val density = LocalDensity.current
     return with(density) {
         (FilterChipDefaults.IconSize + dimensionResource(R.dimen.spacing_1) * 4).toPx()

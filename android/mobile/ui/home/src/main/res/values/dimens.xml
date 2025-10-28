@@ -4,4 +4,5 @@
     <dimen name="error_symbol_size">120dp</dimen>
     <dimen name="user_select_toggle_button_height">56dp</dimen>
     <dimen name="user_select_toggle_button_min_width">112dp</dimen>
+    <dimen name="user_select_vertical_height">236dp</dimen>
 </resources>
