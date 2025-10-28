@@ -36,7 +36,7 @@ fun adaptDpToFontScale(
     val fontScale = density.fontScale
     val scaledBase = baseSize * fontScale
     val coercedMin = coerceMinSize?.let { scaledBase.coerceAtLeast(it) } ?: scaledBase
-    val coercedMax = coerceMaxSize?.let { coercedMin.coerceAtMost(it) } ?: scaledBase
+    val coercedMax = coerceMaxSize?.let { coercedMin.coerceAtMost(it) } ?: coercedMin
     return coercedMax
 }
 
