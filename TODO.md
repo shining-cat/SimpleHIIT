@@ -1,21 +1,22 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
-  container focused color for textbutton is surface
 * improve layouts, including 200% fontscale, orientations and devices:
   * [x] home
   * [ ] statistics
   * [ ] settings
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
+* **TV:** text button focus is not visible enough when button is on a surface (like in a dialog) because
+  container focused color for textbutton is surface
+* **TV:** buttons focus zoom effect is a bit too strong, either tune down or increase margins to avoid ugly overlaps
 
 ## Publication
-* Find how to publish on Fdroid?
+* Find how to publish: Fdroid, or github, or home?
 
 ## General technical improvements
+* could we extract even more **platform-agnostic** logic from the viewmodels?
 * add tests on viewmodels
 * screenshot tests if they can run on github for free
-* ktlint and AS "format code" on commit contradict each other leading to CI failures if option is checked in AS
 * upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 
