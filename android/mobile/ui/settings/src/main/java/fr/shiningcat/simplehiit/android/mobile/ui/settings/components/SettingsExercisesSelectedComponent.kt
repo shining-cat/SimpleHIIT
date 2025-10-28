@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
-import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleButtonLostWidthDp
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleButtonLostWidthPix
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
@@ -49,9 +49,9 @@ fun SettingsExercisesSelectedComponent(
         val spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_1)
         val density = LocalDensity.current
         val spacingPix = with(density) { spacingDp.toPx() }
-        val toggleButtonLostWidthPix = getToggleButtonLostWidthDp()
+        val toggleButtonLostWidthPix = getToggleButtonLostWidthPix()
         val oneThirdColumnAvailableWidth =
-            (availableWidthPix - 2 * spacingPix) / 3f - toggleButtonLostWidthPix
+            (availableWidthPix - 3 * spacingPix) / 3f - toggleButtonLostWidthPix
         val use3Columns =
             exerciseTypes.all {
                 fitsOnXLines(
@@ -61,7 +61,7 @@ fun SettingsExercisesSelectedComponent(
                             style = MaterialTheme.typography.labelMedium,
                         ),
                     numberOfLines = 1,
-                    availableWidthPx = oneThirdColumnAvailableWidth.roundToInt(),
+                    availableWidthPix = oneThirdColumnAvailableWidth.roundToInt(),
                 )
             }
         val numberOfColumns = if (use3Columns) 3 else 2

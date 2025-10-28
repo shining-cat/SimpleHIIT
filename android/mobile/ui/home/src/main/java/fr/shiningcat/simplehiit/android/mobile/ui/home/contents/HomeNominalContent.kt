@@ -1,15 +1,17 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.contents
 
-import androidx.compose.foundation.layout.Arrangement.spacedBy
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,7 +31,8 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.LaunchSessionButton
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.NumberCyclesComponent
-import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersComponent
+import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersComponentHorizontal
+import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersComponentVertical
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SingleUserHeaderComponent
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
@@ -99,17 +102,17 @@ private fun VerticalHomeNominalContent(
     Column(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_1))
-                .fillMaxSize(),
+                .padding(vertical = dimensionResource(R.dimen.spacing_1))
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         if (users.size == 1) {
             SingleUserHeaderComponent(
-                modifier = Modifier.weight(1f),
                 user = users[0],
             )
         } else {
-            SelectUsersComponent(
-                modifier = Modifier.weight(.5f, true),
+            SelectUsersComponentVertical(
                 users = users,
                 toggleSelectedUser = toggleSelectedUser,
             )
@@ -161,55 +164,60 @@ private fun HorizontalHomeNominalContent(
     Row(
         modifier =
             Modifier
-                .padding(horizontal = dimensionResource(R.dimen.spacing_1))
+                .padding(start = dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize(),
-        horizontalArrangement = spacedBy(dimensionResource(R.dimen.spacing_1)),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         if (users.size == 1) {
             SingleUserHeaderComponent(
                 modifier = Modifier.weight(1f),
-                user = users[0],
+                user = users.first(),
             )
         } else {
-            SelectUsersComponent(
+            SelectUsersComponentHorizontal(
                 modifier = Modifier.weight(1f),
                 users = users,
                 toggleSelectedUser = toggleSelectedUser,
             )
         }
-        LazyColumn(
+        VerticalDivider(
+            modifier =
+                Modifier
+                    .fillMaxHeight()
+                    .padding(horizontal = dimensionResource(R.dimen.spacing_1)),
+            thickness = Dp.Hairline,
+        )
+        Column(
             modifier =
                 Modifier
                     .weight(1f)
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
             verticalArrangement =
                 StickyFooterArrangement(0.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            item {
-                NumberCyclesComponent(
-                    decreaseNumberOfCycles = decreaseNumberOfCycles,
-                    increaseNumberOfCycles = increaseNumberOfCycles,
-                    numberOfCycles = numberOfCycles,
-                    lengthOfCycle = lengthOfCycle,
-                    totalLengthFormatted = totalLengthFormatted,
-                    modifier = Modifier.weight(1f, true),
-                )
-            }
-            item {
-                HorizontalDivider(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = dimensionResource(R.dimen.spacing_1)),
-                    thickness = Dp.Hairline,
-                )
-                LaunchSessionButton(
-                    canLaunchSession = canLaunchSession,
-                    navigateToSession = navigateToSession,
-                    launchSessionWarning = warning,
-                )
-            }
+            NumberCyclesComponent(
+                decreaseNumberOfCycles = decreaseNumberOfCycles,
+                increaseNumberOfCycles = increaseNumberOfCycles,
+                numberOfCycles = numberOfCycles,
+                lengthOfCycle = lengthOfCycle,
+                totalLengthFormatted = totalLengthFormatted,
+                modifier = Modifier.weight(1f, true),
+            )
+
+            HorizontalDivider(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
+                thickness = Dp.Hairline,
+            )
+            LaunchSessionButton(
+                canLaunchSession = canLaunchSession,
+                navigateToSession = navigateToSession,
+                launchSessionWarning = warning,
+            )
         }
     }
 }
@@ -219,7 +227,7 @@ private fun HorizontalHomeNominalContent(
 @PreviewFontScale
 @PreviewScreenSizes
 @Composable
-private fun HomeNominalContentPreviewPhoneLandscape(
+private fun HomeNominalContentPreviewPhone(
     @PreviewParameter(HomeNominalContentPreviewParameterProvider::class) users: List<User>,
 ) {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
@@ -259,17 +267,26 @@ internal class HomeNominalContentPreviewParameterProvider : PreviewParameterProv
                     User(123L, "User 1", selected = true),
                     User(234L, "User pouet 2", selected = false),
                     User(345L, "User ping 3", selected = true),
-                    User(345L, "User 4 long name", selected = true),
-                    User(123L, "User tralala 5", selected = true),
-                    User(234L, "User tudut 6", selected = false),
-                    User(345L, "User toto 7", selected = true),
-                    User(345L, "UserWithLongName 8", selected = true),
                 ),
                 listOf(
                     User(123L, "User 1", selected = true),
                     User(234L, "User pouet 2", selected = false),
                     User(345L, "User ping 3", selected = true),
-                    User(345L, "User 4 hase a very long name", selected = true),
+                    User(345L, "User 4 a long name", selected = true),
+                ),
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User pouet 2", selected = false),
+                    User(345L, "User ping 3", selected = true),
+                    User(345L, "User 4 a long name", selected = true),
+                    User(123L, "User tralala 5", selected = true),
+                    User(234L, "User tudut 6", selected = false),
+                ),
+                listOf(
+                    User(123L, "User 1", selected = true),
+                    User(234L, "User pouet 2", selected = false),
+                    User(345L, "User ping 3", selected = true),
+                    User(345L, "User 4 a long name", selected = true),
                     User(123L, "User tralala 5", selected = true),
                     User(234L, "User tudut 6", selected = false),
                     User(345L, "User toto 7", selected = true),

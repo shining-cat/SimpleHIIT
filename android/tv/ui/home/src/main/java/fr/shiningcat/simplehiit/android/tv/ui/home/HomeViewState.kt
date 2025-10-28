@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.tv.ui.home
 
+import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 
 sealed interface HomeViewState {
@@ -10,6 +11,7 @@ sealed interface HomeViewState {
         val cycleLength: String,
         val users: List<User>,
         val totalSessionLengthFormatted: String,
+        val warning: LaunchSessionWarning? = null,
     ) : HomeViewState
 
     data class MissingUsers(

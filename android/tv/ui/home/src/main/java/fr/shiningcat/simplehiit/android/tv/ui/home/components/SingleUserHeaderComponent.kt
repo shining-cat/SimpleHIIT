@@ -2,13 +2,10 @@ package fr.shiningcat.simplehiit.android.tv.ui.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -27,7 +24,7 @@ fun SingleUserHeaderComponent(
     user: User,
 ) {
     Column(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
@@ -36,7 +33,6 @@ fun SingleUserHeaderComponent(
             text = stringResource(id = R.string.single_user_header_title),
             style = MaterialTheme.typography.headlineLarge,
         )
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_3)))
         Text(
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,

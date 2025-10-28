@@ -33,7 +33,10 @@ fun NumberCyclesComponent(
     lengthOfCycle: String,
     totalLengthFormatted: String,
 ) {
-    Column(modifier = modifier.fillMaxWidth()) {
+    Column(
+        modifier = modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.Center,
+    ) {
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),

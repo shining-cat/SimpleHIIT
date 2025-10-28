@@ -3,6 +3,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.home
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
+import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
@@ -95,6 +96,7 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                         cycleLength = MOCK_DURATION_STRING,
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
                         totalSessionLengthFormatted = MOCK_DURATION_STRING,
+                        warning = null,
                     ),
                 ),
                 Arguments.of(
@@ -110,6 +112,24 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                         cycleLength = MOCK_DURATION_STRING,
                         users = listOf(testUser1, testUser2),
                         totalSessionLengthFormatted = MOCK_DURATION_STRING,
+                        warning = null,
+                    ),
+                ),
+                Arguments.of(
+                    Output.Success(
+                        HomeSettings(
+                            numberCumulatedCycles = 7,
+                            cycleLengthMs = 345L,
+                            users = listOf(testUser1, testUser2, testUser3),
+                            warning = LaunchSessionWarning.DUPLICATED_EXERCISES,
+                        ),
+                    ),
+                    HomeViewState.Nominal(
+                        numberCumulatedCycles = 7,
+                        cycleLength = MOCK_DURATION_STRING,
+                        users = listOf(testUser1, testUser2, testUser3),
+                        totalSessionLengthFormatted = MOCK_DURATION_STRING,
+                        warning = LaunchSessionWarning.DUPLICATED_EXERCISES,
                     ),
                 ),
                 Arguments.of(
