@@ -15,6 +15,7 @@ import fr.shiningcat.simplehiit.android.tv.ui.home.HomeDialog
 import fr.shiningcat.simplehiit.android.tv.ui.home.HomeViewState
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
@@ -54,6 +55,7 @@ fun HomeContentHolder(
                 users = screenViewState.users,
                 toggleSelectedUser = toggleSelectedUser,
                 navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
+                warning = screenViewState.warning,
                 hiitLogger = hiitLogger,
             )
     }
@@ -108,6 +110,18 @@ internal class HomeContentHolderPreviewParameterProvider : PreviewParameterProvi
                             User(345L, "User 3", selected = true),
                         ),
                     totalSessionLengthFormatted = "total time: 20mn",
+                ),
+                HomeViewState.Nominal(
+                    numberCumulatedCycles = 5,
+                    cycleLength = "4mn",
+                    users =
+                        listOf(
+                            User(123L, "User 1", selected = true),
+                            User(234L, "User 2", selected = false),
+                            User(345L, "User 3", selected = true),
+                        ),
+                    totalSessionLengthFormatted = "total time: 20mn",
+                    warning = LaunchSessionWarning.SKIPPED_EXERCISE_TYPES,
                 ),
             )
 }

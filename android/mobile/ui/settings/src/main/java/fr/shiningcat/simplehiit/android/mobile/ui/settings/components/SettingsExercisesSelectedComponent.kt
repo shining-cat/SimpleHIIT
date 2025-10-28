@@ -61,7 +61,7 @@ fun SettingsExercisesSelectedComponent(
                             style = MaterialTheme.typography.labelMedium,
                         ),
                     numberOfLines = 1,
-                    availableWidthPx = oneThirdColumnAvailableWidth.roundToInt(),
+                    availableWidthPix = oneThirdColumnAvailableWidth.roundToInt(),
                 )
             }
         val numberOfColumns = if (use3Columns) 3 else 2

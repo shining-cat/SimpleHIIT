@@ -76,7 +76,7 @@ fun SelectUsersComponentHorizontal(
                                 style = MaterialTheme.typography.labelMedium,
                             ),
                         numberOfLines = 1,
-                        availableWidthPx = oneHalfColumnAvailableWidth.roundToInt(),
+                        availableWidthPix = oneHalfColumnAvailableWidth.roundToInt(),
                     )
                 }
             // we don't adapt the button's height to fontscale as even 200% fits fine in the height used
@@ -94,7 +94,7 @@ fun SelectUsersComponentHorizontal(
                                     style = MaterialTheme.typography.headlineLarge,
                                 ),
                             maxLines = 1,
-                            availableWidthPx = availableWidthPix,
+                            availableWidthPix = availableWidthPix,
                         ) ?: 0
                     // we'll add an additional spacing at the bottom in the calculation for comfort
                     val totalUsedHeightPix = titleHeightPix + spacingPix + users.size * (buttonHeightPix + spacingPix)

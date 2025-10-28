@@ -3,9 +3,11 @@
 ## Missing features / issues
 * TV: text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
-* session running screen issue when it does not fit vertically on mobile phone screen... should it
-  scroll or be constrained?
-* improve 200% fontscale layouts
+* improve layouts, including 200% fontscale, orientations and devices:
+  * [x] home
+  * [ ] statistics
+  * [ ] settings
+  * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
 
 ## Publication
 * Find how to publish on Fdroid?
@@ -22,8 +24,8 @@
   github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools
 
 ## Form factors (phone - AndroidTV - smartWatch)
-* check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 * move the whole thing to KMP and build other platforms
+* watch? check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this
@@ -34,10 +36,6 @@
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
 * create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
-  hiit_description.
+  hiit_description, accessible through a new ? button in the home top app bar actions menu
 * refine fr and swedish translations
 * statistics maybe remove seconds from displays to reduce clutter?
-* add home screen shortcut launchers to start session and statistics
-* Nice to have and study
-  case: [particles animation](https://proandroiddev.com/creating-a-particle-explosion-animation-in-jetpack-compose-4ee42022bbfa)
-

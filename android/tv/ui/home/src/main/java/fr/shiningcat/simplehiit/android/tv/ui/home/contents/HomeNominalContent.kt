@@ -5,8 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -16,11 +19,14 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -29,6 +35,7 @@ import fr.shiningcat.simplehiit.android.tv.ui.home.components.NumberCyclesCompon
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SelectUsersComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SingleUserHeaderComponent
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.delay
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
@@ -43,6 +50,7 @@ fun HomeNominalContent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
     navigateToSession: () -> Unit = {},
+    warning: LaunchSessionWarning? = null,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
@@ -63,7 +71,7 @@ fun HomeNominalContent(
         if (users.size == 1) {
             SingleUserHeaderComponent(
                 modifier = Modifier.weight(1f),
-                user = users[0],
+                user = users.first(),
             )
         } else {
             SelectUsersComponent(
@@ -76,7 +84,8 @@ fun HomeNominalContent(
             modifier =
                 Modifier
                     .weight(1f)
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
+                    .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             NumberCyclesComponent(
@@ -87,31 +96,67 @@ fun HomeNominalContent(
                 totalLengthFormatted = totalLengthFormatted,
                 modifier = Modifier.weight(1f, true),
             )
-            Row(
+            Column(
                 modifier = Modifier.weight(1f, true),
-                verticalAlignment = Alignment.CenterVertically,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Spacer(modifier = Modifier.weight(.3f))
-                ButtonFilled(
-                    modifier =
-                        Modifier
-                            .height(dimensionResource(R.dimen.button_height))
-                            .weight(.3f)
-                            .focusRequester(focusRequester),
-                    fillWidth = true,
-                    fillHeight = true,
-                    // calling focus on the launch button on opening
-                    label =
-                        if (canLaunchSession) {
-                            stringResource(id = CommonResourcesR.string.launch_session_label)
-                        } else {
-                            stringResource(id = CommonResourcesR.string.cannot_launch_session_label)
-                        },
-                    accentColor = true,
-                    enabled = canLaunchSession,
-                    onClick = navigateToSession,
-                )
-                Spacer(modifier = Modifier.weight(.3f))
+                Row(
+                    modifier = Modifier.fillMaxWidth().weight(.8f),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Spacer(modifier = Modifier.weight(.3f))
+                    ButtonFilled(
+                        modifier =
+                            Modifier
+                                .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
+                                .weight(.3f)
+                                .focusRequester(focusRequester),
+                        fillWidth = true,
+                        fillHeight = true,
+                        // calling focus on the launch button on opening
+                        label =
+                            if (canLaunchSession) {
+                                stringResource(id = CommonResourcesR.string.launch_session_label)
+                            } else {
+                                stringResource(id = CommonResourcesR.string.cannot_launch_session_label)
+                            },
+                        accentColor = true,
+                        enabled = canLaunchSession,
+                        onClick = navigateToSession,
+                    )
+                    Spacer(modifier = Modifier.weight(.3f))
+                }
+                warning?.let {
+                    val warningText =
+                        when (it) {
+                            LaunchSessionWarning.DUPLICATED_EXERCISES ->
+                                stringResource(
+                                    id = CommonResourcesR.string.launch_session_warning_duplicated_exercises,
+                                )
+
+                            LaunchSessionWarning.SKIPPED_EXERCISE_TYPES ->
+                                stringResource(
+                                    id = CommonResourcesR.string.launch_session_warning_skipped_exercise_types,
+                                )
+
+                            LaunchSessionWarning.NO_USER_SELECTED ->
+                                stringResource(
+                                    id = CommonResourcesR.string.launch_session_warning_no_user_selected,
+                                )
+                        }
+                    Text(
+                        text = warningText,
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier =
+                            Modifier
+                                .padding(
+                                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
+                                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                                ),
+                        textAlign = TextAlign.Center,
+                    )
+                }
             }
         }
     }
@@ -131,6 +176,7 @@ private fun HomeNominalContentPreviewPhonePortrait(
                 lengthOfCycle = "4mn",
                 totalLengthFormatted = "20mn",
                 users = users,
+                warning = LaunchSessionWarning.DUPLICATED_EXERCISES,
             )
         }
     }

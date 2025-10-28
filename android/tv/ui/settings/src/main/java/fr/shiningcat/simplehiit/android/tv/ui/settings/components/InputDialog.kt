@@ -267,7 +267,7 @@ private fun InputDialogBodyContent(
         fitsOnXLines(
             textLayoutInfo = inputFieldPostfixLayout,
             numberOfLines = 1,
-            availableWidthPx = inputFieldPostfixLayoutAvailableWidth,
+            availableWidthPix = inputFieldPostfixLayoutAvailableWidth,
         )
 
     Column(Modifier.fillMaxWidth()) {

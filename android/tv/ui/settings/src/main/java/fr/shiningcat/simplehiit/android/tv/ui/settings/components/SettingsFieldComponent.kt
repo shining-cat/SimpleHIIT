@@ -75,12 +75,12 @@ fun SettingsFieldComponent(
     val useHorizontalLayout =
         fitsInWidth(
             textLayoutInfos = elementsFirstLine,
-            availableWidthPx = availableWidthPix,
+            availableWidthPix = availableWidthPix,
             spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_05),
         ) &&
             fitsInWidth(
                 textLayoutInfos = elementsSecondLine,
-                availableWidthPx = availableWidthPix,
+                availableWidthPix = availableWidthPix,
                 spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_05),
             )
     val modifier =

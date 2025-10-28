@@ -1,15 +1,18 @@
 package fr.shiningcat.simplehiit.android.tv.ui.home.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -21,7 +24,9 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
+import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.common.ui.utils.getTextHeightPix
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonToggle
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.home.R
@@ -34,37 +39,70 @@ fun SelectUsersComponent(
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
 ) {
-    Column(
-        modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
-        Text(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = spacing),
-            textAlign = TextAlign.Center,
-            text = stringResource(id = CommonResourcesR.string.selected_users_setting_title),
-            style = MaterialTheme.typography.headlineLarge,
-        )
-        FlowRow(
-            horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
-            verticalArrangement = Arrangement.spacedBy(spacing),
-            maxItemsInEachRow = 3,
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val density = LocalDensity.current
+        val availableHeightPix = with(density) { maxHeight.toPx() }
+        val availableWidthPix = with(density) { maxWidth.toPx() }.toInt()
+
+        Column(
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            users.forEach { user ->
-                ButtonToggle(
-                    modifier =
-                        Modifier
-                            .height(adaptDpToFontScale(dimensionResource(R.dimen.user_select_button_height))),
-                    fillWidth = false,
-                    fillHeight = true,
-                    label = user.name,
-                    selected = user.selected,
-                    onToggle = { toggleSelectedUser(user) },
-                )
+            val title = stringResource(id = CommonResourcesR.string.selected_users_setting_title)
+            val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
+            val spacingPix = with(density) { spacing.toPx() }
+
+            Text(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = spacing),
+                textAlign = TextAlign.Center,
+                text = title,
+                style = MaterialTheme.typography.headlineLarge,
+            )
+
+            val baseButtonHeightDp = adaptDpToFontScale(dimensionResource(R.dimen.user_select_button_height))
+
+            // Check if all users fit in available height when laid out in a single column
+            val buttonHeightPix = with(density) { baseButtonHeightDp.toPx() }
+            val titleHeightPix =
+                getTextHeightPix(
+                    textLayoutInfo =
+                        TextLayoutInfo(
+                            text = title,
+                            style = MaterialTheme.typography.headlineLarge,
+                        ),
+                    maxLines = 1,
+                    availableWidthPix = availableWidthPix,
+                ) ?: 0
+            // Add an additional spacing at the bottom for comfort
+            val totalUsedHeightPix = titleHeightPix + spacingPix + users.size * (buttonHeightPix + spacingPix)
+            val numberOfColumns = if (availableHeightPix > totalUsedHeightPix) 1 else 2
+
+            LazyVerticalGrid(
+                modifier =
+                    Modifier
+                        .padding(top = spacing)
+                        .fillMaxWidth(),
+                columns = GridCells.Fixed(numberOfColumns),
+                verticalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterVertically),
+                horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
+            ) {
+                items(users.size) { index ->
+                    val user = users[index]
+                    ButtonToggle(
+                        modifier =
+                            Modifier
+                                .height(baseButtonHeightDp)
+                                .defaultMinSize(minWidth = dimensionResource(R.dimen.user_select_button_min_width)),
+                        fillWidth = false,
+                        fillHeight = true,
+                        label = user.name,
+                        selected = user.selected,
+                        onToggle = { toggleSelectedUser(user) },
+                    )
+                }
             }
         }
     }

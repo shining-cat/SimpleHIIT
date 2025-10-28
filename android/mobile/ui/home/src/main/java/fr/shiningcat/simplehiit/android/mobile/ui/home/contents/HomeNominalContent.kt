@@ -171,7 +171,7 @@ private fun HorizontalHomeNominalContent(
         if (users.size == 1) {
             SingleUserHeaderComponent(
                 modifier = Modifier.weight(1f),
-                user = users[0],
+                user = users.first(),
             )
         } else {
             SelectUsersComponentHorizontal(
