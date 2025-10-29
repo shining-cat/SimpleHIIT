@@ -32,7 +32,16 @@ import fr.shiningcat.simplehiit.commonresources.R
 fun getToggleButtonLostWidthPix(): Float {
     val density = LocalDensity.current
     return with(density) {
-        (FilterChipDefaults.IconSize + dimensionResource(R.dimen.spacing_1) * 4).toPx()
+        // FilterChip internal width components (when selected, i.e. with leading icon):
+        // - Leading icon size: 18dp (FilterChipDefaults.IconSize)
+        // - Icon spacing: 8dp (between icon and text)
+        // - Start padding: 16dp (FilterChip default horizontal padding)
+        // - End padding: 16dp (FilterChip default horizontal padding)
+        // Total lost width = 18 + 8 + 16 + 16 = 58dp
+        val iconSize = FilterChipDefaults.IconSize // 18dp
+        val iconSpacing = dimensionResource(R.dimen.spacing_1) // 8dp
+        val horizontalPadding = dimensionResource(R.dimen.spacing_2) * 2 // 16dp * 2 = 32dp
+        (iconSize + iconSpacing + horizontalPadding).toPx()
     }
 }
 

@@ -55,7 +55,7 @@
     <string name="language_system_default">Par défaut du système</string>
     <string name="work_period_length_label">Work period length</string>
     <string name="seconds">seconds</string>
-    <string name="seconds_setting_value" translatable="false">%1$s s</string>
+    <string name="seconds_setting_value" translatable="false">%1$ss</string>
     <string name="rest_period_length_label">Rest period length</string>
     <string name="number_of_periods_label">Number of work period</string>
     <string name="number_of_exercises_per_cycle">Exercises per cycle</string>

@@ -71,6 +71,7 @@ fun SettingsFieldComponent(
             secondaryLabelStyled,
             secondaryValueStyled,
         )
+    // todo: this gets the device width and not the available container width
     val availableWidthPix = LocalWindowInfo.current.containerSize.width
     val useHorizontalLayout =
         fitsInWidth(

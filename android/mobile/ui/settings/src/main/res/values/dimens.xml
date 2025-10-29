@@ -6,5 +6,6 @@
     <dimen name="add_user_button_icon_size">32dp</dimen>
     <dimen name="user_button_min_width">80dp</dimen>
     <dimen name="exercise_select_button_height">56dp</dimen>
+    <dimen name="toggle_switch_height">36dp</dimen>
 
 </resources>
