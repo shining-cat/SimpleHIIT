@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -96,9 +95,11 @@ fun ButtonText(
                         } else {
                             ""
                         },
-                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
+                    modifier =
+                        Modifier
+                            .size(adaptDpToFontScale(MediumIconSize))
+                            .padding(end = ButtonDefaults.IconSpacing),
                 )
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
             }
             Text(
                 text = label,

@@ -58,6 +58,7 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  *                  as a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering
  * @param maxLines The maximum number of lines to be used for the label.
  * @param textAlign The alignment of the label text.
+ * @param reserveIconSpace When true, reserves space for an icon even when icon is null, ensuring consistent width with buttons that have icons.
  * @param onClick Called when this button is clicked.
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
@@ -71,6 +72,7 @@ fun ButtonBordered(
     fillHeight: Boolean = false,
     maxLines: Int = 1,
     textAlign: TextAlign = TextAlign.Center,
+    reserveIconSpace: Boolean = false,
     onClick: () -> Unit,
 ) {
     OutlinedButton(
@@ -144,8 +146,8 @@ fun ButtonBordered(
                         Modifier
                     },
                 ).padding(
-                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_1),
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_05),
+                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                 )
 
         Row(
@@ -159,12 +161,13 @@ fun ButtonBordered(
                     imageVector = icon,
                     contentDescription = null,
                 )
-                if (label != null) {
-                    Spacer(modifier = Modifier.width(dimensionResource(CommonResourcesR.dimen.spacing_1)))
-                }
+            } else if (reserveIconSpace) {
+                // Reserve space for icon to match width with buttons that have icons
+                Spacer(modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)))
             }
             if (label != null) {
                 Text(
+                    modifier = Modifier.padding(ButtonDefaults.IconSpacing),
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
                     overflow = TextOverflow.Ellipsis,

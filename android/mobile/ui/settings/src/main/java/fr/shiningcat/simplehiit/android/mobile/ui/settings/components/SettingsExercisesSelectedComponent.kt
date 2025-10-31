@@ -3,9 +3,9 @@ package fr.shiningcat.simplehiit.android.mobile.ui.settings.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.MaterialTheme
@@ -45,11 +45,10 @@ fun SettingsExercisesSelectedComponent(
         Column {
             Text(
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
                 style = MaterialTheme.typography.headlineMedium,
                 text = stringResource(id = CommonResourcesR.string.selected_exercise_types_list_setting_label),
             )
-            Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_1)))
 
             val spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_1)
             val spacingPix = with(density) { spacingDp.toPx() }

@@ -238,11 +238,15 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
     private val listOfMoreUser =
         listOf(
-            User(name = "user 1"),
-            User(name = "user 2"),
-            User(name = "user 3"),
-            User(name = "user 4"),
-            User(name = "user 5"),
+            User(123L, "User 1", selected = true),
+            User(234L, "User pouet 2", selected = false),
+            User(345L, "User ping 3", selected = true),
+            User(345L, "User 4 has a very long name", selected = true),
+            User(123L, "User tralala 5", selected = true),
+            User(234L, "User tudut 6", selected = false),
+            User(345L, "User toto 7", selected = true),
+            User(345L, "UserWithAVeryLongNameIndeed 8", selected = true),
+            User(345L, "UserWithQuiteALongName 9", selected = true),
         )
 
     override val values: Sequence<SettingsViewState.Nominal>

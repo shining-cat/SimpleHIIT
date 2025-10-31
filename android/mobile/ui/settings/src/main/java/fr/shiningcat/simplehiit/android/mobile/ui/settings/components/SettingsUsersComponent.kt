@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -49,11 +48,10 @@ fun SettingsUsersComponent(
     ) {
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = CommonResourcesR.string.users_list_setting_label),
         )
-        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_1)))
         val itemHeight =
             adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.minimum_touch_size))
         val spacing = dimensionResource(CommonResourcesR.dimen.spacing_1)
@@ -77,10 +75,10 @@ fun SettingsUsersComponent(
                 }
             }
         }
-        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2))) // Add some space before the add button
         Button(
             modifier =
                 Modifier
+                    .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_2))
                     .height(itemHeight)
                     .width(adaptDpToFontScale(dimensionResource(R.dimen.add_user_button_width)))
                     .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_4)),

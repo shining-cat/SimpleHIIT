@@ -2,7 +2,6 @@ package fr.shiningcat.simplehiit.android.tv.ui.home.contents
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -100,32 +99,26 @@ fun HomeNominalContent(
                 modifier = Modifier.weight(1f, true),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().weight(.8f),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Spacer(modifier = Modifier.weight(.3f))
-                    ButtonFilled(
-                        modifier =
-                            Modifier
-                                .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                                .weight(.3f)
-                                .focusRequester(focusRequester),
-                        fillWidth = true,
-                        fillHeight = true,
-                        // calling focus on the launch button on opening
-                        label =
-                            if (canLaunchSession) {
-                                stringResource(id = CommonResourcesR.string.launch_session_label)
-                            } else {
-                                stringResource(id = CommonResourcesR.string.cannot_launch_session_label)
-                            },
-                        accentColor = true,
-                        enabled = canLaunchSession,
-                        onClick = navigateToSession,
-                    )
-                    Spacer(modifier = Modifier.weight(.3f))
-                }
+                ButtonFilled(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
+                            .fillMaxWidth(.3f)
+                            .focusRequester(focusRequester),
+                    fillWidth = true,
+                    fillHeight = true,
+                    // calling focus on the launch button on opening
+                    label =
+                        if (canLaunchSession) {
+                            stringResource(id = CommonResourcesR.string.launch_session_label)
+                        } else {
+                            stringResource(id = CommonResourcesR.string.cannot_launch_session_label)
+                        },
+                    accentColor = true,
+                    enabled = canLaunchSession,
+                    onClick = navigateToSession,
+                )
+
                 warning?.let {
                     val warningText =
                         when (it) {
@@ -153,7 +146,7 @@ fun HomeNominalContent(
                                 .padding(
                                     vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                                     horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3),
-                                ),
+                                ).fillMaxWidth(.8f),
                         textAlign = TextAlign.Center,
                     )
                 }

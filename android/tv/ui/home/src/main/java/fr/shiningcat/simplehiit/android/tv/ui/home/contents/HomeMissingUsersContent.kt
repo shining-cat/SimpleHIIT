@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -84,11 +83,10 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                     ),
         )
         Row {
-            Spacer(modifier = Modifier.weight(.3f))
             ButtonFilled(
                 modifier =
                     Modifier
-                        .weight(weight = .3f, fill = false)
+                        .fillMaxWidth(.3f)
                         .focusRequester(focusRequester),
                 fillHeight = true,
                 fillWidth = true,
@@ -99,7 +97,6 @@ fun HomeMissingUsersContent(navigateToSettings: () -> Unit = {}) {
                 accentColor = true,
                 onClick = navigateToSettings,
             )
-            Spacer(modifier = Modifier.weight(.3f))
         }
     }
 }

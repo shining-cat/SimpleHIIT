@@ -3,7 +3,6 @@ package fr.shiningcat.simplehiit.android.tv.ui.home.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -73,8 +72,8 @@ fun NumberCyclesComponent(
                 iconContentDescription = CommonResourcesR.string.minus_cycle_description,
                 enabled = minusButtonActive,
             )
-            Spacer(modifier = Modifier.width(dimensionResource(CommonResourcesR.dimen.spacing_3)))
             Text(
+                modifier = Modifier.padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3)),
                 text =
                     stringResource(
                         id = CommonResourcesR.string.number_of_cycle_setting,
@@ -83,7 +82,6 @@ fun NumberCyclesComponent(
                     ),
                 style = MaterialTheme.typography.headlineMedium,
             )
-            Spacer(modifier = Modifier.width(dimensionResource(CommonResourcesR.dimen.spacing_3)))
             ButtonFilled(
                 modifier =
                     Modifier
