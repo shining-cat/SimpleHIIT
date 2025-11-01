@@ -15,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -35,6 +34,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleBut
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.R
 import fr.shiningcat.simplehiit.domain.common.models.User
+import kotlin.math.floor
 import kotlin.math.roundToInt
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
@@ -49,6 +49,7 @@ fun SelectUsersComponentHorizontal(
     ) {
         val density = LocalDensity.current
         val availableHeightPix = with(density) { maxHeight.toPx() }
+        val availableWidthPix = with(density) { maxWidth.toPx() }
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -64,7 +65,6 @@ fun SelectUsersComponentHorizontal(
             val spacingDp = dimensionResource(CommonResourcesR.dimen.spacing_1)
             val spacingPix = with(density) { spacingDp.toPx() }
             val toggleButtonLostWidthPix = getToggleButtonLostWidthPix()
-            val availableWidthPix = LocalWindowInfo.current.containerSize.width
             val oneHalfColumnAvailableWidth =
                 (availableWidthPix - 3 * spacingPix) / 2f - toggleButtonLostWidthPix
             val useTwoColumnAllowed =
@@ -94,7 +94,7 @@ fun SelectUsersComponentHorizontal(
                                     style = MaterialTheme.typography.headlineLarge,
                                 ),
                             maxLines = 1,
-                            availableWidthPix = availableWidthPix,
+                            availableWidthPix = floor(availableWidthPix).toInt(),
                         ) ?: 0
                     // we'll add an additional spacing at the bottom in the calculation for comfort
                     val totalUsedHeightPix = titleHeightPix + spacingPix + users.size * (buttonHeightPix + spacingPix)

@@ -49,6 +49,7 @@ fun ButtonFilled(
     iconContentDescription: Int = -1,
     accentColor: Boolean = false,
     enabled: Boolean = true,
+    reserveIconSpace: Boolean = false,
 ) {
     Button(
         modifier = modifier,
@@ -97,12 +98,17 @@ fun ButtonFilled(
                             ""
                         },
                 )
-            }
-            if (icon != null && label != null) {
-                Spacer(Modifier.size(ButtonDefaults.IconSpacing))
+            } else if (reserveIconSpace) {
+                // Reserve space for icon to match width with buttons that have icons
+                Spacer(modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)))
             }
             if (label != null) {
-                Text(text = label, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                Text(
+                    modifier = Modifier.padding(start = ButtonDefaults.IconSpacing),
+                    text = label,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
             }
         }
     }

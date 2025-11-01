@@ -8,10 +8,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
+import androidx.tv.material3.ButtonDefaults
+import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
@@ -20,12 +23,30 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
+fun getToggleButtonLostWidthPix(): Float {
+    val density = LocalDensity.current
+    return with(density) {
+        // ButtonFilled internal width components (when selected, i.e. with leading icon):
+        // - Leading icon size: 24dp (MediumIconSize)
+        // - Icon spacing: 8dp (ButtonDefaults.IconSpacing)
+        // - Start padding: 16dp (spacing_2)
+        // - End padding: 16dp (spacing_2)
+        // Total lost width = 24 + 8 + 16 + 16 = 64dp
+        val iconSize = MediumIconSize // 24dp
+        val iconSpacing = ButtonDefaults.IconSpacing // 8dp
+        val horizontalPadding = dimensionResource(CommonResourcesR.dimen.spacing_2) * 2 // 16dp * 2 = 32dp
+        (iconSize + iconSpacing + horizontalPadding).toPx()
+    }
+}
+
+@Composable
 fun ButtonToggle(
     modifier: Modifier = Modifier,
     fillWidth: Boolean = false,
     fillHeight: Boolean = false,
     label: String,
     selected: Boolean,
+    reserveIconSpace: Boolean = false,
     onToggle: () -> Unit,
 ) {
     if (selected) {
@@ -37,6 +58,7 @@ fun ButtonToggle(
             label = label,
             icon = Icons.Filled.Done,
             iconContentDescription = CommonResourcesR.string.active,
+            reserveIconSpace = reserveIconSpace,
         )
     } else {
         ButtonBordered(
@@ -45,6 +67,7 @@ fun ButtonToggle(
             fillHeight = fillHeight,
             onClick = { onToggle() },
             label = label,
+            reserveIconSpace = reserveIconSpace,
         )
     }
 }

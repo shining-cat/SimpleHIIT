@@ -4,8 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -54,9 +54,11 @@ fun SideBarItem(
         Icon(
             imageVector = ImageVector.vectorResource(icon),
             contentDescription = stringResource(id = label),
-            modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
+            modifier =
+                Modifier
+                    .padding(end = ButtonDefaults.IconSpacing)
+                    .size(adaptDpToFontScale(MediumIconSize)),
         )
-        Spacer(Modifier.size(ButtonDefaults.IconSpacing))
         Text(text = stringResource(label))
     }
 }

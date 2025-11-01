@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -49,6 +50,7 @@ fun SettingsErrorContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             modifier =
@@ -65,10 +67,11 @@ fun SettingsErrorContent(
         Text(
             textAlign = TextAlign.Center,
             modifier =
-                Modifier.padding(
-                    horizontal = 0.dp,
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                ),
+                Modifier
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    ).fillMaxWidth(.5f),
             text = stringResource(id = CommonResourcesR.string.error_irrecoverable_state_settings),
             style = MaterialTheme.typography.headlineMedium,
         )

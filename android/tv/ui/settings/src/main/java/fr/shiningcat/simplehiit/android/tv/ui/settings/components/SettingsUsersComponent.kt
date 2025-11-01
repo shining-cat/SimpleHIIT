@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -70,12 +69,12 @@ fun SettingsUsersComponent(
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(spacing))
         }
 
         ButtonFilled(
             modifier =
                 Modifier
+                    .padding(top = spacing)
                     .height(itemHeight)
                     .width(dimensionResource(R.dimen.settings_add_user_button_width)),
             fillWidth = true,

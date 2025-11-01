@@ -2,8 +2,6 @@ package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -50,12 +48,14 @@ fun ErrorDialog(
                         .fillMaxWidth(),
             ) {
                 Text(
-                    textAlign = TextAlign.Left,
+                    textAlign = TextAlign.Center,
                     modifier =
-                        Modifier.padding(
-                            horizontal = 0.dp,
-                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_05),
-                        ),
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                horizontal = 0.dp,
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_05),
+                            ),
                     text = stringResource(id = CommonResourcesR.string.error_title),
                     style = MaterialTheme.typography.headlineSmall,
                 )
@@ -109,25 +109,17 @@ fun ErrorDialog(
                     text = stringResource(id = CommonResourcesR.string.error_code, errorCode),
                     style = MaterialTheme.typography.bodyMedium,
                 )
-                Row(
+                ButtonText(
                     modifier =
                         Modifier
-                            .fillMaxWidth()
-                            .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_3)),
-                ) {
-                    Spacer(modifier = Modifier.weight(.3f))
-                    ButtonText(
-                        modifier =
-                            Modifier
-                                .height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height)))
-                                .weight(weight = .3f, fill = true),
-                        fillWidth = true,
-                        fillHeight = true,
-                        label = dismissButtonLabel,
-                        onClick = dismissAction,
-                    )
-                    Spacer(modifier = Modifier.weight(.3f))
-                }
+                            .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_3))
+                            .fillMaxWidth(3f)
+                            .height(adaptDpToFontScale(dimensionResource(R.dimen.dialog_standard_button_height))),
+                    fillWidth = true,
+                    fillHeight = true,
+                    label = dismissButtonLabel,
+                    onClick = dismissAction,
+                )
             }
         }
     }

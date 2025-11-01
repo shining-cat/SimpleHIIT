@@ -1,10 +1,9 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.contents
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -13,11 +12,13 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -25,6 +26,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsViewState
@@ -62,8 +65,8 @@ fun SettingsNominalContent(
                 .padding(horizontal = dimensionResource(R.dimen.spacing_1))
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1)),
     ) {
-        Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_1)))
         SettingsFieldComponent(
             label = stringResource(id = R.string.work_period_length_label),
             value =
@@ -163,7 +166,10 @@ fun SettingsNominalContent(
                     ).align(Alignment.CenterHorizontally),
             onClick = resetSettings,
         ) {
-            Text(text = stringResource(id = R.string.reset_settings_button_label))
+            Text(
+                text = stringResource(id = R.string.reset_settings_button_label),
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }
@@ -184,11 +190,22 @@ private fun getLanguageDisplayName(language: AppLanguage): String =
 private fun SettingsNominalContentPreview(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,
 ) {
+    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val previewUiArrangement: UiArrangement =
+        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
+            UiArrangement.HORIZONTAL
+        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
+            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
+                UiArrangement.HORIZONTAL
+            } else {
+                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
+            }
+        }
     SimpleHiitMobileTheme {
         Surface {
             SettingsNominalContent(
                 viewState = viewState,
-                uiArrangement = UiArrangement.HORIZONTAL,
+                uiArrangement = previewUiArrangement,
             )
         }
     }
@@ -221,11 +238,15 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
     private val listOfMoreUser =
         listOf(
-            User(name = "user 1"),
-            User(name = "user 2"),
-            User(name = "user 3"),
-            User(name = "user 4"),
-            User(name = "user 5"),
+            User(123L, "User 1", selected = true),
+            User(234L, "User pouet 2", selected = false),
+            User(345L, "User ping 3", selected = true),
+            User(345L, "User 4 has a very long name", selected = true),
+            User(123L, "User tralala 5", selected = true),
+            User(234L, "User tudut 6", selected = false),
+            User(345L, "User toto 7", selected = true),
+            User(345L, "UserWithAVeryLongNameIndeed 8", selected = true),
+            User(345L, "UserWithQuiteALongName 9", selected = true),
         )
 
     override val values: Sequence<SettingsViewState.Nominal>

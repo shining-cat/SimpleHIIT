@@ -1,5 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.components
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,11 +16,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResources
 
 @Composable
 fun SettingsToggleComponent(
@@ -29,15 +34,32 @@ fun SettingsToggleComponent(
     Row(
         Modifier
             .fillMaxWidth()
-            .defaultMinSize(minHeight = dimensionResource(R.dimen.minimum_touch_size))
-            .padding(bottom = dimensionResource(R.dimen.spacing_1)),
+            .defaultMinSize(minHeight = dimensionResource(CommonResources.dimen.minimum_touch_size))
+            .background(MaterialTheme.colorScheme.surface)
+            .clickable { onToggle() }
+            .padding(horizontal = dimensionResource(CommonResources.dimen.spacing_1)),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = label, style = MaterialTheme.typography.headlineSmall)
+        Text(
+            text = label,
+            style =
+                MaterialTheme.typography.labelLarge.copy(
+                    lineHeight = MaterialTheme.typography.labelLarge.fontSize,
+                ),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
         Switch(
+            // scale down the Switch while keeping its right edge pinned to the right side of its layout space
+            modifier =
+                Modifier.graphicsLayer(
+                    scaleX = 0.8f,
+                    scaleY = 0.8f,
+                    transformOrigin = TransformOrigin(1f, 0.5f), // Scale from right-center
+                ),
             checked = value,
-            onCheckedChange = { onToggle() },
+            onCheckedChange = null,
             colors =
                 SwitchDefaults.colors(
                     checkedTrackColor = MaterialTheme.colorScheme.primary,

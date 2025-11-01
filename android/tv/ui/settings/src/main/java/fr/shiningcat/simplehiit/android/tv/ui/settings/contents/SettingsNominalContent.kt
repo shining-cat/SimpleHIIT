@@ -1,10 +1,10 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings.contents
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
@@ -75,152 +75,133 @@ fun SettingsNominalContent(
     LazyColumn(
         modifier =
             Modifier
-                .padding(horizontal = dimensionResource(R.dimen.spacing_2))
-                .fillMaxSize(),
+                .padding(
+                    start = dimensionResource(R.dimen.spacing_4),
+                    top = dimensionResource(R.dimen.spacing_4),
+                    end = dimensionResource(R.dimen.spacing_4),
+                ).fillMaxSize(),
     ) {
         item {
-            // cheating to avoid truncating zoom-in focus effect on first item
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2)))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                // First column: settings fields + language
+                Column(
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .padding(end = dimensionResource(R.dimen.spacing_3)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_3)),
+                ) {
+                    SettingsFieldComponent(
+                        modifier = Modifier.focusRequester(firstButtonFocusRequester),
+                        label = stringResource(id = R.string.work_period_length_label),
+                        value =
+                            stringResource(
+                                id = R.string.seconds_setting_value,
+                                viewState.workPeriodLengthAsSeconds,
+                            ),
+                        onClick = editWorkPeriodLength,
+                        hiitLogger = hiitLogger,
+                    )
+                    SettingsFieldComponent(
+                        label = stringResource(id = R.string.rest_period_length_label),
+                        value =
+                            stringResource(
+                                id = R.string.seconds_setting_value,
+                                viewState.restPeriodLengthAsSeconds,
+                            ),
+                        onClick = editRestPeriodLength,
+                    )
+                    SettingsFieldComponent(
+                        label = stringResource(id = R.string.number_of_periods_label),
+                        value = viewState.numberOfWorkPeriods,
+                        secondaryLabel = stringResource(id = R.string.total_cycle_length_label),
+                        secondaryValue = viewState.totalCycleLength,
+                        onClick = editNumberOfWorkPeriods,
+                    )
+                    SettingsToggleComponent(
+                        label = stringResource(id = R.string.beep_sound_setting_label),
+                        value = viewState.beepSoundCountDownActive,
+                        onToggle = toggleBeepSound,
+                    )
+                    SettingsFieldComponent(
+                        label = stringResource(id = R.string.period_start_countdown_length_setting_label),
+                        value =
+                            stringResource(
+                                id = R.string.seconds_setting_value,
+                                viewState.periodsStartCountDownLengthAsSeconds,
+                            ),
+                        onClick = editPeriodStartCountDown,
+                    )
+                    SettingsFieldComponent(
+                        label = stringResource(id = R.string.session_start_countdown_length_setting_label),
+                        value =
+                            stringResource(
+                                id = R.string.seconds_setting_value,
+                                viewState.sessionStartCountDownLengthAsSeconds,
+                            ),
+                        onClick = editSessionStartCountDown,
+                    )
+                    SettingsFieldComponent(
+                        label = stringResource(id = R.string.language_setting_label),
+                        value = getLanguageDisplayName(viewState.currentLanguage),
+                        onClick = editLanguage,
+                    )
+                }
+
+                // Second column: exercises types selection
+                Column(
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .padding(horizontal = dimensionResource(R.dimen.spacing_3)),
+                ) {
+                    SettingsExercisesSelectedComponent(
+                        exerciseTypes = viewState.exerciseTypes,
+                        onToggle = {
+                            focusedExerciseButton =
+                                it.type.name // storing the button acted upon for resetting focus after recomposition
+                            toggleExerciseType(it)
+                        },
+                        exerciseButtonsFocusRequesters = exerciseButtonsFocusRequesters,
+                        hiitLogger = hiitLogger,
+                    )
+                }
+
+                // Third column: users management
+                Column(
+                    modifier =
+                        Modifier
+                            .weight(1f)
+                            .padding(start = dimensionResource(R.dimen.spacing_3)),
+                ) {
+                    SettingsUsersComponent(
+                        users = viewState.users,
+                        onClickUser = editUser,
+                        onAddUser = addUser,
+                    )
+                }
+            }
         }
         item {
-            SettingsFieldComponent(
-                modifier = Modifier.focusRequester(firstButtonFocusRequester),
-                label = stringResource(id = R.string.work_period_length_label),
-                value =
-                    stringResource(
-                        id = R.string.seconds_setting_value,
-                        viewState.workPeriodLengthAsSeconds,
-                    ),
-                onClick = editWorkPeriodLength,
-                hiitLogger = hiitLogger,
-            )
-        }
-        item {
-            SettingsFieldComponent(
-                label = stringResource(id = R.string.rest_period_length_label),
-                value =
-                    stringResource(
-                        id = R.string.seconds_setting_value,
-                        viewState.restPeriodLengthAsSeconds,
-                    ),
-                onClick = editRestPeriodLength,
-            )
-        }
-        item {
-            SettingsFieldComponent(
-                label = stringResource(id = R.string.number_of_periods_label),
-                value = viewState.numberOfWorkPeriods,
-                secondaryLabel = stringResource(id = R.string.total_cycle_length_label),
-                secondaryValue = viewState.totalCycleLength,
-                onClick = editNumberOfWorkPeriods,
-            )
-        }
-        item {
-            SettingsToggleComponent(
-                label = stringResource(id = R.string.beep_sound_setting_label),
-                value = viewState.beepSoundCountDownActive,
-                onToggle = toggleBeepSound,
-            )
-        }
-        item {
-            SettingsFieldComponent(
-                label = stringResource(id = R.string.period_start_countdown_length_setting_label),
-                value =
-                    stringResource(
-                        id = R.string.seconds_setting_value,
-                        viewState.periodsStartCountDownLengthAsSeconds,
-                    ),
-                onClick = editPeriodStartCountDown,
-            )
-        }
-        item {
-            SettingsFieldComponent(
-                label = stringResource(id = R.string.session_start_countdown_length_setting_label),
-                value =
-                    stringResource(
-                        id = R.string.seconds_setting_value,
-                        viewState.sessionStartCountDownLengthAsSeconds,
-                    ),
-                onClick = editSessionStartCountDown,
-            )
-        }
-        item {
-            Spacer(
+            Row(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
-            )
-        }
-        item {
-            SettingsUsersComponent(
-                users = viewState.users,
-                onClickUser = editUser,
-                onAddUser = addUser,
-            )
-        }
-        item {
-            Spacer(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
-            )
-        }
-        item {
-            SettingsExercisesSelectedComponent(
-                exerciseTypes = viewState.exerciseTypes,
-                onToggle = {
-                    focusedExerciseButton =
-                        it.type.name // storing the button acted upon for resetting focus after recomposition
-                    toggleExerciseType(it)
-                },
-                exerciseButtonsFocusRequesters = exerciseButtonsFocusRequesters,
-                hiitLogger = hiitLogger,
-            )
-        }
-        item {
-            Spacer(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
-            )
-        }
-        item {
-            SettingsFieldComponent(
-                label = stringResource(id = R.string.language_setting_label),
-                value = getLanguageDisplayName(viewState.currentLanguage),
-                onClick = editLanguage,
-            )
-        }
-        item {
-            Spacer(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.spacing_1)),
-            )
-        }
-        item {
-            Row(modifier = Modifier.fillMaxWidth()) {
-                Spacer(modifier = Modifier.weight(.3f))
+                        .padding(vertical = dimensionResource(R.dimen.spacing_3))
+                        .fillMaxWidth(.3f),
+            ) {
                 ButtonText(
                     modifier =
                         Modifier
-                            .padding(vertical = dimensionResource(R.dimen.spacing_3))
-                            .weight(weight = .3f, fill = true),
+                            .padding(vertical = dimensionResource(R.dimen.spacing_4)),
                     fillHeight = true,
                     fillWidth = true,
                     onClick = resetSettings,
                     label = stringResource(id = R.string.reset_settings_button_label),
                 )
-                Spacer(modifier = Modifier.weight(.3f))
             }
-        }
-        item {
-            // cheating to avoid truncating zoom-in focus effect on last item
-            Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_2)))
         }
     }
 }
@@ -273,11 +254,15 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
     private val listOfTwoUser = listOf(User(name = "user 1"), User(name = "user 2"))
     private val listOfMoreUser =
         listOf(
-            User(name = "user 1"),
-            User(name = "user 2"),
-            User(name = "user 3"),
-            User(name = "user 4"),
-            User(name = "user 5"),
+            User(123L, "User 1", selected = true),
+            User(234L, "User pouet 2", selected = false),
+            User(345L, "User ping 3", selected = true),
+            User(345L, "User 4 has a very long name", selected = true),
+            User(123L, "User tralala 5", selected = true),
+            User(234L, "User tudut 6", selected = false),
+            User(345L, "User toto 7", selected = true),
+            User(345L, "UserWithAVeryLongNameIndeed 8", selected = true),
+            User(345L, "UserWithQuiteALongName 9", selected = true),
         )
 
     override val values: Sequence<SettingsViewState.Nominal>
