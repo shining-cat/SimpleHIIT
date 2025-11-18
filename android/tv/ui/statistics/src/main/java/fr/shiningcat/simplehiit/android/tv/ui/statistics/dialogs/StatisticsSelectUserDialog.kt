@@ -69,7 +69,7 @@ fun StatisticsSelectUserDialog(
                 )
                 Spacer(modifier = Modifier.height(spacing))
 
-                val itemHeight = dimensionResource(R.dimen.button_height)
+                val itemHeight = dimensionResource(CommonResourcesR.dimen.button_height)
                 val numberOfColumns = 3
                 // this is to avoid the zoomed-in focused buttons of the first row to be clipped
                 val forcedTopMargin = dimensionResource(CommonResourcesR.dimen.spacing_1)
@@ -105,7 +105,7 @@ fun StatisticsSelectUserDialog(
                 ButtonText(
                     modifier =
                         Modifier
-                            .height(dimensionResource(R.dimen.button_height))
+                            .height(dimensionResource(CommonResourcesR.dimen.button_height))
                             .width(dimensionResource(R.dimen.stats_select_user_cancel_button_width)),
                     onClick = dismissAction,
                     label = stringResource(id = CommonResourcesR.string.cancel_button_label),

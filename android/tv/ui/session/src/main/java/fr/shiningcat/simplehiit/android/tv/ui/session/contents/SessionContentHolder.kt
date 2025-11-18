@@ -8,7 +8,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ChoiceDialog
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogChoice
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
@@ -68,7 +68,7 @@ fun SessionContentHolder(
     when (dialogViewState) {
         SessionDialog.None -> {} // Do nothing
         SessionDialog.Pause ->
-            ChoiceDialog(
+            DialogChoice(
                 title = stringResource(id = R.string.pause),
                 message = stringResource(id = R.string.pause_explanation),
                 primaryButtonLabel = stringResource(id = R.string.resume_button_label),

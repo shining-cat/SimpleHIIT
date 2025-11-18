@@ -71,7 +71,7 @@ fun SettingsUsersComponent(
             modifier =
                 Modifier
                     .padding(top = spacing)
-                    .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
+                    .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
                     .width(dimensionResource(R.dimen.settings_add_user_button_width)),
             fillWidth = true,
             fillHeight = true,

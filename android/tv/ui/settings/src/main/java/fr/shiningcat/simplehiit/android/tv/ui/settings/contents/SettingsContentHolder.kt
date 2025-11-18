@@ -7,8 +7,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ErrorDialog
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.WarningDialog
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogError
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsDialog
@@ -152,7 +152,7 @@ fun SettingsContentHolder(
             )
 
         is SettingsDialog.ConfirmDeleteUser ->
-            WarningDialog(
+            DialogWarning(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = { deleteUserConfirm(dialogViewState.user) },
@@ -168,7 +168,7 @@ fun SettingsContentHolder(
             )
 
         SettingsDialog.ConfirmResetAllSettings ->
-            WarningDialog(
+            DialogWarning(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.reset_button_label),
                 proceedAction = resetSettingsConfirmation,
@@ -176,7 +176,7 @@ fun SettingsContentHolder(
             )
 
         is SettingsDialog.Error ->
-            ErrorDialog(
+            DialogError(
                 errorMessage = "",
                 errorCode = dialogViewState.errorCode,
                 dismissButtonLabel = stringResource(id = R.string.close_button_content_label),

@@ -4,32 +4,22 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
-import androidx.tv.material3.Icon
-import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -54,7 +44,6 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  *                   As a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering.
  * @param onClick Called when this button is clicked.
  * @param label The text to display on the button. If null, no text is displayed.
- * @param textAlign The alignment of the label text.
  * @param icon The icon to display on the button. If null, no icon is displayed.
  * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
  * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
@@ -68,7 +57,6 @@ fun ButtonFilled(
     fillHeight: Boolean = false,
     onClick: () -> Unit = {},
     label: String? = null,
-    textAlign: TextAlign = TextAlign.Center,
     icon: ImageVector? = null,
     @StringRes
     iconContentDescription: Int = -1,
@@ -77,7 +65,10 @@ fun ButtonFilled(
     accentColor: Boolean = false,
 ) {
     Button(
-        modifier = modifier,
+        modifier =
+            modifier.then(
+                if (!enabled) Modifier.focusProperties { canFocus = false } else Modifier,
+            ),
         enabled = enabled,
         onClick = { onClick() },
         colors =
@@ -85,58 +76,24 @@ fun ButtonFilled(
                 containerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
                 contentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
                 focusedContainerColor = if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary,
-                focusedContentColor = if (accentColor) MaterialTheme.colorScheme.onSecondary else MaterialTheme.colorScheme.onPrimary,
+                focusedContentColor = if (accentColor) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
                 pressedContainerColor = MaterialTheme.colorScheme.primary,
                 pressedContentColor = MaterialTheme.colorScheme.secondary,
-                disabledContainerColor =
-                    (if (accentColor) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.primary).copy(
-                        alpha = .6f,
-                    ),
-                disabledContentColor = MaterialTheme.colorScheme.onPrimary,
+                disabledContainerColor = MaterialTheme.colorScheme.surface,
+                disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f),
             ),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        // Set to none, inner Row will handle padding
+        // Set to none, ButtonContentLayout will handle padding
         contentPadding = PaddingValues(),
     ) {
-        val rowModifier =
-            Modifier
-                .run { if (fillWidth) fillMaxWidth() else this }
-                .run { if (fillHeight) fillMaxHeight() else this }
-                .padding(
-                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
-                )
-
-        Row(
-            modifier = rowModifier,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            if (icon != null) {
-                Icon(
-                    imageVector = icon,
-                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
-                    contentDescription =
-                        if (iconContentDescription != -1) {
-                            stringResource(id = iconContentDescription)
-                        } else {
-                            ""
-                        },
-                )
-            } else if (reserveIconSpace) {
-                // Reserve space for icon to match width with buttons that have icons
-                Spacer(modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)))
-            }
-            if (label != null) {
-                Text(
-                    modifier = Modifier.padding(start = ButtonDefaults.IconSpacing),
-                    text = label,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    textAlign = textAlign,
-                )
-            }
-        }
+        ButtonContentLayout(
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
+            label = label,
+            icon = icon,
+            iconContentDescription = iconContentDescription,
+            reserveIconSpace = reserveIconSpace,
+        )
     }
 }
 

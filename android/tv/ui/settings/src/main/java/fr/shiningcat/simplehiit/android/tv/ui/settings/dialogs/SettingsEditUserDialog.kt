@@ -10,9 +10,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogInput
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.InputDialogTextFieldSize
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.settings.components.InputDialog
-import fr.shiningcat.simplehiit.android.tv.ui.settings.components.InputDialogTextFieldSize
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 
@@ -30,7 +30,7 @@ fun SettingsEditUserDialog(
                 .padding(dimensionResource(R.dimen.spacing_1))
                 .fillMaxWidth(),
     ) {
-        InputDialog(
+        DialogInput(
             dialogTitle = stringResource(id = R.string.edit_user_dialog_title),
             inputFieldValue = userName,
             inputFieldPostfix = "",

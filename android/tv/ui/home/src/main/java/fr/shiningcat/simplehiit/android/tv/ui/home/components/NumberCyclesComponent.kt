@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -26,7 +27,6 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.home.R
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
@@ -61,8 +61,8 @@ fun NumberCyclesComponent(
             ButtonFilled(
                 modifier =
                     Modifier
-                        .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                        .width(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
+                        .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
+                        .width(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
                         .focusProperties { canFocus = minusButtonActive },
                 fillHeight = true,
                 fillWidth = true,
@@ -85,8 +85,7 @@ fun NumberCyclesComponent(
             ButtonFilled(
                 modifier =
                     Modifier
-                        .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                        .width(adaptDpToFontScale(dimensionResource(R.dimen.button_height))),
+                        .size(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height))),
                 fillHeight = true,
                 fillWidth = true,
                 onClick = increaseNumberOfCycles,

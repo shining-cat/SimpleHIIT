@@ -29,7 +29,6 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.home.R
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.NumberCyclesComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SelectUsersComponent
 import fr.shiningcat.simplehiit.android.tv.ui.home.components.SingleUserHeaderComponent
@@ -102,7 +101,7 @@ fun HomeNominalContent(
                 ButtonFilled(
                     modifier =
                         Modifier
-                            .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
+                            .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
                             .focusRequester(focusRequester),
                     fillHeight = true,
                     // calling focus on the launch button on opening

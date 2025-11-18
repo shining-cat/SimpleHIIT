@@ -26,7 +26,6 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.transparentButtonTextColors
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
@@ -93,7 +92,7 @@ fun SettingsFieldComponent(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minHeight = dimensionResource(R.dimen.button_height))
+                    .defaultMinSize(minHeight = dimensionResource(CommonResourcesR.dimen.button_height))
                     .padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
             onClick = { onClick() },
             colors = transparentButtonTextColors(),

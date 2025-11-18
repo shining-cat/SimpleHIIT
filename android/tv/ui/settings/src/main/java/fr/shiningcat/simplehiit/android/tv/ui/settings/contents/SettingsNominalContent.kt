@@ -2,6 +2,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.settings.contents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -74,12 +75,13 @@ fun SettingsNominalContent(
 
     LazyColumn(
         modifier =
-            Modifier
-                .padding(
-                    start = dimensionResource(R.dimen.spacing_4),
-                    top = dimensionResource(R.dimen.spacing_4),
-                    end = dimensionResource(R.dimen.spacing_4),
-                ).fillMaxSize(),
+            Modifier.fillMaxSize(),
+        contentPadding =
+            PaddingValues(
+                start = dimensionResource(R.dimen.spacing_4),
+                top = dimensionResource(R.dimen.spacing_4),
+                end = dimensionResource(R.dimen.spacing_4),
+            ),
     ) {
         item {
             Row(
@@ -181,13 +183,14 @@ fun SettingsNominalContent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.spacing_3))
-                        .fillMaxWidth(.3f),
+                        .padding(vertical = dimensionResource(R.dimen.spacing_3)),
+                horizontalArrangement = Arrangement.Center,
             ) {
                 ButtonText(
                     modifier =
                         Modifier
-                            .padding(vertical = dimensionResource(R.dimen.spacing_4)),
+                            .padding(vertical = dimensionResource(R.dimen.spacing_4))
+                            .fillMaxWidth(.5f),
                     fillHeight = true,
                     fillWidth = true,
                     onClick = resetSettings,

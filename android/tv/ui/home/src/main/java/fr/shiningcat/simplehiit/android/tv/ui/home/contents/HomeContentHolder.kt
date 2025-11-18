@@ -8,7 +8,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.WarningDialog
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.home.HomeDialog
@@ -61,7 +61,7 @@ fun HomeContentHolder(
     }
     when (dialogViewState) {
         is HomeDialog.ConfirmWholeReset ->
-            WarningDialog(
+            DialogWarning(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppDeleteEverything,

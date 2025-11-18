@@ -7,9 +7,7 @@
   * [ ] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
 * system nav bar in portrait phone is not tinted and has an oversized padding
-* **TV:** text button focus is not visible enough when button is on a surface (like in a dialog) because
-  container focused color for textbutton is surface
-* **TV:** buttons focus zoom effect is a bit too strong, either tune down or increase margins to avoid ugly overlaps
+* check contrast between mobile colors like done in tv, and remove eventually unused color tokens remaining in SimpleHiitColors
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
