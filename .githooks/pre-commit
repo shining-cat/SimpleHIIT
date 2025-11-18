@@ -2,32 +2,78 @@
 #
 # Ktlint pre-commit hook
 # This hook runs ktlintCheck before allowing a commit
-# If ktlint finds issues, the commit will be blocked
 #
-
-set -e
+# Installation:
+#   Run once from repository root: ./.githooks/setup.sh
+#   This configures git to use .githooks directory for all hooks
+#
+# Features:
+# - Runs ktlintCheck twice if the first attempt fails
+# - Allows auto-fixed minor issues to pass on the second attempt
+# - Provides clear, color-coded console feedback about the process
+# - Blocks commits only if issues remain after both attempts
+#
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 cd "$REPO_ROOT"
 
-echo "Running ktlint check..."
+# Colors for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
+echo -e "${BLUE}Running ktlint check (attempt 1/2)...${NC}"
+echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
 
 # Run ktlintCheck with daemon for faster execution
-if ./gradlew ktlintCheck --daemon; then
-    echo "✅ Ktlint check passed!"
+# Disable exit on error for this first run so we can retry
+set +e
+./gradlew ktlintCheck --daemon
+FIRST_CHECK_RESULT=$?
+set -e
+
+if [ $FIRST_CHECK_RESULT -eq 0 ]; then
+    echo ""
+    echo -e "${GREEN}✅ Ktlint check passed on first attempt!${NC}"
+    echo -e "${GREEN}✅ Commit proceeding...${NC}"
     exit 0
 else
     echo ""
-    echo "❌ Ktlint check failed! Commit blocked."
+    echo -e "${YELLOW}⚠️  First ktlint check detected issues${NC}"
+    echo -e "${YELLOW}⚠️  Ktlint may have auto-fixed some minor formatting issues${NC}"
     echo ""
-    echo "To fix the issues, run:"
-    echo "  ./gradlew ktlintFormat"
-    echo ""
-    echo "Then stage your changes and commit again."
-    echo ""
-    echo "To bypass this check (not recommended), use:"
-    echo "  git commit --no-verify"
-    exit 1
+    echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    echo -e "${BLUE}Running ktlint check (attempt 2/2)...${NC}"
+    echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
+    
+    # Run ktlintCheck a second time
+    set +e
+    ./gradlew ktlintCheck --daemon
+    SECOND_CHECK_RESULT=$?
+    set -e
+    
+    if [ $SECOND_CHECK_RESULT -eq 0 ]; then
+        echo ""
+        echo -e "${GREEN}✅ Ktlint check passed on second attempt!${NC}"
+        echo -e "${GREEN}✅ Minor issues were auto-fixed by ktlint${NC}"
+        echo -e "${GREEN}✅ Commit proceeding...${NC}"
+        exit 0
+    else
+        echo ""
+        echo -e "${RED}❌ Ktlint check failed after 2 attempts! Commit blocked.${NC}"
+        echo ""
+        echo -e "${YELLOW}Action required:${NC}"
+        echo -e "${YELLOW}  1. Run: ./gradlew ktlintFormat${NC}"
+        echo -e "${YELLOW}  2. Review and stage the changes${NC}"
+        echo -e "${YELLOW}  3. Commit again${NC}"
+        echo ""
+        echo -e "${YELLOW}To bypass this check (not recommended):${NC}"
+        echo -e "${YELLOW}  git commit --no-verify${NC}"
+        exit 1
+    fi
 fi

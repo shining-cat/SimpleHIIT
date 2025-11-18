@@ -51,7 +51,6 @@ fun SettingsUsersComponent(
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = CommonResourcesR.string.users_list_setting_label),
         )
-        val itemHeight = adaptDpToFontScale(dimensionResource(R.dimen.button_height))
 
         if (users.isNotEmpty()) {
             FlowRow(
@@ -61,9 +60,6 @@ fun SettingsUsersComponent(
             ) {
                 users.forEach { user ->
                     ButtonBordered(
-                        modifier = Modifier.height(itemHeight),
-                        fillWidth = false,
-                        fillHeight = true,
                         onClick = { onClickUser(user) },
                         label = user.name,
                     )
@@ -75,7 +71,7 @@ fun SettingsUsersComponent(
             modifier =
                 Modifier
                     .padding(top = spacing)
-                    .height(itemHeight)
+                    .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
                     .width(dimensionResource(R.dimen.settings_add_user_button_width)),
             fillWidth = true,
             fillHeight = true,

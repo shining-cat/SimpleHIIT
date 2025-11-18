@@ -64,7 +64,8 @@ fun SettingsExercisesSelectedComponent(
 
             val spacing = dimensionResource(CommonResourcesR.dimen.spacing_3)
             val spacingPix = with(density) { spacing.toPx() }
-            val toggleButtonLostWidthPix = getToggleButtonLostWidthPix()
+            val buttonHasIcon = true
+            val toggleButtonLostWidthPix = getToggleButtonLostWidthPix(buttonHasIcon)
 
             // Try 3 columns first
             val oneThirdColumnAvailableWidth =
@@ -125,7 +126,7 @@ fun SettingsExercisesSelectedComponent(
                     ButtonToggle(
                         modifier =
                             Modifier
-                                .height(itemHeight)
+                                // .height(itemHeight)
                                 // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
                                 .offset(y = forcedTopMargin)
                                 .then(
@@ -137,10 +138,10 @@ fun SettingsExercisesSelectedComponent(
                                         Modifier
                                     },
                                 ),
-                        fillHeight = true,
+                        // fillHeight = true,
                         label = exerciseTypeSelected.type.name,
                         selected = exerciseTypeSelected.selected,
-                        reserveIconSpace = true,
+                        reserveIconSpace = buttonHasIcon,
                         onToggle = { onToggle(exerciseTypeSelected) },
                     )
                 }

@@ -3,8 +3,16 @@
 # Pre-push hook to automatically pull remote changes before pushing
 # This handles the case where CI commits (e.g., dependency graph) to the branch
 #
-# To install: ln -sf ../../.githooks/pre-push .git/hooks/pre-push
-# Or run: git config core.hooksPath .githooks
+# Installation:
+#   Run once from repository root: ./.githooks/setup.sh
+#   This configures git to use .githooks directory for all hooks
+#
+# Features:
+# - Automatically fetches and merges remote changes before pushing
+# - Handles CI commits (like dependency graph updates) seamlessly
+# - Provides color-coded feedback about the merge process
+# - Skips on protected branches (master/develop)
+#
 
 # Get current branch
 current_branch=$(git rev-parse --abbrev-ref HEAD)

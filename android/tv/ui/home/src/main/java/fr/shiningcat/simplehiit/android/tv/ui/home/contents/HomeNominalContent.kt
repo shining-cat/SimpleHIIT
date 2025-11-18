@@ -103,9 +103,7 @@ fun HomeNominalContent(
                     modifier =
                         Modifier
                             .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                            .fillMaxWidth(.3f)
                             .focusRequester(focusRequester),
-                    fillWidth = true,
                     fillHeight = true,
                     // calling focus on the launch button on opening
                     label =

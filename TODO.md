@@ -3,9 +3,10 @@
 ## Missing features / issues
 * improve layouts, including 200% fontscale, orientations and devices:
   * [x] home
-  * [ ] statistics
   * [ ] settings
+  * [ ] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
+* system nav bar in portrait phone is not tinted and has an oversized padding
 * **TV:** text button focus is not visible enough when button is on a surface (like in a dialog) because
   container focused color for textbutton is surface
 * **TV:** buttons focus zoom effect is a bit too strong, either tune down or increase margins to avoid ugly overlaps
@@ -14,6 +15,7 @@
 * Find how to publish: Fdroid, or github, or home?
 
 ## General technical improvements
+* use new [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64) to review composables and eventually optimise them further (also gradle plugin)
 * could we extract even more **platform-agnostic** logic from the viewmodels?
 * add tests on viewmodels
 * screenshot tests if they can run on github for free

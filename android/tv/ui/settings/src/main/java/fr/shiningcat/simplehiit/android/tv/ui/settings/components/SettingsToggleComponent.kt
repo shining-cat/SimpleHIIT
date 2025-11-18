@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -46,8 +47,13 @@ fun SettingsToggleComponent(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = label, style = MaterialTheme.typography.headlineSmall)
+                Text(
+                    modifier = Modifier.padding(end = dimensionResource(CommonResourcesR.dimen.spacing_1)),
+                    text = label,
+                    style = MaterialTheme.typography.labelLarge,
+                )
                 Switch(
+                    modifier = Modifier.scale(0.7f),
                     checked = value,
                     onCheckedChange = { /*doing nothing here as we handle the action in the parent. This toggle is only for display*/ },
                     colors =

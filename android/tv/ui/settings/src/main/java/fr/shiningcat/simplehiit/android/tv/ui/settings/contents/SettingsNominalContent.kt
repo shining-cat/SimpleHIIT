@@ -150,12 +150,13 @@ fun SettingsNominalContent(
                     )
                 }
 
-                // Second column: exercises types selection
+                // Second column: exercises types selection and users management
                 Column(
                     modifier =
                         Modifier
                             .weight(1f)
                             .padding(horizontal = dimensionResource(R.dimen.spacing_3)),
+                    verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_3)),
                 ) {
                     SettingsExercisesSelectedComponent(
                         exerciseTypes = viewState.exerciseTypes,
@@ -167,15 +168,6 @@ fun SettingsNominalContent(
                         exerciseButtonsFocusRequesters = exerciseButtonsFocusRequesters,
                         hiitLogger = hiitLogger,
                     )
-                }
-
-                // Third column: users management
-                Column(
-                    modifier =
-                        Modifier
-                            .weight(1f)
-                            .padding(start = dimensionResource(R.dimen.spacing_3)),
-                ) {
                     SettingsUsersComponent(
                         users = viewState.users,
                         onClickUser = editUser,
@@ -217,7 +209,7 @@ private fun getLanguageDisplayName(language: AppLanguage): String =
 // Previews
 @PreviewTvScreensNoUi
 @Composable
-private fun SettingsNominalContentPreviewPhonePortrait(
+private fun SettingsNominalContentPreview(
     @PreviewParameter(SettingsNominalContentPreviewParameterProvider::class) viewState: SettingsViewState.Nominal,
 ) {
     SimpleHiitTvTheme {

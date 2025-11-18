@@ -22,8 +22,20 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
+/**
+ * Helper function to calculate the width consumed by icon and padding in a ButtonFilled when selected.
+ *
+ * This calculation is useful for layout computations where you need to know how much horizontal space
+ * is occupied by the button's internal components (icon, spacing, and padding).
+ *
+ * @return The total width in pixels consumed by:
+ *         - Leading icon size (24dp)
+ *         - Icon spacing (8dp)
+ *         - Horizontal padding (32dp total: 16dp start + 16dp end)
+ *         Total: 64dp converted to pixels
+ */
 @Composable
-fun getToggleButtonLostWidthPix(): Float {
+fun getToggleButtonLostWidthPix(hasIcon: Boolean): Float {
     val density = LocalDensity.current
     return with(density) {
         // ButtonFilled internal width components (when selected, i.e. with leading icon):
@@ -32,13 +44,32 @@ fun getToggleButtonLostWidthPix(): Float {
         // - Start padding: 16dp (spacing_2)
         // - End padding: 16dp (spacing_2)
         // Total lost width = 24 + 8 + 16 + 16 = 64dp
-        val iconSize = MediumIconSize // 24dp
-        val iconSpacing = ButtonDefaults.IconSpacing // 8dp
+        val iconSize = if (hasIcon) MediumIconSize else 0.dp // 24dp
+        val iconSpacing = if (hasIcon) ButtonDefaults.IconSpacing else 0.dp // 8dp
         val horizontalPadding = dimensionResource(CommonResourcesR.dimen.spacing_2) * 2 // 16dp * 2 = 32dp
         (iconSize + iconSpacing + horizontalPadding).toPx()
     }
 }
 
+/**
+ * A Composable function that creates a toggle button that switches appearance based on selection state.
+ *
+ * When selected, displays as a ButtonFilled with a checkmark icon.
+ * When not selected, displays as a ButtonBordered with no icon.
+ * This provides clear visual feedback for toggleable options.
+ *
+ * @param modifier The modifier to be applied to the button.
+ * @param fillWidth Whether the button should try to occupy the full width of its parent.
+ *                  If true, the inner Row will use `Modifier.fillMaxWidth()`.
+ *                  As a general rule, set this to true if the button is constrained horizontally, false otherwise, to preserve proper centering.
+ * @param fillHeight Whether the button should try to occupy the full height of its parent.
+ *                   If true, the inner Row will use `Modifier.fillMaxHeight()`.
+ *                   As a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering.
+ * @param label The text to display on the button.
+ * @param selected The current selection state. When true, shows ButtonFilled with checkmark; when false, shows ButtonBordered.
+ * @param reserveIconSpace When true, reserves space for an icon even when not selected, ensuring consistent width between states.
+ * @param onToggle Called when this button is clicked to toggle its state.
+ */
 @Composable
 fun ButtonToggle(
     modifier: Modifier = Modifier,

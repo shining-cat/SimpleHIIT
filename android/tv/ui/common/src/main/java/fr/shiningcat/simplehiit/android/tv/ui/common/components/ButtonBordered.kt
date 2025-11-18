@@ -1,8 +1,10 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,33 +50,34 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  * The button can be configured to fill the available width and/or height.
  *
  * @param modifier The modifier to be applied to the button.
- * @param label The text to display on the button. If null, no text is displayed.
- * @param icon The icon to display on the button. If null, no icon is displayed.
- * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
  * @param fillWidth Whether the button should try to occupy the full width of its parent.
  *                  If true, the inner Row will use `Modifier.fillMaxWidth()`.
- *                  as a general rule, set this to true if the button is constrained horizontally, false otherwise, to preserve proper centering
+ *                  As a general rule, set this to true if the button is constrained horizontally, false otherwise, to preserve proper centering.
  * @param fillHeight Whether the button should try to occupy the full height of its parent.
  *                   If true, the inner Row will use `Modifier.fillMaxHeight()`.
- *                  as a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering
- * @param maxLines The maximum number of lines to be used for the label.
- * @param textAlign The alignment of the label text.
- * @param reserveIconSpace When true, reserves space for an icon even when icon is null, ensuring consistent width with buttons that have icons.
+ *                   As a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering.
  * @param onClick Called when this button is clicked.
+ * @param label The text to display on the button. If null, no text is displayed.
+ * @param textAlign The alignment of the label text.
+ * @param icon The icon to display on the button. If null, no icon is displayed.
+ * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
+ * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
+ * @param reserveIconSpace When true, reserves space for an icon even when icon is null, ensuring consistent width with buttons that have icons.
  */
 @OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun ButtonBordered(
     modifier: Modifier = Modifier,
-    label: String? = null,
-    icon: ImageVector? = null,
-    enabled: Boolean = true,
     fillWidth: Boolean = false,
     fillHeight: Boolean = false,
-    maxLines: Int = 1,
+    onClick: () -> Unit = {},
+    label: String? = null,
     textAlign: TextAlign = TextAlign.Center,
+    icon: ImageVector? = null,
+    @StringRes
+    iconContentDescription: Int = -1,
+    enabled: Boolean = true,
     reserveIconSpace: Boolean = false,
-    onClick: () -> Unit,
 ) {
     OutlinedButton(
         modifier =
@@ -86,13 +90,13 @@ fun ButtonBordered(
             ButtonDefaults.colors(
                 // this is mostly to allow for a more visible focus state
                 containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.onPrimary,
+                contentColor = MaterialTheme.colorScheme.onBackground,
                 focusedContainerColor = MaterialTheme.colorScheme.surface,
-                focusedContentColor = MaterialTheme.colorScheme.onSurface,
+                focusedContentColor = MaterialTheme.colorScheme.secondary,
                 pressedContainerColor = MaterialTheme.colorScheme.primary,
-                pressedContentColor = MaterialTheme.colorScheme.secondary,
+                pressedContentColor = MaterialTheme.colorScheme.onPrimary,
                 disabledContainerColor = Color.Transparent,
-                disabledContentColor = MaterialTheme.colorScheme.onPrimary.copy(alpha = .6f),
+                disabledContentColor = MaterialTheme.colorScheme.onBackground.copy(alpha = .6f),
             ),
         shape = ButtonDefaults.shape(MaterialTheme.shapes.small),
         border =
@@ -125,27 +129,19 @@ fun ButtonBordered(
                     Border(
                         BorderStroke(
                             width = dimensionResource(CommonResourcesR.dimen.stroke_025),
-                            color = MaterialTheme.colorScheme.onPrimary.copy(alpha = .6f),
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = .6f),
                         ),
                         shape = MaterialTheme.shapes.small,
                     ),
             ),
+        // Set to none, inner Row will handle padding
+        contentPadding = PaddingValues(),
     ) {
         val rowModifier =
             Modifier
-                .then(
-                    if (fillWidth) {
-                        Modifier.fillMaxWidth()
-                    } else {
-                        Modifier
-                    },
-                ).then(
-                    if (fillHeight) {
-                        Modifier.fillMaxHeight()
-                    } else {
-                        Modifier
-                    },
-                ).padding(
+                .run { if (fillWidth) fillMaxWidth() else this }
+                .run { if (fillHeight) fillMaxHeight() else this }
+                .padding(
                     horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
                     vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
                 )
@@ -159,7 +155,12 @@ fun ButtonBordered(
                 Icon(
                     modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
                     imageVector = icon,
-                    contentDescription = null,
+                    contentDescription =
+                        if (iconContentDescription != -1) {
+                            stringResource(id = iconContentDescription)
+                        } else {
+                            ""
+                        },
                 )
             } else if (reserveIconSpace) {
                 // Reserve space for icon to match width with buttons that have icons
@@ -167,11 +168,11 @@ fun ButtonBordered(
             }
             if (label != null) {
                 Text(
-                    modifier = Modifier.padding(ButtonDefaults.IconSpacing),
+                    modifier = Modifier.padding(start = ButtonDefaults.IconSpacing),
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = maxLines,
                     textAlign = textAlign,
                 )
             }
