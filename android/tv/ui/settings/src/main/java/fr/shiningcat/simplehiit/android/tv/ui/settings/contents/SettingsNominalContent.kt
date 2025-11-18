@@ -183,13 +183,14 @@ fun SettingsNominalContent(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(vertical = dimensionResource(R.dimen.spacing_3))
-                        .fillMaxWidth(.3f),
+                        .padding(vertical = dimensionResource(R.dimen.spacing_3)),
+                horizontalArrangement = Arrangement.Center,
             ) {
                 ButtonText(
                     modifier =
                         Modifier
-                            .padding(vertical = dimensionResource(R.dimen.spacing_4)),
+                            .padding(vertical = dimensionResource(R.dimen.spacing_4))
+                            .fillMaxWidth(.5f),
                     fillHeight = true,
                     fillWidth = true,
                     onClick = resetSettings,

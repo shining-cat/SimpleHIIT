@@ -9,7 +9,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.WarningDialog
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.StatisticsDialog
@@ -82,7 +82,7 @@ fun StatisticsContentHolder(
             )
 
         is StatisticsDialog.ConfirmDeleteAllSessionsForUser ->
-            WarningDialog(
+            DialogWarning(
                 message =
                     stringResource(
                         id = R.string.reset_statistics_confirmation_button_label,
@@ -94,7 +94,7 @@ fun StatisticsContentHolder(
             )
 
         StatisticsDialog.ConfirmWholeReset ->
-            WarningDialog(
+            DialogWarning(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppConfirmation,

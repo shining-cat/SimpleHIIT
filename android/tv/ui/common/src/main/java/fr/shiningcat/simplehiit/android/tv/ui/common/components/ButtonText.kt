@@ -1,16 +1,10 @@
 package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
-import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,94 +14,70 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Button
 import androidx.tv.material3.ButtonDefaults
-import androidx.tv.material3.Icon
-import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 /**
- * Composable function that displays a button with text and an optional icon.
+ * A Composable function that creates a text button with an optional icon and label.
+ *
+ * This button has a transparent background and shows focus through background/content color changes.
+ * The content (icon and label) is arranged in a Row and centered.
+ * The button can be configured to fill the available width and/or height.
  *
  * @param modifier The modifier to be applied to the button.
- * @param onClick The callback to be invoked when the button is clicked.
- * @param label The text to be displayed on the button.
- * @param icon The drawable resource ID for the icon to be displayed on the button. Defaults to -1 (no icon).
- * @param iconContentDescription The string resource ID for the content description of the icon. Defaults to -1.
- * @param enabled Whether the button is enabled or not. Defaults to true.
- * @param fillWidth Whether the button should fill the available width. Defaults to false.
- * @param fillHeight Whether the button should fill the available height. Defaults to false.
+ * @param fillWidth Whether the button should try to occupy the full width of its parent.
+ *                  If true, the inner Row will use `Modifier.fillMaxWidth()`.
+ *                  As a general rule, set this to true if the button is constrained horizontally, false otherwise, to preserve proper centering.
+ * @param fillHeight Whether the button should try to occupy the full height of its parent.
+ *                   If true, the inner Row will use `Modifier.fillMaxHeight()`.
+ *                   As a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering.
+ * @param onClick Called when this button is clicked.
+ * @param label The text to display on the button. If null, no text is displayed.
+ * @param icon The icon to display on the button. If null, no icon is displayed.
+ * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
+ * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
+ * @param reserveIconSpace When true, reserves space for an icon even when icon is null, ensuring consistent width with buttons that have icons.
  */
 @Composable
 fun ButtonText(
     modifier: Modifier = Modifier,
+    fillWidth: Boolean = false,
+    fillHeight: Boolean = false,
     onClick: () -> Unit = {},
-    label: String,
-    @DrawableRes
-    icon: Int = -1,
+    label: String? = null,
+    icon: ImageVector? = null,
     @StringRes
     iconContentDescription: Int = -1,
     enabled: Boolean = true,
-    fillWidth: Boolean = false,
-    fillHeight: Boolean = false,
+    reserveIconSpace: Boolean = false,
 ) {
     Button(
         modifier = modifier,
-        onClick = { onClick() },
         enabled = enabled,
+        onClick = { onClick() },
         colors = transparentButtonTextColors(),
         shape = ButtonDefaults.shape(shape = MaterialTheme.shapes.small),
-        // Set to zero, inner Row handles padding
+        // Set to none, ButtonContentLayout will handle padding
         contentPadding = PaddingValues(),
     ) {
-        val rowModifier =
-            Modifier
-                .then(if (fillWidth) Modifier.fillMaxWidth() else Modifier)
-                .then(if (fillHeight) Modifier.fillMaxHeight() else Modifier)
-                .padding(
-                    horizontal = dimensionResource(R.dimen.spacing_2),
-                    vertical = dimensionResource(R.dimen.spacing_1),
-                )
-
-        Row(
-            modifier = rowModifier,
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
-            if (icon != -1) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(icon),
-                    contentDescription =
-                        if (iconContentDescription != -1) {
-                            stringResource(id = iconContentDescription)
-                        } else {
-                            ""
-                        },
-                    modifier =
-                        Modifier
-                            .size(adaptDpToFontScale(MediumIconSize))
-                            .padding(end = ButtonDefaults.IconSpacing),
-                )
-            }
-            Text(
-                text = label,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                textAlign = TextAlign.Center,
-            )
-        }
+        ButtonContentLayout(
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
+            label = label,
+            icon = icon,
+            iconContentDescription = iconContentDescription,
+            reserveIconSpace = reserveIconSpace,
+        )
     }
 }
 
@@ -115,9 +85,9 @@ fun ButtonText(
 fun transparentButtonTextColors() =
     ButtonDefaults.colors(
         containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onPrimary,
+        contentColor = MaterialTheme.colorScheme.onSurface,
         focusedContainerColor = MaterialTheme.colorScheme.surface,
-        focusedContentColor = MaterialTheme.colorScheme.onSurface,
+        focusedContentColor = MaterialTheme.colorScheme.secondary,
         pressedContainerColor = MaterialTheme.colorScheme.primary,
         pressedContentColor = MaterialTheme.colorScheme.secondary,
         disabledContainerColor = Color.Transparent,
@@ -137,73 +107,73 @@ private fun ButtonTextPreview() {
                         .width(adaptDpToFontScale(400.dp))
                         .height(adaptDpToFontScale(600.dp))
                         .verticalScroll(rememberScrollState()),
-                verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
+                verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(color = Color.Blue, text = "Default (wrap content):")
+                Text(text = "Default (wrap content):")
                 ButtonText(
                     label = "Short",
                 )
                 ButtonText(
-                    label = "Longer Label Button Text",
-                    icon = R.drawable.cog,
+                    label = "Longer Label",
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                 )
 
-                Text(color = Color.Blue, text = "fillWidth = true:")
+                Text(text = "fillWidth = true:")
                 ButtonText(
                     label = "Fill Width",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                 )
                 ButtonText(
                     modifier = Modifier.width(adaptDpToFontScale(200.dp)),
                     label = "Fill Width (Fixed 200dp)",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                 )
 
-                Text(
-                    color = Color.Blue,
-                    text = "fillHeight = true (needs fixed height on ButtonText):",
-                )
+                Text(text = "fillHeight = true (fixed height):")
                 ButtonText(
                     modifier = Modifier.height(adaptDpToFontScale(100.dp)),
                     label = "Fill Height (100dp)",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillHeight = true,
                 )
 
-                Text(
-                    color = Color.Blue,
-                    text = "fillWidth & fillHeight (needs fixed size on ButtonText):",
-                )
+                Text(text = "fillWidth & fillHeight:")
                 ButtonText(
                     modifier =
                         Modifier
                             .width(adaptDpToFontScale(250.dp))
                             .height(adaptDpToFontScale(120.dp)),
                     label = "Fill Both (250x120)",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     fillWidth = true,
                     fillHeight = true,
                 )
-                ButtonText(
-                    modifier = Modifier.fillMaxWidth(),
-                    label = "ButtonText fillMaxWidth()",
-                    icon = R.drawable.cog,
-                    fillWidth = true,
-                )
 
-                Text(color = Color.Blue, text = "Disabled:")
+                Text(text = "Disabled:")
                 ButtonText(
                     label = "Disabled",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     enabled = false,
                 )
                 ButtonText(
                     label = "Disabled Fill Width",
-                    icon = R.drawable.cog,
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
                     enabled = false,
+                    fillWidth = true,
+                )
+
+                Text(text = "Icon only:")
+                ButtonText(
+                    icon = ImageVector.vectorResource(CommonResourcesR.drawable.cog),
+                )
+
+                Text(text = "With icon space reserved:")
+                ButtonText(
+                    label = "Reserved Space",
+                    reserveIconSpace = true,
                     fillWidth = true,
                 )
             }

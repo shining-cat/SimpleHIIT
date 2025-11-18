@@ -25,6 +25,7 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.tv.foundation)
+    implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
     implementation(libs.androidx.lifecycle)
     //

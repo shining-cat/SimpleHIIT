@@ -18,4 +18,5 @@
 
     <dimen name="corner_radius_2">4dp</dimen>
 
+    <dimen name="button_height">48dp</dimen>
 </resources>

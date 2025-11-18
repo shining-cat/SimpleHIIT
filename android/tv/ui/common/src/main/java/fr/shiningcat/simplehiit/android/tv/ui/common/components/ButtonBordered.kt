@@ -5,13 +5,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -21,17 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.ExperimentalTvMaterial3Api
-import androidx.tv.material3.Icon
-import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.OutlinedButton
 import androidx.tv.material3.Surface
@@ -131,55 +122,17 @@ fun ButtonBordered(
                         shape = MaterialTheme.shapes.small,
                     ),
             ),
-        // Set to none, inner Row will handle padding
+        // Set to none, ButtonContentLayout will handle padding
         contentPadding = PaddingValues(),
     ) {
-        val rowModifier =
-            Modifier
-                .run { if (fillWidth) fillMaxWidth() else this }
-                .run { if (fillHeight) fillMaxHeight() else this }
-                .padding(
-                    horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_1),
-                )
-
-        Row(
-            modifier = rowModifier,
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            if (icon != null) {
-                Icon(
-                    modifier =
-                        Modifier
-                            .size(adaptDpToFontScale(MediumIconSize))
-                            .run { if (label != null) padding(end = ButtonDefaults.IconSpacing) else this },
-                    imageVector = icon,
-                    contentDescription =
-                        if (iconContentDescription != -1) {
-                            stringResource(id = iconContentDescription)
-                        } else {
-                            ""
-                        },
-                )
-            } else if (reserveIconSpace) {
-                // Reserve space for icon to match width with buttons that have icons
-                Spacer(
-                    modifier =
-                        Modifier
-                            .size(adaptDpToFontScale(MediumIconSize))
-                            .run { if (label != null) padding(end = ButtonDefaults.IconSpacing) else this },
-                )
-            }
-            if (label != null) {
-                Text(
-                    text = label,
-                    style = MaterialTheme.typography.labelLarge,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
-            }
-        }
+        ButtonContentLayout(
+            fillWidth = fillWidth,
+            fillHeight = fillHeight,
+            label = label,
+            icon = icon,
+            iconContentDescription = iconContentDescription,
+            reserveIconSpace = reserveIconSpace,
+        )
     }
 }
 

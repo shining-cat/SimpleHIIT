@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.settings.components
+package fr.shiningcat.simplehiit.android.tv.ui.common.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -38,14 +38,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import androidx.compose.ui.window.Dialog
 import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -53,12 +50,8 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonBordered
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.settings.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 import kotlinx.coroutines.delay
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
@@ -72,7 +65,7 @@ enum class InputDialogTextFieldSize(
 }
 
 @Composable
-fun InputDialog(
+fun DialogInput(
     dialogTitle: String = "",
     inputFieldValue: String,
     inputFieldPostfix: String,
@@ -88,8 +81,6 @@ fun InputDialog(
     validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
     pickErrorMessage: (Constants.InputError) -> Int = { -1 },
 ) {
-    val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
-
     val input =
         rememberSaveable(stateSaver = TextFieldValue.Saver) {
             mutableStateOf(
@@ -116,41 +107,31 @@ fun InputDialog(
         }
     }
 
-    Dialog(onDismissRequest = dismissAction) {
-        Surface(
-            shape = MaterialTheme.shapes.medium,
-        ) {
+    DialogContentLayout(
+        onDismissRequest = dismissAction,
+        title = dialogTitle.takeIf { it.isNotBlank() },
+        horizontalAlignment = Alignment.Start,
+        content = {
             BoxWithConstraints {
                 val density = LocalDensity.current
+                val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
                 val dialogAvailableWidthDp = this.maxWidth
                 val effectiveDialogContentWidthDp = dialogAvailableWidthDp - 2 * dialogPadding
 
                 Column(
                     modifier =
                         Modifier
-                            .padding(dialogPadding)
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState()),
                 ) {
-                    if (dialogTitle.isNotBlank()) {
-                        Text(
-                            textAlign = TextAlign.Left,
-                            text = dialogTitle,
-                            style = MaterialTheme.typography.headlineSmall,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
                     InputDialogBodyContent(
                         inputValue = input.value,
                         onInputValueChange = {
                             input.value = it
                             val validationResult = validateInput(it.text)
                             val errorStringRes = pickErrorMessage(validationResult)
-                            isError.value =
-                                validationResult != Constants.InputError.NONE
-                            errorMessageStringRes.intValue =
-                                errorStringRes
+                            isError.value = validationResult != Constants.InputError.NONE
+                            errorMessageStringRes.intValue = errorStringRes
                         },
                         isError = isError.value,
                         errorMessageResId = errorMessageStringRes.intValue,
@@ -165,60 +146,51 @@ fun InputDialog(
                         density = density,
                         focusRequester = focusRequester,
                     )
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                horizontal = 0.dp,
-                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
-                            ),
-                        horizontalArrangement =
-                            Arrangement.spacedBy(
-                                dimensionResource(
-                                    CommonResourcesR.dimen.spacing_3,
-                                ),
-                            ),
-                    ) {
-                        if (secondaryButtonLabel.isNotBlank()) {
-                            ButtonText(
-                                modifier =
-                                    Modifier
-                                        .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                                        .weight(1f),
-                                fillWidth = true,
-                                fillHeight = true,
-                                onClick = secondaryAction,
-                                label = secondaryButtonLabel,
-                            )
-                        }
-                        if (dismissButtonLabel.isNotBlank()) {
-                            ButtonBordered(
-                                modifier =
-                                    Modifier
-                                        .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                                        .weight(1f),
-                                fillWidth = true,
-                                fillHeight = true,
-                                onClick = dismissAction,
-                                label = dismissButtonLabel,
-                            )
-                        }
-                        ButtonFilled(
-                            modifier =
-                                Modifier
-                                    .height(adaptDpToFontScale(dimensionResource(R.dimen.button_height)))
-                                    .weight(1f),
-                            fillHeight = true,
-                            fillWidth = true,
-                            onClick = { if (isError.value.not()) primaryAction(input.value.text) },
-                            label = primaryButtonLabel,
-                            enabled = isError.value.not(),
-                        )
-                    }
                 }
             }
-        }
-    }
+        },
+        buttons = {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_3)),
+            ) {
+                if (secondaryButtonLabel.isNotBlank()) {
+                    ButtonText(
+                        modifier =
+                            Modifier
+                                .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
+                                .weight(1f),
+                        fillWidth = true,
+                        fillHeight = true,
+                        onClick = secondaryAction,
+                        label = secondaryButtonLabel,
+                    )
+                }
+                if (dismissButtonLabel.isNotBlank()) {
+                    ButtonBordered(
+                        modifier =
+                            Modifier
+                                .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
+                                .weight(1f),
+                        fillWidth = true,
+                        fillHeight = true,
+                        onClick = dismissAction,
+                        label = dismissButtonLabel,
+                    )
+                }
+                ButtonFilled(
+                    modifier =
+                        Modifier
+                            .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
+                            .weight(1f),
+                    fillHeight = true,
+                    fillWidth = true,
+                    onClick = { if (isError.value.not()) primaryAction(input.value.text) },
+                    label = primaryButtonLabel,
+                    enabled = isError.value.not(),
+                )
+            }
+        },
+    )
 }
 
 @Composable
@@ -246,13 +218,12 @@ private fun InputDialogBodyContent(
             style = inputFieldPostfixStyle,
         )
     val textMeasurer = rememberTextMeasurer()
-    val textFieldTextStyle = MaterialTheme.typography.bodyLarge // Style for measurement
+    val textFieldTextStyle = MaterialTheme.typography.bodyLarge
     val sampleString = "M".repeat(inputFieldSize.charCount)
     val measuredTextOnlyWidthPx =
         textMeasurer.measure(text = sampleString, style = textFieldTextStyle).size.width
     val measuredTextOnlyWidthDp = with(density) { measuredTextOnlyWidthPx.toDp() }
-    val textFieldInternalHorizontalPaddingDp =
-        dimensionResource(CommonResourcesR.dimen.spacing_3) // Assumed 12.dp on each side
+    val textFieldInternalHorizontalPaddingDp = dimensionResource(CommonResourcesR.dimen.spacing_3)
     val inputFieldWidthDp = measuredTextOnlyWidthDp + textFieldInternalHorizontalPaddingDp
     val inputFieldWidthPx = with(density) { inputFieldWidthDp.toPx() }.toInt()
     val inputSpacingPx = with(density) { inputSpacing.toPx() }.toInt()
@@ -343,7 +314,6 @@ private fun InputDialogBodyContent(
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Center,
-            // the error message needs all the room available so it won't follow the input row constraints
             modifier =
                 Modifier
                     .fillMaxWidth()
@@ -399,37 +369,37 @@ fun errorTrailingIcon(
 // Previews
 @PreviewTvScreensNoUi
 @Composable
-private fun InputDialogPreview(
-    @PreviewParameter(InputDialogPreviewParameterProvider::class) inputDialogPreviewObject: InputDialogPreviewObject,
+private fun DialogInputPreview(
+    @PreviewParameter(DialogInputPreviewParameterProvider::class) dialogInputPreviewObject: DialogInputPreviewObject,
 ) {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            InputDialog(
+            DialogInput(
                 dialogTitle = "Duration of WORK periods",
-                inputFieldValue = inputDialogPreviewObject.inputFieldValue,
-                inputFieldPostfix = inputDialogPreviewObject.postfix,
-                inputFieldSize = inputDialogPreviewObject.inputFieldSize,
-                inputFieldSingleLine = inputDialogPreviewObject.singleLine,
-                primaryButtonLabel = inputDialogPreviewObject.primaryButtonLabel,
+                inputFieldValue = dialogInputPreviewObject.inputFieldValue,
+                inputFieldPostfix = dialogInputPreviewObject.postfix,
+                inputFieldSize = dialogInputPreviewObject.inputFieldSize,
+                inputFieldSingleLine = dialogInputPreviewObject.singleLine,
+                primaryButtonLabel = dialogInputPreviewObject.primaryButtonLabel,
                 primaryAction = {},
-                secondaryButtonLabel = inputDialogPreviewObject.secondaryButtonLabel,
+                secondaryButtonLabel = dialogInputPreviewObject.secondaryButtonLabel,
                 secondaryAction = {},
-                dismissButtonLabel = inputDialogPreviewObject.dismissButtonLabel,
+                dismissButtonLabel = dialogInputPreviewObject.dismissButtonLabel,
                 dismissAction = {},
                 keyboardType = KeyboardType.Number,
-                validateInput = inputDialogPreviewObject.validateInput,
-                pickErrorMessage = inputDialogPreviewObject.errorMessage,
+                validateInput = dialogInputPreviewObject.validateInput,
+                pickErrorMessage = dialogInputPreviewObject.errorMessage,
             )
         }
     }
 }
 
-internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<InputDialogPreviewObject> {
-    override val values: Sequence<InputDialogPreviewObject>
+internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<DialogInputPreviewObject> {
+    override val values: Sequence<DialogInputPreviewObject>
         get() {
             val sequenceOf =
                 sequenceOf(
-                    InputDialogPreviewObject(
+                    DialogInputPreviewObject(
                         inputFieldValue = "30",
                         singleLine = true,
                         postfix = "seconds",
@@ -440,7 +410,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         validateInput = { Constants.InputError.NONE },
                         errorMessage = { -1 },
                     ),
-                    InputDialogPreviewObject(
+                    DialogInputPreviewObject(
                         inputFieldValue = "Quatre-vingt",
                         singleLine = true,
                         postfix = "seconds",
@@ -451,7 +421,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         validateInput = { Constants.InputError.NONE },
                         errorMessage = { -1 },
                     ),
-                    InputDialogPreviewObject(
+                    DialogInputPreviewObject(
                         inputFieldValue = "This is a very long input value so it takes a lot of place",
                         singleLine = true,
                         postfix = "seconds",
@@ -462,7 +432,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         validateInput = { Constants.InputError.NONE },
                         errorMessage = { -1 },
                     ),
-                    InputDialogPreviewObject(
+                    DialogInputPreviewObject(
                         inputFieldValue = "This is a very long input value so it takes a lot of place",
                         singleLine = false,
                         postfix = "seconds",
@@ -473,7 +443,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         validateInput = { Constants.InputError.NONE },
                         errorMessage = { -1 },
                     ),
-                    InputDialogPreviewObject(
+                    DialogInputPreviewObject(
                         inputFieldValue =
                             "This is a very long input value so it takes a lot of place," +
                                 " and it could grow indefinitely depending only on the user's choice, " +
@@ -487,7 +457,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                         validateInput = { Constants.InputError.WRONG_FORMAT },
                         errorMessage = { CommonResourcesR.string.invalid_input_error },
                     ),
-                    InputDialogPreviewObject(
+                    DialogInputPreviewObject(
                         inputFieldValue = "30",
                         singleLine = true,
                         postfix = "seconds",
@@ -503,7 +473,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
         }
 }
 
-internal data class InputDialogPreviewObject(
+internal data class DialogInputPreviewObject(
     val singleLine: Boolean,
     val inputFieldValue: String,
     val postfix: String,
