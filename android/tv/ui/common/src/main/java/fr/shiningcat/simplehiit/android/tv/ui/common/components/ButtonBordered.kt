@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -58,7 +57,6 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  *                   As a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering.
  * @param onClick Called when this button is clicked.
  * @param label The text to display on the button. If null, no text is displayed.
- * @param textAlign The alignment of the label text.
  * @param icon The icon to display on the button. If null, no icon is displayed.
  * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
  * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
@@ -72,7 +70,6 @@ fun ButtonBordered(
     fillHeight: Boolean = false,
     onClick: () -> Unit = {},
     label: String? = null,
-    textAlign: TextAlign = TextAlign.Center,
     icon: ImageVector? = null,
     @StringRes
     iconContentDescription: Int = -1,
@@ -153,7 +150,10 @@ fun ButtonBordered(
         ) {
             if (icon != null) {
                 Icon(
-                    modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)),
+                    modifier =
+                        Modifier
+                            .size(adaptDpToFontScale(MediumIconSize))
+                            .run { if (label != null) padding(end = ButtonDefaults.IconSpacing) else this },
                     imageVector = icon,
                     contentDescription =
                         if (iconContentDescription != -1) {
@@ -164,16 +164,19 @@ fun ButtonBordered(
                 )
             } else if (reserveIconSpace) {
                 // Reserve space for icon to match width with buttons that have icons
-                Spacer(modifier = Modifier.size(adaptDpToFontScale(MediumIconSize)))
+                Spacer(
+                    modifier =
+                        Modifier
+                            .size(adaptDpToFontScale(MediumIconSize))
+                            .run { if (label != null) padding(end = ButtonDefaults.IconSpacing) else this },
+                )
             }
             if (label != null) {
                 Text(
-                    modifier = Modifier.padding(start = ButtonDefaults.IconSpacing),
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    textAlign = textAlign,
                 )
             }
         }
