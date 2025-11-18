@@ -5,6 +5,23 @@
 
 # SimpleHIIT
 
+## Table of Contents
+
+- [Overview](#overview)
+- [Caracteristics](#caracteristics)
+- [Work in Progress](#this-is-a-wip-see-current-todo-list)
+- [Setup for Contributors](#setup-for-contributors)
+- [Threading Strategy](#threading-strategy)
+- [Notes on UseCases](#notes-on-usecases)
+- [Notes on ViewModels](#notes-on-viewmodels)
+- [Modularization](#modularization)
+- [Credits](#credits)
+  - [External libraries / plugins](#external-libraries--plugins)
+  - [References](#references)
+  - [Gradle Tasks](#gradle-tasks)
+
+## Overview
+
 This is a simple HIIT Android App for Android TV and mobile devices.
 
 * Sessions settings can be refined, like work and rest period duration, number of work period per
@@ -24,9 +41,10 @@ This is a simple HIIT Android App for Android TV and mobile devices.
 * Dagger-hilt for DI
 * pure kotlin
 * coroutines and flows / stateflows
-* Kover for test coverage report generation
+* Kover for test coverage report generation (see [docs/KOVER_CODE_COVERAGE.md](docs/KOVER_CODE_COVERAGE.md))
 * Full-Compose for UI
 * handle device form-factor variation (TV / mobile) in the same project
+* ktlint for code style enforcement (see [docs/KTLINT_FORMATTING_GUIDE.md](docs/KTLINT_FORMATTING_GUIDE.md))
 
 ## This is a WIP: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/TODO.md)
 

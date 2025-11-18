@@ -1,7 +1,18 @@
 #!/bin/bash
 #
-# Setup git hooks for this repository
-# Run this once after cloning: ./githooks/setup.sh
+# Git Hooks Setup Script
+# 
+# Installation:
+#   Run once from repository root after cloning:
+#     ./.githooks/setup.sh
+#
+# What this script does:
+#   1. Configures git to use .githooks directory (sets core.hooksPath)
+#   2. Makes all hook scripts executable
+#   3. Displays summary of installed hooks
+#
+# This is the recommended installation method as it automatically
+# applies all hooks in the .githooks directory to your local repository.
 #
 
 set -e

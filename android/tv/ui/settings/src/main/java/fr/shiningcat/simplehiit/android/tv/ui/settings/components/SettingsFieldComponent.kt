@@ -106,7 +106,7 @@ fun SettingsFieldComponent(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Column(horizontalAlignment = Alignment.Start) {
-                        Text(text = label, style = typography.headlineSmall)
+                        Text(text = label, style = typography.labelLarge)
                         if (secondaryLabel.isNotBlank()) {
                             Text(text = secondaryLabel, style = typography.labelMedium)
                         }
@@ -114,7 +114,7 @@ fun SettingsFieldComponent(
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
                             text = value,
-                            style = typography.headlineSmall,
+                            style = typography.labelLarge,
                             textAlign = TextAlign.End,
                         )
                         if (secondaryValue.isNotBlank()) {

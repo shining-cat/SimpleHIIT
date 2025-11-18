@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -37,6 +38,29 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.R
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
+/**
+ * A Composable function that creates a filled button with an optional icon and label.
+ *
+ * This button has a solid background color that changes based on its state (default, focused, pressed, disabled).
+ * The content (icon and label) is arranged in a Row and centered.
+ * The button can be configured to fill the available width and/or height.
+ *
+ * @param modifier The modifier to be applied to the button.
+ * @param fillWidth Whether the button should try to occupy the full width of its parent.
+ *                  If true, the inner Row will use `Modifier.fillMaxWidth()`.
+ *                  As a general rule, set this to true if the button is constrained horizontally, false otherwise, to preserve proper centering.
+ * @param fillHeight Whether the button should try to occupy the full height of its parent.
+ *                   If true, the inner Row will use `Modifier.fillMaxHeight()`.
+ *                   As a general rule, set this to true if the button is constrained vertically, false otherwise, to preserve proper centering.
+ * @param onClick Called when this button is clicked.
+ * @param label The text to display on the button. If null, no text is displayed.
+ * @param textAlign The alignment of the label text.
+ * @param icon The icon to display on the button. If null, no icon is displayed.
+ * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
+ * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
+ * @param reserveIconSpace When true, reserves space for an icon even when icon is null, ensuring consistent width with buttons that have icons.
+ * @param accentColor When true, uses the secondary color scheme instead of the primary color scheme.
+ */
 @Composable
 fun ButtonFilled(
     modifier: Modifier = Modifier,
@@ -44,12 +68,13 @@ fun ButtonFilled(
     fillHeight: Boolean = false,
     onClick: () -> Unit = {},
     label: String? = null,
+    textAlign: TextAlign = TextAlign.Center,
     icon: ImageVector? = null,
     @StringRes
     iconContentDescription: Int = -1,
-    accentColor: Boolean = false,
     enabled: Boolean = true,
     reserveIconSpace: Boolean = false,
+    accentColor: Boolean = false,
 ) {
     Button(
         modifier = modifier,
@@ -108,6 +133,7 @@ fun ButtonFilled(
                     text = label,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
+                    textAlign = textAlign,
                 )
             }
         }
