@@ -3,7 +3,7 @@
 ## Missing features / issues
 * improve layouts, including 200% fontscale, orientations and devices:
   * [x] home
-  * [ ] settings
+  * [x] settings
   * [ ] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
 * system nav bar in portrait phone is not tinted and has an oversized padding

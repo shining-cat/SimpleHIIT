@@ -1,115 +1,199 @@
-# Git Hooks
+# Git Hooks Documentation
 
-Custom git hooks for the SimpleHIIT project.
+## Overview
 
-## Setup
+This project uses git hooks to automate code quality checks and streamline the development workflow. Git hooks are scripts that run automatically at specific points in the git workflow.
 
-Run once after cloning the repository:
+## Installation
+
+### Quick Setup
+
+Run the setup script once after cloning the repository:
 
 ```bash
 ./.githooks/setup.sh
 ```
 
-Or manually:
+This script will:
+1. Configure git to use the `.githooks` directory (sets `core.hooksPath`)
+2. Make all hook scripts executable
+3. Display a summary of installed hooks
+
+### Manual Installation (Alternative)
+
+If you prefer manual setup, you can configure git hooks with:
 
 ```bash
 git config core.hooksPath .githooks
-chmod +x .githooks/pre-push
 chmod +x .githooks/pre-commit
+chmod +x .githooks/pre-push
 ```
 
-## Available Hooks
+## Active Hooks
 
-### pre-commit
+### pre-commit Hook
 
-Runs ktlint code style checks before allowing commits.
+**Purpose:** Enforces code style consistency using ktlint before allowing commits.
 
-**What it does:**
-1. Runs `./gradlew ktlintCheck --daemon` before each commit
-2. Blocks the commit if ktlint finds formatting violations
-3. Provides instructions to fix issues
+**Features:**
+- Runs `ktlintCheck` twice if the first attempt fails
+- Automatically handles minor auto-fixable formatting issues
+- Provides clear, color-coded console feedback
+- Only blocks commits if issues remain after both attempts
 
-**Why it helps:**
-- Prevents accidentally committing code that violates ktlint rules
-- Ensures consistent code style across the project
-- Catches formatting issues early, before CI/PR review
+**Workflow:**
 
-**When it runs:**
-Every time you execute `git commit`
+1. **First Check:**
+   - Runs `./gradlew ktlintCheck --daemon`
+   - If successful → commit proceeds
+   - If failed → proceeds to second check
 
-**If violations are found:**
-```bash
-❌ Ktlint check failed! Commit blocked.
+2. **Second Check (if first failed):**
+   - Runs ktlintCheck again
+   - If successful → commit proceeds (ktlint auto-fixed minor issues)
+   - If failed → commit is blocked
 
-To fix the issues, run:
-  ./gradlew ktlintFormat
+**When Commit is Blocked:**
 
-Then stage your changes and commit again.
+If ktlint finds issues that require manual intervention, you'll see:
+
+```
+❌ Ktlint check failed after 2 attempts! Commit blocked.
+
+Action required:
+  1. Run: ./gradlew ktlintFormat
+  2. Review and stage the changes
+  3. Commit again
+
+To bypass this check (not recommended):
+  git commit --no-verify
 ```
 
-**Bypass if needed:**
+**Example Output:**
+
+Success on first attempt:
+```
+════════════════════════════════════════════════════════════
+Running ktlint check (attempt 1/2)...
+════════════════════════════════════════════════════════════
+
+✅ Ktlint check passed on first attempt!
+✅ Commit proceeding...
+```
+
+Success on second attempt (auto-fixed):
+```
+════════════════════════════════════════════════════════════
+Running ktlint check (attempt 1/2)...
+════════════════════════════════════════════════════════════
+
+⚠️  First ktlint check detected issues
+⚠️  Ktlint may have auto-fixed some minor formatting issues
+
+════════════════════════════════════════════════════════════
+Running ktlint check (attempt 2/2)...
+════════════════════════════════════════════════════════════
+
+✅ Ktlint check passed on second attempt!
+✅ Minor issues were auto-fixed by ktlint
+✅ Commit proceeding...
+```
+
+### pre-push Hook
+
+**Purpose:** Automatically handles remote changes before pushing, particularly useful for CI commits like dependency graph updates.
+
+**Features:**
+- Fetches and merges remote changes automatically
+- Handles CI commits (like dependency graph updates) seamlessly
+- Provides color-coded feedback about the merge process
+- Skips on protected branches (master/develop)
+
+**Workflow:**
+
+1. **Check Current Branch:**
+   - Skips if on `master` or `develop` (protected branches)
+
+2. **Fetch Remote:**
+   - Fetches the latest changes from the remote branch
+
+3. **Compare States:**
+   - **Up to date:** Push proceeds immediately
+   - **First push:** No remote branch exists yet, proceeds
+   - **Remote ahead:** Automatically merges remote changes
+   - **Local ahead:** Push proceeds
+   - **Diverged:** Attempts to merge remote changes
+
+4. **Auto-merge:**
+   - If merge succeeds → push proceeds
+   - If merge conflicts → push is blocked, manual resolution required
+
+**Example Output:**
+
+Branch up to date:
+```
+Pre-push: Checking for remote changes...
+Pre-push: Branch is up to date
+```
+
+Auto-merging remote changes:
+```
+Pre-push: Checking for remote changes...
+Pre-push: Remote has new commits (likely CI updates)
+Pre-push: Automatically merging...
+Pre-push: Successfully merged, proceeding with push
+```
+
+Merge conflicts:
+```
+Pre-push: Checking for remote changes...
+Pre-push: Branches have diverged
+Pre-push: Attempting to merge...
+Pre-push: Merge failed - conflicts need manual resolution
+Resolve conflicts, then: git merge --continue
+Or abort with: git merge --abort
+```
+
+## Bypassing Hooks
+
+While not recommended, you can bypass hooks when necessary:
+
+### Bypass pre-commit:
 ```bash
 git commit --no-verify
 ```
 
-### pre-push
-
-Automatically handles remote changes before pushing, specifically for CI-generated commits (like dependency graph updates).
-
-**What it does:**
-1. Fetches the remote branch
-2. Checks if remote has new commits
-3. If yes, automatically merges the remote changes
-4. Proceeds with push if successful
-
-**Why merge instead of rebase?**
-- Safer: No history rewriting
-- Preserves commit hashes (important if you pushed commits before CI ran)
-- CI changes (dependency graph) are typically trivial
-- PRs usually squash-merge anyway, so the merge commit disappears
-
-**When it helps:**
-- You create a PR
-- CI runs and commits the dependency graph
-- You make more local changes
-- You try to push → hook automatically rebases and pushes
-
-**Bypass if needed:**
+### Bypass pre-push:
 ```bash
 git push --no-verify
 ```
 
-## How It Works
-
-[//]: # (```)
-Your workflow                        Without hook              With hook
-─────────────────────────────────────────────────────────────────────────
-1. git push                    →     Creates PR              Creates PR
-2. CI runs, commits graph      →     (remote updated)        (remote updated)
-3. Make local changes          →     Ready to push           Ready to push
-4. git push                    →     ❌ Error: fetch first   ✅ Auto-merge + push
-```
+**Note:** Bypassing hooks should only be done in exceptional circumstances, as they exist to maintain code quality and prevent issues.
 
 ## Troubleshooting
 
-**Hook doesn't run:**
-- Check: `git config core.hooksPath` should return `.githooks`
-- Check: `.githooks/pre-push` is executable (`chmod +x`)
+### Hooks Not Running
 
-**Merge conflicts:**
-The hook will stop and show instructions. Usually:
-```bash
-# Resolve conflicts in your editor
-git add <resolved-files>
-git merge --continue
-# Or abort with: git merge --abort
-```
+If hooks aren't executing:
 
-**Disable hooks temporarily:**
-```bash
-git push --no-verify
-```
+1. Verify hooks are configured:
+   ```bash
+   git config core.hooksPath
+   ```
+   Should output: `.githooks`
 
-**Remove hooks:**
-```bash
-git config --unset core.hooksPath
+2. Re-run the setup script:
+   ```bash
+   ./.githooks/setup.sh
+   ```
+
+3. Check hook files are executable:
+   ```bash
+   ls -la .githooks/
+   ```
+   Hook files should have execute permissions (`-rwxr-xr-x`)
+
+## Related Documentation
+
+- [Ktlint Formatting Guide](../docs/KTLINT_FORMATTING_GUIDE.md) - Detailed information about code formatting
+- [Gradle Tasks](../docs/GRADLE_TASKS.md) - Available Gradle commands including ktlintFormat
