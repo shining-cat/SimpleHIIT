@@ -18,6 +18,27 @@ import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
+/**
+ * Side navigation bar displayed in horizontal layout mode.
+ *
+ * This component uses NavigationRail with [NavigationRailDefaults.windowInsets] to handle
+ * window insets natively. This is important for proper edge-to-edge handling:
+ *
+ * - **Start-side insets:** NavigationRail automatically applies padding for system bars and
+ *   display cutouts on the start side, ensuring the navigation bar content is not obscured
+ * - **System bar tinting:** The native windowInsets ensure proper tinting of system bars
+ *   behind the navigation bar
+ * - **Content protection:** Screens using this component should apply their own end-side
+ *   cutout padding to protect main content when the device is rotated 180° (see StatisticsScreen
+ *   for an example)
+ *
+ * Do not override the windowInsets parameter unless you have a specific reason and understand
+ * the implications for edge-to-edge display and system bar handling.
+ *
+ * @param navigateTo Callback to navigate to a different screen
+ * @param currentDestination The currently displayed screen
+ * @param showStatisticsButton Whether to show the statistics navigation button
+ */
 @Composable
 fun NavigationSideBar(
     navigateTo: (String) -> Unit = {},

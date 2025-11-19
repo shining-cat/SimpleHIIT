@@ -3,13 +3,7 @@ package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -26,6 +20,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInsets
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsTopAppBar
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents.StatisticsContentHolder
@@ -73,7 +68,9 @@ private fun StatisticsScreen(
     dialogViewState: StatisticsDialog,
     hiitLogger: HiitLogger? = null,
 ) {
-    Row(modifier = Modifier.fillMaxSize()) {
+    Row(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             // in this case, we are in the statistics screen, so obviously we want to show this button
             NavigationSideBar(
@@ -85,6 +82,7 @@ private fun StatisticsScreen(
         Column(
             modifier =
                 Modifier
+                    .mainContentInsets(uiArrangement)
                     .fillMaxSize(),
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
@@ -117,16 +115,6 @@ private fun StatisticsScreen(
                 screenViewState = screenViewState,
                 dialogViewState = dialogViewState,
                 hiitLogger = hiitLogger,
-                modifier =
-                    Modifier
-                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
-                        .then(
-                            if (uiArrangement == UiArrangement.HORIZONTAL) {
-                                Modifier.windowInsetsPadding(WindowInsets.statusBars)
-                            } else {
-                                Modifier
-                            },
-                        ),
             )
         }
     }

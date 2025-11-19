@@ -66,9 +66,9 @@ fun ButtonFilled(
 ) {
     Button(
         modifier =
-            modifier.then(
-                if (!enabled) Modifier.focusProperties { canFocus = false } else Modifier,
-            ),
+            modifier.run {
+                if (!enabled) this.focusProperties { canFocus = false } else this
+            },
         enabled = enabled,
         onClick = { onClick() },
         colors =

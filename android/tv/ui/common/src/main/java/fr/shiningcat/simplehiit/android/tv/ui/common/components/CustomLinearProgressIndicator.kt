@@ -55,16 +55,16 @@ fun CustomLinearProgressIndicator(
             modifier =
                 Modifier
                     .fillMaxSize()
-                    .then(
+                    .run {
                         if (borderColor != null) {
-                            Modifier.border(
+                            this.border(
                                 width = dimensionResource(R.dimen.border_thin_stroke),
                                 color = borderColor,
                             )
                         } else {
-                            Modifier
-                        },
-                    ),
+                            this
+                        }
+                    },
         ) {
             // TRACK
             if (trackColor != null) {

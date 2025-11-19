@@ -1,15 +1,16 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.home.components
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -83,20 +84,23 @@ fun SelectUsersComponentVertical(
                         adaptDpToFontScale(baseSize = baseWidth, coerceMinSize = baseWidth)
                     }
                 }
-            FlowColumn(
+            val buttonHeight = dimensionResource(R.dimen.user_select_toggle_button_height)
+            val gridHeight = buttonHeight * maxLines + spacingDp * (maxLines - 1)
+            LazyHorizontalGrid(
+                rows = GridCells.Fixed(maxLines),
                 modifier =
                     Modifier
-                        .padding(top = spacingDp, start = spacingDp)
-                        .horizontalScroll(rememberScrollState()),
-                maxItemsInEachColumn = 3,
+                        .padding(top = spacingDp)
+                        .height(gridHeight),
+                contentPadding = PaddingValues(horizontal = spacingDp),
                 verticalArrangement = Arrangement.spacedBy(spacingDp),
                 horizontalArrangement = Arrangement.spacedBy(spacingDp),
             ) {
-                users.forEach { user ->
+                items(users) { user ->
                     ToggleButton(
                         modifier =
                             Modifier
-                                .height(dimensionResource(R.dimen.user_select_toggle_button_height))
+                                .height(buttonHeight)
                                 .width(buttonWidth),
                         label = user.name,
                         labelStyle = MaterialTheme.typography.labelMedium,

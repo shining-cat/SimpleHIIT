@@ -39,8 +39,11 @@ fun StatisticsNoUsersContent(
         modifier =
             modifier
                 .fillMaxSize()
-                .padding(top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp)
-                .verticalScroll(rememberScrollState()),
+                .padding(
+                    top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp,
+                    start = dimensionResource(R.dimen.spacing_1),
+                    end = dimensionResource(R.dimen.spacing_1),
+                ).verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
