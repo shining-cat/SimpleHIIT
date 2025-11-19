@@ -3,13 +3,7 @@ package fr.shiningcat.simplehiit.android.mobile.ui.settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -26,6 +20,7 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInsets
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.contents.SettingsContentHolder
 import fr.shiningcat.simplehiit.commonresources.R
@@ -126,7 +121,12 @@ private fun SettingsScreen(
                 showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty(),
             )
         }
-        Column(modifier = Modifier.fillMaxSize()) {
+        Column(
+            modifier =
+                Modifier
+                    .mainContentInsets(uiArrangement)
+                    .fillMaxSize(),
+        ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                 NavigateUpTopBar(
@@ -138,15 +138,6 @@ private fun SettingsScreen(
                 )
             }
             SettingsContentHolder(
-                Modifier
-                    .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
-                    .run {
-                        if (uiArrangement == UiArrangement.HORIZONTAL) {
-                            this.windowInsetsPadding(WindowInsets.statusBars)
-                        } else {
-                            this
-                        }
-                    },
                 editWorkPeriodLength = editWorkPeriodLength,
                 saveWorkPeriodLength = saveWorkPeriodLength,
                 editRestPeriodLength = editRestPeriodLength,
