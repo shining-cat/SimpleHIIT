@@ -247,15 +247,15 @@ private fun InputDialogBodyContent(
                 modifier =
                     Modifier
                         .focusRequester(focusRequester)
-                        .then(
+                        .run {
                             if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
-                                Modifier
+                                this
                                     .width(inputFieldWidthDp)
                                     .alignByBaseline()
                             } else {
-                                Modifier.fillMaxWidth()
-                            },
-                        ),
+                                this.fillMaxWidth()
+                            }
+                        },
             )
             if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
                 Text(

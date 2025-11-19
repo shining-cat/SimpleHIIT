@@ -46,8 +46,9 @@ fun StatisticsNoSessionsContent(
             modifier
                 .fillMaxSize()
                 .padding(
-                    vertical = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp,
-                    horizontal = dimensionResource(R.dimen.spacing_1),
+                    top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp,
+                    start = dimensionResource(R.dimen.spacing_1),
+                    end = dimensionResource(R.dimen.spacing_1),
                 ).verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

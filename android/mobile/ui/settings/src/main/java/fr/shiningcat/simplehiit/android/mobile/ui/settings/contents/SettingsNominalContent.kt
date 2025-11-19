@@ -68,6 +68,7 @@ fun SettingsNominalContent(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1)),
     ) {
         SettingsFieldComponent(
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.spacing_1)),
             label = stringResource(id = R.string.work_period_length_label),
             value =
                 stringResource(

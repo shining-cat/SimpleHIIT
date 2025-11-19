@@ -177,13 +177,13 @@ fun SessionScreen(
             SessionContentHolder(
                 Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
-                    .then(
+                    .run {
                         if (uiArrangement == UiArrangement.HORIZONTAL) {
-                            Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                            this.windowInsetsPadding(WindowInsets.statusBars)
                         } else {
-                            Modifier
-                        },
-                    ),
+                            this
+                        }
+                    },
                 dialogViewState = dialogViewState,
                 screenViewState = screenViewState,
                 uiArrangement = uiArrangement,

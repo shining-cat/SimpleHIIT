@@ -126,11 +126,7 @@ private fun SettingsScreen(
                 showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty(),
             )
         }
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxSize(),
-        ) {
+        Column(modifier = Modifier.fillMaxSize()) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                 NavigateUpTopBar(
@@ -144,13 +140,13 @@ private fun SettingsScreen(
             SettingsContentHolder(
                 Modifier
                     .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
-                    .then(
+                    .run {
                         if (uiArrangement == UiArrangement.HORIZONTAL) {
-                            Modifier.windowInsetsPadding(WindowInsets.statusBars)
+                            this.windowInsetsPadding(WindowInsets.statusBars)
                         } else {
-                            Modifier
-                        },
-                    ),
+                            this
+                        }
+                    },
                 editWorkPeriodLength = editWorkPeriodLength,
                 saveWorkPeriodLength = saveWorkPeriodLength,
                 editRestPeriodLength = editRestPeriodLength,

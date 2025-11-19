@@ -5,16 +5,7 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
-import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -56,37 +47,16 @@ class MainActivity : ComponentActivity() {
 
             // the composition tree below knows nothing about window size classes, we only pass a UiArrangement to help screens decide how to build their layout
             SimpleHiitMobileTheme {
+                // we need to wrap the whole app in a fillMaxSize Surface to avoid white system bars in dark mode + edge-to-edge
+                // insets have to be handled at the level below
                 Surface(
                     modifier =
                         Modifier
-                            .fillMaxSize()
-                            // Only apply cutout padding for horizontal arrangement
-                            .let {
-                                if (uiArrangement == UiArrangement.HORIZONTAL) {
-                                    it.padding(
-                                        paddingValues =
-                                            WindowInsets.displayCutout
-                                                .exclude(
-                                                    insets =
-                                                        WindowInsets.displayCutout.only(
-                                                            sides = WindowInsetsSides.Start,
-                                                        ),
-                                                ).asPaddingValues(),
-                                    )
-                                } else {
-                                    it.padding(
-                                        paddingValues =
-                                            WindowInsets.safeDrawing
-                                                .exclude(insets = WindowInsets.statusBars)
-                                                .asPaddingValues(),
-                                    )
-                                }
-                            },
+                            .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     SimpleHiitNavigation(
                         uiArrangement = uiArrangement,
-                        //   modifier = if (uiArrangement == UiArrangement.HORIZONTAL) Modifier.navigationBarsPadding() else Modifier,
                         hiitLogger = hiitLogger,
                     )
                 }

@@ -271,15 +271,15 @@ private fun InputDialogBodyContent(
                     ),
                 modifier =
                     Modifier
-                        .then(
+                        .run {
                             if (fieldAndPostfixFitOneLine) {
-                                Modifier
+                                this
                                     .width(inputFieldWidthDp)
                                     .alignByBaseline()
                             } else {
-                                Modifier.fillMaxWidth()
-                            },
-                        ).focusRequester(focusRequester),
+                                this.fillMaxWidth()
+                            }
+                        }.focusRequester(focusRequester),
                 decorationBox = {
                     InputDialogDecoration(
                         innerTextField = it,

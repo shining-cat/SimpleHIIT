@@ -50,14 +50,9 @@ fun StatisticsErrorContent(
             modifier
                 .fillMaxSize()
                 .padding(
-                    top =
-                        if (uiArrangement == UiArrangement.VERTICAL) {
-                            dimensionResource(
-                                CommonResourcesR.dimen.spacing_1,
-                            )
-                        } else {
-                            0.dp
-                        },
+                    top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(CommonResourcesR.dimen.spacing_1) else 0.dp,
+                    start = dimensionResource(CommonResourcesR.dimen.spacing_1),
+                    end = dimensionResource(CommonResourcesR.dimen.spacing_1),
                 ).verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
