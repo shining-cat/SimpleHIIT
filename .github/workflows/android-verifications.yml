@@ -87,7 +87,8 @@ jobs:
       - name: Generate Module Dependency Graph
         run: |
           mkdir -p build/reports
-          ./gradlew :android:mobile:app:generateModulesGraphvizText -Pmodules.graph.of.module=:android:mobile:app -Pmodules.graph.output.gv=build/reports/dependency-graph --no-configure-on-demand
+          # Generate unified dependency graph from root project (includes both mobile and tv)
+          ./gradlew generateModulesGraphvizText -Pmodules.graph.output.gv=build/reports/dependency-graph --no-configure-on-demand
           mv build/reports/dependency-graph build/reports/dependency-graph.gv
 
       - name: Install Graphviz
