@@ -3,13 +3,7 @@ package fr.shiningcat.simplehiit.android.mobile.ui.home
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.only
-import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
@@ -25,6 +19,7 @@ import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInsets
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
@@ -81,7 +76,10 @@ private fun HomeScreen(
             )
         }
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier =
+                Modifier
+                    .mainContentInsets(uiArrangement)
+                    .fillMaxSize(),
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 HomeTopBarComponent(
@@ -102,17 +100,6 @@ private fun HomeScreen(
                 screenViewState = viewState,
                 dialogViewState = dialogViewState,
                 hiitLogger = hiitLogger,
-                // Modifier for HomeContentHolder handles its specific padding needs
-                modifier =
-                    Modifier
-                        .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
-                        .run {
-                            if (uiArrangement == UiArrangement.HORIZONTAL) {
-                                this.windowInsetsPadding(WindowInsets.statusBars)
-                            } else {
-                                this
-                            }
-                        },
             )
         }
     }
