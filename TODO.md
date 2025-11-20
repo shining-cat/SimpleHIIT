@@ -7,7 +7,6 @@
   * [ ] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
 * check contrast between mobile colors like done in tv, and remove eventually unused color tokens remaining in SimpleHiitColors
-* modules dependency graph only includes mobile app, not TV
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
@@ -17,7 +16,7 @@
 * could we extract even more **platform-agnostic** logic from the viewmodels?
 * add tests on viewmodels
 * screenshot tests if they can run on github for free
-* upgrade to androidx.navigation3 (in alpha as of Aug.25) include new adaptive navigation
+* upgrade to androidx.navigation3 include new adaptive navigation
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 
 ## CI/Github actions
