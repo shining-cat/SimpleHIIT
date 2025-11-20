@@ -91,7 +91,7 @@ The hook is configured via `.githooks/setup.sh`. If you cloned the repo and have
 ./.githooks/setup.sh
 ```
 
-See `.githooks/GITHOOKS.md` for more details about all available git hooks.
+See [GITHOOKS.md](GITHOOKS.md) for more details about all available git hooks.
 
 ## Understanding the .editorconfig
 

@@ -16,7 +16,7 @@ the project uses a **matrix-like structure** where:
 
 ### Current Module Structure
 
-![Module Dependency Graph](../project_dependencies_graph.png)
+![Module Dependency Graph](project_dependencies_graph.png)
 
 The dependency graph is **automatically updated** by CI when changes are merged to master. A separate workflow validates dependencies on every PR to ensure module rules are enforced before merging. This ensures the graph always reflects the current, validated module structure from the mobile app's perspective.
 
