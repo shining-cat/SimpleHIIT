@@ -3,6 +3,9 @@ run-name: Running Android Verifications
 on:
   pull_request:
     branches: [ "master", "develop" ]
+    paths-ignore:
+      - '**.md'
+      - '**.png'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
