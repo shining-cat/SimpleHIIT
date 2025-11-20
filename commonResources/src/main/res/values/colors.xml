@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Semantic tokens for LIGHT theme - mirrors mobileLightColorScheme -->
-    <color name="primary">@color/teal_300</color>
-    <color name="secondary">@color/amber_500</color>
+    <!-- Semantic tokens for LIGHT theme - mirrors mobileLightColorScheme and tvLightColorScheme -->
+    <color name="primary">@color/teal_700</color>
+    <color name="secondary">@color/amber_700</color>
     <color name="background">@color/grey_50</color>
     <color name="surface">@color/grey_100</color>
-    <color name="on_primary">@color/grey_900</color>
-    <color name="on_secondary">@color/grey_900</color>
+    <color name="on_primary">@color/white</color>
+    <color name="on_secondary">@color/black</color>
     <color name="on_background">@color/black</color>
     <color name="on_surface">@color/grey_900</color>
     <color name="error">@color/red_600</color>

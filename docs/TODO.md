@@ -6,7 +6,6 @@
   * [x] settings
   * [ ] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
-* check contrast between mobile colors like done in tv, and remove eventually unused color tokens remaining in SimpleHiitColors
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
