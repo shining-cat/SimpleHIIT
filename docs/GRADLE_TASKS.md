@@ -100,13 +100,23 @@ See [KOVER_CODE_COVERAGE.md](KOVER_CODE_COVERAGE.md) for configuration details.
 
 ## CI/CD
 
-Tasks running automatically on every PR:
-1. `ktlintCheck` - Code style
-2. `assertModuleGraph` - Dependencies
-3. `testDebugUnitTest` - Tests
-4. Graph generation and commit
+The project uses two separate GitHub Actions workflows:
 
-Workflow: `.github/workflows/android-verifications.yml`
+**Verification Workflow** (`.github/workflows/android-verifications.yml`)
+- Runs on: Pull requests to `master` or `develop`
+- Tasks:
+  1. `ktlintCheck` - Code style validation
+  2. `assertModuleGraph` - Dependency rules enforcement
+  3. `testDebugUnitTest` - Unit tests
+- Purpose: Validate changes before merging
+
+**Update Dependency Graph Workflow** (`.github/workflows/update-module-dependency-graph.yml`)
+- Runs on: Merges to `master` (automatic) or manual trigger
+- Tasks:
+  1. Generate dependency graph visualization
+  2. Commit updated graph to repository
+  3. Upload graph as artifact (90-day retention)
+- Purpose: Keep dependency graph up-to-date with validated changes
 
 ---
 

@@ -1,0 +1,63 @@
+name: Update Module Dependency Graph
+run-name: Updating Module Dependency Graph
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  update-dependency-graph:
+    name: Update Module Dependencies Graph
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Generate Module Dependency Graph
+        run: |
+          mkdir -p build/reports
+          # Generate unified dependency graph from root project (includes both mobile and tv)
+          ./gradlew generateModulesGraphvizText -Pmodules.graph.output.gv=build/reports/dependency-graph --no-configure-on-demand
+          mv build/reports/dependency-graph build/reports/dependency-graph.gv
+
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz
+
+      - name: Convert Graph to PNG
+        run: dot -Tpng build/reports/dependency-graph.gv -o project_dependencies_graph.png
+
+      - name: Upload Dependency Graph
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-graph
+          path: project_dependencies_graph.png
+          retention-days: 90
+
+      - name: Commit and Push Updated Dependency Graph
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add project_dependencies_graph.png
+          if ! git diff --staged --quiet; then
+            git commit -m "Update module dependency graph [skip ci]"
+            git push
+          fi
