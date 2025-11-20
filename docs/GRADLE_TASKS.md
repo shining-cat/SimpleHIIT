@@ -29,7 +29,7 @@ It's also the same task that will be run on all merge on master on the CI.
 
 **Output files:**
 - Graphviz file: `build/reports/dependency-graph.gv`
-- PNG image: `project_dependencies_graph.png` (in project root)
+- PNG image: `docs/project_dependencies_graph.png`
 
 The generated graph shows both mobile and TV app modules (`:android:mobile:*` and `:android:tv:*`) along with shared modules (`:domain:*`, `:data`, `:commonUtils`, etc.) to visualize the complete project architecture.
 

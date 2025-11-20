@@ -42,14 +42,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dependency-graph
-          path: project_dependencies_graph.png
+          path: docs/project_dependencies_graph.png
           retention-days: 90
 
       - name: Commit and Push Updated Dependency Graph
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add project_dependencies_graph.png
+          git add docs/project_dependencies_graph.png
           if ! git diff --staged --quiet; then
             git commit -m "Update module dependency graph [skip ci]"
             git push

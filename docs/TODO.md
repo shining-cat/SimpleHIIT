@@ -28,7 +28,6 @@
 * watch? check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have
-* add a way to automatically merge PR and delete branch on github when all verifications have passed
 * when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this
   if possible
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user

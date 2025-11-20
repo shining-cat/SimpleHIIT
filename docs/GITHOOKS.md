@@ -195,5 +195,5 @@ If hooks aren't executing:
 
 ## Related Documentation
 
-- [Ktlint Formatting Guide](../docs/KTLINT_FORMATTING_GUIDE.md) - Detailed information about code formatting
-- [Gradle Tasks](../docs/GRADLE_TASKS.md) - Available Gradle commands including ktlintFormat
+- [Ktlint Formatting Guide](KTLINT_FORMATTING_GUIDE.md) - Detailed information about code formatting
+- [Gradle Tasks](GRADLE_TASKS.md) - Available Gradle commands including ktlintFormat

@@ -64,9 +64,9 @@ class DocumentationConventionPlugin : Plugin<Project> {
                     try {
                         println("Converting graph to PNG...")
                         exec {
-                            commandLine("dot", "-Tpng", "build/reports/dependency-graph.gv", "-o", "project_dependencies_graph.png")
+                            commandLine("dot", "-Tpng", "build/reports/dependency-graph.gv", "-o", "docs/project_dependencies_graph.png")
                         }
-                        println("Graph image saved to: project_dependencies_graph.png")
+                        println("Graph image saved to: docs/project_dependencies_graph.png")
                     } catch (e: Exception) {
                         println("WARNING: Graphviz (dot command) not found!")
                         println("Install Graphviz to generate PNG:")

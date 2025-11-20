@@ -1,0 +1,160 @@
+name: Auto Merge and Delete
+
+on:
+  # Trigger when a label is added to a PR
+  pull_request:
+    types: [labeled]
+  
+  # Trigger when the android-verifications workflow completes
+  workflow_run:
+    workflows: ["Android Verification"]
+    types: [completed]
+
+jobs:
+  auto-merge:
+    name: Auto Merge and Delete Branch
+    runs-on: ubuntu-latest
+    
+    # Only run if:
+    # 1. It's a labeled event with the correct label, OR
+    # 2. It's a workflow_run event that completed successfully
+    if: |
+      (github.event_name == 'pull_request' && github.event.label.name == 'HEX merge and delete') ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+    
+    steps:
+      - name: Get PR details
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            let pr;
+            
+            if (context.eventName === 'pull_request') {
+              // Direct PR event
+              pr = context.payload.pull_request;
+            } else if (context.eventName === 'workflow_run') {
+              // Workflow run event - get associated PRs
+              const prs = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${context.payload.workflow_run.head_branch}`,
+                state: 'open'
+              });
+              
+              if (prs.data.length === 0) {
+                core.info('No open PR found for this workflow run');
+                return null;
+              }
+              
+              pr = prs.data[0];
+            }
+            
+            if (!pr) {
+              return null;
+            }
+            
+            // Check if PR has the required label
+            const hasLabel = pr.labels.some(label => label.name === 'HEX merge and delete');
+            
+            if (!hasLabel) {
+              core.info('PR does not have the "HEX merge and delete" label');
+              return null;
+            }
+            
+            // Check if PR is a draft
+            if (pr.draft) {
+              core.info('PR is a draft - skipping auto-merge');
+              return null;
+            }
+            
+            core.setOutput('number', pr.number);
+            core.setOutput('head_ref', pr.head.ref);
+            core.setOutput('mergeable', pr.mergeable);
+            core.setOutput('mergeable_state', pr.mergeable_state);
+            
+            return pr.number;
+
+      - name: Wait for all checks
+        if: steps.pr.outputs.number
+        id: checks
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = ${{ steps.pr.outputs.number }};
+            
+            // Wait a bit to ensure all checks are registered
+            await new Promise(resolve => setTimeout(resolve, 5000));
+            
+            // Get all check runs for the PR
+            const { data: checkRuns } = await github.rest.checks.listForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.workflow_run?.head_sha || context.payload.pull_request.head.sha
+            });
+            
+            // Get all status checks
+            const { data: statuses } = await github.rest.repos.getCombinedStatusForRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.payload.workflow_run?.head_sha || context.payload.pull_request.head.sha
+            });
+            
+            // Check if all checks passed
+            const allChecksPassed = checkRuns.check_runs
+              .filter(check => check.name !== 'Auto Merge and Delete Branch')
+              .every(check => check.conclusion === 'success' || check.conclusion === 'skipped');
+            
+            const allStatusesPassed = statuses.state === 'success' || statuses.statuses.length === 0;
+            
+            if (!allChecksPassed || !allStatusesPassed) {
+              core.info('Not all checks have passed yet - waiting for next trigger');
+              core.setOutput('ready', 'false');
+              return;
+            }
+            
+            core.info('All checks have passed!');
+            core.setOutput('ready', 'true');
+
+      - name: Merge PR
+        if: steps.pr.outputs.number && steps.checks.outputs.ready == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = ${{ steps.pr.outputs.number }};
+            
+            try {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: prNumber,
+                merge_method: 'merge',
+                commit_title: `Auto-merge PR #${prNumber}`,
+                commit_message: 'Automatically merged via "HEX merge and delete" label'
+              });
+              
+              core.info(`Successfully merged PR #${prNumber}`);
+            } catch (error) {
+              core.setFailed(`Failed to merge PR: ${error.message}`);
+              throw error;
+            }
+
+      - name: Delete branch
+        if: steps.pr.outputs.number && steps.pr.outputs.head_ref && steps.checks.outputs.ready == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const headRef = '${{ steps.pr.outputs.head_ref }}';
+            
+            try {
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `heads/${headRef}`
+              });
+              
+              core.info(`Successfully deleted branch: ${headRef}`);
+            } catch (error) {
+              core.warning(`Failed to delete branch: ${error.message}`);
+              // Don't fail the workflow if branch deletion fails
+            }

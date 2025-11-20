@@ -18,7 +18,17 @@
 - [Credits](#credits)
   - [External libraries / plugins](#external-libraries--plugins)
   - [References](#references)
+
+## Documentation
+
+- [CI/CD Workflows](docs/CI_WORKFLOWS.md)
+- [Git Hooks](docs/GITHOOKS.md)
 - [Gradle Tasks Reference](docs/GRADLE_TASKS.md)
+- [Kover Code Coverage](docs/KOVER_CODE_COVERAGE.md)
+- [Ktlint Formatting Guide](docs/KTLINT_FORMATTING_GUIDE.md)
+- [Module Dependencies](docs/MODULE_DEPENDENCIES.md)
+- [Threading Strategy](docs/THREADING.md)
+- [TODO List](docs/TODO.md)
 
 ## Overview
 
@@ -46,7 +56,7 @@ This is a simple HIIT Android App for Android TV and mobile devices.
 * handle device form-factor variation (TV / mobile) in the same project
 * ktlint for code style enforcement (see [docs/KTLINT_FORMATTING_GUIDE.md](docs/KTLINT_FORMATTING_GUIDE.md))
 
-## This is a WIP: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/TODO.md)
+## This is a WIP: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/docs/TODO.md)
 
 ## Setup for Contributors
 
@@ -56,7 +66,7 @@ After cloning the repository, run the git hooks setup to enable automatic handli
 ./.githooks/setup.sh
 ```
 
-This configures a pre-push hook that automatically merges remote changes (like dependency graph updates from CI) before pushing. See [.githooks/GITHOOKS.md](.githooks/GITHOOKS.md) for details.
+This configures a pre-push hook that automatically merges remote changes (like dependency graph updates from CI) before pushing. See [docs/GITHOOKS.md](docs/GITHOOKS.md) for details.
 
 ## Threading Strategy
 
@@ -111,7 +121,7 @@ This project follows a **matrix-like modularization** structure with strict clea
 - **Layers** (rows): Presentation (UI), Domain, Data
 - **Platforms**: Mobile and TV with shared foundation modules
 
-![Module Dependency Graph](project_dependencies_graph.png)
+![Module Dependency Graph](docs/project_dependencies_graph.png)
 
 The dependency graph shows the current validated module structure. Dependencies are validated on every PR, and the graph is automatically updated when changes are merged to master. Dependencies flow **top-to-bottom** only, with lateral dependencies restricted to `common` modules.
 
