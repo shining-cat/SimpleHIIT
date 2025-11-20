@@ -18,7 +18,7 @@ the project uses a **matrix-like structure** where:
 
 ![Module Dependency Graph](../project_dependencies_graph.png)
 
-The dependency graph is **automatically updated** by CI on every PR. After successful dependency validation, the workflow generates the graph and commits it back to the PR branch. This ensures the graph always reflects the current, validated module structure from the mobile app's perspective.
+The dependency graph is **automatically updated** by CI when changes are merged to master. A separate workflow validates dependencies on every PR to ensure module rules are enforced before merging. This ensures the graph always reflects the current, validated module structure from the mobile app's perspective.
 
 ### Layer Responsibilities
 
@@ -154,13 +154,19 @@ The `assertModuleGraph` task includes three sub-tasks:
 
 ### In CI/CD
 
-The module dependency checks run automatically on every pull request to `master` or `develop` branches:
+The project uses two separate GitHub Actions workflows for module dependency management:
 
+**Verification Workflow** (runs on pull requests to `master` or `develop`):
 1. Validates dependencies (`assertModuleGraph`)
-2. If validation passes, generates and commits updated dependency graph
-3. Uploads graph as artifact (90-day retention)
+2. If any rule is violated, the build fails and prevents merging
 
-If any rule is violated, the CI build fails and prevents merging.
+**Update Dependency Graph Workflow** (runs on merges to `master`):
+1. Generates the dependency graph visualization
+2. Commits the updated graph image to the repository
+3. Uploads graph as artifact (90-day retention)
+4. Can also be triggered manually from GitHub Actions web interface
+
+This separation ensures that PRs are validated quickly without generating artifacts, while the dependency graph is updated automatically when changes land on master.
 
 ## Visualizing the Module Graph
 

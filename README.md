@@ -113,7 +113,7 @@ This project follows a **matrix-like modularization** structure with strict clea
 
 ![Module Dependency Graph](project_dependencies_graph.png)
 
-The dependency graph shows the current validated module structure. It's automatically updated by CI on every PR after successful dependency validation. Dependencies flow **top-to-bottom** only, with lateral dependencies restricted to `common` modules.
+The dependency graph shows the current validated module structure. Dependencies are validated on every PR, and the graph is automatically updated when changes are merged to master. Dependencies flow **top-to-bottom** only, with lateral dependencies restricted to `common` modules.
 
 **For complete details** on module architecture, dependency rules, and enforcement, see [docs/MODULE_DEPENDENCIES.md](docs/MODULE_DEPENDENCIES.md).
 
