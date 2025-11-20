@@ -91,3 +91,4 @@ simplehiit-android-library = { id = "fr.shiningcat.simplehiit.android.library" }
 simplehiit-android-application-compose = { id = "fr.shiningcat.simplehiit.android.application.compose" }
 simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.library.compose" }
 simplehiit-hilt = { id = "fr.shiningcat.simplehiit.hilt" }
+simplehiit-documentation = { id = "fr.shiningcat.simplehiit.documentation" }

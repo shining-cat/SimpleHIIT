@@ -1,34 +1,42 @@
 # Gradle Tasks Reference
 
-Project-specific Gradle tasks and useful commands.
-
 ## Module Dependency Enforcement
 
 ### Validate Dependencies
 
 ```bash
-./gradlew assertModuleGraph --no-configure-on-demand
+# Validate both mobile and TV app dependencies
+./gradlew :android:mobile:app:assertModuleGraph --no-configure-on-demand
+./gradlew :android:tv:app:assertModuleGraph --no-configure-on-demand
 ```
 
-Validates all module dependencies against configured rules. Runs automatically on every build and PR.
+Validates all module dependencies against configured rules for both mobile and TV apps. Runs automatically on PRs via CI.
 
-### Generate Dependency Graph
+IDE locations:
+- Mobile: `SimpleHIIT > android > mobile > app > Tasks > verification > assertModuleGraph`
+- TV: `SimpleHIIT > android > tv > app > Tasks > verification > assertModuleGraph`
+
+### Generate Complete Unified Graph (TV + Mobile) Locally
 
 ```bash
-./gradlew :android:mobile:app:generateModulesGraphvizText \
-  -Pmodules.graph.of.module=:android:mobile:app \
-  --no-configure-on-demand
+./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
 ```
 
-Generates Graphviz visualization. Convert to PNG: `dot -Tpng build/reports/dependency-graph.gv -o graph.png`
+This Gradle task generates both graphs, combines them, and converts to PNG. It's cross-platform and works on macOS, Linux, and Windows.
+It's also the same task that will be run on all merge on master on the CI.
 
-Online: [Graphviz Online](https://dreampuf.github.io/GraphvizOnline/) | [WebGraphviz](http://www.webgraphviz.com/)
+**IDE location**: `SimpleHIIT > Tasks > documentation > generateUnifiedDependencyGraph`
 
-### Module Statistics
+**Output files:**
+- Graphviz file: `build/reports/dependency-graph.gv`
+- PNG image: `project_dependencies_graph.png` (in project root)
 
-```bash
-./gradlew generateModulesGraphStatistics --no-configure-on-demand
-```
+The generated graph shows both mobile and TV app modules (`:android:mobile:*` and `:android:tv:*`) along with shared modules (`:domain:*`, `:data`, `:commonUtils`, etc.) to visualize the complete project architecture.
+
+**Note**: Graphviz must be installed to generate the PNG. Install with:
+- macOS: `brew install graphviz`
+- Ubuntu: `sudo apt-get install graphviz`
+- Windows: `choco install graphviz` or download from https://graphviz.org/download/
 
 See [MODULE_DEPENDENCIES.md](MODULE_DEPENDENCIES.md) for architecture details.
 
@@ -39,11 +47,10 @@ See [MODULE_DEPENDENCIES.md](MODULE_DEPENDENCIES.md) for architecture details.
 ### KtLint
 
 ```bash
-./gradlew ktlintCheck    # Check code style
+./gradlew ktlintCheck    # Check code style, Runs automatically on PR on the CI
 ./gradlew ktlintFormat   # Auto-format code
 ```
-
-Runs automatically on PR. IDE location: `SimpleHIIT > Tasks > formatting`
+IDE location: `SimpleHIIT > Tasks > formatting`
 
 ### Dependency Updates
 
@@ -70,34 +77,6 @@ See [KOVER_CODE_COVERAGE.md](KOVER_CODE_COVERAGE.md) for configuration details.
 
 ---
 
-## Useful Combinations
-
-### Full Verification (before PR)
-
-```bash
-./gradlew clean \
-  ktlintCheck \
-  assertModuleGraph --no-configure-on-demand \
-  testDebugUnitTest \
-  koverHtmlReport
-```
-
-### Quick Check (during development)
-
-```bash
-./gradlew ktlintCheck testDebugUnitTest
-```
-
-### Update and Verify
-
-```bash
-./gradlew dependencyUpdates \
-  ktlintCheck \
-  assertModuleGraph --no-configure-on-demand
-```
-
----
-
 ## CI/CD
 
 The project uses two separate GitHub Actions workflows:
@@ -106,45 +85,14 @@ The project uses two separate GitHub Actions workflows:
 - Runs on: Pull requests to `master` or `develop`
 - Tasks:
   1. `ktlintCheck` - Code style validation
-  2. `assertModuleGraph` - Dependency rules enforcement
+  2. `assertModuleGraph` - Dependency rules enforcement (for both mobile AND TV apps)
   3. `testDebugUnitTest` - Unit tests
 - Purpose: Validate changes before merging
 
 **Update Dependency Graph Workflow** (`.github/workflows/update-module-dependency-graph.yml`)
 - Runs on: Merges to `master` (automatic) or manual trigger
 - Tasks:
-  1. Generate dependency graph visualization
+  1. Generate unified dependency graph visualization (combining mobile AND TV modules)
   2. Commit updated graph to repository
   3. Upload graph as artifact (90-day retention)
 - Purpose: Keep dependency graph up-to-date with validated changes
-
----
-
-## Troubleshooting
-
-### "Configuration on demand" Warning
-
-Add `--no-configure-on-demand` flag:
-```bash
-./gradlew assertModuleGraph --no-configure-on-demand
-```
-
-### Gradle Daemon Issues
-
-```bash
-./gradlew --stop
-./gradlew clean build
-```
-
-### Cache Problems
-
-```bash
-rm -rf ~/.gradle/caches/
-./gradlew clean build --refresh-dependencies
-```
-
-### OutOfMemory
-
-Edit `gradle.properties`:
-```properties
-org.gradle.jvmargs=-Xmx4g -XX:MaxMetaspaceSize=512m

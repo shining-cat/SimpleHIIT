@@ -59,7 +59,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Verify Module Dependencies
-        run: ./gradlew assertModuleGraph --no-configure-on-demand
+        run: |
+          # Run assertions for both mobile and TV apps
+          ./gradlew :android:mobile:app:assertModuleGraph --no-configure-on-demand
+          ./gradlew :android:tv:app:assertModuleGraph --no-configure-on-demand
 
   unit-tests:
     name: Run Unit Tests

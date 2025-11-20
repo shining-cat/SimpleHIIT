@@ -55,5 +55,10 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.AndroidLibraryComposeConventionPlugin"
         }
+        register("documentation") {
+            id = "fr.shiningcat.simplehiit.documentation"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.DocumentationConventionPlugin"
+        }
     }
 }
