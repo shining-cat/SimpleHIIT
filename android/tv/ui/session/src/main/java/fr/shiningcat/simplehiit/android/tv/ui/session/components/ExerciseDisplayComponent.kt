@@ -20,6 +20,7 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
 import fr.shiningcat.simplehiit.android.tv.ui.session.R
 import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseGifMapper
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
@@ -42,8 +43,11 @@ fun ExerciseDisplayComponent(
     ) {
         val exerciseGifResMapper = ExerciseGifMapper()
         val exerciseGifRes = exerciseGifResMapper.map(exercise)
+        val exerciseDisplayNameMapper = ExerciseDisplayNameMapper()
+        val exerciseDescriptionRes = exerciseDisplayNameMapper.map(exercise)
         GifImage(
             gifResId = exerciseGifRes,
+            contentDescription = stringResource(exerciseDescriptionRes),
             mirrored = exerciseSide == AsymmetricalExerciseSideOrder.SECOND.side,
         )
         if (periodType == RunningSessionStepType.REST) {

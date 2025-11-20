@@ -21,6 +21,7 @@ fun GifImage(
     modifier: Modifier = Modifier,
     @DrawableRes
     gifResId: Int,
+    contentDescription: String,
     mirrored: Boolean = false,
 ) {
     val imageModifier =
@@ -31,7 +32,7 @@ fun GifImage(
         }
     GlideImage(
         model = gifResId,
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = imageModifier.fillMaxWidth(),
         loading = placeholder(gifResId),
         failure = placeholder(R.drawable.cross_x),
