@@ -32,18 +32,11 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Generate Module Dependency Graph
-        run: |
-          mkdir -p build/reports
-          # Generate unified dependency graph from root project (includes both mobile and tv)
-          ./gradlew generateModulesGraphvizText -Pmodules.graph.output.gv=build/reports/dependency-graph --no-configure-on-demand
-          mv build/reports/dependency-graph build/reports/dependency-graph.gv
-
       - name: Install Graphviz
         run: sudo apt-get install -y graphviz
 
-      - name: Convert Graph to PNG
-        run: dot -Tpng build/reports/dependency-graph.gv -o project_dependencies_graph.png
+      - name: Generate Module Dependency Graph
+        run: ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
 
       - name: Upload Dependency Graph
         uses: actions/upload-artifact@v4

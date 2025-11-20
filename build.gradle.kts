@@ -21,6 +21,7 @@ plugins {
     alias(libs.plugins.ktlint.gradle)
     alias(libs.plugins.kover)
     alias(libs.plugins.dependencyupdate)
+    alias(libs.plugins.simplehiit.documentation)
 }
 
 // Configure root clean task to delete Kover reports

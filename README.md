@@ -18,7 +18,7 @@
 - [Credits](#credits)
   - [External libraries / plugins](#external-libraries--plugins)
   - [References](#references)
-  - [Gradle Tasks](#gradle-tasks)
+- [Gradle Tasks Reference](docs/GRADLE_TASKS.md)
 
 ## Overview
 
@@ -137,21 +137,10 @@ free web app
 
 ### References
 
-* [The “Real” Modularization in Android](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23)
+* [The "Real" Modularization in Android](https://betterprogramming.pub/the-real-clean-architecture-in-android-modularization-e26940fd0a23)
   by Better Programming
   Denis Brandi
 * [Effective testing with Android Test Only Modules](https://proandroiddev.com/effective-testing-with-android-test-only-modules-3164ed9b20a0)
   by Shubham Garg
 * [Sharing build logic with Kotlin DSL](https://proandroiddev.com/sharing-build-logic-with-kotlin-dsl-203274f73013)
   by Chirag Kunder
-
-### Gradle Tasks
-
-Common tasks:
-- **Validate dependencies**: `./gradlew assertModuleGraph --no-configure-on-demand`
-- **Check code style**: `./gradlew ktlintCheck`
-- **Run tests**: `./gradlew testDebugUnitTest`
-- **Generate coverage**: `./gradlew testDebugUnitTest koverHtmlReport`
-- **Check for updates**: `./gradlew dependencyUpdates`
-
-**For complete task reference** including visualization, troubleshooting, and task combinations, see [docs/GRADLE_TASKS.md](docs/GRADLE_TASKS.md).

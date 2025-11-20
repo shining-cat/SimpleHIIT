@@ -3,6 +3,9 @@ run-name: Running Android Verifications
 on:
   pull_request:
     branches: [ "master", "develop" ]
+    paths-ignore:
+      - '**.md'
+      - '**.png'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
@@ -59,7 +62,10 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
       - name: Verify Module Dependencies
-        run: ./gradlew assertModuleGraph --no-configure-on-demand
+        run: |
+          # Run assertions for both mobile and TV apps
+          ./gradlew :android:mobile:app:assertModuleGraph --no-configure-on-demand
+          ./gradlew :android:tv:app:assertModuleGraph --no-configure-on-demand
 
   unit-tests:
     name: Run Unit Tests

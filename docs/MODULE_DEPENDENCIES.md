@@ -132,77 +132,6 @@ The dependency tree is limited to a maximum height of **7 levels**. Current long
 App → UI Feature → UI Common → Android Common → Common Resources → Domain Common → Common Utils
 ```
 
-## Running Checks
-
-### Locally
-
-```bash
-# Validate all module dependencies
-./gradlew assertModuleGraph --no-configure-on-demand
-
-# Generate dependency graph visualization
-./gradlew :android:mobile:app:generateModulesGraphvizText -Pmodules.graph.of.module=:android:mobile:app --no-configure-on-demand
-
-# View module statistics
-./gradlew generateModulesGraphStatistics --no-configure-on-demand
-```
-
-The `assertModuleGraph` task includes three sub-tasks:
-- `assertAllowedModuleDependencies` - Validates allowed patterns
-- `assertRestrictions` - Validates forbidden dependencies
-- `assertMaxHeight` - Validates tree height
-
-### In CI/CD
-
-The project uses two separate GitHub Actions workflows for module dependency management:
-
-**Verification Workflow** (runs on pull requests to `master` or `develop`):
-1. Validates dependencies (`assertModuleGraph`)
-2. If any rule is violated, the build fails and prevents merging
-
-**Update Dependency Graph Workflow** (runs on merges to `master`):
-1. Generates the dependency graph visualization
-2. Commits the updated graph image to the repository
-3. Uploads graph as artifact (90-day retention)
-4. Can also be triggered manually from GitHub Actions web interface
-
-This separation ensures that PRs are validated quickly without generating artifacts, while the dependency graph is updated automatically when changes land on master.
-
-## Visualizing the Module Graph
-
-### Generate Graphviz Text
-
-```bash
-./gradlew generateModulesGraphvizText
-```
-
-Outputs Graphviz DOT format that can be visualized using:
-- [Graphviz Online](https://dreampuf.github.io/GraphvizOnline/)
-- [WebGraphviz](http://www.webgraphviz.com/)
-- Local Graphviz: `dot -Tpng output.gv -o graph.png`
-
-Save to file:
-```bash
-./gradlew generateModulesGraphvizText -Pmodules.graph.output.gv=module_graph
-```
-
-Generate for specific module:
-```bash
-./gradlew generateModulesGraphvizText -Pmodules.graph.of.module=:android:mobile:app
-```
-
-### Generate Module Statistics
-
-```bash
-./gradlew generateModulesGraphStatistics
-```
-
-Prints useful metrics:
-- Total modules count
-- Total edges (dependencies)
-- Tree height
-- Longest dependency path
-
 ## Modifying the Rules
 
 To modify dependency rules:
@@ -220,37 +149,11 @@ To modify dependency rules:
 
 ## Troubleshooting
 
-### Build Fails with "Type mismatch" Error
-
-The plugin requires `arrayOf()` not `listOf()`:
-
-**Correct:**
-```kotlin
-allowed = arrayOf("pattern1", "pattern2")
-```
-
-**Incorrect:**
-```kotlin
-allowed = listOf("pattern1", "pattern2")
-```
-
 ### Build Fails with "Maximum height exceeded"
 
 Your dependency tree is too deep. Either:
 1. Refactor to reduce nesting (recommended)
 2. Increase `maxHeight` value (only if justified)
-
-### Build Fails with "Configuration on demand" Warning
-
-Always use the `--no-configure-on-demand` flag:
-
-```bash
-./gradlew assertModuleGraph --no-configure-on-demand
-```
-
-### Module Not Visible to Plugin
-
-If modules are missing, it may be due to Gradle's "Configuration on Demand" feature. Use `--no-configure-on-demand`.
 
 ## References
 
