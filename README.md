@@ -2,6 +2,7 @@
 [![Module Dependencies](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Module%20Dependencies)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
 [![Unit Tests](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Unit%20Tests)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
+[![WCAG 2.1 AA](https://img.shields.io/badge/WCAG%202.1-AA%20Compliant-green)](docs/COLOR_CONTRAST_ANALYSIS.md)
 
 # SimpleHIIT
 
@@ -28,6 +29,7 @@
 - [Ktlint Formatting Guide](docs/KTLINT_FORMATTING_GUIDE.md)
 - [Module Dependencies](docs/MODULE_DEPENDENCIES.md)
 - [Threading Strategy](docs/THREADING.md)
+- [Accessibility](docs/COLOR_CONTRAST_ANALYSIS.md)
 - [TODO List](docs/TODO.md)
 
 ## Overview
