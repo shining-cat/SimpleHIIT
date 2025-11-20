@@ -72,6 +72,8 @@ fun ToggleButton(
         },
         colors =
             FilterChipDefaults.filterChipColors(
+                selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                labelColor = MaterialTheme.colorScheme.onSurface,
                 containerColor = MaterialTheme.colorScheme.surface,
                 selectedContainerColor = MaterialTheme.colorScheme.primary,
             ),
@@ -80,6 +82,7 @@ fun ToggleButton(
                 {
                     Icon(
                         imageVector = Icons.Filled.Done,
+                        tint = MaterialTheme.colorScheme.onPrimary,
                         contentDescription = "Localized Description",
                         modifier = Modifier.size(adaptDpToFontScale(FilterChipDefaults.IconSize)),
                     )
