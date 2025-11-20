@@ -6,6 +6,7 @@
   * [x] settings
   * [ ] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
+  * missing some icons content description for accessibility (like the checked icon in toggle button)
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
