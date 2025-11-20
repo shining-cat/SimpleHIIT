@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewFontScale
@@ -83,7 +84,7 @@ fun ToggleButton(
                     Icon(
                         imageVector = Icons.Filled.Done,
                         tint = MaterialTheme.colorScheme.onPrimary,
-                        contentDescription = "Localized Description",
+                        contentDescription = stringResource(R.string.active),
                         modifier = Modifier.size(adaptDpToFontScale(FilterChipDefaults.IconSize)),
                     )
                 }
