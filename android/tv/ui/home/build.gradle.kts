@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.library.compose)
     alias(libs.plugins.simplehiit.compose.navigation)
+    alias(libs.plugins.simplehiit.tv.compose.ui)
     alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
 }
@@ -20,13 +21,4 @@ dependencies {
     implementation(projects.commonResources)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
-    //
-    implementation(libs.google.material)
-    implementation(libs.androidx.tv.foundation)
-    implementation(libs.androidx.tv.material)
-    implementation(libs.androidx.compose.preview)
-    implementation(libs.androidx.lifecycle)
-    //
-    debugImplementation(libs.androidx.compose.preview.debug)
-    debugImplementation(libs.androidx.compose.ui.test.debug)
 }

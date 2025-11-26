@@ -75,5 +75,10 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.MobileComposeUiConventionPlugin"
         }
+        register("tvComposeUi") {
+            id = "fr.shiningcat.simplehiit.tv.compose.ui"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.TvComposeUiConventionPlugin"
+        }
     }
 }
