@@ -10,6 +10,7 @@ ktlintComposeRuleset = "0.4.27"
 ktlintGradlePlugin = "14.0.1"
 dependencyUpdatePlugin = "0.53.0"
 modulesGraphAssert = "2.9.0"
+develocity = "3.18.2"
 
 # Dependency Injection
 hilt = "2.57.2"
@@ -117,6 +118,7 @@ ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGra
 dependencyupdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin" }
 modules-graph-assert = { id = "com.jraska.module.graph.assertion", version.ref = "modulesGraphAssert" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+develocity = { id = "com.gradle.develocity", version.ref = "develocity" }
 
 # Convention Plugins - Android Application
 simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld" }
