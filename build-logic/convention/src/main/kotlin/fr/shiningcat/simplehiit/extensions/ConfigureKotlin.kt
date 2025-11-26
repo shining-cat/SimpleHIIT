@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.extensions
 
 import fr.shiningcat.simplehiit.config.ConfigHandheld
+import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.provideDelegate
@@ -8,10 +9,13 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 /**
- * Configure base Kotlin options
+ * Configure base Kotlin options with JVM Toolchain support
  */
 internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
     configure<T> {
+        // Configure JVM Toolchain for consistent JDK usage across all tasks
+        jvmToolchain(JavaVersion.VERSION_17.majorVersion.toInt())
+
         // Treat all Kotlin warnings as errors (default to false)
         // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
         // this can be used to have it as true on local builds and false on CI builds (would require dedicated gradle.properties files)
@@ -20,6 +24,7 @@ internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() 
             is KotlinAndroidProjectExtension -> compilerOptions
             else -> error("Unsupported project extension $this ${T::class}")
         }.apply {
+            // JVM target is now managed by JVM Toolchain, but we keep this for backwards compatibility
             jvmTarget.set(ConfigHandheld.jvm.kotlinJvm)
             allWarningsAsErrors.set(warningsAsErrors.toBoolean())
             freeCompilerArgs.addAll(ConfigHandheld.jvm.freeCompilerArgs)

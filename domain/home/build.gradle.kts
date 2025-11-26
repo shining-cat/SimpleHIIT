@@ -5,10 +5,6 @@ plugins {
     alias(libs.plugins.kover)
 }
 
-android {
-    namespace = "fr.shiningcat.simplehiit.domain.home"
-}
-
 dependencies {
     implementation(projects.commonUtils)
     implementation(projects.domain.common)

@@ -8,10 +8,6 @@ plugins {
     alias(libs.plugins.kover)
 }
 
-android {
-    namespace = "fr.shiningcat.simplehiit.android.tv.ui.statistics"
-}
-
 dependencies {
     implementation(projects.android.common)
     implementation(projects.android.tv.ui.common)

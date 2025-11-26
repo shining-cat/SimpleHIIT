@@ -20,10 +20,6 @@ kover {
     }
 }
 
-android {
-    namespace = "fr.shiningcat.simplehiit.commonutils"
-}
-
 dependencies {
     // the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
 }

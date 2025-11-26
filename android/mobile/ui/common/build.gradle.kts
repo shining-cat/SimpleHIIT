@@ -5,10 +5,6 @@ plugins {
     alias(libs.plugins.simplehiit.testing)
 }
 
-android {
-    namespace = "fr.shiningcat.simplehiit.android.mobile.ui.common"
-}
-
 dependencies {
     implementation(projects.android.common)
     implementation(projects.domain.common)

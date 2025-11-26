@@ -3,16 +3,6 @@ plugins {
     alias(libs.plugins.simplehiit.hilt)
 }
 
-android {
-    namespace = "fr.shiningcat.simplehiit.testutils"
-
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
-}
-
 dependencies {
     /**
      * This whole module is here to be added as a testImplementation dependency only
@@ -26,10 +16,4 @@ dependencies {
     implementation(libs.mockk)
     //
     implementation(project(":commonUtils"))
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    ignoreFailures = false
-    outputs.upToDateWhen { false }
 }
