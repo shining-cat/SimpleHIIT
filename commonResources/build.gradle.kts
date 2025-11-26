@@ -15,9 +15,6 @@ android {
 dependencies {
     implementation(projects.domain.common)
     //
-
-    //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
 }

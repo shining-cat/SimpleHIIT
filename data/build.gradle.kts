@@ -26,7 +26,6 @@ dependencies {
     implementation(libs.androidx.room.coroutines)
     ksp(libs.androidx.room.compiler)
     //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)

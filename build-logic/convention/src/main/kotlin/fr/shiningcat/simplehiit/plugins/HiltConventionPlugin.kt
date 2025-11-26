@@ -13,8 +13,6 @@ class HiltConventionPlugin : Plugin<Project> {
             dependencies {
                 add("ksp", libs.findLibrary("hilt.compiler").get())
                 add("implementation", libs.findLibrary("hilt.core").get())
-                // TODO why does adding "testImplementation" fail the build?
-                // add("testImplementation", libs.findLibrary("hilt.android.testing").get())
             }
 
             /** Add support for Android modules, based on [AndroidBasePlugin] */
@@ -22,6 +20,7 @@ class HiltConventionPlugin : Plugin<Project> {
                 pluginManager.apply("dagger.hilt.android.plugin")
                 dependencies {
                     add("implementation", libs.findLibrary("hilt.android").get())
+                    add("testImplementation", libs.findLibrary("hilt.android.testing").get())
                 }
             }
         }

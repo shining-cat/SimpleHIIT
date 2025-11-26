@@ -42,7 +42,6 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.activity.compose)
     //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.test.runner)
     testImplementation(libs.jupiter)
     testImplementation(libs.mockk)

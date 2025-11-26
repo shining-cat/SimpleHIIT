@@ -31,7 +31,6 @@ android {
 
 dependencies {
     // the commonUtils module is a dependency to any other, so is allowed NO dependency to ANY other module
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.test.runner)
     testImplementation(libs.test.runner)
     testImplementation(libs.jupiter)

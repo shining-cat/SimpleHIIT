@@ -42,7 +42,6 @@ dependencies {
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
     //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.test.runner)
     testImplementation(libs.jupiter)
     testImplementation(libs.mockk)

@@ -28,7 +28,6 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.glide)
     //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)

@@ -18,7 +18,6 @@ dependencies {
     implementation(projects.commonUtils)
     testImplementation(projects.testUtils)
     //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.test.runner)
     testImplementation(libs.jupiter)
     testImplementation(libs.mockk)

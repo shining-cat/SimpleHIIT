@@ -36,7 +36,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.preview.debug)
     debugImplementation(libs.androidx.compose.ui.test.debug)
     //
-    testImplementation(libs.hilt.android.testing)
     testImplementation(libs.jetbrains.coroutines.test)
     testImplementation(libs.mockk)
     testImplementation(libs.jupiter)
