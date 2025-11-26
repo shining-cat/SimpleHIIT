@@ -113,7 +113,13 @@ The app uses a pragmatic emphasis system based on visual weight rather than colo
 
 ### TV Platform
 
-TV uses custom button components (ButtonBordered, ButtonFilled, ButtonText) to work around limitations in the TV Material 3 library. These follow the same visual hierarchy principles as mobile.
+TV uses custom button components (ButtonBordered, ButtonFilled, ButtonText, ButtonIcon) to work around limitations in the TV Material 3 library. These follow the same visual hierarchy principles as mobile.
+
+**ButtonIcon** - A specialized icon-only button component:
+- Uses primary color for the icon
+- Provides proper focus states for TV navigation
+- Features larger 40dp icons for better visibility
+- Used for special-purpose controls (e.g., increment/decrement buttons)
 
 ## WCAG 2.1 Compliance
 

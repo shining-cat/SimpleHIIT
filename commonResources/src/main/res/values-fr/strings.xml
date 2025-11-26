@@ -21,7 +21,9 @@
     <string name="error_irrecoverable_state">L\'application semble être gravement endommagée. Veuillez essayer de la fermer et de la relancer. Si cela persiste, vous devrez essayer de supprimer toutes les données stockées</string>
     <string name="reset_app_button_label">Réinitialiser toute l\'application</string>
     <string name="error_confirm_whole_reset">Supprimer toutes les données stockées ? Cela effacera tous les utilisateurs, toutes les sessions enregistrées et tous les paramètres</string>
+    <string name="decrease">augmenter</string>
     <string name="minus_cycle_description">Un cycle de moins</string>
+    <string name="increase">diminuer</string>
     <string name="plus_cycle_description">Un cycle de plus</string>
     <string name="number_of_cycle_setting_title">Choisir un nombre de cycles</string>
     <string name="total_length">Durée totale : %1$s</string>
