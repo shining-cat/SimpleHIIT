@@ -94,3 +94,4 @@ simplehiit-hilt = { id = "fr.shiningcat.simplehiit.hilt" }
 simplehiit-documentation = { id = "fr.shiningcat.simplehiit.documentation" }
 simplehiit-testing = { id = "fr.shiningcat.simplehiit.testing" }
 simplehiit-compose-navigation = { id = "fr.shiningcat.simplehiit.compose.navigation" }
+simplehiit-mobile-compose-ui = { id = "fr.shiningcat.simplehiit.mobile.compose.ui" }

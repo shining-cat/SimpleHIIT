@@ -70,5 +70,10 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.ComposeNavigationConventionPlugin"
         }
+        register("mobileComposeUi") {
+            id = "fr.shiningcat.simplehiit.mobile.compose.ui"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.MobileComposeUiConventionPlugin"
+        }
     }
 }
