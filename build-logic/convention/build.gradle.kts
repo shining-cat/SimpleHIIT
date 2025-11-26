@@ -65,5 +65,10 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.TestingConventionPlugin"
         }
+        register("composeNavigation") {
+            id = "fr.shiningcat.simplehiit.compose.navigation"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.ComposeNavigationConventionPlugin"
+        }
     }
 }
