@@ -175,7 +175,7 @@ fun SessionScreen(
                 screenViewState = screenViewState,
                 uiArrangement = uiArrangement,
                 onAbortSession = onAbortSession,
-                resume = resume,
+                onResume = resume,
                 navigateUp = navigateUp,
                 hiitLogger = hiitLogger,
             )

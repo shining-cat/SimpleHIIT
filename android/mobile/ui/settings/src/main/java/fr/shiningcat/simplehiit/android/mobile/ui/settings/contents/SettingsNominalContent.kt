@@ -11,7 +11,6 @@ import androidx.compose.material3.DividerDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.OnSurfaceTextButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsExercisesSelectedComponent
@@ -158,7 +158,7 @@ fun SettingsNominalContent(
             thickness = Dp.Hairline,
             color = DividerDefaults.color,
         )
-        TextButton(
+        OnSurfaceTextButton(
             modifier =
                 Modifier
                     .padding(

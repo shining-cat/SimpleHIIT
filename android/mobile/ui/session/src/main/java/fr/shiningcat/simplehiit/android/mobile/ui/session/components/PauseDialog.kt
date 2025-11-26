@@ -1,21 +1,15 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.common.components
+package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,31 +19,25 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import fr.shiningcat.simplehiit.android.common.ui.utils.AdaptiveDialogButtonsLayout
-import fr.shiningcat.simplehiit.android.common.ui.utils.ButtonType
-import fr.shiningcat.simplehiit.android.common.ui.utils.DialogButtonConfig
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
-import fr.shiningcat.simplehiit.android.mobile.ui.common.R
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.AdaptiveDialogButtonsLayout
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.ButtonType
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
-fun ChoiceDialog(
-    title: String = "",
-    @DrawableRes image: Int = -1,
-    @StringRes imageContentDescription: Int = -1,
-    message: String = "",
-    primaryButtonLabel: String,
-    primaryAction: () -> Unit,
-    secondaryButtonLabel: String? = null,
-    secondaryAction: () -> Unit = {},
-    dismissButtonLabel: String? = null,
-    dismissAction: () -> Unit,
+fun PauseDialog(
+    onResume: () -> Unit,
+    onAbort: () -> Unit,
 ) {
     val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
+    val title = stringResource(id = CommonResourcesR.string.pause)
+    val message = stringResource(id = CommonResourcesR.string.pause_explanation)
+    val abortButtonLabel = stringResource(id = CommonResourcesR.string.resume_button_label)
+    val resumeButtonLabel = stringResource(CommonResourcesR.string.abort_session_button_label)
 
-    Dialog(onDismissRequest = dismissAction) {
+    Dialog(onDismissRequest = onResume) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
@@ -72,20 +60,6 @@ fun ChoiceDialog(
                             overflow = TextOverflow.Ellipsis,
                         )
                     }
-                    if (image != -1) {
-                        Image(
-                            modifier =
-                                Modifier
-                                    .size(adaptDpToFontScale(dimensionResource(R.dimen.dialog_main_icon_size)))
-                                    .align(Alignment.CenterHorizontally)
-                                    .padding(
-                                        horizontal = 0.dp,
-                                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
-                                    ),
-                            painter = painterResource(id = image),
-                            contentDescription = stringResource(id = imageContentDescription),
-                        )
-                    }
                     Text(
                         textAlign = TextAlign.Center,
                         modifier =
@@ -96,13 +70,11 @@ fun ChoiceDialog(
                         text = message,
                         style = MaterialTheme.typography.bodyMedium,
                     )
-                    ChoiceDialogButtonsLayout(
-                        primaryButtonLabel = primaryButtonLabel,
-                        onPrimaryClick = primaryAction,
-                        secondaryButtonLabel = secondaryButtonLabel,
-                        onSecondaryClick = secondaryAction,
-                        dismissButtonLabel = dismissButtonLabel,
-                        onDismissClick = dismissAction,
+                    PauseDialogButtonsLayout(
+                        actionButtonLabel = abortButtonLabel,
+                        onActionClick = onAbort,
+                        dismissButtonLabel = resumeButtonLabel,
+                        onDismissClick = onResume,
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                     )
                 }
@@ -112,35 +84,26 @@ fun ChoiceDialog(
 }
 
 @Composable
-private fun ChoiceDialogButtonsLayout(
-    primaryButtonLabel: String,
-    onPrimaryClick: () -> Unit,
-    secondaryButtonLabel: String?,
-    onSecondaryClick: () -> Unit,
-    dismissButtonLabel: String?,
+private fun PauseDialogButtonsLayout(
+    actionButtonLabel: String,
+    onActionClick: () -> Unit,
+    dismissButtonLabel: String,
     onDismissClick: () -> Unit,
     effectiveDialogContentWidthDp: Dp,
 ) {
     val primaryButtonInfo =
-        DialogButtonConfig(
-            label = primaryButtonLabel,
-            style = MaterialTheme.typography.labelMedium,
-            type = ButtonType.FILLED,
-            onClick = onPrimaryClick,
-        )
-    val secondaryButtonInfo =
-        if (secondaryButtonLabel.isNullOrBlank().not()) {
+        if (dismissButtonLabel.isNotBlank()) {
             DialogButtonConfig(
-                label = secondaryButtonLabel,
+                label = actionButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
-                type = ButtonType.OUTLINED,
-                onClick = onSecondaryClick,
+                type = ButtonType.FILLED,
+                onClick = onActionClick,
             )
         } else {
             null
         }
     val dismissButtonInfo =
-        if (dismissButtonLabel.isNullOrBlank().not()) {
+        if (dismissButtonLabel.isNotBlank()) {
             DialogButtonConfig(
                 label = dismissButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
@@ -151,7 +114,7 @@ private fun ChoiceDialogButtonsLayout(
             null
         }
 
-    val buttons = listOfNotNull(dismissButtonInfo, secondaryButtonInfo, primaryButtonInfo)
+    val buttons = listOfNotNull(dismissButtonInfo, primaryButtonInfo)
     val buttonsSpacingDp = dimensionResource(CommonResourcesR.dimen.spacing_15)
     AdaptiveDialogButtonsLayout(
         buttons = buttons,
@@ -175,13 +138,9 @@ private fun ChoiceDialogPreview() {
     SimpleHiitMobileTheme {
         Surface {
             // The Surface here is just for the preview's background, not the dialog's
-            ChoiceDialog(
-                message = "This will erase all users, all stored sessions, and all settings",
-                primaryButtonLabel = "Yeah",
-                primaryAction = {},
-                secondaryButtonLabel = "Maybe",
-                dismissButtonLabel = "Nope",
-                dismissAction = {},
+            PauseDialog(
+                onAbort = {},
+                onResume = {},
             )
         }
     }

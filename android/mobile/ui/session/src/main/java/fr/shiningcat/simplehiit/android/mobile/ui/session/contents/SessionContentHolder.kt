@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -22,13 +21,12 @@ import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ChoiceDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shiningcat.simplehiit.android.mobile.ui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.mobile.ui.session.components.PauseDialog
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
@@ -41,7 +39,7 @@ fun SessionContentHolder(
     screenViewState: SessionViewState,
     uiArrangement: UiArrangement,
     onAbortSession: () -> Unit = {},
-    resume: () -> Unit = {},
+    onResume: () -> Unit = {},
     navigateUp: () -> Boolean = { true },
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
@@ -115,14 +113,9 @@ fun SessionContentHolder(
     when (dialogViewState) {
         SessionDialog.None -> {} // Do nothing
         SessionDialog.Pause ->
-            ChoiceDialog(
-                title = stringResource(id = R.string.pause),
-                message = stringResource(id = R.string.pause_explanation),
-                primaryButtonLabel = stringResource(id = R.string.resume_button_label),
-                primaryAction = resume,
-                secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
-                secondaryAction = onAbortSession,
-                dismissAction = resume,
+            PauseDialog(
+                onResume = onResume,
+                onAbort = onAbortSession,
             )
     }
 }

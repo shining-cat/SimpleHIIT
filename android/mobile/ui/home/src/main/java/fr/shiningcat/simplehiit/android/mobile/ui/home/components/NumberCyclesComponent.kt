@@ -5,22 +5,26 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -52,14 +56,15 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(
+            IconButton(
                 enabled = numberOfCycles > 1,
                 onClick = decreaseNumberOfCycles,
             ) {
-                Text(
-                    text = stringResource(id = R.string.minus),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp,
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowDown,
+                    contentDescription = stringResource(id = R.string.decrease),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(adaptDpToFontScale(dimensionResource(R.dimen.button_height))),
                 )
             }
             Text(
@@ -72,14 +77,14 @@ fun NumberCyclesComponent(
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1)),
             )
-            TextButton(
-                modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
+            IconButton(
                 onClick = increaseNumberOfCycles,
             ) {
-                Text(
-                    text = stringResource(id = R.string.plus),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 44.sp,
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = stringResource(id = R.string.increase),
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(adaptDpToFontScale(dimensionResource(R.dimen.button_height))),
                 )
             }
         }

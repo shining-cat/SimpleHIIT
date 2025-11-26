@@ -21,9 +21,9 @@
     <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
     <string name="reset_app_button_label">Reset the whole app</string>
     <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
-    <string name="minus" translatable="false">-</string>
+    <string name="decrease">decrease</string>
     <string name="minus_cycle_description">One cycle less</string>
-    <string name="plus" translatable="false">+</string>
+    <string name="increase">increase</string>
     <string name="plus_cycle_description">One cycle more</string>
     <string name="number_of_cycle_setting_title">Choose a number of cycles</string>
     <string name="number_of_cycle_setting" translatable="false">%1$d x %2$s</string>

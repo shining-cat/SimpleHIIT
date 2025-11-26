@@ -21,7 +21,9 @@
     <string name="error_irrecoverable_state">Appen verkar vara allvarligt skadad. Försök att stänga den och starta om. Om detta fortsätter måste du försöka radera all lagrad data</string>
     <string name="reset_app_button_label">Återställ hela appen</string>
     <string name="error_confirm_whole_reset">Radera all lagrad data? Detta kommer att radera alla användare, alla lagrade pass och alla inställningar</string>
+    <string name="decrease">minska</string>
     <string name="minus_cycle_description">En cykel mindre</string>
+    <string name="increase">öka</string>
     <string name="plus_cycle_description">En cykel mer</string>
     <string name="number_of_cycle_setting_title">Välj antal cykler</string>
     <string name="total_length">Total tid: %1$s</string>

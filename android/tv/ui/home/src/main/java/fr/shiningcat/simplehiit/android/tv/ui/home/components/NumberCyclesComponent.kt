@@ -4,17 +4,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -24,8 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonFilled
+import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonIcon
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
@@ -57,20 +52,11 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            val minusButtonActive = numberOfCycles > 1
-            ButtonFilled(
-                modifier =
-                    Modifier
-                        .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
-                        .width(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
-                        .focusProperties { canFocus = minusButtonActive },
-                fillHeight = true,
-                fillWidth = true,
+            ButtonIcon(
                 onClick = decreaseNumberOfCycles,
-                accentColor = false,
                 icon = Icons.Filled.KeyboardArrowDown,
                 iconContentDescription = CommonResourcesR.string.minus_cycle_description,
-                enabled = minusButtonActive,
+                enabled = numberOfCycles > 1,
             )
             Text(
                 modifier = Modifier.padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3)),
@@ -82,14 +68,8 @@ fun NumberCyclesComponent(
                     ),
                 style = MaterialTheme.typography.headlineMedium,
             )
-            ButtonFilled(
-                modifier =
-                    Modifier
-                        .size(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height))),
-                fillHeight = true,
-                fillWidth = true,
+            ButtonIcon(
                 onClick = increaseNumberOfCycles,
-                accentColor = false,
                 icon = Icons.Filled.KeyboardArrowUp,
                 iconContentDescription = CommonResourcesR.string.plus_cycle_description,
             )

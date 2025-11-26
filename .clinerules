@@ -1,0 +1,23 @@
+# Cline Rules for Aurora Android App
+
+## Build & Testing Behavior
+
+**DO NOT attempt to build the project or run tests.**
+- The development environment has specific setup requirements that make automated builds/tests unreliable
+- The developer will manually run all builds and tests during their review and appropriation phase
+- Focus on code generation, file modifications, and analysis only
+- When work is complete, do not suggest or execute build/test commands in the completion step
+
+## Documentation & Comments
+
+**Add KDoc/JavaDoc documentation for:**
+- Public methods and functions
+- Complex or non-obvious logic that requires explanation
+- Methods with non-trivial parameters or return values
+
+**DO NOT add inline comments that:**
+- Simply restate what was discussed in conversation (e.g., "// Adding an additional check on the data here")
+- Describe obvious code behavior
+- Serve as conversation artifacts rather than code documentation
+
+**Philosophy:** Documentation should add value for future developers, not echo our implementation discussion.

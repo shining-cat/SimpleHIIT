@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Semantic tokens for DARK theme - mirrors mobileDarkColorScheme and tvDarkColorScheme -->
-    <color name="primary">@color/teal_300</color>
+    <color name="primary">@color/teal_700</color>
+    <color name="on_primary">@color/white</color>
+    <color name="primary_container">@color/teal_200</color>
+    <color name="on_primary_container">@color/black</color>
     <color name="secondary">@color/amber_700</color>
+    <color name="on_secondary">@color/white</color>
+    <color name="secondary_container">@color/amber_200</color>
+    <color name="on_secondary_container">@color/black</color>
     <color name="background">@color/black</color>
-    <color name="surface">@color/grey_900</color>
-    <color name="on_primary">@color/black</color>
-    <color name="on_secondary">@color/black</color>
     <color name="on_background">@color/white</color>
+    <color name="surface">@color/grey_900</color>
     <color name="on_surface">@color/white</color>
+    <color name="on_surface_variant">@color/white</color>
+    <color name="outline">@color/white</color>
+    <color name="outline_variant">@color/white</color>
     <color name="error">@color/red_200</color>
     <color name="on_error">@color/black</color>
 </resources>

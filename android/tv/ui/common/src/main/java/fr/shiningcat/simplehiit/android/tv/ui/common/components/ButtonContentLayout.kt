@@ -17,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.tv.material3.ButtonDefaults
 import androidx.tv.material3.Icon
+import androidx.tv.material3.IconButtonDefaults.LargeIconSize
 import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
@@ -68,7 +69,7 @@ internal fun ButtonContentLayout(
                 imageVector = icon,
                 modifier =
                     Modifier
-                        .size(adaptDpToFontScale(MediumIconSize))
+                        .size(adaptDpToFontScale(LargeIconSize))
                         .run { if (label != null) padding(end = ButtonDefaults.IconSpacing) else this },
                 contentDescription =
                     if (iconContentDescription != -1) {
