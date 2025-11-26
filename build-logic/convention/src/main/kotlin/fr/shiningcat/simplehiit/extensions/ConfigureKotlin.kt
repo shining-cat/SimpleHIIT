@@ -5,12 +5,12 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinTopLevelExtension
+import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
 /**
  * Configure base Kotlin options
  */
-internal inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin() =
+internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
     configure<T> {
         // Treat all Kotlin warnings as errors (default to false)
         // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
@@ -18,8 +18,7 @@ internal inline fun <reified T : KotlinTopLevelExtension> Project.configureKotli
         val warningsAsErrors: String? by project
         when (this) {
             is KotlinAndroidProjectExtension -> compilerOptions
-            // is KotlinJvmProjectExtension -> compilerOptions // todo: no use for this for now, delete once migration is complete if still unused. maybe simplify resulting configureKotlin method
-            else -> TODO("Unsupported project extension $this ${T::class}")
+            else -> error("Unsupported project extension $this ${T::class}")
         }.apply {
             jvmTarget.set(ConfigHandheld.jvm.kotlinJvm)
             allWarningsAsErrors.set(warningsAsErrors.toBoolean())
