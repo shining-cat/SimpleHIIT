@@ -11,6 +11,7 @@
 * Find how to publish: Fdroid, or github, or home?
 
 ## General technical improvements
+* windowSizeClass.windowWidthSizeClass is deprecated, maybe combine fix with navigation 3 which should impact adaptive navigation
 * use new [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64) to review composables and eventually optimise them further (also gradle plugin)
 * could we extract even more **platform-agnostic** logic from the viewmodels?
 * add tests on viewmodels

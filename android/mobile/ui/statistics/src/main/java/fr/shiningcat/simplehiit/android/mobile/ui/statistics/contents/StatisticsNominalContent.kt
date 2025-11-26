@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,6 +30,7 @@ import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.OnSurfaceTextButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
@@ -109,10 +109,11 @@ fun StatisticsNominalContent(
                             .padding(vertical = dimensionResource(R.dimen.spacing_2)),
                     thickness = Dp.Hairline,
                 )
-                TextButton(
+                OnSurfaceTextButton(
                     modifier =
                         Modifier
                             .padding(
+                                top = dimensionResource(R.dimen.spacing_3),
                                 bottom = dimensionResource(R.dimen.spacing_3),
                             ),
                     onClick = { deleteAllSessionsForUser(nominalViewState.selectedUser) },

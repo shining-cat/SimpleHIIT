@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common.ui.utils
+package fr.shiningcat.simplehiit.android.mobile.ui.common.helpers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,6 +20,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.OnSurfaceTextButton
 import fr.shiningcat.simplehiit.commonresources.R
 
 /**
@@ -131,7 +131,7 @@ private fun RenderDialogButton(
 ) {
     when (config.type) {
         ButtonType.TEXT -> {
-            TextButton(
+            OnSurfaceTextButton(
                 onClick = config.onClick,
                 enabled = config.enabled,
                 modifier = modifier,

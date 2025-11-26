@@ -2,8 +2,11 @@
 <resources>
     <!-- Theme colors are defined here and in SimpleHiitColors to allow for both use
 in pure-compose objects and xml-defined ones (only vector drawables in our case) -->
-    <color name="teal_300">#FF4DB6AC</color>
+    <color name="teal_200">#FF80CBC4</color>
+    <color name="teal_400">#FF26A69A</color>
     <color name="teal_700">#FF00796B</color>
+    <color name="amber_200">#FFFFE082</color>
+    <color name="amber_400">#FFFFCA28</color>
     <color name="amber_700">#FFFFA000</color>
     <color name="grey_50">#FFFAFAFA</color>
     <color name="grey_100">#FFF5F5F5</color>

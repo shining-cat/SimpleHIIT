@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fr.shiningcat.simplehiit.android.mobile.ui.common.components.OnSurfaceTextButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 
@@ -52,7 +52,8 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            TextButton(
+            // todo: replace + and - button with icon buttons to get primary color
+            OnSurfaceTextButton(
                 enabled = numberOfCycles > 1,
                 onClick = decreaseNumberOfCycles,
             ) {
@@ -72,7 +73,7 @@ fun NumberCyclesComponent(
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1)),
             )
-            TextButton(
+            OnSurfaceTextButton(
                 modifier = Modifier.padding(horizontal = 0.dp, vertical = 0.dp),
                 onClick = increaseNumberOfCycles,
             ) {
