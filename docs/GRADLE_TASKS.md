@@ -58,7 +58,16 @@ IDE location: `SimpleHIIT > Tasks > formatting`
 ./gradlew dependencyUpdates
 ```
 
-Check for available updates (stable versions only). IDE location: `SimpleHIIT > Tasks > help`
+Scans all project dependencies and reports available updates. Configured to show stable versions only (RELEASE, FINAL, GA, or numeric versions). Filters out alpha, beta, RC, and snapshot versions.
+
+**IDE location**: `SimpleHIIT > Tasks > help > dependencyUpdates`
+
+**Output**: Console report showing:
+- Dependencies with available updates
+- Current version vs latest available version
+- Categorized by type (Gradle, plugins, dependencies)
+
+The task uses the Ben Manes Gradle Versions Plugin with custom configuration to reject unstable versions.
 
 ---
 
