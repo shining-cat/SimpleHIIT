@@ -1,7 +1,7 @@
 [versions]
 agp = "8.13.1"
 kgp = "2.2.21"
-ksp = "2.3.2"
+ksp = "2.3.3"
 ktlintComposeRuleset = "0.4.27"
 ktlintGradlePlugin = "14.0.1"
 dependencyUpdatePlugin = "0.53.0"
