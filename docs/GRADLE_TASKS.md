@@ -42,6 +42,47 @@ See [MODULE_DEPENDENCIES.md](MODULE_DEPENDENCIES.md) for architecture details.
 
 ---
 
+## Build Performance Analysis
+
+### Gradle Build Scans
+
+Gradle Build Scans provide detailed performance insights and build analysis. The project is configured to automatically publish scans on build failures.
+
+**Local Development (On-Demand):**
+```bash
+# Generate a build scan for any build
+./gradlew assembleDebug --scan
+./gradlew clean build --scan
+
+# The scan URL will be displayed in the output
+# Example: https://scans.gradle.com/s/abc123xyz
+```
+
+**CI/CD (Automatic on Failures):**
+- Build scans are automatically published when builds fail on CI
+- Helps debug issues without local reproduction
+- No manual intervention needed
+
+**What Build Scans Show:**
+- Task execution timeline and duration
+- Configuration phase performance
+- Dependency resolution details
+- Cache hit/miss ratios
+- Environment configuration (JVM, Gradle version)
+- Console output and test results
+- Performance recommendations
+
+**Notes:**
+- Scans are published to `scans.gradle.com` (free public service)
+- Links are publicly accessible and expire after 90 days
+- Minimal performance overhead (5-15 seconds for publishing)
+- Use the `--scan` flag only when investigating performance issues
+- For regular builds, omit `--scan` for optimal performance
+
+**Alternative**: Use Android Studio's built-in Build Analyzer for quick, local build insights without publishing to external services.
+
+---
+
 ## Code Quality
 
 ### KtLint
@@ -58,7 +99,16 @@ IDE location: `SimpleHIIT > Tasks > formatting`
 ./gradlew dependencyUpdates
 ```
 
-Check for available updates (stable versions only). IDE location: `SimpleHIIT > Tasks > help`
+Scans all project dependencies and reports available updates. Configured to show stable versions only (RELEASE, FINAL, GA, or numeric versions). Filters out alpha, beta, RC, and snapshot versions.
+
+**IDE location**: `SimpleHIIT > Tasks > help > dependencyUpdates`
+
+**Output**: Console report showing:
+- Dependencies with available updates
+- Current version vs latest available version
+- Categorized by type (Gradle, plugins, dependencies)
+
+The task uses the Ben Manes Gradle Versions Plugin with custom configuration to reject unstable versions.
 
 ---
 

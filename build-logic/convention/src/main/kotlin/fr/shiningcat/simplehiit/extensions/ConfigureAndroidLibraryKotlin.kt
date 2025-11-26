@@ -7,6 +7,10 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
 internal fun Project.configureAndroidLibraryKotlin(commonExtension: CommonExtension<*, *, *, *, *, *>) {
     commonExtension.apply {
+        // Auto-generate namespace from project path
+        // Example: :android:mobile:ui:home -> fr.shiningcat.simplehiit.android.mobile.ui.home
+        namespace = "fr.shiningcat.simplehiit${project.path.replace(":", ".")}"
+
         compileSdk = ConfigLibrary.config.compileSdkVersion
         defaultConfig.apply {
             minSdk = ConfigLibrary.config.minSdkVersion

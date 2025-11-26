@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     `kotlin-dsl`
 }
@@ -7,14 +5,13 @@ plugins {
 group = "fr.shiningcat.simplehiit.buildlogic"
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 kotlin {
-    compilerOptions {
-        jvmTarget = JvmTarget.JVM_17
-    }
+    jvmToolchain(17)
 }
 
 dependencies {
@@ -59,6 +56,26 @@ gradlePlugin {
             id = "fr.shiningcat.simplehiit.documentation"
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.DocumentationConventionPlugin"
+        }
+        register("testing") {
+            id = "fr.shiningcat.simplehiit.testing"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.TestingConventionPlugin"
+        }
+        register("composeNavigation") {
+            id = "fr.shiningcat.simplehiit.compose.navigation"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.ComposeNavigationConventionPlugin"
+        }
+        register("mobileComposeUi") {
+            id = "fr.shiningcat.simplehiit.mobile.compose.ui"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.MobileComposeUiConventionPlugin"
+        }
+        register("tvComposeUi") {
+            id = "fr.shiningcat.simplehiit.tv.compose.ui"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.TvComposeUiConventionPlugin"
         }
     }
 }

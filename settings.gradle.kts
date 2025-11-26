@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -7,8 +9,24 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("com.gradle.develocity") version "3.18.2"
+}
+
+develocity {
+    buildScan {
+        termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+        termsOfUseAgree = "yes"
+
+        // Publish scans on build failures for debugging
+        // Local developers: Use --scan flag to generate scans on demand
+        // CI: Automatically publishes when builds fail
+        publishing.onlyIf { it.buildResult.failures.isNotEmpty() }
+    }
+}
+
 dependencyResolutionManagement {
-    // repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) // TODO: uncomment when everything is migrated to plugins
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()

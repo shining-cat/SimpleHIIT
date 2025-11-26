@@ -2,17 +2,10 @@ plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.library.compose)
+    alias(libs.plugins.simplehiit.compose.navigation)
+    alias(libs.plugins.simplehiit.mobile.compose.ui)
+    alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
-}
-
-android {
-    namespace = "fr.shiningcat.simplehiit.android.mobile.ui.settings"
-
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {
@@ -24,25 +17,4 @@ dependencies {
     implementation(projects.android.mobile.ui.common)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
-    //
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.google.material)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.preview)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.compose.adaptive)
-    implementation(libs.androidx.lifecycle)
-    //
-    debugImplementation(libs.androidx.compose.preview.debug)
-    debugImplementation(libs.androidx.compose.ui.test.debug)
-    //
-    testImplementation(libs.hilt.android.testing)
-    testImplementation(libs.jetbrains.coroutines.test)
-    testImplementation(libs.mockk)
-    testImplementation(libs.jupiter)
-}
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    ignoreFailures = false
-    outputs.upToDateWhen { false }
 }
