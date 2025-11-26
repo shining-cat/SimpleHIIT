@@ -8,7 +8,6 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
-import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class BuildSessionUseCase
     @Inject
     constructor(
-        private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
         private val composeExercisesListForSessionUseCase: ComposeExercisesListForSessionUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
@@ -106,14 +104,6 @@ class BuildSessionUseCase
 
                     //
                     val remainingExercisesAfterStep = totalSteps.minus(index).minus(1)
-                    val restStepDurationFormatted =
-                        formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                            durationMs = restPeriodLengthMs,
-                        )
-                    val workStepDurationFormatter =
-                        formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                            durationMs = workPeriodLengthMs,
-                        )
                     val remainingSessionDurationMsAfterRest =
                         (remainingExercisesAfterStep.plus(1)).times(workPeriodLengthMs) +
                             (remainingExercisesAfterStep).times(
@@ -129,7 +119,6 @@ class BuildSessionUseCase
                             exercise = exercise,
                             side = stepExerciseSide,
                             durationMs = restPeriodLengthMs,
-                            durationFormatted = restStepDurationFormatted,
                             remainingSessionDurationMsAfterMe = remainingSessionDurationMsAfterRest,
                             countDownLengthMs = periodsStartCountDownLengthMs,
                         )
@@ -140,7 +129,6 @@ class BuildSessionUseCase
                             exercise = exercise,
                             side = stepExerciseSide,
                             durationMs = workPeriodLengthMs,
-                            durationFormatted = workStepDurationFormatter,
                             remainingSessionDurationMsAfterMe = remainingSessionDurationMsAfterWork,
                             countDownLengthMs = periodsStartCountDownLengthMs,
                         )
