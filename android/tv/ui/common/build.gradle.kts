@@ -2,16 +2,11 @@ plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.library.compose)
+    alias(libs.plugins.simplehiit.testing)
 }
 
 android {
     namespace = "fr.shiningcat.simplehiit.android.tv.ui.common"
-
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {
@@ -31,13 +26,4 @@ dependencies {
     //
     debugImplementation(libs.androidx.compose.preview.debug)
     debugImplementation(libs.androidx.compose.ui.test.debug)
-    //
-    testImplementation(libs.jetbrains.coroutines.test)
-    testImplementation(libs.mockk)
-    testImplementation(libs.jupiter)
-}
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    ignoreFailures = false
-    outputs.upToDateWhen { false }
 }

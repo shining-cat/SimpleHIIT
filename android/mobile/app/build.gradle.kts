@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.simplehiit.android.application.handheld)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.application.compose)
+    alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
     alias(libs.plugins.modules.graph.assert)
 }
@@ -13,12 +14,6 @@ android {
         debug {
             // for some reason, this parameter is not accessible in the configureBuildTypes extension, need to set this here:
             applicationIdSuffix = SimpleHiitBuildType.DEBUG.applicationIdSuffix
-        }
-    }
-
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
         }
     }
 }
@@ -41,16 +36,6 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.activity.compose)
-    //
-    testImplementation(libs.test.runner)
-    testImplementation(libs.jupiter)
-    testImplementation(libs.mockk)
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    ignoreFailures = false
-    outputs.upToDateWhen { false }
 }
 
 moduleGraphAssert {

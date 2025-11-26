@@ -60,5 +60,10 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.DocumentationConventionPlugin"
         }
+        register("testing") {
+            id = "fr.shiningcat.simplehiit.testing"
+            implementationClass =
+                "fr.shiningcat.simplehiit.plugins.TestingConventionPlugin"
+        }
     }
 }

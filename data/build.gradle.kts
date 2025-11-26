@@ -2,17 +2,12 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
+    alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
 }
 
 android {
     namespace = "fr.shiningcat.simplehiit.data"
-
-    testOptions {
-        unitTests.all {
-            it.useJUnitPlatform()
-        }
-    }
 }
 
 dependencies {
@@ -25,14 +20,4 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.coroutines)
     ksp(libs.androidx.room.compiler)
-    //
-    testImplementation(libs.jetbrains.coroutines.test)
-    testImplementation(libs.mockk)
-    testImplementation(libs.jupiter)
-}
-
-tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    ignoreFailures = false
-    outputs.upToDateWhen { false }
 }
