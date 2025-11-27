@@ -1,11 +1,13 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* have to press back button twice to exit running session on tv?
+*  tv pause dialog needs aligning with mobile
 * text objects do not wrap words properly, to fix proper hyphenation, we need to set the proper option and ensure the locale is matching the language selected in prefs
 * improve layouts, including 200% fontscale, orientations and devices:
   * [x] home
   * [x] settings
-  * [ ] statistics
+  * [x] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
 
 ## Publication

@@ -47,7 +47,6 @@ fun StatisticsNoSessionsContent(
         Image(
             modifier =
                 Modifier
-                    .weight(.5f, true)
                     .align(CenterHorizontally),
             imageVector = ImageVector.vectorResource(R.drawable.crying_cat_multicolor),
             contentDescription = stringResource(id = R.string.sad_cat_icon_content_description),

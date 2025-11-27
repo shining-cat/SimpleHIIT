@@ -2,7 +2,9 @@ package fr.shiningcat.simplehiit.android.tv.ui.statistics.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,7 +20,6 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.Border
 import androidx.tv.material3.Glow
 import androidx.tv.material3.MaterialTheme
@@ -92,45 +93,58 @@ fun StatisticCardComponent(
             ),
         shape = MaterialTheme.shapes.small,
     ) {
-        Column(modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
+        Row(
+            modifier =
+                Modifier.padding(
+                    start = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                    end = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    top = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    bottom = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            // Icon column
             Image(
                 modifier =
                     Modifier
                         .size(adaptDpToFontScale(dimensionResource(R.dimen.stats_card_illustration_size)))
-                        .align(Alignment.CenterHorizontally)
-                        .padding(
-                            horizontal = 0.dp,
-                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_3),
-                        ),
+                        .padding(end = dimensionResource(CommonResourcesR.dimen.spacing_3)),
                 painter = painterResource(id = illustrationDrawableId),
                 contentDescription = illustrationContentDescription,
             )
-            Text(
-                text =
-                    if (statistic.type == DisplayStatisticType.LONGEST_STREAK || statistic.type == DisplayStatisticType.CURRENT_STREAK) {
-                        val numberOfDays = statistic.displayValue.toInt()
-                        pluralStringResource(
-                            CommonResourcesR.plurals.statistics_number_of_days,
-                            numberOfDays,
-                            numberOfDays,
-                        )
-                        // "When using the pluralStringResource method, you need to pass the count twice if your string includes string formatting with a number"
-                        // see: https://developer.android.com/jetpack/compose/resources#string-plurals
-                    } else {
-                        statistic.displayValue
-                    },
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-            Text(
-                text = label,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(),
-                style = MaterialTheme.typography.headlineSmall,
-                minLines = 2,
-                maxLines = 2,
-            )
+
+            // Text column
+            Column(
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Text(
+                    text =
+                        if (statistic.type == DisplayStatisticType.LONGEST_STREAK ||
+                            statistic.type == DisplayStatisticType.CURRENT_STREAK
+                        ) {
+                            val numberOfDays = statistic.displayValue.toInt()
+                            pluralStringResource(
+                                CommonResourcesR.plurals.statistics_number_of_days,
+                                numberOfDays,
+                                numberOfDays,
+                            )
+                            // "When using the pluralStringResource method, you need to pass the count twice if your string includes string formatting with a number"
+                            // see: https://developer.android.com/jetpack/compose/resources#string-plurals
+                        } else {
+                            statistic.displayValue
+                        },
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+                Text(
+                    text = label,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth(),
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            }
         }
     }
 }
