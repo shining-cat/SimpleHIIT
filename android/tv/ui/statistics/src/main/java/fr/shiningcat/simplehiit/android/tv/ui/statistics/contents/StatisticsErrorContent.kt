@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -75,10 +76,11 @@ fun StatisticsErrorContent(
         Text(
             textAlign = TextAlign.Center,
             modifier =
-                Modifier.padding(
-                    horizontal = 0.dp,
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                ),
+                Modifier
+                    .padding(
+                        horizontal = 0.dp,
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    ).fillMaxWidth(.5f),
             text =
                 stringResource(
                     id = CommonResourcesR.string.error_irrecoverable_statistics,

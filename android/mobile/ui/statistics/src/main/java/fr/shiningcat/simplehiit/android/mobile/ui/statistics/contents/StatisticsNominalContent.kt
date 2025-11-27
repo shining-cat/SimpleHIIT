@@ -2,13 +2,13 @@ package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -73,22 +73,22 @@ fun StatisticsNominalContent(
         }
         //
         val fontscale = LocalDensity.current.fontScale
-        val columnsCount = if (fontscale > 1.3f) 1 else 2
+        val columnsCount = if (fontscale > 1.3f && uiArrangement == UiArrangement.VERTICAL) 1 else 2
         val spacingDp = dimensionResource(R.dimen.spacing_2)
-        val wholeWidth: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(columnsCount) }
-        LazyVerticalGrid(
+
+        // Group statistics into rows based on column count
+        val statisticsRows = nominalViewState.selectedUserStatistics.chunked(columnsCount)
+
+        LazyColumn(
             modifier =
                 Modifier
                     .padding(top = if (uiArrangement == UiArrangement.VERTICAL) dimensionResource(R.dimen.spacing_1) else 0.dp)
                     .fillMaxSize(),
-            columns = GridCells.Fixed(columnsCount),
-            verticalArrangement =
-                StickyFooterArrangement(spacingDp),
-            horizontalArrangement = Arrangement.spacedBy(spacingDp),
+            verticalArrangement = StickyFooterArrangement(spacingDp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (uiArrangement == UiArrangement.HORIZONTAL) {
-                // we want the header to scroll up with the page to optimize available screen space
-                item(span = wholeWidth) {
+                item {
                     StatisticsHeaderComponent(
                         currentUserName = nominalViewState.selectedUser.name,
                         allUsers = nominalViewState.allUsers,
@@ -97,11 +97,33 @@ fun StatisticsNominalContent(
                     )
                 }
             }
-            items(nominalViewState.selectedUserStatistics.size) {
-                val displayStatistic = nominalViewState.selectedUserStatistics[it]
-                StatisticCardComponent(displayStatistic)
+
+            items(statisticsRows.size) { rowIndex ->
+                val rowStatistics = statisticsRows[rowIndex]
+                Row(
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .then(
+                                if (columnsCount == 2) {
+                                    Modifier.height(IntrinsicSize.Max)
+                                } else {
+                                    Modifier
+                                },
+                            ),
+                    horizontalArrangement = Arrangement.spacedBy(spacingDp),
+                ) {
+                    rowStatistics.forEach { statistic ->
+                        StatisticCardComponent(
+                            modifier = Modifier.weight(1f),
+                            statistic = statistic,
+                            shouldFillMaxHeight = columnsCount == 2,
+                        )
+                    }
+                }
             }
-            item(span = wholeWidth) {
+
+            item {
                 HorizontalDivider(
                     modifier =
                         Modifier

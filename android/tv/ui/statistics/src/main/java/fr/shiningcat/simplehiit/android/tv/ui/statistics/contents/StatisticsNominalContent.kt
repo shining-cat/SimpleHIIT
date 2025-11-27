@@ -3,15 +3,9 @@ package fr.shiningcat.simplehiit.android.tv.ui.statistics.contents
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.GridItemSpan
-import androidx.compose.foundation.lazy.grid.LazyGridItemSpanScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,10 +15,8 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -45,71 +37,107 @@ fun StatisticsNominalContent(
     hiitLogger: HiitLogger? = null,
 ) {
     Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(dimensionResource(R.dimen.spacing_1)),
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        // we don't want the name to scroll along with the grid (sticky header)
-        StatisticsHeaderComponent(
-            openUserPicker = openUserPicker,
-            currentUserName = viewState.user.name,
-            showUsersSwitch = viewState.showUsersSwitch,
-        )
-        //
-        val columnsCount = 2
-        val gridPadding = dimensionResource(R.dimen.spacing_2)
-        // this is to avoid dropped shadow of the first row to be clipped:
-        val forcedTopMargin = dimensionResource(R.dimen.spacing_1)
-        val doubleSpan: (LazyGridItemSpanScope) -> GridItemSpan = {
-            GridItemSpan(columnsCount)
-        }
-        LazyVerticalGrid(
+        // Header - fixed height
+        Row(
             modifier =
                 Modifier
-                    .padding(dimensionResource(R.dimen.spacing_1))
-                    .fillMaxSize(),
-            columns = GridCells.Fixed(2),
-            verticalArrangement =
-                StickyFooterArrangement(gridPadding),
-            horizontalArrangement = Arrangement.spacedBy(gridPadding),
+                    .fillMaxWidth()
+                    .padding(dimensionResource(R.dimen.spacing_1)),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            items(viewState.statistics.size) {
-                val displayStatistic = viewState.statistics[it]
-                StatisticCardComponent(
-                    modifier =
-                        Modifier
-                            // offset has to be applied to all items to avoid irregular spacing. It does not override the spacedBy of the LazyGrid:
-                            .offset(y = forcedTopMargin),
-                    statistic = displayStatistic,
-                )
-            }
-            item(span = doubleSpan) {
-                Row(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(top = dimensionResource(R.dimen.spacing_3)),
-                ) {
-                    Spacer(modifier = Modifier.weight(.3f))
-                    ButtonText(
-                        modifier =
-                            Modifier
-                                .padding(
-                                    horizontal = 0.dp,
-                                    vertical = dimensionResource(R.dimen.spacing_2),
-                                ).weight(weight = .3f, fill = true),
-                        onClick = { deleteAllSessionsForUser(viewState.user) },
-                        label =
-                            stringResource(
-                                id = R.string.reset_statistics_button_label,
-                                viewState.user.name,
-                            ),
+            StatisticsHeaderComponent(
+                openUserPicker = openUserPicker,
+                currentUserName = viewState.user.name,
+                showUsersSwitch = viewState.showUsersSwitch,
+            )
+        }
+
+        // Statistics grid - fills all available space
+        Column(
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
+                    .padding(horizontal = dimensionResource(R.dimen.spacing_1)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1)),
+        ) {
+            // Row 1
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1)),
+            ) {
+                if (viewState.statistics.isNotEmpty()) {
+                    StatisticCardComponent(
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        statistic = viewState.statistics[0],
                     )
-                    Spacer(modifier = Modifier.weight(.3f))
+                }
+                if (viewState.statistics.size > 1) {
+                    StatisticCardComponent(
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        statistic = viewState.statistics[1],
+                    )
                 }
             }
+            // Row 2
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1)),
+            ) {
+                if (viewState.statistics.size > 2) {
+                    StatisticCardComponent(
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        statistic = viewState.statistics[2],
+                    )
+                }
+                if (viewState.statistics.size > 3) {
+                    StatisticCardComponent(
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        statistic = viewState.statistics[3],
+                    )
+                }
+            }
+            // Row 3
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_1)),
+            ) {
+                if (viewState.statistics.size > 4) {
+                    StatisticCardComponent(
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        statistic = viewState.statistics[4],
+                    )
+                }
+                if (viewState.statistics.size > 5) {
+                    StatisticCardComponent(
+                        modifier = Modifier.weight(1f).fillMaxSize(),
+                        statistic = viewState.statistics[5],
+                    )
+                }
+            }
+        }
+
+        // Delete button - same fixed height as header
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(dimensionResource(R.dimen.spacing_1)),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            ButtonText(
+                onClick = { deleteAllSessionsForUser(viewState.user) },
+                label =
+                    stringResource(
+                        id = R.string.reset_statistics_button_label,
+                        viewState.user.name,
+                    ),
+            )
         }
     }
 }

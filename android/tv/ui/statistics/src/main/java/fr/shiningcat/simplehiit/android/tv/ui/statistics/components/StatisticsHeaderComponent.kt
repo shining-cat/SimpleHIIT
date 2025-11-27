@@ -2,10 +2,8 @@ package fr.shiningcat.simplehiit.android.tv.ui.statistics.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -48,7 +46,7 @@ fun StatisticsHeaderComponent(
     Row(
         modifier =
             Modifier
-                .padding(dimensionResource(R.dimen.spacing_2))
+                .padding(vertical = dimensionResource(R.dimen.spacing_4))
                 .fillMaxWidth(),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -59,9 +57,8 @@ fun StatisticsHeaderComponent(
             text = currentUserName,
         )
         if (showUsersSwitch) {
-            Spacer(modifier = Modifier.width(dimensionResource(R.dimen.spacing_4)))
             ButtonFilled(
-                modifier = Modifier.focusRequester(focusRequester),
+                modifier = Modifier.padding(start = dimensionResource(R.dimen.spacing_4)).focusRequester(focusRequester),
                 onClick = { openUserPicker() },
                 icon = ImageVector.vectorResource(R.drawable.switch_user),
                 iconContentDescription = R.string.statistics_page_switch_user,
