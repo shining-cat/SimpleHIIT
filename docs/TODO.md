@@ -12,12 +12,13 @@
 
 ## General technical improvements
 * windowSizeClass.windowWidthSizeClass is deprecated, maybe combine fix with navigation 3 which should impact adaptive navigation
+* upgrade to androidx.navigation3 include new adaptive navigation
+  see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 * use new [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64) to review composables and eventually optimise them further (also gradle plugin)
 * could we extract even more **platform-agnostic** logic from the viewmodels?
 * add tests on viewmodels
 * screenshot tests if they can run on github for free
-* upgrade to androidx.navigation3 include new adaptive navigation
-  see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
+* automation to warn about deprecated objects use running regularly on CI?
 
 ## CI/Github actions
 * See automation of build scripts verification:

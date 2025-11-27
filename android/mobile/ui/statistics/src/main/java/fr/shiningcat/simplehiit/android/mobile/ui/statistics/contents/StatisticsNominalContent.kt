@@ -73,7 +73,7 @@ fun StatisticsNominalContent(
         }
         //
         val fontscale = LocalDensity.current.fontScale
-        val columnsCount = if (fontscale > 1.3f) 1 else 2
+        val columnsCount = if (fontscale > 1.3f && uiArrangement == UiArrangement.VERTICAL) 1 else 2
         val spacingDp = dimensionResource(R.dimen.spacing_2)
         val wholeWidth: (LazyGridItemSpanScope) -> GridItemSpan = { GridItemSpan(columnsCount) }
         LazyVerticalGrid(
@@ -97,6 +97,7 @@ fun StatisticsNominalContent(
                     )
                 }
             }
+            // todo: fix same height for all cards, if single column, warp cards in height to avoid wasted space
             items(nominalViewState.selectedUserStatistics.size) {
                 val displayStatistic = nominalViewState.selectedUserStatistics[it]
                 StatisticCardComponent(displayStatistic)
