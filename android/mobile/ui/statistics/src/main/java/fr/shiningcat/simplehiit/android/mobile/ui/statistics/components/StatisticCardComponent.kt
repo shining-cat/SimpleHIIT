@@ -3,6 +3,8 @@ package fr.shiningcat.simplehiit.android.mobile.ui.statistics.components
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,8 +33,19 @@ import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
+/**
+ * Displays a statistic card with an icon, value, and label.
+ *
+ * @param modifier Modifier to be applied to the card
+ * @param statistic The statistic data to display
+ * @param shouldFillMaxHeight If true, the card will fill the parent's height; if false, it will wrap content
+ */
 @Composable
-fun StatisticCardComponent(statistic: DisplayedStatistic) {
+fun StatisticCardComponent(
+    modifier: Modifier = Modifier,
+    statistic: DisplayedStatistic,
+    shouldFillMaxHeight: Boolean = false,
+) {
     val label =
         when (statistic.type) {
             DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.sessions_total)
@@ -64,6 +77,7 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 )
         }
     Card(
+        modifier = modifier,
         colors =
             CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surface,
@@ -75,7 +89,12 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 color = MaterialTheme.colorScheme.onSurface,
             ),
     ) {
-        Column(modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_2))) {
+        Column(
+            modifier =
+                Modifier
+                    .padding(dimensionResource(CommonResourcesR.dimen.spacing_2))
+                    .fillMaxHeight(),
+        ) {
             Image(
                 modifier =
                     Modifier
@@ -87,6 +106,9 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 painter = painterResource(id = illustrationDrawableId),
                 contentDescription = illustrationContentDescription,
             )
+            if (shouldFillMaxHeight) {
+                Spacer(modifier = Modifier.weight(1f))
+            }
             Text(
                 text =
                     if (statistic.type == DisplayStatisticType.LONGEST_STREAK || statistic.type == DisplayStatisticType.CURRENT_STREAK) {
@@ -110,8 +132,6 @@ fun StatisticCardComponent(statistic: DisplayedStatistic) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.bodyLarge,
-                minLines = 2,
-                maxLines = 2,
             )
         }
     }
