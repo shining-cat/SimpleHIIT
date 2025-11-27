@@ -34,8 +34,8 @@ fun PauseDialog(
     val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
     val title = stringResource(id = CommonResourcesR.string.pause)
     val message = stringResource(id = CommonResourcesR.string.pause_explanation)
-    val abortButtonLabel = stringResource(id = CommonResourcesR.string.resume_button_label)
-    val resumeButtonLabel = stringResource(CommonResourcesR.string.abort_session_button_label)
+    val abortButtonLabel = stringResource(id = CommonResourcesR.string.abort_session_button_label)
+    val resumeButtonLabel = stringResource(CommonResourcesR.string.resume_button_label)
 
     Dialog(onDismissRequest = onResume) {
         Surface(
