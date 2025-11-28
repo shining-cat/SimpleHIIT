@@ -1,16 +1,16 @@
 #!/bin/bash
 #
 # Ktlint pre-commit hook
-# This hook runs ktlintCheck before allowing a commit
+# This hook runs ktlintFormat before allowing a commit
 #
 # Installation:
 #   Run once from repository root: ./.githooks/setup.sh
 #   This configures git to use .githooks directory for all hooks
 #
 # Features:
-# - Runs ktlintCheck to verify code formatting
+# - Runs ktlintFormat to automatically fix code formatting
 # - Provides clear, color-coded console feedback
-# - Blocks commits if formatting issues are found
+# - Blocks commits if formatting issues cannot be auto-fixed
 #
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -26,26 +26,45 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}Running ktlint check...${NC}"
+echo -e "${BLUE}Running ktlint format...${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
 
-# Run ktlintCheck with daemon for faster execution
-./gradlew ktlintCheck --daemon
+# Run ktlintFormat with daemon for faster execution
+./gradlew ktlintFormat --daemon
+KTLINT_EXIT_CODE=$?
 
-if [ $? -eq 0 ]; then
-    echo ""
-    echo -e "${GREEN}✅ Ktlint check passed!${NC}"
-    echo -e "${GREEN}✅ Commit proceeding...${NC}"
-    exit 0
+if [ $KTLINT_EXIT_CODE -eq 0 ]; then
+    # Check if any files were modified by the formatter
+    if ! git diff --quiet; then
+        echo ""
+        echo -e "${YELLOW}⚠️  Files were auto-formatted by ktlint!${NC}"
+        echo -e "${YELLOW}Commit blocked - review and stage the changes:${NC}"
+        echo ""
+        echo -e "${YELLOW}Modified files:${NC}"
+        git diff --name-only | sed 's/^/  • /'
+        echo ""
+        echo -e "${YELLOW}Next steps:${NC}"
+        echo -e "${YELLOW}  1. Review changes: git diff${NC}"
+        echo -e "${YELLOW}  2. Stage changes: git add <files>${NC}"
+        echo -e "${YELLOW}  3. Commit again: git commit${NC}"
+        echo ""
+        exit 1
+    else
+        echo ""
+        echo -e "${GREEN}✅ No formatting changes needed${NC}"
+        echo -e "${GREEN}✅ Commit proceeding...${NC}"
+        exit 0
+    fi
 else
     echo ""
-    echo -e "${RED}❌ Ktlint check failed! Commit blocked.${NC}"
+    echo -e "${RED}❌ Ktlint formatting failed! Commit blocked.${NC}"
     echo ""
-    echo -e "${YELLOW}Action required - fix formatting issues:${NC}"
-    echo -e "${YELLOW}  • CLI: ./gradlew ktlintFormat${NC}"
-    echo -e "${YELLOW}  • IDE: Tasks > formatting > ktlintFormat${NC}"
+    echo -e "${YELLOW}The formatter encountered issues that cannot be auto-fixed.${NC}"
+    echo -e "${YELLOW}Review the errors above and fix them manually.${NC}"
     echo ""
-    echo -e "${YELLOW}Then review and stage the changes before committing again.${NC}"
+    echo -e "${YELLOW}After fixing issues:${NC}"
+    echo -e "${YELLOW}  1. Stage your changes: git add <files>${NC}"
+    echo -e "${YELLOW}  2. Try committing again${NC}"
     echo ""
     echo -e "${YELLOW}To bypass this check (not recommended):${NC}"
     echo -e "${YELLOW}  git commit --no-verify${NC}"
