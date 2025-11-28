@@ -18,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,8 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
@@ -53,7 +54,6 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.domain.common.Constants
-import kotlinx.coroutines.delay
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 enum class InputDialogTextFieldSize(
@@ -97,16 +97,6 @@ fun DialogInput(
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    LaunchedEffect(Unit) {
-        delay(300) // Delay to ensure dialog is fully composed and rendered
-        try {
-            focusRequester.requestFocus()
-            keyboardController?.show()
-        } catch (e: Exception) {
-            // Focus request may fail if composable is not yet ready
-        }
-    }
-
     DialogContentLayout(
         onDismissRequest = dismissAction,
         title = dialogTitle.takeIf { it.isNotBlank() },
@@ -145,6 +135,7 @@ fun DialogInput(
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
                         focusRequester = focusRequester,
+                        keyboardController = keyboardController,
                     )
                 }
             }
@@ -207,6 +198,7 @@ private fun InputDialogBodyContent(
     effectiveDialogContentWidthDp: Dp,
     density: Density,
     focusRequester: FocusRequester,
+    keyboardController: SoftwareKeyboardController?,
 ) {
     val inputSpacing = dimensionResource(CommonResourcesR.dimen.spacing_15)
     val dialogHorizontalPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
@@ -279,7 +271,11 @@ private fun InputDialogBodyContent(
                             } else {
                                 this.fillMaxWidth()
                             }
-                        }.focusRequester(focusRequester),
+                        }.focusRequester(focusRequester)
+                        .onGloballyPositioned {
+                            focusRequester.requestFocus()
+                            keyboardController?.show()
+                        },
                 decorationBox = {
                     InputDialogDecoration(
                         innerTextField = it,

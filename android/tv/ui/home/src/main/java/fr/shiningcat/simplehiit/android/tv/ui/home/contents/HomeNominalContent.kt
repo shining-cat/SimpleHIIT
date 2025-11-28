@@ -54,7 +54,7 @@ fun HomeNominalContent(
 ) {
     val focusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
-        delay(1000L) // wait 1s to increase awareness of the user of the focusing on the main button
+        delay(1000L) // wait a full second to increase awareness of the user of the focusing on the main button
         focusRequester.requestFocus()
     }
     val canLaunchSession = users.any { it.selected }
@@ -119,20 +119,21 @@ fun HomeNominalContent(
                 warning?.let {
                     val warningText =
                         when (it) {
-                            LaunchSessionWarning.DUPLICATED_EXERCISES ->
+                            LaunchSessionWarning.DUPLICATED_EXERCISES -> {
                                 stringResource(
                                     id = CommonResourcesR.string.launch_session_warning_duplicated_exercises,
                                 )
-
-                            LaunchSessionWarning.SKIPPED_EXERCISE_TYPES ->
+                            }
+                            LaunchSessionWarning.SKIPPED_EXERCISE_TYPES -> {
                                 stringResource(
                                     id = CommonResourcesR.string.launch_session_warning_skipped_exercise_types,
                                 )
-
-                            LaunchSessionWarning.NO_USER_SELECTED ->
+                            }
+                            LaunchSessionWarning.NO_USER_SELECTED -> {
                                 stringResource(
                                     id = CommonResourcesR.string.launch_session_warning_no_user_selected,
                                 )
+                            }
                         }
                     Text(
                         text = warningText,
