@@ -50,14 +50,20 @@ fun SessionScreen(
         }
     }
 
-    LaunchedEffect(lifecycleEvent) {
-        if (lifecycleEvent == Lifecycle.Event.ON_PAUSE) {
+    val screenViewState by viewModel.screenViewState.collectAsStateWithLifecycle()
+    val dialogViewState by viewModel.dialogViewState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(lifecycleEvent, screenViewState) {
+        if (lifecycleEvent == Lifecycle.Event.ON_PAUSE &&
+            (
+                screenViewState is SessionViewState.RunningNominal ||
+                    screenViewState is SessionViewState.InitialCountDownSession
+            )
+        ) {
+            // only trigger pause session if we're actually running one
             viewModel.pause()
         }
     }
-    //
-    val screenViewState by viewModel.screenViewState.collectAsStateWithLifecycle()
-    val dialogViewState by viewModel.dialogViewState.collectAsStateWithLifecycle()
     //
     SessionScreen(
         onAbortSession = { viewModel.abortSession() },
@@ -88,49 +94,50 @@ fun SessionScreen(
         when (screenViewState) {
             is SessionViewState.RunningNominal -> {
                 when (screenViewState.periodType) {
-                    RunningSessionStepType.REST ->
+                    RunningSessionStepType.REST -> {
                         Triple(
                             R.string.session_rest_page_title,
                             R.string.pause,
                             pause,
                         )
-
-                    RunningSessionStepType.WORK ->
+                    }
+                    RunningSessionStepType.WORK -> {
                         Triple(
                             R.string.session_work_page_title,
                             R.string.pause,
                             pause,
                         )
+                    }
                 }
             }
-
-            is SessionViewState.InitialCountDownSession ->
+            is SessionViewState.InitialCountDownSession -> {
                 Triple(
                     R.string.session_prepare_page_title,
                     R.string.back_button_content_label,
                     navigateUp,
                 )
-
-            is SessionViewState.Finished ->
+            }
+            is SessionViewState.Finished -> {
                 Triple(
                     R.string.finish_page_topbar,
                     R.string.back_button_content_label,
                     navigateUp,
                 )
-
-            is SessionViewState.Error ->
+            }
+            is SessionViewState.Error -> {
                 Triple(
                     R.string.error,
                     R.string.back_button_content_label,
                     navigateUp,
                 )
-
-            SessionViewState.Loading ->
+            }
+            SessionViewState.Loading -> {
                 Triple(
                     R.string.session_loading_page_topBar,
                     R.string.back_button_content_label,
                     navigateUp,
                 )
+            }
         }
     NavigationDrawer(
         drawerContent = {
