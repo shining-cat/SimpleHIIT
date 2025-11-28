@@ -14,6 +14,7 @@ import fr.shiningcat.simplehiit.commonresources.R
  * This will load and display a DrawableRes as a Gif, and play it in loop
  * @param gifResId: the gif resource pointer
  * @param mirrored: whether to reverse the display along the vertical middle axis
+ * @param paused: whether to freeze the GIF animation on the first frame
  */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -23,6 +24,7 @@ fun GifImage(
     gifResId: Int,
     contentDescription: String,
     mirrored: Boolean = false,
+    paused: Boolean = false,
 ) {
     val imageModifier =
         if (mirrored) {
@@ -30,11 +32,20 @@ fun GifImage(
         } else {
             modifier
         }
-    GlideImage(
-        model = gifResId,
-        contentDescription = contentDescription,
-        modifier = imageModifier.fillMaxWidth(),
-        loading = placeholder(gifResId),
-        failure = placeholder(R.drawable.cross_x),
-    )
+
+    if (paused) {
+        GifFirstFrameImage(
+            gifResId = gifResId,
+            contentDescription = contentDescription,
+            modifier = modifier,
+        )
+    } else {
+        // When not paused, display the animated GIF
+        GlideImage(
+            model = gifResId,
+            contentDescription = contentDescription,
+            modifier = imageModifier.fillMaxWidth(),
+            failure = placeholder(R.drawable.cross_x),
+        )
+    }
 }

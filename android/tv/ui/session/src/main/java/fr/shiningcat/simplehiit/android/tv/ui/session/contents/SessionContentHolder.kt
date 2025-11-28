@@ -51,6 +51,7 @@ fun SessionContentHolder(
         is SessionViewState.RunningNominal -> {
             SessionRunningNominalContent(
                 viewState = screenViewState,
+                isPaused = dialogViewState is SessionDialog.Pause,
                 hiitLogger = hiitLogger,
             )
         }

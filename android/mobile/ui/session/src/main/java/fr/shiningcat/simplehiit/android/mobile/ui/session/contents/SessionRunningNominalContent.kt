@@ -44,6 +44,7 @@ fun SessionRunningNominalContent(
     modifier: Modifier = Modifier,
     uiArrangement: UiArrangement,
     viewState: SessionViewState.RunningNominal,
+    isPaused: Boolean = false,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
@@ -62,6 +63,7 @@ fun SessionRunningNominalContent(
                 exerciseSide = exerciseSide,
                 countDown = viewState.countDown,
                 viewState = viewState,
+                isPaused = isPaused,
                 hiitLogger = hiitLogger,
             )
 
@@ -73,6 +75,7 @@ fun SessionRunningNominalContent(
                 exerciseSide = exerciseSide,
                 countDown = viewState.countDown,
                 viewState = viewState,
+                isPaused = isPaused,
                 hiitLogger = hiitLogger,
             )
     }
@@ -86,6 +89,7 @@ fun VerticalSessionRunningNominalContent(
     exerciseSide: ExerciseSide,
     countDown: CountDown? = null,
     viewState: SessionViewState.RunningNominal,
+    isPaused: Boolean = false,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
@@ -107,6 +111,7 @@ fun VerticalSessionRunningNominalContent(
             exercise = exercise,
             exerciseSide = exerciseSide,
             countDown = countDown,
+            isPaused = isPaused,
             hiitLogger = hiitLogger,
         )
         RunningSessionStepInfoDisplayComponent(
@@ -127,6 +132,7 @@ fun HorizontalSessionRunningNominalContent(
     exerciseSide: ExerciseSide,
     countDown: CountDown? = null,
     viewState: SessionViewState.RunningNominal,
+    isPaused: Boolean = false,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
@@ -157,6 +163,7 @@ fun HorizontalSessionRunningNominalContent(
             exercise = exercise,
             exerciseSide = exerciseSide,
             countDown = countDown,
+            isPaused = isPaused,
             hiitLogger = hiitLogger,
         )
         RunningSessionStepInfoDisplayComponent(

@@ -31,8 +31,6 @@
 * watch? check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have
-* when pausing running session, the gif behind the dialog keeps moving... find a way to freeze this
-  if possible
 * we follow system dark/light theme switch, maybe we could add a choice in settings to let user
   decide? (follow system (would be default), force dark, force light)
 * user object could expose the timestamp of their last session so we could sort them on this on the home for convenience
