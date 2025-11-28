@@ -94,27 +94,27 @@ private fun PauseDialogButtonsLayout(
     val primaryButtonInfo =
         if (dismissButtonLabel.isNotBlank()) {
             DialogButtonConfig(
-                label = actionButtonLabel,
-                style = MaterialTheme.typography.labelMedium,
-                type = ButtonType.FILLED,
-                onClick = onActionClick,
-            )
-        } else {
-            null
-        }
-    val dismissButtonInfo =
-        if (dismissButtonLabel.isNotBlank()) {
-            DialogButtonConfig(
                 label = dismissButtonLabel,
                 style = MaterialTheme.typography.labelMedium,
-                type = ButtonType.TEXT,
+                type = ButtonType.FILLED,
                 onClick = onDismissClick,
             )
         } else {
             null
         }
+    val secondaryButtonInfo =
+        if (actionButtonLabel.isNotBlank()) {
+            DialogButtonConfig(
+                label = actionButtonLabel,
+                style = MaterialTheme.typography.labelMedium,
+                type = ButtonType.TEXT,
+                onClick = onActionClick,
+            )
+        } else {
+            null
+        }
 
-    val buttons = listOfNotNull(dismissButtonInfo, primaryButtonInfo)
+    val buttons = listOfNotNull(secondaryButtonInfo, primaryButtonInfo)
     val buttonsSpacingDp = dimensionResource(CommonResourcesR.dimen.spacing_15)
     AdaptiveDialogButtonsLayout(
         buttons = buttons,
