@@ -16,10 +16,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -93,6 +95,7 @@ fun InputDialog(
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
+    var focusRequested by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Dialog(onDismissRequest = dismissAction) {
@@ -143,6 +146,8 @@ fun InputDialog(
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
                         focusRequester = focusRequester,
+                        focusRequested = focusRequested,
+                        onFocusRequested = { focusRequested = true },
                         keyboardController = keyboardController,
                     )
                     InputDialogButtonsLayout(
@@ -176,6 +181,8 @@ private fun InputDialogBodyContent(
     effectiveDialogContentWidthDp: Dp,
     density: Density,
     focusRequester: FocusRequester,
+    focusRequested: Boolean,
+    onFocusRequested: () -> Unit,
     keyboardController: androidx.compose.ui.platform.SoftwareKeyboardController?,
 ) {
     val inputSpacing = dimensionResource(R.dimen.spacing_15)
@@ -239,8 +246,11 @@ private fun InputDialogBodyContent(
                     Modifier
                         .focusRequester(focusRequester)
                         .onGloballyPositioned {
-                            focusRequester.requestFocus()
-                            keyboardController?.show()
+                            if (!focusRequested) {
+                                focusRequester.requestFocus()
+                                keyboardController?.show()
+                                onFocusRequested()
+                            }
                         }.run {
                             if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
                                 this
