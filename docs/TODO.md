@@ -1,7 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* have to press back button twice to exit running session on tv?
 * text objects do not wrap words properly, to fix proper hyphenation, we need to set the proper option and ensure the locale is matching the language selected in prefs
 * improve layouts, including 200% fontscale, orientations and devices:
   * [x] home
