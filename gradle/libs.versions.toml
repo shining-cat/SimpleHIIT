@@ -102,7 +102,8 @@ jetbrains-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines
 
 # UI & Design
 google-material = { module = "com.google.android.material:material", version.ref = "material" }
-glide = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
+glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide" }
+glide-core    = { module = "com.github.bumptech.glide:glide",   version.ref = "glide" }
 
 # Code Quality
 ktlint-compose-ruleset = { module = "io.nlopez.compose.rules:ktlint", version.ref = "ktlintComposeRuleset" }

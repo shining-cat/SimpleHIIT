@@ -27,6 +27,7 @@ fun ExerciseDisplayComponent(
     exercise: Exercise,
     exerciseSide: ExerciseSide,
     countDown: CountDown? = null,
+    isPaused: Boolean = false,
     hiitLogger: HiitLogger? = null,
 ) {
     Box(
@@ -40,6 +41,7 @@ fun ExerciseDisplayComponent(
             gifResId = exerciseGifRes,
             contentDescription = stringResource(exerciseDescriptionRes),
             mirrored = exerciseSide == AsymmetricalExerciseSideOrder.SECOND.side,
+            paused = isPaused,
         )
         if (countDown != null) {
             CountDownComponent(

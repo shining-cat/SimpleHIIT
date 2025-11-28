@@ -27,6 +27,7 @@ import fr.shiningcat.simplehiit.domain.common.models.Exercise
 @Composable
 fun SessionRunningNominalContent(
     viewState: SessionViewState.RunningNominal,
+    isPaused: Boolean = false,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
@@ -52,6 +53,7 @@ fun SessionRunningNominalContent(
             periodType = periodType,
             exerciseSide = exerciseSide,
             countDown = viewState.countDown,
+            isPaused = isPaused,
             hiitLogger = hiitLogger,
         )
         RunningSessionStepInfoDisplayComponent(

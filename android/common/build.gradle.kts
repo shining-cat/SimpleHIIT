@@ -16,5 +16,6 @@ dependencies {
     implementation(libs.google.material)
     implementation(libs.androidx.compose.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.glide)
+    implementation(libs.glide.core)
+    implementation(libs.glide.compose)
 }

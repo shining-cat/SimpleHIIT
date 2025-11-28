@@ -87,6 +87,7 @@ fun SessionContentHolder(
                     modifier = Modifier.fillMaxSize(),
                     uiArrangement = uiArrangement,
                     viewState = screenViewState,
+                    isPaused = dialogViewState is SessionDialog.Pause,
                     hiitLogger = hiitLogger,
                 )
 
