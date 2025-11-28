@@ -130,6 +130,7 @@ class SessionViewModel
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
                 }
             } else {
+                stepTimerJob?.cancel()
                 val wholeSessionDuration = immutableSession.durationMs
                 stepTimerJob =
                     viewModelScope.launch {
@@ -257,15 +258,24 @@ class SessionViewModel
                                 side = it.side,
                             )
                         }
-                    // record session done
-                    val sessionRecord =
-                        SessionRecord(
-                            timeStamp = timeProvider.getCurrentTimeMillis(),
-                            durationMs = actualSessionLength,
-                            usersIds = session?.users?.map { it.id } ?: emptyList(),
+                    // record session done if it's not empty
+                    if (actualSessionLength > 0L) {
+                        val sessionRecord =
+                            SessionRecord(
+                                timeStamp = timeProvider.getCurrentTimeMillis(),
+                                durationMs = actualSessionLength,
+                                usersIds = session?.users?.map { it.id } ?: emptyList(),
+                            )
+                        hiitLogger.d(
+                            "SessionViewModel",
+                            "emitSessionEndState::sessionRecord: $sessionRecord",
                         )
-                    hiitLogger.d("SessionViewModel", "sessionRecord: $sessionRecord")
-                    sessionInteractor.insertSession(sessionRecord)
+                        sessionInteractor.insertSession(sessionRecord)
+                    }
+                    hiitLogger.d(
+                        "SessionViewModel",
+                        "emitSessionEndState emitting finished state: $actualSessionLengthFormatted",
+                    )
                     _screenViewState.emit(
                         SessionViewState.Finished(
                             sessionDurationFormatted = actualSessionLengthFormatted,
@@ -278,17 +288,19 @@ class SessionViewModel
 
         fun pause() {
             hiitLogger.d("SessionViewModel", "pause")
-            viewModelScope.launch(context = mainDispatcher) {
-                val immutableSession = session
-                if (immutableSession == null) {
+            val immutableSession = session
+            if (immutableSession == null) {
+                viewModelScope.launch(context = mainDispatcher) {
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
-                } else {
-                    hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
-                    stepTimerJob?.cancel()
-                    val currentStep = immutableSession.steps[currentSessionStepIndex]
-                    if (currentStep is SessionStep.WorkStep) {
-                        currentSessionStepIndex -= 1 // safe as the first step will always be a REST
-                    }
+                }
+            } else {
+                hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
+                stepTimerJob?.cancel()
+                val currentStep = immutableSession.steps[currentSessionStepIndex]
+                if (currentStep is SessionStep.WorkStep) {
+                    currentSessionStepIndex -= 1 // safe as the first step will always be a REST
+                }
+                viewModelScope.launch(context = mainDispatcher) {
                     _dialogViewState.emit(SessionDialog.Pause)
                 }
             }
@@ -316,6 +328,7 @@ class SessionViewModel
 
         fun abortSession() {
             hiitLogger.d("SessionViewModel", "abortSession")
+            stepTimerJob?.cancel()
             viewModelScope.launch(context = mainDispatcher) {
                 emitSessionEndState()
                 _dialogViewState.emit(SessionDialog.None)

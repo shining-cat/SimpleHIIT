@@ -18,10 +18,12 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -95,6 +97,7 @@ fun DialogInput(
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
+    var focusRequested by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
 
     DialogContentLayout(
@@ -135,6 +138,8 @@ fun DialogInput(
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
                         focusRequester = focusRequester,
+                        focusRequested = focusRequested,
+                        onFocusRequested = { focusRequested = true },
                         keyboardController = keyboardController,
                     )
                 }
@@ -198,6 +203,8 @@ private fun InputDialogBodyContent(
     effectiveDialogContentWidthDp: Dp,
     density: Density,
     focusRequester: FocusRequester,
+    focusRequested: Boolean,
+    onFocusRequested: () -> Unit,
     keyboardController: SoftwareKeyboardController?,
 ) {
     val inputSpacing = dimensionResource(CommonResourcesR.dimen.spacing_15)
@@ -273,8 +280,11 @@ private fun InputDialogBodyContent(
                             }
                         }.focusRequester(focusRequester)
                         .onGloballyPositioned {
-                            focusRequester.requestFocus()
-                            keyboardController?.show()
+                            if (!focusRequested) {
+                                focusRequester.requestFocus()
+                                keyboardController?.show()
+                                onFocusRequested()
+                            }
                         },
                 decorationBox = {
                     InputDialogDecoration(

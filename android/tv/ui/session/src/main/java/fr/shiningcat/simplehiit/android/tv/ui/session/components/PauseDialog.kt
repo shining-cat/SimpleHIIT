@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -37,6 +40,7 @@ fun PauseDialog(
     val resumeButtonLabel = stringResource(CommonResourcesR.string.resume_button_label)
 
     val resumeButtonFocusRequester = remember { FocusRequester() }
+    var focusRequested by remember { mutableStateOf(false) }
 
     DialogContentLayout(
         onDismissRequest = onResume,
@@ -74,7 +78,10 @@ fun PauseDialog(
                             .weight(1f)
                             .focusRequester(resumeButtonFocusRequester)
                             .onGloballyPositioned {
-                                resumeButtonFocusRequester.requestFocus()
+                                if (!focusRequested) {
+                                    resumeButtonFocusRequester.requestFocus()
+                                    focusRequested = true
+                                }
                             },
                     fillWidth = true,
                     fillHeight = true,

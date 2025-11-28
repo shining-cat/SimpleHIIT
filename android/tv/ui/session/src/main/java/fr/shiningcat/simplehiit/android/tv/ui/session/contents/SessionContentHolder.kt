@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.tv.ui.session.contents
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.ExperimentalTvMaterial3Api
@@ -55,7 +56,14 @@ fun SessionContentHolder(
         }
         is SessionViewState.Finished -> {
             if (screenViewState.workingStepsDone.isEmpty()) {
-                navigateUp()
+                // ensure navigateUp is never triggered more than once:
+                LaunchedEffect(Unit) {
+                    hiitLogger?.d(
+                        "SessionContentHolder",
+                        "SessionViewState.workingStepsDone is empty, invoke navigateUp",
+                    )
+                    navigateUp()
+                }
             } else {
                 SessionFinishedContent(
                     viewState = screenViewState,
