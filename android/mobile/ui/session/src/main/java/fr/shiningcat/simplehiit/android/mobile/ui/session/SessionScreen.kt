@@ -42,7 +42,7 @@ fun SessionScreen(
         if (viewModel.isSoundLoaded().not()) {
             hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
             // we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
-            viewModel.getSoundPool()?.load(context, R.raw.sound_beep, 0)
+            viewModel.getSoundPool().load(context, R.raw.sound_beep, 0)
         }
     }
     // Setting up a LifeCycle observer to catch the onPause event of the Android Lifecycle so we can pause the session
