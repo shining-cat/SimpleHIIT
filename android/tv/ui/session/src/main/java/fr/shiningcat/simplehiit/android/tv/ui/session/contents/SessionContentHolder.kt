@@ -1,21 +1,19 @@
 package fr.shiningcat.simplehiit.android.tv.ui.session.contents
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
-import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogChoice
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
 import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionDialog
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
-import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.android.tv.ui.session.components.PauseDialog
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
@@ -32,28 +30,29 @@ fun SessionContentHolder(
     hiitLogger: HiitLogger? = null,
 ) {
     when (screenViewState) {
-        SessionViewState.Loading -> BasicLoading()
-
-        is SessionViewState.Error ->
+        SessionViewState.Loading -> {
+            BasicLoading()
+        }
+        is SessionViewState.Error -> {
             SessionErrorStateContent(
                 screenViewState = screenViewState,
                 navigateUp = navigateUp,
                 onAbort = onAbortSession,
                 hiitLogger = hiitLogger,
             )
-
-        is SessionViewState.InitialCountDownSession ->
+        }
+        is SessionViewState.InitialCountDownSession -> {
             SessionPrepareContent(
                 viewState = screenViewState,
                 hiitLogger = hiitLogger,
             )
-
-        is SessionViewState.RunningNominal ->
+        }
+        is SessionViewState.RunningNominal -> {
             SessionRunningNominalContent(
                 viewState = screenViewState,
                 hiitLogger = hiitLogger,
             )
-
+        }
         is SessionViewState.Finished -> {
             if (screenViewState.workingStepsDone.isEmpty()) {
                 navigateUp()
@@ -67,16 +66,12 @@ fun SessionContentHolder(
     }
     when (dialogViewState) {
         SessionDialog.None -> {} // Do nothing
-        SessionDialog.Pause ->
-            DialogChoice(
-                title = stringResource(id = R.string.pause),
-                message = stringResource(id = R.string.pause_explanation),
-                primaryButtonLabel = stringResource(id = R.string.resume_button_label),
-                primaryAction = resume,
-                secondaryButtonLabel = stringResource(R.string.abort_session_button_label),
-                secondaryAction = onAbortSession,
-                dismissAction = resume,
+        SessionDialog.Pause -> {
+            PauseDialog(
+                onResume = resume,
+                onAbort = onAbortSession,
             )
+        }
     }
 }
 

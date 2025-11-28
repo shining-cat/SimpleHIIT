@@ -54,7 +54,7 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  * @param buttons Composable lambda for the button row or button(s) at the bottom.
  */
 @Composable
-internal fun DialogContentLayout(
+fun DialogContentLayout(
     onDismissRequest: () -> Unit,
     title: String? = null,
     titleStyle: androidx.compose.ui.text.TextStyle = MaterialTheme.typography.headlineSmall,

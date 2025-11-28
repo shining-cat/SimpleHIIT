@@ -16,7 +16,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
@@ -53,7 +53,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileS
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
-import kotlinx.coroutines.delay
 
 enum class InputDialogTextFieldSize(
     val charCount: Int,
@@ -95,16 +94,6 @@ fun InputDialog(
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    LaunchedEffect(Unit) {
-        delay(300) // Delay to ensure dialog is fully composed and rendered
-        try {
-            focusRequester.requestFocus()
-            keyboardController?.show()
-        } catch (e: Exception) {
-            // Focus request may fail if composable is not yet ready
-        }
-    }
 
     Dialog(onDismissRequest = dismissAction) {
         Surface(
@@ -154,6 +143,7 @@ fun InputDialog(
                         effectiveDialogContentWidthDp = effectiveDialogContentWidthDp,
                         density = density,
                         focusRequester = focusRequester,
+                        keyboardController = keyboardController,
                     )
                     InputDialogButtonsLayout(
                         primaryButtonLabel = primaryButtonLabel,
@@ -186,6 +176,7 @@ private fun InputDialogBodyContent(
     effectiveDialogContentWidthDp: Dp,
     density: Density,
     focusRequester: FocusRequester,
+    keyboardController: androidx.compose.ui.platform.SoftwareKeyboardController?,
 ) {
     val inputSpacing = dimensionResource(R.dimen.spacing_15)
     val dialogHorizontalPadding = dimensionResource(R.dimen.spacing_1)
@@ -247,7 +238,10 @@ private fun InputDialogBodyContent(
                 modifier =
                     Modifier
                         .focusRequester(focusRequester)
-                        .run {
+                        .onGloballyPositioned {
+                            focusRequester.requestFocus()
+                            keyboardController?.show()
+                        }.run {
                             if (fieldAndPostfixFitOneLine && inputFieldPostfixText.isNotBlank()) {
                                 this
                                     .width(inputFieldWidthDp)
