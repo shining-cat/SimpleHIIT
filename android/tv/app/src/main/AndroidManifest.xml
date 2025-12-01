@@ -22,10 +22,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimpleHIIT"
         tools:targetApi="31">
+        <!-- Suppresses attributionTag warning in debug builds - this is benign since the service
+             is disabled and only provides metadata for per-app language preferences -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
             android:enabled="false"
-            android:exported="false">
+            android:exported="false"
+            tools:ignore="UnusedAttribute">
             <meta-data
                 android:name="autoStoreLocales"
                 android:value="true" />
