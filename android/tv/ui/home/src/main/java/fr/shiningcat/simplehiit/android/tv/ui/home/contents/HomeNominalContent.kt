@@ -11,7 +11,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -52,11 +55,20 @@ fun HomeNominalContent(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
-    val focusRequester = remember { FocusRequester() }
+    val launchButtonFocusRequester = remember { FocusRequester() }
     LaunchedEffect(Unit) {
         delay(1000L) // wait a full second to increase awareness of the user of the focusing on the main button
-        focusRequester.requestFocus()
+        launchButtonFocusRequester.requestFocus()
     }
+
+    val userButtonsFocusRequesters = remember { users.associate { it.id.toString() to FocusRequester() } }
+    var focusedUserButtonId by remember { mutableStateOf("") }
+    LaunchedEffect(key1 = users) {
+        if (focusedUserButtonId.isNotBlank()) {
+            userButtonsFocusRequesters[focusedUserButtonId]?.requestFocus()
+        }
+    }
+
     val canLaunchSession = users.any { it.selected }
 
     Row(
@@ -66,18 +78,6 @@ fun HomeNominalContent(
                 .fillMaxSize(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if (users.size == 1) {
-            SingleUserHeaderComponent(
-                modifier = Modifier.weight(1f),
-                user = users.first(),
-            )
-        } else {
-            SelectUsersComponent(
-                modifier = Modifier.weight(1f),
-                users = users,
-                toggleSelectedUser = toggleSelectedUser,
-            )
-        }
         Column(
             modifier =
                 Modifier
@@ -99,12 +99,12 @@ fun HomeNominalContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 ButtonFilled(
+                    // calling focus on the launch button on opening
                     modifier =
                         Modifier
                             .height(adaptDpToFontScale(dimensionResource(CommonResourcesR.dimen.button_height)))
-                            .focusRequester(focusRequester),
+                            .focusRequester(launchButtonFocusRequester),
                     fillHeight = true,
-                    // calling focus on the launch button on opening
                     label =
                         if (canLaunchSession) {
                             stringResource(id = CommonResourcesR.string.launch_session_label)
@@ -149,6 +149,22 @@ fun HomeNominalContent(
                     )
                 }
             }
+        }
+        if (users.size == 1) {
+            SingleUserHeaderComponent(
+                modifier = Modifier.weight(1f),
+                user = users.first(),
+            )
+        } else {
+            SelectUsersComponent(
+                modifier = Modifier.weight(1f),
+                users = users,
+                toggleSelectedUser = { user ->
+                    focusedUserButtonId = user.id.toString()
+                    toggleSelectedUser(user)
+                },
+                userButtonsFocusRequesters = userButtonsFocusRequesters,
+            )
         }
     }
 }
