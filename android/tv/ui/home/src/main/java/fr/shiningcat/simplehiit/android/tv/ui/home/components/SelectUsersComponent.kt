@@ -3,6 +3,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.home.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,6 +13,8 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -38,6 +41,7 @@ fun SelectUsersComponent(
     modifier: Modifier = Modifier,
     users: List<User>,
     toggleSelectedUser: (User) -> Unit = {},
+    userButtonsFocusRequesters: Map<String, FocusRequester> = emptyMap(),
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
         val density = LocalDensity.current
@@ -86,15 +90,28 @@ fun SelectUsersComponent(
                         .padding(top = spacing)
                         .fillMaxWidth(),
                 columns = GridCells.Fixed(numberOfColumns),
+                contentPadding = PaddingValues(all = spacing),
                 verticalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterVertically),
                 horizontalArrangement = Arrangement.spacedBy(spacing, Alignment.CenterHorizontally),
             ) {
-                items(users.size) { index ->
+                items(
+                    count = users.size,
+                    // a stable identifier on each item helps avoiding a complete recomposition of
+                    // the component when only a selected attribute is toggled
+                    key = { index -> users[index].id },
+                ) { index ->
                     val user = users[index]
+                    val userFocusRequester = userButtonsFocusRequesters[user.id.toString()]
                     ButtonToggle(
                         modifier =
                             Modifier
-                                .height(baseButtonHeightDp)
+                                .run {
+                                    if (userFocusRequester != null) {
+                                        this.focusRequester(userFocusRequester)
+                                    } else {
+                                        this
+                                    }
+                                }.height(baseButtonHeightDp)
                                 .defaultMinSize(minWidth = dimensionResource(R.dimen.user_select_button_min_width)),
                         fillWidth = false,
                         fillHeight = true,

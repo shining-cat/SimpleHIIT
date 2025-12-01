@@ -4,7 +4,6 @@
 * text objects do not wrap words properly, to fix proper hyphenation, we need to set the proper option and ensure the locale is matching the language selected in prefs
 * improve layouts, including 200% fontscale, orientations and devices:
   * [x] home
-  * [ ] home tv select users layout, focus order is weird
   * [x] settings
   * [x] statistics
   * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)

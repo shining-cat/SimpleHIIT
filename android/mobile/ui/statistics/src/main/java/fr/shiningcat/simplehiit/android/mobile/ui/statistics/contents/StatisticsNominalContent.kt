@@ -104,13 +104,13 @@ fun StatisticsNominalContent(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .then(
+                            .run {
                                 if (columnsCount == 2) {
-                                    Modifier.height(IntrinsicSize.Max)
+                                    this.height(IntrinsicSize.Max)
                                 } else {
-                                    Modifier
-                                },
-                            ),
+                                    this
+                                }
+                            },
                     horizontalArrangement = Arrangement.spacedBy(spacingDp),
                 ) {
                     rowStatistics.forEach { statistic ->
