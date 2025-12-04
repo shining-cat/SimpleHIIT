@@ -14,7 +14,6 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
-import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -259,7 +258,6 @@ class SessionViewModel
                     val actualSessionLengthFormatted =
                         sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(
                             durationMs = actualSessionLength,
-                            formatStyle = DurationFormatStyle.SHORT,
                         )
                     val workingStepsDoneDisplay =
                         workingStepsDone.map {

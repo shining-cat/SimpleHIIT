@@ -108,7 +108,6 @@ class SessionViewModel
                                 ),
                             )
                         }
-
                         is Output.Success -> {
                             val sessionSettingsResult = sessionSettingsOutput.result
                             session =
@@ -191,8 +190,12 @@ class SessionViewModel
                 return
             }
             when (currentState) {
-                is SessionViewState.InitialCountDownSession -> if (currentState.countDown.playBeep) playBeepSound()
-                is SessionViewState.RunningNominal -> if (currentState.countDown?.playBeep == true) playBeepSound()
+                is SessionViewState.InitialCountDownSession -> {
+                    if (currentState.countDown.playBeep) playBeepSound()
+                }
+                is SessionViewState.RunningNominal -> {
+                    if (currentState.countDown?.playBeep == true) playBeepSound()
+                }
                 else -> {} // do nothing
             }
         }
@@ -249,7 +252,7 @@ class SessionViewModel
                     )
                     val actualSessionLengthFormatted =
                         sessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(
-                            actualSessionLength,
+                            durationMs = actualSessionLength,
                         )
                     val workingStepsDoneDisplay =
                         workingStepsDone.map {
