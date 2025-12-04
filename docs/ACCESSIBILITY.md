@@ -275,10 +275,32 @@ import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
 ```
 
-### Existing Font Scale Patterns
+### Screen-Specific Font Scale Adaptations
 
-This approach aligns with existing font scale adaptations in the codebase. For example, `StatisticsNominalContent.kt`:
+#### Home Screen Content Layout Override
+
+The home screen content applies a font scale threshold check to prevent content overflow in landscape mode. When font scale exceeds 1.5f with horizontal UI arrangement, the content layout switches to vertical while keeping the side navigation bar visible.
+
+**Implementation in `HomeNominalContent.kt`:**
+```kotlin
+val fontScale = LocalDensity.current.fontScale
+
+// Explicitly choose layout based on both uiArrangement and fontScale
+// Use vertical layout if:
+// 1. uiArrangement is VERTICAL, OR
+// 2. uiArrangement is HORIZONTAL but fontScale exceeds threshold (accessibility override)
+val useVerticalLayout = uiArrangement == UiArrangement.VERTICAL ||
+                       (uiArrangement == UiArrangement.HORIZONTAL && fontScale > 1.5f)
+```
+
+**Rationale:** At high font scales (>1.5f), the NumberCyclesComponent in the horizontal 2-column content layout can overflow on small landscape screens, making content inaccessible. Switching the content layout to vertical ensures all content remains scrollable and visible, while keeping the side navigation bar displayed (unlike switching the entire screen to vertical arrangement, which would replace the side bar with a top bar and reduce available vertical space).
+
+#### Statistics Screen Column Adaptation
+
+`StatisticsNominalContent.kt` uses a similar pattern for grid column adaptation:
 ```kotlin
 val fontscale = LocalDensity.current.fontScale
 val columnsCount = if (fontscale > 1.3f && uiArrangement == UiArrangement.VERTICAL) 1 else 2
 ```
+
+These screen-specific adaptations ensure optimal accessibility across different font scales and device orientations.
