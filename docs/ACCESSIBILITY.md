@@ -1,8 +1,20 @@
-# Color Contrast Analysis - Color Scheme Documentation
+# Accessibility Documentation
 
-## Color Palette (SimpleHiitColors.kt & palette.xml)
+This document covers all accessibility features and guidelines for SimpleHIIT, ensuring compliance with WCAG 2.1 Level AA standards and support for diverse user needs.
 
-All colors are defined in both Kotlin and XML for use in Compose components and vector drawables.
+## Table of Contents
+
+1. [Color Contrast & Visual Design](#color-contrast--visual-design)
+2. [Font Scale & Dialog Accessibility](#font-scale--dialog-accessibility)
+3. [Accessibility Guidelines Compliance](#accessibility-guidelines-compliance)
+
+---
+
+## Color Contrast & Visual Design
+
+### Color Palette
+
+All colors are defined in both Kotlin (`SimpleHiitColors.kt`) and XML (`palette.xml`) for use in Compose components and vector drawables.
 
 ```kotlin
 Teal200 = #80CBC4
@@ -22,11 +34,11 @@ Red_600 = #B00020
 
 **Design Rationale:** Colors are selected to provide proper contrast with system-aligned onPrimary/onSecondary colors (White in dark mode, Black in light mode), ensuring accessibility when primary colors appear behind system bars.
 
-## Unified Color Schemes
+### Unified Color Schemes
 
 Both TV and Mobile platforms use identical color schemes for consistency and accessibility.
 
-### Dark Theme (TV & Mobile)
+#### Dark Theme (TV & Mobile)
 
 | Role | Color | Hex Value |
 |------|-------|-----------|
@@ -56,7 +68,7 @@ Both TV and Mobile platforms use identical color schemes for consistency and acc
 - primaryContainer/onPrimaryContainer: 7.2:1 ✅ WCAG AA
 - secondaryContainer/onSecondaryContainer: 10.3:1 ✅ WCAG AAA
 
-### Light Theme (TV & Mobile)
+#### Light Theme (TV & Mobile)
 
 | Role | Color | Hex Value |
 |------|-------|-----------|
@@ -88,11 +100,11 @@ Both TV and Mobile platforms use identical color schemes for consistency and acc
 - primaryContainer/onPrimaryContainer: 4.8:1 ✅ WCAG AA
 - secondaryContainer/onSecondaryContainer: 5.5:1 ✅ WCAG AA
 
-## Button Visual Hierarchy
+### Button Visual Hierarchy
 
 The app uses a pragmatic emphasis system based on visual weight rather than color variation:
 
-### Mobile Platform
+#### Mobile Platform
 
 1. **FilledButton (Amber)** - Highest emphasis
    - Full color fill with accent color
@@ -111,7 +123,7 @@ The app uses a pragmatic emphasis system based on visual weight rather than colo
    - Custom wrapper component for consistent high-contrast text
    - Contrast: ~21:1 ✅ WCAG AAA
 
-### TV Platform
+#### TV Platform
 
 TV uses custom button components (ButtonBordered, ButtonFilled, ButtonText, ButtonIcon) to work around limitations in the TV Material 3 library. These follow the same visual hierarchy principles as mobile.
 
@@ -121,18 +133,7 @@ TV uses custom button components (ButtonBordered, ButtonFilled, ButtonText, Butt
 - Features larger 40dp icons for better visibility
 - Used for special-purpose controls (e.g., increment/decrement buttons)
 
-## WCAG 2.1 Compliance
-
-### Requirements
-- **Normal text**: 4.5:1 minimum (AA), 7:1 enhanced (AAA)
-- **Large text** (18pt+): 3:1 minimum (AA), 4.5:1 enhanced (AAA)
-- **UI components**: 3:1 minimum
-
-### Compliance Status
-✅ Both themes (Light & Dark) meet WCAG 2.1 Level AA standards for all critical color combinations
-✅ Many combinations achieve AAA level (secondary/onSecondary in light theme: 10.8:1, all button text: ~21:1)
-
-## System Alignment
+### System Alignment
 
 The onPrimary and onSecondary colors align with system expectations:
 - **Dark mode**: White text on darker primary/secondary colors
@@ -140,23 +141,144 @@ The onPrimary and onSecondary colors align with system expectations:
 
 This ensures proper contrast when primary colors appear behind system bars (status bar, navigation bar), as the system's text colors match our onPrimary/onSecondary colors.
 
-## Color Vibrancy
+### Color Vibrancy
 
 Light theme uses Teal400 and Amber400 (mid-range saturation) for:
 - Strong visual presence and brand identity
 - Excellent accessibility (AA/AAA compliance)
 - Balanced contrast without being overly bright or pale
 
-## Technical Notes
+### Technical Notes
 
-### Mobile-Specific Tokens
+#### Mobile-Specific Tokens
 The mobile app explicitly defines `onSurfaceVariant`, `outline`, and `outlineVariant` to match `onSurface` (no transparency). This provides:
 - Consistent high-contrast appearance
 - Full control over OutlinedButton and text styling
 - No auto-generated colors from Material 3
 
-### TV Library Limitations
+#### TV Library Limitations
 The TV Material 3 library does not support outline and variant color tokens. TV uses custom button components to work around these limitations while maintaining visual consistency with the mobile platform.
 
-### OnSurfaceTextButton Component
+#### OnSurfaceTextButton Component
 A custom wrapper component used throughout the mobile app that overrides Material 3's default TextButton behavior to use onSurface color instead of primary color, ensuring consistent high contrast across all text buttons.
+
+---
+
+## Font Scale & Dialog Accessibility
+
+### Overview
+
+All dialogs in the mobile UI support font scaling up to 200%, ensuring accessibility for users with varying text size preferences. This is particularly important in landscape orientation where vertical space is limited.
+
+### Implementation Strategy
+
+#### 1. Vertical Scroll Support
+
+All dialog Column containers include vertical scrolling:
+```kotlin
+Column(
+    modifier = Modifier
+        .padding(dialogPadding)
+        .fillMaxWidth()
+        .verticalScroll(rememberScrollState()), // ← Essential for accessibility
+) {
+    // Dialog content
+}
+```
+
+#### 2. Adaptive Width Based on Font Scale
+
+Dialogs expand horizontally at higher font scales to reduce vertical scrolling needs:
+- At **200% font scale (2.0f)**: Dialog uses 95% of screen width
+- At **150% font scale (1.5f)**: Dialog uses 85% of screen width
+- At **normal scales (<1.5f)**: Dialog uses default width
+
+### Reusable Accessibility Helpers
+
+Located in `android/common/src/main/java/fr/shiningcat/simplehiit/android/common/ui/utils/AccessibilityHelper.kt`:
+
+#### adaptiveDialogProperties()
+
+Removes Material3's default width constraint (~560dp) at high font scales:
+
+```kotlin
+@Composable
+fun adaptiveDialogProperties(): DialogProperties {
+    val fontScale = LocalDensity.current.fontScale
+    return DialogProperties(
+        usePlatformDefaultWidth = fontScale < 1.5f,
+    )
+}
+```
+
+#### adaptiveDialogWidth()
+
+Sets maximum width based on screen width and font scale:
+
+```kotlin
+@Composable
+fun Modifier.adaptiveDialogWidth(): Modifier {
+    val fontScale = LocalDensity.current.fontScale
+    val configuration = LocalConfiguration.current
+    val screenWidthDp = configuration.screenWidthDp.dp
+
+    return this.then(
+        when {
+            fontScale >= 2.0f -> Modifier.widthIn(max = screenWidthDp * 0.95f)
+            fontScale >= 1.5f -> Modifier.widthIn(max = screenWidthDp * 0.85f)
+            else -> Modifier
+        },
+    )
+}
+```
+
+**Note:** Both helpers must be used together - `adaptiveDialogProperties()` removes the platform constraint, and `adaptiveDialogWidth()` sets the appropriate width.
+
+### Dialog Implementation Pattern
+
+When creating new dialogs, use this pattern to ensure accessibility:
+
+```kotlin
+@Composable
+fun MyDialog(
+    dismissAction: () -> Unit,
+) {
+    val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
+
+    Dialog(
+        onDismissRequest = dismissAction,
+        properties = adaptiveDialogProperties(), // ← Removes width constraint at high font scales
+    ) {
+        Surface(
+            color = MaterialTheme.colorScheme.surface,
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.adaptiveDialogWidth(), // ← Adaptive width based on font scale
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(dialogPadding)
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState()), // ← Essential for accessibility
+            ) {
+                // Dialog content
+            }
+        }
+    }
+}
+```
+
+Required imports:
+```kotlin
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
+```
+
+### Existing Font Scale Patterns
+
+This approach aligns with existing font scale adaptations in the codebase. For example, `StatisticsNominalContent.kt`:
+```kotlin
+val fontscale = LocalDensity.current.fontScale
+val columnsCount = if (fontscale > 1.3f && uiArrangement == UiArrangement.VERTICAL) 1 else 2
+```

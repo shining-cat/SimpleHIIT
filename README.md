@@ -29,7 +29,7 @@
 - [Ktlint Formatting Guide](docs/KTLINT_FORMATTING_GUIDE.md)
 - [Module Dependencies](docs/MODULE_DEPENDENCIES.md)
 - [Threading Strategy](docs/THREADING.md)
-- [Accessibility](docs/COLOR_CONTRAST_ANALYSIS.md)
+- [Accessibility](docs/ACCESSIBILITY.md)
 - [TODO List](docs/TODO.md)
 
 ## Overview

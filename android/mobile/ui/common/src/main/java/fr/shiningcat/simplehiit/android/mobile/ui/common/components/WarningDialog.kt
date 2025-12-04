@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.R
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.ButtonType
@@ -40,10 +44,14 @@ fun WarningDialog(
 ) {
     val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
-    Dialog(onDismissRequest = dismissAction) {
+    Dialog(
+        onDismissRequest = dismissAction,
+        properties = adaptiveDialogProperties(),
+    ) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.adaptiveDialogWidth(),
         ) {
             BoxWithConstraints {
                 val dialogAvailableWidthDp = this.maxWidth
@@ -52,7 +60,8 @@ fun WarningDialog(
                     modifier =
                         Modifier
                             .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
                 ) {
                     Image(
                         modifier =
