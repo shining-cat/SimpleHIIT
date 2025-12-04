@@ -16,6 +16,7 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -39,6 +40,14 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
 
+/**
+ * Home nominal content with font scale accessibility handling.
+ *
+ * At high font scales (>1.5f) with horizontal UI arrangement, the 2-column layout can cause
+ * the NumberCyclesComponent to overflow on small landscape screens. This composable explicitly
+ * chooses the vertical layout when both conditions are met (horizontal arrangement AND high font scale),
+ * ensuring all content remains scrollable and accessible while keeping the side navigation bar visible.
+ */
 @Composable
 fun HomeNominalContent(
     decreaseNumberOfCycles: () -> Unit = {},
@@ -53,34 +62,42 @@ fun HomeNominalContent(
     warning: LaunchSessionWarning? = null,
     hiitLogger: HiitLogger? = null,
 ) {
-    when (uiArrangement) {
-        UiArrangement.VERTICAL ->
-            VerticalHomeNominalContent(
-                decreaseNumberOfCycles = decreaseNumberOfCycles,
-                increaseNumberOfCycles = increaseNumberOfCycles,
-                numberOfCycles = numberOfCycles,
-                lengthOfCycle = lengthOfCycle,
-                totalLengthFormatted = totalLengthFormatted,
-                users = users,
-                toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = navigateToSession,
-                warning = warning,
-                hiitLogger = hiitLogger,
-            )
+    val fontScale = LocalDensity.current.fontScale
 
-        UiArrangement.HORIZONTAL ->
-            HorizontalHomeNominalContent(
-                decreaseNumberOfCycles = decreaseNumberOfCycles,
-                increaseNumberOfCycles = increaseNumberOfCycles,
-                numberOfCycles = numberOfCycles,
-                lengthOfCycle = lengthOfCycle,
-                totalLengthFormatted = totalLengthFormatted,
-                users = users,
-                toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = navigateToSession,
-                warning = warning,
-                hiitLogger = hiitLogger,
-            )
+    // Explicitly choose layout based on both uiArrangement and fontScale
+    // Use vertical layout if:
+    // 1. uiArrangement is VERTICAL, OR
+    // 2. uiArrangement is HORIZONTAL but fontScale exceeds threshold (accessibility override)
+    val useSingleColumnLayout =
+        uiArrangement == UiArrangement.VERTICAL ||
+            (uiArrangement == UiArrangement.HORIZONTAL && fontScale > 1.5f)
+
+    if (useSingleColumnLayout) {
+        VerticalHomeNominalContent(
+            decreaseNumberOfCycles = decreaseNumberOfCycles,
+            increaseNumberOfCycles = increaseNumberOfCycles,
+            numberOfCycles = numberOfCycles,
+            lengthOfCycle = lengthOfCycle,
+            totalLengthFormatted = totalLengthFormatted,
+            users = users,
+            toggleSelectedUser = toggleSelectedUser,
+            navigateToSession = navigateToSession,
+            warning = warning,
+            hiitLogger = hiitLogger,
+        )
+    } else {
+        HorizontalHomeNominalContent(
+            decreaseNumberOfCycles = decreaseNumberOfCycles,
+            increaseNumberOfCycles = increaseNumberOfCycles,
+            numberOfCycles = numberOfCycles,
+            lengthOfCycle = lengthOfCycle,
+            totalLengthFormatted = totalLengthFormatted,
+            users = users,
+            toggleSelectedUser = toggleSelectedUser,
+            navigateToSession = navigateToSession,
+            warning = warning,
+            hiitLogger = hiitLogger,
+        )
     }
 }
 

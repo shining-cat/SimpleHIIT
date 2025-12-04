@@ -2,7 +2,7 @@
 
 ## Missing features / issues
 * home screen's cycle count selector in landscape and large fonts doesn't show buttons!
-* improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
+* improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good (wait for migration to navigation 3, might impact this)
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
