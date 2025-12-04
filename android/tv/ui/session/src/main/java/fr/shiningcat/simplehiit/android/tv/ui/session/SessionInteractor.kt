@@ -5,6 +5,7 @@ import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
+import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
@@ -43,7 +44,8 @@ class SessionInteractorImpl
 
         override fun formatLongDurationMsAsSmallestHhMmSsString(durationMs: Long): String =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                durationMs,
+                durationMs = durationMs,
+                formatStyle = DurationFormatStyle.SHORT,
             )
 
         override suspend fun startStepTimer(totalMilliSeconds: Long) = stepTimerUseCase.start(totalMilliSeconds)

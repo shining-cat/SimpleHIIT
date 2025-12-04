@@ -68,6 +68,7 @@ fun SessionContentHolder(
             } else {
                 SessionFinishedContent(
                     viewState = screenViewState,
+                    navigateUp = navigateUp,
                     hiitLogger = hiitLogger,
                 )
             }

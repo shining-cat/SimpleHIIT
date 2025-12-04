@@ -20,10 +20,7 @@ interface SessionInteractor {
 
     suspend fun buildSession(sessionSettings: SessionSettings): Session
 
-    fun formatLongDurationMsAsSmallestHhMmSsString(
-        durationMs: Long,
-        formatStyle: DurationFormatStyle,
-    ): String
+    fun formatLongDurationMsAsSmallestHhMmSsString(durationMs: Long): String
 
     suspend fun startStepTimer(totalMilliSeconds: Long)
 
@@ -45,13 +42,10 @@ class SessionInteractorImpl
 
         override suspend fun buildSession(sessionSettings: SessionSettings): Session = buildSessionUseCase.execute(sessionSettings)
 
-        override fun formatLongDurationMsAsSmallestHhMmSsString(
-            durationMs: Long,
-            formatStyle: DurationFormatStyle,
-        ): String =
+        override fun formatLongDurationMsAsSmallestHhMmSsString(durationMs: Long): String =
             formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                durationMs,
-                formatStyle,
+                durationMs = durationMs,
+                formatStyle = DurationFormatStyle.SHORT,
             )
 
         override suspend fun startStepTimer(totalMilliSeconds: Long) = stepTimerUseCase.start(totalMilliSeconds)

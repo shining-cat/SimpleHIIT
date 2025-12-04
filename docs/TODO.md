@@ -1,12 +1,11 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
+* sidebar navigation width is decided by the content in some way. when font is 2x it changes width when the sidebar title changes.
+* sidebar navigation items don't really fit properly in landscape and font 2x
+* home screen's cycle count selector in landscape and large fonts doesn't show buttons!
 * text objects do not wrap words properly, to fix proper hyphenation, we need to set the proper option and ensure the locale is matching the language selected in prefs
-* improve layouts, including 200% fontscale, orientations and devices:
-  * [x] home
-  * [x] settings
-  * [x] statistics
-  * [ ] session (this one might be tricky as it's a screen we don't want the user to need to scroll, they'll be busy exercising)
+* improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
@@ -17,13 +16,13 @@
   see https://medium.com/proandroiddev/future-of-android-why-navigation-3-is-a-game-changer-f835f841c17f
 * use new [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64) to review composables and eventually optimise them further (also gradle plugin)
 * could we extract even more **platform-agnostic** logic from the viewmodels?
-* add tests on viewmodels
+* add tests on viewmodels after having tried to make them lighter
 * screenshot tests if they can run on github for free
-* automation to warn about deprecated objects use running regularly on CI?
 
 ## CI/Github actions
 * See automation of build scripts verification:
   github.com/gradle/gradle-enterprise-build-validation-scripts. There should be a few free tools
+* automation to warn about deprecated objects use running regularly on CI?
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * move the whole thing to KMP and build other platforms

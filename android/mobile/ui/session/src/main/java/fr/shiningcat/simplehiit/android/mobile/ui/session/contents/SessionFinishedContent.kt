@@ -1,15 +1,15 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,11 +50,18 @@ fun SessionFinishedContent(
             SessionFinishedHeaderComponent(viewState.sessionDurationFormatted)
         }
         val exerciseNameResMapper = ExerciseDisplayNameMapper()
-        items(viewState.workingStepsDone.size) {
-            val step = viewState.workingStepsDone[it]
-            val exerciseNameRes =
-                exerciseNameResMapper.map(step.exercise)
-            SessionFinishedExerciseDoneItemComponent(exerciseNameRes, step.side)
+        val exercises = viewState.workingStepsDone
+
+        items(exercises.size) { index ->
+            val step = exercises[index]
+            val exerciseNameRes = exerciseNameResMapper.map(step.exercise)
+            val hasBackground = index % 2 == 1
+            SessionFinishedExerciseDoneItemComponent(
+                exerciseIndex = index + 1,
+                exerciseNameRes = exerciseNameRes,
+                side = step.side,
+                hasBackground = hasBackground,
+            )
         }
         item {
             Spacer(modifier = Modifier.height(dimensionResource(R.dimen.spacing_3)))
@@ -64,82 +71,84 @@ fun SessionFinishedContent(
 
 @Composable
 fun SessionFinishedHeaderComponent(sessionDurationFormatted: String) {
-    Column {
+    Column(modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_2))) {
         Text(
             textAlign = TextAlign.Center,
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = dimensionResource(R.dimen.spacing_6)),
-            style = typography.headlineLarge,
+                    .padding(bottom = dimensionResource(R.dimen.spacing_2)),
+            style = MaterialTheme.typography.headlineLarge,
             text = stringResource(id = R.string.finish_page_title),
         )
+
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = typography.headlineMedium,
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(R.dimen.spacing_15)),
+            style = MaterialTheme.typography.titleLarge,
             text = stringResource(id = R.string.session_length_summary, sessionDurationFormatted),
         )
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.spacing_3)),
-        )
+
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-            style = typography.headlineSmall,
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(R.dimen.spacing_1)),
+            style = MaterialTheme.typography.bodyLarge,
             text = stringResource(id = R.string.session_finished_tips),
         )
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.spacing_2)),
-        )
+
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
-            style = typography.headlineSmall,
+            style = MaterialTheme.typography.bodyLarge,
             text = stringResource(id = R.string.summary_session),
-        )
-        Spacer(
-            Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.spacing_2)),
         )
     }
 }
 
 @Composable
 fun SessionFinishedExerciseDoneItemComponent(
-    exerciseDoneRes: Int,
+    exerciseIndex: Int,
+    exerciseNameRes: Int,
     side: ExerciseSide,
+    hasBackground: Boolean = false,
 ) {
-    Row(
+    var displayText = exerciseIndex.toString() + ":   " + stringResource(id = exerciseNameRes)
+    val displaySideRes =
+        when (side) {
+            ExerciseSide.NONE -> null
+            ExerciseSide.LEFT -> R.string.exercise_side_left
+            ExerciseSide.RIGHT -> R.string.exercise_side_right
+        }
+    if (displaySideRes != null) {
+        displayText += " - " + stringResource(id = displaySideRes)
+    }
+
+    val backgroundColor =
+        if (hasBackground) {
+            MaterialTheme.colorScheme.surface
+        } else {
+            MaterialTheme.colorScheme.background
+        }
+
+    Text(
+        textAlign = TextAlign.Start,
+        style = MaterialTheme.typography.bodyMedium,
+        text = displayText,
         modifier =
             Modifier
                 .fillMaxWidth()
+                .background(backgroundColor)
                 .padding(
                     vertical = dimensionResource(R.dimen.spacing_05),
                     horizontal = dimensionResource(R.dimen.spacing_2),
                 ),
-    ) {
-        var displayText = stringResource(id = exerciseDoneRes)
-        val displaySideRes =
-            when (side) {
-                ExerciseSide.NONE -> null
-                ExerciseSide.LEFT -> R.string.exercise_side_left
-                ExerciseSide.RIGHT -> R.string.exercise_side_right
-            }
-        if (displaySideRes != null) {
-            displayText += " - " + stringResource(id = displaySideRes)
-        }
-        Text(
-            textAlign = TextAlign.Start,
-            style = typography.bodyMedium,
-            text = displayText,
-        )
-    }
+    )
 }
 
 // Previews

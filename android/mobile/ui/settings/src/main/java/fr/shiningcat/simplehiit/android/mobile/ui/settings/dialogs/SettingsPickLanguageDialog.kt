@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -28,6 +30,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.ButtonType
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.DialogButtonConfig
@@ -46,10 +50,14 @@ fun SettingsPickLanguageDialog(
 
     val dialogPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
 
-    Dialog(onDismissRequest = onCancel) {
+    Dialog(
+        onDismissRequest = onCancel,
+        properties = adaptiveDialogProperties(),
+    ) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.adaptiveDialogWidth(),
         ) {
             BoxWithConstraints {
                 val dialogAvailableWidthDp = this.maxWidth
@@ -58,7 +66,8 @@ fun SettingsPickLanguageDialog(
                     modifier =
                         Modifier
                             .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
                 ) {
                     Text(
                         textAlign = TextAlign.Left,

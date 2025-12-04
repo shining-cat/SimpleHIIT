@@ -3,6 +3,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.session.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement.Absolute.spacedBy
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -10,11 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
@@ -26,52 +26,59 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 
 /**
- * Composable function that displays a countdown timer, dynamically adapts to fontscale
+ * Composable function that displays a countdown timer that adapts to available screen space.
  *
- * This function takes a `baseSize` parameter to determine the size of the countdown timer,
- * a `countDown` parameter to display the current countdown progress, and an optional `hiitLogger`
- * parameter for logging purposes.
+ * The countdown timer uses a fraction of the available height to determine its size,
+ * making it responsive to different TV screen sizes. It also adapts to font scale changes.
  *
- * The countdown timer is displayed as a circular progress indicator with the remaining seconds
- * displayed in the center. The progress indicator's color and thickness can be customized.
- *
- * @param baseSize The base size of the countdown timer. defaults to 100.dp, a reasonable size for a 3-digits display
- * @param countDown The current countdown progress.
- * @param hiitLogger An optional logger for logging purposes.
+ * @param modifier Modifier to be applied to the component
+ * @param heightFraction Fraction of available height to use for countdown size (e.g., 0.33f for 1/3)
+ * @param countDown The current countdown progress
+ * @param hiitLogger An optional logger for logging purposes
  */
 @Composable
 fun CountDownComponent(
-    baseSize: Dp,
+    modifier: Modifier = Modifier,
+    heightFraction: Float,
     countDown: CountDown,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
-    val adaptedSize = adaptDpToFontScale(baseSize)
-    Box(
+    BoxWithConstraints(
+        modifier = modifier,
         contentAlignment = Alignment.Center,
-        modifier = Modifier.size(adaptedSize),
     ) {
-        val radius = adaptedSize.value
-        val thickness = adaptedSize.value / 10
-        CustomCircularProgressIndicator(
-            modifier =
-                Modifier
-                    .size(adaptedSize)
-                    .background(Color.Transparent),
-            currentValue = (countDown.progress * 100).toInt(),
-            trackColor = MaterialTheme.colorScheme.primary,
-            progressColor = MaterialTheme.colorScheme.secondary,
-            circleRadius = radius,
-            thickness = thickness,
-            fillColor = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
-            subDivisionsColor = MaterialTheme.colorScheme.secondary,
-        )
-        Text(
-            modifier = Modifier.align(Alignment.Center),
-            text = countDown.secondsDisplay,
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.secondary,
-        )
+        val density = LocalDensity.current
+        val availableHeightPx = with(density) { maxHeight.toPx() }
+        val baseSizeDp = with(density) { (availableHeightPx * heightFraction).toDp() }
+        val adaptedSize = adaptDpToFontScale(baseSizeDp)
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.size(adaptedSize),
+        ) {
+            val radius = adaptedSize.value
+            val thickness = adaptedSize.value / 10
+            CustomCircularProgressIndicator(
+                modifier =
+                    Modifier
+                        .size(adaptedSize)
+                        .background(Color.Transparent),
+                currentValue = (countDown.progress * 100).toInt(),
+                trackColor = MaterialTheme.colorScheme.primary,
+                progressColor = MaterialTheme.colorScheme.secondary,
+                circleRadius = radius,
+                thickness = thickness,
+                fillColor = MaterialTheme.colorScheme.primary.copy(alpha = .3f),
+                subDivisionsColor = MaterialTheme.colorScheme.secondary,
+            )
+            Text(
+                modifier = Modifier.align(Alignment.Center),
+                text = countDown.secondsDisplay,
+                style = MaterialTheme.typography.titleLarge,
+                color = MaterialTheme.colorScheme.secondary,
+            )
+        }
     }
 }
 
@@ -87,15 +94,18 @@ private fun CountDownCircularProgressPreview() {
                 verticalArrangement = spacedBy(adaptDpToFontScale(dimensionResource(R.dimen.spacing_025))),
             ) {
                 CountDownComponent(
-                    baseSize = 100.dp,
+                    modifier = Modifier.weight(1f),
+                    heightFraction = 0.8f,
                     countDown = CountDown(secondsDisplay = "35", progress = 1f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 100.dp,
+                    modifier = Modifier.weight(1f),
+                    heightFraction = 0.8f,
                     countDown = CountDown(secondsDisplay = "2", progress = .1f, playBeep = true),
                 )
                 CountDownComponent(
-                    baseSize = 100.dp,
+                    modifier = Modifier.weight(1f),
+                    heightFraction = 0.8f,
                     countDown = CountDown(secondsDisplay = "0", progress = 0f, playBeep = true),
                 )
             }

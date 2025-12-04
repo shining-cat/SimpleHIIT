@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -40,86 +41,90 @@ fun SessionErrorStateContent(
     hiitLogger: HiitLogger? = null,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier =
-            modifier
-                .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
-        Image(
+        Column(
             modifier =
                 Modifier
-                    .size(dimensionResource(R.dimen.error_symbol_size))
-                    .padding(
-                        horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                    ),
-            painter = painterResource(id = CommonResourcesR.drawable.warning),
-            contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
-        )
-        Text(
-            textAlign = TextAlign.Center,
-            modifier =
-                Modifier.padding(
-                    horizontal = 0.dp,
-                    vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                ),
-            text =
-                if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                    stringResource(id = CommonResourcesR.string.error_session_abort)
-                } else {
-                    stringResource(id = CommonResourcesR.string.error_session_retry)
-                },
-            style = MaterialTheme.typography.headlineMedium,
-        )
-        if (screenViewState.errorCode.isNotBlank()) {
+                    .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
+                    .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Image(
+                modifier =
+                    Modifier
+                        .size(dimensionResource(R.dimen.error_symbol_size))
+                        .padding(
+                            horizontal = 0.dp,
+                            vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                        ),
+                painter = painterResource(id = CommonResourcesR.drawable.warning),
+                contentDescription = stringResource(id = CommonResourcesR.string.warning_icon_content_description),
+            )
             Text(
                 textAlign = TextAlign.Center,
+                modifier =
+                    Modifier.padding(
+                        horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                    ),
+                text =
+                    if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                        stringResource(id = CommonResourcesR.string.error_session_abort)
+                    } else {
+                        stringResource(id = CommonResourcesR.string.error_session_retry)
+                    },
+                style = MaterialTheme.typography.headlineMedium,
+            )
+            if (screenViewState.errorCode.isNotBlank()) {
+                Text(
+                    textAlign = TextAlign.Center,
+                    modifier =
+                        Modifier
+                            .padding(
+                                horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3),
+                                vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
+                            ),
+                    text =
+                        stringResource(
+                            id = CommonResourcesR.string.error_code,
+                            screenViewState.errorCode,
+                        ),
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            }
+            val clickAction: () -> Unit = {
+                if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                    onAbort()
+                } else {
+                    navigateUp()
+                }
+            }
+            Button(
                 modifier =
                     Modifier
                         .padding(
                             horizontal = 0.dp,
                             vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
                         ),
-                text =
-                    stringResource(
-                        id = CommonResourcesR.string.error_code,
-                        screenViewState.errorCode,
+                onClick = clickAction,
+                colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.error,
+                        contentColor = MaterialTheme.colorScheme.onError,
                     ),
-                style = MaterialTheme.typography.headlineSmall,
-            )
-        }
-        val clickAction: () -> Unit = {
-            if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                onAbort()
-            } else {
-                navigateUp()
+            ) {
+                Text(
+                    text =
+                        if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                            stringResource(id = CommonResourcesR.string.abort_session_button_label)
+                        } else {
+                            stringResource(id = CommonResourcesR.string.exit_button_label)
+                        },
+                )
             }
-        }
-        Button(
-            modifier =
-                Modifier
-                    .padding(
-                        horizontal = 0.dp,
-                        vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
-                    ),
-            onClick = clickAction,
-            colors =
-                ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError,
-                ),
-        ) {
-            Text(
-                text =
-                    if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
-                        stringResource(id = CommonResourcesR.string.abort_session_button_label)
-                    } else {
-                        stringResource(id = CommonResourcesR.string.exit_button_label)
-                    },
-            )
         }
     }
 }

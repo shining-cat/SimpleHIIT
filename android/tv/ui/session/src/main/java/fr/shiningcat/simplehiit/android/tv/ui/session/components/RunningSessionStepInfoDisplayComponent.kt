@@ -58,8 +58,7 @@ fun RunningSessionStepInfoDisplayComponent(
             RemainingPercentageComponent(
                 modifier =
                     Modifier
-                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_8))
-                        .height(dimensionResource(R.dimen.running_session_step_remaining_progress_height)),
+                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_8)),
                 label =
                     stringResource(
                         id = remainingPercentageStringRes,
@@ -78,8 +77,7 @@ fun RunningSessionStepInfoDisplayComponent(
             RemainingPercentageComponent(
                 modifier =
                     Modifier
-                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_8))
-                        .height(dimensionResource(R.dimen.running_session_session_remaining_progress_height)),
+                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_8)),
                 label =
                     stringResource(
                         id = CommonResourcesR.string.session_time_remaining,

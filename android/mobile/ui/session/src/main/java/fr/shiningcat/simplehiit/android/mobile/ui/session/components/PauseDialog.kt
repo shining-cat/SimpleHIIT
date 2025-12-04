@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,6 +21,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
+import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.ButtonType
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.DialogButtonConfig
@@ -37,10 +41,14 @@ fun PauseDialog(
     val abortButtonLabel = stringResource(id = CommonResourcesR.string.abort_session_button_label)
     val resumeButtonLabel = stringResource(CommonResourcesR.string.resume_button_label)
 
-    Dialog(onDismissRequest = onResume) {
+    Dialog(
+        onDismissRequest = onResume,
+        properties = adaptiveDialogProperties(),
+    ) {
         Surface(
             color = MaterialTheme.colorScheme.surface,
             shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.adaptiveDialogWidth(),
         ) {
             BoxWithConstraints {
                 val dialogAvailableWidthDp = this.maxWidth
@@ -49,7 +57,8 @@ fun PauseDialog(
                     modifier =
                         Modifier
                             .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState()),
                 ) {
                     if (title.isNotBlank()) {
                         Text(

@@ -18,7 +18,6 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.components.GifImage
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.tv.ui.session.R
 import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseGifMapper
@@ -67,7 +66,8 @@ fun ExerciseDisplayComponent(
         }
         if (countDown != null) {
             CountDownComponent(
-                baseSize = dimensionResource(R.dimen.exercise_display_countdown_size),
+                modifier = Modifier.fillMaxSize(),
+                heightFraction = 0.33f,
                 countDown = countDown,
                 hiitLogger = hiitLogger,
             )
@@ -82,18 +82,20 @@ fun ExerciseDisplayComponent(
 private fun ExerciseDisplayComponentPreview() {
     SimpleHiitTvTheme {
         Surface(shape = MaterialTheme.shapes.extraSmall) {
-            ExerciseDisplayComponent(
-                modifier = Modifier.fillMaxSize(),
-                exercise = Exercise.LungesSideToCurtsy,
-                periodType = RunningSessionStepType.REST,
-                exerciseSide = AsymmetricalExerciseSideOrder.SECOND.side,
-                countDown =
-                    CountDown(
-                        secondsDisplay = "3",
-                        progress = .2f,
-                        playBeep = true,
-                    ),
-            )
+            Box(modifier = Modifier.fillMaxSize()) {
+                ExerciseDisplayComponent(
+                    modifier = Modifier.fillMaxSize(),
+                    exercise = Exercise.LungesSideToCurtsy,
+                    periodType = RunningSessionStepType.REST,
+                    exerciseSide = AsymmetricalExerciseSideOrder.SECOND.side,
+                    countDown =
+                        CountDown(
+                            secondsDisplay = "3",
+                            progress = .2f,
+                            playBeep = true,
+                        ),
+                )
+            }
         }
     }
 }
