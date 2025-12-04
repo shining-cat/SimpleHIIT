@@ -42,52 +42,6 @@ fun SessionFinishedContent(
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger? = null,
 ) {
-    val fakeresult =
-        listOf(
-            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.CatBackLegLift, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.CatKneePushUp, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.LEFT),
-            SessionStepDisplay(Exercise.LungesArmsCrossSide, ExerciseSide.RIGHT),
-            SessionStepDisplay(Exercise.LungesTwist, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LyingStarToeTouchSitUp, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.LyingSupermanTwist, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.StandingMountainClimber, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.LEFT),
-            SessionStepDisplay(Exercise.PlankMountainClimber, ExerciseSide.RIGHT),
-            SessionStepDisplay(Exercise.StandingKickCrunches, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.SquatBasic, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankShoulderTap, ExerciseSide.NONE),
-            SessionStepDisplay(Exercise.PlankBirdDogs, ExerciseSide.NONE),
-        )
-
     Column(
         modifier =
             Modifier
@@ -109,8 +63,7 @@ fun SessionFinishedContent(
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_2)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_05)),
         ) {
-            // val exercises = viewState.workingStepsDone
-            val exercises = fakeresult
+            val exercises = viewState.workingStepsDone
 
             // Add invisible focusable spacer at the top
             item(span = { GridItemSpan(2) }) {
