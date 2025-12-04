@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.common.components
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -27,31 +28,24 @@ import fr.shiningcat.simplehiit.commonresources.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigateUpTopBar(
-    navigateUp: () -> Boolean = { true },
-    @StringRes
-    title: Int,
-    @StringRes
-    overrideBackLabel: Int = -1,
+    @DrawableRes icon: Int,
+    @StringRes label: Int,
+    onClick: () -> Boolean = { true },
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primary),
         navigationIcon = {
-            IconButton(onClick = { navigateUp() }) {
+            IconButton(onClick = { onClick() }) {
                 Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.arrow_back),
-                    contentDescription =
-                        if (overrideBackLabel == -1) {
-                            stringResource(id = R.string.back_button_content_label)
-                        } else {
-                            stringResource(id = overrideBackLabel)
-                        },
+                    imageVector = ImageVector.vectorResource(icon),
+                    contentDescription = stringResource(id = label),
                     tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         },
         title = {
             Text(
-                text = stringResource(title),
+                text = stringResource(label),
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.titleLarge,
@@ -70,7 +64,8 @@ private fun NavigateUpTopBarPreview() {
         Surface {
             Column(verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.spacing_3))) {
                 NavigateUpTopBar(
-                    title = R.string.session_rest_page_title,
+                    icon = R.drawable.pause,
+                    label = R.string.pause,
                 )
             }
         }

@@ -1,16 +1,12 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.common.components
 
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailDefaults
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
@@ -46,17 +42,11 @@ fun NavigationSideBar(
     showStatisticsButton: Boolean,
 ) {
     NavigationRail(
-        modifier = Modifier.fillMaxHeight(),
+        modifier =
+            Modifier
+                .fillMaxHeight(),
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        header = {
-            Text(
-                text = stringResource(R.string.app_name),
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2)),
-            )
-        },
         windowInsets = NavigationRailDefaults.windowInsets,
     ) {
         SideBarItem(

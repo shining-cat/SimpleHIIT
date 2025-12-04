@@ -83,7 +83,7 @@
     <string name="error_session_abort">Quelque chose s\'est mal passé, nous devons abandonner la session.</string>
     <string name="error_session_retry">Quelque chose s\'est mal passé, essayons à nouveau.</string>
     <string name="exit_button_label">Quitter</string>
-    <string name="pause">Pause…</string>
+    <string name="pause">Pause</string>
     <string name="pause_explanation">Vous pouvez soit terminer la session ici, soit la reprendre. La reprise vous ramènera au début de la période de repos précédant l\'exercice actuel, vous aurez donc le temps de vous préparer.</string>
     <string name="resume_button_label">Reprendre</string>
     <string name="exercise_remaining_in_s">Donnez tout pendant %1$s !</string>

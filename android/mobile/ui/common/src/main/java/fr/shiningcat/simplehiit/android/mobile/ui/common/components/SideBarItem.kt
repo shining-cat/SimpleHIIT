@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRailItem
@@ -11,6 +12,7 @@ import androidx.compose.material3.NavigationRailItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -32,13 +34,19 @@ fun SideBarItem(
     NavigationRailItem(
         selected = selected,
         onClick = onClick,
+        modifier = Modifier.padding(vertical = dimensionResource(R.dimen.spacing_1)),
         icon = {
             Icon(
                 imageVector = ImageVector.vectorResource(icon),
                 contentDescription = stringResource(id = label),
             )
         },
-        label = { Text(text = stringResource(label)) },
+        label = {
+            Text(
+                text = stringResource(label),
+                modifier = Modifier.padding(horizontal = dimensionResource(R.dimen.spacing_1)),
+            )
+        },
         colors =
             NavigationRailItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.secondary,
