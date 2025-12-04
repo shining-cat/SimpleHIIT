@@ -4,6 +4,8 @@ import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.Hyphens
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.sp
 
 val mobileType =
@@ -15,6 +17,8 @@ val mobileType =
                 fontSize = 16.sp,
                 lineHeight = 24.sp,
                 letterSpacing = 0.5.sp,
+                hyphens = Hyphens.Auto,
+                lineBreak = LineBreak.Paragraph,
             ),
         titleLarge =
             TextStyle(
@@ -23,6 +27,8 @@ val mobileType =
                 fontSize = 22.sp,
                 lineHeight = 28.sp,
                 letterSpacing = 0.sp,
+                hyphens = Hyphens.Auto,
+                lineBreak = LineBreak.Heading,
             ),
         labelSmall =
             TextStyle(
@@ -31,5 +37,7 @@ val mobileType =
                 fontSize = 11.sp,
                 lineHeight = 16.sp,
                 letterSpacing = 0.5.sp,
+                hyphens = Hyphens.Auto,
+                lineBreak = LineBreak.Simple,
             ),
     )
