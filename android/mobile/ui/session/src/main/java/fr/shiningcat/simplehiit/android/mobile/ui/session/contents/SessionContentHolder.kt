@@ -195,7 +195,7 @@ internal class SessionContentHolderPreviewParameterProvider : PreviewParameterPr
                     sessionRemainingPercentage = .24f,
                 ),
                 SessionViewState.RunningNominal(
-                    periodType = RunningSessionStepType.REST,
+                    periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
                     stepRemainingTime = "25s",
@@ -221,7 +221,7 @@ internal class SessionContentHolderPreviewParameterProvider : PreviewParameterPr
                 SessionViewState.RunningNominal(
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.NONE,
+                    side = ExerciseSide.RIGHT,
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .7f,
                     sessionRemainingTime = "5mn 12s",
@@ -230,7 +230,7 @@ internal class SessionContentHolderPreviewParameterProvider : PreviewParameterPr
                 SessionViewState.RunningNominal(
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.CrabAdvancedBridge,
-                    side = ExerciseSide.NONE,
+                    side = ExerciseSide.RIGHT,
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .7f,
                     sessionRemainingTime = "5mn 12s",

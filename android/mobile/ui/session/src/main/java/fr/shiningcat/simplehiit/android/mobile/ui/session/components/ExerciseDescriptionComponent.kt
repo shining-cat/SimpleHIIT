@@ -1,5 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +23,7 @@ import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrd
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ExerciseDescriptionComponent(
     exercise: Exercise,
@@ -32,23 +35,26 @@ fun ExerciseDescriptionComponent(
         Text(
             text = exerciseName,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleSmall,
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .basicMarquee(),
+            maxLines = 2,
+        )
+        // Always reserve space for side mention to keep layout stable
+        Text(
+            text =
+                when (side) {
+                    ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
+                    ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
+                    ExerciseSide.NONE -> "" // Empty string to reserve space
+                },
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.secondary,
             modifier = Modifier.fillMaxWidth(),
         )
-        if (side != ExerciseSide.NONE) {
-            Text(
-                text =
-                    when (side) {
-                        ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
-                        ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
-                        else -> "" // unreachable
-                    },
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
     }
 }
 

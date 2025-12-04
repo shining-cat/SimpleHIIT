@@ -1,5 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,6 +26,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun RemainingPercentageComponent(
     modifier: Modifier,
@@ -33,14 +36,16 @@ fun RemainingPercentageComponent(
     bicolor: Boolean,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_2)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_1)),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier,
     ) {
         Text(
             text = label,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.bodyMedium,
             textAlign = TextAlign.Center,
+            modifier = Modifier.basicMarquee(),
+            maxLines = 1,
         )
         LinearProgressIndicator(
             progress = { percentage },
