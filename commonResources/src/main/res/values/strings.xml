@@ -90,7 +90,7 @@
     <string name="error_session_abort">Something went wrong, we\'ll have to abort the session.</string>
     <string name="error_session_retry">Something went wrong, let\'s try this again.</string>
     <string name="exit_button_label">Exit</string>
-    <string name="pause">Pause…</string>
+    <string name="pause">Pause</string>
     <string name="pause_explanation">You can either end the session here or resume it. Resuming will take you back to the start of the rest period preceding the current exercise, so you\'ll have time to get ready.</string>
     <string name="resume_button_label">Resume</string>
     <string name="exercise_remaining_in_s">Give it all for %1$s !</string>

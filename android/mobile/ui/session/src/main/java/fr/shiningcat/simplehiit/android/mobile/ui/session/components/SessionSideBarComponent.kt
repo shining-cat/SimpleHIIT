@@ -1,16 +1,13 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.SideBarItem
@@ -19,27 +16,19 @@ import fr.shiningcat.simplehiit.commonresources.R
 
 @Composable
 fun SessionSideBarComponent(
-    @StringRes title: Int,
-    onBackButtonClick: () -> Unit = {},
-    @StringRes backButtonLabel: Int,
+    @DrawableRes icon: Int,
+    @StringRes label: Int,
+    onClick: () -> Unit = {},
 ) {
     NavigationRail(
         modifier = Modifier.fillMaxHeight(),
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        header = {
-            Text(
-                text = stringResource(title),
-                color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(dimensionResource(R.dimen.spacing_2)),
-            )
-        },
     ) {
         SideBarItem(
-            onClick = onBackButtonClick,
-            icon = R.drawable.arrow_back,
-            label = backButtonLabel,
+            onClick = onClick,
+            icon = icon,
+            label = label,
             selected = false,
         )
     }
@@ -53,8 +42,8 @@ private fun SessionSideBarComponentPreview() {
     SimpleHiitMobileTheme {
         Surface {
             SessionSideBarComponent(
-                title = R.string.session_work_page_title,
-                backButtonLabel = R.string.pause,
+                label = R.string.pause,
+                icon = R.drawable.pause,
             )
         }
     }

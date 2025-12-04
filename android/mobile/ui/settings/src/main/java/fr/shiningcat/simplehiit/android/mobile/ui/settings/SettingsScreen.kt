@@ -130,11 +130,12 @@ private fun SettingsScreen(
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                 NavigateUpTopBar(
-                    navigateUp = {
+                    icon = R.drawable.arrow_back,
+                    label = R.string.settings_page_title,
+                    onClick = {
                         navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home.route)
                         true
                     },
-                    title = R.string.settings_page_title,
                 )
             }
             SettingsContentHolder(

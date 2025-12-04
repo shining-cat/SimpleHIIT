@@ -83,7 +83,7 @@
     <string name="error_session_abort">Något gick fel, vi måste avbryta passet.</string>
     <string name="error_session_retry">Något gick fel, låt oss försöka igen.</string>
     <string name="exit_button_label">Avsluta</string>
-    <string name="pause">Paus…</string>
+    <string name="pause">Paus</string>
     <string name="pause_explanation">Du kan antingen avsluta passet här eller återuppta det. Återupptagning tar dig tillbaka till början av viloperioden före den aktuella övningen, så du har tid att förbereda dig.</string>
     <string name="resume_button_label">Återuppta</string>
     <string name="exercise_remaining_in_s">Ge allt i %1$s!</string>

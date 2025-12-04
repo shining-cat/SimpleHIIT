@@ -1,8 +1,6 @@
 # SimpleHIIT ToDo list
 
 ## Missing features / issues
-* sidebar navigation width is decided by the content in some way. when font is 2x it changes width when the sidebar title changes.
-* sidebar navigation items don't really fit properly in landscape and font 2x
 * home screen's cycle count selector in landscape and large fonts doesn't show buttons!
 * improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
 

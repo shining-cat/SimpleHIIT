@@ -103,50 +103,28 @@ fun SessionScreen(
     BackHandler(enabled = screenViewState is SessionViewState.RunningNominal) {
         pause()
     }
-    val (title, buttonLabel, clickOnButton) =
+    val (icon, label, clickOnButton) =
         when (screenViewState) {
             is SessionViewState.RunningNominal -> {
                 when (screenViewState.periodType) {
-                    RunningSessionStepType.REST -> {
+                    RunningSessionStepType.REST,
+                    RunningSessionStepType.WORK,
+                    -> {
                         Triple(
-                            R.string.session_rest_page_title,
-                            R.string.pause,
-                            pause,
-                        )
-                    }
-                    RunningSessionStepType.WORK -> {
-                        Triple(
-                            R.string.session_work_page_title,
+                            R.drawable.pause,
                             R.string.pause,
                             pause,
                         )
                     }
                 }
             }
-            is SessionViewState.InitialCountDownSession -> {
+            is SessionViewState.InitialCountDownSession,
+            is SessionViewState.Finished,
+            is SessionViewState.Error,
+            SessionViewState.Loading,
+            -> {
                 Triple(
-                    R.string.session_prepare_page_title,
-                    R.string.back_button_content_label,
-                    navigateUp,
-                )
-            }
-            is SessionViewState.Finished -> {
-                Triple(
-                    R.string.finish_page_topbar,
-                    R.string.back_button_content_label,
-                    navigateUp,
-                )
-            }
-            is SessionViewState.Error -> {
-                Triple(
-                    R.string.error,
-                    R.string.back_button_content_label,
-                    navigateUp,
-                )
-            }
-            SessionViewState.Loading -> {
-                Triple(
-                    R.string.session_loading_page_topBar,
+                    R.drawable.arrow_back,
                     R.string.back_button_content_label,
                     navigateUp,
                 )
@@ -156,9 +134,9 @@ fun SessionScreen(
     Row(modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             SessionSideBarComponent(
-                title = title,
-                onBackButtonClick = { clickOnButton.invoke() },
-                backButtonLabel = buttonLabel,
+                icon = icon,
+                onClick = { clickOnButton.invoke() },
+                label = label,
             )
         }
         Column(
@@ -169,12 +147,12 @@ fun SessionScreen(
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
                 NavigateUpTopBar(
-                    navigateUp = {
+                    icon = icon,
+                    label = label,
+                    onClick = {
                         clickOnButton.invoke()
                         true
                     },
-                    title = title,
-                    overrideBackLabel = buttonLabel,
                 )
             }
             SessionContentHolder(
