@@ -95,7 +95,6 @@ internal class SessionInteractorTest : AbstractMockkTest() {
             val result =
                 testedInteractor.formatLongDurationMsAsSmallestHhMmSsString(
                     durationMs = 123L,
-                    formatStyle = DurationFormatStyle.SHORT,
                 )
             coVerify(exactly = 1) {
                 mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
