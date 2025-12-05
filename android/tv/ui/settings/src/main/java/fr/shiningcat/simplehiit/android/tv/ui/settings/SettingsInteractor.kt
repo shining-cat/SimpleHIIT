@@ -3,6 +3,7 @@ package fr.shiningcat.simplehiit.android.tv.ui.settings
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -12,6 +13,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.GetGeneralSettingsUseCa
 import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppThemeUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -52,6 +54,8 @@ interface SettingsInteractor {
     suspend fun saveSelectedExerciseTypes(listOfSelectedExerciseTypes: List<ExerciseTypeSelected>)
 
     suspend fun setAppLanguage(language: AppLanguage): Output<Int>
+
+    suspend fun setAppTheme(theme: AppTheme)
 
     suspend fun resetAllSettings()
 
@@ -96,6 +100,7 @@ class SettingsInteractorImpl
         private val createUserUseCase: CreateUserUseCase,
         private val saveSelectedExerciseTypesUseCase: SaveSelectedExerciseTypesUseCase,
         private val setAppLanguageUseCase: SetAppLanguageUseCase,
+        private val setAppThemeUseCase: SetAppThemeUseCase,
         private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
         private val validatePeriodLengthUseCase: ValidatePeriodLengthUseCase,
         private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
@@ -128,6 +133,8 @@ class SettingsInteractorImpl
             saveSelectedExerciseTypesUseCase.execute(listOfSelectedExerciseTypes)
 
         override suspend fun setAppLanguage(language: AppLanguage) = setAppLanguageUseCase.execute(language)
+
+        override suspend fun setAppTheme(theme: AppTheme) = setAppThemeUseCase.execute(theme)
 
         override suspend fun resetAllSettings() = resetAllSettingsUseCase.execute()
 

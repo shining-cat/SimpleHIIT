@@ -27,6 +27,7 @@ dependencies {
     implementation(projects.android.tv.ui.session)
     implementation(projects.android.tv.ui.statistics)
     implementation(projects.domain.common)
+    implementation(projects.domain.settings)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.data)

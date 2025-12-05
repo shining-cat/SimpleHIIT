@@ -3,7 +3,9 @@ package fr.shiningcat.simplehiit.data.local.datastore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +24,7 @@ interface SimpleHiitDataStoreManager {
             longPreferencesKey("period_countdown_length_milliseconds")
         val EXERCISE_TYPES_SELECTED = stringSetPreferencesKey("exercise_types_selected")
         val NUMBER_CUMULATED_CYCLES = intPreferencesKey("number_cumulated_cycles")
+        val APP_THEME = stringPreferencesKey("app_theme")
     }
 
     //
@@ -43,6 +46,8 @@ interface SimpleHiitDataStoreManager {
     suspend fun setNumberOfCumulatedCycles(number: Int)
 
     suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
+
+    suspend fun setAppTheme(theme: AppTheme)
 
     //
     fun getPreferences(): Flow<SimpleHiitPreferences>

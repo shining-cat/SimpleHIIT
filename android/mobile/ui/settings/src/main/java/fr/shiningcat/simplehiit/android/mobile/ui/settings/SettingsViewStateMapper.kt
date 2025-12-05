@@ -53,6 +53,7 @@ class SettingsViewStateMapper
                             users = generalSettings.users,
                             exerciseTypes = generalSettings.exerciseTypes,
                             currentLanguage = generalSettings.currentLanguage,
+                            currentTheme = generalSettings.currentTheme,
                         )
                     }
                 }

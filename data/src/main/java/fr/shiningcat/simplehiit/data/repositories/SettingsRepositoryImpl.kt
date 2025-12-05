@@ -4,6 +4,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.data.di.IoDispatcher
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.CoroutineDispatcher
@@ -76,6 +77,12 @@ class SettingsRepositoryImpl
         override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
             withContext(ioDispatcher) {
                 hiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
+            }
+        }
+
+        override suspend fun setAppTheme(theme: AppTheme) {
+            withContext(ioDispatcher) {
+                hiitDataStoreManager.setAppTheme(theme = theme)
             }
         }
 

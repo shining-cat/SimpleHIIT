@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.data.di.IoDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
+import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_APP_THEME
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_WORK_PERIODS_DEFAULT
@@ -13,6 +14,7 @@ import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.PE
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
@@ -117,6 +119,15 @@ class SimpleHiitDataStoreManagerImpl(
         }
     }
 
+    override suspend fun setAppTheme(theme: AppTheme) {
+        hiitLogger.d("SimpleHiitDataStoreManager", "setAppTheme:: $theme")
+        withContext(ioDispatcher) {
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.APP_THEME] = theme.name
+            }
+        }
+    }
+
     override fun getPreferences(): Flow<SimpleHiitPreferences> =
         dataStore.data
             .map { preferences ->
@@ -129,6 +140,7 @@ class SimpleHiitDataStoreManagerImpl(
                     PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
                     selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
                     numberCumulatedCycles = retrieveNumberOfCumulatedCycles(preferences),
+                    appTheme = retrieveAppTheme(preferences),
                 )
             }.catch { exception ->
                 // dataStore.data throws an IOException when an error is encountered when reading data
@@ -182,4 +194,18 @@ class SimpleHiitDataStoreManagerImpl(
     private fun retrieveNumberOfCumulatedCycles(preferences: Preferences) =
         preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES]
             ?: NUMBER_CUMULATED_CYCLES_DEFAULT
+
+    private fun retrieveAppTheme(preferences: Preferences): AppTheme {
+        val themeString = preferences[SimpleHiitDataStoreManager.Keys.APP_THEME]
+        return if (themeString != null) {
+            try {
+                AppTheme.valueOf(themeString)
+            } catch (e: IllegalArgumentException) {
+                hiitLogger.e("SimpleHiitDataStoreManager", "retrieveAppTheme:: Invalid theme value $themeString, returning default", e)
+                DEFAULT_APP_THEME
+            }
+        } else {
+            DEFAULT_APP_THEME
+        }
+    }
 }

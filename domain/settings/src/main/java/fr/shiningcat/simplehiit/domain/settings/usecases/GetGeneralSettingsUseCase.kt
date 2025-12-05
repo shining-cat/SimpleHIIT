@@ -46,6 +46,7 @@ class GetGeneralSettingsUseCase
                             users = usersOutput.result,
                             exerciseTypes = settings.selectedExercisesTypes,
                             currentLanguage = currentLanguage,
+                            currentTheme = settings.appTheme,
                         ),
                     )
                 }

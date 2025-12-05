@@ -25,9 +25,11 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditP
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditSessionStartCountDownDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditUserDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsPickLanguageDialog
+import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsPickThemeDialog
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -60,6 +62,8 @@ fun SettingsContentHolder(
     validateInputNameString: (User) -> Constants.InputError = { Constants.InputError.NONE },
     editLanguage: () -> Unit = {},
     saveLanguage: (AppLanguage) -> Unit = {},
+    editTheme: () -> Unit = {},
+    saveTheme: (AppTheme) -> Unit = {},
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -91,6 +95,7 @@ fun SettingsContentHolder(
                     addUser = addUser,
                     toggleExerciseType = toggleExerciseType,
                     editLanguage = editLanguage,
+                    editTheme = editTheme,
                     resetSettings = resetSettings,
                     viewState = screenViewState,
                     uiArrangement = uiArrangement,
@@ -173,6 +178,13 @@ fun SettingsContentHolder(
             SettingsPickLanguageDialog(
                 currentLanguage = dialogViewState.currentLanguage,
                 onLanguageSelected = saveLanguage,
+                onCancel = cancelDialog,
+            )
+
+        is SettingsDialog.PickTheme ->
+            SettingsPickThemeDialog(
+                currentTheme = dialogViewState.currentTheme,
+                onThemeSelected = saveTheme,
                 onCancel = cancelDialog,
             )
 
@@ -266,6 +278,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     users = emptyList(),
                     exerciseTypes = exerciseTypeSelectedAllTrue,
                     currentLanguage = AppLanguage.SYSTEM_DEFAULT,
+                    currentTheme = AppTheme.FOLLOW_SYSTEM,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -278,6 +291,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     users = listOfOneUser,
                     exerciseTypes = exerciseTypeSelectedAllTrue,
                     currentLanguage = AppLanguage.ENGLISH,
+                    currentTheme = AppTheme.LIGHT,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -290,6 +304,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     users = listOfTwoUser,
                     exerciseTypes = exerciseTypeSelectedAllFalse,
                     currentLanguage = AppLanguage.FRENCH,
+                    currentTheme = AppTheme.DARK,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -302,6 +317,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     users = listOfMoreUser,
                     exerciseTypes = exerciseTypeSelectedMixed,
                     currentLanguage = AppLanguage.SWEDISH,
+                    currentTheme = AppTheme.FOLLOW_SYSTEM,
                 ),
             )
 }

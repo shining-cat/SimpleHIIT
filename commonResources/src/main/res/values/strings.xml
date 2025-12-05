@@ -53,6 +53,12 @@
     <string name="language_french" translatable="false">Français</string>
     <string name="language_swedish" translatable="false">Svenska</string>
     <string name="language_system_default">Par défaut du système</string>
+    <string name="theme_setting_label">Theme</string>
+    <string name="theme_dialog_pick_title">Pick a theme</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_follow_system">Follow system</string>
+    <string name="theme_change_restart_warning">The app will restart to apply the theme change.</string>
     <string name="work_period_length_label">Work period length</string>
     <string name="seconds">seconds</string>
     <string name="seconds_setting_value" translatable="false">%1$ss</string>

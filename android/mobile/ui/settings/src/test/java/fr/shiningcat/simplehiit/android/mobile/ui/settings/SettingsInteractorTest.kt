@@ -3,6 +3,7 @@ package fr.shiningcat.simplehiit.android.mobile.ui.settings
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
@@ -13,6 +14,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.GetGeneralSettingsUseCa
 import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppThemeUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -55,6 +57,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
     private val mockCreateUserUseCase = mockk<CreateUserUseCase>()
     private val mockSaveSelectedExerciseTypesUseCase = mockk<SaveSelectedExerciseTypesUseCase>()
     private val mockSetAppLanguageUseCase = mockk<SetAppLanguageUseCase>()
+    private val mockSetAppThemeUseCase = mockk<SetAppThemeUseCase>()
     private val mockResetAllSettingsUseCase = mockk<ResetAllSettingsUseCase>()
     private val mockValidatePeriodLengthUseCase = mockk<ValidatePeriodLengthUseCase>()
     private val mockValidateNumberOfWorkPeriodsUseCase = mockk<ValidateNumberOfWorkPeriodsUseCase>()
@@ -92,6 +95,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             mockCreateUserUseCase,
             mockSaveSelectedExerciseTypesUseCase,
             mockSetAppLanguageUseCase,
+            mockSetAppThemeUseCase,
             mockResetAllSettingsUseCase,
             mockValidatePeriodLengthUseCase,
             mockValidateNumberOfWorkPeriodsUseCase,
@@ -115,6 +119,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         coEvery { mockCreateUserUseCase.execute(any()) } returns Output.Success(testReturnLong)
         coEvery { mockSaveSelectedExerciseTypesUseCase.execute(any()) } just Runs
         coEvery { mockSetAppLanguageUseCase.execute(any()) } returns Output.Success(testReturnInt)
+        coEvery { mockSetAppThemeUseCase.execute(any()) } just Runs
         coEvery { mockResetAllSettingsUseCase.execute() } just Runs
         coEvery {
             mockValidatePeriodLengthUseCase.execute(
@@ -240,6 +245,13 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             assertTrue(result is Output.Success)
             result as Output.Success
             assertEquals(testReturnInt, result.result)
+        }
+
+    @Test
+    fun `calls on interactor setAppTheme calls SetAppThemeUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            testedInteractor.setAppTheme(AppTheme.DARK)
+            coVerify(exactly = 1) { mockSetAppThemeUseCase.execute(AppTheme.DARK) }
         }
 
     @Test

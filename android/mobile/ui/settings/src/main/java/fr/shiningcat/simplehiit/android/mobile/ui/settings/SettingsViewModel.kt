@@ -8,11 +8,14 @@ import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -40,6 +43,10 @@ class SettingsViewModel
 
         private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
+
+        // One-time event for triggering activity restart (e.g., after theme change)
+        private val _restartTrigger = MutableSharedFlow<Unit>(replay = 0)
+        val restartTrigger = _restartTrigger.asSharedFlow()
 
         fun editWorkPeriodLength() {
             val currentViewState = screenViewState.value
@@ -363,6 +370,34 @@ class SettingsViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 _dialogViewState.emit(SettingsDialog.None)
                 settingsInteractor.setAppLanguage(language)
+            }
+        }
+
+        fun editTheme() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    hiitLogger.d(
+                        "SettingsViewModel",
+                        "editTheme::currentTheme:: ${currentViewState.currentTheme}",
+                    )
+                    _dialogViewState.emit(
+                        SettingsDialog.PickTheme(currentViewState.currentTheme),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editTheme::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setTheme(theme: AppTheme) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+                settingsInteractor.setAppTheme(theme)
+                _restartTrigger.emit(Unit)
             }
         }
 

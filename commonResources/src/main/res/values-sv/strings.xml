@@ -47,7 +47,14 @@
     <!-- SETTINGS PAGE -->
     <string name="settings_page_title">Inställningar</string>
     <string name="language_setting_label">Språk</string>
+    <string name="language_dialog_pick_title">Välj språket</string>
     <string name="language_system_default">Systemstandard</string>
+    <string name="theme_setting_label">Tema</string>
+    <string name="theme_dialog_pick_title">Välj ett tema</string>
+    <string name="theme_light">Ljust</string>
+    <string name="theme_dark">Mörkt</string>
+    <string name="theme_follow_system">Följ systemet</string>
+    <string name="theme_change_restart_warning">Appen kommer att startas om för att tillämpa temaändringen.</string>
     <string name="work_period_length_label">Arbetsperiodens längd</string>
     <string name="seconds">sekunder</string>
     <string name="rest_period_length_label">Viloperiods längd</string>
@@ -139,6 +146,5 @@
     <string name="exercise_type_crab">Krabba</string>
     <string name="exercise_type_lunge">Utfall</string>
     <string name="exercise_type_lying">Liggande</string>
-    <string name="language_dialog_pick_title">Välj språket</string>
 
 </resources>
