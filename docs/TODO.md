@@ -2,7 +2,6 @@
 
 ## Missing features / issues
 * improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
-* add mention in language picking option dialog to say traductions were automatically generated
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
