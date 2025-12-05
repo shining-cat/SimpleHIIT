@@ -45,66 +45,78 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 }
 
 // Kover configuration for multi-module coverage
-// Kover plugin applied directly to each module's build.gradle.kts
+// Shared exclusion configuration for both root and subproject reports
+fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusions() {
+    excludes {
+        // Exclude classes annotated with generated code annotations
+        annotatedBy("*Generated")
+        annotatedBy("javax.annotation.processing.Generated")
+        annotatedBy("javax.annotation.Generated")
+        annotatedBy("dagger.internal.DaggerGenerated")
 
-// Configure Kover to use debug variant by default and exclude release
+        // Exclude Dagger/Hilt generated classes
+        classes("*_Factory")
+        classes("*_Factory$*")
+        classes("*_MembersInjector")
+        classes("*Hilt_*")
+        classes("*_HiltModules")
+        classes("*_HiltModules$*")
+        classes("*_HiltModules_*")
+        classes("hilt_aggregated_deps.*")
+
+        // Exclude Room generated classes
+        classes("*.*_Impl")
+
+        // Exclude BuildConfig and R classes
+        classes("*.BuildConfig", "*.R", "*.R$*")
+
+        // Exclude DataBinding generated classes
+        classes("*.databinding.*", "*.DataBindingInfo")
+
+        // Exclude common generated packages
+        packages("dagger.hilt.internal.aggregatedroot.codegen")
+
+        // Exclude DI/Hilt module packages (at any nesting level)
+        packages("*.di")
+
+        // Exclude all models packages across all modules
+        packages("*.models")
+        classes("*DTO")
+
+        // Exclude Compose-generated classes
+        classes("*PreviewParameterProvider")
+        classes("*ComposableSingletons*")
+    }
+}
+
+// Configure Kover for root project (aggregated reports)
 kover {
     currentProject {
         instrumentation {
-            // Disable instrumentation for release test tasks
             disabledForTestTasks.add("testReleaseUnitTest")
         }
     }
 
     reports {
         filters {
-            excludes {
-                // Exclude classes annotated with generated code annotations
-                annotatedBy("*Generated")
-                annotatedBy("javax.annotation.processing.Generated")
-                annotatedBy("javax.annotation.Generated")
-                annotatedBy("dagger.internal.DaggerGenerated")
-
-                // Exclude Dagger/Hilt generated classes
-                classes("*.*_Factory")
-                classes("*.*_MembersInjector")
-                classes("*.*Hilt_*")
-                classes("*.Hilt_*")
-
-                // Test: exact class name
-                classes("fr.shiningcat.simplehiit.commonutils.AndroidVersionProviderImpl_Factory")
-
-                // Exclude Room generated classes
-                classes("*.*_Impl")
-
-                // Exclude BuildConfig and R classes
-                classes("*.BuildConfig", "*.R", "*.R$*")
-
-                // Exclude DataBinding generated classes
-                classes("*.databinding.*", "*.DataBindingInfo")
-
-                // Exclude common generated packages
-                packages("dagger.hilt.internal.aggregatedroot.codegen")
-
-                // Exclude DI/Hilt module packages (at any nesting level)
-                packages("*.di")
-
-                // Exclude all models packages across all modules
-                packages("*.models")
-                classes("*DTO")
-            }
+            applyCommonExclusions()
         }
     }
 }
 
-// Apply same configuration to all subprojects
+// Apply same configuration to all subprojects (individual module reports)
 subprojects {
     pluginManager.withPlugin("org.jetbrains.kotlinx.kover") {
         extensions.configure<kotlinx.kover.gradle.plugin.dsl.KoverProjectExtension> {
             currentProject {
                 instrumentation {
-                    // Disable Kover for release test tasks
                     disabledForTestTasks.add("testReleaseUnitTest")
+                }
+            }
+
+            reports {
+                filters {
+                    applyCommonExclusions()
                 }
             }
         }
