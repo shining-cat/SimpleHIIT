@@ -70,7 +70,8 @@ fun SettingsPickLanguageDialog(
                             .verticalScroll(rememberScrollState()),
                 ) {
                     Text(
-                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
                         text = stringResource(id = CommonResourcesR.string.language_dialog_pick_title),
                         style = MaterialTheme.typography.headlineSmall,
                         maxLines = 1,
@@ -83,15 +84,25 @@ fun SettingsPickLanguageDialog(
                             onSelected = { selectedLanguage = it },
                         )
                     }
-                    // Explanation text that changes based on selected language
                     Text(
-                        text = getRestartExplanation(selectedLanguage),
+                        textAlign = TextAlign.Center,
+                        text = getTranslationNotice(selectedLanguage),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier =
                             Modifier
                                 .fillMaxWidth()
                                 .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_2)),
+                    )
+                    Text(
+                        textAlign = TextAlign.Center,
+                        text = getRestartExplanation(selectedLanguage),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(top = dimensionResource(CommonResourcesR.dimen.spacing_1)),
                     )
                     SettingsPickLanguageDialogButtonsLayout(
                         primaryButtonLabel = stringResource(CommonResourcesR.string.ok),
@@ -183,6 +194,14 @@ private fun getLanguageDisplayName(language: AppLanguage): String =
         AppLanguage.ENGLISH -> "English"
         AppLanguage.FRENCH -> "Français"
         AppLanguage.SWEDISH -> "Svenska"
+    }
+
+private fun getTranslationNotice(language: AppLanguage): String =
+    when (language) {
+        AppLanguage.SYSTEM_DEFAULT -> "(translations have been automatically generated)"
+        AppLanguage.ENGLISH -> "(translations have been automatically generated)"
+        AppLanguage.FRENCH -> "(les traductions ont été générées automatiquement)"
+        AppLanguage.SWEDISH -> "(översättningar har genererats automatiskt)"
     }
 
 private fun getRestartExplanation(language: AppLanguage): String =

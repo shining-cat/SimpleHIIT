@@ -70,7 +70,8 @@ fun SettingsPickThemeDialog(
                             .verticalScroll(rememberScrollState()),
                 ) {
                     Text(
-                        textAlign = TextAlign.Left,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
                         text = stringResource(id = CommonResourcesR.string.theme_dialog_pick_title),
                         style = MaterialTheme.typography.headlineSmall,
                         maxLines = 1,
@@ -85,6 +86,7 @@ fun SettingsPickThemeDialog(
                     }
                     // Warning text about app restart
                     Text(
+                        textAlign = TextAlign.Center,
                         text = stringResource(id = CommonResourcesR.string.theme_change_restart_warning),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,

@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -39,6 +40,8 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  * @param selectedIndex The index of the currently selected option (0-based)
  * @param explanationText Text displayed below the options to provide additional context
  * @param onOptionSelected Callback invoked when an option is selected, providing the index of the selected option
+ * @param onSelectionChanged Optional callback invoked when the selection changes (before save), providing the new index
+ * @param onFocusChanged Optional callback invoked when focus moves to a different option, providing the new index
  * @param onCancel Callback invoked when the cancel button is clicked or dialog is dismissed
  */
 @Composable
@@ -48,6 +51,8 @@ fun RadioButtonsDialog(
     selectedIndex: Int,
     explanationText: String,
     onOptionSelected: (Int) -> Unit,
+    onSelectionChanged: ((Int) -> Unit)? = null,
+    onFocusChanged: ((Int) -> Unit)? = null,
     onCancel: () -> Unit,
 ) {
     var currentSelectedIndex by remember { mutableIntStateOf(selectedIndex) }
@@ -67,7 +72,13 @@ fun RadioButtonsDialog(
                     RadioButtonOption(
                         label = label,
                         selected = currentSelectedIndex == index,
-                        onSelected = { currentSelectedIndex = index },
+                        onSelected = {
+                            currentSelectedIndex = index
+                            onSelectionChanged?.invoke(index)
+                        },
+                        onFocused = {
+                            onFocusChanged?.invoke(index)
+                        },
                     )
                 }
 
@@ -117,14 +128,23 @@ private fun RadioButtonOption(
     label: String,
     selected: Boolean,
     onSelected: () -> Unit,
+    onFocused: (() -> Unit)? = null,
 ) {
+    val verticalPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
+    val horizontalPadding = dimensionResource(CommonResourcesR.dimen.spacing_1)
+
     Surface(
         onClick = onSelected,
         selected = selected,
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(vertical = dimensionResource(CommonResourcesR.dimen.spacing_1)),
+                .padding(vertical = verticalPadding)
+                .onFocusChanged { focusState ->
+                    if (focusState.isFocused) {
+                        onFocused?.invoke()
+                    }
+                },
         colors =
             SelectableSurfaceDefaults.colors(
                 containerColor = Color.Transparent,
@@ -142,7 +162,7 @@ private fun RadioButtonOption(
             ),
     ) {
         Row(
-            modifier = Modifier.padding(dimensionResource(CommonResourcesR.dimen.spacing_1)),
+            modifier = Modifier.padding(horizontalPadding),
         ) {
             RadioButton(
                 selected = selected,
@@ -155,7 +175,7 @@ private fun RadioButtonOption(
             Text(
                 text = label,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(start = dimensionResource(CommonResourcesR.dimen.spacing_1)),
+                modifier = Modifier.padding(start = horizontalPadding),
             )
         }
     }
