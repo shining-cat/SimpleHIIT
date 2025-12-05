@@ -2,8 +2,6 @@
 
 ## Missing features / issues
 * improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
-* focus on radio options in dialogs on tv is not visible enough
-* dialog buttons on tv are touching the edges on focus zoom effect
 * add mention in language picking option dialog to say traductions were automatically generated
 
 ## Publication
