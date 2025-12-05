@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 
@@ -18,6 +19,7 @@ sealed interface SettingsViewState {
         val users: List<User>,
         val exerciseTypes: List<ExerciseTypeSelected>,
         val currentLanguage: AppLanguage,
+        val currentTheme: AppTheme,
     ) : SettingsViewState
 
     data class Error(
@@ -62,6 +64,10 @@ sealed interface SettingsDialog {
 
     data class PickLanguage(
         val currentLanguage: AppLanguage,
+    ) : SettingsDialog
+
+    data class PickTheme(
+        val currentTheme: AppTheme,
     ) : SettingsDialog
 
     object ConfirmResetAllSettings : SettingsDialog

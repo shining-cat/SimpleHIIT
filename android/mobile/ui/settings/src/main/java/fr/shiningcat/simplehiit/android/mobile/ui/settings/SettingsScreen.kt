@@ -1,5 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
+import android.app.Activity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -27,9 +30,11 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SettingsScreen(
@@ -41,7 +46,15 @@ fun SettingsScreen(
 ) {
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
-    //
+
+    // Observe restart trigger and recreate activity when theme changes
+    val activity = LocalContext.current as? Activity
+    LaunchedEffect(Unit) {
+        viewModel.restartTrigger.collectLatest {
+            activity?.recreate()
+        }
+    }
+
     SettingsScreen(
         navigateTo = navigateTo,
         editWorkPeriodLength = { viewModel.editWorkPeriodLength() },
@@ -69,6 +82,8 @@ fun SettingsScreen(
         validateInputNameString = { viewModel.validateInputUserNameString(it) },
         editLanguage = { viewModel.editLanguage() },
         saveLanguage = { viewModel.setLanguage(it) },
+        editTheme = { viewModel.editTheme() },
+        saveTheme = { viewModel.setTheme(it) },
         resetSettings = { viewModel.resetAllSettings() },
         resetSettingsConfirmation = { viewModel.resetAllSettingsConfirmation() },
         cancelDialog = { viewModel.cancelDialog() },
@@ -106,6 +121,8 @@ private fun SettingsScreen(
     validateInputNameString: (User) -> Constants.InputError = { Constants.InputError.NONE },
     editLanguage: () -> Unit = {},
     saveLanguage: (AppLanguage) -> Unit = {},
+    editTheme: () -> Unit = {},
+    saveTheme: (AppTheme) -> Unit = {},
     resetSettings: () -> Unit = {},
     resetSettingsConfirmation: () -> Unit = {},
     cancelDialog: () -> Unit = {},
@@ -164,6 +181,8 @@ private fun SettingsScreen(
                 validateInputNameString = validateInputNameString,
                 editLanguage = editLanguage,
                 saveLanguage = saveLanguage,
+                editTheme = editTheme,
+                saveTheme = saveTheme,
                 resetSettings = resetSettings,
                 resetSettingsConfirmation = resetSettingsConfirmation,
                 cancelDialog = cancelDialog,
@@ -257,6 +276,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     users = emptyList(),
                     exerciseTypes = exerciseTypeSelectedAllTrue,
                     currentLanguage = AppLanguage.SYSTEM_DEFAULT,
+                    currentTheme = AppTheme.FOLLOW_SYSTEM,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -269,6 +289,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     users = listOfOneUser,
                     exerciseTypes = exerciseTypeSelectedAllTrue,
                     currentLanguage = AppLanguage.ENGLISH,
+                    currentTheme = AppTheme.LIGHT,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -281,6 +302,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     users = listOfTwoUser,
                     exerciseTypes = exerciseTypeSelectedAllFalse,
                     currentLanguage = AppLanguage.FRENCH,
+                    currentTheme = AppTheme.DARK,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -293,6 +315,7 @@ internal class SettingsScreenPreviewParameterProvider : PreviewParameterProvider
                     users = listOfMoreUser,
                     exerciseTypes = exerciseTypeSelectedMixed,
                     currentLanguage = AppLanguage.SWEDISH,
+                    currentTheme = AppTheme.FOLLOW_SYSTEM,
                 ),
             )
 }

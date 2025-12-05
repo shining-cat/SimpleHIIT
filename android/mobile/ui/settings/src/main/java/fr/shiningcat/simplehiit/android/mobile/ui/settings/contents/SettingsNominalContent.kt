@@ -37,6 +37,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsTo
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsUsersComponent
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -54,6 +55,7 @@ fun SettingsNominalContent(
     addUser: () -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
     editLanguage: () -> Unit = {},
+    editTheme: () -> Unit = {},
     resetSettings: () -> Unit = {},
     viewState: SettingsViewState.Nominal,
     @Suppress("UNUSED_PARAMETER")
@@ -150,6 +152,11 @@ fun SettingsNominalContent(
             value = getLanguageDisplayName(viewState.currentLanguage),
             onClick = editLanguage,
         )
+        SettingsFieldComponent(
+            label = stringResource(id = R.string.theme_setting_label),
+            value = stringResource(id = getThemeDisplayNameResId(viewState.currentTheme)),
+            onClick = editTheme,
+        )
         HorizontalDivider(
             modifier =
                 Modifier
@@ -181,6 +188,19 @@ private fun getLanguageDisplayName(language: AppLanguage): String =
         AppLanguage.ENGLISH -> "English"
         AppLanguage.FRENCH -> "Français"
         AppLanguage.SWEDISH -> "Svenska"
+    }
+
+/**
+ * Returns the string resource ID for the display name of the given theme.
+ *
+ * @param theme The theme to get the display name for
+ * @return The string resource ID for the theme's display name
+ */
+private fun getThemeDisplayNameResId(theme: AppTheme): Int =
+    when (theme) {
+        AppTheme.LIGHT -> R.string.theme_light
+        AppTheme.DARK -> R.string.theme_dark
+        AppTheme.FOLLOW_SYSTEM -> R.string.theme_follow_system
     }
 
 // Previews
@@ -264,6 +284,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     users = emptyList(),
                     exerciseTypes = exerciseTypeSelectedAllTrue,
                     currentLanguage = AppLanguage.SYSTEM_DEFAULT,
+                    currentTheme = AppTheme.FOLLOW_SYSTEM,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -276,6 +297,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     users = listOfOneUser,
                     exerciseTypes = exerciseTypeSelectedAllTrue,
                     currentLanguage = AppLanguage.ENGLISH,
+                    currentTheme = AppTheme.LIGHT,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -288,6 +310,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     users = listOfTwoUser,
                     exerciseTypes = exerciseTypeSelectedAllFalse,
                     currentLanguage = AppLanguage.FRENCH,
+                    currentTheme = AppTheme.DARK,
                 ),
                 SettingsViewState.Nominal(
                     workPeriodLengthAsSeconds = "15",
@@ -300,6 +323,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     users = listOfMoreUser,
                     exerciseTypes = exerciseTypeSelectedMixed,
                     currentLanguage = AppLanguage.SWEDISH,
+                    currentTheme = AppTheme.FOLLOW_SYSTEM,
                 ),
             )
 }

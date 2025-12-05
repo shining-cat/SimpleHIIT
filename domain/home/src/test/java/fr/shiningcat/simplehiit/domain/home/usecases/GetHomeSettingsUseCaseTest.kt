@@ -292,6 +292,79 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
         }
 
     @Test
+    fun `calls repo and return success with empty user list`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
+            coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
+            //
+            val emptyUsersList = Output.Success(emptyList<User>())
+            val usersFlow = MutableSharedFlow<Output<List<User>>>()
+            coEvery { mockUsersRepository.getUsers() } answers { usersFlow }
+            //
+            val homeSettingsFlowAsList = mutableListOf<Output<HomeSettings>>()
+            val collectJob =
+                launch {
+                    testedUseCase.execute().toList(homeSettingsFlowAsList)
+                }
+            //
+            settingsFlow.emit(testSettingsValue)
+            usersFlow.emit(emptyUsersList)
+            //
+            assertEquals(1, homeSettingsFlowAsList.size)
+            val homeSettingsResult = homeSettingsFlowAsList[0]
+            val expectedResult =
+                Output.Success(
+                    HomeSettings(
+                        numberCumulatedCycles = testSettingsValue.numberCumulatedCycles,
+                        cycleLengthMs = 123165L,
+                        users = emptyList(),
+                        warning = null,
+                    ),
+                )
+            assertEquals(expectedResult, homeSettingsResult)
+            //
+            collectJob.cancel()
+        }
+
+    @Test
+    fun `calls repo with single selected user and return success`() =
+        runTest(UnconfinedTestDispatcher()) {
+            val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
+            coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
+            //
+            val user1 = User(id = 123L, name = "user 1 name", selected = true)
+            val usersList = Output.Success(listOf(user1))
+            val usersFlow = MutableSharedFlow<Output<List<User>>>()
+            coEvery { mockUsersRepository.getUsers() } answers { usersFlow }
+            //
+            val homeSettingsFlowAsList = mutableListOf<Output<HomeSettings>>()
+            val collectJob =
+                launch {
+                    testedUseCase.execute().toList(homeSettingsFlowAsList)
+                }
+            //
+            settingsFlow.emit(testSettingsValue)
+            usersFlow.emit(usersList)
+            //
+            coVerify(exactly = 0) { mockUsersRepository.updateUser(any()) }
+            //
+            assertEquals(1, homeSettingsFlowAsList.size)
+            val homeSettingsResult = homeSettingsFlowAsList[0]
+            val expectedResult =
+                Output.Success(
+                    HomeSettings(
+                        numberCumulatedCycles = testSettingsValue.numberCumulatedCycles,
+                        cycleLengthMs = 123165L,
+                        users = usersList.result,
+                        warning = null,
+                    ),
+                )
+            assertEquals(expectedResult, homeSettingsResult)
+            //
+            collectJob.cancel()
+        }
+
+    @Test
     fun `calls repo and toggle single unselected user to selected if it is not then return success`() =
         runTest(UnconfinedTestDispatcher()) {
             val settingsValue =
