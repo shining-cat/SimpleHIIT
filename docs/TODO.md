@@ -28,8 +28,6 @@
 * watch? check [Google sample for Watch](https://github.com/android/wear-os-samples/tree/main/WearVerifyRemoteApp)
 
 ## Miscellaneous / nice to have
-* we follow system dark/light theme switch, maybe we could add a choice in settings to let user
-  decide? (follow system (would be default), force dark, force light)
 * user object could expose the timestamp of their last session so we could sort them on this on the home for convenience
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
