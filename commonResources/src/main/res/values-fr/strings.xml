@@ -47,7 +47,14 @@
     <!-- SETTINGS PAGE -->
     <string name="settings_page_title">Paramètres</string>
     <string name="language_setting_label">Langue</string>
+    <string name="language_dialog_pick_title">Choisissez une langue</string>
     <string name="language_system_default">Par défaut du système</string>
+    <string name="theme_setting_label">Thème</string>
+    <string name="theme_dialog_pick_title">Choisissez un thème</string>
+    <string name="theme_light">Clair</string>
+    <string name="theme_dark">Sombre</string>
+    <string name="theme_follow_system">Suivre le système</string>
+    <string name="theme_change_restart_warning">L\'application redémarrera pour appliquer le changement de thème.</string>
     <string name="work_period_length_label">Durée de la période de travail</string>
     <string name="seconds">secondes</string>
     <string name="rest_period_length_label">Durée de la période de repos</string>
@@ -139,6 +146,5 @@
     <string name="exercise_type_crab">Crabe</string>
     <string name="exercise_type_lunge">Fente</string>
     <string name="exercise_type_lying">Allongé</string>
-    <string name="language_dialog_pick_title">Choisissez une langue</string>
 
 </resources>

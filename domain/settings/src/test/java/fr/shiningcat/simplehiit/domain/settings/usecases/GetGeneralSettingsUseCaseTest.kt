@@ -103,6 +103,7 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
                         users = usersList1.result,
                         exerciseTypes = settingsValue1.selectedExercisesTypes,
                         currentLanguage = AppLanguage.SYSTEM_DEFAULT,
+                        currentTheme = settingsValue1.appTheme,
                     ),
                 )
             assertEquals(expectedResult1, homeSettingsResult1)
@@ -125,6 +126,7 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
                         users = usersList1.result,
                         exerciseTypes = settingsValue2.selectedExercisesTypes,
                         currentLanguage = AppLanguage.ENGLISH,
+                        currentTheme = settingsValue2.appTheme,
                     ),
                 )
             assertEquals(expectedResult2, homeSettingsResult2)
@@ -148,6 +150,7 @@ internal class GetGeneralSettingsUseCaseTest : AbstractMockkTest() {
                         users = usersList2.result,
                         exerciseTypes = settingsValue3.selectedExercisesTypes,
                         currentLanguage = AppLanguage.FRENCH,
+                        currentTheme = settingsValue3.appTheme,
                     ),
                 )
             assertEquals(expectedResult3, homeSettingsResult3)

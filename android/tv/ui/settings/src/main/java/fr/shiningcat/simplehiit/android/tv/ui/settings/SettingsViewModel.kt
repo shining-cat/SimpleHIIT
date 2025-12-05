@@ -10,8 +10,10 @@ import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -41,6 +43,10 @@ class SettingsViewModel
         // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
+
+        // One-time event for triggering activity restart (e.g., after theme change)
+        private val _restartTrigger = MutableSharedFlow<Unit>(replay = 0)
+        val restartTrigger = _restartTrigger.asSharedFlow()
 
         init {
             hiitLogger.d("SettingsViewModel", "initialized with reactive state management")
@@ -362,6 +368,34 @@ class SettingsViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 _dialogViewState.emit(SettingsDialog.None)
                 settingsInteractor.setAppLanguage(language)
+            }
+        }
+
+        fun editTheme() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    _dialogViewState.emit(SettingsDialog.PickTheme(currentViewState.currentTheme))
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editTheme::current state does not allow this now",
+                )
+            }
+        }
+
+        /**
+         * Sets the app theme and triggers an activity restart to apply the change.
+         * Unlike language changes which are handled automatically by Android's LocaleManager,
+         * theme changes require manual activity recreation.
+         */
+        fun setTheme(theme: fr.shiningcat.simplehiit.domain.common.models.AppTheme) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+                settingsInteractor.setAppTheme(theme)
+                // Trigger activity restart to apply the new theme
+                _restartTrigger.emit(Unit)
             }
         }
 

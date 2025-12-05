@@ -26,6 +26,7 @@ dependencies {
     implementation(projects.android.mobile.ui.settings)
     implementation(projects.android.mobile.ui.statistics)
     implementation(projects.domain.common)
+    implementation(projects.domain.settings)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.data)

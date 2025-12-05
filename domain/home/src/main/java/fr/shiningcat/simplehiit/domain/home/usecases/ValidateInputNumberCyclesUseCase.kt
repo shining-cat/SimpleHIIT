@@ -9,6 +9,17 @@ class ValidateInputNumberCyclesUseCase
     constructor(
         private val hiitLogger: HiitLogger,
     ) {
-        fun execute(input: String): Constants.InputError =
-            if (input.length < 3 && input.toIntOrNull() is Int) Constants.InputError.NONE else Constants.InputError.WRONG_FORMAT
+        /**
+         * Validates the input for number of cycles.
+         * @param input The input string to validate
+         * @return InputError.NONE if valid (1-2 digits, non-negative integer), otherwise InputError.WRONG_FORMAT
+         */
+        fun execute(input: String): Constants.InputError {
+            val parsedValue = input.toIntOrNull()
+            return if (input.length < 3 && parsedValue != null && parsedValue >= 0) {
+                Constants.InputError.NONE
+            } else {
+                Constants.InputError.WRONG_FORMAT
+            }
+        }
     }

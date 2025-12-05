@@ -11,4 +11,5 @@ data class GeneralSettings(
     val users: List<User>,
     val exerciseTypes: List<ExerciseTypeSelected>,
     val currentLanguage: AppLanguage,
+    val currentTheme: AppTheme,
 )

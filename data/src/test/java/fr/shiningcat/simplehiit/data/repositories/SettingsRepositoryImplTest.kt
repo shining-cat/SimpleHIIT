@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
@@ -190,6 +191,24 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                     testValue,
                 )
             }
+        }
+
+    @Test
+    fun `setAppTheme calls HiitDataStoreManager setAppTheme with correct value `() =
+        runTest {
+            val settingsRepository =
+                SettingsRepositoryImpl(
+                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
+                )
+            //
+            val testValue = AppTheme.DARK
+            coEvery { mockSimpleHiitDataStoreManager.setAppTheme(any()) } just Runs
+            //
+            settingsRepository.setAppTheme(testValue)
+            //
+            coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.setAppTheme(testValue) }
         }
 
     @Test

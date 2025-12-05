@@ -3,6 +3,8 @@
 ## Missing features / issues
 * home screen's cycle count selector in landscape and large fonts doesn't show buttons!
 * improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
+* focus on radio options in dialogs on tv is not visible enough
+* dialog buttons on tv are touching the edges on focus zoom effect
 
 ## Publication
 * Find how to publish: Fdroid, or github, or home?
