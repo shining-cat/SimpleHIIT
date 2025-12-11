@@ -16,7 +16,7 @@
 * improve ui arrangement bucketting: very large displays in portrait are rendered as horizontal and it doesn't look very good
 
 ## CI/Github actions
-* automation to warn about deprecated objects use running regularly on CI?
+* ~~automation to warn about deprecated objects use running regularly on CI?~~ ✅ **DONE** - See [DEPRECATION_CHECKER.md](DEPRECATION_CHECKER.md) for details
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * move the whole thing to KMP and build other platforms
