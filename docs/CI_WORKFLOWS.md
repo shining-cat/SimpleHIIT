@@ -54,11 +54,13 @@ When all Android Verification checks pass, the PR will be automatically merged a
 
 **Trigger:** Pushes to `master` branch or manual dispatch
 
-**Purpose:** Generates and commits updated module dependency graph
+**Purpose:** Generates and creates a PR with updated module dependency graph
 
 ### What It Does
 
-Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png` and commits it back to the repository if changed.
+Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png` and automatically creates a pull request if changes are detected.
+
+The PR is automatically labeled with `HEX merge and delete`, which triggers the auto-merge workflow to merge it once all required status checks pass. The temporary branch is automatically deleted after merging.
 
 The generated graph is also uploaded as an artifact with 90-day retention.
 
