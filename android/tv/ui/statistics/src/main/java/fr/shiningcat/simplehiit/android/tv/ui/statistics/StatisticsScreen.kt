@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -21,7 +22,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel(),
 ) {
@@ -45,7 +46,7 @@ fun StatisticsScreen(
 
 @Composable
 private fun StatisticsScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
     openUserPicker: () -> Unit = {},
     selectUser: (User) -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},

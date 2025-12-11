@@ -24,7 +24,7 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
 fun NavigationSideBar(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     currentDestination: Screen,
     showStatisticsButton: Boolean,
 ) {
@@ -46,14 +46,14 @@ fun NavigationSideBar(
         Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_4)))
 
         SideBarItem(
-            onClick = { navigateTo(Screen.Home.route) },
+            onClick = { navigateTo(Screen.Home) },
             icon = CommonResourcesR.drawable.home,
             label = CommonResourcesR.string.home_page_title,
             selected = currentDestination == Screen.Home,
         )
 
         SideBarItem(
-            onClick = { navigateTo(Screen.Settings.route) },
+            onClick = { navigateTo(Screen.Settings) },
             icon = CommonResourcesR.drawable.cog,
             label = CommonResourcesR.string.settings_button_content_label,
             selected = currentDestination == Screen.Settings,
@@ -61,7 +61,7 @@ fun NavigationSideBar(
 
         if (showStatisticsButton) {
             SideBarItem(
-                onClick = { navigateTo(Screen.Statistics.route) },
+                onClick = { navigateTo(Screen.Statistics) },
                 icon = CommonResourcesR.drawable.bar_chart,
                 label = CommonResourcesR.string.statistics_button_content_label,
                 selected = currentDestination == Screen.Statistics,

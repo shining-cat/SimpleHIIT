@@ -26,7 +26,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 @ExperimentalTvMaterial3Api
 @Composable
 fun HomeScreen(
-    navigateTo: (String) -> Unit,
+    navigateTo: (Screen) -> Unit,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
     viewModel: HomeViewModel = hiltViewModel(),
@@ -51,7 +51,7 @@ fun HomeScreen(
 @ExperimentalTvMaterial3Api
 @Composable
 private fun HomeScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
     decreaseNumberOfCycles: () -> Unit = {},

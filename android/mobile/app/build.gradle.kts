@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.simplehiit.android.application.handheld)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.application.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
     alias(libs.plugins.modules.graph.assert)
@@ -35,7 +36,9 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.adaptive)
     implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.activity.compose)
 }
 

@@ -1,13 +1,22 @@
 package fr.shiningcat.simplehiit.android.common
 
-sealed class Screen(
-    val route: String,
-) {
-    object Home : Screen(route = "home")
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
 
-    object Settings : Screen(route = "settings")
+/**
+ * Navigation destinations for the SimpleHIIT app.
+ * Uses Navigation 3's type-safe NavKey system with Kotlin serialization.
+ */
+sealed interface Screen : NavKey {
+    @Serializable
+    data object Home : Screen
 
-    object Statistics : Screen(route = "statistics")
+    @Serializable
+    data object Settings : Screen
 
-    object Session : Screen(route = "session")
+    @Serializable
+    data object Statistics : Screen
+
+    @Serializable
+    data object Session : Screen
 }

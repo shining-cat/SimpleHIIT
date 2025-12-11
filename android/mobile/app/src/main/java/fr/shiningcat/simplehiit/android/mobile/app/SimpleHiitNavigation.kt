@@ -1,9 +1,11 @@
 package fr.shiningcat.simplehiit.android.mobile.app
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import fr.shiningcat.simplehiit.android.common.NavigationViewModel
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeScreen
@@ -16,52 +18,42 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 fun SimpleHiitNavigation(
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
+    navigationViewModel: NavigationViewModel = hiltViewModel(),
 ) {
-    val navController = rememberNavController()
-
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.route,
-    ) {
-        composable(route = Screen.Home.route) {
-            HomeScreen(
-                navigateTo = {
-                    hiitLogger.d("SimpleHiitNavigation", "HomeScreen::navigateTo::$it")
-                    navController.navigate(it)
-                },
-                uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger,
-            )
-        }
-        composable(route = Screen.Settings.route) {
-            SettingsScreen(
-                navigateTo = {
-                    hiitLogger.d("SimpleHiitNavigation", "SettingsScreen::navigateTo::$it")
-                    navController.navigate(it)
-                },
-                uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger,
-            )
-        }
-        composable(route = Screen.Statistics.route) {
-            StatisticsScreen(
-                navigateTo = {
-                    hiitLogger.d("SimpleHiitNavigation", "StatisticsScreen::navigateTo::$it")
-                    navController.navigate(it)
-                },
-                uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger,
-            )
-        }
-        composable(route = Screen.Session.route) {
-            SessionScreen(
-                navigateUp = {
-                    hiitLogger.d("SimpleHiitNavigation", "SessionScreen::navigateTo::$it")
-                    navController.navigateUp()
-                },
-                uiArrangement = uiArrangement,
-                hiitLogger = hiitLogger,
-            )
-        }
-    }
+    NavDisplay(
+        backStack = navigationViewModel.backStack,
+        onBack = { navigationViewModel.goBack() },
+        entryDecorators = listOf(rememberSaveableStateHolderNavEntryDecorator()),
+        entryProvider =
+            entryProvider {
+                entry<Screen.Home> {
+                    HomeScreen(
+                        navigateTo = navigationViewModel::navigateTo,
+                        uiArrangement = uiArrangement,
+                        hiitLogger = hiitLogger,
+                    )
+                }
+                entry<Screen.Settings> {
+                    SettingsScreen(
+                        navigateTo = navigationViewModel::navigateTo,
+                        uiArrangement = uiArrangement,
+                        hiitLogger = hiitLogger,
+                    )
+                }
+                entry<Screen.Statistics> {
+                    StatisticsScreen(
+                        navigateTo = navigationViewModel::navigateTo,
+                        uiArrangement = uiArrangement,
+                        hiitLogger = hiitLogger,
+                    )
+                }
+                entry<Screen.Session> {
+                    SessionScreen(
+                        navigateUp = navigationViewModel::goBack,
+                        uiArrangement = uiArrangement,
+                        hiitLogger = hiitLogger,
+                    )
+                }
+            },
+    )
 }

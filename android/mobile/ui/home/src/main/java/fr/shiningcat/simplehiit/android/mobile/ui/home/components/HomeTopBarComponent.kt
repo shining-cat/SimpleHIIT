@@ -24,6 +24,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shiningcat.simplehiit.commonresources.R
@@ -31,7 +32,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeTopBarComponent(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     screenViewState: HomeViewState,
 ) {
     TopAppBar(
@@ -45,7 +46,7 @@ fun HomeTopBarComponent(
             )
         },
         actions = {
-            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) }) {
+            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.cog),
                     contentDescription = stringResource(id = R.string.settings_button_content_label),
@@ -53,7 +54,7 @@ fun HomeTopBarComponent(
                 )
             }
             if (screenViewState is HomeViewState.Nominal) {
-                IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Statistics.route) }) {
+                IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Statistics) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
                         contentDescription = stringResource(id = R.string.statistics_button_content_label),

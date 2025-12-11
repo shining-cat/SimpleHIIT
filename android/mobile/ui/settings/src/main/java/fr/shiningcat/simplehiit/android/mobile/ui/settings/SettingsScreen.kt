@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,7 +10,6 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -20,6 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SettingsScreen(
-    navigateTo: (String) -> Unit,
+    navigateTo: (Screen) -> Unit,
     uiArrangement: UiArrangement,
     viewModel: SettingsViewModel = hiltViewModel(),
     @Suppress("UNUSED_PARAMETER")
@@ -48,7 +48,7 @@ fun SettingsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
 
     // Observe restart trigger and recreate activity when theme changes
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
     LaunchedEffect(Unit) {
         viewModel.restartTrigger.collectLatest {
             activity?.recreate()
@@ -95,7 +95,7 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
     editWorkPeriodLength: () -> Unit = {},
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
@@ -150,7 +150,7 @@ private fun SettingsScreen(
                     icon = R.drawable.arrow_back,
                     label = R.string.settings_page_title,
                     onClick = {
-                        navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home.route)
+                        navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home)
                         true
                     },
                 )

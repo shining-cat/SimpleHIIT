@@ -28,7 +28,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 @Composable
 fun HomeContentHolder(
     modifier: Modifier = Modifier,
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     resetWholeApp: () -> Unit = {},
     resetWholeAppDeleteEverything: () -> Unit = {},
     decreaseNumberOfCycles: () -> Unit = {},
@@ -42,20 +42,21 @@ fun HomeContentHolder(
 ) {
     Box(modifier = modifier) {
         when (screenViewState) {
-            is HomeViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
-
-            is HomeViewState.Error ->
+            is HomeViewState.Loading -> {
+                BasicLoading(modifier = Modifier.fillMaxSize())
+            }
+            is HomeViewState.Error -> {
                 HomeErrorContent(
                     errorCode = screenViewState.errorCode,
                     resetWholeApp = resetWholeApp,
                 )
-
-            is HomeViewState.MissingUsers ->
+            }
+            is HomeViewState.MissingUsers -> {
                 HomeMissingUsersContent(
-                    navigateToSettings = { navigateTo(Screen.Settings.route) },
+                    navigateToSettings = { navigateTo(Screen.Settings) },
                 )
-
-            is HomeViewState.Nominal ->
+            }
+            is HomeViewState.Nominal -> {
                 HomeNominalContent(
                     decreaseNumberOfCycles = decreaseNumberOfCycles,
                     increaseNumberOfCycles = increaseNumberOfCycles,
@@ -65,22 +66,23 @@ fun HomeContentHolder(
                     uiArrangement = uiArrangement,
                     users = screenViewState.users,
                     toggleSelectedUser = toggleSelectedUser,
-                    navigateToSession = { navigateTo(Screen.Session.route) },
+                    navigateToSession = { navigateTo(Screen.Session) },
                     warning = screenViewState.warning,
                     hiitLogger = hiitLogger,
                 )
+            }
         }
     }
     // Dialogs are typically drawn on top of everything, so they don't need the main content modifier
     when (dialogViewState) {
-        is HomeDialog.ConfirmWholeReset ->
+        is HomeDialog.ConfirmWholeReset -> {
             WarningDialog(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppDeleteEverything,
                 dismissAction = cancelDialog,
             )
-
+        }
         HomeDialog.None -> {} // do nothing
     }
 }
