@@ -10,6 +10,9 @@ jobs:
   update-dependency-graph:
     name: Update Module Dependencies Graph
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Fetch Sources
