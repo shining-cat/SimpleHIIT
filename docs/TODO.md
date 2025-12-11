@@ -10,12 +10,7 @@
 * add tests on viewmodels after having tried to make them lighter
 * use new [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64) to review composables and eventually optimise them further (also gradle plugin)
 * screenshot tests if they can run on github for free
-
-## Missing features / issues
 * improve ui arrangement bucketing: very large displays in portrait are rendered as horizontal and it doesn't look very good
-
-## CI/Github actions
-* ~~automation to warn about deprecated objects use running regularly on CI?~~ ✅ **DONE** - See [DEPRECATION_CHECKER.md](DEPRECATION_CHECKER.md) for details
 
 ## Form factors (phone - AndroidTV - smartWatch)
 * move the whole thing to KMP and build other platforms

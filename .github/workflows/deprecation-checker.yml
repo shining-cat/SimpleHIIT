@@ -102,15 +102,21 @@ jobs:
           # Create a summary report
           REPORT_FILE="build-reports/deprecation-report.md"
           
+          # Get counts from previous step outputs
+          BUILD_COUNT="${{ steps.build.outputs.deprecation_count }}"
+          LINT_COUNT="${{ steps.lint.outputs.lint_deprecation_count }}"
+          
+          # Calculate total (default to 0 if empty)
+          TOTAL_COUNT=$((${BUILD_COUNT:-0} + ${LINT_COUNT:-0}))
+          
           echo "# Deprecation Report - $(date +'%Y-%m-%d')" > $REPORT_FILE
           echo "" >> $REPORT_FILE
           echo "## Summary" >> $REPORT_FILE
           echo "" >> $REPORT_FILE
-          echo "- Build Deprecations: ${{ steps.build.outputs.deprecation_count }}" >> $REPORT_FILE
-          echo "- Lint Deprecations: ${{ steps.lint.outputs.lint_deprecation_count }}" >> $REPORT_FILE
+          echo "- Build Deprecations: $BUILD_COUNT" >> $REPORT_FILE
+          echo "- Lint Deprecations: $LINT_COUNT" >> $REPORT_FILE
           echo "" >> $REPORT_FILE
           
-          TOTAL_COUNT=$((${DEPRECATION_COUNT:-0} + ${LINT_DEPRECATION_COUNT:-0}))
           echo "total_count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
           
           if [ $TOTAL_COUNT -gt 0 ]; then
