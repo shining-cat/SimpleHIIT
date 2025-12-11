@@ -31,7 +31,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun StatisticsScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
     viewModel: StatisticsViewModel = hiltViewModel(),
@@ -56,7 +56,7 @@ fun StatisticsScreen(
 
 @Composable
 private fun StatisticsScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     selectUser: (User) -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
     deleteAllSessionsForUserConfirm: (User) -> Unit = {},
@@ -97,7 +97,7 @@ private fun StatisticsScreen(
                 StatisticsTopAppBar(
                     // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     navigateUp = {
-                        navigateTo(Screen.Home.route)
+                        navigateTo(Screen.Home)
                         true
                     },
                     allUsers = allUsers,

@@ -7,6 +7,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
@@ -20,7 +21,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun HomeContentHolder(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     resetWholeApp: () -> Unit = {},
     resetWholeAppDeleteEverything: () -> Unit = {},
     decreaseNumberOfCycles: () -> Unit = {},
@@ -32,20 +33,21 @@ fun HomeContentHolder(
     hiitLogger: HiitLogger? = null,
 ) {
     when (screenViewState) {
-        is HomeViewState.Loading -> BasicLoading()
-
-        is HomeViewState.Error ->
+        is HomeViewState.Loading -> {
+            BasicLoading()
+        }
+        is HomeViewState.Error -> {
             HomeErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp,
             )
-
-        is HomeViewState.MissingUsers ->
+        }
+        is HomeViewState.MissingUsers -> {
             HomeMissingUsersContent(
-                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings.route) },
+                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings) },
             )
-
-        is HomeViewState.Nominal ->
+        }
+        is HomeViewState.Nominal -> {
             HomeNominalContent(
                 decreaseNumberOfCycles = decreaseNumberOfCycles,
                 increaseNumberOfCycles = increaseNumberOfCycles,
@@ -54,20 +56,21 @@ fun HomeContentHolder(
                 totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
                 users = screenViewState.users,
                 toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session.route) },
+                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session) },
                 warning = screenViewState.warning,
                 hiitLogger = hiitLogger,
             )
+        }
     }
     when (dialogViewState) {
-        is HomeDialog.ConfirmWholeReset ->
+        is HomeDialog.ConfirmWholeReset -> {
             DialogWarning(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppDeleteEverything,
                 dismissAction = cancelDialog,
             )
-
+        }
         HomeDialog.None -> {} // do nothing
     }
 }

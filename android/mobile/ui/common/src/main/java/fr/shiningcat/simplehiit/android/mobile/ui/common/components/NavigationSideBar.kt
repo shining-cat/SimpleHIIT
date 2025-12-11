@@ -37,7 +37,7 @@ import fr.shiningcat.simplehiit.commonresources.R
  */
 @Composable
 fun NavigationSideBar(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     currentDestination: Screen,
     showStatisticsButton: Boolean,
 ) {
@@ -50,20 +50,20 @@ fun NavigationSideBar(
         windowInsets = NavigationRailDefaults.windowInsets,
     ) {
         SideBarItem(
-            onClick = { navigateTo(Screen.Home.route) },
+            onClick = { navigateTo(Screen.Home) },
             icon = R.drawable.home,
             label = R.string.home_page_title,
             selected = currentDestination == Screen.Home,
         )
         SideBarItem(
-            onClick = { navigateTo(Screen.Settings.route) },
+            onClick = { navigateTo(Screen.Settings) },
             icon = R.drawable.cog,
             label = R.string.settings_button_content_label,
             selected = currentDestination == Screen.Settings,
         )
         if (showStatisticsButton) {
             SideBarItem(
-                onClick = { navigateTo(Screen.Statistics.route) },
+                onClick = { navigateTo(Screen.Statistics) },
                 icon = R.drawable.bar_chart,
                 label = R.string.statistics_button_content_label,
                 selected = currentDestination == Screen.Statistics,

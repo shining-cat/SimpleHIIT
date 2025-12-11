@@ -17,6 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowHeightSizeClass
 import androidx.window.core.layout.WindowWidthSizeClass
+import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInsets
@@ -28,7 +29,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 
 @Composable
 fun HomeScreen(
-    navigateTo: (String) -> Unit,
+    navigateTo: (Screen) -> Unit,
     uiArrangement: UiArrangement,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
@@ -54,7 +55,7 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
     onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
     decreaseNumberOfCycles: () -> Unit = {},

@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.simplehiit.android.application.tv)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.application.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
 
@@ -34,7 +35,9 @@ dependencies {
     testImplementation(projects.testUtils)
     //
     implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
 }

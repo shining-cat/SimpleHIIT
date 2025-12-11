@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.android.library.compose)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.simplehiit.testing)
 }
 
@@ -18,4 +19,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.glide.core)
     implementation(libs.glide.compose)
+    // Navigation 3 dependencies for Screen.kt NavKey interface
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.kotlinx.serialization.core)
 }

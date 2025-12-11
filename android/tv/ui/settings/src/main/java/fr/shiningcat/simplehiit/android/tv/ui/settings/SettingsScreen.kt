@@ -1,13 +1,12 @@
 package fr.shiningcat.simplehiit.android.tv.ui.settings
 
-import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,7 +30,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun SettingsScreen(
-    navigateTo: (String) -> Unit,
+    navigateTo: (Screen) -> Unit,
     viewModel: SettingsViewModel = hiltViewModel(),
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
@@ -40,7 +39,7 @@ fun SettingsScreen(
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value
 
     // Observe restart trigger and recreate activity when theme changes
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
     LaunchedEffect(Unit) {
         viewModel.restartTrigger.collectLatest {
             activity?.recreate()
@@ -87,7 +86,7 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsScreen(
-    navigateTo: (String) -> Unit = {},
+    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
     editWorkPeriodLength: () -> Unit = {},
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
