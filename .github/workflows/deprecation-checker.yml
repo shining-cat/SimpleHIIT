@@ -56,6 +56,15 @@ jobs:
           # Remove duplicates and sort
           sort -u build-reports/deprecations.txt -o build-reports/deprecations.txt
           
+          # Simplify file paths - remove absolute path prefix and group by file
+          if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
+            # Get the workspace directory
+            WORKSPACE_DIR=$(pwd)
+            # Replace absolute paths with relative paths from workspace root
+            sed -i.bak "s|$WORKSPACE_DIR/||g" build-reports/deprecations.txt
+            rm -f build-reports/deprecations.txt.bak
+          fi
+          
           # Count deprecation warnings
           DEPRECATION_COUNT=$(wc -l < build-reports/deprecations.txt | tr -d ' ')
           echo "Found $DEPRECATION_COUNT deprecation warnings"
@@ -111,10 +120,7 @@ jobs:
           
           echo "# Deprecation Report - $(date +'%Y-%m-%d')" > $REPORT_FILE
           echo "" >> $REPORT_FILE
-          echo "## Summary" >> $REPORT_FILE
-          echo "" >> $REPORT_FILE
-          echo "- Build Deprecations: $BUILD_COUNT" >> $REPORT_FILE
-          echo "- Lint Deprecations: $LINT_COUNT" >> $REPORT_FILE
+          echo "**Total deprecations found: $TOTAL_COUNT**" >> $REPORT_FILE
           echo "" >> $REPORT_FILE
           
           echo "total_count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
@@ -122,51 +128,51 @@ jobs:
           if [ $TOTAL_COUNT -gt 0 ]; then
             echo "has_deprecations=true" >> $GITHUB_OUTPUT
             
-            echo "## Build Deprecation Warnings" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
+            # Build Deprecation Warnings grouped by file
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-              echo '```' >> $REPORT_FILE
-              cat build-reports/deprecations.txt >> $REPORT_FILE
-              echo '```' >> $REPORT_FILE
-            else
-              echo "No build deprecation warnings found." >> $REPORT_FILE
+              echo "## Build Deprecation Warnings ($BUILD_COUNT)" >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
+              
+              # Group by file using awk
+              awk -F':' '
+              {
+                file = $1
+                # Extract just the file path (before line number)
+                if (file != prev_file) {
+                  if (prev_file != "") print ""
+                  print "### " file
+                  print ""
+                  prev_file = file
+                }
+                # Print the warning message (remove file path from line)
+                sub(/^[^:]+:/, "", $0)
+                print "- " $0
+              }' build-reports/deprecations.txt >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
             fi
-            echo "" >> $REPORT_FILE
             
-            echo "## Lint Deprecation Warnings" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
+            # Lint Deprecation Warnings
             if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
+              echo "## Lint Deprecation Warnings ($LINT_COUNT)" >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               head -100 build-reports/lint-deprecations.txt >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
-            else
-              echo "No lint deprecation warnings found." >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
             fi
-            echo "" >> $REPORT_FILE
             
-            echo "## Outdated Dependencies" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
+            # Outdated Dependencies
             if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
+              echo "## Outdated Dependencies" >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               cat build-reports/outdated-deps.txt >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
-            else
-              echo "All dependencies are up to date." >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
             fi
-            echo "" >> $REPORT_FILE
-            
-            echo "## Action Items" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
-            echo "- [ ] Review and address build deprecation warnings" >> $REPORT_FILE
-            echo "- [ ] Review and address lint deprecation warnings" >> $REPORT_FILE
-            echo "- [ ] Consider updating outdated dependencies" >> $REPORT_FILE
-            echo "- [ ] Update code to use non-deprecated APIs" >> $REPORT_FILE
-            echo "- [ ] Test thoroughly after making changes" >> $REPORT_FILE
           else
             echo "has_deprecations=false" >> $GITHUB_OUTPUT
-            echo "## Result" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
-            echo "✅ No deprecation warnings found!" >> $REPORT_FILE
+            echo "✅ **No deprecation warnings found!**" >> $REPORT_FILE
           fi
           
           # Store report content for issue creation
