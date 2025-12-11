@@ -6,6 +6,7 @@ This document describes all GitHub Actions workflows used in the SimpleHIIT proj
 - [Android Verification](#android-verification)
 - [Auto Merge and Delete](#auto-merge-and-delete)
 - [Update Module Dependency Graph](#update-module-dependency-graph)
+- [Monthly Deprecation Check](#monthly-deprecation-check)
 
 ---
 
@@ -63,6 +64,22 @@ Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependen
 The PR is automatically labeled with `HEX merge and delete`, which triggers the auto-merge workflow to merge it once all required status checks pass. The temporary branch is automatically deleted after merging.
 
 The generated graph is also uploaded as an artifact with 90-day retention.
+
+---
+
+## Monthly Deprecation Check
+
+**Workflow File:** `.github/workflows/deprecation-check.yml`
+
+**Trigger:** Monthly on the 1st at 9:00 AM UTC, or manual dispatch
+
+**Purpose:** Scans codebase for deprecation warnings and outdated dependencies
+
+### What It Does
+
+Performs build deprecation checks, Android Lint checks, and dependency updates analysis. Automatically creates or updates a GitHub issue when deprecations are found, with detailed reports uploaded as artifacts (90-day retention).
+
+See [DEPRECATION_CHECKER.md](DEPRECATION_CHECKER.md) for full documentation.
 
 ---
 
