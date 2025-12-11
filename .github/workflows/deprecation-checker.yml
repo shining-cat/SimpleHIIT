@@ -133,20 +133,38 @@ jobs:
               echo "## Build Deprecation Warnings ($BUILD_COUNT)" >> $REPORT_FILE
               echo "" >> $REPORT_FILE
               
-              # Group by file using awk
-              awk -F':' '
+              # Process and group deprecations by file
+              # Format is typically: "w: file:///path/to/file.kt:42:5: warning message"
+              # or "path/to/file.kt:42: warning message"
+              awk '
               {
-                file = $1
-                # Extract just the file path (before line number)
-                if (file != prev_file) {
-                  if (prev_file != "") print ""
-                  print "### " file
-                  print ""
-                  prev_file = file
+                line = $0
+                
+                # Remove "w: file://" prefix if present
+                gsub(/^w: file:\/\//, "", line)
+                
+                # Extract file path (everything before the line number)
+                # Match pattern: filepath:number: or filepath:number:number:
+                if (match(line, /^([^:]+):([0-9]+)/, arr)) {
+                  file = arr[1]
+                  # Get the rest after file:line
+                  rest = substr(line, length(arr[0]) + 1)
+                  
+                  # Print file header if changed
+                  if (file != prev_file) {
+                    if (prev_file != "") print ""
+                    print "### `" file "`"
+                    print ""
+                    prev_file = file
+                  }
+                  
+                  # Print the warning (line number and message)
+                  gsub(/^:/, "", rest)  # Remove leading colon
+                  print "- Line " arr[2] rest
+                } else {
+                  # Fallback: just print the line if pattern doesn match
+                  print "- " line
                 }
-                # Print the warning message (remove file path from line)
-                sub(/^[^:]+:/, "", $0)
-                print "- " $0
               }' build-reports/deprecations.txt >> $REPORT_FILE
               echo "" >> $REPORT_FILE
             fi
@@ -187,6 +205,8 @@ jobs:
           script: |
             const reportContent = process.env.REPORT_CONTENT;
             const totalCount = '${{ steps.summary.outputs.total_count }}';
+            const issueTitle = `[Deprecation Check] ${totalCount} deprecation warning(s) detected`;
+            const currentDate = new Date().toISOString().split('T')[0];
             
             // Check if there's already an open issue for deprecations
             const existingIssues = await github.rest.issues.listForRepo({
@@ -197,42 +217,39 @@ jobs:
               per_page: 100
             });
             
-            const issueTitle = `[Deprecation Check] ${totalCount} deprecation warning(s) detected`;
-            
-            // Check if there's an existing open issue
+            // Find existing open deprecation check issue
             const existingIssue = existingIssues.data.find(issue => 
               issue.title.includes('[Deprecation Check]')
             );
             
+            // Create new issue
+            const newIssue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: reportContent,
+              labels: ['deprecation-warning', 'technical-debt']
+            });
+            
+            core.info(`Created new issue #${newIssue.data.number}`);
+            
+            // If there was an existing issue, close it with a reference to the new one
             if (existingIssue) {
-              // Update existing issue with new comment
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
-                body: `## Update from monthly check (${new Date().toISOString().split('T')[0]})\n\n${reportContent}`
+                body: `This issue has been superseded by #${newIssue.data.number} from the latest deprecation check on ${currentDate}.`
               });
               
-              // Update issue title with new count
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
-                title: issueTitle
+                state: 'closed'
               });
               
-              core.info(`Updated existing issue #${existingIssue.number}`);
-            } else {
-              // Create new issue
-              const issue = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: issueTitle,
-                body: reportContent,
-                labels: ['deprecation-warning', 'technical-debt']
-              });
-              
-              core.info(`Created new issue #${issue.data.number}`);
+              core.info(`Closed previous issue #${existingIssue.number}`);
             }
 
       - name: Upload Deprecation Reports
