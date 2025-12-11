@@ -56,6 +56,15 @@ jobs:
           # Remove duplicates and sort
           sort -u build-reports/deprecations.txt -o build-reports/deprecations.txt
           
+          # Simplify file paths - remove absolute path prefix and group by file
+          if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
+            # Get the workspace directory
+            WORKSPACE_DIR=$(pwd)
+            # Replace absolute paths with relative paths from workspace root
+            sed -i.bak "s|$WORKSPACE_DIR/||g" build-reports/deprecations.txt
+            rm -f build-reports/deprecations.txt.bak
+          fi
+          
           # Count deprecation warnings
           DEPRECATION_COUNT=$(wc -l < build-reports/deprecations.txt | tr -d ' ')
           echo "Found $DEPRECATION_COUNT deprecation warnings"
@@ -102,65 +111,86 @@ jobs:
           # Create a summary report
           REPORT_FILE="build-reports/deprecation-report.md"
           
+          # Get counts from previous step outputs
+          BUILD_COUNT="${{ steps.build.outputs.deprecation_count }}"
+          LINT_COUNT="${{ steps.lint.outputs.lint_deprecation_count }}"
+          
+          # Calculate total (default to 0 if empty)
+          TOTAL_COUNT=$((${BUILD_COUNT:-0} + ${LINT_COUNT:-0}))
+          
           echo "# Deprecation Report - $(date +'%Y-%m-%d')" > $REPORT_FILE
           echo "" >> $REPORT_FILE
-          echo "## Summary" >> $REPORT_FILE
-          echo "" >> $REPORT_FILE
-          echo "- Build Deprecations: ${{ steps.build.outputs.deprecation_count }}" >> $REPORT_FILE
-          echo "- Lint Deprecations: ${{ steps.lint.outputs.lint_deprecation_count }}" >> $REPORT_FILE
+          echo "**Total deprecations found: $TOTAL_COUNT**" >> $REPORT_FILE
           echo "" >> $REPORT_FILE
           
-          TOTAL_COUNT=$((${DEPRECATION_COUNT:-0} + ${LINT_DEPRECATION_COUNT:-0}))
           echo "total_count=$TOTAL_COUNT" >> $GITHUB_OUTPUT
           
           if [ $TOTAL_COUNT -gt 0 ]; then
             echo "has_deprecations=true" >> $GITHUB_OUTPUT
             
-            echo "## Build Deprecation Warnings" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
+            # Build Deprecation Warnings grouped by file
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-              echo '```' >> $REPORT_FILE
-              cat build-reports/deprecations.txt >> $REPORT_FILE
-              echo '```' >> $REPORT_FILE
-            else
-              echo "No build deprecation warnings found." >> $REPORT_FILE
+              echo "## Build Deprecation Warnings ($BUILD_COUNT)" >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
+              
+              # Process and group deprecations by file
+              # Format is typically: "w: file:///path/to/file.kt:42:5: warning message"
+              # or "path/to/file.kt:42: warning message"
+              awk '
+              {
+                line = $0
+                
+                # Remove "w: file://" prefix if present
+                gsub(/^w: file:\/\//, "", line)
+                
+                # Extract file path (everything before the line number)
+                # Match pattern: filepath:number: or filepath:number:number:
+                if (match(line, /^([^:]+):([0-9]+)/, arr)) {
+                  file = arr[1]
+                  # Get the rest after file:line
+                  rest = substr(line, length(arr[0]) + 1)
+                  
+                  # Print file header if changed
+                  if (file != prev_file) {
+                    if (prev_file != "") print ""
+                    print "### `" file "`"
+                    print ""
+                    prev_file = file
+                  }
+                  
+                  # Print the warning (line number and message)
+                  gsub(/^:/, "", rest)  # Remove leading colon
+                  print "- Line " arr[2] rest
+                } else {
+                  # Fallback: just print the line if pattern doesn match
+                  print "- " line
+                }
+              }' build-reports/deprecations.txt >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
             fi
-            echo "" >> $REPORT_FILE
             
-            echo "## Lint Deprecation Warnings" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
+            # Lint Deprecation Warnings
             if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
+              echo "## Lint Deprecation Warnings ($LINT_COUNT)" >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               head -100 build-reports/lint-deprecations.txt >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
-            else
-              echo "No lint deprecation warnings found." >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
             fi
-            echo "" >> $REPORT_FILE
             
-            echo "## Outdated Dependencies" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
+            # Outdated Dependencies
             if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
+              echo "## Outdated Dependencies" >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               cat build-reports/outdated-deps.txt >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
-            else
-              echo "All dependencies are up to date." >> $REPORT_FILE
+              echo "" >> $REPORT_FILE
             fi
-            echo "" >> $REPORT_FILE
-            
-            echo "## Action Items" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
-            echo "- [ ] Review and address build deprecation warnings" >> $REPORT_FILE
-            echo "- [ ] Review and address lint deprecation warnings" >> $REPORT_FILE
-            echo "- [ ] Consider updating outdated dependencies" >> $REPORT_FILE
-            echo "- [ ] Update code to use non-deprecated APIs" >> $REPORT_FILE
-            echo "- [ ] Test thoroughly after making changes" >> $REPORT_FILE
           else
             echo "has_deprecations=false" >> $GITHUB_OUTPUT
-            echo "## Result" >> $REPORT_FILE
-            echo "" >> $REPORT_FILE
-            echo "✅ No deprecation warnings found!" >> $REPORT_FILE
+            echo "✅ **No deprecation warnings found!**" >> $REPORT_FILE
           fi
           
           # Store report content for issue creation
@@ -175,6 +205,8 @@ jobs:
           script: |
             const reportContent = process.env.REPORT_CONTENT;
             const totalCount = '${{ steps.summary.outputs.total_count }}';
+            const issueTitle = `[Deprecation Check] ${totalCount} deprecation warning(s) detected`;
+            const currentDate = new Date().toISOString().split('T')[0];
             
             // Check if there's already an open issue for deprecations
             const existingIssues = await github.rest.issues.listForRepo({
@@ -185,42 +217,39 @@ jobs:
               per_page: 100
             });
             
-            const issueTitle = `[Deprecation Check] ${totalCount} deprecation warning(s) detected`;
-            
-            // Check if there's an existing open issue
+            // Find existing open deprecation check issue
             const existingIssue = existingIssues.data.find(issue => 
               issue.title.includes('[Deprecation Check]')
             );
             
+            // Create new issue
+            const newIssue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: issueTitle,
+              body: reportContent,
+              labels: ['deprecation-warning', 'technical-debt']
+            });
+            
+            core.info(`Created new issue #${newIssue.data.number}`);
+            
+            // If there was an existing issue, close it with a reference to the new one
             if (existingIssue) {
-              // Update existing issue with new comment
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
-                body: `## Update from monthly check (${new Date().toISOString().split('T')[0]})\n\n${reportContent}`
+                body: `This issue has been superseded by #${newIssue.data.number} from the latest deprecation check on ${currentDate}.`
               });
               
-              // Update issue title with new count
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
-                title: issueTitle
+                state: 'closed'
               });
               
-              core.info(`Updated existing issue #${existingIssue.number}`);
-            } else {
-              // Create new issue
-              const issue = await github.rest.issues.create({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                title: issueTitle,
-                body: reportContent,
-                labels: ['deprecation-warning', 'technical-debt']
-              });
-              
-              core.info(`Created new issue #${issue.data.number}`);
+              core.info(`Closed previous issue #${existingIssue.number}`);
             }
 
       - name: Upload Deprecation Reports
