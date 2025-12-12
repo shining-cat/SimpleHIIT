@@ -3,10 +3,49 @@
 This document describes all GitHub Actions workflows used in the SimpleHIIT project for continuous integration and deployment automation.
 
 ## Table of Contents
+- [PR Verification Gate](#pr-verification-gate)
 - [Android Verification](#android-verification)
 - [Auto Merge and Delete](#auto-merge-and-delete)
 - [Update Module Dependency Graph](#update-module-dependency-graph)
 - [Monthly Deprecation Check](#monthly-deprecation-check)
+
+---
+
+## PR Verification Gate
+
+**Workflow File:** `.github/workflows/pr-verification-gate.yml`
+
+**Trigger:** All pull requests to `master` or `develop` branches
+
+**Purpose:** Single entry point for PR validation that intelligently routes based on changed files
+
+### How It Works
+
+This is the **single required status check** for branch protection. It provides intelligent validation routing:
+
+**For Documentation/Asset-Only PRs:**
+- Detects changes to `.md`, `.png`, `.jpg`, `.svg`, `.txt` files
+- Immediately passes without running code verification checks
+- Provides clear status: "Documentation/assets only - verification checks skipped"
+
+**For Code Changes:**
+- Waits for all Android Verification checks to complete
+- Reports their combined status
+- Fails if any verification check fails
+
+### Benefits
+
+- ✅ Single check to configure in branch protection rules
+- ✅ No wasted CI resources on documentation PRs
+- ✅ Automatic handling of dependency graph PRs (which only update .png files)
+- ✅ Easy to modify exempt file patterns without touching repo settings
+- ✅ Clear, descriptive status messages
+
+### Implementation Details
+
+- Uses `actions/github-script@v7` to analyze PR file changes
+- Polls for Android Verification check completion (10-second intervals, 60-minute timeout)
+- Configurable exempt file patterns in workflow file
 
 ---
 
@@ -17,6 +56,8 @@ This document describes all GitHub Actions workflows used in the SimpleHIIT proj
 **Trigger:** Pull requests to `master` or `develop` branches (ignores `.md` and `.png` files)
 
 **Purpose:** Validates code quality, module structure, and functionality
+
+**Note:** These checks are monitored by the PR Verification Gate. They run in parallel but don't need to be individually required in branch protection.
 
 ### Jobs
 

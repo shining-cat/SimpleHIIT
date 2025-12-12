@@ -1,0 +1,135 @@
+name: PR Verification Gate
+run-name: Running PR Verification Gate
+
+on:
+  pull_request:
+    branches: [ "master", "develop" ]
+
+jobs:
+  verification-gate:
+    name: PR Verification Gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      
+    steps:
+      - name: Check changed files and determine verification strategy
+        id: check
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Get list of files changed in this PR
+            const { data: files } = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request.number
+            });
+            
+            core.info(`Total files changed: ${files.length}`);
+            
+            // Define exempt file patterns (documentation and assets)
+            const exemptPatterns = [
+              /\.md$/,           // Markdown files
+              /\.png$/,          // PNG images
+              /\.jpg$/,          // JPEG images
+              /\.svg$/,          // SVG images
+              /\.txt$/           // Text files
+            ];
+            
+            // Check if all changed files match exempt patterns
+            const allFilesExempt = files.every(file => {
+              const filename = file.filename;
+              const isExempt = exemptPatterns.some(pattern => pattern.test(filename));
+              core.info(`${filename}: ${isExempt ? 'EXEMPT' : 'CODE'}`);
+              return isExempt;
+            });
+            
+            if (allFilesExempt) {
+              core.info('✅ All changed files are documentation/assets - verification checks not required');
+              core.setOutput('strategy', 'exempt');
+              core.setOutput('message', 'Documentation/assets only - verification checks skipped');
+            } else {
+              core.info('📋 Code changes detected - will wait for android-verifications');
+              core.setOutput('strategy', 'verify');
+              core.setOutput('message', 'Code changes detected - waiting for verification checks');
+            }
+
+      - name: Report status for exempt PRs
+        if: steps.check.outputs.strategy == 'exempt'
+        run: |
+          echo "✅ PR Verification Gate: PASSED"
+          echo "Reason: ${{ steps.check.outputs.message }}"
+
+      - name: Wait for android-verifications
+        if: steps.check.outputs.strategy == 'verify'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const maxWaitTime = 60 * 60 * 1000; // 60 minutes
+            const pollInterval = 10 * 1000; // 10 seconds
+            const startTime = Date.now();
+            
+            const requiredChecks = [
+              'Ktlint Check',
+              'Verify Module Dependencies',
+              'Run Unit Tests'
+            ];
+            
+            core.info('Waiting for android-verification checks to complete...');
+            
+            while (Date.now() - startTime < maxWaitTime) {
+              // Get all check runs for the PR
+              const { data: checkRuns } = await github.rest.checks.listForRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: context.payload.pull_request.head.sha
+              });
+              
+              // Find our required checks
+              const relevantChecks = checkRuns.check_runs.filter(check => 
+                requiredChecks.includes(check.name)
+              );
+              
+              core.info(`Found ${relevantChecks.length}/${requiredChecks.length} required checks`);
+              
+              // Check if all required checks are present
+              if (relevantChecks.length === requiredChecks.length) {
+                // Check if all are completed
+                const allCompleted = relevantChecks.every(check => 
+                  check.status === 'completed'
+                );
+                
+                if (allCompleted) {
+                  // Check if all passed
+                  const allPassed = relevantChecks.every(check => 
+                    check.conclusion === 'success' || check.conclusion === 'skipped'
+                  );
+                  
+                  if (allPassed) {
+                    core.info('✅ All verification checks passed!');
+                    return;
+                  } else {
+                    const failed = relevantChecks.filter(check => 
+                      check.conclusion !== 'success' && check.conclusion !== 'skipped'
+                    );
+                    core.setFailed(
+                      `Verification checks failed:\n${failed.map(c => 
+                        `  - ${c.name}: ${c.conclusion}`
+                      ).join('\n')}`
+                    );
+                    return;
+                  }
+                } else {
+                  const pending = relevantChecks.filter(check => check.status !== 'completed');
+                  core.info(`Waiting for: ${pending.map(c => c.name).join(', ')}`);
+                }
+              } else {
+                core.info('Waiting for all required checks to be registered...');
+              }
+              
+              // Wait before polling again
+              await new Promise(resolve => setTimeout(resolve, pollInterval));
+            }
+            
+            core.setFailed('Timeout: Verification checks did not complete within 60 minutes');
