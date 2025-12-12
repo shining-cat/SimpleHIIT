@@ -85,6 +85,15 @@ jobs:
         with:
           script: |
             const prNumber = ${{ steps.pr.outputs.number }};
+            const headRef = '${{ steps.pr.outputs.head_ref }}';
+            
+            // Skip verification checks for auto-generated dependency graph PRs
+            // These PRs only update .png files which are ignored by android-verifications
+            if (headRef === 'auto-update-dependency-graph') {
+              core.info('Auto-generated dependency graph PR - skipping verification checks');
+              core.setOutput('ready', 'true');
+              return;
+            }
             
             // Wait a bit to ensure all checks are registered
             await new Promise(resolve => setTimeout(resolve, 5000));

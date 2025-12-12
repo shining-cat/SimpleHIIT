@@ -55,6 +55,13 @@ This workflow requires the same repository settings as the Update Module Depende
 - Select "Read and write permissions"
 - Check "Allow GitHub Actions to create and approve pull requests"
 
+### Special Handling
+
+**Auto-generated Dependency Graph PRs:**
+- PRs from the `auto-update-dependency-graph` branch bypass verification checks
+- Rationale: These PRs only update `.png` files which are already ignored by android-verifications
+- The workflow detects the branch name and immediately marks the PR as ready to merge
+
 ### Implementation Details
 
 Uses native GitHub Actions capabilities:
