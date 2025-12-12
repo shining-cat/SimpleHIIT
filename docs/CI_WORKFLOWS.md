@@ -47,6 +47,20 @@ When all Android Verification checks pass, the PR will be automatically merged a
 - Label added → Checks pass → Auto-merge
 - Checks pass → Label added → Auto-merge
 
+### Repository Settings Requirements
+
+This workflow requires the same repository settings as the Update Module Dependency Graph workflow:
+
+**GitHub Repository Settings → Actions → General → Workflow permissions:**
+- Select "Read and write permissions"
+- Check "Allow GitHub Actions to create and approve pull requests"
+
+### Implementation Details
+
+Uses native GitHub Actions capabilities:
+- `actions/github-script@v7` for all GitHub API interactions (PR details, status checks, merge, branch deletion)
+- Default `GITHUB_TOKEN` (no personal access token required)
+
 ---
 
 ## Update Module Dependency Graph
@@ -59,11 +73,34 @@ When all Android Verification checks pass, the PR will be automatically merged a
 
 ### What It Does
 
-Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png` and automatically creates a pull request if changes are detected.
+1. Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png`
+2. Checks if the graph has changed
+3. If changes detected:
+   - Creates/updates the `auto-update-dependency-graph` branch
+   - Commits the updated graph
+   - Creates a pull request (if one doesn't already exist)
+   - Adds the `HEX merge and delete` label
 
 The PR is automatically labeled with `HEX merge and delete`, which triggers the auto-merge workflow to merge it once all required status checks pass. The temporary branch is automatically deleted after merging.
 
 The generated graph is also uploaded as an artifact with 90-day retention.
+
+### Repository Settings Requirements
+
+For this workflow to function properly, ensure these settings are configured:
+
+**GitHub Repository Settings → Actions → General → Workflow permissions:**
+- Select "Read and write permissions"
+- Check "Allow GitHub Actions to create and approve pull requests"
+
+Without these settings enabled, the workflow will fail with: `"GitHub Actions is not permitted to create or approve pull requests"`
+
+### Implementation Details
+
+This workflow uses native GitHub Actions capabilities:
+- `git` commands for branch management and commits
+- `actions/github-script@v7` for PR creation via GitHub REST API
+- No third-party actions required for PR creation
 
 ---
 
