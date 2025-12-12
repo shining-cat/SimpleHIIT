@@ -47,6 +47,20 @@ When all Android Verification checks pass, the PR will be automatically merged a
 - Label added → Checks pass → Auto-merge
 - Checks pass → Label added → Auto-merge
 
+### Repository Settings Requirements
+
+This workflow requires the same repository settings as the Update Module Dependency Graph workflow:
+
+**GitHub Repository Settings → Actions → General → Workflow permissions:**
+- Select "Read and write permissions"
+- Check "Allow GitHub Actions to create and approve pull requests"
+
+### Implementation Details
+
+Uses native GitHub Actions capabilities:
+- `actions/github-script@v7` for all GitHub API interactions (PR details, status checks, merge, branch deletion)
+- Default `GITHUB_TOKEN` (no personal access token required)
+
 ---
 
 ## Update Module Dependency Graph
