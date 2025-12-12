@@ -121,9 +121,10 @@ Uses native GitHub Actions capabilities:
 
 ### What It Does
 
-1. Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png`
-2. Checks if the graph has changed
-3. If changes detected:
+1. **Ensures human-made changes only** - Exits immediately if last commit is from `github-actions[bot]` to avoid bots looping on themselves
+2. Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png`
+3. Checks if the graph has changed (secondary protection via diff)
+4. If changes detected:
    - Creates/updates the `auto-update-dependency-graph` branch
    - Commits the updated graph
    - Creates a pull request (if one doesn't already exist)
@@ -132,6 +133,15 @@ Uses native GitHub Actions capabilities:
 The PR is automatically labeled with `HEX merge and delete`, which triggers the auto-merge workflow to merge it once all required status checks pass. The temporary branch is automatically deleted after merging.
 
 The generated graph is also uploaded as an artifact with 90-day retention.
+
+### Bot Loop Prevention
+
+This workflow is designed to **only run on human-made changes** to prevent automated bots from looping on themselves:
+
+1. **Author Check (Primary):** Exits immediately if last commit is from `github-actions[bot]` - ensures workflow only processes human changes
+2. **Diff Check (Secondary):** Only creates PR if graph actually changed - additional safety against unnecessary PRs
+
+This dual-layer approach ensures the workflow never triggers itself or creates infinite automation loops.
 
 ### Repository Settings Requirements
 
@@ -148,7 +158,18 @@ Without these settings enabled, the workflow will fail with: `"GitHub Actions is
 This workflow uses native GitHub Actions capabilities:
 - `git` commands for branch management and commits
 - `actions/github-script@v7` for PR creation via GitHub REST API
+- **Uses `AUTO_MERGE_PAT`** for PR creation (not `GITHUB_TOKEN`)
+  - Reason: PRs created with `GITHUB_TOKEN` cannot trigger other workflows (GitHub security limitation)
+  - This allows the created PR to trigger the PR Verification Gate workflow
 - No third-party actions required for PR creation
+
+### Token Usage Summary
+
+| Workflow | Token Used | Purpose |
+|----------|------------|---------|
+| Update Module Dependency Graph | `AUTO_MERGE_PAT` | Create PRs that can trigger workflows |
+| Auto Merge and Delete | `GITHUB_TOKEN` | Merge PRs and delete branches |
+| PR Verification Gate | `GITHUB_TOKEN` | Read PR details and check statuses |
 
 ---
 
