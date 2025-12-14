@@ -115,20 +115,42 @@ Uses native GitHub Actions capabilities:
 
 **Workflow File:** `.github/workflows/update-module-dependency-graph.yml`
 
-**Trigger:** Pushes to `master` branch or manual dispatch
+**Trigger:** Pushes to `master` branch (automatic after PR merge)
 
-**Purpose:** Automatically updates the module dependency graph after code changes
+**Purpose:** Safety net to ensure module dependency graph stays synchronized with code
 
-### What It Does
+### Developer Workflow (When Changing Dependencies)
+
+**Important:** When you modify module dependencies, you must update the graph locally:
+
+1. Make your dependency changes (add modules, modify build.gradle.kts, etc.)
+2. Run locally: `./gradlew generateUnifiedDependencyGraph`
+3. Commit both code changes AND updated graph together
+4. Create PR with all changes
+5. Merge after checks pass
+
+**Why update locally?**
+- Graph changes visible in PR for review
+- Everything stays in sync
+- PR Verification Gate passes immediately
+- No surprise commits after merge
+
+### What the CI Workflow Does
+
+This workflow acts as a **safety net** after PR merges:
 
 1. **Ensures human-made changes only** - Exits immediately if last commit is from `github-actions[bot]` to avoid bots looping on themselves
-2. Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png`
-3. Checks if the graph has changed (secondary protection via diff)
-4. If changes detected:
+2. Runs `./gradlew generateUnifiedDependencyGraph` to regenerate the graph
+3. Checks if the graph differs from committed version
+4. If out of sync (developer forgot to update):
    - Commits the updated graph **directly to master**
    - Uses `[skip ci]` in commit message to prevent triggering other workflows
+   - Uploads graph as artifact for review
 
-The generated graph is also uploaded as an artifact with 90-day retention.
+**In normal workflow:** Graph is already up to date, CI finds no changes ✅
+
+**If graph forgotten:** CI catches it and updates automatically ⚠️
+
 
 ### Bot Loop Prevention
 
