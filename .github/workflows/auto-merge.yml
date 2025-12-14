@@ -133,6 +133,7 @@ jobs:
         if: steps.pr.outputs.number && steps.checks.outputs.ready == 'true'
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.AUTO_MERGE_PAT }}
           script: |
             const prNumber = ${{ steps.pr.outputs.number }};
             
