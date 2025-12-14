@@ -117,7 +117,7 @@ Uses native GitHub Actions capabilities:
 
 **Trigger:** Pushes to `master` branch or manual dispatch
 
-**Purpose:** Generates and creates a PR with updated module dependency graph
+**Purpose:** Automatically updates the module dependency graph after code changes
 
 ### What It Does
 
@@ -125,12 +125,8 @@ Uses native GitHub Actions capabilities:
 2. Runs `./gradlew generateUnifiedDependencyGraph` to create `docs/project_dependencies_graph.png`
 3. Checks if the graph has changed (secondary protection via diff)
 4. If changes detected:
-   - Creates/updates the `auto-update-dependency-graph` branch
-   - Commits the updated graph
-   - Creates a pull request (if one doesn't already exist)
-   - Adds the `HEX merge and delete` label
-
-The PR is automatically labeled with `HEX merge and delete`, which triggers the auto-merge workflow to merge it once all required status checks pass. The temporary branch is automatically deleted after merging.
+   - Commits the updated graph **directly to master**
+   - Uses `[skip ci]` in commit message to prevent triggering other workflows
 
 The generated graph is also uploaded as an artifact with 90-day retention.
 
@@ -139,37 +135,35 @@ The generated graph is also uploaded as an artifact with 90-day retention.
 This workflow is designed to **only run on human-made changes** to prevent automated bots from looping on themselves:
 
 1. **Author Check (Primary):** Exits immediately if last commit is from `github-actions[bot]` - ensures workflow only processes human changes
-2. **Diff Check (Secondary):** Only creates PR if graph actually changed - additional safety against unnecessary PRs
+2. **Diff Check (Secondary):** Only commits if graph actually changed - prevents unnecessary commits
+3. **Skip CI Tag:** Commit message includes `[skip ci]` to prevent triggering other workflows
 
-This dual-layer approach ensures the workflow never triggers itself or creates infinite automation loops.
+This triple-layer approach ensures the workflow never triggers itself or creates infinite automation loops.
+
+### Branch Protection Compatibility
+
+**Important:** This workflow commits directly to master, bypassing the "Require pull request" protection rule. This is intentional and safe because:
+
+- ✅ Workflow runs AFTER human PR is merged (protection already passed)
+- ✅ Workflow has explicit `contents: write` permission (GitHub Actions feature)
+- ✅ Only updates documentation (.png file), not code
+- ✅ Bot-check prevents infinite loops
+- ✅ Graph is deterministic (generated from verified code)
+
+**For human developers:** Branch protection remains fully active - PRs required, checks must pass.
 
 ### Repository Settings Requirements
 
-For this workflow to function properly, ensure these settings are configured:
-
 **GitHub Repository Settings → Actions → General → Workflow permissions:**
-- Select "Read and write permissions"
-- Check "Allow GitHub Actions to create and approve pull requests"
-
-Without these settings enabled, the workflow will fail with: `"GitHub Actions is not permitted to create or approve pull requests"`
+- Select "Read and write permissions" ✅ REQUIRED
 
 ### Implementation Details
 
 This workflow uses native GitHub Actions capabilities:
-- `git` commands for branch management and commits
-- `actions/github-script@v7` for PR creation via GitHub REST API
-- **Uses `AUTO_MERGE_PAT`** for PR creation (not `GITHUB_TOKEN`)
-  - Reason: PRs created with `GITHUB_TOKEN` cannot trigger other workflows (GitHub security limitation)
-  - This allows the created PR to trigger the PR Verification Gate workflow
-- No third-party actions required for PR creation
-
-### Token Usage Summary
-
-| Workflow | Token Used | Purpose |
-|----------|------------|---------|
-| Update Module Dependency Graph | `AUTO_MERGE_PAT` | Create PRs that can trigger workflows |
-| Auto Merge and Delete | `GITHUB_TOKEN` | Merge PRs and delete branches |
-| PR Verification Gate | `GITHUB_TOKEN` | Read PR details and check statuses |
+- `git` commands for commits and pushes
+- GITHUB_TOKEN only (no Personal Access Token required)
+- Leverages workflow `contents: write` permission to push to protected branch
+- No third-party actions required
 
 ---
 
