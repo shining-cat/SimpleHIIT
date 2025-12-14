@@ -4,6 +4,7 @@
 * Find how to publish: Fdroid, or github, or home?
 
 ## General technical improvements
+* go through deprecations reported by the CI: https://github.com/shining-cat/SimpleHIIT/issues/186
 * windowSizeClass.windowWidthSizeClass is deprecated, maybe combine fix with navigation 3 which should impact adaptive navigation
 * hiltviewmodel is deprecated
 * could we extract even more **platform-agnostic** logic from the viewmodels?
