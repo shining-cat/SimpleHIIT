@@ -23,7 +23,6 @@ IDE locations:
 ```
 
 This Gradle task generates both graphs, combines them, and converts to PNG. It's cross-platform and works on macOS, Linux, and Windows.
-It's also the same task that will be run on all merge on master on the CI.
 
 **IDE location**: `SimpleHIIT > Tasks > documentation > generateUnifiedDependencyGraph`
 
@@ -32,6 +31,25 @@ It's also the same task that will be run on all merge on master on the CI.
 - PNG image: `docs/project_dependencies_graph.png`
 
 The generated graph shows both mobile and TV app modules (`:android:mobile:*` and `:android:tv:*`) along with shared modules (`:domain:*`, `:data`, `:commonUtils`, etc.) to visualize the complete project architecture.
+
+**Important: When to Run This Task**
+
+🔴 **MUST RUN** when making dependency changes:
+- Adding/removing modules
+- Modifying `dependencies {}` blocks in build.gradle.kts
+- Changing module structure
+
+**Workflow:**
+1. Make your dependency changes
+2. Run `./gradlew generateUnifiedDependencyGraph`
+3. Commit code changes AND updated graph together
+4. Create PR with both changes
+
+**Why?**
+- Graph changes visible in PR for review
+- Everything stays synchronized
+- CI safety net verifies graph is current
+- Prevents surprise commits after merge
 
 **Note**: Graphviz must be installed to generate the PNG. Install with:
 - macOS: `brew install graphviz`
