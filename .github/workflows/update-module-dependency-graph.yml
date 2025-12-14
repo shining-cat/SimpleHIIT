@@ -73,13 +73,17 @@ jobs:
 
       - name: Commit updated graph directly to master
         if: steps.git-check.outputs.changed == 'true'
+        env:
+          PAT_TOKEN: ${{ secrets.AUTO_MERGE_PAT }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Commit and push directly to master
+          # Commit changes
           git add docs/project_dependencies_graph.png
           git commit -m "Update module dependency graph [skip ci]"
-          git push origin master
+          
+          # Push using PAT to bypass branch protection
+          git push https://x-access-token:${PAT_TOKEN}@github.com/shining-cat/SimpleHIIT.git master
           
           echo "✅ Dependency graph updated and committed to master"
