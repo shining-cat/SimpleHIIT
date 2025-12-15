@@ -2,6 +2,69 @@
 
 This document describes all GitHub Actions workflows used in the SimpleHIIT project for continuous integration and deployment automation.
 
+## Workflow Interaction Overview
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                      Developer Creates Pull Request                 │
+└────────────────────────────────┬────────────────────────────────────┘
+                                 ▼
+                    ┌────────────────────────────┐
+                    │   PR Verification Gate     │
+                    │   (Required Status Check)  │
+                    └────────────┬───────────────┘
+                ┌────────────────┴────────────────┐
+                ▼                                 ▼
+    ┌──────────────────────┐        ┌──────────────────────┐
+    │   Doc/Asset Only?    │        │   Code Changes?      │
+    │   Pass Immediately   │        │   Wait for checks    │
+    └──────────┬───────────┘        └──────────┬───────────┘
+               │                               ▼
+               │                  ┌────────────────────────┐
+               │                  │  Android Verification  │
+               │                  │  - Ktlint Check        │
+               │                  │  - Module Dependencies │
+               │                  │  - Unit Tests          │
+               │                  └────────────┬───────────┘
+               └──────────────┬────────────────┘
+                              ▼
+                 ┌────────────────────────┐
+                 │   All Checks Pass      │
+                 └────────────┬───────────┘
+                 ┌────────────┴─────────────────────────────┐
+                 ▼                                          ▼
+ ┌──────────────────────────────┐            ┌──────────────────────────────┐
+ │  Automated Path              │            │  Manual Path                 │
+ │  Add "HEX merge and delete"  │            │  Developer manually merges   │
+ │  label                       │            │  PR from GitHub UI           │
+ └──────────────┬───────────────┘            └──────────────┬───────────────┘
+                ▼                                           │
+   ┌────────────────────────────┐                           │
+   │   Auto Merge and Delete    │                           │
+   │   - Merges PR              │                           │
+   │   - Deletes branch         │                           │
+   │   (Uses AUTO_MERGE_PAT)    │                           │
+   └────────────┬───────────────┘                           │
+                └──────────────────┬────────────────────────┘
+                                   ▼
+                      ┌────────────────────────────┐
+                      │   Merged to Master         │
+                      └────────────┬───────────────┘
+                                   ▼
+                  ┌─────────────────────────────────────┐
+                  │  Update Module Dependency Graph     │
+                  │  1. Check author (bot? → exit)      │
+                  │  2. Generate graph                  │
+                  │  3. If changed → push to master     │
+                  │  (Uses AUTO_MERGE_PAT)              │
+                  └─────────────────┬───────────────────┘
+                                    ▼
+                       ┌────────────────────────┐
+                       │  Graph Updated on      │
+                       │  Master (if needed)    │
+                       │  Bot-check prevents ∞  │
+                       └────────────────────────┘
+```
 ## Table of Contents
 - [PR Verification Gate](#pr-verification-gate)
 - [Android Verification](#android-verification)
@@ -32,22 +95,6 @@ This is the **single required status check** for branch protection. It provides 
 - Waits for all Android Verification checks to complete
 - Reports their combined status
 - Fails if any verification check fails
-
-### Benefits
-
-- ✅ Single check to configure in branch protection rules
-- ✅ No wasted CI resources on documentation PRs
-- ✅ Automatic handling of dependency graph PRs (which only update .png files)
-- ✅ Easy to modify exempt file patterns without touching repo settings
-- ✅ Clear, descriptive status messages
-
-### Implementation Details
-
-- Uses `actions/github-script@v7` to analyze PR file changes
-- Polls for Android Verification check completion (10-second intervals, 60-minute timeout)
-- Configurable exempt file patterns in workflow file
-
----
 
 ## Android Verification
 
@@ -94,7 +141,6 @@ This workflow requires the same repository settings as the Update Module Depende
 
 **GitHub Repository Settings → Actions → General → Workflow permissions:**
 - Select "Read and write permissions"
-- Check "Allow GitHub Actions to create and approve pull requests"
 
 ### Special Handling
 
@@ -102,14 +148,6 @@ This workflow requires the same repository settings as the Update Module Depende
 - PRs from the `auto-update-dependency-graph` branch bypass verification checks
 - Rationale: These PRs only update `.png` files which are already ignored by android-verifications
 - The workflow detects the branch name and immediately marks the PR as ready to merge
-
-### Implementation Details
-
-Uses native GitHub Actions capabilities:
-- `actions/github-script@v7` for all GitHub API interactions (PR details, status checks, merge, branch deletion)
-- Default `GITHUB_TOKEN` (no personal access token required)
-
----
 
 ## Update Module Dependency Graph
 
@@ -179,15 +217,10 @@ This triple-layer approach ensures the workflow never triggers itself or creates
 **GitHub Repository Settings → Actions → General → Workflow permissions:**
 - Select "Read and write permissions" ✅ REQUIRED
 
-### Implementation Details
-
-This workflow uses native GitHub Actions capabilities:
-- `git` commands for commits and pushes
-- GITHUB_TOKEN only (no Personal Access Token required)
-- Leverages workflow `contents: write` permission to push to protected branch
-- No third-party actions required
-
----
+**GitHub Repository Settings → Branches → master → Branch protection rules:**
+- "Do not allow bypassing the above settings" must be **UNCHECKED** ✅ REQUIRED
+  - This allows the workflow (using AUTO_MERGE_PAT) to push directly to master
+  - All other protection rules remain active (PRs required for humans)
 
 ## Monthly Deprecation Check
 
@@ -202,7 +235,3 @@ This workflow uses native GitHub Actions capabilities:
 Performs build deprecation checks, Android Lint checks, and dependency updates analysis. Automatically creates or updates a GitHub issue when deprecations are found, with detailed reports uploaded as artifacts (90-day retention).
 
 See [DEPRECATION_CHECKER.md](DEPRECATION_CHECKER.md) for full documentation.
-
----
-
-*Last Updated: 2025-11-20*
