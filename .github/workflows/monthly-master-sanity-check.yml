@@ -310,6 +310,18 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            // Get the artifact download URL
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+            
+            const deprecationArtifact = artifacts.data.artifacts.find(a => a.name === 'deprecation-warnings');
+            const artifactUrl = deprecationArtifact 
+              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${deprecationArtifact.id}`
+              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
             const body = `## Build Failure During Deprecation Check
 
             **Check Date:** ${new Date().toISOString().split('T')[0]}
@@ -318,14 +330,12 @@ jobs:
 
             ### Issues Found
 
-            - Build failed before deprecation checking could complete
-            - Indicates a compilation or configuration error in the master branch
+            - Build failed before deprecation checking could complete - [View build output](${artifactUrl})
             - Run locally to reproduce: \`./gradlew clean assembleDebug --warning-mode all\`
 
             ### Resources
 
             - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            - **Build Output Artifact:** [Download deprecation-warnings](${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts)
             - **Documentation:** [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md)
 
             ---
@@ -345,19 +355,30 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            // Get the artifact download URL
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+            
+            const deprecationArtifact = artifacts.data.artifacts.find(a => a.name === 'deprecation-warnings');
+            const artifactUrl = deprecationArtifact 
+              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${deprecationArtifact.id}`
+              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
             const body = `## Deprecation Warnings Detected
 
             **Check Date:** ${new Date().toISOString().split('T')[0]}
 
             ### Issues Found
 
-            - Usage of deprecated APIs, libraries, or Gradle features detected
+            - Usage of deprecated APIs, libraries, or Gradle features detected - [View build output](${artifactUrl})
             - Run locally to reproduce: \`./gradlew clean assembleDebug --warning-mode all\`
 
             ### Resources
 
             - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            - **Build Output Artifact:** [Download deprecation-warnings](${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts)
             - **Documentation:** [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md)
 
             ---
