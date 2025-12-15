@@ -128,6 +128,32 @@ jobs:
           if [ $TOTAL_COUNT -gt 0 ]; then
             echo "has_deprecations=true" >> $GITHUB_OUTPUT
             
+            # Add artifact download links
+            echo "## 📦 Download Detailed Reports" >> $REPORT_FILE
+            echo "" >> $REPORT_FILE
+            echo "Download the complete build artifacts for detailed analysis:" >> $REPORT_FILE
+            echo "" >> $REPORT_FILE
+            echo "🔗 **[Download All Reports (deprecation-reports-${{ github.run_number }})](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})**" >> $REPORT_FILE
+            echo "" >> $REPORT_FILE
+            echo "The artifact includes:" >> $REPORT_FILE
+            
+            if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
+              echo "- \`deprecations.txt\` - Build deprecation warnings ($BUILD_COUNT)" >> $REPORT_FILE
+            fi
+            
+            if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
+              echo "- \`lint-deprecations.txt\` - Lint deprecation warnings ($LINT_COUNT)" >> $REPORT_FILE
+            fi
+            
+            if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
+              echo "- \`outdated-deps.txt\` - Outdated dependencies" >> $REPORT_FILE
+            fi
+            
+            echo "- \`build-output.log\` - Complete build output" >> $REPORT_FILE
+            echo "" >> $REPORT_FILE
+            echo "---" >> $REPORT_FILE
+            echo "" >> $REPORT_FILE
+            
             # Build Deprecation Warnings grouped by file
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
               echo "## Build Deprecation Warnings ($BUILD_COUNT)" >> $REPORT_FILE
@@ -270,12 +296,13 @@ jobs:
             echo "⚠️ **Found ${{ steps.summary.outputs.total_count }} deprecation warning(s)**" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "A GitHub issue has been created/updated with the details." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📦 Download Reports" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
           else
             echo "✅ **No deprecation warnings found!**" >> $GITHUB_STEP_SUMMARY
           fi
-          
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "See the uploaded artifacts for detailed reports." >> $GITHUB_STEP_SUMMARY
 
       - name: Fail if Deprecations Found
         if: steps.summary.outputs.has_deprecations == 'true'

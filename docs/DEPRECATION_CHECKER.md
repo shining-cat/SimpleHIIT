@@ -57,12 +57,13 @@ The workflow performs build and deprecation checks with proper error handling:
 
 ### 2. Report Generation
 
-The workflow generates a comprehensive markdown report including:
+The workflow generates a streamlined markdown report including:
 - Summary of total deprecations found
-- Build deprecation warnings
+- **Direct download links to detailed artifacts** for easy access
+- List of available report files in the artifact
+- Build deprecation warnings grouped by file
 - Lint deprecation warnings
 - Outdated dependencies list
-- Action items checklist
 
 ### 3. GitHub Issue Creation
 
@@ -73,14 +74,19 @@ When deprecations are found:
 
 ### 4. Artifacts
 
-All reports are uploaded as GitHub Actions artifacts:
+All reports are uploaded as GitHub Actions artifacts with **direct download links included in the GitHub issue**.
+
+The artifact package includes:
 - `build-output.log`: Complete build output
 - `deprecations.txt`: Extracted build deprecations
 - `lint-deprecations.txt`: Lint deprecation findings
 - `outdated-deps.txt`: Outdated dependencies
 - `deprecation-report.md`: Final formatted report
 
-Artifacts are retained for 90 days.
+**Accessing Artifacts:**
+- Click the download link at the top of the GitHub issue
+- Or visit the workflow run page and download from the Artifacts section
+- Artifacts are retained for 90 days
 
 ### Schedule
 
