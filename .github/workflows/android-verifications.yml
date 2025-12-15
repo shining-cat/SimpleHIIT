@@ -67,6 +67,31 @@ jobs:
           ./gradlew :android:mobile:app:assertModuleGraph --no-configure-on-demand
           ./gradlew :android:tv:app:assertModuleGraph --no-configure-on-demand
 
+      - name: Install Graphviz
+        run: sudo apt-get install -y graphviz
+
+      - name: Verify Dependency Graph Is Current
+        run: |
+          # Generate the unified dependency graph
+          ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
+          
+          # Check if the generated graph differs from committed version
+          if ! git diff --exit-code docs/project_dependencies_graph.png; then
+            echo "❌ ERROR: Dependency graph is out of sync!"
+            echo ""
+            echo "The inter-modules dependency graph generated from this PR does not match the current one."
+            echo "Please generate it locally for careful examination and push it to the branch if it matches the intention of this PR."
+            echo ""
+            echo "To update the graph:"
+            echo "  1. Run: ./gradlew generateUnifiedDependencyGraph"
+            echo "  2. Review the changes in: docs/project_dependencies_graph.png"
+            echo "  3. If correct, commit and push the updated graph"
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ Dependency graph is current and matches module structure"
+
   unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
