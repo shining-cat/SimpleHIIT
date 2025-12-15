@@ -1,20 +1,21 @@
 name: Update Module Dependency Graph
-run-name: Updating Module Dependency Graph
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-  update-dependency-graph:
-    name: Update Module Dependencies Graph
+  update-graph:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
     steps:
-      - name: Fetch Sources
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "shining-cat-bot"
+          git config --global user.email "shining-cat-bot@users.noreply.github.com"
 
       - name: Ensure workflow only runs on human-made changes
         id: bot-check
@@ -71,26 +72,18 @@ jobs:
           path: docs/project_dependencies_graph.png
           retention-days: 90
 
-      - name: Set up git remote with PAT
-        if: steps.git-check.outputs.changed == 'true'
-        env:
-          PAT_TOKEN: ${{ secrets.AUTO_MERGE_PAT }}
+      - name: Commit changes
         run: |
-          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
-
-      - name: Commit and push updated graph to master
-        if: steps.git-check.outputs.changed == 'true'
-        env:
-          PAT_TOKEN: ${{ secrets.AUTO_MERGE_PAT }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Commit changes
           git add docs/project_dependencies_graph.png
-          git commit -m "Update module dependency graph [skip ci]"
-          
-          # Push using properly configured remote with PAT authentication
-          git push origin HEAD:master
-          
-          echo "✅ Dependency graph updated and committed to master"
+          git diff --cached --quiet || git commit -m "Update module dependency graph [skip ci]"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.AUTOMATION_BOT_TOKEN }}
+          commit-message: "Update module dependency graph [skip ci]"
+          branch: update/module-dep-graph-${{ github.run_id }}
+          base: master
+          title: "Update module dependency graph"
+          body: "Automated update of the module dependency graph."
+          labels: automerge
