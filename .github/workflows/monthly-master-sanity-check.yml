@@ -76,7 +76,12 @@ jobs:
       - name: Verify Dependency Graph
         id: check
         run: |
-          ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
+          if ! ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "❌ Failed to generate dependency graph (build failure)"
+            exit 1
+          fi
+          
           cp build/reports/dependency-graph.gv docs/dependency-graph.gv
           
           if ! git ls-files --error-unmatch docs/dependency-graph.gv > /dev/null 2>&1; then
@@ -124,7 +129,18 @@ jobs:
       - name: Check for Deprecations
         id: check
         run: |
+          set +e
           ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee build-output.txt
+          BUILD_EXIT_CODE=${PIPESTATUS[0]}
+          set -e
+          
+          if [ $BUILD_EXIT_CODE -ne 0 ]; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "has_warnings=false" >> $GITHUB_OUTPUT
+            echo "❌ Build failed (exit code: $BUILD_EXIT_CODE)"
+            exit 1
+          fi
+          
           if grep -i "deprecat" build-output.txt; then
             echo "status=failure" >> $GITHUB_OUTPUT
             echo "has_warnings=true" >> $GITHUB_OUTPUT
@@ -138,7 +154,7 @@ jobs:
         continue-on-error: true
 
       - name: Upload Build Output
-        if: steps.check.outputs.has_warnings == 'true'
+        if: steps.check.outputs.status == 'failure'
         uses: actions/upload-artifact@v4
         with:
           name: deprecation-warnings
@@ -306,7 +322,52 @@ jobs:
               });
             }
 
-      - name: Create Issue
+      - name: Create Issue for Build Failure
+        if: needs.check-deprecations.outputs.has_warnings == 'false'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const body = `## Build Failure During Deprecation Check
+
+            The monthly master sanity check detected a build failure while attempting to check for deprecations.
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+            **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
+
+            ### What This Means
+
+            The build failed before deprecation checking could complete. This indicates a compilation or configuration error in the master branch.
+
+            ### Action Required
+
+            1. Download the \`deprecation-warnings\` artifact from the workflow run to see the full build output
+            2. Review the build failure details
+            3. Fix the build errors
+            4. Ensure the build succeeds locally: \`./gradlew clean assembleDebug --warning-mode all\`
+            5. Create a PR to fix the build issues
+
+            ### Important
+
+            **This is a critical issue** - the master branch should always build successfully. Address this with priority.
+
+            ### Reference
+
+            See [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md) for more information.
+
+            ---
+            _This issue was automatically created by the Monthly Master Sanity Check workflow._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🔴 Master Sanity Check: Build Failure',
+              labels: ['sanity-check', 'deprecations', 'bug'],
+              assignees: ['shining-cat'],
+              body: body
+            });
+
+      - name: Create Issue for Deprecation Warnings
+        if: needs.check-deprecations.outputs.has_warnings == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -323,7 +384,7 @@ jobs:
 
             ### Action Required
 
-            1. Download the deprecation-warnings artifact from the workflow run
+            1. Download the \`deprecation-warnings\` artifact from the workflow run
             2. Review the deprecation warnings
             3. Plan migration to non-deprecated alternatives
             4. Update dependencies if needed

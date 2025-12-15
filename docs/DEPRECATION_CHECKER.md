@@ -24,13 +24,18 @@ A status badge in the README shows the current state:
 
 ### 1. Detection Process
 
-The workflow performs three types of checks:
+The workflow performs build and deprecation checks with proper error handling:
 
-#### Build Deprecation Check
+#### Build and Deprecation Check
 ```bash
-./gradlew build --warning-mode=all
+./gradlew clean assembleDebug --warning-mode all
 ```
 - Runs a full project build with all warnings enabled
+- **Properly captures and reports build failures** (critical fix as of Dec 2025)
+- Uses `${PIPESTATUS[0]}` to detect Gradle exit code even when piping output
+- Reports two distinct failure scenarios:
+  - **Build failure**: Critical issue - the build failed before completion
+  - **Deprecation warnings**: Maintenance issue - build succeeded but found deprecations
 - Captures deprecation warnings from Kotlin and Java compilation
 - Filters and extracts deprecation-related messages
 

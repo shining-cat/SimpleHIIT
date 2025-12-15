@@ -1,6 +1,6 @@
 [versions]
 # Build Tools & Plugins
-agp = "8.13.1"
+agp = "8.13.2"
 kgp = "2.2.21"
 ksp = "2.3.3"
 kover = "0.9.3"
