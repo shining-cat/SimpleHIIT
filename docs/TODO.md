@@ -25,6 +25,3 @@
   hiit_description, accessible through a new ? button in the home top app bar actions menu
 * refine fr and swedish translations
 * statistics maybe remove seconds from displays to reduce clutter? (maybe when a value is over 1h)
-
-
-test to trigger CI
