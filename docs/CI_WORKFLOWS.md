@@ -7,6 +7,7 @@ This document describes all GitHub Actions workflows used in the SimpleHIIT proj
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                      Developer Creates Pull Request                 │
+│                 (with updated dependency graph if needed)           │
 └────────────────────────────────┬────────────────────────────────────┘
                                  ▼
                     ┌────────────────────────────┐
@@ -24,6 +25,7 @@ This document describes all GitHub Actions workflows used in the SimpleHIIT proj
                │                  │  Android Verification  │
                │                  │  - Ktlint Check        │
                │                  │  - Module Dependencies │
+               │                  │  - Graph Validation    │
                │                  │  - Unit Tests          │
                │                  └────────────┬───────────┘
                └──────────────┬────────────────┘
@@ -31,46 +33,33 @@ This document describes all GitHub Actions workflows used in the SimpleHIIT proj
                  ┌────────────────────────┐
                  │   All Checks Pass      │
                  └────────────┬───────────┘
-                 ┌────────────┴─────────────────────────────┐
-                 ▼                                          ▼
- ┌──────────────────────────────┐            ┌──────────────────────────────┐
- │  Automated Path              │            │  Manual Path                 │
- │  Add "HEX merge and delete"  │            │  Developer manually merges   │
- │  label                       │            │  PR from GitHub UI           │
- └──────────────┬───────────────┘            └──────────────┬───────────────┘
-                ▼                                           │
-   ┌────────────────────────────┐                           │
-   │   Auto Merge and Delete    │                           │
-   │   - Merges PR              │                           │
-   │   - Deletes branch         │                           │
-   │   (Uses AUTO_MERGE_PAT)    │                           │
-   └────────────┬───────────────┘                           │
-                └──────────────────┬────────────────────────┘
+                ┌─────────────┴──────────────────────────┐
+                ▼                                        ▼
+ ┌──────────────────────────────┐        ┌──────────────────────────────┐
+ │  Automated Path              │        │  Manual Path                 │
+ │  Add "HEX merge and delete"  │        │  Developer manually merges   │
+ │  label                       │        │  PR from GitHub UI           │
+ └──────────────┬───────────────┘        └──────────────┬───────────────┘
+                ▼                                       │
+   ┌────────────────────────────┐                       │
+   │   Auto Merge and Delete    │                       │
+   │   - Merges PR              │                       │
+   │   - Deletes branch         │                       │
+   │   (Uses AUTO_MERGE_PAT)    │                       │
+   └────────────┬───────────────┘                       │
+                └──────────────────┬────────────────────┘
                                    ▼
                       ┌────────────────────────────┐
                       │   Merged to Master         │
-                      └────────────┬───────────────┘
-                                   ▼
-                  ┌─────────────────────────────────────┐
-                  │  Update Module Dependency Graph     │
-                  │  1. Check author (bot? → exit)      │
-                  │  2. Generate graph                  │
-                  │  3. If changed → push to master     │
-                  │  (Uses AUTO_MERGE_PAT)              │
-                  └─────────────────┬───────────────────┘
-                                    ▼
-                       ┌────────────────────────┐
-                       │  Graph Updated on      │
-                       │  Master (if needed)    │
-                       │  Bot-check prevents ∞  │
-                       └────────────────────────┘
+                      │   (Graph already current)  │
+                      └────────────────────────────┘
 ```
+
 ## Table of Contents
 - [PR Verification Gate](#pr-verification-gate)
 - [Android Verification](#android-verification)
 - [Auto Merge and Delete](#auto-merge-and-delete)
-- [Update Module Dependency Graph](#update-module-dependency-graph)
-- [Monthly Deprecation Check](#monthly-deprecation-check)
+- [Monthly Master Sanity Check](#monthly-master-sanity-check)
 
 ---
 
@@ -109,10 +98,31 @@ This is the **single required status check** for branch protection. It provides 
 ### Jobs
 
 **1. Ktlint Check** - Ensures Kotlin coding standards
-**2. Verify Module Dependencies** - Validates module architecture
+
+**2. Verify Module Dependencies** - Validates module architecture and dependency graph
+- Runs `assertModuleGraph` for both mobile and TV apps
+- **Generates and validates the dependency graph**
+- Fails if the committed graph doesn't match the current module structure
+- Provides clear instructions for updating the graph locally
+
 **3. Unit Tests** - Runs all unit tests and generates reports
 
----
+### Dependency Graph Validation
+
+**Important:** When making changes that affect module dependencies, you must update the dependency graph:
+
+1. Make your dependency changes
+2. Run `./scripts/update-dependency-graph.sh` (recommended) or manually run the Gradle task
+3. Review changes: `git diff docs/dependency-graph.gv` (text diff shows exact module changes)
+4. Commit both graph files: `git add docs/dependency-graph.gv docs/project_dependencies_graph.png`
+
+**What's validated:**
+- CI compares `docs/dependency-graph.gv` (DOT file - text format, deterministic)
+- The PNG file (`docs/project_dependencies_graph.png`) is for documentation only
+
+**If you forget:** The verification workflow will fail with a clear message explaining how to update the graph.
+
+**Why DOT file instead of PNG?** PNG files can have slight rendering differences even with identical dependencies (platform-specific rendering, font differences). The DOT file is text-based and reliably shows actual dependency changes.
 
 ## Auto Merge and Delete
 
@@ -142,96 +152,59 @@ This workflow requires the same repository settings as the Update Module Depende
 **GitHub Repository Settings → Actions → General → Workflow permissions:**
 - Select "Read and write permissions"
 
-### Special Handling
+## Monthly Master Sanity Check
 
-**Auto-generated Dependency Graph PRs:**
-- PRs from the `auto-update-dependency-graph` branch bypass verification checks
-- Rationale: These PRs only update `.png` files which are already ignored by android-verifications
-- The workflow detects the branch name and immediately marks the PR as ready to merge
-
-## Update Module Dependency Graph
-
-**Workflow File:** `.github/workflows/update-module-dependency-graph.yml`
-
-**Trigger:** Pushes to `master` branch (automatic after PR merge)
-
-**Purpose:** Safety net to ensure module dependency graph stays synchronized with code
-
-### Developer Workflow (When Changing Dependencies)
-
-**Important:** When you modify module dependencies, you must update the graph locally:
-
-1. Make your dependency changes (add modules, modify build.gradle.kts, etc.)
-2. Run locally: `./gradlew generateUnifiedDependencyGraph`
-3. Commit both code changes AND updated graph together
-4. Create PR with all changes
-5. Merge after checks pass
-
-**Why update locally?**
-- Graph changes visible in PR for review
-- Everything stays in sync
-- PR Verification Gate passes immediately
-- No surprise commits after merge
-
-### What the CI Workflow Does
-
-This workflow acts as a **safety net** after PR merges:
-
-1. **Ensures human-made changes only** - Exits immediately if last commit is from `github-actions[bot]` to avoid bots looping on themselves
-2. Runs `./gradlew generateUnifiedDependencyGraph` to regenerate the graph
-3. Checks if the graph differs from committed version
-4. If out of sync (developer forgot to update):
-   - Commits the updated graph **directly to master**
-   - Uses `[skip ci]` in commit message to prevent triggering other workflows
-   - Uploads graph as artifact for review
-
-**In normal workflow:** Graph is already up to date, CI finds no changes ✅
-
-**If graph forgotten:** CI catches it and updates automatically ⚠️
-
-
-### Bot Loop Prevention
-
-This workflow is designed to **only run on human-made changes** to prevent automated bots from looping on themselves:
-
-1. **Author Check (Primary):** Exits immediately if last commit is from `github-actions[bot]` - ensures workflow only processes human changes
-2. **Diff Check (Secondary):** Only commits if graph actually changed - prevents unnecessary commits
-3. **Skip CI Tag:** Commit message includes `[skip ci]` to prevent triggering other workflows
-
-This triple-layer approach ensures the workflow never triggers itself or creates infinite automation loops.
-
-### Branch Protection Compatibility
-
-**Important:** This workflow commits directly to master, bypassing the "Require pull request" protection rule. This is intentional and safe because:
-
-- ✅ Workflow runs AFTER human PR is merged (protection already passed)
-- ✅ Workflow has explicit `contents: write` permission (GitHub Actions feature)
-- ✅ Only updates documentation (.png file), not code
-- ✅ Bot-check prevents infinite loops
-- ✅ Graph is deterministic (generated from verified code)
-
-**For human developers:** Branch protection remains fully active - PRs required, checks must pass.
-
-### Repository Settings Requirements
-
-**GitHub Repository Settings → Actions → General → Workflow permissions:**
-- Select "Read and write permissions" ✅ REQUIRED
-
-**GitHub Repository Settings → Branches → master → Branch protection rules:**
-- "Do not allow bypassing the above settings" must be **UNCHECKED** ✅ REQUIRED
-  - This allows the workflow (using AUTO_MERGE_PAT) to push directly to master
-  - All other protection rules remain active (PRs required for humans)
-
-## Monthly Deprecation Check
-
-**Workflow File:** `.github/workflows/deprecation-check.yml`
+**Workflow File:** `.github/workflows/monthly-master-sanity-check.yml`
 
 **Trigger:** Monthly on the 1st at 9:00 AM UTC, or manual dispatch
 
-**Purpose:** Scans codebase for deprecation warnings and outdated dependencies
+**Purpose:** Comprehensive health check of the master branch to catch configuration drift and violations
 
-### What It Does
+### What It Checks
 
-Performs build deprecation checks, Android Lint checks, and dependency updates analysis. Automatically creates or updates a GitHub issue when deprecations are found, with detailed reports uploaded as artifacts (90-day retention).
+This workflow runs three independent verification jobs:
 
-See [DEPRECATION_CHECKER.md](DEPRECATION_CHECKER.md) for full documentation.
+**1. Module Dependencies Verification**
+- Runs `assertModuleGraph` for both mobile and TV apps
+- Ensures module dependency rules are not violated
+- Creates GitHub issue if violations found
+
+**2. Dependency Graph Verification**
+- Generates the dependency graph from current code
+- Compares with committed `docs/dependency-graph.gv` (DOT file)
+- Creates GitHub issue if graph is out of sync
+
+**3. Deprecation Check**
+- Runs full build with deprecation warnings enabled
+- Scans for deprecated APIs, libraries, or Gradle features
+- Uploads warning details as artifact
+- Creates GitHub issue if deprecations found
+
+### GitHub Issues
+
+When problems are detected:
+- **One issue per check type** for clear separation
+- Issues are **automatically assigned** to @shining-cat
+- Previous issues are **automatically closed** when new ones are created
+- Issues include:
+  - Check date and workflow run link
+  - Clear description of the problem
+  - Action steps to resolve
+  - Links to relevant documentation
+
+**Issue Labels:**
+- `sanity-check` - All sanity check issues
+- `module-dependencies` - Module architecture violations
+- `dependency-graph` - Graph out of sync
+- `deprecations` - Deprecation warnings
+- Plus: `bug`, `documentation`, or `maintenance` as appropriate
+
+### When To Run Manually
+
+Use `workflow_dispatch` to run this check manually when:
+- After major refactoring
+- Before release
+- After dependency updates
+- To verify master branch health
+
+**No issues created** = Master branch is healthy ✅

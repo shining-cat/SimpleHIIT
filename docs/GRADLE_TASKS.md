@@ -18,17 +18,30 @@ IDE locations:
 
 ### Generate Complete Unified Graph (TV + Mobile) Locally
 
+**Recommended: Use the helper script** (automatically handles both files):
+
 ```bash
-./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
+./scripts/update-dependency-graph.sh
 ```
 
-This Gradle task generates both graphs, combines them, and converts to PNG. It's cross-platform and works on macOS, Linux, and Windows.
+This script:
+- Generates the dependency graph (both `.gv` and `.png` files)
+- Copies the `.gv` file to `docs/` for CI validation
+- Provides clear next steps
+
+**Manual approach** (if needed):
+
+```bash
+./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
+cp build/reports/dependency-graph.gv docs/dependency-graph.gv
+```
 
 **IDE location**: `SimpleHIIT > Tasks > documentation > generateUnifiedDependencyGraph`
 
 **Output files:**
-- Graphviz file: `build/reports/dependency-graph.gv`
-- PNG image: `docs/project_dependencies_graph.png`
+- `build/reports/dependency-graph.gv` - Generated DOT file (intermediate)
+- `docs/dependency-graph.gv` - Committed DOT file (validated by CI)
+- `docs/project_dependencies_graph.png` - Visual documentation
 
 The generated graph shows both mobile and TV app modules (`:android:mobile:*` and `:android:tv:*`) along with shared modules (`:domain:*`, `:data`, `:commonUtils`, etc.) to visualize the complete project architecture.
 
@@ -41,22 +54,23 @@ The generated graph shows both mobile and TV app modules (`:android:mobile:*` an
 
 **Workflow:**
 1. Make your dependency changes
-2. Run `./gradlew generateUnifiedDependencyGraph`
-3. Commit code changes AND updated graph together
-4. Create PR with both changes
+2. Run `./scripts/update-dependency-graph.sh`
+3. Review changes: `git diff docs/dependency-graph.gv`
+4. Commit code changes AND both graph files together
+5. Create PR with all changes
 
 **Why?**
 - Graph changes visible in PR for review
+- CI validates the DOT file matches the code (reliable, deterministic)
 - Everything stays synchronized
-- CI safety net verifies graph is current
-- Prevents surprise commits after merge
+- Prevents merge failures
 
 **Note**: Graphviz must be installed to generate the PNG. Install with:
 - macOS: `brew install graphviz`
 - Ubuntu: `sudo apt-get install graphviz`
 - Windows: `choco install graphviz` or download from https://graphviz.org/download/
 
-See [MODULE_DEPENDENCIES.md](MODULE_DEPENDENCIES.md) for architecture details.
+See [MODULE_DEPENDENCIES.md](MODULE_DEPENDENCIES.md) for architecture details and [CI_WORKFLOWS.md](CI_WORKFLOWS.md) for validation details.
 
 ---
 

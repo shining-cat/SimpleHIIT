@@ -67,6 +67,35 @@ jobs:
           ./gradlew :android:mobile:app:assertModuleGraph --no-configure-on-demand
           ./gradlew :android:tv:app:assertModuleGraph --no-configure-on-demand
 
+      - name: Verify Dependency Graph Is Current
+        run: |
+          # Generate the dependency graph (generates both .gv and .png, we only check .gv)
+          ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
+          
+          # Copy DOT file to docs/ for tracking
+          cp build/reports/dependency-graph.gv docs/dependency-graph.gv
+          
+          # Check if the generated DOT file differs from committed version
+          if ! git diff --exit-code docs/dependency-graph.gv; then
+            echo "❌ ERROR: Module dependency graph is out of sync!"
+            echo ""
+            echo "The inter-modules dependency graph generated from this PR does not match the current one."
+            echo "Please generate it locally for careful examination and commit it to the branch if it matches the intention of this PR."
+            echo ""
+            echo "To update the graph:"
+            echo "  1. Run: ./gradlew generateUnifiedDependencyGraph"
+            echo "  2. Copy: cp build/reports/dependency-graph.gv docs/dependency-graph.gv"
+            echo "  3. Review the changes in: docs/dependency-graph.gv"
+            echo "  4. If changes are expected, commit: git add docs/dependency-graph.gv docs/project_dependencies_graph.png"
+            echo "  5. Push to your branch"
+            echo ""
+            echo "Note: Both the .gv (for CI validation) and .png (for documentation) files should be committed together"
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ Dependency graph is current and matches module structure"
+
   unit-tests:
     name: Run Unit Tests
     runs-on: ubuntu-latest
