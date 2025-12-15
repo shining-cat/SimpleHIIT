@@ -195,25 +195,17 @@ jobs:
           script: |
             const body = `## Module Dependencies Violation Detected
 
-            The monthly master sanity check has detected module dependency violations.
-
             **Check Date:** ${new Date().toISOString().split('T')[0]}
-            **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
 
-            ### What This Means
+            ### Issues Found
 
-            The module dependency rules defined in the project are being violated on the master branch.
+            - Module dependency rules are being violated on the master branch
+            - Run locally to reproduce: \`./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph\`
 
-            ### Action Required
+            ### Resources
 
-            1. Review the workflow run for details
-            2. Run locally: \`./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph\`
-            3. Fix any violations
-            4. Verify changes with a PR
-
-            ### Reference
-
-            See [MODULE_DEPENDENCIES.md](${context.payload.repository.html_url}/blob/master/docs/MODULE_DEPENDENCIES.md) for dependency rules.
+            - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - **Documentation:** [MODULE_DEPENDENCIES.md](${context.payload.repository.html_url}/blob/master/docs/MODULE_DEPENDENCIES.md)
 
             ---
             _This issue was automatically created by the Monthly Master Sanity Check workflow._`;
@@ -261,26 +253,17 @@ jobs:
           script: |
             const body = `## Dependency Graph Out of Sync
 
-            The monthly master sanity check has detected that the dependency graph is not current.
-
             **Check Date:** ${new Date().toISOString().split('T')[0]}
-            **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
 
-            ### What This Means
+            ### Issues Found
 
-            The committed dependency graph (docs/dependency-graph.gv) does not match the current module structure.
+            - Committed dependency graph (docs/dependency-graph.gv) does not match current module structure
+            - Run locally to regenerate: \`./gradlew generateUnifiedDependencyGraph && cp build/reports/dependency-graph.gv docs/dependency-graph.gv\`
 
-            ### Action Required
+            ### Resources
 
-            1. Run locally: \`./gradlew generateUnifiedDependencyGraph\`
-            2. Copy: \`cp build/reports/dependency-graph.gv docs/dependency-graph.gv\`
-            3. Review the changes in docs/dependency-graph.gv
-            4. Commit and push if changes are expected: \`git add docs/dependency-graph.gv docs/project_dependencies_graph.png\`
-            5. Investigate why the graph was not updated with the last module change
-
-            ### Reference
-
-            See [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md) for graph generation instructions.
+            - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - **Documentation:** [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md)
 
             ---
             _This issue was automatically created by the Monthly Master Sanity Check workflow._`;
@@ -329,30 +312,21 @@ jobs:
           script: |
             const body = `## Build Failure During Deprecation Check
 
-            The monthly master sanity check detected a build failure while attempting to check for deprecations.
-
             **Check Date:** ${new Date().toISOString().split('T')[0]}
-            **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
 
-            ### What This Means
+            ⚠️ **Critical Issue** - Master branch should always build successfully.
 
-            The build failed before deprecation checking could complete. This indicates a compilation or configuration error in the master branch.
+            ### Issues Found
 
-            ### Action Required
+            - Build failed before deprecation checking could complete
+            - Indicates a compilation or configuration error in the master branch
+            - Run locally to reproduce: \`./gradlew clean assembleDebug --warning-mode all\`
 
-            1. Download the \`deprecation-warnings\` artifact from the workflow run to see the full build output
-            2. Review the build failure details
-            3. Fix the build errors
-            4. Ensure the build succeeds locally: \`./gradlew clean assembleDebug --warning-mode all\`
-            5. Create a PR to fix the build issues
+            ### Resources
 
-            ### Important
-
-            **This is a critical issue** - the master branch should always build successfully. Address this with priority.
-
-            ### Reference
-
-            See [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md) for more information.
+            - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - **Build Output Artifact:** [Download deprecation-warnings](${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts)
+            - **Documentation:** [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md)
 
             ---
             _This issue was automatically created by the Monthly Master Sanity Check workflow._`;
@@ -373,25 +347,18 @@ jobs:
           script: |
             const body = `## Deprecation Warnings Detected
 
-            The monthly master sanity check has detected deprecation warnings in the codebase.
-
             **Check Date:** ${new Date().toISOString().split('T')[0]}
-            **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
 
-            ### What This Means
+            ### Issues Found
 
-            The build process has detected usage of deprecated APIs, libraries, or Gradle features.
+            - Usage of deprecated APIs, libraries, or Gradle features detected
+            - Run locally to reproduce: \`./gradlew clean assembleDebug --warning-mode all\`
 
-            ### Action Required
+            ### Resources
 
-            1. Download the \`deprecation-warnings\` artifact from the workflow run
-            2. Review the deprecation warnings
-            3. Plan migration to non-deprecated alternatives
-            4. Update dependencies if needed
-
-            ### Reference
-
-            See [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md) for more information about handling deprecations.
+            - **Workflow Run:** [View Details](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - **Build Output Artifact:** [Download deprecation-warnings](${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts)
+            - **Documentation:** [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md)
 
             ---
             _This issue was automatically created by the Monthly Master Sanity Check workflow._`;
