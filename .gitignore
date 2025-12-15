@@ -1,3 +1,4 @@
+!build/reports/dependency-graph.gv
 *.iml
 .gradle
 /local.properties
