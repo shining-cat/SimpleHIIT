@@ -71,7 +71,14 @@ jobs:
           path: docs/project_dependencies_graph.png
           retention-days: 90
 
-      - name: Commit updated graph directly to master
+      - name: Set up git remote with PAT
+        if: steps.git-check.outputs.changed == 'true'
+        env:
+          PAT_TOKEN: ${{ secrets.AUTO_MERGE_PAT }}
+        run: |
+          git remote set-url origin https://x-access-token:${PAT_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+
+      - name: Commit and push updated graph to master
         if: steps.git-check.outputs.changed == 'true'
         env:
           PAT_TOKEN: ${{ secrets.AUTO_MERGE_PAT }}
@@ -83,7 +90,7 @@ jobs:
           git add docs/project_dependencies_graph.png
           git commit -m "Update module dependency graph [skip ci]"
           
-          # Push using PAT (can now bypass branch protection)
-          git push https://x-access-token:${PAT_TOKEN}@github.com/shining-cat/SimpleHIIT.git master
+          # Push using properly configured remote with PAT authentication
+          git push origin HEAD:master
           
           echo "✅ Dependency graph updated and committed to master"
