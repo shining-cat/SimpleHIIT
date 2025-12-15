@@ -146,21 +146,6 @@ See [KOVER_CODE_COVERAGE.md](KOVER_CODE_COVERAGE.md) for configuration details.
 ---
 
 ## CI/CD
+gradle tasks are also leveraged in the repository itself.
 
-The project uses two separate GitHub Actions workflows:
-
-**Verification Workflow** (`.github/workflows/android-verifications.yml`)
-- Runs on: Pull requests to `master` or `develop`
-- Tasks:
-  1. `ktlintCheck` - Code style validation
-  2. `assertModuleGraph` - Dependency rules enforcement (for both mobile AND TV apps)
-  3. `testDebugUnitTest` - Unit tests
-- Purpose: Validate changes before merging
-
-**Update Dependency Graph Workflow** (`.github/workflows/update-module-dependency-graph.yml`)
-- Runs on: Merges to `master` (automatic) or manual trigger
-- Tasks:
-  1. Generate unified dependency graph visualization (combining mobile AND TV modules)
-  2. Commit updated graph to repository
-  3. Upload graph as artifact (90-day retention)
-- Purpose: Keep dependency graph up-to-date with validated changes
+See [CI_WORKFLOWS.md](CI_WORKFLOWS.md) for a complete description.
