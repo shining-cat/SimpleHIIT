@@ -171,14 +171,18 @@ This workflow runs three independent verification jobs:
 
 **2. Dependency Graph Verification**
 - Generates the dependency graph from current code
+- **Properly detects and reports build failures** before graph comparison
 - Compares with committed `docs/dependency-graph.gv` (DOT file)
-- Creates GitHub issue if graph is out of sync
+- Creates GitHub issue if graph generation fails or graph is out of sync
 
 **3. Deprecation Check**
 - Runs full build with deprecation warnings enabled
+- **Properly detects and reports build failures** (not just deprecations)
 - Scans for deprecated APIs, libraries, or Gradle features
-- Uploads warning details as artifact
-- Creates GitHub issue if deprecations found
+- Uploads build output as artifact when failures or warnings are detected
+- Creates GitHub issue with appropriate context:
+  - **Build failure**: Creates critical bug issue with build error details
+  - **Deprecation warnings**: Creates maintenance issue with deprecation details
 
 ### GitHub Issues
 

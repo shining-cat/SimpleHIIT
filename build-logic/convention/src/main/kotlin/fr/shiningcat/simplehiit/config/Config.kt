@@ -24,8 +24,8 @@ object ConfigHandheld {
             targetSdkVersion = 36,
             compileSdkVersion = 36,
             applicationId = APPLICATION_ID,
-            versionCode = 21100003,
-            versionName = "0.03",
+            versionCode = 23100004,
+            versionName = "0.04",
             nameSpace = "fr.shiningcat.simplehiit.mobile.app",
         )
     val jvm =
@@ -42,8 +42,8 @@ object ConfigTv {
             targetSdkVersion = 36,
             compileSdkVersion = 36,
             applicationId = APPLICATION_ID,
-            versionCode = 21010003,
-            versionName = "0.03",
+            versionCode = 23010004,
+            versionName = "0.04",
             nameSpace = "fr.shiningcat.simplehiit.tv.app",
         )
     val jvm =
@@ -57,8 +57,8 @@ object ConfigLibrary {
     // libraries config data: these should be the lowest of tv and handheld respective values
     val config =
         AndroidLibraryConfig(
-            minSdkVersion = 21,
-            compileSdkVersion = 35,
+            minSdkVersion = 23,
+            compileSdkVersion = 36,
         )
     val jvm =
         JvmConfig(
