@@ -70,15 +70,15 @@ jobs:
             ~/.gradle/wrapper
           key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
 
-      - name: Install Graphviz
-        run: sudo apt-get install -y graphviz
-
       - name: Verify Dependency Graph
         id: check
         run: |
           ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
           
-          if git diff --exit-code docs/project_dependencies_graph.png; then
+          # Copy DOT file to docs/ for comparison
+          cp build/reports/dependency-graph.gv docs/dependency-graph.gv
+          
+          if git diff --exit-code docs/dependency-graph.gv; then
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ Dependency graph is current"
           else
@@ -202,7 +202,7 @@ The module dependency rules defined in the project are being violated on the mas
 See [MODULE_DEPENDENCIES.md](${context.payload.repository.html_url}/blob/master/docs/MODULE_DEPENDENCIES.md) for dependency rules.
 
 ---
-*This issue was automatically created by the Monthly Master Sanity Check workflow.*`
+_This issue was automatically created by the Monthly Master Sanity Check workflow._`
             });
 
   report-dependency-graph:
@@ -252,21 +252,22 @@ The monthly master sanity check has detected that the dependency graph is not cu
 
 ### What This Means
 
-The committed dependency graph (\`docs/project_dependencies_graph.png\`) does not match the current module structure.
+The committed dependency graph (docs/dependency-graph.gv) does not match the current module structure.
 
 ### Action Required
 
 1. Run locally: \`./gradlew generateUnifiedDependencyGraph\`
-2. Review the changes in \`docs/project_dependencies_graph.png\`
-3. Commit and push the updated graph if changes are expected
-4. Investigate why the graph was not updated with the last module change
+2. Copy: \`cp build/reports/dependency-graph.gv docs/dependency-graph.gv\`
+3. Review the changes in docs/dependency-graph.gv
+4. Commit and push if changes are expected: \`git add docs/dependency-graph.gv docs/project_dependencies_graph.png\`
+5. Investigate why the graph was not updated with the last module change
 
 ### Reference
 
 See [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md#generate-complete-unified-graph-tv--mobile-locally) for graph generation instructions.
 
 ---
-*This issue was automatically created by the Monthly Master Sanity Check workflow.*`
+_This issue was automatically created by the Monthly Master Sanity Check workflow._`
             });
 
   report-deprecations:
@@ -330,5 +331,5 @@ The build process has detected usage of deprecated APIs, libraries, or Gradle fe
 See [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md) for more information about handling deprecations.
 
 ---
-*This issue was automatically created by the Monthly Master Sanity Check workflow.*`
+_This issue was automatically created by the Monthly Master Sanity Check workflow._`
             });

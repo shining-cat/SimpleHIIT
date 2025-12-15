@@ -112,11 +112,17 @@ This is the **single required status check** for branch protection. It provides 
 **Important:** When making changes that affect module dependencies, you must update the dependency graph:
 
 1. Make your dependency changes
-2. Run `./gradlew generateUnifiedDependencyGraph`
-3. Review the updated `docs/project_dependencies_graph.png`
-4. Commit the updated graph with your code changes
+2. Run `./scripts/update-dependency-graph.sh` (recommended) or manually run the Gradle task
+3. Review changes: `git diff docs/dependency-graph.gv` (text diff shows exact module changes)
+4. Commit both graph files: `git add docs/dependency-graph.gv docs/project_dependencies_graph.png`
+
+**What's validated:**
+- CI compares `docs/dependency-graph.gv` (DOT file - text format, deterministic)
+- The PNG file (`docs/project_dependencies_graph.png`) is for documentation only
 
 **If you forget:** The verification workflow will fail with a clear message explaining how to update the graph.
+
+**Why DOT file instead of PNG?** PNG files can have slight rendering differences even with identical dependencies (platform-specific rendering, font differences). The DOT file is text-based and reliably shows actual dependency changes.
 
 ## Auto Merge and Delete
 
@@ -165,7 +171,7 @@ This workflow runs three independent verification jobs:
 
 **2. Dependency Graph Verification**
 - Generates the dependency graph from current code
-- Compares with committed `docs/project_dependencies_graph.png`
+- Compares with committed `docs/dependency-graph.gv` (DOT file)
 - Creates GitHub issue if graph is out of sync
 
 **3. Deprecation Check**
