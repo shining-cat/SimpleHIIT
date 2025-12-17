@@ -54,7 +54,7 @@ jobs:
           retention-days: 90
 
   verify-dependency-graph:
-    name: Verify Dependency Graph
+    name: Verify Dependency Graph is up to date
     runs-on: ubuntu-latest
     outputs:
       status: ${{ steps.check.outputs.status }}
@@ -338,7 +338,7 @@ jobs:
             });
 
   report-dependency-graph:
-    name: Report Dependency Graph Issues
+    name: Report Dependency Graph Out of Date
     runs-on: ubuntu-latest
     needs: verify-dependency-graph
     if: always()
@@ -706,6 +706,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})`,
-              labels: ['sanity-check-dep-updates', 'sanity-check', 'maintenance'],
+              labels: ['sanity-check-dep-updates'],
               body: body
             });
