@@ -2,11 +2,19 @@
 
 ## Build & Testing Behavior
 
-**DO NOT attempt to build the project or run tests.**
+**DO NOT attempt to build the project or run tests (unless specifically requested).**
 - The development environment has specific setup requirements that make automated builds/tests unreliable
 - The developer will manually run all builds and tests during their review and appropriation phase
 - Focus on code generation, file modifications, and analysis only
 - When work is complete, do not suggest or execute build/test commands in the completion step
+
+**When executing Gradle commands (if specifically requested):**
+- Each command runs in a fresh terminal without inheriting shell environment variables
+- MUST explicitly set JAVA_HOME to Java 17 when running Gradle tasks
+- Use this pattern: `JAVA_HOME=/opt/homebrew/Cellar/openjdk@17/17.0.17/libexec/openjdk.jdk/Contents/Home ./gradlew [task]`
+- The default system Java (25) is incompatible with the Kotlin tooling in Gradle 8.14.3
+
+**Philosophy:** Environment setup is critical. Gradle commands require explicit Java 17 configuration to function properly.
 
 ## Documentation & Comments
 
@@ -21,3 +29,13 @@
 - Serve as conversation artifacts rather than code documentation
 
 **Philosophy:** Documentation should add value for future developers, not echo our implementation discussion.
+
+## File Change Handling
+
+**When files have been modified since your last edit:**
+- DO NOT automatically revert changes to what you remember from earlier in the conversation
+- Assume the developer has made purposeful edits as part of the collaborative process
+- If you notice a change that seems detrimental or problematic, ask about it and voice your concern
+- Discuss any concerning changes before making modifications
+
+**Philosophy:** Respect the iterative nature of our collaboration. File changes between edits are intentional unless proven otherwise.
