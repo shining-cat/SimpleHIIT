@@ -333,8 +333,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Module Dependencies Violation (${problemCount} issue${problemCount > 1 ? 's' : ''})`,
-              labels: ['sanity-check-module-deps', 'sanity-check', 'bug'],
-              assignees: ['shining-cat'],
+              labels: ['sanity-check-module-deps'],
               body: body
             });
 
@@ -425,8 +424,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Dependency Graph Out of Sync (1 issue)',
-              labels: ['sanity-check-dep-graph', 'sanity-check', 'documentation'],
-              assignees: ['shining-cat'],
+              labels: ['sanity-check-dep-graph'],
               body: body
             });
 
@@ -572,8 +570,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: title,
-              labels: ['sanity-check-deprecations', 'sanity-check', status === 'failure' ? 'bug' : 'maintenance'],
-              assignees: ['shining-cat'],
+              labels: ['sanity-check-deprecations'],
               body: body
             });
 
@@ -710,6 +707,5 @@ jobs:
               repo: context.repo.repo,
               title: `Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})`,
               labels: ['sanity-check-dep-updates', 'sanity-check', 'maintenance'],
-              assignees: ['shining-cat'],
               body: body
             });
