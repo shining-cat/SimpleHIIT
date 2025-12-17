@@ -162,53 +162,27 @@ This workflow requires the same repository settings as the Update Module Depende
 
 ### What It Checks
 
-This workflow runs three independent verification jobs:
+This workflow runs four independent verification jobs:
 
-**1. Module Dependencies Verification**
-- Runs `assertModuleGraph` for both mobile and TV apps
-- Ensures module dependency rules are not violated
-- Creates GitHub issue if violations found
+1. Module Dependencies Verification
+2. Dependency Graph Verification
+3. Deprecation Check
+4. Dependency Updates Check
 
-**2. Dependency Graph Verification**
-- Generates the dependency graph from current code
-- **Properly detects and reports build failures** before graph comparison
-- Compares with committed `docs/dependency-graph.gv` (DOT file)
-- Creates GitHub issue if graph generation fails or graph is out of sync
+### GitHub Issues - Individual & Auto-Managed
 
-**3. Deprecation Check**
-- Runs full build with deprecation warnings enabled
-- **Properly detects and reports build failures** (not just deprecations)
-- Scans for deprecated APIs, libraries, or Gradle features
-- Uploads build output as artifact when failures or warnings are detected
-- Creates GitHub issue with appropriate context:
-  - **Build failure**: Creates critical bug issue with build error details
-  - **Deprecation warnings**: Creates maintenance issue with deprecation details
+When problems are detected, the workflow creates **one issue per check type**:
 
-### GitHub Issues
+**Issue Lifecycle:**
+- Each check type has a unique label (e.g., `sanity-check-module-deps`)
+- When workflow runs:
+  - ✅ **Check passes**: Closes any existing issues with that label
+  - ❌ **Check fails**: Closes old issues, creates new issue with current problems
+- Issues are **NOT assigned** (avoids notification noise)
+- Issues are **auto-closed** when problems are resolved on next run
 
-When problems are detected:
-- **One issue per check type** for clear separation
-- Issues are **automatically assigned** to @shining-cat
-- Previous issues are **automatically closed** when new ones are created
-- Issues include:
-  - Check date and workflow run link
-  - Clear description of the problem
-  - Action steps to resolve
-  - Links to relevant documentation
-
-**Issue Labels:**
-- `sanity-check` - All sanity check issues
-- `module-dependencies` - Module architecture violations
-- `dependency-graph` - Graph out of sync
-- `deprecations` - Deprecation warnings
-- Plus: `bug`, `documentation`, or `maintenance` as appropriate
-
-### When To Run Manually
-
-Use `workflow_dispatch` to run this check manually when:
-- After major refactoring
-- Before release
-- After dependency updates
-- To verify master branch health
-
-**No issues created** = Master branch is healthy ✅
+**Issue Labels (one per check):**
+- `sanity-check-module-deps` - Module architecture violations
+- `sanity-check-dep-graph` - Dependency graph out of sync
+- `sanity-check-deprecations` - Build failures or deprecation warnings
+- `sanity-check-dep-updates` - Available dependency updates
