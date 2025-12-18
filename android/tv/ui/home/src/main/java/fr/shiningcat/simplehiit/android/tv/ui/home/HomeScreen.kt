@@ -69,6 +69,7 @@ private fun HomeScreen(
         SideEffect {
             // applying primary color to Status bar
             val window = (view.context as Activity).window
+            // todo: fix deprecation:
             window.statusBarColor = primaryAsInt
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkMode
         }
