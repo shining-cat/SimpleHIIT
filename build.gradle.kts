@@ -24,6 +24,16 @@ plugins {
     alias(libs.plugins.simplehiit.documentation)
 }
 
+// Force kotlin-metadata-jvm to support Kotlin 2.3.0 with Hilt
+// See: https://github.com/google/dagger/issues/5001
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            force("org.jetbrains.kotlin:kotlin-metadata-jvm:2.3.0")
+        }
+    }
+}
+
 // Configure root clean task to delete Kover reports
 tasks.named<Delete>("clean") {
     delete("build/reports/kover")
@@ -39,6 +49,14 @@ fun String.isNonStable(): Boolean {
 }
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
+    // Workaround for Gradle 9+ parallel execution issue
+    // See: https://github.com/ben-manes/gradle-versions-plugin/issues/968
+    // Root cause: AGP modifies configurations during runtime iteration (Gradle API misuse)
+    // This disables parallel execution for this specific task only
+    doFirst {
+        gradle.startParameter.isParallelProjectExecutionEnabled = false
+    }
+
     rejectVersionIf {
         candidate.version.isNonStable()
     }

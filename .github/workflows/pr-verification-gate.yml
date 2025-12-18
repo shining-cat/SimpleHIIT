@@ -86,12 +86,27 @@ jobs:
                 ref: context.payload.pull_request.head.sha
               });
               
-              // Find our required checks
-              const relevantChecks = checkRuns.check_runs.filter(check => 
-                requiredChecks.includes(check.name)
-              );
+              // Find our required checks and get the most recent run for each unique check name
+              // This handles cases where checks are re-run, creating multiple check runs with the same name
+              const checksByName = new Map();
+              for (const check of checkRuns.check_runs) {
+                if (requiredChecks.includes(check.name)) {
+                  const existing = checksByName.get(check.name);
+                  // Keep the most recent check run (highest id)
+                  if (!existing || check.id > existing.id) {
+                    checksByName.set(check.name, check);
+                  }
+                }
+              }
+              
+              const relevantChecks = Array.from(checksByName.values());
               
               core.info(`Found ${relevantChecks.length}/${requiredChecks.length} required checks`);
+              if (relevantChecks.length > 0) {
+                relevantChecks.forEach(check => {
+                  core.info(`  - ${check.name}: ${check.status} (${check.conclusion || 'in progress'})`);
+                });
+              }
               
               // Check if all required checks are present
               if (relevantChecks.length === requiredChecks.length) {
@@ -125,7 +140,8 @@ jobs:
                   core.info(`Waiting for: ${pending.map(c => c.name).join(', ')}`);
                 }
               } else {
-                core.info('Waiting for all required checks to be registered...');
+                const missing = requiredChecks.filter(name => !checksByName.has(name));
+                core.info(`Waiting for checks to register: ${missing.join(', ')}`);
               }
               
               // Wait before polling again
