@@ -85,6 +85,11 @@ This is the **single required status check** for branch protection. It provides 
 - Reports their combined status
 - Fails if any verification check fails
 
+**Handling Re-runs:**
+- The workflow correctly handles check re-runs by tracking the most recent check run for each job
+- When a check is re-run, multiple check runs with the same name exist - the gate only considers the latest one
+- This prevents false timeouts when developers retry failed checks
+
 ## Android Verification
 
 **Workflow File:** `.github/workflows/android-verifications.yml`
