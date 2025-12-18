@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
@@ -17,12 +16,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.window.core.layout.WindowHeightSizeClass
-import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTopBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInsets
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.contents.SettingsContentHolder
@@ -202,17 +200,7 @@ private fun SettingsScreen(
 private fun SettingsScreenPreview(
     @PreviewParameter(SettingsScreenPreviewParameterProvider::class) viewState: SettingsViewState,
 ) {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    val previewUiArrangement: UiArrangement =
-        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
-            UiArrangement.HORIZONTAL
-        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
-            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
-                UiArrangement.HORIZONTAL
-            } else {
-                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
-            }
-        }
+    val previewUiArrangement = currentUiArrangement()
     SimpleHiitMobileTheme {
         Surface {
             SettingsScreen(

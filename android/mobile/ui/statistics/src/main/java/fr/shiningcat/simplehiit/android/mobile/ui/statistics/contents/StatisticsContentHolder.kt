@@ -3,7 +3,6 @@ package fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -11,11 +10,10 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.window.core.layout.WindowHeightSizeClass
-import androidx.window.core.layout.WindowWidthSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.WarningDialog
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsDialog
@@ -42,8 +40,9 @@ fun StatisticsContentHolder(
 ) {
     Box(modifier = modifier) {
         when (screenViewState) {
-            StatisticsViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
-
+            StatisticsViewState.Loading -> {
+                BasicLoading(modifier = Modifier.fillMaxSize())
+            }
             is StatisticsViewState.Nominal -> {
                 StatisticsNominalContent(
                     deleteAllSessionsForUser = deleteAllSessionsForUser,
@@ -54,22 +53,21 @@ fun StatisticsContentHolder(
                     modifier = Modifier.fillMaxSize(),
                 )
             }
-
-            is StatisticsViewState.NoSessions ->
+            is StatisticsViewState.NoSessions -> {
                 StatisticsNoSessionsContent(
                     noSessionsViewState = screenViewState,
                     uiArrangement = uiArrangement,
                     onUserSelected = selectUser,
                     modifier = Modifier.fillMaxSize(),
                 )
-
-            StatisticsViewState.NoUsers ->
+            }
+            StatisticsViewState.NoUsers -> {
                 StatisticsNoUsersContent(
                     modifier = Modifier.fillMaxSize(),
                     uiArrangement = uiArrangement,
                 )
-
-            is StatisticsViewState.Error ->
+            }
+            is StatisticsViewState.Error -> {
                 StatisticsErrorContent(
                     errorViewState = screenViewState,
                     deleteSessionsForUser = { deleteAllSessionsForUser(screenViewState.selectedUser) },
@@ -77,19 +75,20 @@ fun StatisticsContentHolder(
                     onUserSelected = selectUser,
                     modifier = Modifier.fillMaxSize(),
                 )
-
-            is StatisticsViewState.FatalError ->
+            }
+            is StatisticsViewState.FatalError -> {
                 StatisticsFatalErrorContent(
                     errorCode = screenViewState.errorCode,
                     resetWholeApp = resetWholeApp,
                     modifier = Modifier.fillMaxSize(),
                 )
+            }
         }
     }
     when (dialogViewState) {
         StatisticsDialog.None -> {} // Do nothing
 
-        is StatisticsDialog.ConfirmDeleteAllSessionsForUser ->
+        is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> {
             WarningDialog(
                 message =
                     stringResource(
@@ -100,14 +99,15 @@ fun StatisticsContentHolder(
                 proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog,
             )
-
-        StatisticsDialog.ConfirmWholeReset ->
+        }
+        StatisticsDialog.ConfirmWholeReset -> {
             WarningDialog(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppConfirmation,
                 dismissAction = cancelDialog,
             )
+        }
     }
 }
 
@@ -119,17 +119,7 @@ fun StatisticsContentHolder(
 private fun StatisticsContentHolderPreview(
     @PreviewParameter(StatisticsContentHolderPreviewParameterProvider::class) viewState: StatisticsViewState,
 ) {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    val previewUiArrangement: UiArrangement =
-        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
-            UiArrangement.HORIZONTAL
-        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
-            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
-                UiArrangement.HORIZONTAL
-            } else {
-                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
-            }
-        }
+    val previewUiArrangement = currentUiArrangement()
     SimpleHiitMobileTheme {
         Surface {
             StatisticsContentHolder(
