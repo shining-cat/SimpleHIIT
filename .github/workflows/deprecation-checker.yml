@@ -59,8 +59,8 @@ jobs:
           # - com.android.tools.lint:lint-gradle (AGP internal dependency)
           # - com.android.tools.build:aapt2 (AGP internal dependency)
           if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            grep -v '"com\.android\.tools\.lint:lint-gradle' build-reports/deprecations.txt | \
-              grep -v '"com\.android\.tools\.build:aapt2' > build-reports/deprecations-filtered.txt || true
+            grep -v 'com\.android\.tools\.lint:lint-gradle' build-reports/deprecations.txt | \
+              grep -v 'com\.android\.tools\.build:aapt2' > build-reports/deprecations-filtered.txt || true
             mv build-reports/deprecations-filtered.txt build-reports/deprecations.txt
           fi
           
@@ -88,8 +88,9 @@ jobs:
           # Check for outdated dependencies that might have deprecations
           ./gradlew dependencyUpdates -Drevision=release 2>&1 | tee build-reports/dependency-updates.log
           
-          # Extract outdated dependencies
-          grep -A 5 "The following dependencies have later" build-reports/dependency-updates.log > build-reports/outdated-deps.txt || true
+          # Extract outdated dependencies - capture everything from "The following dependencies have later" 
+          # until the next section or end of relevant output
+          sed -n '/The following dependencies have later/,/^$/p' build-reports/dependency-updates.log > build-reports/outdated-deps.txt || true
           
           # Filter out known transitive dependencies that are managed by plugins (not direct dependencies)
           # These updates cannot be controlled in this project and will be updated when the parent plugin updates
@@ -98,11 +99,16 @@ jobs:
           # - io.github.detekt.sarif4k:* (transitive from ktlint or detekt)
           # - io.github.oshai:kotlin-logging (transitive from ktlint)
           if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-            grep -v " - com\.pinterest\.ktlint:ktlint-cli " build-reports/outdated-deps.txt | \
-              grep -v " - com\.pinterest\.ktlint:ktlint-cli-reporter-baseline " | \
-              grep -v " - com\.pinterest\.ktlint:ktlint-ruleset-standard " | \
-              grep -v " - io\.github\.detekt\.sarif4k:sarif4k " | \
-              grep -v " - io\.github\.oshai:kotlin-logging " > build-reports/outdated-deps-filtered.txt || true
+            # Use awk to filter out both the dependency line and its following URL line
+            awk '
+              /^ - com\.pinterest\.ktlint:ktlint-cli / { skip=1; next }
+              /^ - com\.pinterest\.ktlint:ktlint-cli-reporter-baseline / { skip=1; next }
+              /^ - com\.pinterest\.ktlint:ktlint-ruleset-standard / { skip=1; next }
+              /^ - io\.github\.detekt\.sarif4k:sarif4k / { skip=1; next }
+              /^ - io\.github\.oshai:kotlin-logging / { skip=1; next }
+              skip && /^     https:/ { skip=0; next }
+              { skip=0; print }π
+            ' build-reports/outdated-deps.txt > build-reports/outdated-deps-filtered.txt || true
             mv build-reports/outdated-deps-filtered.txt build-reports/outdated-deps.txt
           fi
 
@@ -153,7 +159,7 @@ jobs:
           
           if [ $TOTAL_COUNT -gt 0 ]; then
             echo "has_deprecations=true" >> $GITHUB_OUTPUT
-            
+          
             # Add artifact download links
             echo "## 📦 Download Detailed Reports" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
@@ -162,46 +168,46 @@ jobs:
             echo "🔗 **[Download All Reports (deprecation-reports-${{ github.run_number }})](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})**" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
             echo "The artifact includes:" >> $REPORT_FILE
-            
+          
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
               echo "- \`deprecations.txt\` - Build deprecation warnings ($BUILD_COUNT)" >> $REPORT_FILE
             fi
-            
+          
             if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
               echo "- \`lint-deprecations.txt\` - Lint deprecation warnings ($LINT_COUNT)" >> $REPORT_FILE
             fi
-            
+          
             if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
               echo "- \`outdated-deps.txt\` - Outdated dependencies" >> $REPORT_FILE
             fi
-            
+          
             echo "- \`build-output.log\` - Complete build output" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
             echo "---" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
-            
+          
             # Build Deprecation Warnings grouped by file
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
               echo "## Build Deprecation Warnings ($BUILD_COUNT)" >> $REPORT_FILE
               echo "" >> $REPORT_FILE
-              
+          
               # Process and group deprecations by file
               # Format is typically: "w: file:///path/to/file.kt:42:5: warning message"
               # or "path/to/file.kt:42: warning message"
               awk '
               {
                 line = $0
-                
+          
                 # Remove "w: file://" prefix if present
                 gsub(/^w: file:\/\//, "", line)
-                
+          
                 # Extract file path (everything before the line number)
                 # Match pattern: filepath:number: or filepath:number:number:
                 if (match(line, /^([^:]+):([0-9]+)/, arr)) {
                   file = arr[1]
                   # Get the rest after file:line
                   rest = substr(line, length(arr[0]) + 1)
-                  
+          
                   # Print file header if changed
                   if (file != prev_file) {
                     if (prev_file != "") print ""
@@ -209,7 +215,7 @@ jobs:
                     print ""
                     prev_file = file
                   }
-                  
+          
                   # Print the warning (line number and message)
                   gsub(/^:/, "", rest)  # Remove leading colon
                   print "- Line " arr[2] rest
@@ -220,7 +226,7 @@ jobs:
               }' build-reports/deprecations.txt >> $REPORT_FILE
               echo "" >> $REPORT_FILE
             fi
-            
+          
             # Lint Deprecation Warnings
             if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
               echo "## Lint Deprecation Warnings ($LINT_COUNT)" >> $REPORT_FILE
@@ -230,7 +236,7 @@ jobs:
               echo '```' >> $REPORT_FILE
               echo "" >> $REPORT_FILE
             fi
-            
+          
             # Outdated Dependencies
             if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
               echo "## Outdated Dependencies" >> $REPORT_FILE
@@ -293,14 +299,14 @@ jobs:
                 issue_number: existingIssue.number,
                 body: `This issue has been superseded by #${newIssue.data.number} from the latest deprecation check on ${currentDate}.`
               });
-              
+            
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
                 state: 'closed'
               });
-              
+            
               core.info(`Closed previous issue #${existingIssue.number}`);
             }
 

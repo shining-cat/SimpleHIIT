@@ -57,6 +57,9 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
         gradle.startParameter.isParallelProjectExecutionEnabled = false
     }
 
+    // Only check for stable release versions (not RC, beta, alpha, etc.)
+    gradleReleaseChannel = "current"
+
     rejectVersionIf {
         candidate.version.isNonStable()
     }
