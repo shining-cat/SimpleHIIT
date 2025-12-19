@@ -1,0 +1,79 @@
+name: Verify Module Dependencies (PR)
+run-name: Verifying Module Dependencies for PR
+
+on:
+  workflow_call:
+
+jobs:
+  verify-module-dependencies:
+    name: Verify Module Dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Verify Module Dependencies
+        run: |
+          # Run assertions for both mobile and TV apps
+          ./gradlew :android:mobile:app:assertModuleGraph --no-configure-on-demand
+          ./gradlew :android:tv:app:assertModuleGraph --no-configure-on-demand
+
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
+
+      - name: Verify Dependency Graph Is Current
+        run: |
+          # Generate the dependency graph (generates both .gv and .png, we only check .gv)
+          ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
+          
+          # Copy DOT file to docs/ for comparison
+          cp build/reports/dependency-graph.gv docs/dependency-graph.gv
+          
+          # Check if file is tracked in git and if it differs
+          if ! git ls-files --error-unmatch docs/dependency-graph.gv > /dev/null 2>&1; then
+            echo "❌ ERROR: Dependency graph file (docs/dependency-graph.gv) is not tracked in git!"
+            echo ""
+            echo "The dependency graph DOT file must be committed to the repository."
+            echo ""
+            echo "To fix this:"
+            echo "  1. Run: ./scripts/update-dependency-graph.sh"
+            echo "  2. Add the file: git add docs/dependency-graph.gv docs/project_dependencies_graph.png"
+            echo "  3. Commit: git commit -m 'Add dependency graph files'"
+            echo "  4. Push to your branch"
+            echo ""
+            exit 1
+          fi
+          
+          # Check if the generated DOT file differs from committed version
+          if ! git diff --exit-code docs/dependency-graph.gv; then
+            echo "❌ ERROR: Module dependency graph is out of sync!"
+            echo ""
+            echo "The inter-modules dependency graph generated from this PR does not match the committed version."
+            echo "Please update it locally and commit the changes."
+            echo ""
+            echo "To update the graph:"
+            echo "  1. Run: ./scripts/update-dependency-graph.sh"
+            echo "  2. Review the changes: git diff docs/dependency-graph.gv"
+            echo "  3. If changes are expected, commit: git add docs/dependency-graph.gv docs/project_dependencies_graph.png"
+            echo "  4. Push to your branch"
+            echo ""
+            exit 1
+          fi
+          
+          echo "✅ Dependency graph is current and matches module structure"

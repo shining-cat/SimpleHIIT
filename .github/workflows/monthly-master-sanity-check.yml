@@ -9,28 +9,28 @@ on:
 jobs:
   verify-module-dependencies:
     name: Verify Module Dependencies
-    uses: ./.github/workflows/module-dependencies-checker.yml
+    uses: ./.github/workflows/reusable-module-dependencies-checker.yml
     permissions:
       issues: write
       contents: read
 
   verify-dependency-graph:
     name: Verify Dependency Graph
-    uses: ./.github/workflows/dependency-graph-checker.yml
+    uses: ./.github/workflows/reusable-dependency-graph-checker.yml
     permissions:
       issues: write
       contents: read
 
   check-deprecations:
     name: Check Deprecations
-    uses: ./.github/workflows/deprecation-checker.yml
+    uses: ./.github/workflows/reusable-deprecation-checker.yml
     permissions:
       issues: write
       contents: read
 
   check-dependency-updates:
     name: Check Dependency Updates
-    uses: ./.github/workflows/dependency-updates-checker.yml
+    uses: ./.github/workflows/reusable-dependency-updates-checker.yml
     permissions:
       issues: write
       contents: read

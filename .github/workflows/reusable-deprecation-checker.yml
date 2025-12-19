@@ -54,11 +54,14 @@ jobs:
           # Also check for Kotlin deprecation warnings
           grep -i "warning.*@deprecated" build-reports/build-output.log >> build-reports/deprecations.txt || true
           
-          # Filter out known AGP-internal deprecation warnings that cannot be fixed in this project
-          # These are multi-string notation warnings from inside AGP itself (not our code)
-          # Only AGP uses multi-string notation internally, so we can safely filter all these warnings
+          # Filter out known issues that cannot be fixed in this project:
+          # 1. AGP-internal multi-string notation warnings (from inside AGP itself, not our code)
+          # 2. Gradle internal stack traces (lines starting with whitespace + "at ")
           if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            grep -F -v 'Declaring dependencies using multi-string notation' build-reports/deprecations.txt > build-reports/deprecations-filtered.txt || true
+            grep -F -v 'Declaring dependencies using multi-string notation' build-reports/deprecations.txt | \
+              grep -v '^\s*at org\.gradle\.' | \
+              grep -v '^\s*at java\.' | \
+              grep -v '^\s*at jdk\.' > build-reports/deprecations-filtered.txt || true
             mv build-reports/deprecations-filtered.txt build-reports/deprecations.txt
           fi
           
@@ -79,33 +82,6 @@ jobs:
           echo "Found $DEPRECATION_COUNT deprecation warnings"
           echo "deprecation_count=$DEPRECATION_COUNT" >> $GITHUB_OUTPUT
 
-      - name: Run Dependency Update Check
-        id: dependency-updates
-        continue-on-error: true
-        run: |
-          # Check for outdated dependencies that might have deprecations
-          ./gradlew dependencyUpdates -Drevision=release 2>&1 | tee build-reports/dependency-updates.log
-          
-          # Extract ONLY outdated dependencies - capture from "The following dependencies have later" 
-          # until we hit a blank line or another section header (like "Failed to determine" or "Gradle")
-          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' build-reports/dependency-updates.log | \
-            grep -v '^Failed to determine\|^Gradle' > build-reports/outdated-deps.txt || true
-          
-          # Filter out known transitive dependencies that are managed by plugins (not direct dependencies)
-          # These updates cannot be controlled in this project and will be updated when the parent plugin updates
-          # Only filters these specific packages to avoid silencing legitimate dependency updates:
-          # - com.pinterest.ktlint:* (transitive from ktlint-gradle plugin)
-          # - io.github.detekt.sarif4k:* (transitive from ktlint or detekt)
-          # - io.github.oshai:kotlin-logging (transitive from ktlint)
-          if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-            grep -F -v 'com.pinterest.ktlint:ktlint-cli' build-reports/outdated-deps.txt | \
-              grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
-              grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
-              grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
-              grep -F -v 'io.github.oshai:kotlin-logging' | \
-              grep -F -v 'Gradle:' > build-reports/outdated-deps-filtered.txt || true
-            mv build-reports/outdated-deps-filtered.txt build-reports/outdated-deps.txt
-          fi
 
       - name: Lint Check for Deprecations
         id: lint
@@ -172,10 +148,6 @@ jobs:
               echo "- \`lint-deprecations.txt\` - Lint deprecation warnings ($LINT_COUNT)" >> $REPORT_FILE
             fi
           
-            if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-              echo "- \`outdated-deps.txt\` - Outdated dependencies" >> $REPORT_FILE
-            fi
-          
             echo "- \`build-output.log\` - Complete build output" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
             echo "---" >> $REPORT_FILE
@@ -228,16 +200,6 @@ jobs:
               echo "" >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               head -100 build-reports/lint-deprecations.txt >> $REPORT_FILE
-              echo '```' >> $REPORT_FILE
-              echo "" >> $REPORT_FILE
-            fi
-          
-            # Outdated Dependencies
-            if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-              echo "## Outdated Dependencies" >> $REPORT_FILE
-              echo "" >> $REPORT_FILE
-              echo '```' >> $REPORT_FILE
-              cat build-reports/outdated-deps.txt >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               echo "" >> $REPORT_FILE
             fi
