@@ -210,20 +210,30 @@ jobs:
         run: |
           ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt
           
-          # Extract only the "dependencies have later" section and filter out transitive dependencies
-          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' dependency-updates-output.txt | \
-            grep -v '^Failed to determine\|^Gradle' | \
-            grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
-            grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
-            grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
-            grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
-            grep -F -v 'io.github.oshai:kotlin-logging' | \
-            grep -F -v 'Gradle:' > dependency-updates-filtered.txt || true
+          # Extract the "dependencies have later" section
+          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle release-candidate updates:\|^$/p' dependency-updates-output.txt > dependency-updates-section.txt || true
           
-          # Check if there are any updates available after filtering
-          if [ -s dependency-updates-filtered.txt ] && grep -q "dependencies have later" dependency-updates-filtered.txt; then
+          # Filter out transitive dependencies and their URLs
+          # Each dependency entry has format:
+          #  - com.example:lib [1.0 -> 2.0]
+          #      https://example.com
+          # We need to remove both lines for filtered dependencies
+          
+          awk '
+          /^ - com\.pinterest\.ktlint:ktlint-cli/ { getline; next }
+          /^ - com\.pinterest\.ktlint:ktlint-cli-reporter-baseline/ { getline; next }
+          /^ - com\.pinterest\.ktlint:ktlint-ruleset-standard/ { getline; next }
+          /^ - io\.github\.detekt\.sarif4k:sarif4k/ { getline; next }
+          /^ - io\.github\.oshai:kotlin-logging/ { getline; next }
+          { print }
+          ' dependency-updates-section.txt > dependency-updates-filtered.txt
+          
+          # Count actual dependency entries (lines starting with " - ")
+          DEPENDENCY_COUNT=$(grep -c '^ - ' dependency-updates-filtered.txt || true)
+          
+          if [ "$DEPENDENCY_COUNT" -gt 0 ]; then
             echo "status=warning" >> $GITHUB_OUTPUT
-            echo "⚠️ Dependency updates available"
+            echo "⚠️ Dependency updates available ($DEPENDENCY_COUNT)"
             # Replace output file with filtered version for reporting
             mv dependency-updates-filtered.txt dependency-updates-output.txt
           else
