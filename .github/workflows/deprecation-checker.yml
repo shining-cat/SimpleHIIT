@@ -53,6 +53,17 @@ jobs:
           # Also check for Kotlin deprecation warnings
           grep -i "warning.*@deprecated" build-reports/build-output.log >> build-reports/deprecations.txt || true
           
+          # Filter out known AGP-internal deprecation warnings that cannot be fixed in this project
+          # These are multi-string notation warnings from inside AGP itself (not our code)
+          # Only filters these specific patterns to avoid silencing legitimate warnings:
+          # - com.android.tools.lint:lint-gradle (AGP internal dependency)
+          # - com.android.tools.build:aapt2 (AGP internal dependency)
+          if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
+            grep -v "multi-string notation.*com\.android\.tools\.lint:lint-gradle" build-reports/deprecations.txt | \
+              grep -v "multi-string notation.*com\.android\.tools\.build:aapt2" > build-reports/deprecations-filtered.txt || true
+            mv build-reports/deprecations-filtered.txt build-reports/deprecations.txt
+          fi
+          
           # Remove duplicates and sort
           sort -u build-reports/deprecations.txt -o build-reports/deprecations.txt
           
