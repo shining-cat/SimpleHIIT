@@ -59,8 +59,8 @@ jobs:
           # - com.android.tools.lint:lint-gradle (AGP internal dependency)
           # - com.android.tools.build:aapt2 (AGP internal dependency)
           if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            grep -v "multi-string notation.*com\.android\.tools\.lint:lint-gradle" build-reports/deprecations.txt | \
-              grep -v "multi-string notation.*com\.android\.tools\.build:aapt2" > build-reports/deprecations-filtered.txt || true
+            grep -v '"com\.android\.tools\.lint:lint-gradle' build-reports/deprecations.txt | \
+              grep -v '"com\.android\.tools\.build:aapt2' > build-reports/deprecations-filtered.txt || true
             mv build-reports/deprecations-filtered.txt build-reports/deprecations.txt
           fi
           
@@ -98,11 +98,11 @@ jobs:
           # - io.github.detekt.sarif4k:* (transitive from ktlint or detekt)
           # - io.github.oshai:kotlin-logging (transitive from ktlint)
           if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-            grep -v "com\.pinterest\.ktlint:ktlint-cli" build-reports/outdated-deps.txt | \
-              grep -v "com\.pinterest\.ktlint:ktlint-cli-reporter-baseline" | \
-              grep -v "com\.pinterest\.ktlint:ktlint-ruleset-standard" | \
-              grep -v "io\.github\.detekt\.sarif4k:sarif4k" | \
-              grep -v "io\.github\.oshai:kotlin-logging" > build-reports/outdated-deps-filtered.txt || true
+            grep -v " - com\.pinterest\.ktlint:ktlint-cli " build-reports/outdated-deps.txt | \
+              grep -v " - com\.pinterest\.ktlint:ktlint-cli-reporter-baseline " | \
+              grep -v " - com\.pinterest\.ktlint:ktlint-ruleset-standard " | \
+              grep -v " - io\.github\.detekt\.sarif4k:sarif4k " | \
+              grep -v " - io\.github\.oshai:kotlin-logging " > build-reports/outdated-deps-filtered.txt || true
             mv build-reports/outdated-deps-filtered.txt build-reports/outdated-deps.txt
           fi
 
