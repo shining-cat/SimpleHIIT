@@ -97,16 +97,12 @@ jobs:
           # - io.github.detekt.sarif4k:* (transitive from ktlint or detekt)
           # - io.github.oshai:kotlin-logging (transitive from ktlint)
           if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-            # Use awk to filter out both the dependency line and its following URL line
-            awk '
-              /^ - com\.pinterest\.ktlint:ktlint-cli / { skip=1; next }
-              /^ - com\.pinterest\.ktlint:ktlint-cli-reporter-baseline / { skip=1; next }
-              /^ - com\.pinterest\.ktlint:ktlint-ruleset-standard / { skip=1; next }
-              /^ - io\.github\.detekt\.sarif4k:sarif4k / { skip=1; next }
-              /^ - io\.github\.oshai:kotlin-logging / { skip=1; next }
-              skip && /^     https:/ { skip=0; next }
-              { skip=0; print }π
-            ' build-reports/outdated-deps.txt > build-reports/outdated-deps-filtered.txt || true
+            grep -F -v 'com.pinterest.ktlint:ktlint-cli' build-reports/outdated-deps.txt | \
+              grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
+              grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
+              grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
+              grep -F -v 'io.github.oshai:kotlin-logging' | \
+              grep -F -v 'Gradle:' > build-reports/outdated-deps-filtered.txt || true
             mv build-reports/outdated-deps-filtered.txt build-reports/outdated-deps.txt
           fi
 
