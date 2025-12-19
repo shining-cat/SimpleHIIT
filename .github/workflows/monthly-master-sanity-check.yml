@@ -155,9 +155,16 @@ jobs:
             exit 1
           fi
           
-          if grep -i "deprecat" deprecation-output.txt; then
+          # Filter out AGP-internal deprecation warnings that cannot be fixed
+          # Only AGP uses multi-string notation internally
+          grep -i "deprecat" deprecation-output.txt | \
+            grep -F -v 'Declaring dependencies using multi-string notation' > deprecation-filtered.txt || true
+          
+          if [ -s deprecation-filtered.txt ]; then
             echo "status=warning" >> $GITHUB_OUTPUT
             echo "⚠️ Deprecation warnings found"
+            # Replace output file with filtered version for reporting
+            mv deprecation-filtered.txt deprecation-output.txt
             exit 1
           else
             echo "status=success" >> $GITHUB_OUTPUT
@@ -203,10 +210,22 @@ jobs:
         run: |
           ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt
           
-          # Check if there are any updates available
-          if grep -q "dependencies have later" dependency-updates-output.txt; then
+          # Extract only the "dependencies have later" section and filter out transitive dependencies
+          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' dependency-updates-output.txt | \
+            grep -v '^Failed to determine\|^Gradle' | \
+            grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
+            grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
+            grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
+            grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
+            grep -F -v 'io.github.oshai:kotlin-logging' | \
+            grep -F -v 'Gradle:' > dependency-updates-filtered.txt || true
+          
+          # Check if there are any updates available after filtering
+          if [ -s dependency-updates-filtered.txt ] && grep -q "dependencies have later" dependency-updates-filtered.txt; then
             echo "status=warning" >> $GITHUB_OUTPUT
             echo "⚠️ Dependency updates available"
+            # Replace output file with filtered version for reporting
+            mv dependency-updates-filtered.txt dependency-updates-output.txt
           else
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ All dependencies are up to date"
