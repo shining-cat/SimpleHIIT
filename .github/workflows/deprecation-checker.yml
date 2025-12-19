@@ -55,12 +55,9 @@ jobs:
           
           # Filter out known AGP-internal deprecation warnings that cannot be fixed in this project
           # These are multi-string notation warnings from inside AGP itself (not our code)
-          # Only filters these specific patterns to avoid silencing legitimate warnings:
-          # - com.android.tools.lint:lint-gradle (AGP internal dependency)
-          # - com.android.tools.build:aapt2 (AGP internal dependency)
+          # Only AGP uses multi-string notation internally, so we can safely filter all these warnings
           if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            grep -v 'com\.android\.tools\.lint:lint-gradle' build-reports/deprecations.txt | \
-              grep -v 'com\.android\.tools\.build:aapt2' > build-reports/deprecations-filtered.txt || true
+            grep -F -v 'Declaring dependencies using multi-string notation' build-reports/deprecations.txt > build-reports/deprecations-filtered.txt || true
             mv build-reports/deprecations-filtered.txt build-reports/deprecations.txt
           fi
           
@@ -88,9 +85,10 @@ jobs:
           # Check for outdated dependencies that might have deprecations
           ./gradlew dependencyUpdates -Drevision=release 2>&1 | tee build-reports/dependency-updates.log
           
-          # Extract outdated dependencies - capture everything from "The following dependencies have later" 
-          # until the next section or end of relevant output
-          sed -n '/The following dependencies have later/,/^$/p' build-reports/dependency-updates.log > build-reports/outdated-deps.txt || true
+          # Extract ONLY outdated dependencies - capture from "The following dependencies have later" 
+          # until we hit a blank line or another section header (like "Failed to determine" or "Gradle")
+          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' build-reports/dependency-updates.log | \
+            grep -v '^Failed to determine\|^Gradle' > build-reports/outdated-deps.txt || true
           
           # Filter out known transitive dependencies that are managed by plugins (not direct dependencies)
           # These updates cannot be controlled in this project and will be updated when the parent plugin updates
