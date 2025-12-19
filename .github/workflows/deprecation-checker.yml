@@ -90,6 +90,21 @@ jobs:
           
           # Extract outdated dependencies
           grep -A 5 "The following dependencies have later" build-reports/dependency-updates.log > build-reports/outdated-deps.txt || true
+          
+          # Filter out known transitive dependencies that are managed by plugins (not direct dependencies)
+          # These updates cannot be controlled in this project and will be updated when the parent plugin updates
+          # Only filters these specific packages to avoid silencing legitimate dependency updates:
+          # - com.pinterest.ktlint:* (transitive from ktlint-gradle plugin)
+          # - io.github.detekt.sarif4k:* (transitive from ktlint or detekt)
+          # - io.github.oshai:kotlin-logging (transitive from ktlint)
+          if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
+            grep -v "com\.pinterest\.ktlint:ktlint-cli" build-reports/outdated-deps.txt | \
+              grep -v "com\.pinterest\.ktlint:ktlint-cli-reporter-baseline" | \
+              grep -v "com\.pinterest\.ktlint:ktlint-ruleset-standard" | \
+              grep -v "io\.github\.detekt\.sarif4k:sarif4k" | \
+              grep -v "io\.github\.oshai:kotlin-logging" > build-reports/outdated-deps-filtered.txt || true
+            mv build-reports/outdated-deps-filtered.txt build-reports/outdated-deps.txt
+          fi
 
       - name: Lint Check for Deprecations
         id: lint
