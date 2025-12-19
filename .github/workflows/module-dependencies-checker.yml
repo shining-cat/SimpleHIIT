@@ -1,0 +1,174 @@
+name: Module Dependencies Check
+run-name: Verifying Module Dependencies
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the module dependencies check"
+        value: ${{ jobs.verify-module-dependencies.outputs.status }}
+
+jobs:
+  verify-module-dependencies:
+    name: Verify Module Dependencies
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+    
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Verify Module Dependencies
+        id: check
+        run: |
+          if ./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph --no-configure-on-demand 2>&1 | tee module-deps-output.txt; then
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ Module dependencies are correct"
+          else
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "❌ Module dependency violations found"
+            exit 1
+          fi
+        continue-on-error: true
+
+      - name: Upload Module Dependencies Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: module-dependencies-report
+          path: module-deps-output.txt
+          retention-days: 90
+
+      - name: Create Issue if Failed
+        if: steps.check.outputs.status != 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-module-deps'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            
+            // Get artifact URL
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+            const artifact = artifacts.data.artifacts.find(a => a.name === 'module-dependencies-report');
+            const artifactUrl = artifact 
+              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
+              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
+            // Read and parse output
+            let problemCount = 0;
+            let checklist = '';
+            
+            try {
+              const output = fs.readFileSync('module-deps-output.txt', 'utf8');
+              const lines = output.split('\n');
+              
+              for (const line of lines) {
+                if (line.includes('FAILURE') || line.includes('violation') || line.includes('ERROR')) {
+                  problemCount++;
+                  checklist += `- [ ] ${line.trim()}\n`;
+                }
+              }
+              
+              if (problemCount === 0) {
+                problemCount = 1;
+                checklist = '- [ ] Module dependency rules violated (see full report for details)\n';
+              }
+            } catch (error) {
+              problemCount = 1;
+              checklist = '- [ ] Module dependency check failed (see full report for details)\n';
+            }
+            
+            const body = `## Module Dependencies Violation (${problemCount} issue${problemCount > 1 ? 's' : ''})
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### Download Report
+            
+            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`module-deps-output.txt\`
+
+            ### Problems Found
+
+            ${checklist}
+
+            ### How to Reproduce Locally
+
+            \`\`\`bash
+            ./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph --no-configure-on-demand
+            \`\`\`
+
+            ### Resources
+
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [MODULE_DEPENDENCIES.md](${context.payload.repository.html_url}/blob/master/docs/MODULE_DEPENDENCIES.md)
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the problem is resolved._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Module Dependencies Violation (${problemCount} issue${problemCount > 1 ? 's' : ''})`,
+              labels: ['sanity-check-module-deps'],
+              body: body
+            });
+
+      - name: Close Previous Issues if Success
+        if: steps.check.outputs.status == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-module-deps'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            console.log('✅ Module dependencies check passed - no issue needed');

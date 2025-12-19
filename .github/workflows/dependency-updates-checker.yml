@@ -1,0 +1,221 @@
+name: Dependency Updates Check
+run-name: Checking for Dependency Updates
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the dependency updates check"
+        value: ${{ jobs.check-dependency-updates.outputs.status }}
+
+jobs:
+  check-dependency-updates:
+    name: Check Dependency Updates
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+    
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Check for Dependency Updates
+        id: check
+        run: |
+          ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt
+          
+          # Extract the "dependencies have later" section
+          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle release-candidate updates:\|^$/p' dependency-updates-output.txt > dependency-updates-section.txt || true
+          
+          # Filter out transitive dependencies and their URLs
+          # Each dependency entry has format:
+          #  - com.example:lib [1.0 -> 2.0]
+          #      https://example.com
+          # We need to remove both lines for filtered dependencies
+          
+          awk '
+          /^ - com\.pinterest\.ktlint:ktlint-cli/ { getline; next }
+          /^ - com\.pinterest\.ktlint:ktlint-cli-reporter-baseline/ { getline; next }
+          /^ - com\.pinterest\.ktlint:ktlint-ruleset-standard/ { getline; next }
+          /^ - io\.github\.detekt\.sarif4k:sarif4k/ { getline; next }
+          /^ - io\.github\.oshai:kotlin-logging/ { getline; next }
+          { print }
+          ' dependency-updates-section.txt > dependency-updates-filtered.txt
+          
+          # Count actual dependency entries (lines starting with " - ")
+          DEPENDENCY_COUNT=$(grep -c '^ - ' dependency-updates-filtered.txt || true)
+          
+          if [ "$DEPENDENCY_COUNT" -gt 0 ]; then
+            echo "status=warning" >> $GITHUB_OUTPUT
+            echo "⚠️ Dependency updates available ($DEPENDENCY_COUNT)"
+            # Replace output file with filtered version for reporting
+            mv dependency-updates-filtered.txt dependency-updates-output.txt
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ All dependencies are up to date"
+          fi
+        continue-on-error: true
+
+      - name: Upload Dependency Updates Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-updates-report
+          path: dependency-updates-output.txt
+          retention-days: 90
+
+      - name: Create Issue if Updates Available
+        if: steps.check.outputs.status != 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-dep-updates'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+            const artifact = artifacts.data.artifacts.find(a => a.name === 'dependency-updates-report');
+            const artifactUrl = artifact 
+              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
+              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
+            // Parse dependency updates
+            let problemCount = 0;
+            let checklist = '';
+            let gradleSection = '';
+            let pluginsSection = '';
+            let depsSection = '';
+            
+            try {
+              const output = fs.readFileSync('dependency-updates-output.txt', 'utf8');
+              const lines = output.split('\n');
+              
+              let currentSection = '';
+              for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                if (line.includes('Gradle updates')) currentSection = 'gradle';
+                else if (line.includes('Plugin updates')) currentSection = 'plugins';
+                else if (line.includes('Dependency updates')) currentSection = 'deps';
+                
+                // Match update lines like: " - com.example:library [1.0.0 -> 1.1.0]"
+                const match = line.match(/^\s*-\s+([^[]+)\[([^\]]+)\]/);
+                if (match) {
+                  const dep = match[1].trim();
+                  const versions = match[2].trim();
+                  const item = `- [ ] ${dep} (${versions})`;
+                  problemCount++;
+                  
+                  if (currentSection === 'gradle') gradleSection += item + '\n';
+                  else if (currentSection === 'plugins') pluginsSection += item + '\n';
+                  else if (currentSection === 'deps') depsSection += item + '\n';
+                  else checklist += item + '\n';
+                }
+              }
+              
+              // Build organized checklist
+              if (gradleSection) checklist += '\n#### Gradle Updates\n\n' + gradleSection;
+              if (pluginsSection) checklist += '\n#### Plugin Updates\n\n' + pluginsSection;
+              if (depsSection) checklist += '\n#### Dependency Updates\n\n' + depsSection;
+              
+              if (problemCount === 0) {
+                problemCount = 1;
+                checklist = '- [ ] Dependency updates available (see full report for details)\n';
+              }
+            } catch (error) {
+              problemCount = 1;
+              checklist = '- [ ] Dependency updates available (see full report for details)\n';
+            }
+            
+            const body = `## Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### Download Report
+            
+            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`dependency-updates-output.txt\`
+
+            ### Updates Available
+
+            ${checklist}
+
+            ### How to Check Locally
+
+            \`\`\`bash
+            ./gradlew dependencyUpdates
+            \`\`\`
+
+            ### Resources
+
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md)
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when all dependencies are updated._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})`,
+              labels: ['sanity-check-dep-updates'],
+              body: body
+            });
+
+      - name: Close Previous Issues if Success
+        if: steps.check.outputs.status == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-dep-updates'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            console.log('✅ All dependencies up to date - no issue needed');

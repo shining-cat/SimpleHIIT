@@ -1,12 +1,13 @@
-name: Monthly Deprecation Check
+name: Deprecation Check
 run-name: Checking for Deprecation Warnings
 
 on:
-  # Run on the 1st day of every month at 9:00 AM UTC
-  schedule:
-    - cron: '0 9 1 * *'
-  # Allow manual trigger for testing
-  workflow_dispatch:
+  # Called by monthly-master-sanity-check
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the deprecation check"
+        value: ${{ jobs.check-deprecations.outputs.status }}
 
 jobs:
   check-deprecations:
