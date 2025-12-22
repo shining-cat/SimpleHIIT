@@ -34,3 +34,81 @@ jobs:
     permissions:
       issues: write
       contents: read
+
+  report-results:
+    name: Report Results
+    runs-on: ubuntu-latest
+    needs: [verify-module-dependencies, verify-dependency-graph, check-deprecations, check-dependency-updates]
+    if: always()
+    steps:
+      - name: Check Results
+        run: |
+          echo "## Monthly Sanity Check Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Track if any check failed to run
+          ANY_FAILED=false
+          
+          # Module Dependencies
+          MODULE_DEPS_STATUS="${{ needs.verify-module-dependencies.outputs.status }}"
+          echo "### Module Dependencies: $MODULE_DEPS_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$MODULE_DEPS_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$MODULE_DEPS_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Dependency Graph
+          DEP_GRAPH_STATUS="${{ needs.verify-dependency-graph.outputs.status }}"
+          echo "### Dependency Graph: $DEP_GRAPH_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEP_GRAPH_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$DEP_GRAPH_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Deprecations
+          DEPRECATIONS_STATUS="${{ needs.check-deprecations.outputs.status }}"
+          echo "### Deprecations: $DEPRECATIONS_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEPRECATIONS_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$DEPRECATIONS_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Dependency Updates
+          DEP_UPDATES_STATUS="${{ needs.check-dependency-updates.outputs.status }}"
+          echo "### Dependency Updates: $DEP_UPDATES_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEP_UPDATES_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$DEP_UPDATES_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Fail workflow only if any check failed to run
+          if [ "$ANY_FAILED" == "true" ]; then
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "❌ **One or more checks failed to complete. Please review the logs.**" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "✅ **All checks completed successfully. Issues have been created for items needing attention.**" >> $GITHUB_STEP_SUMMARY
+          fi

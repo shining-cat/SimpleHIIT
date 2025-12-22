@@ -16,6 +16,8 @@ jobs:
     permissions:
       issues: write
       contents: read
+    outputs:
+      status: ${{ steps.determine-status.outputs.status }}
 
     steps:
       - name: Fetch Sources
@@ -45,7 +47,15 @@ jobs:
           
           # Run build with warnings enabled and capture output
           set -o pipefail
-          ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee build-reports/build-output.log
+          if ! ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee build-reports/build-output.log; then
+            # Build failed - check couldn't complete
+            echo "deprecation_count=0" >> $GITHUB_OUTPUT
+            echo "build_failed=true" >> $GITHUB_OUTPUT
+            echo "❌ Build failed - cannot check for deprecations"
+            exit 1
+          fi
+          
+          echo "build_failed=false" >> $GITHUB_OUTPUT
           
           # Filter out AGP-internal deprecation warnings that cannot be fixed
           # Only AGP uses multi-string notation internally
@@ -250,26 +260,44 @@ jobs:
           path: build-reports/
           retention-days: 90
 
+      - name: Determine Status
+        id: determine-status
+        if: always()
+        run: |
+          if [ "${{ steps.build.outputs.build_failed }}" == "true" ]; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+          elif [ "${{ steps.summary.outputs.has_deprecations }}" == "true" ]; then
+            echo "status=success-issues" >> $GITHUB_OUTPUT
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+          fi
+
       - name: Workflow Summary
         if: always()
         run: |
           echo "## Deprecation Check Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [ "${{ steps.summary.outputs.has_deprecations }}" == "true" ]; then
-            echo "⚠️ **Found ${{ steps.summary.outputs.total_count }} deprecation warning(s)**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "A GitHub issue has been created/updated with the details." >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📦 Download Reports" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "✅ **No deprecation warnings found!**" >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Fail if Deprecations Found
-        if: steps.summary.outputs.has_deprecations == 'true'
-        run: |
-          echo "::error::Found ${{ steps.summary.outputs.total_count }} deprecation warning(s). Check the created issue for details."
-          exit 1
+          case "${{ steps.determine-status.outputs.status }}" in
+            "success")
+              echo "✅ **No deprecation warnings found!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **Found ${{ steps.summary.outputs.total_count }} deprecation warning(s)**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created/updated with the details." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Reports" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "The build failed - cannot check for deprecations." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac

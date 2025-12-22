@@ -39,17 +39,28 @@ jobs:
 
       - name: Verify Module Dependencies
         id: check
+        continue-on-error: true
         run: |
           set -o pipefail
+          
+          # Run the check and capture exit code
           if ./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph --no-configure-on-demand 2>&1 | tee module-deps-output.txt; then
+            # Gradle task succeeded - no violations
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ Module dependencies are correct"
           else
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Module dependency violations found"
-            exit 1
+            # Gradle task failed - check if it's a violation or build failure
+            if grep -q "Dependency cycle detected\|violation\|dependency rules" module-deps-output.txt; then
+              # Found violations - check succeeded but has issues to report
+              echo "status=success-issues" >> $GITHUB_OUTPUT
+              echo "⚠️ Module dependency violations found"
+            else
+              # Build/configuration failure - check itself failed
+              echo "status=failure" >> $GITHUB_OUTPUT
+              echo "❌ Failed to run module dependency check"
+              exit 1
+            fi
           fi
-        continue-on-error: true
 
       - name: Upload Module Dependencies Report
         if: always()
@@ -59,8 +70,8 @@ jobs:
           path: module-deps-output.txt
           retention-days: 90
 
-      - name: Create Issue if Failed
-        if: steps.check.outputs.status != 'success'
+      - name: Create Issue if Issues Found
+        if: steps.check.outputs.status == 'success-issues'
         uses: actions/github-script@v7
         with:
           script: |
@@ -180,14 +191,26 @@ jobs:
           echo "## Module Dependencies Check Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [ "${{ steps.check.outputs.status }}" == "success" ]; then
-            echo "✅ **Module dependency rules are correctly enforced!**" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "❌ **Module dependency violations found**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "🔗 [Download module-dependencies-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          fi
+          case "${{ steps.check.outputs.status }}" in
+            "success")
+              echo "✅ **Module dependency rules are correctly enforced!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **Module dependency violations found**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download module-dependencies-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "The module dependencies check could not run due to a build or configuration error." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download module-dependencies-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac

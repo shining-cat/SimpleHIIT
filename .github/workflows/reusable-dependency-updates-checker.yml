@@ -39,9 +39,17 @@ jobs:
 
       - name: Check for Dependency Updates
         id: check
+        continue-on-error: true
         run: |
           set -o pipefail
-          ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt
+          
+          # Run dependency updates check
+          if ! ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt; then
+            # Gradle failed - check couldn't complete
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "❌ Failed to run dependency updates check"
+            exit 1
+          fi
           
           # Extract only the "dependencies have later" section and filter out transitive dependencies
           # Also filter out the URL lines that follow each filtered dependency
@@ -61,7 +69,8 @@ jobs:
           UPDATE_COUNT=$(grep -c '^ - ' dependency-updates-filtered.txt 2>/dev/null || echo "0")
           
           if [ "$UPDATE_COUNT" -gt 0 ]; then
-            echo "status=warning" >> $GITHUB_OUTPUT
+            # Check ran successfully and found updates
+            echo "status=success-issues" >> $GITHUB_OUTPUT
             echo "⚠️ Dependency updates available ($UPDATE_COUNT)"
             
             # Add disclaimer about filtered dependencies at the top of the report
@@ -79,10 +88,10 @@ jobs:
               cat dependency-updates-filtered.txt
             } > dependency-updates-output.txt
           else
+            # Check ran successfully, no updates found
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ All dependencies are up to date (after filtering transitive dependencies)"
           fi
-        continue-on-error: true
 
       - name: Upload Dependency Updates Report
         if: always()
@@ -93,7 +102,7 @@ jobs:
           retention-days: 90
 
       - name: Create Issue if Updates Available
-        if: steps.check.outputs.status != 'success'
+        if: steps.check.outputs.status == 'success-issues'
         uses: actions/github-script@v7
         with:
           script: |
@@ -236,14 +245,26 @@ jobs:
           echo "## Dependency Updates Check Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [ "${{ steps.check.outputs.status }}" == "success" ]; then
-            echo "✅ **All dependencies are up to date!**" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "⚠️ **Dependency updates available**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "🔗 [Download dependency-updates-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          fi
+          case "${{ steps.check.outputs.status }}" in
+            "success")
+              echo "✅ **All dependencies are up to date!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **Dependency updates available**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download dependency-updates-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "The dependency updates check could not run due to a build or configuration error." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download dependency-updates-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac
