@@ -44,38 +44,12 @@ jobs:
           mkdir -p build-reports
           
           # Run build with warnings enabled and capture output
-          # Using --warning-mode=all to show all warnings including deprecations
-          ./gradlew build --warning-mode=all --stacktrace 2>&1 | tee build-reports/build-output.log
+          ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee build-reports/build-output.log
           
-          # Extract deprecation warnings from build output
-          grep -i "deprecat" build-reports/build-output.log > build-reports/deprecations.txt || true
-          grep -i "warning.*has been deprecated" build-reports/build-output.log >> build-reports/deprecations.txt || true
-          
-          # Also check for Kotlin deprecation warnings
-          grep -i "warning.*@deprecated" build-reports/build-output.log >> build-reports/deprecations.txt || true
-          
-          # Filter out known issues that cannot be fixed in this project:
-          # 1. AGP-internal multi-string notation warnings (from inside AGP itself, not our code)
-          # 2. Gradle internal stack traces (lines starting with whitespace + "at ")
-          if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            grep -F -v 'Declaring dependencies using multi-string notation' build-reports/deprecations.txt | \
-              grep -v '^\s*at org\.gradle\.' | \
-              grep -v '^\s*at java\.' | \
-              grep -v '^\s*at jdk\.' > build-reports/deprecations-filtered.txt || true
-            mv build-reports/deprecations-filtered.txt build-reports/deprecations.txt
-          fi
-          
-          # Remove duplicates and sort
-          sort -u build-reports/deprecations.txt -o build-reports/deprecations.txt
-          
-          # Simplify file paths - remove absolute path prefix and group by file
-          if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            # Get the workspace directory
-            WORKSPACE_DIR=$(pwd)
-            # Replace absolute paths with relative paths from workspace root
-            sed -i.bak "s|$WORKSPACE_DIR/||g" build-reports/deprecations.txt
-            rm -f build-reports/deprecations.txt.bak
-          fi
+          # Filter out AGP-internal deprecation warnings that cannot be fixed
+          # Only AGP uses multi-string notation internally
+          grep -i "deprecat" build-reports/build-output.log | \
+            grep -F -v 'Declaring dependencies using multi-string notation' > build-reports/deprecations.txt || true
           
           # Count deprecation warnings
           DEPRECATION_COUNT=$(wc -l < build-reports/deprecations.txt | tr -d ' ')
