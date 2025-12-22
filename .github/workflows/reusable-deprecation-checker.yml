@@ -44,6 +44,7 @@ jobs:
           mkdir -p build-reports
           
           # Run build with warnings enabled and capture output
+          set -o pipefail
           ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee build-reports/build-output.log
           
           # Filter out AGP-internal deprecation warnings that cannot be fixed

@@ -40,6 +40,7 @@ jobs:
       - name: Verify Module Dependencies
         id: check
         run: |
+          set -o pipefail
           if ./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph --no-configure-on-demand 2>&1 | tee module-deps-output.txt; then
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ Module dependencies are correct"

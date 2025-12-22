@@ -7,7 +7,7 @@ plugins {
 
 dependencies {
     implementation(projects.commonUtils)
-    // TEST: Adding forbidden dependency - domain modules cannot depend on data layer
+    // TEST: Forbidden dependency - domain modules cannot depend on data layer
     implementation(projects.data)
     testImplementation(projects.testUtils)
 }

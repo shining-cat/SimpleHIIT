@@ -21,7 +21,7 @@ hilt = "2.57.2"
 # Database
 room = "2.8.4"
 
-# Testing  
+# Testing
 mockk = "1.13.0"
 junit = "1.2.1"
 jupiter = "6.0.1"

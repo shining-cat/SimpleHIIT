@@ -12,7 +12,6 @@ data class DurationStringFormatter(
 ) {
     companion object {
         // TEST: Using deprecated Date() constructor to trigger deprecation warning
-        // NO @Suppress annotation so it gets caught by deprecation checker
         fun getCurrentTimestamp(): Long = Date().time
     }
 }

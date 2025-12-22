@@ -43,6 +43,7 @@ jobs:
       - name: Verify Dependency Graph
         id: check
         run: |
+          set -o pipefail
           if ! ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand 2>&1 | tee dep-graph-output.txt; then
             echo "status=failure" >> $GITHUB_OUTPUT
             echo "❌ Failed to generate dependency graph (build failure)"
