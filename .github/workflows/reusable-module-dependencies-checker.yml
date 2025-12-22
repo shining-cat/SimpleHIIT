@@ -172,3 +172,21 @@ jobs:
               });
             }
             console.log('✅ Module dependencies check passed - no issue needed');
+
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## Module Dependencies Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.check.outputs.status }}" == "success" ]; then
+            echo "✅ **Module dependency rules are correctly enforced!**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Module dependency violations found**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🔗 [Download module-dependencies-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          fi

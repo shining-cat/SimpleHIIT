@@ -165,3 +165,21 @@ jobs:
               });
             }
             console.log('✅ Dependency graph check passed - no issue needed');
+
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## Dependency Graph Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ "${{ steps.check.outputs.status }}" == "success" ]; then
+            echo "✅ **Dependency graph is up to date!**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ **Dependency graph is out of sync**" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "🔗 [Download dependency-graph-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+          fi
