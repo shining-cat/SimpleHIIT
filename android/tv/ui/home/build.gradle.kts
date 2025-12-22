@@ -15,6 +15,8 @@ dependencies {
     implementation(projects.domain.home)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
+    // TEST: Forbidden UI-to-UI dependency
+    implementation(projects.android.tv.ui.session)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }
