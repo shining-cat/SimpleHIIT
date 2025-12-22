@@ -43,6 +43,7 @@ jobs:
           ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt
           
           # Extract only the "dependencies have later" section and filter out transitive dependencies
+          # Also filter out the URL lines that follow each filtered dependency
           sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' dependency-updates-output.txt | \
             grep -v '^Failed to determine\|^Gradle' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
@@ -50,17 +51,35 @@ jobs:
             grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
             grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
             grep -F -v 'io.github.oshai:kotlin-logging' | \
-            grep -F -v 'Gradle:' > dependency-updates-filtered.txt || true
+            grep -F -v 'Gradle:' | \
+            grep -F -v 'https://github.com/pinterest/ktlint' | \
+            grep -F -v 'https://detekt.github.io/detekt' | \
+            grep -F -v 'https://github.com/oshai/kotlin-logging' > dependency-updates-filtered.txt || true
           
-          # Check if there are any updates available after filtering
-          if [ -s dependency-updates-filtered.txt ] && grep -q "dependencies have later" dependency-updates-filtered.txt; then
+          # Count actual dependency update lines (start with " - ")
+          UPDATE_COUNT=$(grep -c '^ - ' dependency-updates-filtered.txt 2>/dev/null || echo "0")
+          
+          if [ "$UPDATE_COUNT" -gt 0 ]; then
             echo "status=warning" >> $GITHUB_OUTPUT
-            echo "⚠️ Dependency updates available"
-            # Replace output file with filtered version for reporting
-            mv dependency-updates-filtered.txt dependency-updates-output.txt
+            echo "⚠️ Dependency updates available ($UPDATE_COUNT)"
+            
+            # Add disclaimer about filtered dependencies at the top of the report
+            {
+              echo "# Dependency Updates Report"
+              echo ""
+              echo "**Note:** The following transitive dependencies are excluded from this report as they"
+              echo "cannot be directly updated (they are managed by their parent plugins):"
+              echo "- com.pinterest.ktlint:* (managed by ktlint-gradle plugin)"
+              echo "- io.github.detekt.sarif4k:* (managed by detekt/ktlint)"
+              echo "- io.github.oshai:kotlin-logging (managed by ktlint)"
+              echo ""
+              echo "---"
+              echo ""
+              cat dependency-updates-filtered.txt
+            } > dependency-updates-output.txt
           else
             echo "status=success" >> $GITHUB_OUTPUT
-            echo "✅ All dependencies are up to date"
+            echo "✅ All dependencies are up to date (after filtering transitive dependencies)"
           fi
         continue-on-error: true
 
