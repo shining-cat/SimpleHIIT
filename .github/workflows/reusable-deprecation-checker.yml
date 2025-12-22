@@ -1,12 +1,13 @@
-name: Monthly Deprecation Check
+name: Deprecation Check
 run-name: Checking for Deprecation Warnings
 
 on:
-  # Run on the 1st day of every month at 9:00 AM UTC
-  schedule:
-    - cron: '0 9 1 * *'
-  # Allow manual trigger for testing
-  workflow_dispatch:
+  # Called by monthly-master-sanity-check
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the deprecation check"
+        value: ${{ jobs.check-deprecations.outputs.status }}
 
 jobs:
   check-deprecations:
@@ -15,6 +16,8 @@ jobs:
     permissions:
       issues: write
       contents: read
+    outputs:
+      status: ${{ steps.determine-status.outputs.status }}
 
     steps:
       - name: Fetch Sources
@@ -43,42 +46,27 @@ jobs:
           mkdir -p build-reports
           
           # Run build with warnings enabled and capture output
-          # Using --warning-mode=all to show all warnings including deprecations
-          ./gradlew build --warning-mode=all --stacktrace 2>&1 | tee build-reports/build-output.log
-          
-          # Extract deprecation warnings from build output
-          grep -i "deprecat" build-reports/build-output.log > build-reports/deprecations.txt || true
-          grep -i "warning.*has been deprecated" build-reports/build-output.log >> build-reports/deprecations.txt || true
-          
-          # Also check for Kotlin deprecation warnings
-          grep -i "warning.*@deprecated" build-reports/build-output.log >> build-reports/deprecations.txt || true
-          
-          # Remove duplicates and sort
-          sort -u build-reports/deprecations.txt -o build-reports/deprecations.txt
-          
-          # Simplify file paths - remove absolute path prefix and group by file
-          if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
-            # Get the workspace directory
-            WORKSPACE_DIR=$(pwd)
-            # Replace absolute paths with relative paths from workspace root
-            sed -i.bak "s|$WORKSPACE_DIR/||g" build-reports/deprecations.txt
-            rm -f build-reports/deprecations.txt.bak
+          set -o pipefail
+          if ! ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee build-reports/build-output.log; then
+            # Build failed - check couldn't complete
+            echo "deprecation_count=0" >> $GITHUB_OUTPUT
+            echo "build_failed=true" >> $GITHUB_OUTPUT
+            echo "❌ Build failed - cannot check for deprecations"
+            exit 1
           fi
+          
+          echo "build_failed=false" >> $GITHUB_OUTPUT
+          
+          # Filter out AGP-internal deprecation warnings that cannot be fixed
+          # Only AGP uses multi-string notation internally
+          grep -i "deprecat" build-reports/build-output.log | \
+            grep -F -v 'Declaring dependencies using multi-string notation' > build-reports/deprecations.txt || true
           
           # Count deprecation warnings
           DEPRECATION_COUNT=$(wc -l < build-reports/deprecations.txt | tr -d ' ')
           echo "Found $DEPRECATION_COUNT deprecation warnings"
           echo "deprecation_count=$DEPRECATION_COUNT" >> $GITHUB_OUTPUT
 
-      - name: Run Dependency Update Check
-        id: dependency-updates
-        continue-on-error: true
-        run: |
-          # Check for outdated dependencies that might have deprecations
-          ./gradlew dependencyUpdates -Drevision=release 2>&1 | tee build-reports/dependency-updates.log
-          
-          # Extract outdated dependencies
-          grep -A 5 "The following dependencies have later" build-reports/dependency-updates.log > build-reports/outdated-deps.txt || true
 
       - name: Lint Check for Deprecations
         id: lint
@@ -127,7 +115,7 @@ jobs:
           
           if [ $TOTAL_COUNT -gt 0 ]; then
             echo "has_deprecations=true" >> $GITHUB_OUTPUT
-            
+          
             # Add artifact download links
             echo "## 📦 Download Detailed Reports" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
@@ -136,46 +124,42 @@ jobs:
             echo "🔗 **[Download All Reports (deprecation-reports-${{ github.run_number }})](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})**" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
             echo "The artifact includes:" >> $REPORT_FILE
-            
+          
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
               echo "- \`deprecations.txt\` - Build deprecation warnings ($BUILD_COUNT)" >> $REPORT_FILE
             fi
-            
+          
             if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
               echo "- \`lint-deprecations.txt\` - Lint deprecation warnings ($LINT_COUNT)" >> $REPORT_FILE
             fi
-            
-            if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-              echo "- \`outdated-deps.txt\` - Outdated dependencies" >> $REPORT_FILE
-            fi
-            
+          
             echo "- \`build-output.log\` - Complete build output" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
             echo "---" >> $REPORT_FILE
             echo "" >> $REPORT_FILE
-            
+          
             # Build Deprecation Warnings grouped by file
             if [ -f build-reports/deprecations.txt ] && [ -s build-reports/deprecations.txt ]; then
               echo "## Build Deprecation Warnings ($BUILD_COUNT)" >> $REPORT_FILE
               echo "" >> $REPORT_FILE
-              
+          
               # Process and group deprecations by file
               # Format is typically: "w: file:///path/to/file.kt:42:5: warning message"
               # or "path/to/file.kt:42: warning message"
               awk '
               {
                 line = $0
-                
+          
                 # Remove "w: file://" prefix if present
                 gsub(/^w: file:\/\//, "", line)
-                
+          
                 # Extract file path (everything before the line number)
                 # Match pattern: filepath:number: or filepath:number:number:
                 if (match(line, /^([^:]+):([0-9]+)/, arr)) {
                   file = arr[1]
                   # Get the rest after file:line
                   rest = substr(line, length(arr[0]) + 1)
-                  
+          
                   # Print file header if changed
                   if (file != prev_file) {
                     if (prev_file != "") print ""
@@ -183,7 +167,7 @@ jobs:
                     print ""
                     prev_file = file
                   }
-                  
+          
                   # Print the warning (line number and message)
                   gsub(/^:/, "", rest)  # Remove leading colon
                   print "- Line " arr[2] rest
@@ -194,23 +178,13 @@ jobs:
               }' build-reports/deprecations.txt >> $REPORT_FILE
               echo "" >> $REPORT_FILE
             fi
-            
+          
             # Lint Deprecation Warnings
             if [ -f build-reports/lint-deprecations.txt ] && [ -s build-reports/lint-deprecations.txt ]; then
               echo "## Lint Deprecation Warnings ($LINT_COUNT)" >> $REPORT_FILE
               echo "" >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               head -100 build-reports/lint-deprecations.txt >> $REPORT_FILE
-              echo '```' >> $REPORT_FILE
-              echo "" >> $REPORT_FILE
-            fi
-            
-            # Outdated Dependencies
-            if [ -f build-reports/outdated-deps.txt ] && [ -s build-reports/outdated-deps.txt ]; then
-              echo "## Outdated Dependencies" >> $REPORT_FILE
-              echo "" >> $REPORT_FILE
-              echo '```' >> $REPORT_FILE
-              cat build-reports/outdated-deps.txt >> $REPORT_FILE
               echo '```' >> $REPORT_FILE
               echo "" >> $REPORT_FILE
             fi
@@ -223,6 +197,90 @@ jobs:
           echo "REPORT_CONTENT<<EOF" >> $GITHUB_ENV
           cat $REPORT_FILE >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+
+      - name: Create Issue if Check Failed
+        if: steps.build.outputs.build_failed == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Check if there's already an open issue for deprecation check failures
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'deprecation-warning',
+              per_page: 100
+            });
+            
+            // Close any existing deprecation issues
+            for (const issue of existingIssues.data) {
+              if (issue.title.includes('[Deprecation Check]')) {
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  state: 'closed',
+                  state_reason: 'completed'
+                });
+              }
+            }
+            
+            // Extract "What went wrong" section from output
+            let errorDetails = 'See full report for details';
+            try {
+              if (fs.existsSync('build-reports/build-output.log')) {
+                const output = fs.readFileSync('build-reports/build-output.log', 'utf8');
+                const whatWentWrongMatch = output.match(/\* What went wrong:\n([\s\S]*?)(?:\n\* Try:|$)/);
+                if (whatWentWrongMatch) {
+                  errorDetails = whatWentWrongMatch[1].trim();
+                }
+              }
+            } catch (error) {
+              // Fallback to generic message
+            }
+            
+            const artifactUrl = `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            const currentDate = new Date().toISOString().split('T')[0];
+            
+            const body = `## Deprecation Check Failed to Complete
+
+            **Check Date:** ${currentDate}
+
+            ### What Went Wrong
+
+            \`\`\`
+            ${errorDetails}
+            \`\`\`
+
+            ### Download Report
+            
+            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing build reports
+
+            ### How to Fix
+
+            Resolve the underlying build issue, then run:
+
+            \`\`\`bash
+            ./gradlew clean assembleDebug --warning-mode all
+            \`\`\`
+
+            ### Resources
+
+            - [Workflow Run](${artifactUrl})
+            - [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md)
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the problem is resolved._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Deprecation Check Failed to Complete',
+              labels: ['deprecation-warning', 'build-failure'],
+              body: body
+            });
 
       - name: Create GitHub Issue
         if: steps.summary.outputs.has_deprecations == 'true'
@@ -267,14 +325,14 @@ jobs:
                 issue_number: existingIssue.number,
                 body: `This issue has been superseded by #${newIssue.data.number} from the latest deprecation check on ${currentDate}.`
               });
-              
+            
               await github.rest.issues.update({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 issue_number: existingIssue.number,
                 state: 'closed'
               });
-              
+            
               core.info(`Closed previous issue #${existingIssue.number}`);
             }
 
@@ -286,26 +344,44 @@ jobs:
           path: build-reports/
           retention-days: 90
 
+      - name: Determine Status
+        id: determine-status
+        if: always()
+        run: |
+          if [ "${{ steps.build.outputs.build_failed }}" == "true" ]; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+          elif [ "${{ steps.summary.outputs.has_deprecations }}" == "true" ]; then
+            echo "status=success-issues" >> $GITHUB_OUTPUT
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+          fi
+
       - name: Workflow Summary
         if: always()
         run: |
           echo "## Deprecation Check Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           
-          if [ "${{ steps.summary.outputs.has_deprecations }}" == "true" ]; then
-            echo "⚠️ **Found ${{ steps.summary.outputs.total_count }} deprecation warning(s)**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "A GitHub issue has been created/updated with the details." >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 📦 Download Reports" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "✅ **No deprecation warnings found!**" >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Fail if Deprecations Found
-        if: steps.summary.outputs.has_deprecations == 'true'
-        run: |
-          echo "::error::Found ${{ steps.summary.outputs.total_count }} deprecation warning(s). Check the created issue for details."
-          exit 1
+          case "${{ steps.determine-status.outputs.status }}" in
+            "success")
+              echo "✅ **No deprecation warnings found!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **Found ${{ steps.summary.outputs.total_count }} deprecation warning(s)**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created/updated with the details." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Reports" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "The build failed - cannot check for deprecations." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download deprecation-reports-${{ github.run_number }}](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac

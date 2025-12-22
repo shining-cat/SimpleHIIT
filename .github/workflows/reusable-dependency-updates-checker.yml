@@ -1,0 +1,356 @@
+name: Dependency Updates Check
+run-name: Checking for Dependency Updates
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the dependency updates check"
+        value: ${{ jobs.check-dependency-updates.outputs.status }}
+
+jobs:
+  check-dependency-updates:
+    name: Check Dependency Updates
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+    
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Setup Gradle Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
+
+      - name: Check for Dependency Updates
+        id: check
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          
+          # Run dependency updates check
+          # --no-parallel is required for Gradle 9+ to get full project scan
+          # -Drevision=release ensures we check for stable release versions
+          if ! ./gradlew dependencyUpdates --no-parallel -Drevision=release 2>&1 | tee dependency-updates-output.txt; then
+            # Gradle failed - check couldn't complete
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "❌ Failed to run dependency updates check"
+            exit 1
+          fi
+          
+          # Extract only the "dependencies have later" section and filter out transitive dependencies
+          # Also filter out the URL lines that follow each filtered dependency
+          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' dependency-updates-output.txt | \
+            grep -v '^Failed to determine\|^Gradle' | \
+            grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
+            grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
+            grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
+            grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
+            grep -F -v 'io.github.oshai:kotlin-logging' | \
+            grep -F -v 'Gradle:' | \
+            grep -F -v 'https://github.com/pinterest/ktlint' | \
+            grep -F -v 'https://detekt.github.io/detekt' | \
+            grep -F -v 'https://github.com/oshai/kotlin-logging' > dependency-updates-filtered.txt || true
+          
+          # Count actual dependency update lines (start with " - ")
+          UPDATE_COUNT=$(grep -c '^ - ' dependency-updates-filtered.txt 2>/dev/null || echo "0")
+          
+          if [ "$UPDATE_COUNT" -gt 0 ]; then
+            # Check ran successfully and found updates
+            echo "status=success-issues" >> $GITHUB_OUTPUT
+            echo "⚠️ Dependency updates available ($UPDATE_COUNT)"
+            
+            # Add disclaimer about filtered dependencies at the top of the report
+            {
+              echo "# Dependency Updates Report"
+              echo ""
+              echo "**Note:** The following transitive dependencies are excluded from this report as they"
+              echo "cannot be directly updated (they are managed by their parent plugins):"
+              echo "- com.pinterest.ktlint:* (managed by ktlint-gradle plugin)"
+              echo "- io.github.detekt.sarif4k:* (managed by detekt/ktlint)"
+              echo "- io.github.oshai:kotlin-logging (managed by ktlint)"
+              echo ""
+              echo "---"
+              echo ""
+              cat dependency-updates-filtered.txt
+            } > dependency-updates-output.txt
+          else
+            # Check ran successfully, no updates found
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ All dependencies are up to date (after filtering transitive dependencies)"
+          fi
+
+      - name: Upload Dependency Updates Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-updates-report
+          path: dependency-updates-output.txt
+          retention-days: 90
+
+      - name: Create Issue if Check Failed
+        if: steps.check.outputs.status == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-dep-updates'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+            const artifact = artifacts.data.artifacts.find(a => a.name === 'dependency-updates-report');
+            const artifactUrl = artifact 
+              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
+              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
+            // Extract "What went wrong" section from output
+            let errorDetails = 'See full report for details';
+            try {
+              const output = fs.readFileSync('dependency-updates-output.txt', 'utf8');
+              const whatWentWrongMatch = output.match(/\* What went wrong:\n([\s\S]*?)(?:\n\* Try:|$)/);
+              if (whatWentWrongMatch) {
+                errorDetails = whatWentWrongMatch[1].trim();
+              }
+            } catch (error) {
+              // Fallback to generic message
+            }
+            
+            const body = `## Dependency Updates Check Failed to Complete
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### What Went Wrong
+
+            \`\`\`
+            ${errorDetails}
+            \`\`\`
+
+            ### Download Report
+            
+            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`dependency-updates-output.txt\`
+
+            ### How to Fix
+
+            Resolve the underlying build issue, then run:
+
+            \`\`\`bash
+            ./gradlew dependencyUpdates --no-parallel
+            \`\`\`
+
+            ### Resources
+
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md)
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the problem is resolved._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Dependency Updates Check Failed to Complete',
+              labels: ['sanity-check-dep-updates'],
+              body: body
+            });
+
+      - name: Create Issue if Updates Available
+        if: steps.check.outputs.status == 'success-issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-dep-updates'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            
+            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              run_id: context.runId
+            });
+            const artifact = artifacts.data.artifacts.find(a => a.name === 'dependency-updates-report');
+            const artifactUrl = artifact 
+              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
+              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
+            
+            // Parse dependency updates
+            let problemCount = 0;
+            let checklist = '';
+            let gradleSection = '';
+            let pluginsSection = '';
+            let depsSection = '';
+            
+            try {
+              const output = fs.readFileSync('dependency-updates-output.txt', 'utf8');
+              const lines = output.split('\n');
+              
+              let currentSection = '';
+              for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                
+                if (line.includes('Gradle updates')) currentSection = 'gradle';
+                else if (line.includes('Plugin updates')) currentSection = 'plugins';
+                else if (line.includes('Dependency updates')) currentSection = 'deps';
+                
+                // Match update lines like: " - com.example:library [1.0.0 -> 1.1.0]"
+                const match = line.match(/^\s*-\s+([^[]+)\[([^\]]+)\]/);
+                if (match) {
+                  const dep = match[1].trim();
+                  const versions = match[2].trim();
+                  const item = `- [ ] ${dep} (${versions})`;
+                  problemCount++;
+                  
+                  if (currentSection === 'gradle') gradleSection += item + '\n';
+                  else if (currentSection === 'plugins') pluginsSection += item + '\n';
+                  else if (currentSection === 'deps') depsSection += item + '\n';
+                  else checklist += item + '\n';
+                }
+              }
+              
+              // Build organized checklist
+              if (gradleSection) checklist += '\n#### Gradle Updates\n\n' + gradleSection;
+              if (pluginsSection) checklist += '\n#### Plugin Updates\n\n' + pluginsSection;
+              if (depsSection) checklist += '\n#### Dependency Updates\n\n' + depsSection;
+              
+              if (problemCount === 0) {
+                problemCount = 1;
+                checklist = '- [ ] Dependency updates available (see full report for details)\n';
+              }
+            } catch (error) {
+              problemCount = 1;
+              checklist = '- [ ] Dependency updates available (see full report for details)\n';
+            }
+            
+            const body = `## Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### Download Report
+            
+            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`dependency-updates-output.txt\`
+
+            ### Updates Available
+
+            ${checklist}
+
+            ### How to Check Locally
+
+            \`\`\`bash
+            ./gradlew dependencyUpdates
+            \`\`\`
+
+            ### Resources
+
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md)
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when all dependencies are updated._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})`,
+              labels: ['sanity-check-dep-updates'],
+              body: body
+            });
+
+      - name: Close Previous Issues if Success
+        if: steps.check.outputs.status == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['sanity-check-dep-updates'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            console.log('✅ All dependencies up to date - no issue needed');
+
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## Dependency Updates Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          case "${{ steps.check.outputs.status }}" in
+            "success")
+              echo "✅ **All dependencies are up to date!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **Dependency updates available**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download dependency-updates-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "The dependency updates check could not run due to a build or configuration error." >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "### 📦 Download Report" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "🔗 [Download dependency-updates-report](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac

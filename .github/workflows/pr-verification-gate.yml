@@ -70,10 +70,11 @@ jobs:
             const pollInterval = 10 * 1000; // 10 seconds
             const startTime = Date.now();
             
+            // With reusable workflows, check names are in format "caller-job / called-job"
             const requiredChecks = [
-              'Ktlint Check',
-              'Verify Module Dependencies',
-              'Run Unit Tests'
+              'ktlint-check / Ktlint Check',
+              'verify-module-dependencies / Verify Module Dependencies',
+              'unit-tests / Run Unit Tests'
             ];
             
             core.info('Waiting for android-verification checks to complete...');

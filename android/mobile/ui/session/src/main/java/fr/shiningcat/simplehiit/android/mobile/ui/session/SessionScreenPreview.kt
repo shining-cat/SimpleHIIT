@@ -1,16 +1,13 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session
 
 import androidx.compose.material3.Surface
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import androidx.window.core.layout.WindowHeightSizeClass
-import androidx.window.core.layout.WindowWidthSizeClass
-import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
@@ -24,17 +21,7 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 fun SessionScreenPreview(
     @PreviewParameter(SessionScreenPreviewParameterProvider::class) viewState: SessionViewState,
 ) {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    val previewUiArrangement: UiArrangement =
-        if (windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED) { // typically, a tablet or bigger in landscape
-            UiArrangement.HORIZONTAL
-        } else { // WindowWidthSizeClass.Medium, WindowWidthSizeClass.Compact :
-            if (windowSizeClass.windowHeightSizeClass == WindowHeightSizeClass.COMPACT) { // typically, a phone in landscape
-                UiArrangement.HORIZONTAL
-            } else {
-                UiArrangement.VERTICAL // typically, a phone or tablet in portrait
-            }
-        }
+    val previewUiArrangement = currentUiArrangement()
     SimpleHiitMobileTheme {
         Surface {
             SessionScreen(

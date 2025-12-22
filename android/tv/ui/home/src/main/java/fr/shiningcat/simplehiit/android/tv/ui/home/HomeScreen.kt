@@ -1,15 +1,9 @@
 package fr.shiningcat.simplehiit.android.tv.ui.home
 
-import android.app.Activity
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
@@ -62,17 +56,6 @@ private fun HomeScreen(
     dialogViewState: HomeDialog,
     hiitLogger: HiitLogger? = null,
 ) {
-    val view = LocalView.current
-    val primaryAsInt = MaterialTheme.colorScheme.primary.toArgb()
-    val darkMode = isSystemInDarkTheme()
-    if (!view.isInEditMode) {
-        SideEffect {
-            // applying primary color to Status bar
-            val window = (view.context as Activity).window
-            window.statusBarColor = primaryAsInt
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkMode
-        }
-    }
     //
     NavigationDrawer(
         drawerContent = {

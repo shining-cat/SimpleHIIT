@@ -9,703 +9,106 @@ on:
 jobs:
   verify-module-dependencies:
     name: Verify Module Dependencies
-    runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.check.outputs.status }}
-    
-    steps:
-      - name: Fetch Sources
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Setup Gradle Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Verify Module Dependencies
-        id: check
-        run: |
-          if ./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph --no-configure-on-demand 2>&1 | tee module-deps-output.txt; then
-            echo "status=success" >> $GITHUB_OUTPUT
-            echo "✅ Module dependencies are correct"
-          else
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Module dependency violations found"
-            exit 1
-          fi
-        continue-on-error: true
-
-      - name: Upload Module Dependencies Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: module-dependencies-report
-          path: module-deps-output.txt
-          retention-days: 90
+    uses: ./.github/workflows/reusable-module-dependencies-checker.yml
+    permissions:
+      issues: write
+      contents: read
 
   verify-dependency-graph:
-    name: Verify Dependency Graph is up to date
-    runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.check.outputs.status }}
-    
-    steps:
-      - name: Fetch Sources
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Setup Gradle Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Install Graphviz
-        run: sudo apt-get update && sudo apt-get install -y graphviz
-
-      - name: Verify Dependency Graph
-        id: check
-        run: |
-          if ! ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand 2>&1 | tee dep-graph-output.txt; then
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Failed to generate dependency graph (build failure)"
-            exit 1
-          fi
-          
-          cp build/reports/dependency-graph.gv docs/dependency-graph.gv
-          
-          if ! git ls-files --error-unmatch docs/dependency-graph.gv > /dev/null 2>&1; then
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Dependency graph file is not tracked in git"
-            exit 1
-          fi
-          
-          if git diff --exit-code docs/dependency-graph.gv >> dep-graph-output.txt 2>&1; then
-            echo "status=success" >> $GITHUB_OUTPUT
-            echo "✅ Dependency graph is current"
-          else
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Dependency graph is out of sync"
-            exit 1
-          fi
-        continue-on-error: true
-
-      - name: Upload Dependency Graph Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-graph-report
-          path: dep-graph-output.txt
-          retention-days: 90
+    name: Verify Dependency Graph
+    uses: ./.github/workflows/reusable-dependency-graph-checker.yml
+    permissions:
+      issues: write
+      contents: read
 
   check-deprecations:
     name: Check Deprecations
-    runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.check.outputs.status }}
-    
-    steps:
-      - name: Fetch Sources
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Setup Gradle Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Check for Deprecations
-        id: check
-        run: |
-          set +e
-          ./gradlew clean assembleDebug --warning-mode all 2>&1 | tee deprecation-output.txt
-          BUILD_EXIT_CODE=${PIPESTATUS[0]}
-          set -e
-          
-          if [ $BUILD_EXIT_CODE -ne 0 ]; then
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Build failed (exit code: $BUILD_EXIT_CODE)"
-            exit 1
-          fi
-          
-          if grep -i "deprecat" deprecation-output.txt; then
-            echo "status=warning" >> $GITHUB_OUTPUT
-            echo "⚠️ Deprecation warnings found"
-            exit 1
-          else
-            echo "status=success" >> $GITHUB_OUTPUT
-            echo "✅ No deprecation warnings"
-          fi
-        continue-on-error: true
-
-      - name: Upload Deprecation Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: deprecation-report
-          path: deprecation-output.txt
-          retention-days: 90
+    uses: ./.github/workflows/reusable-deprecation-checker.yml
+    permissions:
+      issues: write
+      contents: read
 
   check-dependency-updates:
     name: Check Dependency Updates
+    uses: ./.github/workflows/reusable-dependency-updates-checker.yml
+    permissions:
+      issues: write
+      contents: read
+
+  report-results:
+    name: Report Results
     runs-on: ubuntu-latest
-    outputs:
-      status: ${{ steps.check.outputs.status }}
-    
+    needs: [verify-module-dependencies, verify-dependency-graph, check-deprecations, check-dependency-updates]
+    if: always()
     steps:
-      - name: Fetch Sources
-        uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle
-
-      - name: Setup Gradle Cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
-
-      - name: Check for Dependency Updates
-        id: check
+      - name: Check Results
         run: |
-          ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt
+          echo "## Monthly Sanity Check Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           
-          # Check if there are any updates available
-          if grep -q "dependencies have later" dependency-updates-output.txt; then
-            echo "status=warning" >> $GITHUB_OUTPUT
-            echo "⚠️ Dependency updates available"
+          # Track if any check failed to run
+          ANY_FAILED=false
+          
+          # Module Dependencies
+          MODULE_DEPS_STATUS="${{ needs.verify-module-dependencies.outputs.status }}"
+          echo "### Module Dependencies: $MODULE_DEPS_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$MODULE_DEPS_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$MODULE_DEPS_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
           else
-            echo "status=success" >> $GITHUB_OUTPUT
-            echo "✅ All dependencies are up to date"
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
           fi
-        continue-on-error: true
-
-      - name: Upload Dependency Updates Report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-updates-report
-          path: dependency-updates-output.txt
-          retention-days: 90
-
-  report-module-dependencies:
-    name: Report Module Dependencies Issues
-    runs-on: ubuntu-latest
-    needs: verify-module-dependencies
-    if: always()
-    permissions:
-      issues: write
-    
-    steps:
-      - name: Download Artifact
-        if: needs.verify-module-dependencies.outputs.status != 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: module-dependencies-report
-
-      - name: Manage Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const status = '${{ needs.verify-module-dependencies.outputs.status }}';
-            
-            // Close previous issues
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['sanity-check-module-deps'],
-              state: 'open'
-            });
-            for (const issue of issues.data) {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                state: 'closed',
-                state_reason: 'completed'
-              });
-            }
-            
-            // If check passed, we're done (old issues closed, no new issue)
-            if (status === 'success') {
-              console.log('✅ Module dependencies check passed - no issue needed');
-              return;
-            }
-            
-            // Get artifact URL
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            const artifact = artifacts.data.artifacts.find(a => a.name === 'module-dependencies-report');
-            const artifactUrl = artifact 
-              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
-              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
-            
-            // Read and parse output
-            let problemCount = 0;
-            let checklist = '';
-            
-            try {
-              const output = fs.readFileSync('module-deps-output.txt', 'utf8');
-              const lines = output.split('\n');
-              
-              // Parse gradle output for violations
-              let currentFile = '';
-              for (const line of lines) {
-                if (line.includes('FAILURE') || line.includes('violation') || line.includes('ERROR')) {
-                  problemCount++;
-                  checklist += `- [ ] ${line.trim()}\n`;
-                }
-              }
-              
-              if (problemCount === 0) {
-                problemCount = 1;
-                checklist = '- [ ] Module dependency rules violated (see full report for details)\n';
-              }
-            } catch (error) {
-              problemCount = 1;
-              checklist = '- [ ] Module dependency check failed (see full report for details)\n';
-            }
-            
-            const body = `## Module Dependencies Violation (${problemCount} issue${problemCount > 1 ? 's' : ''})
-
-            **Check Date:** ${new Date().toISOString().split('T')[0]}
-
-            ### Download Report
-            
-            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`module-deps-output.txt\`
-
-            ### Problems Found
-
-            ${checklist}
-
-            ### How to Reproduce Locally
-
-            \`\`\`bash
-            ./gradlew :android:mobile:app:assertModuleGraph :android:tv:app:assertModuleGraph --no-configure-on-demand
-            \`\`\`
-
-            ### Resources
-
-            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            - [MODULE_DEPENDENCIES.md](${context.payload.repository.html_url}/blob/master/docs/MODULE_DEPENDENCIES.md)
-
-            ---
-            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the problem is resolved._`;
-            
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `Module Dependencies Violation (${problemCount} issue${problemCount > 1 ? 's' : ''})`,
-              labels: ['sanity-check-module-deps'],
-              body: body
-            });
-
-  report-dependency-graph:
-    name: Report Dependency Graph Out of Date
-    runs-on: ubuntu-latest
-    needs: verify-dependency-graph
-    if: always()
-    permissions:
-      issues: write
-    
-    steps:
-      - name: Download Artifact
-        if: needs.verify-dependency-graph.outputs.status != 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: dependency-graph-report
-
-      - name: Manage Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const status = '${{ needs.verify-dependency-graph.outputs.status }}';
-            
-            // Close previous issues
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['sanity-check-dep-graph'],
-              state: 'open'
-            });
-            for (const issue of issues.data) {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                state: 'closed',
-                state_reason: 'completed'
-              });
-            }
-            
-            if (status === 'success') {
-              console.log('✅ Dependency graph check passed - no issue needed');
-              return;
-            }
-            
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            const artifact = artifacts.data.artifacts.find(a => a.name === 'dependency-graph-report');
-            const artifactUrl = artifact 
-              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
-              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
-            
-            const body = `## Dependency Graph Out of Sync (1 issue)
-
-            **Check Date:** ${new Date().toISOString().split('T')[0]}
-
-            ### Download Report
-            
-            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`dep-graph-output.txt\`
-
-            ### Problems Found
-
-            - [ ] Committed dependency graph (docs/dependency-graph.gv) does not match current module structure
-
-            ### How to Fix
-
-            \`\`\`bash
-            ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
-            cp build/reports/dependency-graph.gv docs/dependency-graph.gv
-            git add docs/dependency-graph.gv docs/project_dependencies_graph.png
-            git commit -m "Update dependency graph"
-            \`\`\`
-
-            ### Resources
-
-            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            - [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md)
-
-            ---
-            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the problem is resolved._`;
-            
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: 'Dependency Graph Out of Sync (1 issue)',
-              labels: ['sanity-check-dep-graph'],
-              body: body
-            });
-
-  report-deprecations:
-    name: Report Deprecation Issues
-    runs-on: ubuntu-latest
-    needs: check-deprecations
-    if: always()
-    permissions:
-      issues: write
-    
-    steps:
-      - name: Download Artifact
-        if: needs.check-deprecations.outputs.status != 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: deprecation-report
-
-      - name: Manage Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const status = '${{ needs.check-deprecations.outputs.status }}';
-            
-            // Close previous issues
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['sanity-check-deprecations'],
-              state: 'open'
-            });
-            for (const issue of issues.data) {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                state: 'closed',
-                state_reason: 'completed'
-              });
-            }
-            
-            if (status === 'success') {
-              console.log('✅ Deprecation check passed - no issue needed');
-              return;
-            }
-            
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            const artifact = artifacts.data.artifacts.find(a => a.name === 'deprecation-report');
-            const artifactUrl = artifact 
-              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
-              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
-            
-            // Parse deprecation warnings
-            let problemCount = 0;
-            let checklist = '';
-            let fileGroups = {};
-            
-            try {
-              const output = fs.readFileSync('deprecation-output.txt', 'utf8');
-              const lines = output.split('\n');
-              
-              for (const line of lines) {
-                if (line.toLowerCase().includes('deprecat')) {
-                  // Try to extract file and line info
-                  // Pattern: /path/to/file.kt:123: warning: ...
-                  const match = line.match(/([^:]+\.(kt|java|xml|gradle)):(\d+):/);
-                  if (match) {
-                    const file = match[1];
-                    const lineNum = match[3];
-                    const message = line.substring(line.indexOf(':', line.indexOf(lineNum) + lineNum.length) + 1).trim();
-                    
-                    if (!fileGroups[file]) {
-                      fileGroups[file] = [];
-                    }
-                    fileGroups[file].push(`Line ${lineNum}: ${message}`);
-                    problemCount++;
-                  } else {
-                    // No file info, add to general list
-                    checklist += `- [ ] ${line.trim()}\n`;
-                    problemCount++;
-                  }
-                }
-              }
-              
-              // Build checklist grouped by file
-              for (const [file, items] of Object.entries(fileGroups)) {
-                checklist += `\n#### ${file}\n\n`;
-                for (const item of items) {
-                  checklist += `- [ ] ${item}\n`;
-                }
-              }
-              
-              if (problemCount === 0) {
-                problemCount = 1;
-                if (status === 'failure') {
-                  checklist = '- [ ] Build failed (see full report for details)\n';
-                } else {
-                  checklist = '- [ ] Deprecation warnings detected (see full report for details)\n';
-                }
-              }
-            } catch (error) {
-              problemCount = 1;
-              checklist = '- [ ] Deprecation check failed (see full report for details)\n';
-            }
-            
-            const title = status === 'failure' 
-              ? `Build Failure (${problemCount} issue${problemCount > 1 ? 's' : ''})`
-              : `Deprecation Warnings (${problemCount} warning${problemCount > 1 ? 's' : ''})`;
-            
-            const body = `## ${title}
-
-            **Check Date:** ${new Date().toISOString().split('T')[0]}
-            ${status === 'failure' ? '\n⚠️ **Critical** - Master branch should always build successfully.\n' : ''}
-
-            ### Download Report
-            
-            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`deprecation-output.txt\`
-
-            ### Problems Found
-
-            ${checklist}
-
-            ### How to Reproduce Locally
-
-            \`\`\`bash
-            ./gradlew clean assembleDebug --warning-mode all
-            \`\`\`
-
-            ### Resources
-
-            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            - [DEPRECATION_CHECKER.md](${context.payload.repository.html_url}/blob/master/docs/DEPRECATION_CHECKER.md)
-
-            ---
-            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the problem is resolved._`;
-            
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: title,
-              labels: ['sanity-check-deprecations'],
-              body: body
-            });
-
-  report-dependency-updates:
-    name: Report Dependency Update Issues
-    runs-on: ubuntu-latest
-    needs: check-dependency-updates
-    if: always()
-    permissions:
-      issues: write
-    
-    steps:
-      - name: Download Artifact
-        if: needs.check-dependency-updates.outputs.status != 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: dependency-updates-report
-
-      - name: Manage Issue
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const status = '${{ needs.check-dependency-updates.outputs.status }}';
-            
-            // Close previous issues
-            const issues = await github.rest.issues.listForRepo({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              labels: ['sanity-check-dep-updates'],
-              state: 'open'
-            });
-            for (const issue of issues.data) {
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: issue.number,
-                state: 'closed',
-                state_reason: 'completed'
-              });
-            }
-            
-            if (status === 'success') {
-              console.log('✅ All dependencies up to date - no issue needed');
-              return;
-            }
-            
-            const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              run_id: context.runId
-            });
-            const artifact = artifacts.data.artifacts.find(a => a.name === 'dependency-updates-report');
-            const artifactUrl = artifact 
-              ? `${context.payload.repository.html_url}/actions/runs/${context.runId}/artifacts/${artifact.id}`
-              : `${context.payload.repository.html_url}/actions/runs/${context.runId}`;
-            
-            // Parse dependency updates
-            let problemCount = 0;
-            let checklist = '';
-            let gradleSection = '';
-            let pluginsSection = '';
-            let depsSection = '';
-            
-            try {
-              const output = fs.readFileSync('dependency-updates-output.txt', 'utf8');
-              const lines = output.split('\n');
-              
-              let currentSection = '';
-              for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                
-                if (line.includes('Gradle updates')) currentSection = 'gradle';
-                else if (line.includes('Plugin updates')) currentSection = 'plugins';
-                else if (line.includes('Dependency updates')) currentSection = 'deps';
-                
-                // Match update lines like: " - com.example:library [1.0.0 -> 1.1.0]"
-                const match = line.match(/^\s*-\s+([^[]+)\[([^\]]+)\]/);
-                if (match) {
-                  const dep = match[1].trim();
-                  const versions = match[2].trim();
-                  const item = `- [ ] ${dep} (${versions})`;
-                  problemCount++;
-                  
-                  if (currentSection === 'gradle') gradleSection += item + '\n';
-                  else if (currentSection === 'plugins') pluginsSection += item + '\n';
-                  else if (currentSection === 'deps') depsSection += item + '\n';
-                  else checklist += item + '\n';
-                }
-              }
-              
-              // Build organized checklist
-              if (gradleSection) checklist += '\n#### Gradle Updates\n\n' + gradleSection;
-              if (pluginsSection) checklist += '\n#### Plugin Updates\n\n' + pluginsSection;
-              if (depsSection) checklist += '\n#### Dependency Updates\n\n' + depsSection;
-              
-              if (problemCount === 0) {
-                problemCount = 1;
-                checklist = '- [ ] Dependency updates available (see full report for details)\n';
-              }
-            } catch (error) {
-              problemCount = 1;
-              checklist = '- [ ] Dependency updates available (see full report for details)\n';
-            }
-            
-            const body = `## Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})
-
-            **Check Date:** ${new Date().toISOString().split('T')[0]}
-
-            ### Download Report
-            
-            [📥 Download full report](${artifactUrl}) - GitHub will provide a zip file containing \`dependency-updates-output.txt\`
-
-            ### Updates Available
-
-            ${checklist}
-
-            ### How to Check Locally
-
-            \`\`\`bash
-            ./gradlew dependencyUpdates
-            \`\`\`
-
-            ### Resources
-
-            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
-            - [GRADLE_TASKS.md](${context.payload.repository.html_url}/blob/master/docs/GRADLE_TASKS.md)
-
-            ---
-            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when all dependencies are updated._`;
-            
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})`,
-              labels: ['sanity-check-dep-updates'],
-              body: body
-            });
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Dependency Graph
+          DEP_GRAPH_STATUS="${{ needs.verify-dependency-graph.outputs.status }}"
+          echo "### Dependency Graph: $DEP_GRAPH_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEP_GRAPH_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$DEP_GRAPH_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Deprecations
+          DEPRECATIONS_STATUS="${{ needs.check-deprecations.outputs.status }}"
+          echo "### Deprecations: $DEPRECATIONS_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEPRECATIONS_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$DEPRECATIONS_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Dependency Updates
+          DEP_UPDATES_STATUS="${{ needs.check-dependency-updates.outputs.status }}"
+          echo "### Dependency Updates: $DEP_UPDATES_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$DEP_UPDATES_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$DEP_UPDATES_STATUS" == "success-issues" ]; then
+            echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Fail workflow only if any check failed to run
+          if [ "$ANY_FAILED" == "true" ]; then
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "❌ **One or more checks failed to complete. Please review the logs.**" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          else
+            echo "---" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "✅ **All checks completed successfully. Issues have been created for items needing attention.**" >> $GITHUB_STEP_SUMMARY
+          fi

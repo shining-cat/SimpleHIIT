@@ -49,14 +49,7 @@ fun String.isNonStable(): Boolean {
 }
 
 tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask> {
-    // Workaround for Gradle 9+ parallel execution issue
-    // See: https://github.com/ben-manes/gradle-versions-plugin/issues/968
-    // Root cause: AGP modifies configurations during runtime iteration (Gradle API misuse)
-    // This disables parallel execution for this specific task only
-    doFirst {
-        gradle.startParameter.isParallelProjectExecutionEnabled = false
-    }
-
+    // Only check for stable release versions (not RC, beta, alpha, etc.)
     rejectVersionIf {
         candidate.version.isNonStable()
     }

@@ -165,29 +165,86 @@ This workflow requires the same repository settings as the Update Module Depende
 
 **Purpose:** Comprehensive health check of the master branch to catch configuration drift and violations
 
+### Architecture
+
+The workflow uses a **modular, reusable design** with 4 independent checker workflows and 1 orchestrator:
+
+**Reusable Checkers:**
+- `reusable-module-dependencies-checker.yml`
+- `reusable-dependency-graph-checker.yml`
+- `reusable-deprecation-checker.yml`
+- `reusable-dependency-updates-checker.yml`
+
+**Orchestrator:**
+- `monthly-master-sanity-check.yml` - Calls all checkers and reports combined results
+
 ### What It Checks
 
-This workflow runs four independent verification jobs:
+1. **Module Dependencies** - Validates architecture rules (no UI-to-UI dependencies, no domain→data, etc.)
+2. **Dependency Graph** - Verifies committed graph matches current module structure
+3. **Deprecations** - Scans build output for deprecation warnings
+4. **Dependency Updates** - Checks for available library updates
 
-1. Module Dependencies Verification
-2. Dependency Graph Verification
-3. Deprecation Check
-4. Dependency Updates Check
+### Three-State Model
 
-### GitHub Issues - Individual & Auto-Managed
+Each checker can return one of three states:
 
-When problems are detected, the workflow creates **one issue per check type**:
+| State | Meaning | Issue Created | Workflow Status |
+|-------|---------|---------------|-----------------|
+| `success` | Check completed, no issues found | ❌ No (closes existing issues) | ✅ SUCCESS |
+| `success-issues` | Check completed, found violations/updates | ✅ **Yes** (creates actionable issue) | ✅ SUCCESS |
+| `failure` | Check couldn't run (build error, config issue) | ✅ **Yes** (reports failure) | ❌ FAILURE |
+
+**Key Insight:** Finding violations is **not a failure** - it's expected behavior. The workflow succeeds and creates issues for follow-up.
+
+### GitHub Issues - Automatic Management
+
+**When checks complete successfully but find issues (`success-issues`):**
+- Creates issue with title: `[Check Name] [N] issue(s)` or `[Check Name] Available (N updates)`
+- Contains actionable checklist of violations/updates found
+- Provides download link to full report artifact
+- Includes local reproduction commands
+
+**When checks fail to run (`failure`):**
+- Creates issue with title: `[Check Name] Failed to Complete`
+- Extracts "What went wrong" from Gradle error output
+- Provides build/configuration error details
+- Includes debugging instructions
 
 **Issue Lifecycle:**
 - Each check type has a unique label (e.g., `sanity-check-module-deps`)
 - When workflow runs:
-  - ✅ **Check passes**: Closes any existing issues with that label
-  - ❌ **Check fails**: Closes old issues, creates new issue with current problems
+  - ✅ **success**: Closes any existing issues with that label
+  - ⚠️ **success-issues**: Closes old issue, creates new one with current findings
+  - ❌ **failure**: Closes old issue, creates new one with error details
 - Issues are **NOT assigned** (avoids notification noise)
-- Issues are **auto-closed** when problems are resolved on next run
+- Issues are **auto-closed** when resolved on next run
 
-**Issue Labels (one per check):**
-- `sanity-check-module-deps` - Module architecture violations
-- `sanity-check-dep-graph` - Dependency graph out of sync
-- `sanity-check-deprecations` - Build failures or deprecation warnings
-- `sanity-check-dep-updates` - Available dependency updates
+**Issue Labels:**
+- `sanity-check-module-deps` - Module architecture violations or build failures
+- `sanity-check-dep-graph` - Dependency graph out of sync or generation failures
+- `sanity-check-deprecations` - Deprecation warnings found or build failures
+- `sanity-check-dep-updates` - Available dependency updates or check failures
+
+### Example Issue Titles
+
+**When violations found:**
+- "Module Dependencies Violation (3 issues)"
+- "Dependency Graph Out of Sync (1 issue)"
+- "Dependency Updates Available (5 updates)"
+
+**When checks fail:**
+- "Module Dependencies Check Failed to Complete"
+- "Dependency Graph Check Failed to Complete"
+- "Deprecation Check Failed to Complete"
+
+### Workflow Success/Failure
+
+**The workflow is considered successful if:**
+- All 4 checks complete (even if they find violations)
+- Issues are created for any findings
+- Result summary shows green checkmarks or warnings
+
+**The workflow fails only if:**
+- One or more checks cannot run due to build/configuration errors
+- Issues are created explaining what prevented the check from running
