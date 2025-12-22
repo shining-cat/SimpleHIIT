@@ -15,8 +15,6 @@ dependencies {
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.android.mobile.ui.common)
-    // TEST: Forbidden UI-to-UI dependency
-    implementation(projects.android.mobile.ui.statistics)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

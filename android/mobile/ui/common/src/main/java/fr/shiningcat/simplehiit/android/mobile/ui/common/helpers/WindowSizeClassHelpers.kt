@@ -16,7 +16,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 @Composable
 fun currentUiArrangement(): UiArrangement {
     val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
-    val deprecatedmethodCallForTesting = windowSizeClass.windowWidthSizeClass
+
     return if (windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)) {
         // Typically, a tablet or bigger in landscape
         UiArrangement.HORIZONTAL
