@@ -44,7 +44,9 @@ jobs:
           set -o pipefail
           
           # Run dependency updates check
-          if ! ./gradlew dependencyUpdates 2>&1 | tee dependency-updates-output.txt; then
+          # --no-parallel is required for Gradle 9+ to get full project scan
+          # -Drevision=release ensures we check for stable release versions
+          if ! ./gradlew dependencyUpdates --no-parallel -Drevision=release 2>&1 | tee dependency-updates-output.txt; then
             # Gradle failed - check couldn't complete
             echo "status=failure" >> $GITHUB_OUTPUT
             echo "❌ Failed to run dependency updates check"
