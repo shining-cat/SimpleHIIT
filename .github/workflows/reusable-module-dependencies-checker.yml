@@ -49,12 +49,22 @@ jobs:
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ Module dependencies are correct"
           else
-            # Gradle task failed
-            # Dependency cycles prevent Gradle configuration - this is always a failure
-            # Actual violations would be caught during task execution, not configuration
-            echo "status=failure" >> $GITHUB_OUTPUT
-            echo "❌ Failed to run module dependency check (likely dependency cycle)"
-            exit 1
+            # Gradle task failed - determine if it's configuration failure or violations found
+            if grep -q "Could not determine the dependencies\|Could not create task" module-deps-output.txt; then
+              # Configuration failure (e.g., dependency cycle)
+              echo "status=failure" >> $GITHUB_OUTPUT
+              echo "❌ Failed to run module dependency check (configuration error)"
+              exit 1
+            elif grep -q "Execution failed for task.*assertAllowedModuleDependencies\|Execution failed for task.*assertModuleGraph" module-deps-output.txt; then
+              # Task execution completed but found violations
+              echo "status=success-issues" >> $GITHUB_OUTPUT
+              echo "⚠️ Module dependency violations found"
+            else
+              # Unknown failure
+              echo "status=failure" >> $GITHUB_OUTPUT
+              echo "❌ Failed to run module dependency check (unknown error)"
+              exit 1
+            fi
           fi
 
       - name: Upload Module Dependencies Report
