@@ -62,6 +62,8 @@ jobs:
             grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
             grep -F -v 'io.github.detekt.sarif4k:sarif4k' | \
             grep -F -v 'io.github.oshai:kotlin-logging' | \
+            grep -F -v 'org.jacoco:org.jacoco.ant' | \
+            grep -F -v 'org.jetbrains.kotlin:kotlin-test' | \
             grep -F -v 'Gradle:' | \
             grep -F -v 'https://github.com/pinterest/ktlint' | \
             grep -F -v 'https://detekt.github.io/detekt' | \
@@ -84,6 +86,8 @@ jobs:
               echo "- com.pinterest.ktlint:* (managed by ktlint-gradle plugin)"
               echo "- io.github.detekt.sarif4k:* (managed by detekt/ktlint)"
               echo "- io.github.oshai:kotlin-logging (managed by ktlint)"
+              echo "- org.jacoco:org.jacoco.ant (transitive dependency)"
+              echo "- org.jetbrains.kotlin:kotlin-test (transitive dependency)"
               echo ""
               echo "---"
               echo ""
