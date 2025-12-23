@@ -95,7 +95,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-dep-graph'],
+              labels: ['modules-dependencies-graph'],
               state: 'open'
             });
             for (const issue of issues.data) {
@@ -164,7 +164,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Dependency Graph Check Failed to Complete',
-              labels: ['sanity-check-dep-graph'],
+              labels: ['modules-dependencies-graph'],
               body: body
             });
 
@@ -177,7 +177,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-dep-graph'],
+              labels: ['modules-dependencies-graph'],
               state: 'open'
             });
             for (const issue of issues.data) {
@@ -233,7 +233,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Dependency Graph Out of Sync (1 issue)',
-              labels: ['sanity-check-dep-graph'],
+              labels: ['modules-dependencies-graph'],
               body: body
             });
 
@@ -245,7 +245,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-dep-graph'],
+              labels: ['modules-dependencies-graph'],
               state: 'open'
             });
             for (const issue of issues.data) {

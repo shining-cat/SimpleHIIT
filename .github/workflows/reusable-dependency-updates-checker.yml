@@ -118,7 +118,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-dep-updates'],
+              labels: ['outdated-external-dependencies'],
               state: 'open'
             });
             for (const issue of issues.data) {
@@ -187,7 +187,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Dependency Updates Check Failed to Complete',
-              labels: ['sanity-check-dep-updates'],
+              labels: ['outdated-external-dependencies'],
               body: body
             });
 
@@ -202,7 +202,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-dep-updates'],
+              labels: ['outdated-external-dependencies'],
               state: 'open'
             });
             for (const issue of issues.data) {
@@ -303,7 +303,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Dependency Updates Available (${problemCount} update${problemCount > 1 ? 's' : ''})`,
-              labels: ['sanity-check-dep-updates'],
+              labels: ['outdated-external-dependencies'],
               body: body
             });
 
@@ -315,7 +315,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-dep-updates'],
+              labels: ['outdated-external-dependencies'],
               state: 'open'
             });
             for (const issue of issues.data) {

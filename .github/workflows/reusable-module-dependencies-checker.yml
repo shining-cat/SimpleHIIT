@@ -86,7 +86,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-module-deps'],
+              labels: ['modules-dependencies-violation'],
               state: 'open'
             });
             for (const issue of issues.data) {
@@ -154,7 +154,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Module Dependencies Check Failed to Complete',
-              labels: ['sanity-check-module-deps'],
+              labels: ['modules-dependencies-violation'],
               body: body
             });
 
@@ -169,7 +169,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-module-deps'],
+              labels: ['modules-dependencies-violation'],
               state: 'open'
             });
             for (const issue of issues.data) {
@@ -247,7 +247,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Module Dependencies Violation (${problemCount} issue${problemCount > 1 ? 's' : ''})`,
-              labels: ['sanity-check-module-deps'],
+              labels: ['modules-dependencies-violation'],
               body: body
             });
 
@@ -259,7 +259,7 @@ jobs:
             const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['sanity-check-module-deps'],
+              labels: ['modules-dependencies-violation'],
               state: 'open'
             });
             for (const issue of issues.data) {
