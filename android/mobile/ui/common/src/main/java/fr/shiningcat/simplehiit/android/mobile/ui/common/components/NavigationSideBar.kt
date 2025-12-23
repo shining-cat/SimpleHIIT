@@ -69,6 +69,12 @@ fun NavigationSideBar(
                 selected = currentDestination == Screen.Statistics,
             )
         }
+        SideBarItem(
+            onClick = { navigateTo(Screen.About) },
+            icon = R.drawable.question_mark,
+            label = R.string.about_button_content_label,
+            selected = currentDestination == Screen.About,
+        )
     }
 }
 

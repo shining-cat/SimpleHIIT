@@ -8,6 +8,7 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import fr.shiningcat.simplehiit.android.common.NavigationViewModel
 import fr.shiningcat.simplehiit.android.common.Screen
+import fr.shiningcat.simplehiit.android.tv.ui.common.AboutScreen
 import fr.shiningcat.simplehiit.android.tv.ui.home.HomeScreen
 import fr.shiningcat.simplehiit.android.tv.ui.session.SessionScreen
 import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsScreen
@@ -48,6 +49,11 @@ fun SimpleHiitNavigation(
                     SessionScreen(
                         navigateUp = navigationViewModel::goBack,
                         hiitLogger = hiitLogger,
+                    )
+                }
+                entry<Screen.About> {
+                    AboutScreen(
+                        navigateTo = navigationViewModel::navigateTo,
                     )
                 }
             },
