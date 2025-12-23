@@ -46,6 +46,13 @@ fun HomeTopBarComponent(
             )
         },
         actions = {
+            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.About) }) {
+                Icon(
+                    imageVector = ImageVector.vectorResource(R.drawable.question_mark),
+                    contentDescription = stringResource(id = R.string.about_button_content_label),
+                    tint = MaterialTheme.colorScheme.onPrimary,
+                )
+            }
             IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.cog),

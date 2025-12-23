@@ -14,10 +14,25 @@
     <string name="ok">OK</string>
     <string name="active">actif</string>
 
+    <!-- ABOUT PAGE -->
+    <string name="about_page_title">À propos</string>
+    <string name="about_button_content_label">À propos</string>
+    <string name="about_page_figure_and_clock_icon_content_description">Icône d\'une silhouette faisant un exercice sous un chronomètre avec un temps écoulé mis en évidence</string>
+    <string name="about_page_hiit_description">Le principe d\'un entraînement HIIT est d\'alterner des périodes de travail à haute intensité et des périodes de repos, généralement selon un cycle de 20s/10s sur 4 minutes.</string>
+    <string name="about_page_app_features_part_1">Sur l\'écran d\'Accueil, vous pouvez rapidement sélectionner le nombre de cycles vous souhaitez enchaîner dans votre session.</string>
+    <string name="about_page_app_features_part_2">Dans les paramètres, vous pouvez personnaliser la structure du cycle lui-même et choisir ou exclure les types d\'exercices.</string>
+    <string name="about_page_app_features_part_3">Vous pouvez consulter les statistiques pour chaque profil dans l\'écran Statistiques</string>
+    <string name="about_page_credit_label">Illustrations des exercices réalisées avec :</string>
+    <string name="about_page_credit_name">posemy.art</string>
+    <string name="about_page_credit_link">https://posemy.art/</string>
+    <string name="about_page_project_github">Simple HIIT est un projet open-source sur Github</string>
+    <string name="about_page_project_github_link">https://github.com/shining-cat/SimpleHIIT</string>
+    <string name="about_page_app_by">Créé par</string>
+    <string name="about_page_app_by_signature">Shining-cat</string>
+    <string name="about_page_kiwi_logo_description">Logo d\'un oiseau Kiwi</string>
+
     <!-- HOME PAGE -->
     <string name="home_page_title">Accueil</string>
-    <string name="hiit_description">Le principe d\'un entraînement HIIT est d\'alterner des périodes de travail à haute intensité et des périodes de repos, généralement selon un cycle de 20s/10s sur 4 minutes.</string>
-    <string name="short_instruction">Ici, vous pouvez rapidement sélectionner combien de cycles vous souhaitez enchaîner dans votre session. Dans les paramètres, vous pouvez affiner la structure du cycle elle-même.</string>
     <string name="error_irrecoverable_state">L\'application semble être gravement endommagée. Veuillez essayer de la fermer et de la relancer. Si cela persiste, vous devrez essayer de supprimer toutes les données stockées</string>
     <string name="reset_app_button_label">Réinitialiser toute l\'application</string>
     <string name="error_confirm_whole_reset">Supprimer toutes les données stockées ? Cela effacera tous les utilisateurs, toutes les sessions enregistrées et tous les paramètres</string>

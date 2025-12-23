@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import fr.shiningcat.simplehiit.android.common.NavigationViewModel
 import fr.shiningcat.simplehiit.android.common.Screen
+import fr.shiningcat.simplehiit.android.mobile.ui.common.AboutScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionScreen
@@ -52,6 +53,12 @@ fun SimpleHiitNavigation(
                         navigateUp = navigationViewModel::goBack,
                         uiArrangement = uiArrangement,
                         hiitLogger = hiitLogger,
+                    )
+                }
+                entry<Screen.About> {
+                    AboutScreen(
+                        navigateTo = navigationViewModel::navigateTo,
+                        uiArrangement = uiArrangement,
                     )
                 }
             },

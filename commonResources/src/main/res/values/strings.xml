@@ -14,10 +14,25 @@
     <string name="ok">OK</string>
     <string name="active">active</string>
 
+    <!-- ABOUT PAGE -->
+    <string name="about_page_title">About</string>
+    <string name="about_button_content_label">About</string>
+    <string name="about_page_figure_and_clock_icon_content_description">Icon of a silhouette doing an exercise below a stopwatch with a highlighted elapsed time</string>
+    <string name="about_page_hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over a 4mn cycle.</string>
+    <string name="about_page_app_features_part_1">On the main Home screen you can quickly select how many cycles you want to chain in your session.</string>
+    <string name="about_page_app_features_part_2">In the settings, you can customise the cycle structure itself, and pick or exclude exercise types.</string>
+    <string name="about_page_app_features_part_3">You can check some statistics for each profile in the Statistics screen</string>
+    <string name="about_page_credit_label">Exercises illustrations made with:</string>
+    <string name="about_page_credit_name">posemy.art</string>
+    <string name="about_page_credit_link">https://posemy.art/</string>
+    <string name="about_page_project_github">Simple HIIT is an open-source project on Github</string>
+    <string name="about_page_project_github_link">https://github.com/shining-cat/SimpleHIIT</string>
+    <string name="about_page_app_by">Made by</string>
+    <string name="about_page_app_by_signature">Shining-cat</string>
+    <string name="about_page_kiwi_logo_description">Logo of a Kiwi bird</string>
+
     <!-- HOME PAGE -->
     <string name="home_page_title">Home</string>
-    <string name="hiit_description">The principle of a HIIT workout is to alternate High Intensity Work and Rest periods, typically following a 20s/10s over a 4mn cycle.</string>
-    <string name="short_instruction">Here you can quickly select how many of cycles you want to chain in your session. In the settings, you can refine the cycle structure itself.</string>
     <string name="error_irrecoverable_state">The app seems to be fatally broken. Please try to kill it and relaunch. If this persists, you\'ll have to try deleting all stored data</string>
     <string name="reset_app_button_label">Reset the whole app</string>
     <string name="error_confirm_whole_reset">Delete all stored data? This will erase all users, all stored sessions, and all settings</string>
