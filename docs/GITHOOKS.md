@@ -36,34 +36,45 @@ chmod +x .githooks/pre-push
 **Purpose:** Enforces code style consistency using ktlint before allowing commits.
 
 **Features:**
-- Runs `ktlintCheck` twice if the first attempt fails
-- Automatically handles minor auto-fixable formatting issues
+- Only formats files that are staged for commit (supports partial commits)
+- Temporarily stashes unstaged changes to avoid formatting them
+- Automatically re-stages formatted files
 - Provides clear, color-coded console feedback
-- Only blocks commits if issues remain after both attempts
+- Blocks commits if formatting issues cannot be auto-fixed
 
 **Workflow:**
 
-1. **First Check:**
-   - Runs `./gradlew ktlintCheck --daemon`
-   - If successful → commit proceeds
-   - If failed → proceeds to second check
+1. **Identify Staged Files:**
+   - Detects which Kotlin files are staged for commit
+   - If no Kotlin files are staged → commit proceeds immediately
 
-2. **Second Check (if first failed):**
-   - Runs ktlintCheck again
-   - If successful → commit proceeds (ktlint auto-fixed minor issues)
-   - If failed → commit is blocked
+2. **Isolate Staged Changes:**
+   - Temporarily stashes any unstaged changes (if present)
+   - This ensures only staged files are formatted
+
+3. **Format:**
+   - Runs `./gradlew ktlintFormat --daemon`
+   - Formats all files in the project (but only staged files are present)
+
+4. **Restore and Update:**
+   - Restores any stashed unstaged changes
+   - Re-stages formatted files automatically
+   - If formatting succeeded → commit proceeds
+   - If formatting failed → commit is blocked
 
 **When Commit is Blocked:**
 
-If ktlint finds issues that require manual intervention, you'll see:
+If ktlint encounters issues that cannot be auto-fixed, you'll see:
 
 ```
-❌ Ktlint check failed after 2 attempts! Commit blocked.
+❌ Ktlint formatting failed! Commit blocked.
 
-Action required:
-  1. Run: ./gradlew ktlintFormat
-  2. Review and stage the changes
-  3. Commit again
+The formatter encountered issues that cannot be auto-fixed.
+Review the errors above and fix them manually.
+
+After fixing issues:
+  1. Stage your changes: git add <files>
+  2. Try committing again
 
 To bypass this check (not recommended):
   git commit --no-verify
@@ -71,31 +82,48 @@ To bypass this check (not recommended):
 
 **Example Output:**
 
-Success on first attempt:
+No Kotlin files staged:
 ```
 ════════════════════════════════════════════════════════════
-Running ktlint check (attempt 1/2)...
+Running ktlint format on staged files...
 ════════════════════════════════════════════════════════════
 
-✅ Ktlint check passed on first attempt!
+✅ No Kotlin files staged for commit
 ✅ Commit proceeding...
 ```
 
-Success on second attempt (auto-fixed):
+Files auto-formatted:
 ```
 ════════════════════════════════════════════════════════════
-Running ktlint check (attempt 1/2)...
+Running ktlint format on staged files...
 ════════════════════════════════════════════════════════════
 
-⚠️  First ktlint check detected issues
-⚠️  Ktlint may have auto-fixed some minor formatting issues
+Staged Kotlin files:
+  • android/mobile/app/src/main/java/Example.kt
 
+Temporarily stashing unstaged changes...
+Restoring unstaged changes...
+
+⚠️  Staged files were auto-formatted by ktlint!
+
+Auto-formatted files:
+  • android/mobile/app/src/main/java/Example.kt
+
+Re-staging formatted files...
+✅ Formatted files have been re-staged
+✅ Commit proceeding...
+```
+
+No formatting needed:
+```
 ════════════════════════════════════════════════════════════
-Running ktlint check (attempt 2/2)...
+Running ktlint format on staged files...
 ════════════════════════════════════════════════════════════
 
-✅ Ktlint check passed on second attempt!
-✅ Minor issues were auto-fixed by ktlint
+Staged Kotlin files:
+  • android/mobile/app/src/main/java/Example.kt
+
+✅ No formatting changes needed
 ✅ Commit proceeding...
 ```
 
