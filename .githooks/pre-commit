@@ -1,14 +1,16 @@
 #!/bin/bash
 #
 # Ktlint pre-commit hook
-# This hook runs ktlintFormat before allowing a commit
+# This hook runs ktlintFormat on staged files before allowing a commit
 #
 # Installation:
 #   Run once from repository root: ./.githooks/setup.sh
 #   This configures git to use .githooks directory for all hooks
 #
 # Features:
-# - Runs ktlintFormat to automatically fix code formatting
+# - Only formats files that are staged for commit (supports partial commits)
+# - Temporarily stashes unstaged changes to avoid formatting them
+# - Automatically re-stages formatted files
 # - Provides clear, color-coded console feedback
 # - Blocks commits if formatting issues cannot be auto-fixed
 #
@@ -26,29 +28,74 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}Running ktlint format...${NC}"
+echo -e "${BLUE}Running ktlint format on staged files...${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
+
+# Get list of staged Kotlin files
+STAGED_KOTLIN_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep '\.kt$' || true)
+
+if [ -z "$STAGED_KOTLIN_FILES" ]; then
+    echo ""
+    echo -e "${GREEN}✅ No Kotlin files staged for commit${NC}"
+    echo -e "${GREEN}✅ Commit proceeding...${NC}"
+    exit 0
+fi
+
+echo ""
+echo -e "${BLUE}Staged Kotlin files:${NC}"
+echo "$STAGED_KOTLIN_FILES" | sed 's/^/  • /'
+echo ""
+
+# Check if there are any unstaged changes
+UNSTAGED_CHANGES=$(git diff --name-only)
+
+if [ -n "$UNSTAGED_CHANGES" ]; then
+    echo -e "${BLUE}Temporarily stashing unstaged changes...${NC}"
+    # Stash only unstaged changes (keep staged changes in index)
+    git stash push --keep-index --quiet --message "pre-commit-hook-temp-stash"
+    STASHED=1
+else
+    STASHED=0
+fi
 
 # Run ktlintFormat with daemon for faster execution
 ./gradlew ktlintFormat --daemon
 KTLINT_EXIT_CODE=$?
 
+# Restore stashed changes if we stashed anything
+if [ $STASHED -eq 1 ]; then
+    echo -e "${BLUE}Restoring unstaged changes...${NC}"
+    git stash pop --quiet
+fi
+
 if [ $KTLINT_EXIT_CODE -eq 0 ]; then
-    # Check if any files were modified by the formatter
-    if ! git diff --quiet; then
+    # Check if any of the staged files were modified by the formatter
+    MODIFIED_STAGED_FILES=""
+    for file in $STAGED_KOTLIN_FILES; do
+        if [ -f "$file" ] && ! git diff --quiet -- "$file"; then
+            MODIFIED_STAGED_FILES="$MODIFIED_STAGED_FILES$file\n"
+        fi
+    done
+    
+    if [ -n "$MODIFIED_STAGED_FILES" ]; then
         echo ""
-        echo -e "${YELLOW}⚠️  Files were auto-formatted by ktlint!${NC}"
-        echo -e "${YELLOW}Commit blocked - review and stage the changes:${NC}"
+        echo -e "${YELLOW}⚠️  Staged files were auto-formatted by ktlint!${NC}"
         echo ""
-        echo -e "${YELLOW}Modified files:${NC}"
-        git diff --name-only | sed 's/^/  • /'
+        echo -e "${YELLOW}Auto-formatted files:${NC}"
+        echo -e "$MODIFIED_STAGED_FILES" | sed 's/^/  • /'
         echo ""
-        echo -e "${YELLOW}Next steps:${NC}"
-        echo -e "${YELLOW}  1. Review changes: git diff${NC}"
-        echo -e "${YELLOW}  2. Stage changes: git add <files>${NC}"
-        echo -e "${YELLOW}  3. Commit again: git commit${NC}"
-        echo ""
-        exit 1
+        echo -e "${YELLOW}Re-staging formatted files...${NC}"
+        
+        # Re-stage the formatted files
+        for file in $STAGED_KOTLIN_FILES; do
+            if [ -f "$file" ] && ! git diff --quiet -- "$file"; then
+                git add "$file"
+            fi
+        done
+        
+        echo -e "${GREEN}✅ Formatted files have been re-staged${NC}"
+        echo -e "${GREEN}✅ Commit proceeding...${NC}"
+        exit 0
     else
         echo ""
         echo -e "${GREEN}✅ No formatting changes needed${NC}"

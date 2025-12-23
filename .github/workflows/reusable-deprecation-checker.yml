@@ -210,7 +210,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
-              labels: 'deprecation-warning',
+              labels: 'deprecations',
               per_page: 100
             });
             
@@ -278,7 +278,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: 'Deprecation Check Failed to Complete',
-              labels: ['deprecation-warning', 'build-failure'],
+              labels: ['deprecations', 'build-failure'],
               body: body
             });
 
@@ -297,7 +297,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open',
-              labels: 'deprecation-warning',
+              labels: 'deprecations',
               per_page: 100
             });
             
@@ -312,7 +312,7 @@ jobs:
               repo: context.repo.repo,
               title: issueTitle,
               body: reportContent,
-              labels: ['deprecation-warning', 'technical-debt']
+              labels: ['deprecations']
             });
             
             core.info(`Created new issue #${newIssue.data.number}`);

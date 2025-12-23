@@ -221,10 +221,10 @@ Each checker can return one of three states:
 - Issues are **auto-closed** when resolved on next run
 
 **Issue Labels:**
-- `sanity-check-module-deps` - Module architecture violations or build failures
-- `sanity-check-dep-graph` - Dependency graph out of sync or generation failures
-- `sanity-check-deprecations` - Deprecation warnings found or build failures
-- `sanity-check-dep-updates` - Available dependency updates or check failures
+- `modules-dependencies-violation` - Module architecture violations or build failures
+- `modules-dependencies-graph` - Dependency graph out of sync or generation failures
+- `deprecations` and `build-failure` - Deprecation warnings found or build failures
+- `outdated-external-dependencies` - Available dependency updates or check failures
 
 ### Example Issue Titles
 

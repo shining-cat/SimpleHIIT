@@ -1,7 +1,7 @@
 [![Ktlint Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Ktlint%20Check)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
 [![Module Dependencies](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Module%20Dependencies)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
 [![Unit Tests](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Unit%20Tests)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
-[![Deprecation Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/deprecation-checker.yml?label=No%20Deprecations)](https://github.com/shining-cat/SimpleHIIT/issues?q=is%3Aissue+is%3Aopen+label%3Adeprecation-warning)
+[![Deprecation Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/monthly-master-sanity-check.yml?label=No%20Deprecations)](https://github.com/shining-cat/SimpleHIIT/issues?q=is%3Aissue+is%3Aopen+label%3Adeprecations)
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
 [![WCAG 2.1 AA](https://img.shields.io/badge/WCAG%202.1-AA%20Compliant-green)](docs/COLOR_CONTRAST_ANALYSIS.md)
 
