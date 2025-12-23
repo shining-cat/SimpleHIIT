@@ -1,20 +1,32 @@
+# Android Studio / IntelliJ IDEA
 *.iml
 .gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
 /.idea
 .DS_Store
+
+# Local configuration
+local.properties
+
+# Build outputs
 /build
+**/build/
 /captures
 .externalNativeBuild
 .cxx
-local.properties
+
+# Kotlin
+.kotlin/
+
+# Testing & Code Coverage
 **/build/intermediates/ktLint/
 **/build/kover/
 **/build/reports/kover/
-.kotlin/
+
+# macOS
+.DS_Store
+
+# Android Profiler
+*.hprof
+
+# Kotlin Scratch files
+**/.scratch/
