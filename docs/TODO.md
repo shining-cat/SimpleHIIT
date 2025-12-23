@@ -19,7 +19,5 @@
 * user object could expose the timestamp of their last session so we could sort them on this on the home for convenience
 * When user unselect ALL exercise types, allow the session to still run, without showing any
   exercise, as a timer only. Show a message instead of the missing gifs.
-* create a _About_ section, in which to add credits for PoseMy.Art, it could also hold the
-  hiit_description, accessible through a new ? button in the home top app bar actions menu
 * refine fr and swedish translations
 * statistics maybe remove seconds from displays to reduce clutter? (maybe when a value is over 1h)
