@@ -4,7 +4,6 @@
 * Find how to publish: Fdroid, or github, or home?
 
 ## General technical improvements
-* replace try/catch blocks with runcatching
 * could we extract even more **platform-agnostic** logic from the viewmodels?
 * add tests on viewmodels after having tried to make them lighter
 * use new [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64) to review composables and eventually optimise them further (also gradle plugin)

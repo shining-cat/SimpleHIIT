@@ -63,12 +63,11 @@ class SettingsViewStateMapper
 
         private fun durationMsAsSeconds(durationMs: Long): String? {
             val asSeconds = durationMs.toDouble() / 1000L.toDouble()
-            return try {
+            return runCatching {
                 asSeconds.roundToInt().toString()
-            } catch (exception: IllegalArgumentException) {
+            }.onFailure { exception ->
                 // this should never happen as we can't get a NaN as a Long
                 hiitLogger.e("SettingsMapper", "durationMsAsSeconds", exception)
-                null
-            }
+            }.getOrNull()
         }
     }

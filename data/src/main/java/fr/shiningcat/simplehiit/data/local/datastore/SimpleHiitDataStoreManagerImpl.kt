@@ -198,9 +198,9 @@ class SimpleHiitDataStoreManagerImpl(
     private fun retrieveAppTheme(preferences: Preferences): AppTheme {
         val themeString = preferences[SimpleHiitDataStoreManager.Keys.APP_THEME]
         return if (themeString != null) {
-            try {
+            runCatching {
                 AppTheme.valueOf(themeString)
-            } catch (e: IllegalArgumentException) {
+            }.getOrElse { e ->
                 hiitLogger.e("SimpleHiitDataStoreManager", "retrieveAppTheme:: Invalid theme value $themeString, returning default", e)
                 DEFAULT_APP_THEME
             }

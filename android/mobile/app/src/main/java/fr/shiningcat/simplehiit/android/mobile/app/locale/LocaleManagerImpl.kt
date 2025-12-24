@@ -28,7 +28,7 @@ class LocaleManagerImpl
         private val hiitLogger: HiitLogger,
     ) : DataLocaleManager {
         override fun setAppLanguage(language: AppLanguage): Boolean =
-            try {
+            runCatching {
                 if (androidVersionProvider.getSdkVersion() >= Build.VERSION_CODES.TIRAMISU) {
                     // Android 13+ (API 33+): Use system LocaleManager
                     val localeManager = context.getSystemService(LocaleManager::class.java)
@@ -52,14 +52,12 @@ class LocaleManagerImpl
                         "Language set to: $language (via AppCompatDelegate)",
                     )
                 }
-                true
-            } catch (exception: Exception) {
+            }.onFailure { exception ->
                 hiitLogger.e("LocaleManagerImpl", "Failed to set language to $language", exception)
-                false
-            }
+            }.isSuccess
 
         override fun getCurrentLanguage(): AppLanguage =
-            try {
+            runCatching {
                 val result =
                     if (androidVersionProvider.getSdkVersion() >= Build.VERSION_CODES.TIRAMISU) {
                         // Android 13+ (API 33+): Use system LocaleManager
@@ -81,7 +79,7 @@ class LocaleManagerImpl
                     }
                 hiitLogger.d("LocaleManagerImpl", "getCurrentLanguage returning: $result")
                 result
-            } catch (exception: Exception) {
+            }.getOrElse { exception ->
                 hiitLogger.e("LocaleManagerImpl", "Failed getting current language", exception)
                 AppLanguage.SYSTEM_DEFAULT
             }
