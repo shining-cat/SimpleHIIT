@@ -4,7 +4,6 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.di.DigitsFormat
 import fr.shiningcat.simplehiit.domain.common.di.ShortFormat
-import java.util.MissingFormatArgumentException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -44,22 +43,19 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 
             return when {
                 // ex: 5s / 32s
-                hours == 0L && minutes == 0L -> durationStringFormatter.seconds.format(seconds)
+                hours == 0L && minutes == 0L -> {
+                    durationStringFormatter.seconds.format(seconds)
+                }
                 //
-                hours == 0L && minutes > 0L ->
+                hours == 0L && minutes > 0L -> {
                     when (seconds) {
                         // ex: 3mn / 13mn
                         0L -> {
-                            try {
-                                durationStringFormatter.minutesNoSeconds.format(
-                                    minutes,
-                                )
-                            } catch (mae: MissingFormatArgumentException) {
+                            runCatching {
+                                durationStringFormatter.minutesNoSeconds.format(minutes)
+                            }.getOrElse {
                                 // the default String needs the 0 seconds argument to be formatted
-                                durationStringFormatter.minutesNoSeconds.format(
-                                    minutes,
-                                    seconds,
-                                )
+                                durationStringFormatter.minutesNoSeconds.format(minutes, seconds)
                             }
                         }
                         // ex: 2mn04s / 1mn43s / 23mn52s
@@ -70,22 +66,25 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
                             )
                         }
                     }
-
-                else ->
+                }
+                else -> {
                     when (seconds) {
-                        0L ->
-                            try {
+                        0L -> {
+                            runCatching {
                                 when (minutes) {
                                     // ex: 1h / 23h
-                                    0L -> durationStringFormatter.hoursNoMinutesNoSeconds.format(hours)
+                                    0L -> {
+                                        durationStringFormatter.hoursNoMinutesNoSeconds.format(hours)
+                                    }
                                     // ex: 2h03mn / 3h45mn
-                                    else ->
+                                    else -> {
                                         durationStringFormatter.hoursMinutesNoSeconds.format(
                                             hours,
                                             minutes,
                                         )
+                                    }
                                 }
-                            } catch (mae: MissingFormatArgumentException) {
+                            }.getOrElse {
                                 // the default String needs the 0 minutes & 0 seconds arguments to be formatted
                                 durationStringFormatter.hoursMinutesSeconds.format(
                                     hours,
@@ -93,14 +92,17 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
                                     seconds,
                                 )
                             }
+                        }
                         // ex: 3h04mn05s / 4h12mn34s / 12h34mn56s
-                        else ->
+                        else -> {
                             durationStringFormatter.hoursMinutesSeconds.format(
                                 hours,
                                 minutes,
                                 seconds,
                             )
+                        }
                     }
+                }
             }
         }
     }

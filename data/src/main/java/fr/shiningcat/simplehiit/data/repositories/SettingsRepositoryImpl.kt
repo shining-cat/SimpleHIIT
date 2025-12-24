@@ -21,9 +21,9 @@ class SettingsRepositoryImpl
         private val hiitLogger: HiitLogger,
     ) : SettingsRepository {
         override fun getPreferences(): Flow<SimpleHiitPreferences> =
-            try {
+            runCatching {
                 hiitDataStoreManager.getPreferences()
-            } catch (exception: Exception) {
+            }.getOrElse { exception ->
                 hiitLogger.e(
                     "SettingsRepositoryImpl",
                     "failed getting general settings - returning default settings",

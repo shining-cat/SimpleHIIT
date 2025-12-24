@@ -293,7 +293,7 @@ internal class UsersRepositoryImplGetUsersTest : AbstractMockkTest() {
             coVerify(exactly = 0) { mockUserMapper.convert(any<UserEntity>()) }
             coVerify(exactly = 1) {
                 mockHiitLogger.e(
-                    any(),
+                    "UsersRepositoryImpl",
                     "failed getting selected users",
                     thrownException,
                 )

@@ -31,61 +31,71 @@ class SessionsRepositoryImpl
                 )
             }
             return withContext(ioDispatcher) {
-                try {
+                runCatching {
                     val sessionEntities = sessionMapper.convert(sessionRecord)
-                    val insertedIds = sessionRecordsDao.insert(sessionEntities)
-                    hiitLogger.d(
-                        "SessionsRepositoryImpl",
-                        "insertSessionRecord::inserted ${insertedIds.size} sessions",
-                    )
-                    Output.Success(insertedIds.size)
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e("SessionsRepositoryImpl", "failed inserting session", exception)
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
-                        exception = exception,
-                    )
-                }
+                    sessionRecordsDao.insert(sessionEntities)
+                }.fold(
+                    onSuccess = { insertedIds ->
+                        hiitLogger.d(
+                            "SessionsRepositoryImpl",
+                            "insertSessionRecord::inserted ${insertedIds.size} sessions",
+                        )
+                        Output.Success(insertedIds.size)
+                    },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e("SessionsRepositoryImpl", "failed inserting session", exception)
+                        Output.Error(
+                            errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                            exception = exception,
+                        )
+                    },
+                )
             }
         }
 
         override suspend fun getSessionRecordsForUser(user: User): Output<List<SessionRecord>> =
             withContext(ioDispatcher) {
-                try {
-                    val sessions = sessionRecordsDao.getSessionsForUser(user.id)
-                    hiitLogger.d(
-                        "SessionsRepositoryImpl",
-                        "getSessionsForUser::found ${sessions.size} sessions",
-                    )
-                    val sessionsModels = sessions.map { sessionMapper.convert(it) }
-                    Output.Success(sessionsModels)
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e("SessionsRepositoryImpl", "failed getting sessions", exception)
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-                        exception = exception,
-                    )
-                }
+                runCatching {
+                    sessionRecordsDao.getSessionsForUser(user.id)
+                }.fold(
+                    onSuccess = { sessions ->
+                        hiitLogger.d(
+                            "SessionsRepositoryImpl",
+                            "getSessionsForUser::found ${sessions.size} sessions",
+                        )
+                        val sessionsModels = sessions.map { sessionMapper.convert(it) }
+                        Output.Success(sessionsModels)
+                    },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e("SessionsRepositoryImpl", "failed getting sessions", exception)
+                        Output.Error(
+                            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                            exception = exception,
+                        )
+                    },
+                )
             }
 
         override suspend fun deleteSessionRecordsForUser(userId: Long): Output<Int> =
             withContext(ioDispatcher) {
-                try {
-                    val deletedCount = sessionRecordsDao.deleteForUser(userId)
-                    Output.Success(result = deletedCount)
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e(
-                        "SessionsRepositoryImpl",
-                        "failed deleting sessions for user",
-                        exception,
-                    )
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
-                        exception = exception,
-                    )
-                }
+                runCatching {
+                    sessionRecordsDao.deleteForUser(userId)
+                }.fold(
+                    onSuccess = { deletedCount -> Output.Success(result = deletedCount) },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e(
+                            "SessionsRepositoryImpl",
+                            "failed deleting sessions for user",
+                            exception,
+                        )
+                        Output.Error(
+                            errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                            exception = exception,
+                        )
+                    },
+                )
             }
     }

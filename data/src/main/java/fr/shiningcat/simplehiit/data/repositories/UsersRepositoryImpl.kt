@@ -26,30 +26,31 @@ class UsersRepositoryImpl
     ) : UsersRepository {
         override suspend fun insertUser(user: User): Output<Long> =
             withContext(ioDispatcher) {
-                try {
-                    val insertedId = usersDao.insert(userMapper.convert(user))
-                    Output.Success(result = insertedId)
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e("UsersRepositoryImpl", "failed inserting user", exception)
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
-                        exception = exception,
-                    )
-                }
+                runCatching {
+                    usersDao.insert(userMapper.convert(user))
+                }.fold(
+                    onSuccess = { insertedId -> Output.Success(result = insertedId) },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e("UsersRepositoryImpl", "failed inserting user", exception)
+                        Output.Error(
+                            errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                            exception = exception,
+                        )
+                    },
+                )
             }
 
         override fun getUsers(): Flow<Output<List<User>>> =
-            try {
-                val usersFlow = usersDao.getUsers()
-                usersFlow.map { users ->
+            runCatching {
+                usersDao.getUsers().map { users ->
                     Output.Success(
                         users.map { user ->
                             userMapper.convert(user)
                         },
                     )
                 }
-            } catch (exception: Exception) {
+            }.getOrElse { exception ->
                 hiitLogger.e("UsersRepositoryImpl", "failed getting users", exception)
                 flowOf(
                     Output.Error(
@@ -61,34 +62,33 @@ class UsersRepositoryImpl
 
         override suspend fun getUsersList(): Output<List<User>> =
             withContext(ioDispatcher) {
-                try {
-                    Output.Success(
-                        result =
-                            usersDao.getUsersList().map { user ->
-                                userMapper.convert(user)
-                            },
-                    )
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e("UsersRepositoryImpl", "failed getting users as List", exception)
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
-                        exception = exception,
-                    )
-                }
+                runCatching {
+                    usersDao.getUsersList().map { user ->
+                        userMapper.convert(user)
+                    }
+                }.fold(
+                    onSuccess = { result -> Output.Success(result = result) },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e("UsersRepositoryImpl", "failed getting users as List", exception)
+                        Output.Error(
+                            errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                            exception = exception,
+                        )
+                    },
+                )
             }
 
         override fun getSelectedUsers(): Flow<Output<List<User>>> =
-            try {
-                val usersFlow = usersDao.getSelectedUsers()
-                usersFlow.map { users ->
+            runCatching {
+                usersDao.getSelectedUsers().map { users ->
                     Output.Success(
                         users.map { user ->
                             userMapper.convert(user)
                         },
                     )
                 }
-            } catch (exception: Exception) {
+            }.getOrElse { exception ->
                 hiitLogger.e("UsersRepositoryImpl", "failed getting selected users", exception)
                 flowOf(
                     Output.Error(
@@ -100,25 +100,29 @@ class UsersRepositoryImpl
 
         override suspend fun updateUser(user: User): Output<Int> =
             withContext(ioDispatcher) {
-                try {
-                    val numberOfUpdates = usersDao.update(userMapper.convert(user))
-                    if (numberOfUpdates == 1) {
-                        Output.Success(result = numberOfUpdates)
-                    } else {
-                        hiitLogger.e("UsersRepositoryImpl", "failed updating user")
+                runCatching {
+                    usersDao.update(userMapper.convert(user))
+                }.fold(
+                    onSuccess = { numberOfUpdates ->
+                        if (numberOfUpdates == 1) {
+                            Output.Success(result = numberOfUpdates)
+                        } else {
+                            hiitLogger.e("UsersRepositoryImpl", "failed updating user")
+                            Output.Error(
+                                errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                                exception = Exception("failed updating user"),
+                            )
+                        }
+                    },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e("UsersRepositoryImpl", "failed updating user", exception)
                         Output.Error(
                             errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
-                            exception = Exception("failed updating user"),
+                            exception = exception,
                         )
-                    }
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e("UsersRepositoryImpl", "failed updating user", exception)
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
-                        exception = exception,
-                    )
-                }
+                    },
+                )
             }
 
         /**
@@ -126,36 +130,39 @@ class UsersRepositoryImpl
          */
         override suspend fun deleteUser(user: User): Output<Int> =
             withContext(ioDispatcher) {
-                try {
-                    val deletedCount = usersDao.delete(userMapper.convert(user))
-                    if (deletedCount == 1) {
-                        Output.Success(result = deletedCount)
-                    } else {
-                        hiitLogger.e("UsersRepositoryImpl", "failed deleting user")
+                runCatching {
+                    usersDao.delete(userMapper.convert(user))
+                }.fold(
+                    onSuccess = { deletedCount ->
+                        if (deletedCount == 1) {
+                            Output.Success(result = deletedCount)
+                        } else {
+                            hiitLogger.e("UsersRepositoryImpl", "failed deleting user")
+                            Output.Error(
+                                errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                                exception = Exception("failed deleting user"),
+                            )
+                        }
+                    },
+                    onFailure = { exception ->
+                        coroutineContext.ensureActive()
+                        hiitLogger.e("UsersRepositoryImpl", "failed deleting user", exception)
                         Output.Error(
                             errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
-                            exception = Exception("failed deleting user"),
+                            exception = exception,
                         )
-                    }
-                } catch (exception: Exception) {
-                    this.coroutineContext.ensureActive()
-                    hiitLogger.e("UsersRepositoryImpl", "failed deleting user", exception)
-                    Output.Error(
-                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
-                        exception = exception,
-                    )
-                }
+                    },
+                )
             }
 
         override suspend fun deleteAllUsers() {
             withContext(ioDispatcher) {
-                try {
+                runCatching {
                     usersDao.deleteAllUsers()
-                } catch (exception: Exception) {
+                }.onFailure { exception ->
                     // we never wait for any result from here, so we can simply rethrow any eventual exception
                     hiitLogger.e("UsersRepositoryImpl", "failed deleting All Users", exception)
-                    throw exception
-                }
+                }.getOrThrow()
             }
         }
     }
