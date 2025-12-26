@@ -136,7 +136,7 @@ private fun RenderDialogButton(
                 enabled = config.enabled,
                 modifier = modifier,
             ) {
-                Text(text = config.label)
+                Text(text = config.label, style = config.style)
             }
         }
 
@@ -146,7 +146,7 @@ private fun RenderDialogButton(
                 enabled = config.enabled,
                 modifier = modifier,
             ) {
-                Text(text = config.label)
+                Text(text = config.label, style = config.style)
             }
         }
 
@@ -156,7 +156,7 @@ private fun RenderDialogButton(
                 enabled = config.enabled,
                 modifier = modifier,
             ) {
-                Text(text = config.label)
+                Text(text = config.label, style = config.style)
             }
         }
     }

@@ -30,15 +30,16 @@ class StatisticsViewModel
             MutableStateFlow<StatisticsViewState>(StatisticsViewState.Loading)
         val screenViewState = _screenViewState.asStateFlow()
 
+        // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<StatisticsDialog>(StatisticsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
-        // Cache the current users list for use in retrieveStatsForUser
+        // Cache the current users list for use in retrieveStatsForUser and openPickUser
         // Type-safe: NonEmptyList guarantees at least one user
         private var currentUsers: NonEmptyList<User>? = null
 
         init {
-            hiitLogger.d("StatisticsViewModel", "initialized")
+            hiitLogger.d("StatisticsViewModel", "initialized with hybrid state management")
             // Observe users and load stats for first user when available
             viewModelScope.launch(context = mainDispatcher) {
                 statisticsInteractor.getAllUsers().collect { usersOutput ->
@@ -47,7 +48,9 @@ class StatisticsViewModel
                             currentUsers = usersOutput.result
                             retrieveStatsForUser(usersOutput.result.head)
                         }
-                        is Output.Error -> _screenViewState.emit(mapper.mapUsersError(usersOutput.errorCode))
+                        is Output.Error -> {
+                            _screenViewState.emit(mapper.mapUsersError(usersOutput.errorCode))
+                        }
                     }
                 }
             }
@@ -62,24 +65,45 @@ class StatisticsViewModel
                     return@launch
                 }
 
+                val moreThanOneUser = users.size > 1
                 val now = timeProvider.getCurrentTimeMillis()
                 val statisticsOutput = statisticsInteractor.getStatsForUser(user = user, now = now)
                 _screenViewState.emit(
                     when (statisticsOutput) {
-                        is Output.Success ->
+                        is Output.Success -> {
                             mapper.map(
-                                allUsers = users.toList(),
-                                selectedUserStatistics = statisticsOutput.result,
+                                showUsersSwitch = moreThanOneUser,
+                                userStats = statisticsOutput.result,
                             )
-
-                        is Output.Error ->
+                        }
+                        is Output.Error -> {
                             StatisticsViewState.Error(
-                                allUsers = users.toList(),
-                                selectedUser = user,
                                 errorCode = statisticsOutput.errorCode.code,
+                                user = user,
+                                showUsersSwitch = moreThanOneUser,
                             )
+                        }
                     },
                 )
+                _dialogViewState.emit(StatisticsDialog.None)
+            }
+        }
+
+        fun openPickUser() {
+            viewModelScope.launch(context = mainDispatcher) {
+                val users = currentUsers
+                if (users == null) {
+                    hiitLogger.e("StatisticsViewModel", "openPickUser called but currentUsers is null")
+                    return@launch
+                }
+
+                if (users.size < 2) {
+                    hiitLogger.e(
+                        "StatisticsViewModel",
+                        "openPickUser called but there is only 1 user or less",
+                    )
+                }
+                _dialogViewState.emit(StatisticsDialog.SelectUser(users.toList()))
             }
         }
 

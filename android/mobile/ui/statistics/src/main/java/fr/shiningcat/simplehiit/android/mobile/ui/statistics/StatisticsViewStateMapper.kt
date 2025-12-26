@@ -4,7 +4,6 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
-import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
@@ -25,30 +24,30 @@ class StatisticsViewStateMapper
             }
 
         fun map(
-            allUsers: List<User>,
-            selectedUserStatistics: UserStatistics,
+            showUsersSwitch: Boolean,
+            userStats: UserStatistics,
         ): StatisticsViewState {
-            if (selectedUserStatistics.totalNumberOfSessions == 0) {
+            if (userStats.totalNumberOfSessions == 0) {
                 return StatisticsViewState.NoSessions(
-                    allUsers = allUsers,
-                    selectedUser = selectedUserStatistics.user,
+                    user = userStats.user,
+                    showUsersSwitch = showUsersSwitch,
                 )
             }
             //
             val cumulatedTimeOfExerciseFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    durationMs = selectedUserStatistics.cumulatedTimeOfExerciseMs,
+                    durationMs = userStats.cumulatedTimeOfExerciseMs,
                     formatStyle = DurationFormatStyle.SHORT,
                 )
             val averageSessionLengthFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    durationMs = selectedUserStatistics.averageSessionLengthMs,
+                    durationMs = userStats.averageSessionLengthMs,
                     formatStyle = DurationFormatStyle.SHORT,
                 )
             val displayStatistics =
                 listOf(
                     DisplayedStatistic(
-                        selectedUserStatistics.totalNumberOfSessions.toString(),
+                        userStats.totalNumberOfSessions.toString(),
                         DisplayStatisticType.TOTAL_SESSIONS_NUMBER,
                     ),
                     DisplayedStatistic(
@@ -56,11 +55,11 @@ class StatisticsViewStateMapper
                         DisplayStatisticType.TOTAL_EXERCISE_TIME,
                     ),
                     DisplayedStatistic(
-                        selectedUserStatistics.longestStreakDays.toString(),
+                        userStats.longestStreakDays.toString(),
                         DisplayStatisticType.LONGEST_STREAK,
                     ),
                     DisplayedStatistic(
-                        selectedUserStatistics.currentStreakDays.toString(),
+                        userStats.currentStreakDays.toString(),
                         DisplayStatisticType.CURRENT_STREAK,
                     ),
                     DisplayedStatistic(
@@ -68,14 +67,14 @@ class StatisticsViewStateMapper
                         DisplayStatisticType.AVERAGE_SESSION_LENGTH,
                     ),
                     DisplayedStatistic(
-                        selectedUserStatistics.averageNumberOfSessionsPerWeek,
+                        userStats.averageNumberOfSessionsPerWeek,
                         DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                     ),
                 )
             return StatisticsViewState.Nominal(
-                allUsers = allUsers,
-                selectedUser = selectedUserStatistics.user,
-                selectedUserStatistics = displayStatistics,
+                user = userStats.user,
+                statistics = displayStatistics,
+                showUsersSwitch = showUsersSwitch,
             )
         }
     }

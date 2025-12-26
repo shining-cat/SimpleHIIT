@@ -350,10 +350,6 @@ class SettingsViewModel
             val currentViewState = screenViewState.value
             if (currentViewState is SettingsViewState.Nominal) {
                 viewModelScope.launch(context = mainDispatcher) {
-                    hiitLogger.d(
-                        "SettingsViewModel",
-                        "editLanguage::currentLanguage:: ${currentViewState.currentLanguage}",
-                    )
                     _dialogViewState.emit(
                         SettingsDialog.PickLanguage(currentViewState.currentLanguage),
                     )
@@ -377,10 +373,6 @@ class SettingsViewModel
             val currentViewState = screenViewState.value
             if (currentViewState is SettingsViewState.Nominal) {
                 viewModelScope.launch(context = mainDispatcher) {
-                    hiitLogger.d(
-                        "SettingsViewModel",
-                        "editTheme::currentTheme:: ${currentViewState.currentTheme}",
-                    )
                     _dialogViewState.emit(
                         SettingsDialog.PickTheme(currentViewState.currentTheme),
                     )
