@@ -336,6 +336,7 @@ class SessionViewModel
 
         fun abortSession() {
             hiitLogger.d("SessionViewModel", "abortSession")
+            stepTimerJob?.cancel()
             viewModelScope.launch(context = mainDispatcher) {
                 emitSessionEndState()
                 _dialogViewState.emit(SessionDialog.None)
