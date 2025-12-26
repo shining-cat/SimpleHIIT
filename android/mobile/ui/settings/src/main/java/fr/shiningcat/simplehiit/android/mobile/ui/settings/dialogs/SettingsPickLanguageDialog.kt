@@ -65,7 +65,7 @@ fun SettingsPickLanguageDialog(
                 Column(
                     modifier =
                         Modifier
-                            .padding(dimensionResource(CommonResourcesR.dimen.spacing_1))
+                            .padding(dialogPadding)
                             .fillMaxWidth()
                             .verticalScroll(rememberScrollState()),
                 ) {
