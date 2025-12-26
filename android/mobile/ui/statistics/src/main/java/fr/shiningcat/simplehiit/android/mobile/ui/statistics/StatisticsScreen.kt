@@ -39,6 +39,7 @@ fun StatisticsScreen(
     //
     StatisticsScreen(
         navigateTo = navigateTo,
+        openUserPicker = { viewModel.openPickUser() },
         selectUser = { viewModel.retrieveStatsForUser(it) },
         deleteAllSessionsForUser = { viewModel.deleteAllSessionsForUser(it) },
         deleteAllSessionsForUserConfirm = { viewModel.deleteAllSessionsForUserConfirmation(it) },
@@ -55,6 +56,7 @@ fun StatisticsScreen(
 @Composable
 private fun StatisticsScreen(
     navigateTo: (Screen) -> Unit = {},
+    openUserPicker: () -> Unit = {},
     selectUser: (User) -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
     deleteAllSessionsForUserConfirm: (User) -> Unit = {},
@@ -84,25 +86,25 @@ private fun StatisticsScreen(
                     .fillMaxSize(),
         ) {
             AnimatedVisibility(visible = uiArrangement == UiArrangement.VERTICAL) {
-                val allUsers: List<User>? =
+                val showSwitch =
                     when (screenViewState) {
-                        is StatisticsViewState.Error -> screenViewState.allUsers
-                        is StatisticsViewState.NoSessions -> screenViewState.allUsers
-                        is StatisticsViewState.Nominal -> screenViewState.allUsers
-                        StatisticsViewState.Loading, StatisticsViewState.NoUsers, is StatisticsViewState.FatalError -> null
+                        is StatisticsViewState.Error -> screenViewState.showUsersSwitch
+                        is StatisticsViewState.NoSessions -> screenViewState.showUsersSwitch
+                        is StatisticsViewState.Nominal -> screenViewState.showUsersSwitch
+                        else -> false
                     }
-
                 StatisticsTopAppBar(
                     // forcing nav to home instead of up to avoid popping the backstack(which is possible after orientation change)
                     navigateUp = {
                         navigateTo(Screen.Home)
                         true
                     },
-                    allUsers = allUsers,
-                    onUserSelected = selectUser,
+                    showUsersSwitch = showSwitch,
+                    openUserPicker = openUserPicker,
                 )
             }
             StatisticsContentHolder(
+                openUserPicker = openUserPicker,
                 selectUser = selectUser,
                 deleteAllSessionsForUser = deleteAllSessionsForUser,
                 deleteAllSessionsForUserConfirm = deleteAllSessionsForUserConfirm,
@@ -130,6 +132,7 @@ private fun StatisticsScreenPreview(
     SimpleHiitMobileTheme {
         Surface {
             StatisticsScreen(
+                openUserPicker = {},
                 uiArrangement = previewUiArrangement,
                 screenViewState = viewState,
                 dialogViewState = StatisticsDialog.None,
@@ -145,35 +148,19 @@ internal class StatisticsScreenPreviewParameterProvider : PreviewParameterProvid
                 StatisticsViewState.Loading,
                 StatisticsViewState.NoUsers,
                 StatisticsViewState.Error(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
                     errorCode = "Error code",
-                    selectedUser = User(name = "Sven Svensson"),
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.Error(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
                     errorCode = "Error code",
-                    selectedUser = User(name = "Sven Svensson"),
+                    user = User(name = "Alice"),
+                    showUsersSwitch = false,
                 ),
                 StatisticsViewState.FatalError(errorCode = "Error code"),
                 StatisticsViewState.Nominal(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
-                    selectedUserStatistics =
+                    user = User(name = "Sven Svensson"),
+                    statistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -191,16 +178,11 @@ internal class StatisticsScreenPreviewParameterProvider : PreviewParameterProvid
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
+                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.Nominal(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
-                    selectedUserStatistics =
+                    user = User(name = "Bob"),
+                    statistics =
                         listOf(
                             DisplayedStatistic("73", DisplayStatisticType.TOTAL_SESSIONS_NUMBER),
                             DisplayedStatistic(
@@ -218,22 +200,15 @@ internal class StatisticsScreenPreviewParameterProvider : PreviewParameterProvid
                                 DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK,
                             ),
                         ),
+                    showUsersSwitch = false,
                 ),
                 StatisticsViewState.NoSessions(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.NoSessions(
-                    allUsers =
-                        listOf(
-                            User(name = "Sven"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
+                    user = User(name = "Sven"),
+                    showUsersSwitch = false,
                 ),
             )
 }

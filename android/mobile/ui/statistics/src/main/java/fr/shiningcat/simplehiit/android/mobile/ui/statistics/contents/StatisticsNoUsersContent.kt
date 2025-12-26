@@ -46,9 +46,9 @@ fun StatisticsNoUsersContent(
     ) {
         StatisticsHeaderComponent(
             currentUserName = stringResource(R.string.no_users_found_page_title),
-            allUsers = null,
+            showUsersSwitch = false, // No users available
             uiArrangement = uiArrangement,
-            onUserSelected = {},
+            openUserPicker = {}, // Not used when no users
         )
 
         Image(

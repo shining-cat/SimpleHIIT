@@ -37,7 +37,7 @@ fun StatisticsNoSessionsContent(
     modifier: Modifier = Modifier,
     noSessionsViewState: StatisticsViewState.NoSessions,
     uiArrangement: UiArrangement,
-    onUserSelected: (User) -> Unit = {},
+    openUserPicker: () -> Unit = {},
 ) {
     Column(
         modifier =
@@ -51,10 +51,10 @@ fun StatisticsNoSessionsContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
-            currentUserName = noSessionsViewState.selectedUser.name,
-            allUsers = noSessionsViewState.allUsers,
+            currentUserName = noSessionsViewState.user.name,
+            showUsersSwitch = noSessionsViewState.showUsersSwitch,
             uiArrangement = uiArrangement,
-            onUserSelected = onUserSelected,
+            openUserPicker = openUserPicker,
         )
 
         Image(
@@ -98,20 +98,12 @@ internal class StatisticsNoSessionsContentPreviewParameterProvider : PreviewPara
         get() =
             sequenceOf(
                 StatisticsViewState.NoSessions(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.NoSessions(
-                    allUsers =
-                        listOf(
-                            User(name = "Sven"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
+                    user = User(name = "Alice"),
+                    showUsersSwitch = false,
                 ),
             )
 }

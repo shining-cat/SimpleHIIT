@@ -41,7 +41,7 @@ fun StatisticsErrorContent(
     errorViewState: StatisticsViewState.Error,
     deleteSessionsForUser: () -> Unit = {},
     uiArrangement: UiArrangement,
-    onUserSelected: (User) -> Unit = {},
+    openUserPicker: () -> Unit = {},
 ) {
     Column(
         modifier =
@@ -55,10 +55,10 @@ fun StatisticsErrorContent(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         StatisticsHeaderComponent(
-            currentUserName = errorViewState.selectedUser.name,
-            allUsers = errorViewState.allUsers,
+            currentUserName = errorViewState.user.name,
+            showUsersSwitch = errorViewState.showUsersSwitch,
             uiArrangement = uiArrangement,
-            onUserSelected = onUserSelected,
+            openUserPicker = openUserPicker,
         )
 
         Image(
@@ -83,7 +83,7 @@ fun StatisticsErrorContent(
             text =
                 stringResource(
                     id = CommonResourcesR.string.error_irrecoverable_statistics,
-                    errorViewState.selectedUser.name,
+                    errorViewState.user.name,
                 ),
             style = MaterialTheme.typography.headlineMedium,
         )
@@ -147,22 +147,14 @@ internal class StatisticsErrorContentPreviewParameterProvider : PreviewParameter
         get() =
             sequenceOf(
                 StatisticsViewState.Error(
-                    allUsers =
-                        listOf(
-                            User(name = "Alice"),
-                            User(name = "Bob"),
-                            User(name = "Charlie"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
                     errorCode = "error code preview 1",
+                    user = User(name = "Sven Svensson"),
+                    showUsersSwitch = true,
                 ),
                 StatisticsViewState.Error(
-                    allUsers =
-                        listOf(
-                            User(name = "Sven"),
-                        ),
-                    selectedUser = User(name = "Sven Svensson"),
-                    errorCode = "error code preview 1",
+                    errorCode = "error code preview 2",
+                    user = User(name = "Alice"),
+                    showUsersSwitch = false,
                 ),
             )
 }
