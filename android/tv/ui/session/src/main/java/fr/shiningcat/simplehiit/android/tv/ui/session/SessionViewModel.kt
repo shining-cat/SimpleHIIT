@@ -78,7 +78,7 @@ class SessionViewModel
             }
         }
 
-        fun getSoundPool(): SoundPool? = soundPool
+        fun getSoundPool(): SoundPool = soundPool
 
         fun isSoundLoaded() = beepSoundLoadedId != null
 

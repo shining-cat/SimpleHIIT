@@ -48,10 +48,6 @@ class SettingsViewModel
         private val _restartTrigger = MutableSharedFlow<Unit>(replay = 0)
         val restartTrigger = _restartTrigger.asSharedFlow()
 
-        init {
-            hiitLogger.d("SettingsViewModel", "initialized with reactive state management")
-        }
-
         fun editWorkPeriodLength() {
             val currentViewState = screenViewState.value
             if (currentViewState is SettingsViewState.Nominal) {

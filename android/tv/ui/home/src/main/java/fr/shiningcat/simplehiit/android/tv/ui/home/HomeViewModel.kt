@@ -39,10 +39,6 @@ class HomeViewModel
         private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
-        init {
-            hiitLogger.d("HomeViewModel", "initialized with reactive state management")
-        }
-
         fun cancelDialog() {
             viewModelScope.launch(context = mainDispatcher) {
                 _dialogViewState.emit(HomeDialog.None)
