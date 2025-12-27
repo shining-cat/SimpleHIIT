@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.settings
+package fr.shiningcat.simplehiit.sharedui.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,6 +7,8 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
@@ -29,7 +31,6 @@ class SettingsViewModel
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
-        // Reactive data stream - automatically starts/stops based on UI lifecycle
         val screenViewState =
             settingsInteractor
                 .getGeneralSettings()
@@ -40,7 +41,6 @@ class SettingsViewModel
                     initialValue = SettingsViewState.Loading,
                 )
 
-        // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 
@@ -350,7 +350,9 @@ class SettingsViewModel
             val currentViewState = screenViewState.value
             if (currentViewState is SettingsViewState.Nominal) {
                 viewModelScope.launch(context = mainDispatcher) {
-                    _dialogViewState.emit(SettingsDialog.PickLanguage(currentViewState.currentLanguage))
+                    _dialogViewState.emit(
+                        SettingsDialog.PickLanguage(currentViewState.currentLanguage),
+                    )
                 }
             } else {
                 hiitLogger.e(
@@ -360,7 +362,7 @@ class SettingsViewModel
             }
         }
 
-        fun setLanguage(language: fr.shiningcat.simplehiit.domain.common.models.AppLanguage) {
+        fun setLanguage(language: AppLanguage) {
             viewModelScope.launch(context = mainDispatcher) {
                 _dialogViewState.emit(SettingsDialog.None)
                 settingsInteractor.setAppLanguage(language)
@@ -371,7 +373,9 @@ class SettingsViewModel
             val currentViewState = screenViewState.value
             if (currentViewState is SettingsViewState.Nominal) {
                 viewModelScope.launch(context = mainDispatcher) {
-                    _dialogViewState.emit(SettingsDialog.PickTheme(currentViewState.currentTheme))
+                    _dialogViewState.emit(
+                        SettingsDialog.PickTheme(currentViewState.currentTheme),
+                    )
                 }
             } else {
                 hiitLogger.e(
@@ -381,16 +385,10 @@ class SettingsViewModel
             }
         }
 
-        /**
-         * Sets the app theme and triggers an activity restart to apply the change.
-         * Unlike language changes which are handled automatically by Android's LocaleManager,
-         * theme changes require manual activity recreation.
-         */
-        fun setTheme(theme: fr.shiningcat.simplehiit.domain.common.models.AppTheme) {
+        fun setTheme(theme: AppTheme) {
             viewModelScope.launch(context = mainDispatcher) {
                 _dialogViewState.emit(SettingsDialog.None)
                 settingsInteractor.setAppTheme(theme)
-                // Trigger activity restart to apply the new theme
                 _restartTrigger.emit(Unit)
             }
         }

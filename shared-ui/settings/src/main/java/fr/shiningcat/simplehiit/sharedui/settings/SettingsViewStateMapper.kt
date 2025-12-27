@@ -1,13 +1,13 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.settings
+package fr.shiningcat.simplehiit.sharedui.settings
 
-import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsViewState.Error
-import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsViewState.Nominal
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState.Error
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState.Nominal
 import javax.inject.Inject
 import kotlin.math.roundToInt
 

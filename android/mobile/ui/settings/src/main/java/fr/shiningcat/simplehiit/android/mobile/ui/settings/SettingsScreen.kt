@@ -32,6 +32,9 @@ import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewModel
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -93,7 +96,7 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsScreen(
-    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     editWorkPeriodLength: () -> Unit = {},
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
@@ -132,7 +135,7 @@ private fun SettingsScreen(
         AnimatedVisibility(visible = uiArrangement == UiArrangement.HORIZONTAL) {
             NavigationSideBar(
                 navigateTo = navigateTo,
-                currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Settings,
+                currentDestination = Screen.Settings,
                 showStatisticsButton = screenViewState is SettingsViewState.Nominal && screenViewState.users.isNotEmpty(),
             )
         }
@@ -148,7 +151,7 @@ private fun SettingsScreen(
                     icon = R.drawable.arrow_back,
                     label = R.string.settings_page_title,
                     onClick = {
-                        navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Home)
+                        navigateTo(Screen.Home)
                         true
                     },
                 )

@@ -1,11 +1,11 @@
-package fr.shiningcat.simplehiit.android.tv.ui.settings.di
+package fr.shiningcat.simplehiit.sharedui.settings.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsInteractor
-import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsInteractorImpl
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsInteractor
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsInteractorImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)

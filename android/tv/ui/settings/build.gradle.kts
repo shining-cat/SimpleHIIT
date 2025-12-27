@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.domain.settings)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
+    implementation(projects.sharedUi.settings)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

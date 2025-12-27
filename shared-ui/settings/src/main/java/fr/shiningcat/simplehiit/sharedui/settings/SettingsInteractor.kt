@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.settings
+package fr.shiningcat.simplehiit.sharedui.settings
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
