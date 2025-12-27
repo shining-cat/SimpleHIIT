@@ -49,7 +49,6 @@ moduleGraphAssert {
         arrayOf(
             // Mobile app can depend on anything (required by Android framework and DI)
             ":android:mobile:app -> .*",
-            
             // Mobile UI feature modules (explicit dependencies only)
             ":android:mobile:ui:home -> :android:common",
             ":android:mobile:ui:home -> :android:mobile:ui:common",
@@ -63,13 +62,11 @@ moduleGraphAssert {
             ":android:mobile:ui:statistics -> :android:common",
             ":android:mobile:ui:statistics -> :android:mobile:ui:common",
             ":android:mobile:ui:statistics -> :shared-ui:statistics",
-            
             // Mobile UI common module
             ":android:mobile:ui:common -> :android:common",
             ":android:mobile:ui:common -> :domain:common",
             ":android:mobile:ui:common -> :commonUtils",
             ":android:mobile:ui:common -> :commonResources",
-            
             // shared-ui modules (KMP-ready: domain and utils only, no Android-specific)
             ":shared-ui:.* -> :domain:.*",
             ":shared-ui:.* -> :commonUtils",

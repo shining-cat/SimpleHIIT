@@ -49,7 +49,6 @@ moduleGraphAssert {
         arrayOf(
             // TV app can depend on anything (required by Android framework and DI)
             ":android:tv:app -> .*",
-            
             // TV UI feature modules (explicit dependencies only)
             ":android:tv:ui:home -> :android:common",
             ":android:tv:ui:home -> :android:tv:ui:common",
@@ -63,13 +62,11 @@ moduleGraphAssert {
             ":android:tv:ui:statistics -> :android:common",
             ":android:tv:ui:statistics -> :android:tv:ui:common",
             ":android:tv:ui:statistics -> :shared-ui:statistics",
-            
             // TV UI common module
             ":android:tv:ui:common -> :android:common",
             ":android:tv:ui:common -> :domain:common",
             ":android:tv:ui:common -> :commonUtils",
             ":android:tv:ui:common -> :commonResources",
-            
             // shared-ui modules (KMP-ready: domain and utils only, no Android-specific)
             ":shared-ui:.* -> :domain:.*",
             ":shared-ui:.* -> :commonUtils",
