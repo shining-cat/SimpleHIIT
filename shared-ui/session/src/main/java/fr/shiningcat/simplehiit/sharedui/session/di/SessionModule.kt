@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.session.di
+package fr.shiningcat.simplehiit.sharedui.session.di
 
 import android.media.AudioAttributes
 import android.media.AudioManager
@@ -8,8 +8,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionInteractor
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionInteractorImpl
+import fr.shiningcat.simplehiit.sharedui.session.SessionInteractor
+import fr.shiningcat.simplehiit.sharedui.session.SessionInteractorImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)

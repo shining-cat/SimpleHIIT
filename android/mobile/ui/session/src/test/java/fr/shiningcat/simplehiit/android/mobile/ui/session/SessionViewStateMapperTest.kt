@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.session
 
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState.InitialCountDownSession
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
@@ -9,6 +8,10 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewStateMapper
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -218,7 +221,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                                 totalMilliSeconds = 800000L,
                             ),
                     ),
-                    InitialCountDownSession(
+                    SessionViewState.InitialCountDownSession(
                         countDown =
                             CountDown(
                                 secondsDisplay = "4",

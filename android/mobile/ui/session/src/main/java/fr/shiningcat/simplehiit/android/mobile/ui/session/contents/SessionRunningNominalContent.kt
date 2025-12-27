@@ -20,9 +20,6 @@ import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.mobile.ui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.ExerciseDisplayComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.RunningSessionStepInfoDisplayComponent
 import fr.shiningcat.simplehiit.commonresources.R
@@ -30,6 +27,9 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 @Composable
 fun SessionRunningNominalContent(
@@ -47,7 +47,7 @@ fun SessionRunningNominalContent(
     // no need to recompose this every second either
     val exerciseSide = viewState.side
     when (uiArrangement) {
-        UiArrangement.VERTICAL ->
+        UiArrangement.VERTICAL -> {
             VerticalSessionRunningNominalContent(
                 modifier = modifier,
                 exercise = exercise,
@@ -58,8 +58,8 @@ fun SessionRunningNominalContent(
                 isPaused = isPaused,
                 hiitLogger = hiitLogger,
             )
-
-        UiArrangement.HORIZONTAL ->
+        }
+        UiArrangement.HORIZONTAL -> {
             HorizontalSessionRunningNominalContent(
                 modifier = modifier,
                 exercise = exercise,
@@ -70,6 +70,7 @@ fun SessionRunningNominalContent(
                 isPaused = isPaused,
                 hiitLogger = hiitLogger,
             )
+        }
     }
 }
 

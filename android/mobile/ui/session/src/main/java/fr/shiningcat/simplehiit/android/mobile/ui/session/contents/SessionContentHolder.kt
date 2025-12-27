@@ -20,15 +20,15 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.mobile.ui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionDialog
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.PauseDialog
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 @Composable
 fun SessionContentHolder(
@@ -62,9 +62,10 @@ fun SessionContentHolder(
     }
     Box(modifier = modifier) {
         when (screenViewState) {
-            SessionViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
-
-            is SessionViewState.Error ->
+            SessionViewState.Loading -> {
+                BasicLoading(modifier = Modifier.fillMaxSize())
+            }
+            is SessionViewState.Error -> {
                 SessionErrorStateContent(
                     modifier = Modifier.fillMaxSize(),
                     screenViewState = screenViewState,
@@ -72,15 +73,15 @@ fun SessionContentHolder(
                     onAbort = onAbortSession,
                     hiitLogger = hiitLogger,
                 )
-
-            is SessionViewState.InitialCountDownSession ->
+            }
+            is SessionViewState.InitialCountDownSession -> {
                 SessionPrepareContent(
                     modifier = Modifier.fillMaxSize(),
                     viewState = screenViewState,
                     hiitLogger = hiitLogger,
                 )
-
-            is SessionViewState.RunningNominal ->
+            }
+            is SessionViewState.RunningNominal -> {
                 SessionRunningNominalContent(
                     modifier = Modifier.fillMaxSize(),
                     uiArrangement = uiArrangement,
@@ -88,7 +89,7 @@ fun SessionContentHolder(
                     isPaused = dialogViewState is SessionDialog.Pause,
                     hiitLogger = hiitLogger,
                 )
-
+            }
             is SessionViewState.Finished -> {
                 if (screenViewState.workingStepsDone.isEmpty()) {
                     // ensure navigateUp is never triggered more than once:
@@ -111,11 +112,12 @@ fun SessionContentHolder(
     }
     when (dialogViewState) {
         SessionDialog.None -> {} // Do nothing
-        SessionDialog.Pause ->
+        SessionDialog.Pause -> {
             PauseDialog(
                 onResume = onResume,
                 onAbort = onAbortSession,
             )
+        }
     }
 }
 

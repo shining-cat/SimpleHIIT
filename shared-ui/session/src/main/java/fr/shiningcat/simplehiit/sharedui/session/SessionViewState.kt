@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.session
+package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide

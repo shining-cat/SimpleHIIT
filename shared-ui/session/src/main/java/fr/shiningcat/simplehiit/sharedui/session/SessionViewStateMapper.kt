@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.session
+package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher

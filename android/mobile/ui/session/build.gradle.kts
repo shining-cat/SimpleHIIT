@@ -15,6 +15,7 @@ dependencies {
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.android.mobile.ui.common)
+    implementation(projects.sharedUi.session)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

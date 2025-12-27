@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.session
+package fr.shiningcat.simplehiit.sharedui.session
 
 import android.media.SoundPool
 import androidx.lifecycle.ViewModel

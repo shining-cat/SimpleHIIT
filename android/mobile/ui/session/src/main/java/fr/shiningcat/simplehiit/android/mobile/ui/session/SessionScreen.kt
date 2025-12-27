@@ -27,6 +27,10 @@ import fr.shiningcat.simplehiit.android.mobile.ui.session.components.SessionSide
 import fr.shiningcat.simplehiit.android.mobile.ui.session.contents.SessionContentHolder
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewModel
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 @Composable
 fun SessionScreen(

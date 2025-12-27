@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.session
+package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.Session
