@@ -27,10 +27,10 @@ import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsNoSessionsContent(

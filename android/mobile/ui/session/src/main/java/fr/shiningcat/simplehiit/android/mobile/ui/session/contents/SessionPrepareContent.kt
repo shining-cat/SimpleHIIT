@@ -11,10 +11,10 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.CountDownComponent
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 /**
  * Displays the initial countdown before session starts.

@@ -26,6 +26,9 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsScreen(

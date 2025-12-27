@@ -32,14 +32,21 @@ The dependency graph is **automatically updated** by CI when changes are merged 
 - Shared common module (`:domain:common`)
 - Pure business logic with no framework dependencies
 
+**Shared UI Layer** (`:shared-ui:*`) - **NEW: KMP Migration Path**
+- Feature-specific modules (`:shared-ui:home`, `:shared-ui:session`, `:shared-ui:settings`, `:shared-ui:statistics`)
+- Contains ViewModels, Interactors, ViewStates, and business logic previously in platform UI
+- **KMP-ready**: Only depends on domain layer and commonUtils (no Android-specific dependencies)
+- Shared between mobile and TV platforms
+
 **Presentation Layer** (`:android:mobile:ui:*`, `:android:tv:ui:*`)
 - Platform-specific (Mobile/TV)
 - Feature-specific UI modules under each platform
-- Shared common UI modules per platform
+- **Platform UI only**: Compose components, screens, dialogs (Material3 for mobile, TV Material for TV)
+- Depends on corresponding shared-ui feature module for business logic
 
 **Common Modules**
 - `:commonUtils` - Foundation utilities, no dependencies
-- `:commonResources` - Shared resources (strings, drawables, themes)
+- `:commonResources` - Shared resources (strings, drawables, themes) - Android-specific
 - `:android:common` - Platform common components
 
 ### Special Design Pattern: Type-Safe Resources
@@ -91,20 +98,41 @@ This project enforces **strict clean architecture** with automated validation.
 ### Architecture Layers
 
 ```
-┌─────────────────┐
-│   App Modules   │  ← Top (can depend on everything)
-├─────────────────┤
-│   UI Modules    │  ← Presentation layer
-├─────────────────┤
-│  Domain Layer   │  ← Business logic
-├─────────────────┤
-│   Data Layer    │  ← Data sources
-├─────────────────┤
-│ Common Modules  │  ← Foundation
-└─────────────────┘
+┌──────────────────────────────┐
+│      App Modules             │  ← Top (can depend on everything)
+│  (:android:mobile:app, etc)  │
+├──────────────────────────────┤
+│   Platform UI Modules        │  ← Platform-specific UI (Compose components)
+│  (:android:mobile:ui:*,      │    Depends on: shared-ui + ui:common
+│   :android:tv:ui:*)          │
+├──────────────────────────────┤
+│   Shared UI Layer (NEW)      │  ← Shared business logic (ViewModels)
+│  (:shared-ui:*)              │    **KMP-ready**: domain + commonUtils only
+│                              │    No Android dependencies!
+├──────────────────────────────┤
+│   Domain Layer               │  ← Pure business logic
+│  (:domain:*)                 │    No framework dependencies
+├──────────────────────────────┤
+│   Data Layer                 │  ← Data sources (Room, DataStore)
+│  (:data)                     │    Depends on: domain:common + commonUtils
+├──────────────────────────────┤
+│   Common Modules             │  ← Foundation
+│  (:commonUtils, etc)         │    No dependencies
+└──────────────────────────────┘
 ```
 
 **Rule of thumb:** Dependencies flow **top-to-bottom** only. Lateral dependencies (within same layer) are restricted to `common` modules.
+
+**New Architecture Pattern (with shared-ui):**
+- **UI Features** → Only contain Compose UI (screens, components, dialogs)
+- **shared-ui Features** → Contain all business logic (ViewModels, Interactors, ViewStates)
+- **Domain Features** → Contain use cases and models
+- **Data** → Implements domain interfaces
+
+This separation enables:
+✅ Sharing business logic between mobile and TV
+✅ Preparing for KMP migration (shared-ui has no Android dependencies)
+✅ Platform-specific UI while keeping logic unified
 
 ### Rule Configuration
 
@@ -121,9 +149,55 @@ Each configuration specifies:
 
 - **Domain layer** remains pure: cannot depend on data, UI, or app modules
 - **Data layer** doesn't know about presentation: cannot depend on UI or app modules
+- **shared-ui layer** is KMP-ready: cannot depend on Android-specific modules (`:android:.*`, `:commonResources`)
+- **UI features** access domain only through shared-ui: cannot depend directly on domain modules
 - **No upward dependencies**: no module can depend on app modules
 - **Foundation isolation**: `commonUtils` and `testUtils` cannot depend on anything
 - **Lateral restriction**: features can only share via `common` modules
+- **Explicit dependencies**: UI feature modules use explicit allowed rules (no wildcards)
+
+### Dependency Examples
+
+**UI Feature Module** (e.g., `:android:mobile:ui:home`):
+```kotlin
+dependencies {
+    implementation(projects.android.common)
+    implementation(projects.android.mobile.ui.common)
+    implementation(projects.sharedUi.home)  // ← Gets domain access through here
+}
+```
+
+**Shared-UI Feature Module** (e.g., `:shared-ui:home`):
+```kotlin
+dependencies {
+    implementation(projects.commonUtils)
+    implementation(projects.domain.common)
+    implementation(projects.domain.home)  // ← Provides domain access to UI
+}
+```
+
+**UI Common Module** (e.g., `:android:mobile:ui:common`):
+```kotlin
+dependencies {
+    implementation(projects.android.common)
+    implementation(projects.domain.common)     // ← For shared utilities
+    implementation(projects.commonUtils)
+    implementation(projects.commonResources)
+}
+```
+
+**What's NOT allowed:**
+```kotlin
+// ❌ UI feature cannot access domain directly
+implementation(projects.domain.home)  // Use shared-ui instead
+
+// ❌ UI feature cannot access data
+implementation(projects.data)
+
+// ❌ shared-ui cannot depend on Android modules
+implementation(projects.android.common)
+implementation(projects.commonResources)
+```
 
 ### Maximum Tree Height
 

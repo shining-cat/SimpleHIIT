@@ -20,7 +20,6 @@ import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.components.StatisticCardComponent
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.components.StatisticsHeaderComponent
 import fr.shiningcat.simplehiit.commonresources.R
@@ -28,6 +27,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsNominalContent(

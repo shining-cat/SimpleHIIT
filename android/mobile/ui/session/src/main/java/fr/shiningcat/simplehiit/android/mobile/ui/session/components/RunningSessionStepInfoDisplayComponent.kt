@@ -13,11 +13,11 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
-import fr.shiningcat.simplehiit.android.mobile.ui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable

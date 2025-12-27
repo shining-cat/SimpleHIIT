@@ -17,14 +17,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
 import fr.shiningcat.simplehiit.android.tv.ui.session.R
-import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable

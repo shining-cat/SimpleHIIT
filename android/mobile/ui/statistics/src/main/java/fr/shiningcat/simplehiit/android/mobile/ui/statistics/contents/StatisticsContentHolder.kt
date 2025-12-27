@@ -16,14 +16,14 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.components.WarningDialo
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsDialog
-import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.dialogs.StatisticsSelectUserDialog
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsContentHolder(

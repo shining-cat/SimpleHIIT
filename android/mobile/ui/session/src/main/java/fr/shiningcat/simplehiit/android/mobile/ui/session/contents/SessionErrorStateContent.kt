@@ -27,9 +27,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable

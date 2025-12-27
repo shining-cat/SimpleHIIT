@@ -28,7 +28,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.OnSurfaceTextButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsExercisesSelectedComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsFieldComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.components.SettingsToggleComponent
@@ -39,6 +38,7 @@ import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 
 @Composable
 fun SettingsNominalContent(

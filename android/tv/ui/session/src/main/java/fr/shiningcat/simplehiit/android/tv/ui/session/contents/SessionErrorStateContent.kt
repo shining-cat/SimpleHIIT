@@ -25,9 +25,9 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.R
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResources
 
 @Composable

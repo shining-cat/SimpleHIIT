@@ -21,9 +21,9 @@ import androidx.tv.material3.Text
 import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.CustomCircularProgressIndicator
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
 
 /**
  * Composable function that displays a countdown timer that adapts to available screen space.

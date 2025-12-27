@@ -24,9 +24,6 @@ class MobileComposeUiConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.compose.preview").get())
                 add("debugImplementation", libs.findLibrary("androidx.compose.preview.debug").get())
                 add("debugImplementation", libs.findLibrary("androidx.compose.ui.test.debug").get())
-
-                // Lifecycle
-                add("implementation", libs.findLibrary("androidx.lifecycle").get())
             }
         }
     }

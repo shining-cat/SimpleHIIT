@@ -4,6 +4,9 @@
 
 set -e
 
+# Change to project root directory (parent of scripts/)
+cd "$(dirname "$0")/.."
+
 echo "🔄 Generating dependency graph..."
 ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
 

@@ -26,6 +26,9 @@ import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewModel
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -86,7 +89,7 @@ fun SettingsScreen(
 
 @Composable
 private fun SettingsScreen(
-    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     editWorkPeriodLength: () -> Unit = {},
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},

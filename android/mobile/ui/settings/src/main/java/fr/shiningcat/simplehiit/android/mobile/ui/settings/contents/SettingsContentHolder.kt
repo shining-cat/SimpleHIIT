@@ -16,8 +16,6 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ErrorDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.WarningDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsDialog
-import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsAddUserDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditNumberCyclesDialog
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsEditPeriodLengthDialog
@@ -33,6 +31,8 @@ import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 
 @Composable
 fun SettingsContentHolder(

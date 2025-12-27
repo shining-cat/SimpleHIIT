@@ -19,6 +19,9 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 
 @Composable
 fun StatisticsScreen(
@@ -46,7 +49,7 @@ fun StatisticsScreen(
 
 @Composable
 private fun StatisticsScreen(
-    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     openUserPicker: () -> Unit = {},
     selectUser: (User) -> Unit = {},
     deleteAllSessionsForUser: (User) -> Unit = {},
@@ -61,7 +64,7 @@ private fun StatisticsScreen(
     Row(modifier = Modifier.fillMaxSize()) {
         NavigationSideBar(
             navigateTo = navigateTo,
-            currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Statistics,
+            currentDestination = Screen.Statistics,
             // in this case, we are in the statistics screen, so obviously we want to show this button
             showStatisticsButton = true,
         )

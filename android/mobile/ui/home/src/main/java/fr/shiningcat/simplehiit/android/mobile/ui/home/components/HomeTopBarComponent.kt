@@ -26,8 +26,8 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeViewState
 import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

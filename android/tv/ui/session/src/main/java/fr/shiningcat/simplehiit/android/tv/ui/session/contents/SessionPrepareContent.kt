@@ -10,10 +10,10 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.tv.ui.session.components.CountDownComponent
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 @Composable
 fun SessionPrepareContent(

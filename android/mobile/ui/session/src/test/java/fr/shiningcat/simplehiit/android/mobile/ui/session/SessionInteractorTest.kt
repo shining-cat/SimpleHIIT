@@ -11,6 +11,7 @@ import fr.shiningcat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.InsertSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.StepTimerUseCase
+import fr.shiningcat.simplehiit.sharedui.session.SessionInteractorImpl
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery

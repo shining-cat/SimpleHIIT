@@ -24,13 +24,13 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 @Composable
 fun SessionFinishedContent(

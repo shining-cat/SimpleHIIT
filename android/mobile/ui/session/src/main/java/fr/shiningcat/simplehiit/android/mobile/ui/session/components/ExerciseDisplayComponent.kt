@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import fr.shiningcat.simplehiit.android.common.ui.components.GifImage
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
-import fr.shiningcat.simplehiit.android.mobile.ui.session.CountDown
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseGifMapper
@@ -20,6 +19,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
 
 @Composable
 fun ExerciseDisplayComponent(

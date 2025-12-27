@@ -1,0 +1,426 @@
+package fr.shiningcat.simplehiit.sharedui.settings
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonutils.di.MainDispatcher
+import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shiningcat.simplehiit.domain.common.models.User
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SettingsViewModel
+    @Inject
+    constructor(
+        private val settingsInteractor: SettingsInteractor,
+        private val mapper: SettingsViewStateMapper,
+        @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
+        private val hiitLogger: HiitLogger,
+    ) : ViewModel() {
+        val screenViewState =
+            settingsInteractor
+                .getGeneralSettings()
+                .map { mapper.map(it) }
+                .stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                    initialValue = SettingsViewState.Loading,
+                )
+
+        private val _dialogViewState = MutableStateFlow<SettingsDialog>(SettingsDialog.None)
+        val dialogViewState = _dialogViewState.asStateFlow()
+
+        // One-time event for triggering activity restart (e.g., after theme change)
+        private val _restartTrigger = MutableSharedFlow<Unit>(replay = 0)
+        val restartTrigger = _restartTrigger.asSharedFlow()
+
+        fun editWorkPeriodLength() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    val currentValueAsSeconds = currentViewState.workPeriodLengthAsSeconds
+                    _dialogViewState.emit(
+                        SettingsDialog.EditWorkPeriodLength(currentValueAsSeconds),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editWorkPeriodLength::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setWorkPeriodLength(inputSecondsAsString: String) {
+            if (validatePeriodLengthInput(inputSecondsAsString) == Constants.InputError.NONE) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.setWorkPeriodLength(inputSecondsAsString.toLong() * 1000L)
+                    _dialogViewState.emit(SettingsDialog.None)
+                }
+            } else {
+                hiitLogger.d(
+                    "SettingsViewModel",
+                    "setWorkPeriodLength:: invalid input, this should never happen",
+                )
+            }
+        }
+
+        fun validatePeriodLengthInput(input: String): Constants.InputError {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                return settingsInteractor.validatePeriodLength(
+                    input,
+                    currentViewState.periodsStartCountDownLengthAsSeconds.toLong(),
+                )
+            }
+            // we don't really expect to be able to land in here if current state is not Nominal
+            return Constants.InputError.NONE
+        }
+
+        fun editRestPeriodLength() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    val currentValueAsSeconds = currentViewState.restPeriodLengthAsSeconds
+                    _dialogViewState.emit(
+                        SettingsDialog.EditRestPeriodLength(currentValueAsSeconds),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editRestPeriodLength::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setRestPeriodLength(inputSecondsAsString: String) {
+            if (validatePeriodLengthInput(inputSecondsAsString) == Constants.InputError.NONE) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.setRestPeriodLength(inputSecondsAsString.toLong() * 1000L)
+                    _dialogViewState.emit(SettingsDialog.None)
+                }
+            } else {
+                hiitLogger.d(
+                    "SettingsViewModel",
+                    "setRestPeriodLength:: invalid input, this should never happen",
+                )
+            }
+        }
+
+        fun editNumberOfWorkPeriods() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    val currentValue = currentViewState.numberOfWorkPeriods
+                    _dialogViewState.emit(SettingsDialog.EditNumberCycles(currentValue))
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editRestPeriodLength::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setNumberOfWorkPeriods(value: String) {
+            if (validateNumberOfWorkPeriods(value) == Constants.InputError.NONE) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.setNumberOfWorkPeriods(value.toInt())
+                    _dialogViewState.emit(SettingsDialog.None)
+                }
+            } else {
+                hiitLogger.d(
+                    "SettingsViewModel",
+                    "setNumberOfWorkPeriods:: invalid input, this should never happen",
+                )
+            }
+        }
+
+        fun validateNumberOfWorkPeriods(input: String): Constants.InputError = settingsInteractor.validateNumberOfWorkPeriods(input)
+
+        fun toggleBeepSound() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.setBeepSound(!currentViewState.beepSoundCountDownActive)
+                }
+            } else {
+                hiitLogger.e("SettingsViewModel", "setBeepSound::current state does not allow this now")
+            }
+        }
+
+        fun editSessionStartCountDown() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    val currentValueAsSeconds = currentViewState.sessionStartCountDownLengthAsSeconds
+                    _dialogViewState.emit(
+                        SettingsDialog.EditSessionStartCountDown(currentValueAsSeconds),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editSessionStartCountDown::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setSessionStartCountDown(inputSecondsAsString: String) {
+            if (validateInputSessionStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.setSessionStartCountDown(inputSecondsAsString.toLong() * 1000L)
+                    _dialogViewState.emit(SettingsDialog.None)
+                }
+            } else {
+                hiitLogger.d(
+                    "SettingsViewModel",
+                    "setSessionStartCountDown:: invalid input, this should never happen",
+                )
+            }
+        }
+
+        fun validateInputSessionStartCountdown(input: String): Constants.InputError =
+            settingsInteractor.validateInputSessionStartCountdown(input)
+
+        fun editPeriodStartCountDown() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    val currentValueAsSeconds = currentViewState.periodsStartCountDownLengthAsSeconds
+                    _dialogViewState.emit(
+                        SettingsDialog.EditPeriodStartCountDown(currentValueAsSeconds),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editPeriodStartCountDown::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setPeriodStartCountDown(inputSecondsAsString: String) {
+            if (validateInputPeriodStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.setPeriodStartCountDown(inputSecondsAsString.toLong() * 1000L)
+                    _dialogViewState.emit(SettingsDialog.None)
+                }
+            } else {
+                hiitLogger.d(
+                    "SettingsViewModel",
+                    "setPeriodStartCountDown:: invalid input, this should never happen",
+                )
+            }
+        }
+
+        fun validateInputPeriodStartCountdown(input: String): Constants.InputError {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                return settingsInteractor.validateInputPeriodStartCountdown(
+                    input = input,
+                    workPeriodLengthSeconds = currentViewState.workPeriodLengthAsSeconds.toLong(),
+                    restPeriodLengthSeconds = currentViewState.restPeriodLengthAsSeconds.toLong(),
+                )
+            }
+            // we don't really expect to be able to land in here if current state is not Nominal
+            return Constants.InputError.NONE
+        }
+
+        fun addUser(userName: String = "") {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.AddUser(userName = userName))
+            }
+        }
+
+        fun editUser(user: User) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.EditUser(user))
+            }
+        }
+
+        fun saveUser(user: User) {
+            if (user.id == 0L) createUser(user) else updateUser(user)
+        }
+
+        private fun createUser(user: User) {
+            viewModelScope.launch(context = mainDispatcher) {
+                val result = settingsInteractor.createUser(user)
+                when (result) {
+                    is Output.Success ->
+                        _dialogViewState.emit(
+                            SettingsDialog.None,
+                        )
+
+                    is Output.Error -> {
+                        hiitLogger.e(
+                            "SettingsViewModel",
+                            "createUser::error happened:${result.errorCode}",
+                            result.exception,
+                        )
+                        _dialogViewState.emit(SettingsDialog.Error(errorCode = result.errorCode.code))
+                    }
+                }
+            }
+        }
+
+        private fun updateUser(user: User) {
+            viewModelScope.launch(context = mainDispatcher) {
+                val result = settingsInteractor.updateUserName(user)
+                when (result) {
+                    is Output.Success ->
+                        _dialogViewState.emit(
+                            SettingsDialog.None,
+                        )
+
+                    is Output.Error -> {
+                        hiitLogger.e(
+                            "SettingsViewModel",
+                            "updateUser::error happened:${result.errorCode}",
+                            result.exception,
+                        )
+                        _dialogViewState.emit(SettingsDialog.Error(errorCode = result.errorCode.code))
+                    }
+                }
+            }
+        }
+
+        fun deleteUser(user: User) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.ConfirmDeleteUser(user))
+            }
+        }
+
+        fun deleteUserConfirmation(user: User) {
+            viewModelScope.launch(context = mainDispatcher) {
+                val result = settingsInteractor.deleteUser(user)
+                when (result) {
+                    is Output.Success ->
+                        _dialogViewState.emit(
+                            SettingsDialog.None,
+                        )
+
+                    is Output.Error -> {
+                        hiitLogger.e(
+                            "SettingsViewModel",
+                            "deleteUserConfirmation::error happened:${result.errorCode}",
+                            result.exception,
+                        )
+                        _dialogViewState.emit(SettingsDialog.Error(result.errorCode.code))
+                    }
+                }
+            }
+        }
+
+        fun toggleSelectedExercise(exerciseTypeToggled: ExerciseTypeSelected) {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                val toggledList =
+                    settingsInteractor.toggleExerciseTypeInList(
+                        currentList = currentViewState.exerciseTypes,
+                        exerciseTypeToToggle = exerciseTypeToggled,
+                    )
+                viewModelScope.launch(context = mainDispatcher) {
+                    settingsInteractor.saveSelectedExerciseTypes(toggledList)
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "toggleSelectedExercise::current state does not allow this now",
+                )
+            }
+        }
+
+        fun editLanguage() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    _dialogViewState.emit(
+                        SettingsDialog.PickLanguage(currentViewState.currentLanguage),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editLanguage::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setLanguage(language: AppLanguage) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+                settingsInteractor.setAppLanguage(language)
+            }
+        }
+
+        fun editTheme() {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                viewModelScope.launch(context = mainDispatcher) {
+                    _dialogViewState.emit(
+                        SettingsDialog.PickTheme(currentViewState.currentTheme),
+                    )
+                }
+            } else {
+                hiitLogger.e(
+                    "SettingsViewModel",
+                    "editTheme::current state does not allow this now",
+                )
+            }
+        }
+
+        fun setTheme(theme: AppTheme) {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+                settingsInteractor.setAppTheme(theme)
+                _restartTrigger.emit(Unit)
+            }
+        }
+
+        fun resetAllSettings() {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.ConfirmResetAllSettings)
+            }
+        }
+
+        fun resetAllSettingsConfirmation() {
+            viewModelScope.launch(context = mainDispatcher) {
+                settingsInteractor.resetAllSettings()
+                _dialogViewState.emit(SettingsDialog.None)
+            }
+        }
+
+        fun validateInputUserNameString(user: User): Constants.InputError {
+            val currentViewState = screenViewState.value
+            if (currentViewState is SettingsViewState.Nominal) {
+                return settingsInteractor.validateInputUserName(
+                    user = user,
+                    existingUsers = currentViewState.users,
+                )
+            }
+            // we don't really expect to be able to land in here if current state is not Nominal
+            return Constants.InputError.NONE
+        }
+
+        fun cancelDialog() {
+            viewModelScope.launch(context = mainDispatcher) {
+                _dialogViewState.emit(SettingsDialog.None)
+            }
+        }
+    }
