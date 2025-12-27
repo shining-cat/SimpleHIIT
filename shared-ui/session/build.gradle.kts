@@ -5,6 +5,10 @@ plugins {
     alias(libs.plugins.kover)
 }
 
+android {
+    namespace = "fr.shiningcat.simplehiit.sharedui.session"
+}
+
 dependencies {
     implementation(projects.sharedUi.common)
     implementation(projects.commonUtils)

@@ -12,12 +12,12 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.home.HomeDialog
-import fr.shiningcat.simplehiit.android.tv.ui.home.HomeViewState
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.home.HomeDialog
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
 
 @Composable
 fun HomeContentHolder(

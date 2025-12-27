@@ -1,13 +1,13 @@
-package fr.shiningcat.simplehiit.android.tv.ui.home
+package fr.shiningcat.simplehiit.sharedui.home
 
-import fr.shiningcat.simplehiit.android.tv.ui.home.HomeViewState.Error
-import fr.shiningcat.simplehiit.android.tv.ui.home.HomeViewState.MissingUsers
-import fr.shiningcat.simplehiit.android.tv.ui.home.HomeViewState.Nominal
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewState.Error
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewState.MissingUsers
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewState.Nominal
 import javax.inject.Inject
 
 class HomeViewStateMapper
@@ -49,7 +49,8 @@ class HomeViewStateMapper
                         )
                     }
                 }
-
-                is Output.Error -> Error(homeSettingsOutput.errorCode.code)
+                is Output.Error -> {
+                    Error(homeSettingsOutput.errorCode.code)
+                }
             }
     }

@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.home
+package fr.shiningcat.simplehiit.sharedui.home
 
 import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
 import fr.shiningcat.simplehiit.domain.common.models.User

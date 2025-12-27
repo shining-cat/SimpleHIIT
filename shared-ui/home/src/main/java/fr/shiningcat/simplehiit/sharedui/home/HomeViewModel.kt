@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.home
+package fr.shiningcat.simplehiit.sharedui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,7 +24,6 @@ class HomeViewModel
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
     ) : ViewModel() {
-        // Reactive data stream - automatically starts/stops based on UI lifecycle
         val screenViewState =
             homeInteractor
                 .getHomeSettings()
@@ -35,7 +34,6 @@ class HomeViewModel
                     initialValue = HomeViewState.Loading,
                 )
 
-        // UI-driven state - managed manually for dialogs and one-time events
         private val _dialogViewState = MutableStateFlow<HomeDialog>(HomeDialog.None)
         val dialogViewState = _dialogViewState.asStateFlow()
 

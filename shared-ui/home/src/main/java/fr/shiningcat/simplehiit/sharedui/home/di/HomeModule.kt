@@ -1,11 +1,11 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.home.di
+package fr.shiningcat.simplehiit.sharedui.home.di
 
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
-import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeInteractor
-import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeInteractorImpl
+import fr.shiningcat.simplehiit.sharedui.home.HomeInteractor
+import fr.shiningcat.simplehiit.sharedui.home.HomeInteractorImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
