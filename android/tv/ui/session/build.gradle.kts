@@ -11,10 +11,6 @@ plugins {
 dependencies {
     implementation(projects.android.common)
     implementation(projects.android.tv.ui.common)
-    implementation(projects.domain.common)
-    implementation(projects.domain.session)
-    implementation(projects.commonUtils)
-    implementation(projects.commonResources)
     implementation(projects.sharedUi.session)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)

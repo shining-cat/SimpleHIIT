@@ -49,12 +49,30 @@ moduleGraphAssert {
         arrayOf(
             // Mobile app can depend on anything (required by Android framework and DI)
             ":android:mobile:app -> .*",
-            // Mobile UI modules can depend on domain, common utilities, resources, and their common UI module
-            ":android:mobile:ui:.* -> :domain:.*",
-            ":android:mobile:ui:.* -> :commonUtils",
-            ":android:mobile:ui:.* -> :commonResources",
-            ":android:mobile:ui:.* -> :android:common",
-            ":android:mobile:ui:.* -> :android:mobile:ui:common",
+            
+            // Mobile UI feature modules (explicit dependencies only)
+            ":android:mobile:ui:home -> :android:common",
+            ":android:mobile:ui:home -> :android:mobile:ui:common",
+            ":android:mobile:ui:home -> :shared-ui:home",
+            ":android:mobile:ui:session -> :android:common",
+            ":android:mobile:ui:session -> :android:mobile:ui:common",
+            ":android:mobile:ui:session -> :shared-ui:session",
+            ":android:mobile:ui:settings -> :android:common",
+            ":android:mobile:ui:settings -> :android:mobile:ui:common",
+            ":android:mobile:ui:settings -> :shared-ui:settings",
+            ":android:mobile:ui:statistics -> :android:common",
+            ":android:mobile:ui:statistics -> :android:mobile:ui:common",
+            ":android:mobile:ui:statistics -> :shared-ui:statistics",
+            
+            // Mobile UI common module
+            ":android:mobile:ui:common -> :android:common",
+            ":android:mobile:ui:common -> :domain:common",
+            ":android:mobile:ui:common -> :commonUtils",
+            ":android:mobile:ui:common -> :commonResources",
+            
+            // shared-ui modules (KMP-ready: domain and utils only, no Android-specific)
+            ":shared-ui:.* -> :domain:.*",
+            ":shared-ui:.* -> :commonUtils",
             // Domain modules (except domain:common) can only depend on domain:common and commonUtils
             ":domain:home -> :domain:common",
             ":domain:home -> :commonUtils",
@@ -83,6 +101,7 @@ moduleGraphAssert {
             ":domain:.* -X> :data",
             // Domain modules CANNOT depend on UI modules
             ":domain:.* -X> :android:mobile:ui:.*",
+            ":domain:.* -X> :shared-ui:.*",
             // Domain modules CANNOT depend on app modules
             ":domain:.* -X> :android:mobile:app",
             // Domain modules CANNOT depend on other domain modules (except domain:common via allowed rules)
@@ -107,8 +126,15 @@ moduleGraphAssert {
             ":data -X> :domain:session",
             ":data -X> :domain:settings",
             ":data -X> :domain:statistics",
+            // shared-ui CANNOT depend on Android-specific modules (KMP-ready)
+            ":shared-ui:.* -X> :android:.*",
+            // shared-ui CANNOT depend on commonResources (Android-specific)
+            ":shared-ui:.* -X> :commonResources",
+            // UI modules CANNOT depend on data layer
+            ":android:mobile:ui:.* -X> :data",
             // NO module can depend on mobile app module
             ":android:mobile:ui:.* -X> :android:mobile:app",
+            ":shared-ui:.* -X> :android:mobile:app",
             ":commonUtils -X> :android:mobile:app",
             ":commonResources -X> :android:mobile:app",
             ":android:common -X> :android:mobile:app",
