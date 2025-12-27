@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.statistics
+package fr.shiningcat.simplehiit.sharedui.statistics
 
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User

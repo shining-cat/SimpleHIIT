@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.statistics
+package fr.shiningcat.simplehiit.sharedui.statistics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -48,7 +48,9 @@ class StatisticsViewModel
                             currentUsers = usersOutput.result
                             retrieveStatsForUser(usersOutput.result.head)
                         }
-                        is Output.Error -> _screenViewState.emit(mapper.mapUsersError(usersOutput.errorCode))
+                        is Output.Error -> {
+                            _screenViewState.emit(mapper.mapUsersError(usersOutput.errorCode))
+                        }
                     }
                 }
             }
@@ -68,20 +70,22 @@ class StatisticsViewModel
                 val statisticsOutput = statisticsInteractor.getStatsForUser(user = user, now = now)
                 _screenViewState.emit(
                     when (statisticsOutput) {
-                        is Output.Success ->
+                        is Output.Success -> {
                             mapper.map(
                                 showUsersSwitch = moreThanOneUser,
                                 userStats = statisticsOutput.result,
                             )
-
-                        is Output.Error ->
+                        }
+                        is Output.Error -> {
                             StatisticsViewState.Error(
                                 errorCode = statisticsOutput.errorCode.code,
                                 user = user,
                                 showUsersSwitch = moreThanOneUser,
                             )
+                        }
                     },
                 )
+                _dialogViewState.emit(StatisticsDialog.None)
             }
         }
 

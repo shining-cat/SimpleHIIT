@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.tv.ui.statistics
+package fr.shiningcat.simplehiit.sharedui.statistics
 
 import fr.shiningcat.simplehiit.commonutils.NonEmptyList
 import fr.shiningcat.simplehiit.domain.common.Output
