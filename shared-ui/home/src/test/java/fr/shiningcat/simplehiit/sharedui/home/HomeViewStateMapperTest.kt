@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.home
+package fr.shiningcat.simplehiit.sharedui.home
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
@@ -6,8 +6,6 @@ import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
-import fr.shiningcat.simplehiit.sharedui.home.HomeViewStateMapper
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify

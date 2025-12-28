@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.session
+package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.Session
@@ -11,7 +11,6 @@ import fr.shiningcat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.InsertSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.StepTimerUseCase
-import fr.shiningcat.simplehiit.sharedui.session.SessionInteractorImpl
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery

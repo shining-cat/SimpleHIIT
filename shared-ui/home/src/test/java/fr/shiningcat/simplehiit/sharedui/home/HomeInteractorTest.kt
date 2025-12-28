@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.home
+package fr.shiningcat.simplehiit.sharedui.home
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
@@ -9,7 +9,6 @@ import fr.shiningcat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.SetTotalRepetitionsNumberUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.ToggleUserSelectedUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.ValidateInputNumberCyclesUseCase
-import fr.shiningcat.simplehiit.sharedui.home.HomeInteractorImpl
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.Runs
 import io.mockk.coEvery

@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.mobile.ui.session
+package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
@@ -8,10 +8,6 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
-import fr.shiningcat.simplehiit.sharedui.session.CountDown
-import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
-import fr.shiningcat.simplehiit.sharedui.session.SessionViewStateMapper
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.mockk

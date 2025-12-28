@@ -163,16 +163,26 @@ Each configuration specifies:
 dependencies {
     implementation(projects.android.common)
     implementation(projects.android.mobile.ui.common)
-    implementation(projects.sharedUi.home)  // ← Gets domain access through here
+    implementation(projects.sharedUi.home)
+    implementation(projects.commonUtils)        // ← Used directly in UI code
+    implementation(projects.commonResources)    // ← Used directly for R.string/R.drawable
+    implementation(projects.domain.common)      // ← Used directly to render domain models
 }
 ```
+
+**Why UI needs direct dependencies:**
+- `commonUtils`: UI code directly uses logging, extensions, and formatters
+- `commonResources`: UI code directly accesses strings and drawables via `R.string.*`
+- `domain:common`: Compose components directly render domain models (`User`, `Exercise`, etc.)
+
+These aren't exposed transitively because `shared-ui` uses `implementation` (not `api`).
 
 **Shared-UI Feature Module** (e.g., `:shared-ui:home`):
 ```kotlin
 dependencies {
     implementation(projects.commonUtils)
     implementation(projects.domain.common)
-    implementation(projects.domain.home)  // ← Provides domain access to UI
+    implementation(projects.domain.home)  // ← Business logic layer
 }
 ```
 
@@ -188,13 +198,13 @@ dependencies {
 
 **What's NOT allowed:**
 ```kotlin
-// ❌ UI feature cannot access domain directly
-implementation(projects.domain.home)  // Use shared-ui instead
+// ❌ UI feature CANNOT access domain features directly (only domain:common)
+implementation(projects.domain.home)  // Business logic via shared-ui only
 
-// ❌ UI feature cannot access data
+// ❌ UI feature CANNOT access data
 implementation(projects.data)
 
-// ❌ shared-ui cannot depend on Android modules
+// ❌ shared-ui CANNOT depend on Android modules
 implementation(projects.android.common)
 implementation(projects.commonResources)
 ```
