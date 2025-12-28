@@ -11,8 +11,6 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogError
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsDialog
-import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.tv.ui.settings.dialogs.SettingsAddUserDialog
 import fr.shiningcat.simplehiit.android.tv.ui.settings.dialogs.SettingsEditNumberCyclesDialog
 import fr.shiningcat.simplehiit.android.tv.ui.settings.dialogs.SettingsEditPeriodLengthDialog
@@ -29,6 +27,8 @@ import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 
 @Composable
 fun SettingsContentHolder(

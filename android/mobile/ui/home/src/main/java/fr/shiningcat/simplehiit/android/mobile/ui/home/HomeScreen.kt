@@ -24,6 +24,9 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.components.HomeTopBarComp
 import fr.shiningcat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.home.HomeDialog
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewModel
+import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
 
 @Composable
 fun HomeScreen(

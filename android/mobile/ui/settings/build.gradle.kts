@@ -10,11 +10,11 @@ plugins {
 
 dependencies {
     implementation(projects.android.common)
-    implementation(projects.domain.common)
-    implementation(projects.domain.settings)
+    implementation(projects.android.mobile.ui.common)
+    implementation(projects.sharedUi.settings)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
-    implementation(projects.android.mobile.ui.common)
+    implementation(projects.domain.common)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

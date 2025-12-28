@@ -26,7 +26,6 @@ import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.settings.SettingsViewState
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsExercisesSelectedComponent
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsFieldComponent
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsToggleComponent
@@ -38,6 +37,7 @@ import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 import kotlinx.coroutines.delay
 
 @Composable

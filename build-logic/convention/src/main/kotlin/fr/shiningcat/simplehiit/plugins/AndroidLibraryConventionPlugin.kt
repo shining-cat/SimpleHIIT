@@ -5,6 +5,7 @@ import com.android.build.gradle.LibraryExtension
 import fr.shiningcat.simplehiit.extensions.configureAndroidLibraryKotlin
 import fr.shiningcat.simplehiit.extensions.configureBuildTypes
 import fr.shiningcat.simplehiit.extensions.disableUnnecessaryAndroidTests
+import fr.shiningcat.simplehiit.extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -28,6 +29,8 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
                 disableUnnecessaryAndroidTests(project)
             }
             dependencies {
+                // Lifecycle - needed by ViewModels across all Android library modules
+                add("implementation", libs.findLibrary("androidx.lifecycle").get())
                 add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
             }

@@ -10,15 +10,15 @@ import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.android.tv.ui.session.CountDown
-import fr.shiningcat.simplehiit.android.tv.ui.session.RunningSessionStepType
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionDialog
-import fr.shiningcat.simplehiit.android.tv.ui.session.SessionViewState
 import fr.shiningcat.simplehiit.android.tv.ui.session.components.PauseDialog
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
+import fr.shiningcat.simplehiit.sharedui.session.CountDown
+import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
+import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
+import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 
 @Composable
 fun SessionContentHolder(

@@ -30,9 +30,9 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.R
-import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsHeaderComponent
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable
