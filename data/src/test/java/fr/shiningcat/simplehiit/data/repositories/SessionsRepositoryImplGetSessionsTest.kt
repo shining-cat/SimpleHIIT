@@ -53,7 +53,7 @@ internal class SessionsRepositoryImplGetSessionsTest : AbstractMockkTest() {
         runTest {
             val sessionsRepository =
                 SessionsRepositoryImpl(
-                    sessionRecordsDao = mockSessionRecordsDao,
+                    sessionsDao = mockSessionRecordsDao,
                     sessionMapper = mockSessionMapper,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
@@ -86,7 +86,7 @@ internal class SessionsRepositoryImplGetSessionsTest : AbstractMockkTest() {
         runTest {
             val sessionsRepository =
                 SessionsRepositoryImpl(
-                    sessionRecordsDao = mockSessionRecordsDao,
+                    sessionsDao = mockSessionRecordsDao,
                     sessionMapper = mockSessionMapper,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
@@ -126,7 +126,7 @@ internal class SessionsRepositoryImplGetSessionsTest : AbstractMockkTest() {
         runTest {
             val sessionsRepository =
                 SessionsRepositoryImpl(
-                    sessionRecordsDao = mockSessionRecordsDao,
+                    sessionsDao = mockSessionRecordsDao,
                     sessionMapper = mockSessionMapper,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
@@ -160,7 +160,7 @@ internal class SessionsRepositoryImplGetSessionsTest : AbstractMockkTest() {
         runTest {
             val sessionsRepository =
                 SessionsRepositoryImpl(
-                    sessionRecordsDao = mockSessionRecordsDao,
+                    sessionsDao = mockSessionRecordsDao,
                     sessionMapper = mockSessionMapper,
                     hiitLogger = mockHiitLogger,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),

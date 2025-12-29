@@ -32,7 +32,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -50,7 +50,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -68,7 +68,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -87,7 +87,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -104,7 +104,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -126,7 +126,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -144,7 +144,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -166,7 +166,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -198,7 +198,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -216,7 +216,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -286,7 +286,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )
@@ -323,7 +323,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
         runTest {
             val settingsRepository =
                 SettingsRepositoryImpl(
-                    hiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
                     ioDispatcher = UnconfinedTestDispatcher(testScheduler),
                     hiitLogger = mockHiitLogger,
                 )

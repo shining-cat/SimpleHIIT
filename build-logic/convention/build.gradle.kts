@@ -42,6 +42,10 @@ gradlePlugin {
             id = "fr.shiningcat.simplehiit.hilt"
             implementationClass = "fr.shiningcat.simplehiit.plugins.HiltConventionPlugin"
         }
+        register("koin") {
+            id = "fr.shiningcat.simplehiit.koin"
+            implementationClass = "fr.shiningcat.simplehiit.plugins.KoinConventionPlugin"
+        }
         register("androidAppCompose") {
             id = "fr.shiningcat.simplehiit.android.application.compose"
             implementationClass =

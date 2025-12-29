@@ -17,6 +17,9 @@ develocity = "4.3"
 
 # Dependency Injection
 hilt = "2.57.2"
+koin = "4.0.0"
+koinAndroidxCompose = "4.0.0"
+koinTest = "4.0.0"
 
 # Database
 room = "2.8.4"
@@ -98,6 +101,14 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
 dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
+# Dependency Injection - Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koinAndroidxCompose" }
+koin-androidx-compose-navigation = { module = "io.insert-koin:koin-androidx-compose-navigation", version.ref = "koinAndroidxCompose" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koinTest" }
+koin-test-junit = { module = "io.insert-koin:koin-test-junit4", version.ref = "koinTest" }
+
 # Testing Libraries
 junit = { module = "androidx.test.ext:junit", version.ref = "junit" }
 test-runner = { module = "androidx.test:runner", version.ref = "testRunner" }
@@ -139,6 +150,7 @@ simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.li
 
 # Convention Plugins - Feature-Specific
 simplehiit-hilt = { id = "fr.shiningcat.simplehiit.hilt" }
+simplehiit-koin = { id = "fr.shiningcat.simplehiit.koin" }
 simplehiit-compose-navigation = { id = "fr.shiningcat.simplehiit.compose.navigation" }
 simplehiit-mobile-compose-ui = { id = "fr.shiningcat.simplehiit.mobile.compose.ui" }
 simplehiit-tv-compose-ui = { id = "fr.shiningcat.simplehiit.tv.compose.ui" }

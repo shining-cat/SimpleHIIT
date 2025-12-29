@@ -10,19 +10,18 @@ import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class SettingsRepositoryImpl
     @Inject
     constructor(
-        private val hiitDataStoreManager: SimpleHiitDataStoreManager,
+        private val simpleHiitDataStoreManager: SimpleHiitDataStoreManager,
         @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
     ) : SettingsRepository {
         override fun getPreferences(): Flow<SimpleHiitPreferences> =
             runCatching {
-                hiitDataStoreManager.getPreferences()
+                simpleHiitDataStoreManager.getPreferences()
             }.getOrElse { exception ->
                 hiitLogger.e(
                     "SettingsRepositoryImpl",
@@ -33,62 +32,42 @@ class SettingsRepositoryImpl
             }
 
         override suspend fun setWorkPeriodLength(durationMs: Long) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setWorkPeriodLength(durationMs)
-            }
+            simpleHiitDataStoreManager.setWorkPeriodLength(durationMs)
         }
 
         override suspend fun setRestPeriodLength(durationMs: Long) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setRestPeriodLength(durationMs)
-            }
+            simpleHiitDataStoreManager.setRestPeriodLength(durationMs)
         }
 
         override suspend fun setNumberOfWorkPeriods(number: Int) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setNumberOfWorkPeriods(number)
-            }
+            simpleHiitDataStoreManager.setNumberOfWorkPeriods(number)
         }
 
         override suspend fun setBeepSound(active: Boolean) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setBeepSound(active)
-            }
+            simpleHiitDataStoreManager.setBeepSound(active)
         }
 
         override suspend fun setSessionStartCountdown(durationMs: Long) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setSessionStartCountdown(durationMs)
-            }
+            simpleHiitDataStoreManager.setSessionStartCountdown(durationMs)
         }
 
         override suspend fun setPeriodStartCountdown(durationMs: Long) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setPeriodStartCountdown(durationMs)
-            }
+            simpleHiitDataStoreManager.setPeriodStartCountdown(durationMs)
         }
 
         override suspend fun setTotalRepetitionsNumber(number: Int) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setNumberOfCumulatedCycles(number = number)
-            }
+            simpleHiitDataStoreManager.setNumberOfCumulatedCycles(number = number)
         }
 
         override suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
-            }
+            simpleHiitDataStoreManager.setExercisesTypesSelected(exercisesTypes = exercisesTypes)
         }
 
         override suspend fun setAppTheme(theme: AppTheme) {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.setAppTheme(theme = theme)
-            }
+            simpleHiitDataStoreManager.setAppTheme(theme = theme)
         }
 
         override suspend fun resetAllSettings() {
-            withContext(ioDispatcher) {
-                hiitDataStoreManager.clearAll()
-            }
+            simpleHiitDataStoreManager.clearAll()
         }
     }

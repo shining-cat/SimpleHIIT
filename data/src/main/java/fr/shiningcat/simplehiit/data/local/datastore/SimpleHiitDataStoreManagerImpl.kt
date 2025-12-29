@@ -4,7 +4,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.data.di.IoDispatcher
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_APP_THEME
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
@@ -24,9 +23,13 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
+/**
+ * NO @Inject - provided explicitly by LocalDataModuleHilt via @Provides
+ * For Koin: constructor is called directly from localDataModule
+ */
 class SimpleHiitDataStoreManagerImpl(
     private val dataStore: DataStore<Preferences>,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val ioDispatcher: CoroutineDispatcher,
     private val hiitLogger: HiitLogger,
 ) : SimpleHiitDataStoreManager {
     override suspend fun clearAll() {

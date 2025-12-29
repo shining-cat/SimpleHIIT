@@ -17,7 +17,7 @@ import javax.inject.Inject
 class SessionsRepositoryImpl
     @Inject
     constructor(
-        private val sessionRecordsDao: SessionRecordsDao,
+        private val sessionsDao: SessionRecordsDao,
         private val sessionMapper: SessionMapper,
         @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
         private val hiitLogger: HiitLogger,
@@ -33,7 +33,7 @@ class SessionsRepositoryImpl
             return withContext(ioDispatcher) {
                 runCatching {
                     val sessionEntities = sessionMapper.convert(sessionRecord)
-                    sessionRecordsDao.insert(sessionEntities)
+                    sessionsDao.insert(sessionEntities)
                 }.fold(
                     onSuccess = { insertedIds ->
                         hiitLogger.d(
@@ -57,7 +57,7 @@ class SessionsRepositoryImpl
         override suspend fun getSessionRecordsForUser(user: User): Output<List<SessionRecord>> =
             withContext(ioDispatcher) {
                 runCatching {
-                    sessionRecordsDao.getSessionsForUser(user.id)
+                    sessionsDao.getSessionsForUser(user.id)
                 }.fold(
                     onSuccess = { sessions ->
                         hiitLogger.d(
@@ -81,7 +81,7 @@ class SessionsRepositoryImpl
         override suspend fun deleteSessionRecordsForUser(userId: Long): Output<Int> =
             withContext(ioDispatcher) {
                 runCatching {
-                    sessionRecordsDao.deleteForUser(userId)
+                    sessionsDao.deleteForUser(userId)
                 }.fold(
                     onSuccess = { deletedCount -> Output.Success(result = deletedCount) },
                     onFailure = { exception ->
