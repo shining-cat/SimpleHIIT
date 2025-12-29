@@ -3,11 +3,11 @@ import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 plugins {
     alias(libs.plugins.simplehiit.android.application.tv)
     alias(libs.plugins.simplehiit.hilt)
+    alias(libs.plugins.simplehiit.koin)
     alias(libs.plugins.simplehiit.android.application.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.simplehiit.testing)
     alias(libs.plugins.kover)
-
     alias(libs.plugins.modules.graph.assert)
 }
 
@@ -28,7 +28,14 @@ dependencies {
     implementation(projects.android.tv.ui.session)
     implementation(projects.android.tv.ui.statistics)
     implementation(projects.domain.common)
+    implementation(projects.domain.home)
+    implementation(projects.domain.session)
     implementation(projects.domain.settings)
+    implementation(projects.domain.statistics)
+    implementation(projects.sharedUi.home)
+    implementation(projects.sharedUi.session)
+    implementation(projects.sharedUi.settings)
+    implementation(projects.sharedUi.statistics)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.data)

@@ -6,7 +6,7 @@
 
 ---
 
-## ✅ COMPLETED MODULES (15/19)
+## ✅ COMPLETED MODULES (16/19)
 
 ### 1. ✅ data module
 - [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
@@ -150,7 +150,20 @@
 **Files to delete after full migration:**
 - `android/mobile/app/src/main/java/fr/shiningcat/simplehiit/android/mobile/app/di/AppModuleHilt.kt`
 
-#### 16. ⬜ android/tv/app
+#### 16. ✅ android/tv/app
+- [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
+- [x] Added missing module dependencies (domain.*, sharedUi.*)
+- [x] Created `AppModuleKoin.kt` (Koin) - LocaleManager, AndroidVersionProvider, DurationStringFormatters, MainViewModel
+- [x] Created `allKoinModules` list aggregating all app modules
+- [x] Created `AppModuleHilt.kt` (Hilt temporary)
+- [x] Deleted original `AppModule.kt`
+- [x] Updated `SimpleHIITApplication` - initialized Koin with all modules
+- [x] Updated `MainActivity` - uses Koin injection (kept Hilt @AndroidEntryPoint temporarily)
+- [x] Removed `@HiltViewModel` and `@Inject` from MainViewModel
+
+**Files to delete after full migration:**
+- `android/tv/app/src/main/java/fr/shiningcat/simplehiit/android/tv/app/di/AppModuleHilt.kt`
+
 #### 17. ⬜ android/mobile/ui/* modules
 #### 18. ⬜ android/tv/ui/* modules
 
@@ -308,8 +321,8 @@ rm path/to/original/Module.kt
 
 ```
 Total Modules: 19
-Completed: 15 (79%)
-Remaining: 4 (21%)
+Completed: 16 (84%)
+Remaining: 3 (16%)
 
 ✅ data
 ✅ commonUtils
@@ -326,7 +339,7 @@ Remaining: 4 (21%)
 ✅ android:common
 ✅ testUtils
 ✅ android/mobile/app
-⬜ android/tv/app
+✅ android/tv/app
 ⬜ UI modules (mobile/tv)
 ```
 
@@ -366,5 +379,5 @@ Update `build-logic/convention` to remove Hilt setup
 ---
 
 **Document Created:** 2025-12-29
-**Last Updated:** 2025-12-29 15:50 CET
-**Status:** Mobile app module complete (15/19 modules - 79%). Next: TV app and UI modules.
+**Last Updated:** 2025-12-29 17:42 CET
+**Status:** Both app modules complete (16/19 modules - 84%). Only UI modules remaining.

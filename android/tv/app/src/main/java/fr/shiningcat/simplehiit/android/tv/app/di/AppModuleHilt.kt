@@ -16,9 +16,15 @@ import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
 import fr.shiningcat.simplehiit.domain.common.di.DigitsFormat
 import fr.shiningcat.simplehiit.domain.common.di.ShortFormat
 
+/**
+ * Temporary Hilt module during migration to Koin.
+ * This module exists to maintain Hilt compatibility while the migration is in progress.
+ *
+ * DELETE THIS FILE after full migration to Koin is complete.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
-interface AppModule {
+interface AppModuleHilt {
     @Binds
     fun bindsLocaleManager(localeManagerImpl: LocaleManagerImpl): LocaleManager
 
@@ -28,7 +34,7 @@ interface AppModule {
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AppModuleProvides {
+object AppModuleProvidesHilt {
     @DigitsFormat
     @Provides
     fun provideDurationStringFormatterDigits(
