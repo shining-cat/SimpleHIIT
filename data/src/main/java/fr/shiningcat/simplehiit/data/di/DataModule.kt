@@ -1,10 +1,7 @@
 package fr.shiningcat.simplehiit.data.di
 
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
+import fr.shiningcat.simplehiit.data.mappers.SessionMapper
+import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.data.repositories.LanguageRepositoryImpl
 import fr.shiningcat.simplehiit.data.repositories.SessionsRepositoryImpl
 import fr.shiningcat.simplehiit.data.repositories.SettingsRepositoryImpl
@@ -13,39 +10,52 @@ import fr.shiningcat.simplehiit.domain.common.datainterfaces.LanguageRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import javax.inject.Qualifier
-import javax.inject.Singleton
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 
-@Module
-@InstallIn(SingletonComponent::class)
-interface DataModule {
-    @Singleton
-    @Binds
-    fun bindsUsersRepository(usersRepository: UsersRepositoryImpl): UsersRepository
+val dataModule =
+    module {
+        // Mappers
+        single { UserMapper() }
+        single { SessionMapper() }
 
-    @Singleton
-    @Binds
-    fun bindsSessionsRepository(sessionsRepository: SessionsRepositoryImpl): SessionsRepository
+        // Repositories
+        single<UsersRepository> {
+            UsersRepositoryImpl(
+                usersDao = get(),
+                userMapper = get(),
+                ioDispatcher = get(named("IoDispatcher")),
+                hiitLogger = get(),
+            )
+        }
 
-    @Singleton
-    @Binds
-    fun bindsSettingsRepository(settingsRepository: SettingsRepositoryImpl): SettingsRepository
+        single<SessionsRepository> {
+            SessionsRepositoryImpl(
+                sessionsDao = get(),
+                sessionMapper = get(),
+                ioDispatcher = get(named("IoDispatcher")),
+                hiitLogger = get(),
+            )
+        }
 
-    @Singleton
-    @Binds
-    fun bindsLanguageRepository(languageRepository: LanguageRepositoryImpl): LanguageRepository
-}
+        single<SettingsRepository> {
+            SettingsRepositoryImpl(
+                simpleHiitDataStoreManager = get(),
+                ioDispatcher = get(named("IoDispatcher")),
+                hiitLogger = get(),
+            )
+        }
 
-@Module
-@InstallIn(SingletonComponent::class)
-object DataDispatcherModule {
-    @IoDispatcher
-    @Provides
-    fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
-}
+        single<LanguageRepository> {
+            LanguageRepositoryImpl(
+                localeManager = get(),
+                hiitLogger = get(),
+            )
+        }
+    }
 
-@Qualifier
-@Retention(AnnotationRetention.BINARY)
-annotation class IoDispatcher
+val dispatcherModule =
+    module {
+        single(named("IoDispatcher")) { Dispatchers.IO }
+    }
