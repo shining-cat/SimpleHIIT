@@ -15,9 +15,18 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
 
+/**
+ * TEMPORARY HILT MODULE - FOR GRADUAL MIGRATION TO KOIN
+ *
+ * This module exists alongside the Koin utilsModule to support existing consumers
+ * that still use Hilt. Once all consuming modules are migrated to Koin, this file
+ * and the original UtilsModule.kt will be removed.
+ *
+ * DO NOT ADD NEW DEPENDENCIES HERE - use the Koin utilsModule instead.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
-object UtilsModule {
+object UtilsModuleHilt {
     @Provides
     fun provideHiitLogger(
         @ApplicationContext context: Context,
