@@ -6,7 +6,7 @@
 
 ---
 
-## ✅ COMPLETED MODULES (12/17)
+## ✅ COMPLETED MODULES (14/19)
 
 ### 1. ✅ data module
 - [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
@@ -113,12 +113,34 @@
 
 ---
 
+### Priority 2.5: Android Common Modules (Before App Modules)
+
+#### 13. ✅ android:common
+- [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
+- [x] Created `CommonAndroidModuleKoin.kt` (Koin) - NavigationViewModel
+- [x] Created `CommonAndroidModuleHilt.kt` (Hilt temporary)
+- [x] Removed `@HiltViewModel` and `@Inject` from NavigationViewModel
+
+**Files to delete after full migration:**
+- `android/common/src/main/java/fr/shiningcat/simplehiit/android/common/di/CommonAndroidModuleHilt.kt`
+
+#### 14. ✅ testUtils
+- [x] Updated `build.gradle.kts` - added both plugins
+- [x] Created `KoinTestRunner.kt` (Koin) - KoinTestRunner, KoinTestApplication
+- [x] Kept `HiltTestRunner.kt` (Hilt temporary)
+- [x] AbstractMockkTest unchanged (no DI usage)
+
+**Files to delete after full migration:**
+- `testUtils/src/main/java/fr/shiningcat/simplehiit/testutils/HiltTestRunner.kt`
+
+---
+
 ### Priority 3: App Modules (Final Step)
 
-#### 13. ⬜ android/mobile/app
-#### 14. ⬜ android/tv/app
-#### 15. ⬜ android/mobile/ui/* modules
-#### 16. ⬜ android/tv/ui/* modules
+#### 15. ⬜ android/mobile/app
+#### 16. ⬜ android/tv/app
+#### 17. ⬜ android/mobile/ui/* modules
+#### 18. ⬜ android/tv/ui/* modules
 
 ---
 
@@ -273,9 +295,9 @@ rm path/to/original/Module.kt
 ## 📊 PROGRESS TRACKER
 
 ```
-Total Modules: 17
-Completed: 12 (71%)
-Remaining: 5 (29%)
+Total Modules: 19
+Completed: 14 (74%)
+Remaining: 5 (26%)
 
 ✅ data
 ✅ commonUtils
@@ -289,6 +311,8 @@ Remaining: 5 (29%)
 ✅ shared-ui/session
 ✅ shared-ui/settings
 ✅ shared-ui/statistics
+✅ android:common
+✅ testUtils
 ⬜ android/mobile/app
 ⬜ android/tv/app
 ⬜ UI modules (mobile/tv)
@@ -330,5 +354,5 @@ Update `build-logic/convention` to remove Hilt setup
 ---
 
 **Document Created:** 2025-12-29
-**Last Updated:** 2025-12-29 12:51 CET
-**Status:** Domain and shared-ui layers complete (12/17 modules - 71%). Next: app modules.
+**Last Updated:** 2025-12-29 15:37 CET
+**Status:** Domain, shared-ui, and android:common complete (14/19 modules - 74%). Next: app modules.

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
+    alias(libs.plugins.simplehiit.koin)
     alias(libs.plugins.simplehiit.android.library.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.simplehiit.testing)

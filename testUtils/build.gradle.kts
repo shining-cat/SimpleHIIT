@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.simplehiit.android.library)
     alias(libs.plugins.simplehiit.hilt)
+    alias(libs.plugins.simplehiit.koin)
 }
 
 dependencies {
@@ -11,6 +12,8 @@ dependencies {
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
     implementation(libs.hilt.android.testing)
+    implementation(libs.koin.test)
+    implementation(libs.koin.android)
     implementation(libs.jupiter)
     implementation(libs.test.runner)
     implementation(libs.mockk)
