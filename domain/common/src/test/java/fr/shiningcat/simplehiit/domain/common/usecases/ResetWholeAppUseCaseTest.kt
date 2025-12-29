@@ -26,7 +26,7 @@ internal class ResetWholeAppUseCaseTest : AbstractMockkTest() {
                     settingsRepository = mockSettingsRepository,
                     usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.resetAllSettings() } just Runs
             coEvery { mockUsersRepository.deleteAllUsers() } just Runs

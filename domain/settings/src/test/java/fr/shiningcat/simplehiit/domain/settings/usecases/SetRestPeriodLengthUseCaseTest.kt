@@ -25,7 +25,7 @@ internal class SetRestPeriodLengthUseCaseTest : AbstractMockkTest() {
                 SetRestPeriodLengthUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.setRestPeriodLength(any()) } just Runs
             //

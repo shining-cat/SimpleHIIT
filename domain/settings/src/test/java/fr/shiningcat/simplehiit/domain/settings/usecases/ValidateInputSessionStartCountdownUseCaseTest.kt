@@ -20,7 +20,7 @@ internal class ValidateInputSessionStartCountdownUseCaseTest : AbstractMockkTest
     ) = runTest {
         val testedUseCase =
             ValidateInputSessionStartCountdownUseCase(
-                hiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         val result = testedUseCase.execute(input)
         //

@@ -27,7 +27,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
     private val testedMapper =
         SettingsViewStateMapper(
             formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-            hiitLogger = mockHiitLogger,
+            logger = mockHiitLogger,
         )
 
     @BeforeEach

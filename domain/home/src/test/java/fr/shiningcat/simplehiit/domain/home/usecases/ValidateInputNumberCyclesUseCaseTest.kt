@@ -17,7 +17,7 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
         expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
-            ValidateInputNumberCyclesUseCase(hiitLogger = mockHiitLogger)
+            ValidateInputNumberCyclesUseCase(logger = mockHiitLogger)
         val result = testedUseCase.execute(input)
         //
         assertEquals(expectedOutput, result)

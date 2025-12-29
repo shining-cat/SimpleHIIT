@@ -24,7 +24,7 @@ internal class StatisticsViewStateMapperTest : AbstractMockkTest() {
     private val testedMapper =
         StatisticsViewStateMapper(
             formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-            hiitLogger = mockHiitLogger,
+            logger = mockHiitLogger,
         )
 
     @BeforeEach

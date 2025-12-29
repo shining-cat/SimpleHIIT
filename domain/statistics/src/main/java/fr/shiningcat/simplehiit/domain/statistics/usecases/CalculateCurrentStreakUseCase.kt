@@ -11,7 +11,7 @@ class CalculateCurrentStreakUseCase
     constructor(
         private val consecutiveDaysOrCloserUseCase: ConsecutiveDaysOrCloserUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(
             timestamps: List<Long>,
@@ -40,9 +40,12 @@ class CalculateCurrentStreakUseCase
                                 // the two sessions occurred on the same day, not increasing counter, but not breaking streak
                             }
                         }
-
-                        Consecutiveness.CONSECUTIVE_DAYS -> streakCounter++
-                        Consecutiveness.NON_CONSECUTIVE_DAYS -> break@streakLoop
+                        Consecutiveness.CONSECUTIVE_DAYS -> {
+                            streakCounter++
+                        }
+                        Consecutiveness.NON_CONSECUTIVE_DAYS -> {
+                            break@streakLoop
+                        }
                     }
                 }
                 streakCounter

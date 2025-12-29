@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ValidateInputPeriodStartCountdownUseCase
     @Inject
     constructor(
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(
             input: String,

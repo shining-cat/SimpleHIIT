@@ -22,7 +22,7 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
     ) = runTest {
         val testedUseCase =
             ValidateInputPeriodStartCountdownUseCase(
-                hiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         val result =
             testedUseCase.execute(

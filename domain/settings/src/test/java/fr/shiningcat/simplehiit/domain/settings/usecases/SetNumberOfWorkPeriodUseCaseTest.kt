@@ -25,7 +25,7 @@ internal class SetNumberOfWorkPeriodUseCaseTest : AbstractMockkTest() {
                 SetNumberOfWorkPeriodsUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.setNumberOfWorkPeriods(any()) } just Runs
             //

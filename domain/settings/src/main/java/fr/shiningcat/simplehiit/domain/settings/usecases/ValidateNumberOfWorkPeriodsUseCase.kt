@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ValidateNumberOfWorkPeriodsUseCase
     @Inject
     constructor(
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(input: String): Constants.InputError =
             if ((input.toIntOrNull() is Int).not()) {

@@ -13,7 +13,7 @@ class SaveSelectedExerciseTypesUseCase
     constructor(
         private val settingsRepository: SettingsRepository,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(listOfSelectedExerciseTypes: List<ExerciseTypeSelected>) {
             withContext(defaultDispatcher) {

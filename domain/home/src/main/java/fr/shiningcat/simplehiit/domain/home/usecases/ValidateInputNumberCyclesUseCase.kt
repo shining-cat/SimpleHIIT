@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ValidateInputNumberCyclesUseCase
     @Inject
     constructor(
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         /**
          * Validates the input for number of cycles.

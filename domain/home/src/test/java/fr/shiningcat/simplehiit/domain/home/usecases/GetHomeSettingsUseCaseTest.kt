@@ -38,7 +38,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             usersRepository = mockUsersRepository,
             settingsRepository = mockSettingsRepository,
             detectSessionWarningUseCase = mockDetectSessionWarningUseCase,
-            simpleHiitLogger = mockHiitLogger,
+            logger = mockHiitLogger,
         )
 
     private val testSettingsValue =

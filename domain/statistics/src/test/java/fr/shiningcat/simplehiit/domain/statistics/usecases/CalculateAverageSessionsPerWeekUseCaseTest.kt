@@ -25,7 +25,7 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
         val testedUseCase =
             CalculateAverageSessionsPerWeekUseCase(
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         val input =
             mutableListOf(oldestTimestamp) // ensure the first timestamp is actually our oldest one and not a random one
@@ -41,7 +41,7 @@ internal class CalculateAverageSessionsPerWeekUseCaseTest : AbstractMockkTest() 
             val testedUseCase =
                 CalculateAverageSessionsPerWeekUseCase(
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val result = testedUseCase.execute(emptyList(), 1676640515000)
             //

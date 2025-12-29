@@ -36,11 +36,12 @@ chmod +x .githooks/pre-push
 **Purpose:** Enforces code style consistency using ktlint before allowing commits.
 
 **Features:**
-- Only formats files that are staged for commit (supports partial commits)
-- Temporarily stashes unstaged changes to avoid formatting them
+- **Smart checking:** Runs ktlintCheck first to detect issues early
+- **Fast-fails:** Immediately blocks commits on non-auto-correctable issues
+- Only formats when all issues are auto-correctable
+- Temporarily stashes unstaged changes to avoid modifying them
 - Automatically re-stages formatted files
-- Provides clear, color-coded console feedback
-- Blocks commits if formatting issues cannot be auto-fixed
+- Provides clear, color-coded console feedback with helpful guidance
 
 **Workflow:**
 
@@ -50,27 +51,110 @@ chmod +x .githooks/pre-push
 
 2. **Isolate Staged Changes:**
    - Temporarily stashes any unstaged changes (if present)
-   - This ensures only staged files are formatted
+   - This ensures only staged files are checked/formatted
 
-3. **Format:**
+3. **Check Code Style (Step 1):**
+   - Runs `./gradlew ktlintCheck --daemon`
+   - If all checks pass → commit proceeds immediately (fast path!)
+   - If issues found → proceeds to analysis
+
+4. **Analyze Issues:**
+   - Detects if issues can be auto-corrected
+   - Searches for "(cannot be auto-corrected)" in ktlint output
+   - **If non-auto-correctable issues found → fail immediately with guidance**
+   - If all issues are auto-correctable → proceeds to formatting
+
+5. **Auto-Format (if applicable):**
    - Runs `./gradlew ktlintFormat --daemon`
-   - Formats all files in the project (but only staged files are present)
+   - Only runs if all issues were determined to be auto-correctable
 
-4. **Restore and Update:**
+6. **Verify (Step 2):**
+   - Runs `./gradlew ktlintCheck --daemon` again
+   - Ensures formatting actually fixed all issues
+
+7. **Restore and Update:**
    - Restores any stashed unstaged changes
    - Re-stages formatted files automatically
-   - If formatting succeeded → commit proceeds
-   - If formatting failed → commit is blocked
+   - Commit proceeds if all checks pass
 
-**When Commit is Blocked:**
+**Example Outputs:**
 
-If ktlint encounters issues that cannot be auto-fixed, you'll see:
-
+**Scenario 1: No Kotlin files staged**
 ```
-❌ Ktlint formatting failed! Commit blocked.
+════════════════════════════════════════════════════════════
+Running ktlint checks on staged files...
+════════════════════════════════════════════════════════════
 
-The formatter encountered issues that cannot be auto-fixed.
-Review the errors above and fix them manually.
+✅ No Kotlin files staged for commit
+✅ Commit proceeding...
+```
+
+**Scenario 2: Code already formatted correctly**
+```
+════════════════════════════════════════════════════════════
+Running ktlint checks on staged files...
+════════════════════════════════════════════════════════════
+
+Staged Kotlin files:
+  • android/mobile/app/src/main/java/Example.kt
+
+Step 1: Checking code style...
+
+✅ Code style check passed
+✅ Commit proceeding...
+```
+
+**Scenario 3: Issues auto-corrected successfully**
+```
+════════════════════════════════════════════════════════════
+Running ktlint checks on staged files...
+════════════════════════════════════════════════════════════
+
+Staged Kotlin files:
+  • android/mobile/app/src/main/java/Example.kt
+
+Temporarily stashing unstaged changes...
+Step 1: Checking code style...
+
+Code style issues found. Analyzing...
+
+All issues are auto-correctable. Running formatter...
+
+Step 2: Verifying formatting fixed all issues...
+
+Auto-formatted files:
+  • android/mobile/app/src/main/java/Example.kt
+
+Re-staging formatted files...
+✅ Formatted files have been re-staged
+✅ All code style checks passed
+✅ Commit proceeding...
+Restoring unstaged changes...
+```
+
+**Scenario 4: Non-auto-correctable issues (commit blocked)**
+```
+════════════════════════════════════════════════════════════
+Running ktlint checks on staged files...
+════════════════════════════════════════════════════════════
+
+Staged Kotlin files:
+  • shared-ui/home/di/HomeModuleHilt.kt
+
+Step 1: Checking code style...
+
+Code style issues found. Analyzing...
+
+❌ Found 1 issue(s) that cannot be auto-corrected!
+
+Non-auto-correctable issues:
+  HomeModuleHilt.kt:1:1 File 'HomeModuleHilt.kt' contains a single class and should be named 'HomeModule.kt' (cannot be auto-corrected)
+
+These issues must be fixed manually before committing.
+
+Common fixes:
+  • File naming: Add @file:Suppress("MatchingDeclarationName") if temporary
+  • Or rename the file to match the class name
 
 After fixing issues:
   1. Stage your changes: git add <files>
@@ -78,53 +162,6 @@ After fixing issues:
 
 To bypass this check (not recommended):
   git commit --no-verify
-```
-
-**Example Output:**
-
-No Kotlin files staged:
-```
-════════════════════════════════════════════════════════════
-Running ktlint format on staged files...
-════════════════════════════════════════════════════════════
-
-✅ No Kotlin files staged for commit
-✅ Commit proceeding...
-```
-
-Files auto-formatted:
-```
-════════════════════════════════════════════════════════════
-Running ktlint format on staged files...
-════════════════════════════════════════════════════════════
-
-Staged Kotlin files:
-  • android/mobile/app/src/main/java/Example.kt
-
-Temporarily stashing unstaged changes...
-Restoring unstaged changes...
-
-⚠️  Staged files were auto-formatted by ktlint!
-
-Auto-formatted files:
-  • android/mobile/app/src/main/java/Example.kt
-
-Re-staging formatted files...
-✅ Formatted files have been re-staged
-✅ Commit proceeding...
-```
-
-No formatting needed:
-```
-════════════════════════════════════════════════════════════
-Running ktlint format on staged files...
-════════════════════════════════════════════════════════════
-
-Staged Kotlin files:
-  • android/mobile/app/src/main/java/Example.kt
-
-✅ No formatting changes needed
-✅ Commit proceeding...
 ```
 
 ### pre-push Hook

@@ -29,7 +29,7 @@ class SettingsViewModel
         private val settingsInteractor: SettingsInteractor,
         private val mapper: SettingsViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) : ViewModel() {
         val screenViewState =
             settingsInteractor
@@ -58,7 +58,7 @@ class SettingsViewModel
                     )
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editWorkPeriodLength::current state does not allow this now",
                 )
@@ -72,7 +72,7 @@ class SettingsViewModel
                     _dialogViewState.emit(SettingsDialog.None)
                 }
             } else {
-                hiitLogger.d(
+                logger.d(
                     "SettingsViewModel",
                     "setWorkPeriodLength:: invalid input, this should never happen",
                 )
@@ -101,7 +101,7 @@ class SettingsViewModel
                     )
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editRestPeriodLength::current state does not allow this now",
                 )
@@ -115,7 +115,7 @@ class SettingsViewModel
                     _dialogViewState.emit(SettingsDialog.None)
                 }
             } else {
-                hiitLogger.d(
+                logger.d(
                     "SettingsViewModel",
                     "setRestPeriodLength:: invalid input, this should never happen",
                 )
@@ -130,7 +130,7 @@ class SettingsViewModel
                     _dialogViewState.emit(SettingsDialog.EditNumberCycles(currentValue))
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editRestPeriodLength::current state does not allow this now",
                 )
@@ -144,7 +144,7 @@ class SettingsViewModel
                     _dialogViewState.emit(SettingsDialog.None)
                 }
             } else {
-                hiitLogger.d(
+                logger.d(
                     "SettingsViewModel",
                     "setNumberOfWorkPeriods:: invalid input, this should never happen",
                 )
@@ -160,7 +160,7 @@ class SettingsViewModel
                     settingsInteractor.setBeepSound(!currentViewState.beepSoundCountDownActive)
                 }
             } else {
-                hiitLogger.e("SettingsViewModel", "setBeepSound::current state does not allow this now")
+                logger.e("SettingsViewModel", "setBeepSound::current state does not allow this now")
             }
         }
 
@@ -174,7 +174,7 @@ class SettingsViewModel
                     )
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editSessionStartCountDown::current state does not allow this now",
                 )
@@ -188,7 +188,7 @@ class SettingsViewModel
                     _dialogViewState.emit(SettingsDialog.None)
                 }
             } else {
-                hiitLogger.d(
+                logger.d(
                     "SettingsViewModel",
                     "setSessionStartCountDown:: invalid input, this should never happen",
                 )
@@ -208,7 +208,7 @@ class SettingsViewModel
                     )
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editPeriodStartCountDown::current state does not allow this now",
                 )
@@ -222,7 +222,7 @@ class SettingsViewModel
                     _dialogViewState.emit(SettingsDialog.None)
                 }
             } else {
-                hiitLogger.d(
+                logger.d(
                     "SettingsViewModel",
                     "setPeriodStartCountDown:: invalid input, this should never happen",
                 )
@@ -262,13 +262,13 @@ class SettingsViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 val result = settingsInteractor.createUser(user)
                 when (result) {
-                    is Output.Success ->
+                    is Output.Success -> {
                         _dialogViewState.emit(
                             SettingsDialog.None,
                         )
-
+                    }
                     is Output.Error -> {
-                        hiitLogger.e(
+                        logger.e(
                             "SettingsViewModel",
                             "createUser::error happened:${result.errorCode}",
                             result.exception,
@@ -283,13 +283,13 @@ class SettingsViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 val result = settingsInteractor.updateUserName(user)
                 when (result) {
-                    is Output.Success ->
+                    is Output.Success -> {
                         _dialogViewState.emit(
                             SettingsDialog.None,
                         )
-
+                    }
                     is Output.Error -> {
-                        hiitLogger.e(
+                        logger.e(
                             "SettingsViewModel",
                             "updateUser::error happened:${result.errorCode}",
                             result.exception,
@@ -310,13 +310,13 @@ class SettingsViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 val result = settingsInteractor.deleteUser(user)
                 when (result) {
-                    is Output.Success ->
+                    is Output.Success -> {
                         _dialogViewState.emit(
                             SettingsDialog.None,
                         )
-
+                    }
                     is Output.Error -> {
-                        hiitLogger.e(
+                        logger.e(
                             "SettingsViewModel",
                             "deleteUserConfirmation::error happened:${result.errorCode}",
                             result.exception,
@@ -339,7 +339,7 @@ class SettingsViewModel
                     settingsInteractor.saveSelectedExerciseTypes(toggledList)
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "toggleSelectedExercise::current state does not allow this now",
                 )
@@ -355,7 +355,7 @@ class SettingsViewModel
                     )
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editLanguage::current state does not allow this now",
                 )
@@ -378,7 +378,7 @@ class SettingsViewModel
                     )
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "SettingsViewModel",
                     "editTheme::current state does not allow this now",
                 )

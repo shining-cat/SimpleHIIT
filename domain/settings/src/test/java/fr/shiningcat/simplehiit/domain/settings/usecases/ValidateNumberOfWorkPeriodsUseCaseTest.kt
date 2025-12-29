@@ -17,7 +17,7 @@ internal class ValidateNumberOfWorkPeriodsUseCaseTest : AbstractMockkTest() {
         expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
-            ValidateNumberOfWorkPeriodsUseCase(hiitLogger = mockHiitLogger)
+            ValidateNumberOfWorkPeriodsUseCase(logger = mockHiitLogger)
         val result = testedUseCase.execute(input)
         //
         assertEquals(expectedOutput, result)

@@ -18,7 +18,7 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
         expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
-            ValidatePeriodLengthUseCase(hiitLogger = mockHiitLogger)
+            ValidatePeriodLengthUseCase(logger = mockHiitLogger)
         val result = testedUseCase.execute(input, periodCountDownLengthSeconds)
         //
         assertEquals(expectedOutput, result)

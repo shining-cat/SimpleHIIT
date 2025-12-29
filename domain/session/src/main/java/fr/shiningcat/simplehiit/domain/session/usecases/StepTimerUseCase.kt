@@ -22,7 +22,7 @@ class StepTimerUseCase
     constructor(
         @TimerDispatcher private val timerDispatcher: CoroutineDispatcher,
         private val timeProvider: TimeProvider,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         private var _timerStateFlow = MutableStateFlow(StepTimerState())
         val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
@@ -30,7 +30,7 @@ class StepTimerUseCase
         private var startTimeStamp = 0L
 
         suspend fun start(totalMilliSeconds: Long) {
-            hiitLogger.d("StepTimerUseCase", "start::totalMilliSeconds = $totalMilliSeconds")
+            logger.d("StepTimerUseCase", "start::totalMilliSeconds = $totalMilliSeconds")
             return withContext(timerDispatcher) {
                 initTimer(totalMilliSeconds) // any work done in that Flow will be cancelled if the coroutine is cancelled
                     .flowOn(timerDispatcher)
@@ -62,7 +62,7 @@ class StepTimerUseCase
                     val nextTickWallClockTime = startTimeStamp + (elapsedTicks * oneSecondAsMs)
                     val currentTime = timeProvider.getCurrentTimeMillis()
                     val adjustedDelay = nextTickWallClockTime - currentTime
-                    hiitLogger.d("StepTimerUseCase", "initTimer::ticker loop::adjustedDelay = $adjustedDelay")
+                    logger.d("StepTimerUseCase", "initTimer::ticker loop::adjustedDelay = $adjustedDelay")
                     if (adjustedDelay > 0) {
                         delay(adjustedDelay)
                     }

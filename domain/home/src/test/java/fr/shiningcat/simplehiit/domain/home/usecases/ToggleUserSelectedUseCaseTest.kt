@@ -25,7 +25,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
                 ToggleUserSelectedUseCase(
                     usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val successFromRepo = Output.Success(1)
@@ -44,7 +44,7 @@ internal class ToggleUserSelectedUseCaseTest : AbstractMockkTest() {
                 ToggleUserSelectedUseCase(
                     usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val exceptionMessage = "this is a test exception"

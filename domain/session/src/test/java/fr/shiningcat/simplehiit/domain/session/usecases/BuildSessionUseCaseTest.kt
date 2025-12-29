@@ -38,7 +38,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
             BuildSessionUseCase(
                 composeExercisesListForSessionUseCase = mockComposeExercisesListForSessionUseCase,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                hiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         coEvery {
             mockComposeExercisesListForSessionUseCase.execute(

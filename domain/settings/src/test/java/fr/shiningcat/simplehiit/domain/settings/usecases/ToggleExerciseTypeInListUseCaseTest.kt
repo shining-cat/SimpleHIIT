@@ -19,7 +19,7 @@ internal class ToggleExerciseTypeInListUseCaseTest : AbstractMockkTest() {
         expectedOutput: List<ExerciseTypeSelected>,
     ) = runTest {
         val testedUseCase =
-            ToggleExerciseTypeInListUseCase(hiitLogger = mockHiitLogger)
+            ToggleExerciseTypeInListUseCase(logger = mockHiitLogger)
         val result =
             testedUseCase.execute(
                 currentList = startList,

@@ -25,7 +25,7 @@ internal class SetBeepSoundUseCaseTest : AbstractMockkTest() {
                 SetBeepSoundUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.setBeepSound(any()) } just Runs
             //

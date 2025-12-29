@@ -17,7 +17,7 @@ class BuildSessionUseCase
     constructor(
         private val composeExercisesListForSessionUseCase: ComposeExercisesListForSessionUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(sessionSettings: SessionSettings): Session =
             withContext(defaultDispatcher) {
@@ -84,14 +84,12 @@ class BuildSessionUseCase
                                     // if previous exercise was the same, then we are handling an asymmetrical for the second side
                                     AsymmetricalExerciseSideOrder.SECOND.side
                                 }
-
                                 exercisesList.getOrNull(index + 1) -> {
                                     // if next exercise will be the same, then we are handling an asymmetrical for the first side
                                     AsymmetricalExerciseSideOrder.FIRST.side
                                 }
-
                                 else -> { // this should not happen
-                                    hiitLogger.e(
+                                    logger.e(
                                         "BuildSessionStepsList",
                                         "Error while identifying asymmetrical exercises",
                                     )
@@ -134,8 +132,8 @@ class BuildSessionUseCase
                         )
                     allSteps.add(workStep)
                 }
-                hiitLogger.d("BuildSessionStepsList", "execute::input exercisesList : $exercisesList")
-                hiitLogger.d("BuildSessionStepsList", "execute::output stepsList : $allSteps")
+                logger.d("BuildSessionStepsList", "execute::input exercisesList : $exercisesList")
+                logger.d("BuildSessionStepsList", "execute::output stepsList : $allSteps")
                 allSteps.toList()
             }
     }

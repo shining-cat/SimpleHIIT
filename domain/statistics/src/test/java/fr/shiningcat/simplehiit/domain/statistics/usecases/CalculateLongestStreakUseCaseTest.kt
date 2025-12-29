@@ -27,7 +27,7 @@ internal class CalculateLongestStreakUseCaseTest : AbstractMockkTest() {
             CalculateLongestStreakUseCase(
                 consecutiveDaysOrCloserUseCase = mockConsecutiveDaysOrCloserUseCaseTest,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         coEvery {
             mockConsecutiveDaysOrCloserUseCaseTest.execute(

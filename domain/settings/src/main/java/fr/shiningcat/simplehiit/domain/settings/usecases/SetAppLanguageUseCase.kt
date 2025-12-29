@@ -10,7 +10,7 @@ class SetAppLanguageUseCase
     @Inject
     constructor(
         private val languageRepository: LanguageRepository,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(language: AppLanguage): Output<Int> = languageRepository.setAppLanguage(language)
     }

@@ -24,7 +24,7 @@ internal class StepTimerUseCaseTest : AbstractMockkTest() {
                 StepTimerUseCase(
                     timerDispatcher = testDispatcher,
                     timeProvider = testTimeProvider,
-                    hiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             //
             val stepTimerStatesAsList = mutableListOf<StepTimerState>()

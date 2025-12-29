@@ -22,7 +22,7 @@ class HomeViewModel
         private val homeInteractor: HomeInteractor,
         private val homeViewStateMapper: HomeViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) : ViewModel() {
         val screenViewState =
             homeInteractor
@@ -56,14 +56,14 @@ class HomeViewModel
                     if (currentNumberCycles + change > 0) {
                         homeInteractor.setTotalRepetitionsNumber(currentNumberCycles + change)
                     } else {
-                        hiitLogger.e(
+                        logger.e(
                             "HomeViewModel",
                             "modifyNumberCycles::can't reach negative values",
                         )
                     }
                 }
             } else {
-                hiitLogger.e(
+                logger.e(
                     "HomeViewModel",
                     "modifyNumberCycles::current state does not allow this now",
                 )
@@ -73,7 +73,7 @@ class HomeViewModel
         enum class NumberCycleModification { INCREASE, DECREASE }
 
         fun toggleSelectedUser(user: User) {
-            hiitLogger.d(
+            logger.d(
                 "HomeViewModel",
                 "toggleSelectedUser::user:: was selected = ${user.selected}, toggling to ${!user.selected}",
             )

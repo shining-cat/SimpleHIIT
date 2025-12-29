@@ -11,7 +11,7 @@ class CalculateLongestStreakUseCase
     constructor(
         private val consecutiveDaysOrCloserUseCase: ConsecutiveDaysOrCloserUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(
             timestamps: List<Long>,
@@ -37,8 +37,9 @@ class CalculateLongestStreakUseCase
                                 // the two sessions occurred on the same day, not increasing counter, but not breaking streak
                             }
                         }
-
-                        Consecutiveness.CONSECUTIVE_DAYS -> streakCounter++
+                        Consecutiveness.CONSECUTIVE_DAYS -> {
+                            streakCounter++
+                        }
                         Consecutiveness.NON_CONSECUTIVE_DAYS -> {
                             // if the current evaluated streak is the longest, update result
                             if (streakCounter > longestStreak) longestStreak = streakCounter

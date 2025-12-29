@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename") // Temporary during Hilt->Koin migration
+
 package fr.shiningcat.simplehiit.data.local.di
 
 import android.content.Context

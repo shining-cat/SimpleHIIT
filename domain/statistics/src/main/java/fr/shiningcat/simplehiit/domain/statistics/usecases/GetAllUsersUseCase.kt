@@ -15,7 +15,7 @@ class GetAllUsersUseCase
     @Inject
     constructor(
         private val usersRepository: UsersRepository,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(): Flow<Output<NonEmptyList<User>>> {
             val allUsersFlow =
@@ -24,7 +24,7 @@ class GetAllUsersUseCase
                         is Output.Success -> {
                             val nonEmptyList = NonEmptyList.fromList(it.result)
                             if (nonEmptyList == null) {
-                                simpleHiitLogger.e("GetAllUsersUseCase", "No users found")
+                                logger.e("GetAllUsersUseCase", "No users found")
                                 val emptyResultException = Exception(NO_RESULTS_FOUND)
                                 Output.Error(
                                     errorCode = Constants.Errors.NO_USERS_FOUND,
@@ -34,8 +34,9 @@ class GetAllUsersUseCase
                                 Output.Success(nonEmptyList)
                             }
                         }
-
-                        is Output.Error -> it
+                        is Output.Error -> {
+                            it
+                        }
                     }
                 }
             return allUsersFlow
