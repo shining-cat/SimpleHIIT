@@ -5,7 +5,6 @@ import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -18,14 +17,24 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrang
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import javax.inject.Inject
 
+/**
+ * Main activity for SimpleHIIT Mobile.
+ * Currently supports both Hilt and Koin during migration.
+ *
+ * TODO: Remove @AndroidEntryPoint and @Inject after full migration.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    lateinit var hiitLogger: HiitLogger
+    lateinit var hiitLoggerHilt: HiitLogger
 
-    private val viewModel: MainViewModel by viewModels()
+    // Koin injection
+    private val hiitLogger: HiitLogger by inject()
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
