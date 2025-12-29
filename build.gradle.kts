@@ -65,7 +65,7 @@ fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusio
         annotatedBy("javax.annotation.Generated")
         annotatedBy("dagger.internal.DaggerGenerated")
 
-        // Exclude Dagger/Hilt generated classes
+        // Exclude Dagger/Hilt generated classes (will be removed after Koin migration)
         classes("*_Factory")
         classes("*_Factory$*")
         classes("*_MembersInjector")
