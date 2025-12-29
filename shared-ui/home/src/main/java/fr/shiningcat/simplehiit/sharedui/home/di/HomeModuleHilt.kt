@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:filename") // Temporary during Hilt->Koin migration
+
 package fr.shiningcat.simplehiit.sharedui.home.di
 
 import dagger.Binds

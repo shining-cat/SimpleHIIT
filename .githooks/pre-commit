@@ -1,18 +1,24 @@
 #!/bin/bash
 #
-# Ktlint pre-commit hook
-# This hook runs ktlintFormat on staged files before allowing a commit
+# Ktlint pre-commit hook - Enhanced version
+# This hook ensures code quality by checking and formatting staged files
 #
 # Installation:
 #   Run once from repository root: ./.githooks/setup.sh
 #   This configures git to use .githooks directory for all hooks
 #
+# Workflow:
+# 1. Run ktlintCheck on staged files
+# 2. If all issues are auto-correctable -> format and re-check
+# 3. If any non-auto-correctable issues -> fail immediately with clear feedback
+# 4. Block commit only if formatting cannot fix all issues
+#
 # Features:
-# - Only formats files that are staged for commit (supports partial commits)
-# - Temporarily stashes unstaged changes to avoid formatting them
+# - Only processes files that are staged for commit
+# - Temporarily stashes unstaged changes to avoid modifying them
 # - Automatically re-stages formatted files
+# - Fast-fails on non-auto-correctable issues
 # - Provides clear, color-coded console feedback
-# - Blocks commits if formatting issues cannot be auto-fixed
 #
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -28,7 +34,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}Running ktlint format on staged files...${NC}"
+echo -e "${BLUE}Running ktlint checks on staged files...${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
 
 # Get list of staged Kotlin files
@@ -51,63 +57,55 @@ UNSTAGED_CHANGES=$(git diff --name-only)
 
 if [ -n "$UNSTAGED_CHANGES" ]; then
     echo -e "${BLUE}Temporarily stashing unstaged changes...${NC}"
-    # Stash only unstaged changes (keep staged changes in index)
     git stash push --keep-index --quiet --message "pre-commit-hook-temp-stash"
     STASHED=1
 else
     STASHED=0
 fi
 
-# Run ktlintFormat with daemon for faster execution
-./gradlew ktlintFormat --daemon
-KTLINT_EXIT_CODE=$?
+# Function to restore stash if needed
+restore_stash() {
+    if [ $STASHED -eq 1 ]; then
+        echo -e "${BLUE}Restoring unstaged changes...${NC}"
+        git stash pop --quiet
+    fi
+}
 
-# Restore stashed changes if we stashed anything
-if [ $STASHED -eq 1 ]; then
-    echo -e "${BLUE}Restoring unstaged changes...${NC}"
-    git stash pop --quiet
+# Step 1: Run ktlintCheck to see current state
+echo -e "${BLUE}Step 1: Checking code style...${NC}"
+./gradlew ktlintCheck --daemon > /tmp/ktlint_check.log 2>&1
+CHECK_EXIT_CODE=$?
+
+if [ $CHECK_EXIT_CODE -eq 0 ]; then
+    # All good! Code is already properly formatted
+    echo ""
+    echo -e "${GREEN}✅ Code style check passed${NC}"
+    echo -e "${GREEN}✅ Commit proceeding...${NC}"
+    restore_stash
+    exit 0
 fi
 
-if [ $KTLINT_EXIT_CODE -eq 0 ]; then
-    # Check if any of the staged files were modified by the formatter
-    MODIFIED_STAGED_FILES=""
-    for file in $STAGED_KOTLIN_FILES; do
-        if [ -f "$file" ] && ! git diff --quiet -- "$file"; then
-            MODIFIED_STAGED_FILES="$MODIFIED_STAGED_FILES$file\n"
-        fi
-    done
-    
-    if [ -n "$MODIFIED_STAGED_FILES" ]; then
-        echo ""
-        echo -e "${YELLOW}⚠️  Staged files were auto-formatted by ktlint!${NC}"
-        echo ""
-        echo -e "${YELLOW}Auto-formatted files:${NC}"
-        echo -e "$MODIFIED_STAGED_FILES" | sed 's/^/  • /'
-        echo ""
-        echo -e "${YELLOW}Re-staging formatted files...${NC}"
-        
-        # Re-stage the formatted files
-        for file in $STAGED_KOTLIN_FILES; do
-            if [ -f "$file" ] && ! git diff --quiet -- "$file"; then
-                git add "$file"
-            fi
-        done
-        
-        echo -e "${GREEN}✅ Formatted files have been re-staged${NC}"
-        echo -e "${GREEN}✅ Commit proceeding...${NC}"
-        exit 0
-    else
-        echo ""
-        echo -e "${GREEN}✅ No formatting changes needed${NC}"
-        echo -e "${GREEN}✅ Commit proceeding...${NC}"
-        exit 0
-    fi
-else
+# Step 2: Analyze the failures
+echo ""
+echo -e "${YELLOW}Code style issues found. Analyzing...${NC}"
+
+# Check if there are non-auto-correctable issues
+# Ktlint reports these with "(cannot be auto-corrected)"
+NON_AUTO_CORRECTABLE=$(grep -c "cannot be auto-corrected" /tmp/ktlint_check.log || true)
+
+if [ "$NON_AUTO_CORRECTABLE" -gt 0 ]; then
+    # There are issues that cannot be auto-fixed - fail immediately
     echo ""
-    echo -e "${RED}❌ Ktlint formatting failed! Commit blocked.${NC}"
+    echo -e "${RED}❌ Found $NON_AUTO_CORRECTABLE issue(s) that cannot be auto-corrected!${NC}"
     echo ""
-    echo -e "${YELLOW}The formatter encountered issues that cannot be auto-fixed.${NC}"
-    echo -e "${YELLOW}Review the errors above and fix them manually.${NC}"
+    echo -e "${RED}Non-auto-correctable issues:${NC}"
+    grep "cannot be auto-corrected" /tmp/ktlint_check.log | sed 's/^/  /'
+    echo ""
+    echo -e "${YELLOW}These issues must be fixed manually before committing.${NC}"
+    echo ""
+    echo -e "${YELLOW}Common fixes:${NC}"
+    echo -e "${YELLOW}  • File naming: Add @file:Suppress(\"MatchingDeclarationName\") if temporary${NC}"
+    echo -e "${YELLOW}  • Or rename the file to match the class name${NC}"
     echo ""
     echo -e "${YELLOW}After fixing issues:${NC}"
     echo -e "${YELLOW}  1. Stage your changes: git add <files>${NC}"
@@ -115,5 +113,67 @@ else
     echo ""
     echo -e "${YELLOW}To bypass this check (not recommended):${NC}"
     echo -e "${YELLOW}  git commit --no-verify${NC}"
+    restore_stash
     exit 1
 fi
+
+# Step 3: All issues are auto-correctable, so format the code
+echo ""
+echo -e "${YELLOW}All issues are auto-correctable. Running formatter...${NC}"
+./gradlew ktlintFormat --daemon
+FORMAT_EXIT_CODE=$?
+
+if [ $FORMAT_EXIT_CODE -ne 0 ]; then
+    echo ""
+    echo -e "${RED}❌ Formatting failed unexpectedly! Commit blocked.${NC}"
+    echo -e "${YELLOW}Review the errors and fix them manually.${NC}"
+    restore_stash
+    exit 1
+fi
+
+# Step 4: Verify that formatting fixed all issues
+echo ""
+echo -e "${BLUE}Step 2: Verifying formatting fixed all issues...${NC}"
+./gradlew ktlintCheck --daemon > /tmp/ktlint_recheck.log 2>&1
+RECHECK_EXIT_CODE=$?
+
+if [ $RECHECK_EXIT_CODE -ne 0 ]; then
+    # This shouldn't happen, but if it does, fail clearly
+    echo ""
+    echo -e "${RED}❌ Formatting did not fix all issues! Commit blocked.${NC}"
+    echo ""
+    cat /tmp/ktlint_recheck.log
+    echo ""
+    echo -e "${YELLOW}This is unexpected. Please review the errors above.${NC}"
+    restore_stash
+    exit 1
+fi
+
+# Step 5: Re-stage formatted files
+echo ""
+MODIFIED_STAGED_FILES=""
+for file in $STAGED_KOTLIN_FILES; do
+    if [ -f "$file" ] && ! git diff --quiet -- "$file"; then
+        MODIFIED_STAGED_FILES="$MODIFIED_STAGED_FILES$file\n"
+    fi
+done
+
+if [ -n "$MODIFIED_STAGED_FILES" ]; then
+    echo -e "${YELLOW}Auto-formatted files:${NC}"
+    echo -e "$MODIFIED_STAGED_FILES" | sed 's/^/  • /'
+    echo ""
+    echo -e "${YELLOW}Re-staging formatted files...${NC}"
+    
+    for file in $STAGED_KOTLIN_FILES; do
+        if [ -f "$file" ] && ! git diff --quiet -- "$file"; then
+            git add "$file"
+        fi
+    done
+    
+    echo -e "${GREEN}✅ Formatted files have been re-staged${NC}"
+fi
+
+echo -e "${GREEN}✅ All code style checks passed${NC}"
+echo -e "${GREEN}✅ Commit proceeding...${NC}"
+restore_stash
+exit 0
