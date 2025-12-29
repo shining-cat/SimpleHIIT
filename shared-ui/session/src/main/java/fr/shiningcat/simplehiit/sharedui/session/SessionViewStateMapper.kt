@@ -17,7 +17,7 @@ class SessionViewStateMapper
         private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
         @Suppress("UNUSED_PARAMETER")
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun buildStateFromWholeSession(
             session: Session,
@@ -70,8 +70,7 @@ class SessionViewStateMapper
                             )
                         SessionViewState.InitialCountDownSession(countDown = sessionCountDown)
                     }
-
-                    is SessionStep.RestStep ->
+                    is SessionStep.RestStep -> {
                         SessionViewState.RunningNominal(
                             periodType = RunningSessionStepType.REST,
                             displayedExercise = currentStep.exercise,
@@ -82,8 +81,8 @@ class SessionViewStateMapper
                             sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                             countDown = periodCountDown,
                         )
-
-                    is SessionStep.WorkStep ->
+                    }
+                    is SessionStep.WorkStep -> {
                         SessionViewState.RunningNominal(
                             periodType = RunningSessionStepType.WORK,
                             displayedExercise = currentStep.exercise,
@@ -94,6 +93,7 @@ class SessionViewStateMapper
                             sessionRemainingPercentage = currentStepTimerState.remainingPercentage,
                             countDown = periodCountDown,
                         )
+                    }
                 }
             }
     }

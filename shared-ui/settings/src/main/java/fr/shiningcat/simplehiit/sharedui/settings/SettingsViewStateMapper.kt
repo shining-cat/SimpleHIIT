@@ -15,7 +15,7 @@ class SettingsViewStateMapper
     @Inject
     constructor(
         private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun map(generalSettingsOutput: Output<GeneralSettings>): SettingsViewState =
             when (generalSettingsOutput) {
@@ -57,8 +57,9 @@ class SettingsViewStateMapper
                         )
                     }
                 }
-
-                is Output.Error -> Error(generalSettingsOutput.errorCode.code)
+                is Output.Error -> {
+                    Error(generalSettingsOutput.errorCode.code)
+                }
             }
 
         private fun durationMsAsSeconds(durationMs: Long): String? {
@@ -67,7 +68,7 @@ class SettingsViewStateMapper
                 asSeconds.roundToInt().toString()
             }.onFailure { exception ->
                 // this should never happen as we can't get a NaN as a Long
-                hiitLogger.e("SettingsMapper", "durationMsAsSeconds", exception)
+                logger.e("SettingsMapper", "durationMsAsSeconds", exception)
             }.getOrNull()
         }
     }

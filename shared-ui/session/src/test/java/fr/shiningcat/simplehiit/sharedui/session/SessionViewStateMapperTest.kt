@@ -46,7 +46,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
             SessionViewStateMapper(
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
                 defaultDispatcher = testDispatcher,
-                hiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         //
         val result =

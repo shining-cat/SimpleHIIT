@@ -14,7 +14,7 @@ class StatisticsViewStateMapper
     constructor(
         private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
         @Suppress("UNUSED_PARAMETER")
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun mapUsersError(errorCode: Constants.Errors): StatisticsViewState =
             if (errorCode == Constants.Errors.NO_USERS_FOUND) {

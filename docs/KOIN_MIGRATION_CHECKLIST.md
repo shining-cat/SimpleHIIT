@@ -6,7 +6,7 @@
 
 ---
 
-## ✅ COMPLETED MODULES (8/17)
+## ✅ COMPLETED MODULES (12/17)
 
 ### 1. ✅ data module
 - [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
@@ -77,19 +77,39 @@
 
 ### Priority 2: Shared-UI Modules (After Domain)
 
-**IMPORTANT:** These use `@InstallIn(ViewModelComponent::class)` not SingletonComponent!
+#### 9. ✅ shared-ui/home
+- [x] Updated `build.gradle.kts` - added both plugins
+- [x] Created `HomeModuleKoin.kt` (Koin) - ViewModel, Interactor, ViewStateMapper
+- [x] Renamed existing to `HomeModuleHilt.kt` (Hilt temporary)
+- [x] Used `factory` for ViewModelComponent-scoped dependencies
 
-#### 9. ⬜ shared-ui/home
-**Dependencies:** domain/home, domain/common
-**Current DI:** `HomeInteractorImpl` (ViewModelComponent scope)
+**Files to delete after full migration:**
+- `shared-ui/home/src/main/java/fr/shiningcat/simplehiit/sharedui/home/di/HomeModuleHilt.kt`
 
-**Migration Considerations:**
-- Koin equivalent: `viewModel { }` or `factory { }` for ViewModel-scoped
-- May need to inject into ViewModels differently
+#### 10. ✅ shared-ui/session
+- [x] Updated `build.gradle.kts` - added both plugins
+- [x] Created `SessionModuleKoin.kt` (Koin) - ViewModel, Interactor, ViewStateMapper, SoundPool
+- [x] Renamed existing to `SessionModuleHilt.kt` (Hilt temporary)
+- [x] SoundPool as factory (was ViewModelScoped, released in ViewModel.onCleared())
 
-#### 10. ⬜ shared-ui/session
-#### 11. ⬜ shared-ui/settings
-#### 12. ⬜ shared-ui/statistics
+**Files to delete after full migration:**
+- `shared-ui/session/src/main/java/fr/shiningcat/simplehiit/sharedui/session/di/SessionModuleHilt.kt`
+
+#### 11. ✅ shared-ui/settings
+- [x] Updated `build.gradle.kts` - added both plugins
+- [x] Created `SettingsModuleKoin.kt` (Koin) - ViewModel, Interactor, ViewStateMapper
+- [x] Renamed existing to `SettingsModuleHilt.kt` (Hilt temporary)
+
+**Files to delete after full migration:**
+- `shared-ui/settings/src/main/java/fr/shiningcat/simplehiit/sharedui/settings/di/SettingsModuleHilt.kt`
+
+#### 12. ✅ shared-ui/statistics
+- [x] Updated `build.gradle.kts` - added both plugins
+- [x] Created `StatisticsModuleKoin.kt` (Koin) - ViewModel, Interactor, ViewStateMapper
+- [x] Renamed existing to `StatisticsModuleHilt.kt` (Hilt temporary)
+
+**Files to delete after full migration:**
+- `shared-ui/statistics/src/main/java/fr/shiningcat/simplehiit/sharedui/statistics/di/StatisticsModuleHilt.kt`
 
 ---
 
@@ -99,6 +119,13 @@
 #### 14. ⬜ android/tv/app
 #### 15. ⬜ android/mobile/ui/* modules
 #### 16. ⬜ android/tv/ui/* modules
+
+---
+
+### Priority 4: clean up
+
+verify all di declarations are the simplest they can be, do they use unnecessary large scopes (like a single for a stateless object)
+verify all koin declarations use the shortest and simplest syntax (some di frameworks allow for implicit definitions)
 
 ---
 
@@ -247,8 +274,8 @@ rm path/to/original/Module.kt
 
 ```
 Total Modules: 17
-Completed: 8 (47%)
-Remaining: 9 (53%)
+Completed: 12 (71%)
+Remaining: 5 (29%)
 
 ✅ data
 ✅ commonUtils
@@ -258,10 +285,10 @@ Remaining: 9 (53%)
 ✅ domain/session
 ✅ domain/settings
 ✅ domain/statistics
-⬜ shared-ui/home
-⬜ shared-ui/session
-⬜ shared-ui/settings
-⬜ shared-ui/statistics
+✅ shared-ui/home
+✅ shared-ui/session
+✅ shared-ui/settings
+✅ shared-ui/statistics
 ⬜ android/mobile/app
 ⬜ android/tv/app
 ⬜ UI modules (mobile/tv)
@@ -303,5 +330,5 @@ Update `build-logic/convention` to remove Hilt setup
 ---
 
 **Document Created:** 2025-12-29
-**Last Updated:** 2025-12-29 12:31 CET
-**Status:** Domain layer migration complete (8/17 modules total). Next: shared-ui layer.
+**Last Updated:** 2025-12-29 12:51 CET
+**Status:** Domain and shared-ui layers complete (12/17 modules - 71%). Next: app modules.

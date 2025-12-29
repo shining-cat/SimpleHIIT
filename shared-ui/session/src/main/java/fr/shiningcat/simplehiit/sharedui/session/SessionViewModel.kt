@@ -29,8 +29,8 @@ class SessionViewModel
         private val mapper: SessionViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val timeProvider: TimeProvider,
-        private val soundPool: SoundPool,
-        private val hiitLogger: HiitLogger,
+        private val soundPoolFactory: SoundPoolFactory,
+        private val logger: HiitLogger,
     ) : ViewModel() {
         // Screen state - manually managed due to complex ViewModel-internal state dependencies
         // (session object, currentSessionStepIndex) that can't be purely derived from flows
@@ -53,9 +53,12 @@ class SessionViewModel
         private var stepTimerJob: Job? = null
         private var beepSoundLoadedId: Int? = null
 
+        // SoundPool created from factory (eager initialization)
+        private val soundPool: SoundPool = soundPoolFactory.create()
+
         init {
-            hiitLogger.d("SessionViewModel", "initializing with hybrid state management")
-            hiitLogger.d(
+            logger.d("SessionViewModel", "initializing with hybrid state management")
+            logger.d(
                 "SessionViewModel",
                 "soundPool created, awaiting sound to be loaded to proceed",
             )
@@ -63,12 +66,12 @@ class SessionViewModel
                 // loading success if status == 0
                 if (loadingStatus == 0) {
                     this.beepSoundLoadedId = sampleId
-                    hiitLogger.d(
+                    logger.d(
                         "SessionViewModel",
                         "sound loaded in soundPool, proceeding with SessionViewModel initialization...",
                     )
                 } else {
-                    hiitLogger.e(
+                    logger.e(
                         "SessionViewModel",
                         "SOUND FAILED LOADING IN SOUNDPOOL, proceeding with SessionViewModel initialization...",
                     )
@@ -97,7 +100,7 @@ class SessionViewModel
                 sessionInteractor.getSessionSettings().collect { sessionSettingsOutput ->
                     when (sessionSettingsOutput) {
                         is Output.Error -> {
-                            hiitLogger.e(
+                            logger.e(
                                 "SessionViewModel",
                                 "init::getSessionSettingsUseCase returned error: ",
                                 sessionSettingsOutput.exception,
@@ -124,7 +127,7 @@ class SessionViewModel
         private fun launchSession() {
             val immutableSession = session
             if (immutableSession == null) {
-                hiitLogger.e("SessionViewModel", "tick::session is NULL!")
+                logger.e("SessionViewModel", "tick::session is NULL!")
                 viewModelScope.launch(context = mainDispatcher) {
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
                 }
@@ -141,14 +144,14 @@ class SessionViewModel
         private fun tick(stepTimerState: StepTimerState) {
             val immutableSession = session
             if (immutableSession == null) {
-                hiitLogger.e("SessionViewModel", "tick::session is NULL!")
+                logger.e("SessionViewModel", "tick::session is NULL!")
                 viewModelScope.launch(context = mainDispatcher) {
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
                 }
             } else {
                 val currentStep = immutableSession.steps[currentSessionStepIndex]
                 val sessionRemainingMs = stepTimerState.milliSecondsRemaining
-                hiitLogger.d(
+                logger.d(
                     tag = "SessionViewModel",
                     msg =
                         "tick: step $currentStep: remaining ms: $sessionRemainingMs",
@@ -156,7 +159,7 @@ class SessionViewModel
                 if (sessionRemainingMs == 0L) { // whole session end
                     // play last (when timer reaches 0) beep sound
                     maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
-                    hiitLogger.d("SessionViewModel", "tick: Session finished")
+                    logger.d("SessionViewModel", "tick: Session finished")
                     emitSessionEndState()
                 } else { // build current running step state and emit
                     val timeRemainingTriggerNextStep = currentStep.remainingSessionDurationMsAfterMe
@@ -165,7 +168,7 @@ class SessionViewModel
                         // we do not display the "0" remaining seconds, but we want the beep sound to be played if setting is on
                         maybePlayBeepSound(forceBeep = immutableSession.beepSoundCountDownActive)
                         currentSessionStepIndex += 1
-                        hiitLogger.d(
+                        logger.d(
                             tag = "SessionViewModel",
                             msg =
                                 "tick: step $currentStep has ended, incrementing currentSessionStepIndex to:" +
@@ -208,7 +211,7 @@ class SessionViewModel
         private fun playBeepSound() {
             val loadedSound = beepSoundLoadedId
             if (loadedSound == null) {
-                hiitLogger.e(
+                logger.e(
                     "SessionViewModel",
                     "playBeepSound::no sound loaded in SoundPool! Has the sound been loaded through SessionViewModel.setLoadedSound?",
                 )
@@ -221,7 +224,7 @@ class SessionViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 val immutableSession = session
                 if (immutableSession == null) {
-                    hiitLogger.e("SessionViewModel", "emitSessionEndState::session is NULL!")
+                    logger.e("SessionViewModel", "emitSessionEndState::session is NULL!")
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
                 } else {
                     if (immutableSession.steps.last() is SessionStep.RestStep) {
@@ -244,14 +247,14 @@ class SessionViewModel
                         } else {
                             0L
                         }
-                    hiitLogger.d(
+                    logger.d(
                         tag = "SessionViewModel",
                         msg =
                             "emitSessionEndState::workingStepsDone = ${workingStepsDone.size} " +
                                 "| restStepsDone = ${restStepsDone.size} " +
                                 "| total steps = ${workingStepsDone.size + restStepsDone.size}",
                     )
-                    hiitLogger.d(
+                    logger.d(
                         tag = "SessionViewModel",
                         msg = "emitSessionEndState::actualSessionLength = $actualSessionLength",
                     )
@@ -274,13 +277,13 @@ class SessionViewModel
                                 durationMs = actualSessionLength,
                                 usersIds = session?.users?.map { it.id } ?: emptyList(),
                             )
-                        hiitLogger.d(
+                        logger.d(
                             "SessionViewModel",
                             "emitSessionEndState::sessionRecord: $sessionRecord",
                         )
                         sessionInteractor.insertSession(sessionRecord)
                     }
-                    hiitLogger.d(
+                    logger.d(
                         "SessionViewModel",
                         "emitSessionEndState emitting finished state: $actualSessionLengthFormatted",
                     )
@@ -295,14 +298,14 @@ class SessionViewModel
         }
 
         fun pause() {
-            hiitLogger.d("SessionViewModel", "pause")
+            logger.d("SessionViewModel", "pause")
             val immutableSession = session
             if (immutableSession == null) {
                 viewModelScope.launch(context = mainDispatcher) {
                     _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
                 }
             } else {
-                hiitLogger.d("SessionViewModel", "pause::stopping stepTimer")
+                logger.d("SessionViewModel", "pause::stopping stepTimer")
                 stepTimerJob?.cancel()
                 val currentStep = immutableSession.steps[currentSessionStepIndex]
                 if (currentStep is SessionStep.WorkStep) {
@@ -335,7 +338,7 @@ class SessionViewModel
         }
 
         fun abortSession() {
-            hiitLogger.d("SessionViewModel", "abortSession")
+            logger.d("SessionViewModel", "abortSession")
             stepTimerJob?.cancel()
             viewModelScope.launch(context = mainDispatcher) {
                 emitSessionEndState()
@@ -345,9 +348,9 @@ class SessionViewModel
 
         override fun onCleared() {
             super.onCleared()
-            hiitLogger.d("SessionViewModel", "onCleared::cancelling stepTimerJob")
+            logger.d("SessionViewModel", "onCleared::cancelling stepTimerJob")
             stepTimerJob?.cancel()
-            hiitLogger.d("SessionViewModel", "onCleared::releasing SoundPool")
+            logger.d("SessionViewModel", "onCleared::releasing SoundPool")
             soundPool.release()
         }
     }

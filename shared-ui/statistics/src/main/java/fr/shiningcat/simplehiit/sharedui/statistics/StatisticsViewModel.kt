@@ -23,7 +23,7 @@ class StatisticsViewModel
         private val mapper: StatisticsViewStateMapper,
         @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
         private val timeProvider: TimeProvider,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) : ViewModel() {
         // Statistics are loaded on-demand per user, not a continuous reactive stream
         private val _screenViewState =
@@ -39,7 +39,7 @@ class StatisticsViewModel
         private var currentUsers: NonEmptyList<User>? = null
 
         init {
-            hiitLogger.d("StatisticsViewModel", "initialized with hybrid state management")
+            logger.d("StatisticsViewModel", "initialized with hybrid state management")
             // Observe users and load stats for first user when available
             viewModelScope.launch(context = mainDispatcher) {
                 statisticsInteractor.getAllUsers().collect { usersOutput ->
@@ -57,11 +57,11 @@ class StatisticsViewModel
         }
 
         fun retrieveStatsForUser(user: User) {
-            hiitLogger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
+            logger.d("StatisticsViewModel", "retrieveStatsForUser::user = $user")
             viewModelScope.launch(context = mainDispatcher) {
                 val users = currentUsers
                 if (users == null) {
-                    hiitLogger.e("StatisticsViewModel", "retrieveStatsForUser called but currentUsers is null")
+                    logger.e("StatisticsViewModel", "retrieveStatsForUser called but currentUsers is null")
                     return@launch
                 }
 
@@ -93,12 +93,12 @@ class StatisticsViewModel
             viewModelScope.launch(context = mainDispatcher) {
                 val users = currentUsers
                 if (users == null) {
-                    hiitLogger.e("StatisticsViewModel", "openPickUser called but currentUsers is null")
+                    logger.e("StatisticsViewModel", "openPickUser called but currentUsers is null")
                     return@launch
                 }
 
                 if (users.size < 2) {
-                    hiitLogger.e(
+                    logger.e(
                         "StatisticsViewModel",
                         "openPickUser called but there is only 1 user or less",
                     )
@@ -108,7 +108,7 @@ class StatisticsViewModel
         }
 
         fun deleteAllSessionsForUser(user: User) {
-            hiitLogger.d(
+            logger.d(
                 "StatisticsViewModel",
                 "deleteAllSessionsForUser::user = $user",
             )

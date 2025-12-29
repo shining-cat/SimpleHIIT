@@ -15,7 +15,7 @@ class HomeViewStateMapper
     constructor(
         private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
         @Suppress("UNUSED_PARAMETER")
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun map(homeSettingsOutput: Output<HomeSettings>): HomeViewState =
             when (homeSettingsOutput) {
