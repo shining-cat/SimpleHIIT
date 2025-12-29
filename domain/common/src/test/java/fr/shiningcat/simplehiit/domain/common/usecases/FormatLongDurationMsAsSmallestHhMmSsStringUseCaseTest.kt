@@ -31,7 +31,7 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
         FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
             durationStringFormatterDigits = durationsFormatterDigits,
             durationStringFormatterShort = durationsFormatterShort,
-            hiitLogger = mockHiitLogger,
+            logger = mockHiitLogger,
         )
 
     @ParameterizedTest(name = "{index} -> {0} should become {1}")

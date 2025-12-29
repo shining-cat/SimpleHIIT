@@ -14,7 +14,7 @@ class InsertSessionUseCase
     constructor(
         private val sessionsRepository: SessionsRepository,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(sessionRecord: SessionRecord): Output<Int> =
             withContext(defaultDispatcher) {

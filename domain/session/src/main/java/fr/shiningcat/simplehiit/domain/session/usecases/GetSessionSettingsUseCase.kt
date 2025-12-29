@@ -15,7 +15,7 @@ class GetSessionSettingsUseCase
     constructor(
         private val usersRepository: UsersRepository,
         private val settingsRepository: SettingsRepository,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(): Flow<Output<SessionSettings>> {
             val usersFlow = usersRepository.getSelectedUsers()
@@ -23,7 +23,7 @@ class GetSessionSettingsUseCase
             return usersFlow.combineTransform(settingsFlow) { usersOutput, settings ->
                 if (usersOutput is Output.Error) {
                     val exception = usersOutput.exception
-                    simpleHiitLogger.e("GetGeneralSettingsUseCase", "Error retrieving users", exception)
+                    logger.e("GetGeneralSettingsUseCase", "Error retrieving users", exception)
                     emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
                 } else {
                     usersOutput as Output.Success

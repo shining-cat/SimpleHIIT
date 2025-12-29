@@ -7,7 +7,7 @@ import javax.inject.Inject
 class ToggleExerciseTypeInListUseCase
     @Inject
     constructor(
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(
             currentList: List<ExerciseTypeSelected>,

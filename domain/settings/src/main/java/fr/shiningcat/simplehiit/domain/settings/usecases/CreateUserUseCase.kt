@@ -16,13 +16,15 @@ class CreateUserUseCase
         private val usersRepository: UsersRepository,
         private val checkIfAnotherUserUsesThatNameUseCase: CheckIfAnotherUserUsesThatNameUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(user: User): Output<Long> =
             withContext(defaultDispatcher) {
                 val anotherUserUsesThatNameOutput = checkIfAnotherUserUsesThatNameUseCase.execute(user)
                 when (anotherUserUsesThatNameOutput) {
-                    is Output.Error -> anotherUserUsesThatNameOutput
+                    is Output.Error -> {
+                        anotherUserUsesThatNameOutput
+                    }
                     is Output.Success -> {
                         if (anotherUserUsesThatNameOutput.result) {
                             val nameTakenException = Exception(Constants.Errors.USER_NAME_TAKEN.code)

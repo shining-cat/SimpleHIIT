@@ -8,14 +8,16 @@ import javax.inject.Inject
 class ValidateInputUserNameUseCase
     @Inject
     constructor(
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(
             user: User,
             existingUsers: List<User>,
         ): Constants.InputError =
             when {
-                user.name.isBlank() -> Constants.InputError.VALUE_EMPTY
+                user.name.isBlank() -> {
+                    Constants.InputError.VALUE_EMPTY
+                }
                 existingUsers.find { it.name == user.name && it.id != user.id } != null -> {
                     Constants.InputError.VALUE_ALREADY_TAKEN
                 }

@@ -15,7 +15,7 @@ class CalculateAverageSessionsPerWeekUseCase
     @Inject
     constructor(
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         private val weekLengthAsMs = 604800000L
 
@@ -31,7 +31,7 @@ class CalculateAverageSessionsPerWeekUseCase
                     val numberOfElapsedWeeks = elapsedTotalTimeMs.toDouble() / weekLengthAsMs.toDouble()
                     val numberOfSessions = timestamps.size
                     if (numberOfElapsedWeeks < 1) {
-                        simpleHiitLogger.d(
+                        logger.d(
                             "CalculateAverageSessionsPerWeekUseCase",
                             "less than a week between now and oldest session - returning total number of sessions",
                         )

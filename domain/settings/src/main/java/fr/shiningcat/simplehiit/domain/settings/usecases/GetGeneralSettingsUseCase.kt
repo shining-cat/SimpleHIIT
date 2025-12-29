@@ -16,7 +16,7 @@ class GetGeneralSettingsUseCase
         private val usersRepository: UsersRepository,
         private val settingsRepository: SettingsRepository,
         private val getCurrentAppLanguageUseCase: GetCurrentAppLanguageUseCase,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(): Flow<Output<GeneralSettings>> {
             val usersFlow = usersRepository.getUsers()
@@ -25,7 +25,7 @@ class GetGeneralSettingsUseCase
             return combine(usersFlow, settingsFlow, languageFlow) { usersOutput, settings, currentLanguage ->
                 if (usersOutput is Output.Error) {
                     val exception = usersOutput.exception
-                    simpleHiitLogger.e("GetGeneralSettingsUseCase", "Error retrieving users", exception)
+                    logger.e("GetGeneralSettingsUseCase", "Error retrieving users", exception)
                     Output.Error(
                         Constants.Errors.NO_USERS_FOUND,
                         exception,

@@ -14,7 +14,7 @@ class ResetWholeAppUseCase
         private val settingsRepository: SettingsRepository,
         private val usersRepository: UsersRepository,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute() {
             withContext(defaultDispatcher) {

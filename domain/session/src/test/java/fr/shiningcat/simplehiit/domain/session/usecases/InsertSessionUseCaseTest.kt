@@ -25,7 +25,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
                 InsertSessionUseCase(
                     sessionsRepository = mockSessionsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val testValue =
                 SessionRecord(
@@ -50,7 +50,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
                 InsertSessionUseCase(
                     sessionsRepository = mockSessionsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val testValue =
                 SessionRecord(

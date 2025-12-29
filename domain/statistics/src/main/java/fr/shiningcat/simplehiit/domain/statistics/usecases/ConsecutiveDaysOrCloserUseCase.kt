@@ -25,7 +25,7 @@ class ConsecutiveDaysOrCloserUseCase
     constructor(
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
         @Suppress("UNUSED_PARAMETER")
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(
             timeStamp1: Long,

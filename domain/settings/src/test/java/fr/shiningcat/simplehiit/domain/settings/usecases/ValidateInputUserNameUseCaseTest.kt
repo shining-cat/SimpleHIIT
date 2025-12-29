@@ -19,7 +19,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
         expectedOutput: Constants.InputError,
     ) = runTest {
         val testedUseCase =
-            ValidateInputUserNameUseCase(hiitLogger = mockHiitLogger)
+            ValidateInputUserNameUseCase(logger = mockHiitLogger)
         val result = testedUseCase.execute(user, existingUsers)
         //
         assertEquals(expectedOutput, result)

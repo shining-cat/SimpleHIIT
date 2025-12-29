@@ -25,7 +25,7 @@ internal class SetTotalRepetitionsNumberUseCaseTest : AbstractMockkTest() {
                 SetTotalRepetitionsNumberUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.setTotalRepetitionsNumber(any()) } just Runs
             //

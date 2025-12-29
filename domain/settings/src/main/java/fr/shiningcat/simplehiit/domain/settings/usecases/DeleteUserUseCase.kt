@@ -14,7 +14,7 @@ class DeleteUserUseCase
     constructor(
         private val usersRepository: UsersRepository,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(user: User): Output<Int> =
             withContext(defaultDispatcher) {

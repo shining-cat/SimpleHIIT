@@ -23,7 +23,7 @@ internal class ResetAllSettingsUseCaseTest : AbstractMockkTest() {
                 ResetAllSettingsUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.resetAllSettings() } just Runs
             //

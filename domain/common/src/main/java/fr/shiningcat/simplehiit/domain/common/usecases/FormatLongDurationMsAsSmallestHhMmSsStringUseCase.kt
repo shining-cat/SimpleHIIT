@@ -17,7 +17,7 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase
     constructor(
         @DigitsFormat private val durationStringFormatterDigits: DurationStringFormatter,
         @ShortFormat private val durationStringFormatterShort: DurationStringFormatter,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         /**
          * format a Long duration in Milliseconds to a HMS String

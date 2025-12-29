@@ -21,7 +21,7 @@ internal class ConsecutiveDaysOrCloserUseCaseTest : AbstractMockkTest() {
         val testedUseCase =
             ConsecutiveDaysOrCloserUseCase(
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                hiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         val result = testedUseCase.execute(input.first, input.second)
         assertEquals(expectedOutput, result)

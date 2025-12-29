@@ -25,7 +25,7 @@ internal class SetPeriodStartCountDownUseCaseTest : AbstractMockkTest() {
                 SetPeriodStartCountDownUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.setPeriodStartCountdown(any()) } just Runs
             //

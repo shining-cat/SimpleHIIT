@@ -30,7 +30,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                 CheckIfAnotherUserUsesThatNameUseCase(
                     usersRepository = mockUsersRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val testUser = User(name = "this is a test name")
             val testException1 = Exception("this is a test exception 1")
@@ -54,7 +54,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
             CheckIfAnotherUserUsesThatNameUseCase(
                 usersRepository = mockUsersRepository,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         coEvery { mockUsersRepository.getUsersList() } answers { Output.Success(usersList) }
         //

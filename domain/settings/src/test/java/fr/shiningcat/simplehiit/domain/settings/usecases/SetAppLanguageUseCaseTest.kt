@@ -24,7 +24,7 @@ internal class SetAppLanguageUseCaseTest : AbstractMockkTest() {
             val testedUseCase =
                 SetAppLanguageUseCase(
                     languageRepository = mockLanguageRepository,
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockLanguageRepository.setAppLanguage(any()) } returns Output.Success(1)
             //

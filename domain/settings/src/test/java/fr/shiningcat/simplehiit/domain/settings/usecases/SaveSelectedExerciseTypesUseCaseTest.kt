@@ -31,7 +31,7 @@ internal class SaveSelectedExerciseTypesUseCaseTest : AbstractMockkTest() {
             SaveSelectedExerciseTypesUseCase(
                 settingsRepository = mockSettingsRepository,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         coEvery { mockSettingsRepository.setExercisesTypesSelected(any()) } just Runs
         //

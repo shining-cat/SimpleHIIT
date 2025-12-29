@@ -25,7 +25,7 @@ internal class SetSessionStartCountDownUseCaseTest : AbstractMockkTest() {
                 SetSessionStartCountDownUseCase(
                     settingsRepository = mockSettingsRepository,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    simpleHiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             coEvery { mockSettingsRepository.setSessionStartCountdown(any()) } just Runs
             //

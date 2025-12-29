@@ -19,7 +19,7 @@ class GetStatsForUserUseCase
         private val calculateLongestStreakUseCase: CalculateLongestStreakUseCase,
         private val calculateAverageSessionsPerWeekUseCase: CalculateAverageSessionsPerWeekUseCase,
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(
             user: User,
@@ -29,14 +29,13 @@ class GetStatsForUserUseCase
                 val sessionsForUserOutput = sessionsRepository.getSessionRecordsForUser(user)
                 when (sessionsForUserOutput) {
                     is Output.Error -> {
-                        simpleHiitLogger.e(
+                        logger.e(
                             "GetStatsForUserUseCase",
                             "failed getting sessions, returning default values",
                             sessionsForUserOutput.exception,
                         )
                         sessionsForUserOutput
                     }
-
                     is Output.Success -> {
                         Output.Success(
                             mapListOfSessionRecordsToStatistics(

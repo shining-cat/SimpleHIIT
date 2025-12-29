@@ -19,7 +19,7 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val testedUseCase =
                 ComposeExercisesListForSessionUseCase(
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    hiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val fullListOfExerciseTypes = ExerciseType.entries
             val testNumberOfSelectedTypes =
@@ -68,7 +68,7 @@ internal class ComposeExercisesListForSessionUseCaseTest : AbstractMockkTest() {
             val testedUseCase =
                 ComposeExercisesListForSessionUseCase(
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                    hiitLogger = mockHiitLogger,
+                    logger = mockHiitLogger,
                 )
             val fullListOfExerciseTypes = ExerciseType.entries
             val randomNumberOfSelectedTypes = Random.nextInt(1, fullListOfExerciseTypes.size)

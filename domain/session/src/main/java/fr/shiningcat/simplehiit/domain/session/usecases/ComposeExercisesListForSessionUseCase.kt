@@ -13,7 +13,7 @@ class ComposeExercisesListForSessionUseCase
     @Inject
     constructor(
         @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val hiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         suspend fun execute(
             numberOfWorkPeriodsPerCycle: Int,
@@ -21,7 +21,7 @@ class ComposeExercisesListForSessionUseCase
             selectedExerciseTypes: List<ExerciseType>,
         ): List<Exercise> =
             withContext(defaultDispatcher) {
-                hiitLogger.d(
+                logger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
                         "execute::START: numberOfWorkPeriodsPerCycle = $numberOfWorkPeriodsPerCycle" +
@@ -39,7 +39,7 @@ class ComposeExercisesListForSessionUseCase
                 while (resultListOfExercises.size < wantedNumberOfExercises) {
                     // we loop on types to ensure variety of resulting list:
                     pickLoop@ for (type in selectedExerciseTypes) {
-                        hiitLogger.d(
+                        logger.d(
                             tag = "ComposeExercisesListForSessionUseCase",
                             msg = "Loop:: picking type: $type",
                         )
@@ -63,7 +63,7 @@ class ComposeExercisesListForSessionUseCase
                         }
                     }
                 }
-                hiitLogger.d(
+                logger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
                         "execute::DONE::expected: ${numberOfWorkPeriodsPerCycle * numberOfCycles}, " +
@@ -82,7 +82,7 @@ class ComposeExercisesListForSessionUseCase
 
             val exercisesSourceList = exercisesOfSelectedTypesSourceList.toMutableList()
             while (wantedNumberOfExercises > numberOfAvailableExercises(exercisesSourceList)) {
-                hiitLogger.d(
+                logger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
                         "buildSourceListForSelectedTypes:: build a list for a total of $wantedNumberOfExercises exercises," +
@@ -112,7 +112,7 @@ class ComposeExercisesListForSessionUseCase
         ): List<Exercise> =
             if (isLastExerciseToPick) {
                 // we're picking the last item
-                hiitLogger.d(
+                logger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
                         "buildPickingListForType::preparing picking list for last exercise of type: $typeToPick," +
@@ -121,7 +121,7 @@ class ComposeExercisesListForSessionUseCase
                 exercisesSourceList
                     .filter { it.exerciseType == typeToPick && it != lastPickedExercise && !it.asymmetrical }
                     .ifEmpty {
-                        hiitLogger.e(
+                        logger.e(
                             tag = "ComposeExercisesListForSessionUseCase",
                             msg =
                                 "buildPickingListForType::filtering for last item to pick" +
@@ -134,7 +134,7 @@ class ComposeExercisesListForSessionUseCase
                         }
                     }
             } else {
-                hiitLogger.d(
+                logger.d(
                     tag = "ComposeExercisesListForSessionUseCase",
                     msg =
                         "buildPickingListForType::preparing picking list for exercise" +
@@ -143,7 +143,7 @@ class ComposeExercisesListForSessionUseCase
                 exercisesSourceList
                     .filter { it.exerciseType == typeToPick && it != lastPickedExercise }
                     .ifEmpty {
-                        hiitLogger.e(
+                        logger.e(
                             tag = "ComposeExercisesListForSessionUseCase",
                             msg =
                                 "buildPickingListForType::filtering for an item to pick" +

@@ -17,7 +17,7 @@ class GetHomeSettingsUseCase
         private val usersRepository: UsersRepository,
         private val settingsRepository: SettingsRepository,
         private val detectSessionWarningUseCase: DetectSessionWarningUseCase,
-        private val simpleHiitLogger: HiitLogger,
+        private val logger: HiitLogger,
     ) {
         fun execute(): Flow<Output<HomeSettings>> {
             var firstTogglingAttempt = true
@@ -27,14 +27,13 @@ class GetHomeSettingsUseCase
                 when (usersOutput) {
                     is Output.Error -> {
                         val exception = usersOutput.exception
-                        simpleHiitLogger.e(
+                        logger.e(
                             "GetHomeSettingsUseCase",
                             "Error retrieving users",
                             exception,
                         )
                         emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
                     }
-
                     else -> {
                         usersOutput as Output.Success
                         if (usersOutput.result.size == 1 && !usersOutput.result[0].selected) {
@@ -49,7 +48,7 @@ class GetHomeSettingsUseCase
                                     usersRepository.updateUser(toggleUniqueUserToSelected)
                                 when (togglingUser) {
                                     is Output.Error -> {
-                                        simpleHiitLogger.e(
+                                        logger.e(
                                             "GetHomeSettingsUseCase",
                                             "Error toggling the only existing user to selected",
                                             togglingUser.exception,
@@ -61,14 +60,13 @@ class GetHomeSettingsUseCase
                                             ),
                                         )
                                     }
-
                                     is Output.Success -> {
                                         if (togglingUser.result != 1) {
                                             val failedTogglingUser =
                                                 Exception(
                                                     Constants.Errors.DATABASE_UPDATE_FAILED.code,
                                                 )
-                                            simpleHiitLogger.e(
+                                            logger.e(
                                                 "GetHomeSettingsUseCase",
                                                 "Error toggling the only existing user to selected",
                                                 failedTogglingUser,
@@ -88,7 +86,7 @@ class GetHomeSettingsUseCase
                                     Exception(
                                         Constants.Errors.NO_SELECTED_USERS_FOUND.code,
                                     )
-                                simpleHiitLogger.e(
+                                logger.e(
                                     "GetHomeSettingsUseCase",
                                     "Error retrieving selected users: only 1 user found and is not selected after trying to toggle it",
                                     couldNotFindAnySelectedUser,

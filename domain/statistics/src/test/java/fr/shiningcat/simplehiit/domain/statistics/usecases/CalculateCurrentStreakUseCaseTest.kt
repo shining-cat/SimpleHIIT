@@ -29,7 +29,7 @@ internal class CalculateCurrentStreakUseCaseTest : AbstractMockkTest() {
             CalculateCurrentStreakUseCase(
                 consecutiveDaysOrCloserUseCase = mockConsecutiveDaysOrCloserUseCaseTest,
                 defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
-                simpleHiitLogger = mockHiitLogger,
+                logger = mockHiitLogger,
             )
         coEvery {
             mockConsecutiveDaysOrCloserUseCaseTest.execute(
