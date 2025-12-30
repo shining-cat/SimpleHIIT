@@ -38,13 +38,13 @@ gradlePlugin {
             implementationClass =
                 "fr.shiningcat.simplehiit.plugins.AndroidLibraryConventionPlugin"
         }
-        register("hilt") {
-            id = "fr.shiningcat.simplehiit.hilt"
-            implementationClass = "fr.shiningcat.simplehiit.plugins.HiltConventionPlugin"
-        }
         register("koin") {
             id = "fr.shiningcat.simplehiit.koin"
             implementationClass = "fr.shiningcat.simplehiit.plugins.KoinConventionPlugin"
+        }
+        register("koinCompose") {
+            id = "fr.shiningcat.simplehiit.koin.compose"
+            implementationClass = "fr.shiningcat.simplehiit.plugins.KoinComposeConventionPlugin"
         }
         register("androidAppCompose") {
             id = "fr.shiningcat.simplehiit.android.application.compose"

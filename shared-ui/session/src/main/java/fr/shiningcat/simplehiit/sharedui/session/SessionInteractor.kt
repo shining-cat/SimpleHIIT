@@ -13,7 +13,6 @@ import fr.shiningcat.simplehiit.domain.session.usecases.InsertSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.StepTimerUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import javax.inject.Inject
 
 interface SessionInteractor {
     fun getSessionSettings(): Flow<Output<SessionSettings>>
@@ -29,28 +28,26 @@ interface SessionInteractor {
     suspend fun insertSession(sessionRecord: SessionRecord): Output<Int>
 }
 
-class SessionInteractorImpl
-    @Inject
-    constructor(
-        private val getSessionSettingsUseCase: GetSessionSettingsUseCase,
-        private val buildSessionUseCase: BuildSessionUseCase,
-        private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
-        private val stepTimerUseCase: StepTimerUseCase,
-        private val insertSessionUseCase: InsertSessionUseCase,
-    ) : SessionInteractor {
-        override fun getSessionSettings(): Flow<Output<SessionSettings>> = getSessionSettingsUseCase.execute()
+class SessionInteractorImpl(
+    private val getSessionSettingsUseCase: GetSessionSettingsUseCase,
+    private val buildSessionUseCase: BuildSessionUseCase,
+    private val formatLongDurationMsAsSmallestHhMmSsStringUseCase: FormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+    private val stepTimerUseCase: StepTimerUseCase,
+    private val insertSessionUseCase: InsertSessionUseCase,
+) : SessionInteractor {
+    override fun getSessionSettings(): Flow<Output<SessionSettings>> = getSessionSettingsUseCase.execute()
 
-        override suspend fun buildSession(sessionSettings: SessionSettings): Session = buildSessionUseCase.execute(sessionSettings)
+    override suspend fun buildSession(sessionSettings: SessionSettings): Session = buildSessionUseCase.execute(sessionSettings)
 
-        override fun formatLongDurationMsAsSmallestHhMmSsString(durationMs: Long): String =
-            formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                durationMs = durationMs,
-                formatStyle = DurationFormatStyle.SHORT,
-            )
+    override fun formatLongDurationMsAsSmallestHhMmSsString(durationMs: Long): String =
+        formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
+            durationMs = durationMs,
+            formatStyle = DurationFormatStyle.SHORT,
+        )
 
-        override suspend fun startStepTimer(totalMilliSeconds: Long) = stepTimerUseCase.start(totalMilliSeconds)
+    override suspend fun startStepTimer(totalMilliSeconds: Long) = stepTimerUseCase.start(totalMilliSeconds)
 
-        override fun getStepTimerState(): StateFlow<StepTimerState> = stepTimerUseCase.timerStateFlow
+    override fun getStepTimerState(): StateFlow<StepTimerState> = stepTimerUseCase.timerStateFlow
 
-        override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> = insertSessionUseCase.execute(sessionRecord)
-    }
+    override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> = insertSessionUseCase.execute(sessionRecord)
+}

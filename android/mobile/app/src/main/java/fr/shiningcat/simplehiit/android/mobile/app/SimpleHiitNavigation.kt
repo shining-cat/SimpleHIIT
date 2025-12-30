@@ -1,7 +1,6 @@
 package fr.shiningcat.simplehiit.android.mobile.app
 
 import androidx.compose.runtime.Composable
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
@@ -14,12 +13,13 @@ import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsScreen
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SimpleHiitNavigation(
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
-    navigationViewModel: NavigationViewModel = hiltViewModel(),
+    navigationViewModel: NavigationViewModel = koinViewModel(),
 ) {
     NavDisplay(
         backStack = navigationViewModel.backStack,

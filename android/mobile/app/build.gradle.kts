@@ -2,7 +2,7 @@ import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
 plugins {
     alias(libs.plugins.simplehiit.android.application.handheld)
-    alias(libs.plugins.simplehiit.hilt)
+    alias(libs.plugins.simplehiit.koin)
     alias(libs.plugins.simplehiit.android.application.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.simplehiit.testing)
@@ -27,7 +27,14 @@ dependencies {
     implementation(projects.android.mobile.ui.settings)
     implementation(projects.android.mobile.ui.statistics)
     implementation(projects.domain.common)
+    implementation(projects.domain.home)
+    implementation(projects.domain.session)
     implementation(projects.domain.settings)
+    implementation(projects.domain.statistics)
+    implementation(projects.sharedUi.home)
+    implementation(projects.sharedUi.session)
+    implementation(projects.sharedUi.settings)
+    implementation(projects.sharedUi.statistics)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.data)
@@ -38,8 +45,8 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.koin.androidx.compose)
 }
 
 moduleGraphAssert {

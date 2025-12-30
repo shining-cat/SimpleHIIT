@@ -12,7 +12,6 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
@@ -29,13 +28,14 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StatisticsScreen(
     navigateTo: (Screen) -> Unit = {},
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
-    viewModel: StatisticsViewModel = hiltViewModel(),
+    viewModel: StatisticsViewModel = koinViewModel(),
 ) {
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value

@@ -3,7 +3,6 @@ package fr.shiningcat.simplehiit.android.tv.ui.home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
@@ -19,6 +18,7 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.home.HomeDialog
 import fr.shiningcat.simplehiit.sharedui.home.HomeViewModel
 import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
+import org.koin.androidx.compose.koinViewModel
 
 @ExperimentalTvMaterial3Api
 @Composable
@@ -26,7 +26,7 @@ fun HomeScreen(
     navigateTo: (Screen) -> Unit,
     @Suppress("UNUSED_PARAMETER")
     hiitLogger: HiitLogger,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
     val viewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value

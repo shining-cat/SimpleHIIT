@@ -10,7 +10,6 @@ import fr.shiningcat.simplehiit.domain.home.usecases.SetTotalRepetitionsNumberUs
 import fr.shiningcat.simplehiit.domain.home.usecases.ToggleUserSelectedUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.ValidateInputNumberCyclesUseCase
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
 interface HomeInteractor {
     fun getHomeSettings(): Flow<Output<HomeSettings>>
@@ -24,22 +23,20 @@ interface HomeInteractor {
     fun validateInputNumberCycles(input: String): Constants.InputError
 }
 
-class HomeInteractorImpl
-    @Inject
-    constructor(
-        private val getHomeSettingsUseCase: GetHomeSettingsUseCase,
-        private val setTotalRepetitionsNumberUseCase: SetTotalRepetitionsNumberUseCase,
-        private val toggleUserSelectedUseCase: ToggleUserSelectedUseCase,
-        private val resetWholeAppUseCase: ResetWholeAppUseCase,
-        private val validateInputNumberCyclesUseCase: ValidateInputNumberCyclesUseCase,
-    ) : HomeInteractor {
-        override fun getHomeSettings(): Flow<Output<HomeSettings>> = getHomeSettingsUseCase.execute()
+class HomeInteractorImpl(
+    private val getHomeSettingsUseCase: GetHomeSettingsUseCase,
+    private val setTotalRepetitionsNumberUseCase: SetTotalRepetitionsNumberUseCase,
+    private val toggleUserSelectedUseCase: ToggleUserSelectedUseCase,
+    private val resetWholeAppUseCase: ResetWholeAppUseCase,
+    private val validateInputNumberCyclesUseCase: ValidateInputNumberCyclesUseCase,
+) : HomeInteractor {
+    override fun getHomeSettings(): Flow<Output<HomeSettings>> = getHomeSettingsUseCase.execute()
 
-        override suspend fun setTotalRepetitionsNumber(number: Int) = setTotalRepetitionsNumberUseCase.execute(number)
+    override suspend fun setTotalRepetitionsNumber(number: Int) = setTotalRepetitionsNumberUseCase.execute(number)
 
-        override suspend fun toggleUserSelected(user: User): Output<Int> = toggleUserSelectedUseCase.execute(user)
+    override suspend fun toggleUserSelected(user: User): Output<Int> = toggleUserSelectedUseCase.execute(user)
 
-        override suspend fun resetWholeApp() = resetWholeAppUseCase.execute()
+    override suspend fun resetWholeApp() = resetWholeAppUseCase.execute()
 
-        override fun validateInputNumberCycles(input: String): Constants.InputError = validateInputNumberCyclesUseCase.execute(input)
-    }
+    override fun validateInputNumberCycles(input: String): Constants.InputError = validateInputNumberCyclesUseCase.execute(input)
+}

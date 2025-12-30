@@ -12,7 +12,7 @@ internal fun Project.configureAndroidAppHandheldKotlin(commonExtension: CommonEx
         compileSdk = ConfigHandheld.config.compileSdkVersion
         defaultConfig.apply {
             minSdk = ConfigHandheld.config.minSdkVersion
-            testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
+            testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.KoinTestRunner"
             vectorDrawables.useSupportLibrary = true
         }
         compileOptions {

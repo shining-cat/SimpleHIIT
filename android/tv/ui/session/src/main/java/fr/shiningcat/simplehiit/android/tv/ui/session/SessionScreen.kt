@@ -9,7 +9,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -24,12 +23,13 @@ import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewModel
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun SessionScreen(
     navigateUp: () -> Boolean,
     hiitLogger: HiitLogger,
-    viewModel: SessionViewModel = hiltViewModel(),
+    viewModel: SessionViewModel = koinViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     // Handling the sound loading in the viewModel's soundPool:

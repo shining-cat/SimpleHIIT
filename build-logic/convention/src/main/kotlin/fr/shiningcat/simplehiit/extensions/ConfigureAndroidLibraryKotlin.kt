@@ -16,7 +16,7 @@ internal fun Project.configureAndroidLibraryKotlin(commonExtension: CommonExtens
         compileSdk = ConfigLibrary.config.compileSdkVersion
         defaultConfig.apply {
             minSdk = ConfigLibrary.config.minSdkVersion
-            testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
+            testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.KoinTestRunner"
             testOptions.animationsDisabled = true
             vectorDrawables.useSupportLibrary = true
         }

@@ -27,15 +27,17 @@ val localDataModule =
 
         single { get<SimpleHiitDatabase>().sessionsDao() }
 
+        single {
+            PreferenceDataStoreFactory.create(
+                produceFile = {
+                    androidContext().preferencesDataStoreFile(SIMPLE_HIIT_DATASTORE_FILENAME)
+                },
+            )
+        }
+
         single<SimpleHiitDataStoreManager> {
-            val datastore =
-                PreferenceDataStoreFactory.create(
-                    produceFile = {
-                        androidContext().preferencesDataStoreFile(SIMPLE_HIIT_DATASTORE_FILENAME)
-                    },
-                )
             SimpleHiitDataStoreManagerImpl(
-                dataStore = datastore,
+                dataStore = get(),
                 ioDispatcher = get(named("IoDispatcher")),
                 hiitLogger = get(),
             )

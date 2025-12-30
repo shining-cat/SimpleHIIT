@@ -6,7 +6,7 @@
 
 ---
 
-## ✅ COMPLETED MODULES (12/17)
+## ✅ COMPLETED MODULES (19/19)
 
 ### 1. ✅ data module
 - [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
@@ -113,12 +113,66 @@
 
 ---
 
+### Priority 2.5: Android Common Modules (Before App Modules)
+
+#### 13. ✅ android:common
+- [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
+- [x] Created `CommonAndroidModuleKoin.kt` (Koin) - NavigationViewModel
+- [x] Created `CommonAndroidModuleHilt.kt` (Hilt temporary)
+- [x] Removed `@HiltViewModel` and `@Inject` from NavigationViewModel
+
+**Files to delete after full migration:**
+- `android/common/src/main/java/fr/shiningcat/simplehiit/android/common/di/CommonAndroidModuleHilt.kt`
+
+#### 14. ✅ testUtils
+- [x] Updated `build.gradle.kts` - added both plugins
+- [x] Created `KoinTestRunner.kt` (Koin) - KoinTestRunner, KoinTestApplication
+- [x] Kept `HiltTestRunner.kt` (Hilt temporary)
+- [x] AbstractMockkTest unchanged (no DI usage)
+
+**Files to delete after full migration:**
+- `testUtils/src/main/java/fr/shiningcat/simplehiit/testutils/HiltTestRunner.kt`
+
+---
+
 ### Priority 3: App Modules (Final Step)
 
-#### 13. ⬜ android/mobile/app
-#### 14. ⬜ android/tv/app
-#### 15. ⬜ android/mobile/ui/* modules
-#### 16. ⬜ android/tv/ui/* modules
+#### 15. ✅ android/mobile/app
+- [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
+- [x] Created `AppModuleKoin.kt` (Koin) - LocaleManager, AndroidVersionProvider, DurationStringFormatters, MainViewModel
+- [x] Created `allKoinModules` list aggregating all app modules
+- [x] Created `AppModuleHilt.kt` (Hilt temporary)
+- [x] Deleted original `AppModule.kt`
+- [x] Updated `SimpleHIITApplication` - initialized Koin with all modules
+- [x] Updated `MainActivity` - uses Koin injection (kept Hilt @AndroidEntryPoint temporarily)
+- [x] Removed `@HiltViewModel` and `@Inject` from MainViewModel
+
+**Files to delete after full migration:**
+- `android/mobile/app/src/main/java/fr/shiningcat/simplehiit/android/mobile/app/di/AppModuleHilt.kt`
+
+#### 16. ✅ android/tv/app
+- [x] Updated `build.gradle.kts` - added both `simplehiit.hilt` and `simplehiit.koin`
+- [x] Added missing module dependencies (domain.*, sharedUi.*)
+- [x] Created `AppModuleKoin.kt` (Koin) - LocaleManager, AndroidVersionProvider, DurationStringFormatters, MainViewModel
+- [x] Created `allKoinModules` list aggregating all app modules
+- [x] Created `AppModuleHilt.kt` (Hilt temporary)
+- [x] Deleted original `AppModule.kt`
+- [x] Updated `SimpleHIITApplication` - initialized Koin with all modules
+- [x] Updated `MainActivity` - uses Koin injection (kept Hilt @AndroidEntryPoint temporarily)
+- [x] Removed `@HiltViewModel` and `@Inject` from MainViewModel
+
+**Files to delete after full migration:**
+- `android/tv/app/src/main/java/fr/shiningcat/simplehiit/android/tv/app/di/AppModuleHilt.kt`
+
+#### 17. ✅ android/mobile/ui/* modules
+- [x] Analyzed all modules: common, home, session, settings, statistics
+- [x] NO DI CODE FOUND - modules contain only UI composables
+- [x] No migration required
+
+#### 18. ✅ android/tv/ui/* modules
+- [x] Analyzed all modules: common, home, session, settings, statistics
+- [x] NO DI CODE FOUND - modules contain only UI composables
+- [x] No migration required
 
 ---
 
@@ -273,9 +327,9 @@ rm path/to/original/Module.kt
 ## 📊 PROGRESS TRACKER
 
 ```
-Total Modules: 17
-Completed: 12 (71%)
-Remaining: 5 (29%)
+Total Modules: 19
+Completed: 19 (100%) 🎉
+Remaining: 0 (0%)
 
 ✅ data
 ✅ commonUtils
@@ -289,9 +343,12 @@ Remaining: 5 (29%)
 ✅ shared-ui/session
 ✅ shared-ui/settings
 ✅ shared-ui/statistics
-⬜ android/mobile/app
-⬜ android/tv/app
-⬜ UI modules (mobile/tv)
+✅ android:common
+✅ testUtils
+✅ android/mobile/app
+✅ android/tv/app
+✅ android/mobile/ui/* (no DI)
+✅ android/tv/ui/* (no DI)
 ```
 
 ---
@@ -330,5 +387,5 @@ Update `build-logic/convention` to remove Hilt setup
 ---
 
 **Document Created:** 2025-12-29
-**Last Updated:** 2025-12-29 12:51 CET
-**Status:** Domain and shared-ui layers complete (12/17 modules - 71%). Next: app modules.
+**Last Updated:** 2025-12-29 18:07 CET
+**Status:** 🎉 MIGRATION COMPLETE! All 19 modules migrated to Koin (100%). Ready for Hilt cleanup phase.

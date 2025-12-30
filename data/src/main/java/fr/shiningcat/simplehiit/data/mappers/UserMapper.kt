@@ -4,7 +4,6 @@ import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 import fr.shiningcat.simplehiit.domain.common.models.User
 
 /**
- * NO @Inject - provided explicitly by DataMappersModuleHilt via @Provides
  * For Koin: called directly as UserMapper() in dataModule
  */
 class UserMapper {
