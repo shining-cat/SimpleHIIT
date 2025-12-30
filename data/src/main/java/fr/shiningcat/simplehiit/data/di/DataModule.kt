@@ -10,7 +10,6 @@ import fr.shiningcat.simplehiit.domain.common.datainterfaces.LanguageRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
-import kotlinx.coroutines.Dispatchers
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -53,9 +52,4 @@ val dataModule =
                 hiitLogger = get(),
             )
         }
-    }
-
-val dispatcherModule =
-    module {
-        single(named("IoDispatcher")) { Dispatchers.IO }
     }

@@ -1,23 +1,19 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.commonutils.di.DefaultDispatcher
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-class DeleteUserUseCase
-    @Inject
-    constructor(
-        private val usersRepository: UsersRepository,
-        @DefaultDispatcher private val defaultDispatcher: CoroutineDispatcher,
-        private val logger: HiitLogger,
-    ) {
-        suspend fun execute(user: User): Output<Int> =
-            withContext(defaultDispatcher) {
-                usersRepository.deleteUser(user)
-            }
-    }
+class DeleteUserUseCase(
+    private val usersRepository: UsersRepository,
+    private val defaultDispatcher: CoroutineDispatcher,
+    private val logger: HiitLogger,
+) {
+    suspend fun execute(user: User): Output<Int> =
+        withContext(defaultDispatcher) {
+            usersRepository.deleteUser(user)
+        }
+}

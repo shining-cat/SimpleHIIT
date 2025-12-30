@@ -12,7 +12,7 @@ internal fun Project.configureAndroidAppTvKotlin(commonExtension: CommonExtensio
         compileSdk = ConfigTv.config.compileSdkVersion
         defaultConfig.apply {
             minSdk = ConfigTv.config.minSdkVersion
-            testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.HiltTestRunner"
+            testInstrumentationRunner = "fr.shiningcat.simplehiit.testutils.KoinTestRunner"
             vectorDrawables.useSupportLibrary = true
         }
         compileOptions {

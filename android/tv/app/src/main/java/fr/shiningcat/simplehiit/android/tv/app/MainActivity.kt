@@ -12,26 +12,16 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
-import dagger.hilt.android.AndroidEntryPoint
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import javax.inject.Inject
 
 /**
  * Main activity for SimpleHIIT TV.
- * Currently supports both Hilt and Koin during migration.
- *
- * TODO: Remove @AndroidEntryPoint and @Inject after full migration.
  */
-@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    @Inject
-    lateinit var hiitLoggerHilt: HiitLogger
-
-    // Koin injection
     private val hiitLogger: HiitLogger by inject()
     private val viewModel: MainViewModel by viewModel()
 

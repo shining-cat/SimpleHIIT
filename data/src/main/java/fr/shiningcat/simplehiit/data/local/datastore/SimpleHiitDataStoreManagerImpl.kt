@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 /**
- * NO @Inject - provided explicitly by LocalDataModuleHilt via @Provides
  * For Koin: constructor is called directly from localDataModule
  */
 class SimpleHiitDataStoreManagerImpl(

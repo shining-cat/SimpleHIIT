@@ -5,6 +5,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.HiitLoggerImpl
 import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.commonutils.TimeProviderImpl
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
@@ -24,6 +25,8 @@ val utilsModule =
 
 val dispatchersModule =
     module {
-        single(named("DefaultDispatcher")) { Dispatchers.Default }
-        single(named("MainDispatcher")) { Dispatchers.Main }
+        single<CoroutineDispatcher>(named("DefaultDispatcher")) { Dispatchers.Default }
+        single<CoroutineDispatcher>(named("MainDispatcher")) { Dispatchers.Main }
+        single<CoroutineDispatcher>(named("IoDispatcher")) { Dispatchers.IO }
+        single<CoroutineDispatcher>(named("TimerDispatcher")) { Dispatchers.Default }
     }

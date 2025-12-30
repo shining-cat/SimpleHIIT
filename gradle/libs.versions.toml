@@ -1,9 +1,6 @@
 [versions]
 # Build Tools & Plugins
 agp = "8.13.2"
-# Kotlin 2.3.0 requires forcing kotlin-metadata-jvm version for Hilt compatibility
-# Workaround applied in root build.gradle.kts resolutionStrategy
-# See: https://github.com/google/dagger/issues/5001
 kgp = "2.3.0"
 ksp = "2.3.4"
 kover = "0.9.4"
@@ -16,7 +13,6 @@ modulesGraphAssert = "2.9.0"
 develocity = "4.3"
 
 # Dependency Injection
-hilt = "2.57.2"
 koin = "4.0.0"
 koinAndroidxCompose = "4.0.0"
 koinTest = "4.0.0"
@@ -41,7 +37,6 @@ lifecycleProcess = "2.10.0"
 # Compose Ecosystem
 composeBom = "2025.12.01"
 navigation3 = "1.0.0"
-composeNavigationHilt = "1.3.0"
 activityCompose = "1.12.2"
 kotlinSerialization = "2.3.0"
 kotlinxSerializationCore = "1.9.0"
@@ -80,7 +75,6 @@ androidx-compose-ui-test-debug = { module = "androidx.compose.ui:ui-test-manifes
 # Compose Navigation & Integration
 androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
 androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "composeNavigationHilt" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxSerializationCore" }
 
@@ -93,13 +87,6 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 androidx-room-coroutines = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
-
-# Dependency Injection - Hilt
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
-hilt-core = { module = "com.google.dagger:hilt-core", version.ref = "hilt" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
-dagger-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
 
 # Dependency Injection - Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -127,7 +114,6 @@ ktlint-compose-ruleset = { module = "io.nlopez.compose.rules:ktlint", version.re
 
 [plugins]
 # External Build Plugins
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kgp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
@@ -149,8 +135,8 @@ simplehiit-android-library = { id = "fr.shiningcat.simplehiit.android.library" }
 simplehiit-android-library-compose = { id = "fr.shiningcat.simplehiit.android.library.compose" }
 
 # Convention Plugins - Feature-Specific
-simplehiit-hilt = { id = "fr.shiningcat.simplehiit.hilt" }
 simplehiit-koin = { id = "fr.shiningcat.simplehiit.koin" }
+simplehiit-koin-compose = { id = "fr.shiningcat.simplehiit.koin.compose" }
 simplehiit-compose-navigation = { id = "fr.shiningcat.simplehiit.compose.navigation" }
 simplehiit-mobile-compose-ui = { id = "fr.shiningcat.simplehiit.mobile.compose.ui" }
 simplehiit-tv-compose-ui = { id = "fr.shiningcat.simplehiit.tv.compose.ui" }

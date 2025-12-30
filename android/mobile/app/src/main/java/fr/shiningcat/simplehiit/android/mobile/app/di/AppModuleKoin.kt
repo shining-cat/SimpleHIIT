@@ -9,7 +9,6 @@ import fr.shiningcat.simplehiit.commonutils.AndroidVersionProviderImpl
 import fr.shiningcat.simplehiit.commonutils.di.dispatchersModule
 import fr.shiningcat.simplehiit.commonutils.di.utilsModule
 import fr.shiningcat.simplehiit.data.di.dataModule
-import fr.shiningcat.simplehiit.data.di.dispatcherModule
 import fr.shiningcat.simplehiit.data.local.di.localDataModule
 import fr.shiningcat.simplehiit.data.local.localemanager.LocaleManager
 import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
@@ -78,7 +77,6 @@ val allKoinModules: List<Module> =
         utilsModule,
         dispatchersModule,
         // Data layer
-        dispatcherModule,
         localDataModule,
         dataModule,
         // Domain layer

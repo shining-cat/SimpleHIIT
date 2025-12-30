@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.simplehiit.android.library)
-    alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.koin)
 }
 
@@ -11,7 +10,6 @@ dependencies {
      * so the only workaround is to define it in the main sourceset, adding the test dependencies needed for it as
      * "normal" dependencies (using implementation calls instead of testImplementations)
      */
-    implementation(libs.hilt.android.testing)
     implementation(libs.koin.test)
     implementation(libs.koin.android)
     implementation(libs.jupiter)

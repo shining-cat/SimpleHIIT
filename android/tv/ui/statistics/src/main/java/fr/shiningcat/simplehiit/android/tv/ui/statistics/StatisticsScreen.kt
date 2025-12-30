@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
@@ -22,12 +21,13 @@ import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun StatisticsScreen(
     navigateTo: (Screen) -> Unit = {},
     hiitLogger: HiitLogger,
-    viewModel: StatisticsViewModel = hiltViewModel(),
+    viewModel: StatisticsViewModel = koinViewModel(),
 ) {
     val screenViewState = viewModel.screenViewState.collectAsStateWithLifecycle().value
     val dialogViewState = viewModel.dialogViewState.collectAsStateWithLifecycle().value

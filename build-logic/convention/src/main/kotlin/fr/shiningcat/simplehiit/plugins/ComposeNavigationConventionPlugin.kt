@@ -16,8 +16,6 @@ class ComposeNavigationConventionPlugin : Plugin<Project> {
                 // Navigation 3 core dependencies
                 add("implementation", libs.findLibrary("androidx.navigation3.runtime").get())
                 add("implementation", libs.findLibrary("androidx.navigation3.ui").get())
-                // Hilt integration for Compose navigation
-                add("implementation", libs.findLibrary("androidx.hilt.navigation.compose").get())
                 // Serialization for type-safe navigation
                 add("implementation", libs.findLibrary("kotlinx.serialization.core").get())
             }

@@ -16,22 +16,11 @@ plugins {
     // Gradle core plugin that provides standard lifecycle tasks to any project:
     base
     alias(libs.plugins.kotlin.compose) apply false
-    alias(libs.plugins.hilt) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.ktlint.gradle)
     alias(libs.plugins.kover)
     alias(libs.plugins.dependencyupdate)
     alias(libs.plugins.simplehiit.documentation)
-}
-
-// Force kotlin-metadata-jvm to support Kotlin 2.3.0 with Hilt
-// See: https://github.com/google/dagger/issues/5001
-allprojects {
-    configurations.all {
-        resolutionStrategy {
-            force("org.jetbrains.kotlin:kotlin-metadata-jvm:2.3.0")
-        }
-    }
 }
 
 // Configure root clean task to delete Kover reports
@@ -63,17 +52,6 @@ fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusio
         annotatedBy("*Generated")
         annotatedBy("javax.annotation.processing.Generated")
         annotatedBy("javax.annotation.Generated")
-        annotatedBy("dagger.internal.DaggerGenerated")
-
-        // Exclude Dagger/Hilt generated classes (will be removed after Koin migration)
-        classes("*_Factory")
-        classes("*_Factory$*")
-        classes("*_MembersInjector")
-        classes("*Hilt_*")
-        classes("*_HiltModules")
-        classes("*_HiltModules$*")
-        classes("*_HiltModules_*")
-        classes("hilt_aggregated_deps.*")
 
         // Exclude Room generated classes
         classes("*.*_Impl")
@@ -84,10 +62,7 @@ fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusio
         // Exclude DataBinding generated classes
         classes("*.databinding.*", "*.DataBindingInfo")
 
-        // Exclude common generated packages
-        packages("dagger.hilt.internal.aggregatedroot.codegen")
-
-        // Exclude DI/Hilt module packages (at any nesting level)
+        // Exclude DI module packages (at any nesting level)
         packages("*.di")
 
         // Exclude all models packages across all modules

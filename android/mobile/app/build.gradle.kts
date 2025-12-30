@@ -2,7 +2,6 @@ import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
 plugins {
     alias(libs.plugins.simplehiit.android.application.handheld)
-    alias(libs.plugins.simplehiit.hilt)
     alias(libs.plugins.simplehiit.koin)
     alias(libs.plugins.simplehiit.android.application.compose)
     alias(libs.plugins.kotlin.serialization)
@@ -46,8 +45,8 @@ dependencies {
     implementation(libs.androidx.lifecycle)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.activity.compose)
+    implementation(libs.koin.androidx.compose)
 }
 
 moduleGraphAssert {

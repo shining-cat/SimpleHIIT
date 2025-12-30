@@ -4,7 +4,6 @@ import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 
 /**
- * NO @Inject - provided explicitly by DataMappersModuleHilt via @Provides
  * For Koin: called directly as SessionMapper() in dataModule
  */
 class SessionMapper {

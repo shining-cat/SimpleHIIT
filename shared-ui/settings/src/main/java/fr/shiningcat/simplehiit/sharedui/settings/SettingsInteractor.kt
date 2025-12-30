@@ -28,7 +28,6 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.ValidateInputUserNameUs
 import fr.shiningcat.simplehiit.domain.settings.usecases.ValidateNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.ValidatePeriodLengthUseCase
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
 interface SettingsInteractor {
     fun getGeneralSettings(): Flow<Output<GeneralSettings>>
@@ -85,87 +84,85 @@ interface SettingsInteractor {
     ): List<ExerciseTypeSelected>
 }
 
-class SettingsInteractorImpl
-    @Inject
-    constructor(
-        private val getGeneralSettingsUseCase: GetGeneralSettingsUseCase,
-        private val setWorkPeriodLengthUseCase: SetWorkPeriodLengthUseCase,
-        private val setRestPeriodLengthUseCase: SetRestPeriodLengthUseCase,
-        private val setNumberOfWorkPeriodsUseCase: SetNumberOfWorkPeriodsUseCase,
-        private val setBeepSoundUseCase: SetBeepSoundUseCase,
-        private val setSessionStartCountDownUseCase: SetSessionStartCountDownUseCase,
-        private val setPeriodStartCountDownUseCase: SetPeriodStartCountDownUseCase,
-        private val updateUserNameUseCase: UpdateUserNameUseCase,
-        private val deleteUserUseCase: DeleteUserUseCase,
-        private val createUserUseCase: CreateUserUseCase,
-        private val saveSelectedExerciseTypesUseCase: SaveSelectedExerciseTypesUseCase,
-        private val setAppLanguageUseCase: SetAppLanguageUseCase,
-        private val setAppThemeUseCase: SetAppThemeUseCase,
-        private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
-        private val validatePeriodLengthUseCase: ValidatePeriodLengthUseCase,
-        private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
-        private val validateInputSessionStartCountdownUseCase: ValidateInputSessionStartCountdownUseCase,
-        private val validateInputPeriodStartCountdownUseCase: ValidateInputPeriodStartCountdownUseCase,
-        private val validateInputUserNameUseCase: ValidateInputUserNameUseCase,
-        private val toggleExerciseTypeInListUseCase: ToggleExerciseTypeInListUseCase,
-    ) : SettingsInteractor {
-        override fun getGeneralSettings(): Flow<Output<GeneralSettings>> = getGeneralSettingsUseCase.execute()
+class SettingsInteractorImpl(
+    private val getGeneralSettingsUseCase: GetGeneralSettingsUseCase,
+    private val setWorkPeriodLengthUseCase: SetWorkPeriodLengthUseCase,
+    private val setRestPeriodLengthUseCase: SetRestPeriodLengthUseCase,
+    private val setNumberOfWorkPeriodsUseCase: SetNumberOfWorkPeriodsUseCase,
+    private val setBeepSoundUseCase: SetBeepSoundUseCase,
+    private val setSessionStartCountDownUseCase: SetSessionStartCountDownUseCase,
+    private val setPeriodStartCountDownUseCase: SetPeriodStartCountDownUseCase,
+    private val updateUserNameUseCase: UpdateUserNameUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
+    private val createUserUseCase: CreateUserUseCase,
+    private val saveSelectedExerciseTypesUseCase: SaveSelectedExerciseTypesUseCase,
+    private val setAppLanguageUseCase: SetAppLanguageUseCase,
+    private val setAppThemeUseCase: SetAppThemeUseCase,
+    private val resetAllSettingsUseCase: ResetAllSettingsUseCase,
+    private val validatePeriodLengthUseCase: ValidatePeriodLengthUseCase,
+    private val validateNumberOfWorkPeriodsUseCase: ValidateNumberOfWorkPeriodsUseCase,
+    private val validateInputSessionStartCountdownUseCase: ValidateInputSessionStartCountdownUseCase,
+    private val validateInputPeriodStartCountdownUseCase: ValidateInputPeriodStartCountdownUseCase,
+    private val validateInputUserNameUseCase: ValidateInputUserNameUseCase,
+    private val toggleExerciseTypeInListUseCase: ToggleExerciseTypeInListUseCase,
+) : SettingsInteractor {
+    override fun getGeneralSettings(): Flow<Output<GeneralSettings>> = getGeneralSettingsUseCase.execute()
 
-        override suspend fun setWorkPeriodLength(durationMs: Long) = setWorkPeriodLengthUseCase.execute(durationMs)
+    override suspend fun setWorkPeriodLength(durationMs: Long) = setWorkPeriodLengthUseCase.execute(durationMs)
 
-        override suspend fun setRestPeriodLength(durationMs: Long) = setRestPeriodLengthUseCase.execute(durationMs)
+    override suspend fun setRestPeriodLength(durationMs: Long) = setRestPeriodLengthUseCase.execute(durationMs)
 
-        override suspend fun setNumberOfWorkPeriods(number: Int) = setNumberOfWorkPeriodsUseCase.execute(number)
+    override suspend fun setNumberOfWorkPeriods(number: Int) = setNumberOfWorkPeriodsUseCase.execute(number)
 
-        override suspend fun setBeepSound(active: Boolean) = setBeepSoundUseCase.execute(active)
+    override suspend fun setBeepSound(active: Boolean) = setBeepSoundUseCase.execute(active)
 
-        override suspend fun setSessionStartCountDown(durationMs: Long) = setSessionStartCountDownUseCase.execute(durationMs)
+    override suspend fun setSessionStartCountDown(durationMs: Long) = setSessionStartCountDownUseCase.execute(durationMs)
 
-        override suspend fun setPeriodStartCountDown(durationMs: Long) = setPeriodStartCountDownUseCase.execute(durationMs)
+    override suspend fun setPeriodStartCountDown(durationMs: Long) = setPeriodStartCountDownUseCase.execute(durationMs)
 
-        override suspend fun updateUserName(user: User): Output<Int> = updateUserNameUseCase.execute(user)
+    override suspend fun updateUserName(user: User): Output<Int> = updateUserNameUseCase.execute(user)
 
-        override suspend fun deleteUser(user: User): Output<Int> = deleteUserUseCase.execute(user)
+    override suspend fun deleteUser(user: User): Output<Int> = deleteUserUseCase.execute(user)
 
-        override suspend fun createUser(user: User): Output<Long> = createUserUseCase.execute(user)
+    override suspend fun createUser(user: User): Output<Long> = createUserUseCase.execute(user)
 
-        override suspend fun saveSelectedExerciseTypes(listOfSelectedExerciseTypes: List<ExerciseTypeSelected>) =
-            saveSelectedExerciseTypesUseCase.execute(listOfSelectedExerciseTypes)
+    override suspend fun saveSelectedExerciseTypes(listOfSelectedExerciseTypes: List<ExerciseTypeSelected>) =
+        saveSelectedExerciseTypesUseCase.execute(listOfSelectedExerciseTypes)
 
-        override suspend fun setAppLanguage(language: AppLanguage) = setAppLanguageUseCase.execute(language)
+    override suspend fun setAppLanguage(language: AppLanguage) = setAppLanguageUseCase.execute(language)
 
-        override suspend fun setAppTheme(theme: AppTheme) = setAppThemeUseCase.execute(theme)
+    override suspend fun setAppTheme(theme: AppTheme) = setAppThemeUseCase.execute(theme)
 
-        override suspend fun resetAllSettings() = resetAllSettingsUseCase.execute()
+    override suspend fun resetAllSettings() = resetAllSettingsUseCase.execute()
 
-        override fun validatePeriodLength(
-            input: String,
-            periodCountDownLengthSeconds: Long,
-        ): Constants.InputError = validatePeriodLengthUseCase.execute(input, periodCountDownLengthSeconds)
+    override fun validatePeriodLength(
+        input: String,
+        periodCountDownLengthSeconds: Long,
+    ): Constants.InputError = validatePeriodLengthUseCase.execute(input, periodCountDownLengthSeconds)
 
-        override fun validateNumberOfWorkPeriods(input: String): Constants.InputError = validateNumberOfWorkPeriodsUseCase.execute(input)
+    override fun validateNumberOfWorkPeriods(input: String): Constants.InputError = validateNumberOfWorkPeriodsUseCase.execute(input)
 
-        override fun validateInputSessionStartCountdown(input: String): Constants.InputError =
-            validateInputSessionStartCountdownUseCase.execute(input)
+    override fun validateInputSessionStartCountdown(input: String): Constants.InputError =
+        validateInputSessionStartCountdownUseCase.execute(input)
 
-        override fun validateInputPeriodStartCountdown(
-            input: String,
-            workPeriodLengthSeconds: Long,
-            restPeriodLengthSeconds: Long,
-        ): Constants.InputError =
-            validateInputPeriodStartCountdownUseCase.execute(
-                input,
-                workPeriodLengthSeconds,
-                restPeriodLengthSeconds,
-            )
+    override fun validateInputPeriodStartCountdown(
+        input: String,
+        workPeriodLengthSeconds: Long,
+        restPeriodLengthSeconds: Long,
+    ): Constants.InputError =
+        validateInputPeriodStartCountdownUseCase.execute(
+            input,
+            workPeriodLengthSeconds,
+            restPeriodLengthSeconds,
+        )
 
-        override fun validateInputUserName(
-            user: User,
-            existingUsers: List<User>,
-        ): Constants.InputError = validateInputUserNameUseCase.execute(user, existingUsers)
+    override fun validateInputUserName(
+        user: User,
+        existingUsers: List<User>,
+    ): Constants.InputError = validateInputUserNameUseCase.execute(user, existingUsers)
 
-        override fun toggleExerciseTypeInList(
-            currentList: List<ExerciseTypeSelected>,
-            exerciseTypeToToggle: ExerciseTypeSelected,
-        ): List<ExerciseTypeSelected> = toggleExerciseTypeInListUseCase.execute(currentList, exerciseTypeToToggle)
-    }
+    override fun toggleExerciseTypeInList(
+        currentList: List<ExerciseTypeSelected>,
+        exerciseTypeToToggle: ExerciseTypeSelected,
+    ): List<ExerciseTypeSelected> = toggleExerciseTypeInListUseCase.execute(currentList, exerciseTypeToToggle)
+}
