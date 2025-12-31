@@ -16,8 +16,8 @@ import org.koin.dsl.module
 val dataModule =
     module {
         // Mappers
-        single { UserMapper() }
-        single { SessionMapper() }
+        factory { UserMapper() }
+        factory { SessionMapper() }
 
         // Repositories
         single<UsersRepository> {
