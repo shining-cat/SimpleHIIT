@@ -28,7 +28,7 @@ import org.koin.dsl.module
 val settingsDomainModule =
     module {
         // UseCases
-        single {
+        factory {
             CheckIfAnotherUserUsesThatNameUseCase(
                 usersRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -36,7 +36,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             CreateUserUseCase(
                 usersRepository = get(),
                 checkIfAnotherUserUsesThatNameUseCase = get(),
@@ -45,7 +45,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             DeleteUserUseCase(
                 usersRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -53,13 +53,13 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             GetCurrentAppLanguageUseCase(
                 languageRepository = get(),
             )
         }
 
-        single {
+        factory {
             GetGeneralSettingsUseCase(
                 usersRepository = get(),
                 settingsRepository = get(),
@@ -68,7 +68,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             ResetAllSettingsUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -76,7 +76,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SaveSelectedExerciseTypesUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -84,20 +84,20 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SetAppLanguageUseCase(
                 languageRepository = get(),
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             SetAppThemeUseCase(
                 settingsRepository = get(),
             )
         }
 
-        single {
+        factory {
             SetBeepSoundUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -105,7 +105,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SetNumberOfWorkPeriodsUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -113,7 +113,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SetPeriodStartCountDownUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -121,7 +121,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SetRestPeriodLengthUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -129,7 +129,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SetSessionStartCountDownUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -137,7 +137,7 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             SetWorkPeriodLengthUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -145,13 +145,13 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             ToggleExerciseTypeInListUseCase(
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             UpdateUserNameUseCase(
                 usersRepository = get(),
                 checkIfAnotherUserUsesThatNameUseCase = get(),
@@ -160,31 +160,31 @@ val settingsDomainModule =
             )
         }
 
-        single {
+        factory {
             ValidateInputPeriodStartCountdownUseCase(
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             ValidateInputSessionStartCountdownUseCase(
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             ValidateInputUserNameUseCase(
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             ValidateNumberOfWorkPeriodsUseCase(
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             ValidatePeriodLengthUseCase(
                 logger = get(),
             )

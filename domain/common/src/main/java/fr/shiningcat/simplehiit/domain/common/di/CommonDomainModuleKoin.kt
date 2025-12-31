@@ -8,7 +8,7 @@ import org.koin.dsl.module
 val commonDomainModule =
     module {
         // UseCases
-        single {
+        factory {
             ResetWholeAppUseCase(
                 settingsRepository = get(),
                 usersRepository = get(),
@@ -17,7 +17,7 @@ val commonDomainModule =
             )
         }
 
-        single {
+        factory {
             FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
                 durationStringFormatterDigits = get(named("DigitsFormat")),
                 durationStringFormatterShort = get(named("ShortFormat")),
