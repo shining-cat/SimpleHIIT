@@ -13,21 +13,21 @@ import org.koin.dsl.module
 val statisticsDomainModule =
     module {
         // UseCases
-        single {
+        factory {
             ConsecutiveDaysOrCloserUseCase(
                 defaultDispatcher = get(named("DefaultDispatcher")),
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             CalculateAverageSessionsPerWeekUseCase(
                 defaultDispatcher = get(named("DefaultDispatcher")),
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             CalculateCurrentStreakUseCase(
                 consecutiveDaysOrCloserUseCase = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -35,7 +35,7 @@ val statisticsDomainModule =
             )
         }
 
-        single {
+        factory {
             CalculateLongestStreakUseCase(
                 consecutiveDaysOrCloserUseCase = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -43,7 +43,7 @@ val statisticsDomainModule =
             )
         }
 
-        single {
+        factory {
             DeleteSessionsForUserUseCase(
                 sessionsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -51,14 +51,14 @@ val statisticsDomainModule =
             )
         }
 
-        single {
+        factory {
             GetAllUsersUseCase(
                 usersRepository = get(),
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             GetStatsForUserUseCase(
                 sessionsRepository = get(),
                 calculateCurrentStreakUseCase = get(),

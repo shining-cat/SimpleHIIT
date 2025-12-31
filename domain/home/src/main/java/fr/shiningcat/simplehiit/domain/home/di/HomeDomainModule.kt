@@ -11,9 +11,9 @@ import org.koin.dsl.module
 val homeDomainModule =
     module {
         // UseCases
-        single { DetectSessionWarningUseCase() }
+        factory { DetectSessionWarningUseCase() }
 
-        single {
+        factory {
             GetHomeSettingsUseCase(
                 usersRepository = get(),
                 settingsRepository = get(),
@@ -22,7 +22,7 @@ val homeDomainModule =
             )
         }
 
-        single {
+        factory {
             SetTotalRepetitionsNumberUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -30,7 +30,7 @@ val homeDomainModule =
             )
         }
 
-        single {
+        factory {
             ToggleUserSelectedUseCase(
                 usersRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -38,7 +38,7 @@ val homeDomainModule =
             )
         }
 
-        single {
+        factory {
             ValidateInputNumberCyclesUseCase(
                 logger = get(),
             )

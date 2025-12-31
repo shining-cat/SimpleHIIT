@@ -18,6 +18,11 @@ class SimpleHIITApplication : Application() {
         startKoin {
             androidLogger(Level.ERROR) // Only log errors to avoid noise
             androidContext(this@SimpleHIITApplication)
+
+            // Prevent duplicate definitions: if false, Koin crashes when a definition is declared twice
+            // This catches configuration errors immediately rather than silently using the last one.
+            allowOverride(false)
+
             modules(allKoinModules)
         }
     }

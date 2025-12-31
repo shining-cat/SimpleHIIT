@@ -27,6 +27,7 @@
 - [Deprecation Checker](docs/DEPRECATION_CHECKER.md)
 - [Git Hooks](docs/GITHOOKS.md)
 - [Gradle Tasks Reference](docs/GRADLE_TASKS.md)
+- [Koin DI Naming Conventions](docs/KOIN_NAMING_CONVENTIONS.md)
 - [Kover Code Coverage](docs/KOVER_CODE_COVERAGE.md)
 - [Ktlint Formatting Guide](docs/KTLINT_FORMATTING_GUIDE.md)
 - [Module Dependencies](docs/MODULE_DEPENDENCIES.md)

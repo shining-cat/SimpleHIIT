@@ -13,7 +13,7 @@ import org.koin.dsl.module
 
 val utilsModule =
     module {
-        single<HiitLogger> {
+        factory<HiitLogger> {
             val isDebug = (androidContext().applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
             HiitLoggerImpl(isDebugBuild = isDebug)
         }

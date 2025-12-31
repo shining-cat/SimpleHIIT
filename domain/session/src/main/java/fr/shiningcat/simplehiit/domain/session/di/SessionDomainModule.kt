@@ -11,14 +11,14 @@ import org.koin.dsl.module
 val sessionDomainModule =
     module {
         // UseCases
-        single {
+        factory {
             ComposeExercisesListForSessionUseCase(
                 defaultDispatcher = get(named("DefaultDispatcher")),
                 logger = get(),
             )
         }
 
-        single {
+        factory {
             BuildSessionUseCase(
                 composeExercisesListForSessionUseCase = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -26,7 +26,7 @@ val sessionDomainModule =
             )
         }
 
-        single {
+        factory {
             GetSessionSettingsUseCase(
                 usersRepository = get(),
                 settingsRepository = get(),
@@ -34,7 +34,7 @@ val sessionDomainModule =
             )
         }
 
-        single {
+        factory {
             InsertSessionUseCase(
                 sessionsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
@@ -42,7 +42,7 @@ val sessionDomainModule =
             )
         }
 
-        single {
+        factory {
             StepTimerUseCase(
                 timerDispatcher = get(named("TimerDispatcher")),
                 timeProvider = get(),
