@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
     implementation(projects.android.common)
+    implementation(projects.models)
     implementation(projects.domain.common)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
