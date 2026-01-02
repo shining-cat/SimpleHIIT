@@ -30,3 +30,6 @@ local.properties
 
 # Kotlin Scratch files
 **/.scratch/
+
+# Work-in-progress planning documents
+_WIP-plans/

@@ -6,6 +6,7 @@ import fr.shiningcat.simplehiit.android.common.ui.theme.Amber700
 import fr.shiningcat.simplehiit.android.common.ui.theme.Black
 import fr.shiningcat.simplehiit.android.common.ui.theme.Grey100
 import fr.shiningcat.simplehiit.android.common.ui.theme.Grey50
+import fr.shiningcat.simplehiit.android.common.ui.theme.Grey600
 import fr.shiningcat.simplehiit.android.common.ui.theme.Grey900
 import fr.shiningcat.simplehiit.android.common.ui.theme.Red_600
 import fr.shiningcat.simplehiit.android.common.ui.theme.Teal400
@@ -28,7 +29,7 @@ val mobileLightColorScheme =
         onSurface = Grey900,
         onSurfaceVariant = Grey900,
         outline = Grey900,
-        outlineVariant = Grey900,
+        outlineVariant = Grey600,
         error = Red_600,
         onError = White,
     )

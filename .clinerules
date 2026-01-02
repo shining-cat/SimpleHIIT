@@ -124,6 +124,38 @@
 
 **Philosophy:** Documentation should add value for future developers, not echo our implementation discussion.
 
+## Planning & Analysis Documents
+
+**All planning, analysis, and summary documents must be created in `_WIP-plans/` folder:**
+- Analysis documents (e.g., logic analysis, architecture review)
+- Planning documents (e.g., refactoring plans, implementation strategies)
+- Summary documents (e.g., change summaries, refactoring summaries)
+- Work-in-progress documents
+- Any other temporary planning artifacts
+
+**The `docs/` folder is reserved for:**
+- Permanent project documentation
+- Reference guides
+- Architecture decision records (ADRs)
+- Process documentation that becomes part of the project
+
+**WIP Context Loading:**
+- **ALWAYS** read and include any documents in `_WIP-plans/` as context when starting work
+- These documents contain current work-in-progress state and help avoid re-explaining ongoing tasks
+- Check `_WIP-plans/` before asking for clarification about current work
+
+**Branch Merge State Tracking:**
+- When the user says they will merge a branch AND there's agreed-upon work still to be done:
+  1. Create a summary document in `_WIP-plans/` with filename: `WIP-[feature-name]-[date].md`
+  2. Include:
+     - Current state: What was completed in this branch
+     - Remaining work: What still needs to be done (from agreed plan)
+     - Context: Any important decisions or patterns established
+     - Next steps: Clear action items for resuming work
+- This ensures continuity when picking up work after a merge
+
+**Philosophy:** Keep work-in-progress planning separate from permanent documentation. The `_WIP-plans/` folder is gitignored and provides a workspace for iterative planning without cluttering the docs folder. Always use WIP documents to maintain context across sessions.
+
 ## File Change Handling
 
 **When files have been modified since your last edit:**
@@ -133,3 +165,30 @@
 - Discuss any concerning changes before making modifications
 
 **Philosophy:** Respect the iterative nature of our collaboration. File changes between edits are intentional unless proven otherwise.
+
+## When in Doubt: Guiding Principles
+
+**Project goals prioritize learning and best practices over minimalism:**
+- Primary goal: experimentation, learning, and skill improvement
+- Favor canonical, idiomatic patterns even if they add complexity
+- Strictly follow official best practices and framework recommendations
+- Prefer proper separation of concerns over fewer files
+
+**Module-appropriate patterns:**
+- Android modules (`android/*`): Google/Android framework patterns and conventions
+- Shared-UI modules (`shared-ui/*`): Pure Kotlin, testable without Android dependencies
+- Domain modules (`domain/*`): Pure Kotlin, KMP-ready, framework-agnostic
+- Apply the right paradigm for each layer's context
+
+**When choosing between approaches:**
+- **Testability**: Prefer testable architecture over convenience
+- **Separation of Concerns**: Extract logic when it improves clarity, even if it adds classes
+- **Reusability**: Consider if logic could be shared or reused elsewhere
+- **Platform Independence**: Keep business logic free from Android dependencies when possible
+
+**Acceptable trade-offs:**
+- More files/classes for better organization ✓
+- Additional abstraction layers for proper separation ✓
+- Verbose but explicit over concise but unclear ✓
+
+**Philosophy:** Build for learning and long-term maintainability, not minimal line count. Follow established patterns rigorously to develop proper architectural instincts.

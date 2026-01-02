@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import fr.shiningcat.simplehiit.android.common.Screen
+import fr.shiningcat.simplehiit.android.common.viewmodels.HomeViewModel
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
@@ -22,9 +23,9 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.domain.common.models.CyclesModification
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.home.HomeDialog
-import fr.shiningcat.simplehiit.sharedui.home.HomeViewModel
 import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
 import org.koin.androidx.compose.koinViewModel
 
@@ -43,8 +44,8 @@ fun HomeScreen(
         navigateTo = navigateTo,
         onResetWholeApp = { viewModel.resetWholeApp() },
         onResetWholeAppDeleteEverything = { viewModel.resetWholeAppConfirmationDeleteEverything() },
-        decreaseNumberOfCycles = { viewModel.modifyNumberCycles(HomeViewModel.NumberCycleModification.DECREASE) },
-        increaseNumberOfCycles = { viewModel.modifyNumberCycles(HomeViewModel.NumberCycleModification.INCREASE) },
+        decreaseNumberOfCycles = { viewModel.modifyNumberCycles(CyclesModification.DECREASE) },
+        increaseNumberOfCycles = { viewModel.modifyNumberCycles(CyclesModification.INCREASE) },
         toggleSelectedUser = { viewModel.toggleSelectedUser(it) },
         cancelDialog = { viewModel.cancelDialog() },
         uiArrangement = uiArrangement,

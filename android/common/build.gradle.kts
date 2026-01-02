@@ -8,6 +8,8 @@ plugins {
 
 dependencies {
     implementation(projects.domain.common)
+    implementation(projects.domain.home)
+    implementation(projects.sharedUi.home)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     testImplementation(projects.testUtils)

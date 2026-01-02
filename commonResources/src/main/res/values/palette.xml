@@ -10,6 +10,8 @@ in pure-compose objects and xml-defined ones (only vector drawables in our case)
     <color name="amber_700">#FFFFA000</color>
     <color name="grey_50">#FFFAFAFA</color>
     <color name="grey_100">#FFF5F5F5</color>
+    <color name="grey_400">#FFBDBDBD</color>
+    <color name="grey_600">#FF757575</color>
     <color name="grey_900">#FF212121</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

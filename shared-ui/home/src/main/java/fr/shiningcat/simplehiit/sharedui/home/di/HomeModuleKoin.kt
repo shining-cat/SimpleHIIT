@@ -2,10 +2,8 @@ package fr.shiningcat.simplehiit.sharedui.home.di
 
 import fr.shiningcat.simplehiit.sharedui.home.HomeInteractor
 import fr.shiningcat.simplehiit.sharedui.home.HomeInteractorImpl
-import fr.shiningcat.simplehiit.sharedui.home.HomeViewModel
+import fr.shiningcat.simplehiit.sharedui.home.HomePresenter
 import fr.shiningcat.simplehiit.sharedui.home.HomeViewStateMapper
-import org.koin.core.module.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val homeModule =
@@ -29,12 +27,12 @@ val homeModule =
             )
         }
 
-        // ViewModel
-        viewModel {
-            HomeViewModel(
+        // Presenter - factory scoped to ViewModel lifecycle
+        factory {
+            HomePresenter(
                 homeInteractor = get(),
                 homeViewStateMapper = get(),
-                mainDispatcher = get(named("MainDispatcher")),
+                modifyNumberCyclesUseCase = get(),
                 logger = get(),
             )
         }

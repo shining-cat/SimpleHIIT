@@ -104,9 +104,10 @@ moduleGraphAssert {
             ":data -> :commonUtils",
             // Common resources can depend on domain:common
             ":commonResources -> :domain:common",
-            // Android common can depend on commonResources, domain:common, and commonUtils
+            // Android common can depend on commonResources, domain, shared-ui, and commonUtils
             ":android:common -> :commonResources",
-            ":android:common -> :domain:common",
+            ":android:common -> :domain:.*",
+            ":android:common -> :shared-ui:.*",
             ":android:common -> :commonUtils",
         )
 
