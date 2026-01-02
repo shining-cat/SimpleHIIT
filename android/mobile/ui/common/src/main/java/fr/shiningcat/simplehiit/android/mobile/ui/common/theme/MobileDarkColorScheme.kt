@@ -4,6 +4,7 @@ import androidx.compose.material3.darkColorScheme
 import fr.shiningcat.simplehiit.android.common.ui.theme.Amber200
 import fr.shiningcat.simplehiit.android.common.ui.theme.Amber700
 import fr.shiningcat.simplehiit.android.common.ui.theme.Black
+import fr.shiningcat.simplehiit.android.common.ui.theme.Grey400
 import fr.shiningcat.simplehiit.android.common.ui.theme.Grey900
 import fr.shiningcat.simplehiit.android.common.ui.theme.Red_200
 import fr.shiningcat.simplehiit.android.common.ui.theme.Teal200
@@ -26,7 +27,7 @@ val mobileDarkColorScheme =
         onSurface = White,
         onSurfaceVariant = White,
         outline = White,
-        outlineVariant = White,
+        outlineVariant = Grey400,
         error = Red_200,
         onError = Black,
     )

@@ -21,8 +21,10 @@ digraph {
 ":android:mobile:app" -> ":commonResources"
 ":android:mobile:app" -> ":data"
 ":android:common" -> ":domain:common"
+":android:common" -> ":domain:home"
+":android:common" -> ":shared-ui:home" [color=red style=bold]
 ":android:common" -> ":commonUtils"
-":android:common" -> ":commonResources" [color=red style=bold]
+":android:common" -> ":commonResources"
 ":android:mobile:ui:common" -> ":android:common" [color=red style=bold]
 ":android:mobile:ui:common" -> ":domain:common"
 ":android:mobile:ui:common" -> ":commonUtils"
@@ -53,7 +55,7 @@ digraph {
 ":android:mobile:ui:statistics" -> ":domain:common"
 ":domain:common" -> ":commonUtils" [color=red style=bold]
 ":domain:home" -> ":commonUtils"
-":domain:home" -> ":domain:common"
+":domain:home" -> ":domain:common" [color=red style=bold]
 ":domain:session" -> ":commonUtils"
 ":domain:session" -> ":domain:common"
 ":domain:settings" -> ":commonUtils"
@@ -62,7 +64,7 @@ digraph {
 ":domain:statistics" -> ":domain:common"
 ":shared-ui:home" -> ":commonUtils"
 ":shared-ui:home" -> ":domain:common"
-":shared-ui:home" -> ":domain:home"
+":shared-ui:home" -> ":domain:home" [color=red style=bold]
 ":shared-ui:session" -> ":commonUtils"
 ":shared-ui:session" -> ":domain:common"
 ":shared-ui:session" -> ":domain:session"
@@ -72,7 +74,7 @@ digraph {
 ":shared-ui:statistics" -> ":commonUtils"
 ":shared-ui:statistics" -> ":domain:common"
 ":shared-ui:statistics" -> ":domain:statistics"
-":commonResources" -> ":domain:common" [color=red style=bold]
+":commonResources" -> ":domain:common"
 ":data" -> ":domain:common"
 ":data" -> ":commonUtils"
 
@@ -96,8 +98,10 @@ digraph {
 ":android:tv:app" -> ":commonResources"
 ":android:tv:app" -> ":data"
 ":android:common" -> ":domain:common"
+":android:common" -> ":domain:home"
+":android:common" -> ":shared-ui:home" [color=red style=bold]
 ":android:common" -> ":commonUtils"
-":android:common" -> ":commonResources" [color=red style=bold]
+":android:common" -> ":commonResources"
 ":android:tv:ui:common" -> ":android:common" [color=red style=bold]
 ":android:tv:ui:common" -> ":domain:common"
 ":android:tv:ui:common" -> ":commonUtils"
@@ -128,7 +132,7 @@ digraph {
 ":android:tv:ui:statistics" -> ":domain:common"
 ":domain:common" -> ":commonUtils" [color=red style=bold]
 ":domain:home" -> ":commonUtils"
-":domain:home" -> ":domain:common"
+":domain:home" -> ":domain:common" [color=red style=bold]
 ":domain:session" -> ":commonUtils"
 ":domain:session" -> ":domain:common"
 ":domain:settings" -> ":commonUtils"
@@ -137,7 +141,7 @@ digraph {
 ":domain:statistics" -> ":domain:common"
 ":shared-ui:home" -> ":commonUtils"
 ":shared-ui:home" -> ":domain:common"
-":shared-ui:home" -> ":domain:home"
+":shared-ui:home" -> ":domain:home" [color=red style=bold]
 ":shared-ui:session" -> ":commonUtils"
 ":shared-ui:session" -> ":domain:common"
 ":shared-ui:session" -> ":domain:session"
@@ -147,7 +151,7 @@ digraph {
 ":shared-ui:statistics" -> ":commonUtils"
 ":shared-ui:statistics" -> ":domain:common"
 ":shared-ui:statistics" -> ":domain:statistics"
-":commonResources" -> ":domain:common" [color=red style=bold]
+":commonResources" -> ":domain:common"
 ":data" -> ":domain:common"
 ":data" -> ":commonUtils"
 }

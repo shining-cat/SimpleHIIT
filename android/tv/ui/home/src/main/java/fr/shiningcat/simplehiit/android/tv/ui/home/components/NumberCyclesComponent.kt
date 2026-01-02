@@ -52,11 +52,12 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val decreaseAllowed = numberOfCycles > 1
             ButtonIcon(
                 onClick = decreaseNumberOfCycles,
                 icon = Icons.Filled.KeyboardArrowDown,
                 iconContentDescription = CommonResourcesR.string.minus_cycle_description,
-                enabled = numberOfCycles > 1,
+                enabled = decreaseAllowed,
             )
             Text(
                 modifier = Modifier.padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_3)),

@@ -56,14 +56,15 @@ fun NumberCyclesComponent(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            val decreaseAllowed = numberOfCycles > 1
             IconButton(
-                enabled = numberOfCycles > 1,
+                enabled = decreaseAllowed,
                 onClick = decreaseNumberOfCycles,
             ) {
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,
                     contentDescription = stringResource(id = R.string.decrease),
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = if (decreaseAllowed) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
                     modifier = Modifier.size(adaptDpToFontScale(dimensionResource(R.dimen.button_height))),
                 )
             }
