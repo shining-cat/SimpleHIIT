@@ -8,6 +8,6 @@ plugins {
 dependencies {
     implementation(projects.models)
     implementation(projects.domain.common)
+    implementation(projects.commonUtils)
     testImplementation(projects.testUtils)
-    implementation(projects.android.common)
 }

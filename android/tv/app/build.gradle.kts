@@ -131,10 +131,13 @@ moduleGraphAssert {
         arrayOf(
             // Domain modules CANNOT depend on data layer
             ":domain:.* -X> :data",
+            // Domain modules CANNOT depend on Android-specific modules
+            ":domain:.* -X> :android:.*",
+            ":domain:.* -X> :commonResources",
             // Domain modules CANNOT depend on UI modules
-            ":domain:.* -X> :android:tv:ui:.*",
             ":domain:.* -X> :shared-ui:.*",
             // Domain modules CANNOT depend on app modules
+            ":domain:.* -X> :android:mobile:app",
             ":domain:.* -X> :android:tv:app",
             // Domain modules CANNOT depend on other domain modules (except domain:common via allowed rules)
             ":domain:home -X> :domain:session",
@@ -164,6 +167,34 @@ moduleGraphAssert {
             ":shared-ui:.* -X> :commonResources",
             // UI modules CANNOT depend on data layer
             ":android:tv:ui:.* -X> :data",
+            // UI modules CANNOT depend on domain feature modules (only domain:common temporarily)
+            ":android:tv:ui:home -X> :domain:home",
+            ":android:tv:ui:home -X> :domain:session",
+            ":android:tv:ui:home -X> :domain:settings",
+            ":android:tv:ui:home -X> :domain:statistics",
+            ":android:tv:ui:statistics -X> :domain:home",
+            ":android:tv:ui:statistics -X> :domain:session",
+            ":android:tv:ui:statistics -X> :domain:settings",
+            ":android:tv:ui:statistics -X> :domain:statistics",
+            ":android:tv:ui:session -X> :domain:home",
+            ":android:tv:ui:session -X> :domain:session",
+            ":android:tv:ui:session -X> :domain:settings",
+            ":android:tv:ui:session -X> :domain:statistics",
+            ":android:tv:ui:settings -X> :domain:home",
+            ":android:tv:ui:settings -X> :domain:session",
+            ":android:tv:ui:settings -X> :domain:settings",
+            ":android:tv:ui:settings -X> :domain:statistics",
+            ":android:tv:ui:common -X> :domain:home",
+            ":android:tv:ui:common -X> :domain:session",
+            ":android:tv:ui:common -X> :domain:settings",
+            ":android:tv:ui:common -X> :domain:statistics",
+            // Data CANNOT depend on Android modules
+            ":data -X> :android:.*",
+            ":data -X> :commonResources",
+            // Data CANNOT depend on shared-ui
+            ":data -X> :shared-ui:.*",
+            // Models CANNOT depend on anything
+            ":models -X> :.*",
             // NO module can depend on TV app module
             ":android:tv:ui:.* -X> :android:tv:app",
             ":shared-ui:.* -X> :android:tv:app",

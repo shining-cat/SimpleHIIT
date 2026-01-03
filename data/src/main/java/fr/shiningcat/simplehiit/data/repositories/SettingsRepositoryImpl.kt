@@ -2,6 +2,7 @@ package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
+import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
@@ -24,7 +25,7 @@ class SettingsRepositoryImpl(
                 "failed getting general settings - returning default settings",
                 exception,
             )
-            flowOf(SimpleHiitPreferences())
+            flowOf(SimpleHiitPreferencesFactory.createDefault())
         }
 
     override suspend fun setWorkPeriodLength(durationMs: Long) {

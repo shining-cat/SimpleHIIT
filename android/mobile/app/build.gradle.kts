@@ -132,11 +132,14 @@ moduleGraphAssert {
         arrayOf(
             // Domain modules CANNOT depend on data layer
             ":domain:.* -X> :data",
+            // Domain modules CANNOT depend on Android-specific modules
+            ":domain:.* -X> :android:.*",
+            ":domain:.* -X> :commonResources",
             // Domain modules CANNOT depend on UI modules
-            ":domain:.* -X> :android:mobile:ui:.*",
             ":domain:.* -X> :shared-ui:.*",
             // Domain modules CANNOT depend on app modules
             ":domain:.* -X> :android:mobile:app",
+            ":domain:.* -X> :android:tv:app",
             // Domain modules CANNOT depend on other domain modules (except domain:common via allowed rules)
             ":domain:home -X> :domain:session",
             ":domain:home -X> :domain:settings",
@@ -165,6 +168,34 @@ moduleGraphAssert {
             ":shared-ui:.* -X> :commonResources",
             // UI modules CANNOT depend on data layer
             ":android:mobile:ui:.* -X> :data",
+            // UI modules CANNOT depend on domain feature modules (only domain:common temporarily)
+            ":android:mobile:ui:home -X> :domain:home",
+            ":android:mobile:ui:home -X> :domain:session",
+            ":android:mobile:ui:home -X> :domain:settings",
+            ":android:mobile:ui:home -X> :domain:statistics",
+            ":android:mobile:ui:statistics -X> :domain:home",
+            ":android:mobile:ui:statistics -X> :domain:session",
+            ":android:mobile:ui:statistics -X> :domain:settings",
+            ":android:mobile:ui:statistics -X> :domain:statistics",
+            ":android:mobile:ui:session -X> :domain:home",
+            ":android:mobile:ui:session -X> :domain:session",
+            ":android:mobile:ui:session -X> :domain:settings",
+            ":android:mobile:ui:session -X> :domain:statistics",
+            ":android:mobile:ui:settings -X> :domain:home",
+            ":android:mobile:ui:settings -X> :domain:session",
+            ":android:mobile:ui:settings -X> :domain:settings",
+            ":android:mobile:ui:settings -X> :domain:statistics",
+            ":android:mobile:ui:common -X> :domain:home",
+            ":android:mobile:ui:common -X> :domain:session",
+            ":android:mobile:ui:common -X> :domain:settings",
+            ":android:mobile:ui:common -X> :domain:statistics",
+            // Data CANNOT depend on Android modules
+            ":data -X> :android:.*",
+            ":data -X> :commonResources",
+            // Data CANNOT depend on shared-ui
+            ":data -X> :shared-ui:.*",
+            // Models CANNOT depend on anything
+            ":models -X> :.*",
             // NO module can depend on mobile app module
             ":android:mobile:ui:.* -X> :android:mobile:app",
             ":shared-ui:.* -X> :android:mobile:app",

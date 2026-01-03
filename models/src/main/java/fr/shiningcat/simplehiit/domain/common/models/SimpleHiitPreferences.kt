@@ -1,23 +1,18 @@
 package fr.shiningcat.simplehiit.domain.common.models
 
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_APP_THEME
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_WORK_PERIODS_DEFAULT
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
-import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
-
+/**
+ * Application preferences/settings.
+ * Pure data model without default values.
+ * Use SimpleHiitPreferencesFactory in domain:common to create instances with defaults.
+ */
 data class SimpleHiitPreferences(
-    val workPeriodLengthMs: Long = WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
-    val restPeriodLengthMs: Long = REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
-    val numberOfWorkPeriods: Int = NUMBER_WORK_PERIODS_DEFAULT,
-    val beepSoundActive: Boolean = BEEP_SOUND_ACTIVE_DEFAULT,
-    val sessionCountDownLengthMs: Long = SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
-    val PeriodCountDownLengthMs: Long = PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
-    val selectedExercisesTypes: List<ExerciseTypeSelected> = DEFAULT_SELECTED_EXERCISES_TYPES,
-    val numberCumulatedCycles: Int = NUMBER_CUMULATED_CYCLES_DEFAULT,
-    val appTheme: AppTheme = DEFAULT_APP_THEME,
+    val workPeriodLengthMs: Long,
+    val restPeriodLengthMs: Long,
+    val numberOfWorkPeriods: Int,
+    val beepSoundActive: Boolean,
+    val sessionCountDownLengthMs: Long,
+    val PeriodCountDownLengthMs: Long,
+    val selectedExercisesTypes: List<ExerciseTypeSelected>,
+    val numberCumulatedCycles: Int,
+    val appTheme: AppTheme,
 )
