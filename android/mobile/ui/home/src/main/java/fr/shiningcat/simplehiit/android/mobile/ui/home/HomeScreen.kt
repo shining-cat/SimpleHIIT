@@ -13,8 +13,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import fr.shiningcat.simplehiit.android.common.Screen
-import fr.shiningcat.simplehiit.android.common.viewmodels.HomeViewModel
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
@@ -22,6 +20,8 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInse
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.HomeTopBarComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.home.contents.HomeContentHolder
+import fr.shiningcat.simplehiit.android.shared.core.Screen
+import fr.shiningcat.simplehiit.android.shared.home.HomeViewModel
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.CyclesModification
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -57,7 +57,7 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScreen(
-    navigateTo: (fr.shiningcat.simplehiit.android.common.Screen) -> Unit = {},
+    navigateTo: (fr.shiningcat.simplehiit.android.shared.core.Screen) -> Unit = {},
     onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
     decreaseNumberOfCycles: () -> Unit = {},
@@ -74,7 +74,7 @@ private fun HomeScreen(
             NavigationSideBar(
                 // This component handles its own insets
                 navigateTo = navigateTo,
-                currentDestination = fr.shiningcat.simplehiit.android.common.Screen.Home,
+                currentDestination = fr.shiningcat.simplehiit.android.shared.core.Screen.Home,
                 showStatisticsButton = viewState is HomeViewState.Nominal,
             )
         }

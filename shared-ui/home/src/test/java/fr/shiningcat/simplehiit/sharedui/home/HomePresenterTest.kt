@@ -69,7 +69,7 @@ internal class HomePresenterTest : AbstractMockkTest() {
             // Emit first (with replay=1, collector will receive it)
             homeSettingsFlow.emit(Output.Success(testHomeSettings))
 
-            val stateFlow = testedPresenter.getScreenViewState()
+            val stateFlow = testedPresenter.screenViewState
 
             // Now collect - should immediately get the replayed value
             val result = stateFlow.first()
@@ -82,7 +82,7 @@ internal class HomePresenterTest : AbstractMockkTest() {
     @Test
     fun `getDialogState initially returns None`() =
         runTest {
-            val dialogState = testedPresenter.getDialogState().first()
+            val dialogState = testedPresenter.dialogState.first()
 
             assertEquals(HomeDialog.None, dialogState)
         }
@@ -187,7 +187,7 @@ internal class HomePresenterTest : AbstractMockkTest() {
         runTest {
             testedPresenter.showResetConfirmation()
 
-            val dialogState = testedPresenter.getDialogState().first()
+            val dialogState = testedPresenter.dialogState.first()
             assertTrue(dialogState is HomeDialog.ConfirmWholeReset)
         }
 
@@ -197,7 +197,7 @@ internal class HomePresenterTest : AbstractMockkTest() {
             testedPresenter.showResetConfirmation()
             testedPresenter.dismissDialog()
 
-            val dialogState = testedPresenter.getDialogState().first()
+            val dialogState = testedPresenter.dialogState.first()
             assertEquals(HomeDialog.None, dialogState)
         }
 
@@ -215,14 +215,14 @@ internal class HomePresenterTest : AbstractMockkTest() {
     fun `dialog state flow works correctly through sequence of operations`() =
         runTest {
             // Initially None
-            assertEquals(HomeDialog.None, testedPresenter.getDialogState().first())
+            assertEquals(HomeDialog.None, testedPresenter.dialogState.first())
 
             // Show confirmation
             testedPresenter.showResetConfirmation()
-            assertTrue(testedPresenter.getDialogState().first() is HomeDialog.ConfirmWholeReset)
+            assertTrue(testedPresenter.dialogState.first() is HomeDialog.ConfirmWholeReset)
 
             // Dismiss
             testedPresenter.dismissDialog()
-            assertEquals(HomeDialog.None, testedPresenter.getDialogState().first())
+            assertEquals(HomeDialog.None, testedPresenter.dialogState.first())
         }
 }

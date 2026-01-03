@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common.viewmodels
+package fr.shiningcat.simplehiit.android.shared.home
 
 import fr.shiningcat.simplehiit.domain.common.models.CyclesModification
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -41,8 +41,8 @@ internal class HomeViewModelTest : AbstractMockkTest() {
     @BeforeEach
     fun setUpDispatcher() {
         Dispatchers.setMain(testDispatcher)
-        every { mockHomePresenter.getScreenViewState() } returns testViewStateFlow
-        every { mockHomePresenter.getDialogState() } returns testDialogStateFlow
+        every { mockHomePresenter.screenViewState } returns testViewStateFlow
+        every { mockHomePresenter.dialogState } returns testDialogStateFlow
 
         testedViewModel =
             HomeViewModel(

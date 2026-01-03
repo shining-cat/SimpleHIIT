@@ -7,7 +7,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.common.Screen
+import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.BasicLoading
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogWarning
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
@@ -44,7 +44,7 @@ fun HomeContentHolder(
         }
         is HomeViewState.MissingUsers -> {
             HomeMissingUsersContent(
-                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings) },
+                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.Settings) },
             )
         }
         is HomeViewState.Nominal -> {
@@ -56,7 +56,7 @@ fun HomeContentHolder(
                 totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
                 users = screenViewState.users,
                 toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Session) },
+                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.Session) },
                 warning = screenViewState.warning,
                 hiitLogger = hiitLogger,
             )

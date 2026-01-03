@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common
+package fr.shiningcat.simplehiit.android.shared.core
 
 import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable

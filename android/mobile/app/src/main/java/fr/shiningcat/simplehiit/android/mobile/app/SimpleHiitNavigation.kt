@@ -4,14 +4,14 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
-import fr.shiningcat.simplehiit.android.common.NavigationViewModel
-import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.AboutScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.home.HomeScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.session.SessionScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.SettingsScreen
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.StatisticsScreen
+import fr.shiningcat.simplehiit.android.shared.core.NavigationViewModel
+import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import org.koin.androidx.compose.koinViewModel
 

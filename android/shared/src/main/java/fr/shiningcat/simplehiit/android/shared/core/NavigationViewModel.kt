@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common
+package fr.shiningcat.simplehiit.android.shared.core
 
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.runtime.toMutableStateList

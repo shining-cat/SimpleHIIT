@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.android.common)
+    implementation(projects.android.shared)
     implementation(projects.android.tv.ui.common)
     implementation(projects.sharedUi.settings)
     implementation(projects.commonUtils)

@@ -2,9 +2,8 @@ package fr.shiningcat.simplehiit.sharedui.settings.di
 
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsInteractor
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsInteractorImpl
-import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewModel
+import fr.shiningcat.simplehiit.sharedui.settings.SettingsPresenter
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewStateMapper
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -44,12 +43,12 @@ val settingsModule =
             )
         }
 
-        // ViewModel
-        viewModel {
-            SettingsViewModel(
+        // Presenter - factory scoped to ViewModel lifecycle
+        factory {
+            SettingsPresenter(
                 settingsInteractor = get(),
                 mapper = get(),
-                mainDispatcher = get(named("MainDispatcher")),
+                dispatcher = get(named("MainDispatcher")),
                 logger = get(),
             )
         }

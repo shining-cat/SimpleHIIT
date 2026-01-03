@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.android.common)
+    implementation(projects.android.shared)
     implementation(projects.android.tv.ui.common)
     implementation(projects.android.tv.ui.home)
     implementation(projects.android.tv.ui.settings)
@@ -57,27 +57,27 @@ moduleGraphAssert {
             // TV app can depend on anything (required by Android framework and DI)
             ":android:tv:app -> .*",
             // TV UI feature modules - CLEAN (models only, no domain)
-            ":android:tv:ui:home -> :android:common",
+            ":android:tv:ui:home -> :android:shared",
             ":android:tv:ui:home -> :android:tv:ui:common",
             ":android:tv:ui:home -> :shared-ui:home",
             ":android:tv:ui:home -> :models",
             ":android:tv:ui:home -> :commonUtils",
             ":android:tv:ui:home -> :commonResources",
-            ":android:tv:ui:statistics -> :android:common",
+            ":android:tv:ui:statistics -> :android:shared",
             ":android:tv:ui:statistics -> :android:tv:ui:common",
             ":android:tv:ui:statistics -> :shared-ui:statistics",
             ":android:tv:ui:statistics -> :models",
             ":android:tv:ui:statistics -> :commonUtils",
             ":android:tv:ui:statistics -> :commonResources",
             // TV UI feature modules - TEMPORARY domain:common (refactoring in progress)
-            ":android:tv:ui:session -> :android:common",
+            ":android:tv:ui:session -> :android:shared",
             ":android:tv:ui:session -> :android:tv:ui:common",
             ":android:tv:ui:session -> :shared-ui:session",
             ":android:tv:ui:session -> :models",
             ":android:tv:ui:session -> :domain:common",
             ":android:tv:ui:session -> :commonUtils",
             ":android:tv:ui:session -> :commonResources",
-            ":android:tv:ui:settings -> :android:common",
+            ":android:tv:ui:settings -> :android:shared",
             ":android:tv:ui:settings -> :android:tv:ui:common",
             ":android:tv:ui:settings -> :shared-ui:settings",
             ":android:tv:ui:settings -> :models",
@@ -85,7 +85,7 @@ moduleGraphAssert {
             ":android:tv:ui:settings -> :commonUtils",
             ":android:tv:ui:settings -> :commonResources",
             // TV UI common module - TEMPORARY domain:common (refactoring in progress)
-            ":android:tv:ui:common -> :android:common",
+            ":android:tv:ui:common -> :android:shared",
             ":android:tv:ui:common -> :models",
             ":android:tv:ui:common -> :domain:common",
             ":android:tv:ui:common -> :commonUtils",
@@ -118,11 +118,11 @@ moduleGraphAssert {
             ":commonResources -> :models",
             ":commonResources -> :domain:common",
             // Android common can depend on commonResources, domain, shared-ui, models and commonUtils
-            ":android:common -> :commonResources",
-            ":android:common -> :domain:.*",
-            ":android:common -> :shared-ui:.*",
-            ":android:common -> :models",
-            ":android:common -> :commonUtils",
+            ":android:shared -> :commonResources",
+            ":android:shared -> :domain:.*",
+            ":android:shared -> :shared-ui:.*",
+            ":android:shared -> :models",
+            ":android:shared -> :commonUtils",
             // Models module is foundation - no dependencies
             ":models -> (nothing allowed)",
         )
@@ -200,7 +200,7 @@ moduleGraphAssert {
             ":shared-ui:.* -X> :android:tv:app",
             ":commonUtils -X> :android:tv:app",
             ":commonResources -X> :android:tv:app",
-            ":android:common -X> :android:tv:app",
+            ":android:shared -X> :android:tv:app",
             ":testUtils -X> :android:tv:app",
             // commonUtils CANNOT depend on anything (foundation module)
             ":commonUtils -X> :.*",

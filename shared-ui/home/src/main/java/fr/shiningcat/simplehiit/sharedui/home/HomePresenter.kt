@@ -22,17 +22,17 @@ class HomePresenter(
     private val _dialogState = MutableStateFlow<HomeDialog>(HomeDialog.None)
 
     /**
-     * Exposes the screen view state by transforming domain data to UI state.
+     * The screen view state transforming domain data to UI state.
      */
-    fun getScreenViewState(): Flow<HomeViewState> =
+    val screenViewState: Flow<HomeViewState> =
         homeInteractor
             .getHomeSettings()
             .map { homeViewStateMapper.map(it) }
 
     /**
-     * Exposes the dialog state.
+     * The dialog state.
      */
-    fun getDialogState(): Flow<HomeDialog> = _dialogState.asStateFlow()
+    val dialogState: Flow<HomeDialog> = _dialogState.asStateFlow()
 
     /**
      * Modifies the number of cycles (increase or decrease).

@@ -8,8 +8,8 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.NavigationDrawer
 import androidx.tv.material3.Surface
-import fr.shiningcat.simplehiit.android.common.Screen
-import fr.shiningcat.simplehiit.android.common.viewmodels.HomeViewModel
+import fr.shiningcat.simplehiit.android.shared.core.Screen
+import fr.shiningcat.simplehiit.android.shared.home.HomeViewModel
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
