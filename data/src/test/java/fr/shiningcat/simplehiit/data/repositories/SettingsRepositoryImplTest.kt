@@ -1,6 +1,7 @@
 package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
+import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -222,7 +223,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                 )
             //
             val datastoreOutput1 =
-                SimpleHiitPreferences() // holds default values, should always be the fallback
+                SimpleHiitPreferencesFactory.createDefault() // holds default values, should always be the fallback
             val datastoreOutput2 =
                 SimpleHiitPreferences(
                     workPeriodLengthMs = 123,
@@ -233,6 +234,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                     PeriodCountDownLengthMs = 567,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                     numberCumulatedCycles = 3,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             val datastoreOutput3 =
                 SimpleHiitPreferences(
@@ -244,6 +246,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                     PeriodCountDownLengthMs = 543,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                     numberCumulatedCycles = 5,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
             coEvery { mockSimpleHiitDataStoreManager.getPreferences() } answers { settingsFlow }
@@ -292,7 +295,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                 )
             //
             val defaultSettings =
-                SimpleHiitPreferences() // holds default values, should always be the fallback
+                SimpleHiitPreferencesFactory.createDefault() // holds default values, should always be the fallback
             val thrownException = Exception("this is a test exception")
             coEvery { mockSimpleHiitDataStoreManager.getPreferences() } throws thrownException
             //

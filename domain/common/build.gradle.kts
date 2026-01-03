@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(projects.models)
     implementation(projects.commonUtils)
     testImplementation(projects.testUtils)
 }

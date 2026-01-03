@@ -2,8 +2,10 @@ package fr.shiningcat.simplehiit.domain.home.usecases
 
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
@@ -51,6 +53,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             PeriodCountDownLengthMs = 567,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
             numberCumulatedCycles = 5,
+            appTheme = AppTheme.FOLLOW_SYSTEM,
         )
 
     @Test
@@ -83,7 +86,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
     @Test
     fun `calls repo and return success with correct order of values`() =
         runTest(UnconfinedTestDispatcher()) {
-            val settingsValue1 = SimpleHiitPreferences()
+            val settingsValue1 = SimpleHiitPreferencesFactory.createDefault()
             val settingsValue2 =
                 SimpleHiitPreferences(
                     workPeriodLengthMs = 123L,
@@ -94,6 +97,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                     PeriodCountDownLengthMs = 567L,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                     numberCumulatedCycles = 5,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             val settingsValue3 =
                 SimpleHiitPreferences(
@@ -105,6 +109,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                     PeriodCountDownLengthMs = 765L,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                     numberCumulatedCycles = 3,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
             coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
@@ -377,6 +382,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                     PeriodCountDownLengthMs = 567L,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
                     numberCumulatedCycles = 5,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             val settingsFlow = MutableSharedFlow<SimpleHiitPreferences>()
             coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }

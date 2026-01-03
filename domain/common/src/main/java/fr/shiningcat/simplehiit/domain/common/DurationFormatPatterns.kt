@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common
 
-data class DurationStringFormatter(
+data class DurationFormatPatterns(
     val hoursMinutesSeconds: String,
     val hoursMinutesNoSeconds: String,
     val hoursNoMinutesNoSeconds: String,

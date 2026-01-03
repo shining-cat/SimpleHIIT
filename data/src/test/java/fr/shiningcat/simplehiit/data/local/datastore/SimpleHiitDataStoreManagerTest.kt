@@ -21,6 +21,8 @@ import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.PE
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
+import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
+import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
@@ -349,6 +351,7 @@ class SimpleHiitDataStoreManagerTest {
                             )
                         },
                     numberCumulatedCycles = testNumberCyclesValue,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             assertEquals(expectedPreferences, resultPreferences)
         }
@@ -380,6 +383,7 @@ class SimpleHiitDataStoreManagerTest {
                     PeriodCountDownLengthMs = PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
                     selectedExercisesTypes = DEFAULT_SELECTED_EXERCISES_TYPES,
                     numberCumulatedCycles = NUMBER_CUMULATED_CYCLES_DEFAULT,
+                    appTheme = AppTheme.FOLLOW_SYSTEM,
                 )
             assertEquals(expectedPreferences, resultPreferences)
         }
@@ -403,7 +407,7 @@ class SimpleHiitDataStoreManagerTest {
             val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
             //
             coVerify { mockkLogger.e(any(), any()) }
-            val expectedPreferences = SimpleHiitPreferences()
+            val expectedPreferences = SimpleHiitPreferencesFactory.createDefault()
             assertEquals(expectedPreferences, resultPreferences)
         }
 

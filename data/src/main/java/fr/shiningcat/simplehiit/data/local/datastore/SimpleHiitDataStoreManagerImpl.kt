@@ -13,6 +13,7 @@ import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.PE
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
+import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -150,7 +151,7 @@ class SimpleHiitDataStoreManagerImpl(
                     tag = "SimpleHiitDataStoreManager",
                     msg = "getPreferences - swallowing exception, clearing whole datastore and returning default values:: $exception",
                 )
-                emit(SimpleHiitPreferences())
+                emit(SimpleHiitPreferencesFactory.createDefault())
             }
 
     private fun retrieveWorkPeriodLength(preferences: Preferences) =

@@ -11,7 +11,7 @@ import fr.shiningcat.simplehiit.commonutils.di.utilsModule
 import fr.shiningcat.simplehiit.data.di.dataModule
 import fr.shiningcat.simplehiit.data.local.di.localDataModule
 import fr.shiningcat.simplehiit.data.local.localemanager.LocaleManager
-import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
+import fr.shiningcat.simplehiit.domain.common.DurationFormatPatterns
 import fr.shiningcat.simplehiit.domain.common.di.commonDomainModule
 import fr.shiningcat.simplehiit.domain.home.di.homeDomainModule
 import fr.shiningcat.simplehiit.domain.session.di.sessionDomainModule
@@ -29,7 +29,7 @@ import org.koin.dsl.module
 
 /**
  * Mobile app-specific module.
- * Provides LocaleManager, AndroidVersionProvider, DurationStringFormatters, and MainViewModel.
+ * Provides LocaleManager, AndroidVersionProvider, DurationFormatPatternss, and MainViewModel.
  */
 val mobileAppModule =
     module {
@@ -39,9 +39,9 @@ val mobileAppModule =
         // AndroidVersionProvider
         single<AndroidVersionProvider> { AndroidVersionProviderImpl() }
 
-        // DurationStringFormatter - Digits format
+        // DurationFormatPatterns - Digits format
         single(named("DigitsFormat")) {
-            DurationStringFormatter(
+            DurationFormatPatterns(
                 hoursMinutesSeconds = androidContext().getString(R.string.hours_minutes_seconds_digits),
                 hoursMinutesNoSeconds = androidContext().getString(R.string.hours_minutes_no_seconds_digits),
                 hoursNoMinutesNoSeconds = androidContext().getString(R.string.hours_no_minutes_no_seconds_digits),
@@ -51,9 +51,9 @@ val mobileAppModule =
             )
         }
 
-        // DurationStringFormatter - Short format
+        // DurationFormatPatterns - Short format
         single(named("ShortFormat")) {
-            DurationStringFormatter(
+            DurationFormatPatterns(
                 hoursMinutesSeconds = androidContext().getString(R.string.hours_minutes_seconds_short),
                 hoursMinutesNoSeconds = androidContext().getString(R.string.hours_minutes_no_seconds_short),
                 hoursNoMinutesNoSeconds = androidContext().getString(R.string.hours_no_minutes_no_seconds_short),

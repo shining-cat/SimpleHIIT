@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.common.usecases
 
-import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
+import fr.shiningcat.simplehiit.domain.common.DurationFormatPatterns
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.params.ParameterizedTest
@@ -10,7 +10,7 @@ import java.util.stream.Stream
 
 internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractMockkTest() {
     private val durationsFormatterShort =
-        DurationStringFormatter(
+        DurationFormatPatterns(
             hoursMinutesSeconds = "%1\$dh\u00A0%2$02dmn\u00A0%3$02ds",
             hoursMinutesNoSeconds = "%1\$dh\u00A0%2$02dmn",
             hoursNoMinutesNoSeconds = "%1\$dh",
@@ -19,7 +19,7 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
             seconds = "%ds",
         )
     private val durationsFormatterDigits =
-        DurationStringFormatter(
+        DurationFormatPatterns(
             hoursMinutesSeconds = "%1$02d:%2$02d:%3$02d",
             hoursMinutesNoSeconds = "%1$02d:%2$02d:%3$02d",
             hoursNoMinutesNoSeconds = "%1$02d:%2$02d:%3$02d",

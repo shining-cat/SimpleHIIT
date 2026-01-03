@@ -1,7 +1,7 @@
 package fr.shiningcat.simplehiit.domain.common.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.DurationStringFormatter
+import fr.shiningcat.simplehiit.domain.common.DurationFormatPatterns
 import java.util.concurrent.TimeUnit
 
 enum class DurationFormatStyle {
@@ -10,8 +10,8 @@ enum class DurationFormatStyle {
 }
 
 class FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
-    private val durationStringFormatterDigits: DurationStringFormatter,
-    private val durationStringFormatterShort: DurationStringFormatter,
+    private val durationStringFormatterDigits: DurationFormatPatterns,
+    private val durationStringFormatterShort: DurationFormatPatterns,
     private val logger: HiitLogger,
 ) {
     /**

@@ -8,5 +8,6 @@ android {
 }
 
 dependencies {
+    implementation(projects.models)
     implementation(projects.domain.common)
 }
