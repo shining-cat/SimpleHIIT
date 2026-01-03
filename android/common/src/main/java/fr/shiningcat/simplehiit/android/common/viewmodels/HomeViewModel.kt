@@ -23,8 +23,7 @@ class HomeViewModel(
     private val mainDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
     val screenViewState: StateFlow<HomeViewState> =
-        homePresenter
-            .getScreenViewState()
+        homePresenter.screenViewState
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
@@ -32,11 +31,10 @@ class HomeViewModel(
             )
 
     val dialogViewState: StateFlow<HomeDialog> =
-        homePresenter
-            .getDialogState()
+        homePresenter.dialogState
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.Eagerly,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
                 initialValue = HomeDialog.None,
             )
 

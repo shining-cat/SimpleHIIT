@@ -14,6 +14,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.common.Screen
+import fr.shiningcat.simplehiit.android.common.viewmodels.SettingsViewModel
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -26,7 +27,6 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
-import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewModel
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.koinViewModel
