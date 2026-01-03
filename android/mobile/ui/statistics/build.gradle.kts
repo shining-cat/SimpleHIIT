@@ -9,7 +9,7 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.android.common)
+    implementation(projects.android.shared)
     implementation(projects.android.mobile.ui.common)
     implementation(projects.sharedUi.statistics)
     implementation(projects.commonUtils)

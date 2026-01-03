@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common.viewmodels
+package fr.shiningcat.simplehiit.android.shared.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

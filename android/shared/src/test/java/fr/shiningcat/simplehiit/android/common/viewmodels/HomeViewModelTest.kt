@@ -1,4 +1,4 @@
-package fr.shiningcat.simplehiit.android.common.viewmodels
+package fr.shiningcat.simplehiit.android.shared.home
 
 import fr.shiningcat.simplehiit.domain.common.models.CyclesModification
 import fr.shiningcat.simplehiit.domain.common.models.User

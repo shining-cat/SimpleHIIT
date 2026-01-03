@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.android.common)
+    implementation(projects.android.shared)
     implementation(projects.android.mobile.ui.common)
     implementation(projects.android.mobile.ui.home)
     implementation(projects.android.mobile.ui.session)
@@ -58,27 +58,27 @@ moduleGraphAssert {
             // Mobile app can depend on anything (required by Android framework and DI)
             ":android:mobile:app -> .*",
             // Mobile UI feature modules - CLEAN (models only, no domain)
-            ":android:mobile:ui:home -> :android:common",
+            ":android:mobile:ui:home -> :android:shared",
             ":android:mobile:ui:home -> :android:mobile:ui:common",
             ":android:mobile:ui:home -> :shared-ui:home",
             ":android:mobile:ui:home -> :models",
             ":android:mobile:ui:home -> :commonUtils",
             ":android:mobile:ui:home -> :commonResources",
-            ":android:mobile:ui:statistics -> :android:common",
+            ":android:mobile:ui:statistics -> :android:shared",
             ":android:mobile:ui:statistics -> :android:mobile:ui:common",
             ":android:mobile:ui:statistics -> :shared-ui:statistics",
             ":android:mobile:ui:statistics -> :models",
             ":android:mobile:ui:statistics -> :commonUtils",
             ":android:mobile:ui:statistics -> :commonResources",
             // Mobile UI feature modules - TEMPORARY domain:common (refactoring in progress)
-            ":android:mobile:ui:session -> :android:common",
+            ":android:mobile:ui:session -> :android:shared",
             ":android:mobile:ui:session -> :android:mobile:ui:common",
             ":android:mobile:ui:session -> :shared-ui:session",
             ":android:mobile:ui:session -> :models",
             ":android:mobile:ui:session -> :domain:common",
             ":android:mobile:ui:session -> :commonUtils",
             ":android:mobile:ui:session -> :commonResources",
-            ":android:mobile:ui:settings -> :android:common",
+            ":android:mobile:ui:settings -> :android:shared",
             ":android:mobile:ui:settings -> :android:mobile:ui:common",
             ":android:mobile:ui:settings -> :shared-ui:settings",
             ":android:mobile:ui:settings -> :models",
@@ -86,7 +86,7 @@ moduleGraphAssert {
             ":android:mobile:ui:settings -> :commonUtils",
             ":android:mobile:ui:settings -> :commonResources",
             // Mobile UI common module - TEMPORARY domain:common (refactoring in progress)
-            ":android:mobile:ui:common -> :android:common",
+            ":android:mobile:ui:common -> :android:shared",
             ":android:mobile:ui:common -> :models",
             ":android:mobile:ui:common -> :domain:common",
             ":android:mobile:ui:common -> :commonUtils",
@@ -119,11 +119,11 @@ moduleGraphAssert {
             ":commonResources -> :models",
             ":commonResources -> :domain:common",
             // Android common can depend on commonResources, domain, shared-ui, models and commonUtils
-            ":android:common -> :commonResources",
-            ":android:common -> :domain:.*",
-            ":android:common -> :shared-ui:.*",
-            ":android:common -> :models",
-            ":android:common -> :commonUtils",
+            ":android:shared -> :commonResources",
+            ":android:shared -> :domain:.*",
+            ":android:shared -> :shared-ui:.*",
+            ":android:shared -> :models",
+            ":android:shared -> :commonUtils",
             // Models module is foundation - no dependencies
             ":models -> (nothing allowed)",
         )
@@ -201,7 +201,7 @@ moduleGraphAssert {
             ":shared-ui:.* -X> :android:mobile:app",
             ":commonUtils -X> :android:mobile:app",
             ":commonResources -X> :android:mobile:app",
-            ":android:common -X> :android:mobile:app",
+            ":android:shared -X> :android:mobile:app",
             ":testUtils -X> :android:mobile:app",
             // commonUtils CANNOT depend on anything (foundation module)
             ":commonUtils -X> :.*",

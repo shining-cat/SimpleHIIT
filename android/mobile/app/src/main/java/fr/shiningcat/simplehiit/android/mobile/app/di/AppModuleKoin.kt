@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.mobile.app.di
 
-import fr.shiningcat.simplehiit.android.common.di.commonAndroidModule
 import fr.shiningcat.simplehiit.android.mobile.app.MainViewModel
 import fr.shiningcat.simplehiit.android.mobile.app.locale.LocaleManagerImpl
 import fr.shiningcat.simplehiit.commonresources.R

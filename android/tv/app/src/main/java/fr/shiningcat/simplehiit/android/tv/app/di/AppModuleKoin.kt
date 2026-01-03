@@ -1,6 +1,5 @@
 package fr.shiningcat.simplehiit.android.tv.app.di
 
-import fr.shiningcat.simplehiit.android.common.di.commonAndroidModule
 import fr.shiningcat.simplehiit.android.tv.app.MainViewModel
 import fr.shiningcat.simplehiit.android.tv.app.locale.LocaleManagerImpl
 import fr.shiningcat.simplehiit.commonresources.R
