@@ -25,10 +25,10 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.R
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
@@ -66,15 +66,26 @@ fun StatisticCardComponent(
         }
     val illustrationContentDescription =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.laurels_icon_content_description)
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResourcesR.string.clock_icon_content_description)
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR.string.figure_and_clock_icon_content_description)
-            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResourcesR.string.trophy_icon_content_description)
-            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResourcesR.string.calendar_icon_content_description)
-            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK ->
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> {
+                stringResource(CommonResourcesR.string.laurels_icon_content_description)
+            }
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> {
+                stringResource(CommonResourcesR.string.clock_icon_content_description)
+            }
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> {
+                stringResource(CommonResourcesR.string.figure_and_clock_icon_content_description)
+            }
+            DisplayStatisticType.LONGEST_STREAK -> {
+                stringResource(CommonResourcesR.string.trophy_icon_content_description)
+            }
+            DisplayStatisticType.CURRENT_STREAK -> {
+                stringResource(CommonResourcesR.string.calendar_icon_content_description)
+            }
+            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> {
                 stringResource(
                     CommonResourcesR.string.figure_and_calendar_icon_content_description,
                 )
+            }
         }
     Card(
         modifier = modifier,

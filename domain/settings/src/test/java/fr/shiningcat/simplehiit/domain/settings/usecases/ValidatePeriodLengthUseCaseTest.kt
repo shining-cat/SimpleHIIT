@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -15,7 +15,7 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
     fun `finding average number of sessions per 7-days period`(
         input: String,
         periodCountDownLengthSeconds: Long,
-        expectedOutput: Constants.InputError,
+        expectedOutput: InputError,
     ) = runTest {
         val testedUseCase =
             ValidatePeriodLengthUseCase(logger = mockHiitLogger)
@@ -28,10 +28,10 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
         @JvmStatic
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
-                Arguments.of("three", 123L, Constants.InputError.WRONG_FORMAT),
-                Arguments.of("10", 5L, Constants.InputError.NONE),
-                Arguments.of("5", 5L, Constants.InputError.NONE),
-                Arguments.of("4", 5L, Constants.InputError.VALUE_TOO_SMALL),
+                Arguments.of("three", 123L, InputError.WRONG_FORMAT),
+                Arguments.of("10", 5L, InputError.NONE),
+                Arguments.of("5", 5L, InputError.NONE),
+                Arguments.of("4", 5L, InputError.VALUE_TOO_SMALL),
             )
     }
 }

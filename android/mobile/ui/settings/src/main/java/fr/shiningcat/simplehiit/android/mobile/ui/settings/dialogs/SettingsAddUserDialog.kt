@@ -12,13 +12,13 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 @Composable
 fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
     userName: String,
-    validateUserNameInput: (String) -> Constants.InputError,
+    validateUserNameInput: (String) -> InputError,
     onCancel: () -> Unit,
 ) {
     Column(
@@ -43,11 +43,11 @@ fun SettingsAddUserDialog(
     }
 }
 
-private fun setUSerNameErrorMessage(error: Constants.InputError): Int =
+private fun setUSerNameErrorMessage(error: InputError): Int =
     when (error) {
-        Constants.InputError.VALUE_EMPTY -> R.string.user_name_empty_error
-        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        InputError.VALUE_EMPTY -> R.string.user_name_empty_error
+        InputError.TOO_LONG -> R.string.user_name_too_long_error
+        InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 
@@ -61,7 +61,7 @@ private fun SettingsAddUserDialogPreview() {
         SettingsAddUserDialog(
             saveUserName = {},
             userName = "The User's name",
-            validateUserNameInput = { _ -> Constants.InputError.NONE },
+            validateUserNameInput = { _ -> InputError.NONE },
             onCancel = {},
         )
     }

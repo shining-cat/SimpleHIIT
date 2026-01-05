@@ -1,9 +1,9 @@
 package fr.shiningcat.simplehiit.sharedui.statistics
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
@@ -13,8 +13,8 @@ class StatisticsViewStateMapper(
     @Suppress("UNUSED_PARAMETER")
     private val logger: HiitLogger,
 ) {
-    fun mapUsersError(errorCode: Constants.Errors): StatisticsViewState =
-        if (errorCode == Constants.Errors.NO_USERS_FOUND) {
+    fun mapUsersError(errorCode: DomainError): StatisticsViewState =
+        if (errorCode == DomainError.NO_USERS_FOUND) {
             StatisticsViewState.NoUsers
         } else {
             StatisticsViewState.FatalError(errorCode.code)

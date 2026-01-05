@@ -21,12 +21,12 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleButtonLostWidthPix
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.R
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import kotlin.math.roundToInt

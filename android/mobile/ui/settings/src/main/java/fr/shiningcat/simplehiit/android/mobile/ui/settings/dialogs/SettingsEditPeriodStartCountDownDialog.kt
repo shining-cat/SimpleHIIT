@@ -13,12 +13,12 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 @Composable
 fun SettingsEditPeriodStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
-    validateCountDownLengthInput: (String) -> Constants.InputError,
+    validateCountDownLengthInput: (String) -> InputError,
     countDownLengthSeconds: String,
     onCancel: () -> Unit,
 ) {
@@ -45,10 +45,10 @@ fun SettingsEditPeriodStartCountDownDialog(
     }
 }
 
-private fun setInputPeriodCountDownLengthErrorMessage(error: Constants.InputError): Int =
+private fun setInputPeriodCountDownLengthErrorMessage(error: InputError): Int =
     when (error) {
-        Constants.InputError.NONE -> -1
-        Constants.InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
+        InputError.NONE -> -1
+        InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error
     }
 
@@ -61,7 +61,7 @@ private fun SettingsEditPeriodStartCountDownDialogPreview() {
     SimpleHiitMobileTheme {
         SettingsEditPeriodStartCountDownDialog(
             saveCountDownLength = {},
-            validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
+            validateCountDownLengthInput = { _ -> InputError.NONE },
             countDownLengthSeconds = "5",
             onCancel = {},
         )

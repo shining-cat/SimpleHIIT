@@ -1,10 +1,10 @@
 package fr.shiningcat.simplehiit.domain.home.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import kotlinx.coroutines.flow.Flow
@@ -29,7 +29,7 @@ class GetHomeSettingsUseCase(
                         "Error retrieving users",
                         exception,
                     )
-                    emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
+                    emit(Output.Error(DomainError.NO_USERS_FOUND, exception))
                 }
                 else -> {
                     usersOutput as Output.Success
@@ -52,7 +52,7 @@ class GetHomeSettingsUseCase(
                                     )
                                     emit(
                                         Output.Error(
-                                            Constants.Errors.DATABASE_UPDATE_FAILED,
+                                            DomainError.DATABASE_UPDATE_FAILED,
                                             togglingUser.exception,
                                         ),
                                     )
@@ -61,7 +61,7 @@ class GetHomeSettingsUseCase(
                                     if (togglingUser.result != 1) {
                                         val failedTogglingUser =
                                             Exception(
-                                                Constants.Errors.DATABASE_UPDATE_FAILED.code,
+                                                DomainError.DATABASE_UPDATE_FAILED.code,
                                             )
                                         logger.e(
                                             "GetHomeSettingsUseCase",
@@ -70,7 +70,7 @@ class GetHomeSettingsUseCase(
                                         )
                                         emit(
                                             Output.Error(
-                                                Constants.Errors.DATABASE_UPDATE_FAILED,
+                                                DomainError.DATABASE_UPDATE_FAILED,
                                                 failedTogglingUser,
                                             ),
                                         )
@@ -81,7 +81,7 @@ class GetHomeSettingsUseCase(
                         } else {
                             val couldNotFindAnySelectedUser =
                                 Exception(
-                                    Constants.Errors.NO_SELECTED_USERS_FOUND.code,
+                                    DomainError.NO_SELECTED_USERS_FOUND.code,
                                 )
                             logger.e(
                                 "GetHomeSettingsUseCase",
@@ -90,7 +90,7 @@ class GetHomeSettingsUseCase(
                             )
                             emit(
                                 Output.Error(
-                                    Constants.Errors.NO_SELECTED_USERS_FOUND,
+                                    DomainError.NO_SELECTED_USERS_FOUND,
                                     couldNotFindAnySelectedUser,
                                 ),
                             )

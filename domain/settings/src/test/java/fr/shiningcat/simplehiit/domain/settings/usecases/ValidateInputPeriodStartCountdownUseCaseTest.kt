@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -18,7 +18,7 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-        expectedOutput: Constants.InputError,
+        expectedOutput: InputError,
     ) = runTest {
         val testedUseCase =
             ValidateInputPeriodStartCountdownUseCase(
@@ -38,10 +38,10 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
         @JvmStatic
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
-                Arguments.of("three", 20L, 10L, Constants.InputError.WRONG_FORMAT),
-                Arguments.of("3", 20L, 10L, Constants.InputError.NONE),
-                Arguments.of("15", 20L, 10L, Constants.InputError.VALUE_TOO_BIG),
-                Arguments.of("25", 20L, 10L, Constants.InputError.VALUE_TOO_BIG),
+                Arguments.of("three", 20L, 10L, InputError.WRONG_FORMAT),
+                Arguments.of("3", 20L, 10L, InputError.NONE),
+                Arguments.of("15", 20L, 10L, InputError.VALUE_TOO_BIG),
+                Arguments.of("25", 20L, 10L, InputError.VALUE_TOO_BIG),
             )
     }
 }

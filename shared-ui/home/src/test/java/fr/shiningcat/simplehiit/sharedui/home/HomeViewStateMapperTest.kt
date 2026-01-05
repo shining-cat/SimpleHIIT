@@ -1,7 +1,7 @@
 package fr.shiningcat.simplehiit.sharedui.home
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
@@ -128,17 +128,17 @@ internal class HomeViewStateMapperTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     Output.Error(
-                        errorCode = Constants.Errors.NO_USERS_FOUND,
+                        errorCode = DomainError.NO_USERS_FOUND,
                         exception = testException,
                     ),
-                    HomeViewState.Error(Constants.Errors.NO_USERS_FOUND.code),
+                    HomeViewState.Error(DomainError.NO_USERS_FOUND.code),
                 ),
                 Arguments.of(
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                        errorCode = DomainError.DATABASE_FETCH_FAILED,
                         exception = testException,
                     ),
-                    HomeViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code),
+                    HomeViewState.Error(DomainError.DATABASE_FETCH_FAILED.code),
                 ),
             )
     }

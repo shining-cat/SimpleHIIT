@@ -15,13 +15,13 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogInput
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.InputDialogTextFieldSize
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 @Composable
 fun SettingsEditPeriodLengthDialog(
     dialogTitle: String,
     savePeriodLength: (String) -> Unit,
-    validatePeriodLengthInput: (String) -> Constants.InputError,
+    validatePeriodLengthInput: (String) -> InputError,
     periodLengthSeconds: String,
     onCancel: () -> Unit,
 ) {
@@ -48,10 +48,10 @@ fun SettingsEditPeriodLengthDialog(
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: Constants.InputError): Int =
+private fun setInputPeriodLengthErrorMessage(error: InputError): Int =
     when (error) {
-        Constants.InputError.NONE -> -1
-        Constants.InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
+        InputError.NONE -> -1
+        InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
         else -> R.string.invalid_input_error
     }
 
@@ -74,7 +74,7 @@ private fun SettingsEditPeriodLengthDialogPreview() {
         SettingsEditPeriodLengthDialog(
             dialogTitle = "Some period length",
             savePeriodLength = {},
-            validatePeriodLengthInput = { _ -> Constants.InputError.NONE },
+            validatePeriodLengthInput = { _ -> InputError.NONE },
             periodLengthSeconds = "15",
             onCancel = {},
         )

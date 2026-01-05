@@ -23,14 +23,14 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInse
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.contents.SettingsContentHolder
 import fr.shiningcat.simplehiit.android.shared.core.Screen
-import fr.shiningcat.simplehiit.android.shared.home.SettingsViewModel
+import fr.shiningcat.simplehiit.android.shared.settings.SettingsViewModel
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsViewState
@@ -101,16 +101,16 @@ private fun SettingsScreen(
     saveWorkPeriodLength: (String) -> Unit = {},
     editRestPeriodLength: () -> Unit = {},
     saveRestPeriodLength: (String) -> Unit = {},
-    validatePeriodLengthInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
+    validatePeriodLengthInput: (String) -> InputError = { InputError.NONE },
     editNumberOfWorkPeriod: () -> Unit = {},
-    validateNumberOfWorkPeriodsInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
+    validateNumberOfWorkPeriodsInput: (String) -> InputError = { InputError.NONE },
     saveNumberOfWorkPeriod: (String) -> Unit = {},
     toggleBeepSound: () -> Unit = {},
     editSessionStartCountDown: () -> Unit = {},
-    validateSessionCountDownLengthInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
+    validateSessionCountDownLengthInput: (String) -> InputError = { InputError.NONE },
     saveSessionStartCountDown: (String) -> Unit = {},
     editPeriodStartCountDown: () -> Unit = {},
-    validatePeriodCountDownLengthInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
+    validatePeriodCountDownLengthInput: (String) -> InputError = { InputError.NONE },
     savePeriodStartCountDown: (String) -> Unit = {},
     editUser: (User) -> Unit = {},
     addUser: () -> Unit = {},
@@ -119,7 +119,7 @@ private fun SettingsScreen(
     deleteUserCancel: (User) -> Unit = {},
     deleteUserConfirm: (User) -> Unit = {},
     toggleExerciseType: (ExerciseTypeSelected) -> Unit = {},
-    validateInputNameString: (User) -> Constants.InputError = { Constants.InputError.NONE },
+    validateInputNameString: (User) -> InputError = { InputError.NONE },
     editLanguage: () -> Unit = {},
     saveLanguage: (AppLanguage) -> Unit = {},
     editTheme: () -> Unit = {},

@@ -65,6 +65,7 @@ androidx-lifecycle = { module = "androidx.lifecycle:lifecycle-process", version.
 
 # Compose Ecosystem
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core" }
 androidx-compose-preview = { module = "androidx.compose.ui:ui-tooling-preview" }

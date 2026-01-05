@@ -21,12 +21,12 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.R
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptiveDialogProperties
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 @Composable

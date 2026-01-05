@@ -1,11 +1,11 @@
 package fr.shiningcat.simplehiit.sharedui.settings
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -70,7 +70,7 @@ class SettingsPresenter(
     }
 
     fun setWorkPeriodLength(inputSecondsAsString: String) {
-        if (validatePeriodLengthInput(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validatePeriodLengthInput(inputSecondsAsString) == InputError.NONE) {
             presenterScope.launch {
                 settingsInteractor.setWorkPeriodLength(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -83,7 +83,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validatePeriodLengthInput(input: String): Constants.InputError {
+    fun validatePeriodLengthInput(input: String): InputError {
         val currentViewState = screenViewStateInternal.value
         if (currentViewState is SettingsViewState.Nominal) {
             return settingsInteractor.validatePeriodLength(
@@ -92,7 +92,7 @@ class SettingsPresenter(
             )
         }
         // we don't really expect to be able to land in here if current state is not Nominal
-        return Constants.InputError.NONE
+        return InputError.NONE
     }
 
     // Rest period operations
@@ -114,7 +114,7 @@ class SettingsPresenter(
     }
 
     fun setRestPeriodLength(inputSecondsAsString: String) {
-        if (validatePeriodLengthInput(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validatePeriodLengthInput(inputSecondsAsString) == InputError.NONE) {
             presenterScope.launch {
                 settingsInteractor.setRestPeriodLength(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -144,7 +144,7 @@ class SettingsPresenter(
     }
 
     fun setNumberOfWorkPeriods(value: String) {
-        if (validateNumberOfWorkPeriods(value) == Constants.InputError.NONE) {
+        if (validateNumberOfWorkPeriods(value) == InputError.NONE) {
             presenterScope.launch {
                 settingsInteractor.setNumberOfWorkPeriods(value.toInt())
                 _dialogViewState.emit(SettingsDialog.None)
@@ -157,7 +157,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateNumberOfWorkPeriods(input: String): Constants.InputError = settingsInteractor.validateNumberOfWorkPeriods(input)
+    fun validateNumberOfWorkPeriods(input: String): InputError = settingsInteractor.validateNumberOfWorkPeriods(input)
 
     // Beep sound
     fun toggleBeepSound() {
@@ -190,7 +190,7 @@ class SettingsPresenter(
     }
 
     fun setSessionStartCountDown(inputSecondsAsString: String) {
-        if (validateInputSessionStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validateInputSessionStartCountdown(inputSecondsAsString) == InputError.NONE) {
             presenterScope.launch {
                 settingsInteractor.setSessionStartCountDown(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -203,8 +203,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateInputSessionStartCountdown(input: String): Constants.InputError =
-        settingsInteractor.validateInputSessionStartCountdown(input)
+    fun validateInputSessionStartCountdown(input: String): InputError = settingsInteractor.validateInputSessionStartCountdown(input)
 
     // Period countdown
     fun editPeriodStartCountDown() {
@@ -225,7 +224,7 @@ class SettingsPresenter(
     }
 
     fun setPeriodStartCountDown(inputSecondsAsString: String) {
-        if (validateInputPeriodStartCountdown(inputSecondsAsString) == Constants.InputError.NONE) {
+        if (validateInputPeriodStartCountdown(inputSecondsAsString) == InputError.NONE) {
             presenterScope.launch {
                 settingsInteractor.setPeriodStartCountDown(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -238,7 +237,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateInputPeriodStartCountdown(input: String): Constants.InputError {
+    fun validateInputPeriodStartCountdown(input: String): InputError {
         val currentViewState = screenViewStateInternal.value
         if (currentViewState is SettingsViewState.Nominal) {
             return settingsInteractor.validateInputPeriodStartCountdown(
@@ -248,7 +247,7 @@ class SettingsPresenter(
             )
         }
         // we don't really expect to be able to land in here if current state is not Nominal
-        return Constants.InputError.NONE
+        return InputError.NONE
     }
 
     // User management
@@ -331,7 +330,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateInputUserNameString(user: User): Constants.InputError {
+    fun validateInputUserNameString(user: User): InputError {
         val currentViewState = screenViewStateInternal.value
         if (currentViewState is SettingsViewState.Nominal) {
             return settingsInteractor.validateInputUserName(
@@ -340,7 +339,7 @@ class SettingsPresenter(
             )
         }
         // we don't really expect to be able to land in here if current state is not Nominal
-        return Constants.InputError.NONE
+        return InputError.NONE
     }
 
     // Exercise types

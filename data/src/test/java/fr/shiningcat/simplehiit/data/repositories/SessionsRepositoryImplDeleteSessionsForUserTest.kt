@@ -2,8 +2,8 @@ package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -53,7 +53,7 @@ internal class SessionsRepositoryImplDeleteSessionsForUserTest : AbstractMockkTe
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                    errorCode = DomainError.DATABASE_DELETE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -110,7 +110,7 @@ internal class SessionsRepositoryImplDeleteSessionsForUserTest : AbstractMockkTe
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                    errorCode = DomainError.DATABASE_DELETE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)

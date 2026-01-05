@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -57,7 +57,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
-                Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+                Output.Error(DomainError.EMPTY_RESULT, Exception(exceptionMessage))
             coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)
@@ -85,8 +85,8 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             //
             coVerify(exactly = 1) { mockCheckIfAnotherUserUsesThatNameUseCase.execute(testValue) }
             coVerify(exactly = 0) { mockUsersRepository.insertUser(testValue) }
-            val expectedErrorCode = Constants.Errors.USER_NAME_TAKEN
-            val expectedExceptionCode = Constants.Errors.USER_NAME_TAKEN.code
+            val expectedErrorCode = DomainError.USER_NAME_TAKEN
+            val expectedExceptionCode = DomainError.USER_NAME_TAKEN.code
             assertTrue(result is Output.Error)
             result as Output.Error
             assertEquals(expectedErrorCode, result.errorCode)
@@ -106,7 +106,7 @@ internal class CreateUserUseCaseTest : AbstractMockkTest() {
             val testValue = User(id = 123L, name = "test user name", selected = true)
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
-                Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+                Output.Error(DomainError.EMPTY_RESULT, Exception(exceptionMessage))
             coEvery { mockUsersRepository.insertUser(any()) } answers { errorFromRepo }
             val successFromNameCheck = Output.Success(false)
             coEvery { mockCheckIfAnotherUserUsesThatNameUseCase.execute(any()) } answers { successFromNameCheck }

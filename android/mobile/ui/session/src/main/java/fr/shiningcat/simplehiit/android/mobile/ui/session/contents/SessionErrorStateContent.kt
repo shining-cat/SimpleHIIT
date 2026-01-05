@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
@@ -71,7 +71,7 @@ fun SessionErrorStateContent(
                         vertical = dimensionResource(CommonResourcesR.dimen.spacing_2),
                     ),
                 text =
-                    if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                    if (screenViewState.errorCode == DomainError.SESSION_NOT_FOUND.code) {
                         stringResource(id = CommonResourcesR.string.error_session_abort)
                     } else {
                         stringResource(id = CommonResourcesR.string.error_session_retry)
@@ -96,7 +96,7 @@ fun SessionErrorStateContent(
                 )
             }
             val clickAction: () -> Unit = {
-                if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                if (screenViewState.errorCode == DomainError.SESSION_NOT_FOUND.code) {
                     onAbort()
                 } else {
                     navigateUp()
@@ -118,7 +118,7 @@ fun SessionErrorStateContent(
             ) {
                 Text(
                     text =
-                        if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                        if (screenViewState.errorCode == DomainError.SESSION_NOT_FOUND.code) {
                             stringResource(id = CommonResourcesR.string.abort_session_button_label)
                         } else {
                             stringResource(id = CommonResourcesR.string.exit_button_label)
@@ -154,6 +154,6 @@ internal class SessionErrorStateContentPreviewParameterProvider : PreviewParamet
             sequenceOf(
                 SessionViewState.Error(errorCode = "ABCD-123"),
                 SessionViewState.Error(errorCode = ""),
-                SessionViewState.Error(errorCode = Constants.Errors.SESSION_NOT_FOUND.code),
+                SessionViewState.Error(errorCode = DomainError.SESSION_NOT_FOUND.code),
             )
 }

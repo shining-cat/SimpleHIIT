@@ -1,10 +1,10 @@
 package fr.shiningcat.simplehiit.domain.session.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combineTransform
@@ -21,7 +21,7 @@ class GetSessionSettingsUseCase(
             if (usersOutput is Output.Error) {
                 val exception = usersOutput.exception
                 logger.e("GetGeneralSettingsUseCase", "Error retrieving users", exception)
-                emit(Output.Error(Constants.Errors.NO_USERS_FOUND, exception))
+                emit(Output.Error(DomainError.NO_USERS_FOUND, exception))
             } else {
                 usersOutput as Output.Success
                 val totalCycleLength =

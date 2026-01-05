@@ -20,9 +20,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.fitsInWidth
 import fr.shiningcat.simplehiit.commonresources.R
 import kotlin.math.floor
 

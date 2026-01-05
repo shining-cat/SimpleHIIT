@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -88,7 +88,7 @@ internal class UsersRepositoryImplGetUsersAsListTest : AbstractMockkTest() {
             }
             assertTrue(output is Output.Error)
             output as Output.Error
-            assertEquals(Constants.Errors.DATABASE_FETCH_FAILED, output.errorCode)
+            assertEquals(DomainError.DATABASE_FETCH_FAILED, output.errorCode)
             assertEquals(thrownException, output.exception)
         }
 
@@ -155,7 +155,7 @@ internal class UsersRepositoryImplGetUsersAsListTest : AbstractMockkTest() {
             }
             assertTrue(actual is Output.Error)
             actual as Output.Error
-            assertEquals(Constants.Errors.DATABASE_FETCH_FAILED, actual.errorCode)
+            assertEquals(DomainError.DATABASE_FETCH_FAILED, actual.errorCode)
             assertEquals(thrownException, actual.exception)
         }
 

@@ -46,14 +46,14 @@ fun HomeTopBarComponent(
             )
         },
         actions = {
-            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.About) }) {
+            IconButton(onClick = { navigateTo(Screen.About) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.question_mark),
                     contentDescription = stringResource(id = R.string.about_button_content_label),
                     tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
-            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.Settings) }) {
+            IconButton(onClick = { navigateTo(Screen.Settings) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.cog),
                     contentDescription = stringResource(id = R.string.settings_button_content_label),
@@ -61,7 +61,7 @@ fun HomeTopBarComponent(
                 )
             }
             if (screenViewState is HomeViewState.Nominal) {
-                IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.Statistics) }) {
+                IconButton(onClick = { navigateTo(Screen.Statistics) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
                         contentDescription = stringResource(id = R.string.statistics_button_content_label),

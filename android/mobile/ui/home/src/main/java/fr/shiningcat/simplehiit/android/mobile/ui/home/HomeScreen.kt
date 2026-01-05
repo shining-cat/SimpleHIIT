@@ -57,7 +57,7 @@ fun HomeScreen(
 
 @Composable
 private fun HomeScreen(
-    navigateTo: (fr.shiningcat.simplehiit.android.shared.core.Screen) -> Unit = {},
+    navigateTo: (Screen) -> Unit = {},
     onResetWholeApp: () -> Unit = {},
     onResetWholeAppDeleteEverything: () -> Unit = {},
     decreaseNumberOfCycles: () -> Unit = {},
@@ -74,7 +74,7 @@ private fun HomeScreen(
             NavigationSideBar(
                 // This component handles its own insets
                 navigateTo = navigateTo,
-                currentDestination = fr.shiningcat.simplehiit.android.shared.core.Screen.Home,
+                currentDestination = Screen.Home,
                 showStatisticsButton = viewState is HomeViewState.Nominal,
             )
         }

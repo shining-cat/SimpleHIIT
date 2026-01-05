@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.sharedui.home
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
@@ -20,7 +20,7 @@ interface HomeInteractor {
 
     suspend fun resetWholeApp()
 
-    fun validateInputNumberCycles(input: String): Constants.InputError
+    fun validateInputNumberCycles(input: String): InputError
 }
 
 class HomeInteractorImpl(
@@ -38,5 +38,5 @@ class HomeInteractorImpl(
 
     override suspend fun resetWholeApp() = resetWholeAppUseCase.execute()
 
-    override fun validateInputNumberCycles(input: String): Constants.InputError = validateInputNumberCyclesUseCase.execute(input)
+    override fun validateInputNumberCycles(input: String): InputError = validateInputNumberCyclesUseCase.execute(input)
 }

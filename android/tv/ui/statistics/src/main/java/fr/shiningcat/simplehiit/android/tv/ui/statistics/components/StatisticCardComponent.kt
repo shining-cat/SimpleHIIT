@@ -26,7 +26,7 @@ import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.SurfaceDefaults
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.statistics.R
@@ -59,15 +59,26 @@ fun StatisticCardComponent(
         }
     val illustrationContentDescription =
         when (statistic.type) {
-            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> stringResource(CommonResourcesR.string.laurels_icon_content_description)
-            DisplayStatisticType.TOTAL_EXERCISE_TIME -> stringResource(CommonResourcesR.string.clock_icon_content_description)
-            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> stringResource(CommonResourcesR.string.figure_and_clock_icon_content_description)
-            DisplayStatisticType.LONGEST_STREAK -> stringResource(CommonResourcesR.string.trophy_icon_content_description)
-            DisplayStatisticType.CURRENT_STREAK -> stringResource(CommonResourcesR.string.calendar_icon_content_description)
-            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK ->
+            DisplayStatisticType.TOTAL_SESSIONS_NUMBER -> {
+                stringResource(CommonResourcesR.string.laurels_icon_content_description)
+            }
+            DisplayStatisticType.TOTAL_EXERCISE_TIME -> {
+                stringResource(CommonResourcesR.string.clock_icon_content_description)
+            }
+            DisplayStatisticType.AVERAGE_SESSION_LENGTH -> {
+                stringResource(CommonResourcesR.string.figure_and_clock_icon_content_description)
+            }
+            DisplayStatisticType.LONGEST_STREAK -> {
+                stringResource(CommonResourcesR.string.trophy_icon_content_description)
+            }
+            DisplayStatisticType.CURRENT_STREAK -> {
+                stringResource(CommonResourcesR.string.calendar_icon_content_description)
+            }
+            DisplayStatisticType.AVERAGE_SESSIONS_PER_WEEK -> {
                 stringResource(
                     CommonResourcesR.string.figure_and_calendar_icon_content_description,
                 )
+            }
         }
 
     Surface(

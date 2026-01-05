@@ -23,7 +23,7 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme

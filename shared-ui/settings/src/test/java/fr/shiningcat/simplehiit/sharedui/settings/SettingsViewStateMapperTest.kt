@@ -1,9 +1,9 @@
 package fr.shiningcat.simplehiit.sharedui.settings
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
@@ -165,17 +165,17 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                 ),
                 Arguments.of(
                     Output.Error(
-                        errorCode = Constants.Errors.NO_USERS_FOUND,
+                        errorCode = DomainError.NO_USERS_FOUND,
                         exception = testException,
                     ),
-                    SettingsViewState.Error(Constants.Errors.NO_USERS_FOUND.code),
+                    SettingsViewState.Error(DomainError.NO_USERS_FOUND.code),
                 ),
                 Arguments.of(
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                        errorCode = DomainError.DATABASE_FETCH_FAILED,
                         exception = testException,
                     ),
-                    SettingsViewState.Error(Constants.Errors.DATABASE_FETCH_FAILED.code),
+                    SettingsViewState.Error(DomainError.DATABASE_FETCH_FAILED.code),
                 ),
                 Arguments.of(
                     Output.Success(

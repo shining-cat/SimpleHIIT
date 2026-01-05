@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.components.GifImage
+import fr.shiningcat.simplehiit.android.shared.core.ui.components.GifImage
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseGifMapper

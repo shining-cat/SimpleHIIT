@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.sharedui.home
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.usecases.ResetWholeAppUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
@@ -54,7 +54,7 @@ internal class HomeInteractorTest : AbstractMockkTest() {
                 testReturnInt,
             )
         coEvery { mockResetWholeAppUseCase.execute() } just Runs
-        coEvery { mockValidateInputNumberCyclesUseCase.execute(any()) } returns Constants.InputError.NONE
+        coEvery { mockValidateInputNumberCyclesUseCase.execute(any()) } returns InputError.NONE
     }
 
     @Test
@@ -94,6 +94,6 @@ internal class HomeInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             val result = testedInteractor.validateInputNumberCycles("test input string")
             coVerify(exactly = 1) { mockValidateInputNumberCyclesUseCase.execute("test input string") }
-            assertEquals(Constants.InputError.NONE, result)
+            assertEquals(InputError.NONE, result)
         }
 }

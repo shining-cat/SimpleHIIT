@@ -18,9 +18,9 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.sharedui.session.CountDown
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR

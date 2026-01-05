@@ -90,6 +90,53 @@
 
 **Philosophy:** Be constructive and specific. Provide actionable alternatives and explain reasoning. Execute decisively once direction is clear.
 
+## Convention Plugins & Dependencies
+
+**CRITICAL: Module build files should ONLY contain project dependencies.**
+
+**When a module needs an external library dependency:**
+
+1. **NEVER add external libs directly to module build.gradle.kts**
+   - ❌ WRONG: `implementation(libs.androidx.navigation3.runtime)`
+   - ✅ RIGHT: Apply appropriate convention plugin
+
+2. **Check convention plugins FIRST:**
+   - Review `build-logic/convention/src/main/kotlin/.../plugins/`
+   - Identify which plugin provides the needed dependency
+   - Apply the plugin to the module
+
+3. **If no existing plugin provides the dependency:**
+   - Consider if this is a common need across modules
+   - If yes: Create or update a convention plugin
+   - If no: Discuss with user before adding direct dependency
+
+**Common Convention Plugins:**
+- `simplehiit.android.library` - Base Android library
+- `simplehiit.android.library.compose` - Compose dependencies
+- `simplehiit.compose.navigation` - Navigation 3 dependencies
+- `simplehiit.koin` - Koin DI dependencies
+- `simplehiit.testing` - Test dependencies
+- `simplehiit.android.application.handheld` - Mobile app dependencies
+- `simplehiit.android.application.tv` - TV app dependencies
+
+**Module build.gradle.kts should look like:**
+```kotlin
+plugins {
+    alias(libs.plugins.simplehiit.android.library)
+    alias(libs.plugins.simplehiit.compose.navigation)
+    alias(libs.plugins.simplehiit.testing)
+}
+
+dependencies {
+    // ONLY project dependencies
+    implementation(projects.models)
+    implementation(projects.commonUtils)
+    testImplementation(projects.testUtils)
+}
+```
+
+**Philosophy:** Convention plugins centralize external dependency management, ensuring consistency and making it easy to update versions project-wide.
+
 ## Build & Testing Behavior
 
 **DO NOT attempt to build the project or run tests (unless specifically requested).**

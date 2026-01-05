@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.domain.statistics.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -51,7 +51,7 @@ internal class DeleteSessionsForUserUseCaseTest : AbstractMockkTest() {
             val testValue = 123L
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
-                Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+                Output.Error(DomainError.EMPTY_RESULT, Exception(exceptionMessage))
             coEvery { mockSessionsRepository.deleteSessionRecordsForUser(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)

@@ -2,10 +2,10 @@ package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.data.local.localemanager.LocaleManager
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.LanguageRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,7 +26,7 @@ class LanguageRepositoryImpl(
         } else {
             hiitLogger.e("LanguageRepositoryImpl", "setAppLanguage::Failed to set language to $language")
             Output.Error(
-                errorCode = Constants.Errors.LANGUAGE_SET_FAILED,
+                errorCode = DomainError.LANGUAGE_SET_FAILED,
                 exception = Exception("LocaleManager returned false"),
             )
         }

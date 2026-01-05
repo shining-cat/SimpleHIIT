@@ -9,13 +9,12 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.android.shared)
+    implementation(projects.android.shared.core)
     implementation(projects.android.tv.ui.common)
     implementation(projects.sharedUi.session)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.models)
-    implementation(projects.domain.common)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

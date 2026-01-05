@@ -24,7 +24,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import fr.shiningcat.simplehiit.android.common.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.currentUiArrangement
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
@@ -33,6 +32,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.components.NumberCyclesCo
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersComponentHorizontal
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SelectUsersComponentVertical
 import fr.shiningcat.simplehiit.android.mobile.ui.home.components.SingleUserHeaderComponent
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.StickyFooterArrangement
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning

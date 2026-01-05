@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -65,7 +65,7 @@ internal class UsersRepositoryImplDeleteUserTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                    errorCode = DomainError.DATABASE_DELETE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -126,7 +126,7 @@ internal class UsersRepositoryImplDeleteUserTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                    errorCode = DomainError.DATABASE_DELETE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -191,14 +191,14 @@ internal class UsersRepositoryImplDeleteUserTest : AbstractMockkTest() {
                 Arguments.of(
                     0,
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                        errorCode = DomainError.DATABASE_DELETE_FAILED,
                         exception = Exception("failed deleting user"),
                     ),
                 ),
                 Arguments.of(
                     7,
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                        errorCode = DomainError.DATABASE_DELETE_FAILED,
                         exception = Exception("failed deleting user"),
                     ),
                 ),

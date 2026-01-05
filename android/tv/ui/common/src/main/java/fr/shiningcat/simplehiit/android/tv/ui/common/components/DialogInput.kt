@@ -50,12 +50,12 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 enum class InputDialogTextFieldSize(
@@ -80,8 +80,8 @@ fun DialogInput(
     dismissButtonLabel: String = "",
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
-    validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
-    pickErrorMessage: (Constants.InputError) -> Int = { -1 },
+    validateInput: (String) -> InputError = { InputError.NONE },
+    pickErrorMessage: (InputError) -> Int = { -1 },
 ) {
     val input =
         rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -93,7 +93,7 @@ fun DialogInput(
             )
         }
     val isError =
-        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
+        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
@@ -123,7 +123,7 @@ fun DialogInput(
                             input.value = it
                             val validationResult = validateInput(it.text)
                             val errorStringRes = pickErrorMessage(validationResult)
-                            isError.value = validationResult != Constants.InputError.NONE
+                            isError.value = validationResult != InputError.NONE
                             errorMessageStringRes.intValue = errorStringRes
                         },
                         isError = isError.value,
@@ -413,7 +413,7 @@ internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<Di
                         secondaryButtonLabel = "",
                         dismissButtonLabel = "",
                         inputFieldSize = InputDialogTextFieldSize.SMALL,
-                        validateInput = { Constants.InputError.NONE },
+                        validateInput = { InputError.NONE },
                         errorMessage = { -1 },
                     ),
                     DialogInputPreviewObject(
@@ -424,7 +424,7 @@ internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<Di
                         secondaryButtonLabel = "",
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.MEDIUM,
-                        validateInput = { Constants.InputError.NONE },
+                        validateInput = { InputError.NONE },
                         errorMessage = { -1 },
                     ),
                     DialogInputPreviewObject(
@@ -435,7 +435,7 @@ internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<Di
                         secondaryButtonLabel = "Delete",
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.LARGE,
-                        validateInput = { Constants.InputError.NONE },
+                        validateInput = { InputError.NONE },
                         errorMessage = { -1 },
                     ),
                     DialogInputPreviewObject(
@@ -446,7 +446,7 @@ internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<Di
                         secondaryButtonLabel = "Delete",
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.LARGE,
-                        validateInput = { Constants.InputError.NONE },
+                        validateInput = { InputError.NONE },
                         errorMessage = { -1 },
                     ),
                     DialogInputPreviewObject(
@@ -460,7 +460,7 @@ internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<Di
                         secondaryButtonLabel = "Delete",
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.LARGE,
-                        validateInput = { Constants.InputError.WRONG_FORMAT },
+                        validateInput = { InputError.WRONG_FORMAT },
                         errorMessage = { CommonResourcesR.string.invalid_input_error },
                     ),
                     DialogInputPreviewObject(
@@ -471,7 +471,7 @@ internal class DialogInputPreviewParameterProvider : PreviewParameterProvider<Di
                         secondaryButtonLabel = "Delete",
                         dismissButtonLabel = "Cancel",
                         inputFieldSize = InputDialogTextFieldSize.SMALL,
-                        validateInput = { Constants.InputError.WRONG_FORMAT },
+                        validateInput = { InputError.WRONG_FORMAT },
                         errorMessage = { CommonResourcesR.string.invalid_input_error },
                     ),
                 )
@@ -487,6 +487,6 @@ internal data class DialogInputPreviewObject(
     val secondaryButtonLabel: String,
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
-    val validateInput: (String) -> Constants.InputError,
-    val errorMessage: (Constants.InputError) -> Int,
+    val validateInput: (String) -> InputError,
+    val errorMessage: (InputError) -> Int,
 )

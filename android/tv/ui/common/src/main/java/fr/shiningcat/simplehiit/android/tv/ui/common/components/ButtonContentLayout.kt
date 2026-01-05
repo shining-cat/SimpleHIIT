@@ -20,7 +20,7 @@ import androidx.tv.material3.Icon
 import androidx.tv.material3.IconButtonDefaults.LargeIconSize
 import androidx.tv.material3.IconButtonDefaults.MediumIconSize
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
 /**

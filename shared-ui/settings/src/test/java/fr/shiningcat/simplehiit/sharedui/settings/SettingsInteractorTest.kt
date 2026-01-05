@@ -1,12 +1,12 @@
 package fr.shiningcat.simplehiit.sharedui.settings
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.settings.usecases.CreateUserUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.DeleteUserUseCase
@@ -126,22 +126,22 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
                 any(),
                 any(),
             )
-        } returns Constants.InputError.NONE
-        coEvery { mockValidateNumberOfWorkPeriodsUseCase.execute(any()) } returns Constants.InputError.NONE
-        coEvery { mockValidateInputSessionStartCountdownUseCase.execute(any()) } returns Constants.InputError.NONE
+        } returns InputError.NONE
+        coEvery { mockValidateNumberOfWorkPeriodsUseCase.execute(any()) } returns InputError.NONE
+        coEvery { mockValidateInputSessionStartCountdownUseCase.execute(any()) } returns InputError.NONE
         coEvery {
             mockValidateInputPeriodStartCountdownUseCase.execute(
                 any(),
                 any(),
                 any(),
             )
-        } returns Constants.InputError.NONE
+        } returns InputError.NONE
         coEvery {
             mockValidateInputUserNameUseCase.execute(
                 any(),
                 any(),
             )
-        } returns Constants.InputError.NONE
+        } returns InputError.NONE
         coEvery {
             mockToggleExerciseTypeInListUseCase.execute(
                 any(),
@@ -266,7 +266,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             val result = testedInteractor.validatePeriodLength(testString, 531L)
             coVerify(exactly = 1) { mockValidatePeriodLengthUseCase.execute(testString, 531L) }
-            assertEquals(Constants.InputError.NONE, result)
+            assertEquals(InputError.NONE, result)
         }
 
     @Test
@@ -274,7 +274,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             val result = testedInteractor.validateNumberOfWorkPeriods(testString)
             coVerify(exactly = 1) { mockValidateNumberOfWorkPeriodsUseCase.execute(testString) }
-            assertEquals(Constants.InputError.NONE, result)
+            assertEquals(InputError.NONE, result)
         }
 
     @Test
@@ -282,7 +282,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             val result = testedInteractor.validateInputSessionStartCountdown(testString)
             coVerify(exactly = 1) { mockValidateInputSessionStartCountdownUseCase.execute(testString) }
-            assertEquals(Constants.InputError.NONE, result)
+            assertEquals(InputError.NONE, result)
         }
 
     @Test
@@ -296,7 +296,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
                     285L,
                 )
             }
-            assertEquals(Constants.InputError.NONE, result)
+            assertEquals(InputError.NONE, result)
         }
 
     @Test
@@ -309,7 +309,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
                     testUsersList,
                 )
             }
-            assertEquals(Constants.InputError.NONE, result)
+            assertEquals(InputError.NONE, result)
         }
 
     @Test

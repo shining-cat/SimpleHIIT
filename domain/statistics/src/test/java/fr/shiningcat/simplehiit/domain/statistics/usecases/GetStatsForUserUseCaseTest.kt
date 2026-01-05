@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.domain.statistics.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SessionsRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.common.models.UserStatistics
@@ -47,7 +47,7 @@ internal class GetStatsForUserUseCaseTest : AbstractMockkTest() {
             val testException = Exception("this is a test exception")
             val testError =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    errorCode = DomainError.DATABASE_FETCH_FAILED,
                     exception = testException,
                 )
             coEvery { mockSessionsRepository.getSessionRecordsForUser(any()) } answers { testError }

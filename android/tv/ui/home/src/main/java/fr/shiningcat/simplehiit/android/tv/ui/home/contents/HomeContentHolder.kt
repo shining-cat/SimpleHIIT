@@ -44,7 +44,7 @@ fun HomeContentHolder(
         }
         is HomeViewState.MissingUsers -> {
             HomeMissingUsersContent(
-                navigateToSettings = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.Settings) },
+                navigateToSettings = { navigateTo(Screen.Settings) },
             )
         }
         is HomeViewState.Nominal -> {
@@ -56,7 +56,7 @@ fun HomeContentHolder(
                 totalLengthFormatted = screenViewState.totalSessionLengthFormatted,
                 users = screenViewState.users,
                 toggleSelectedUser = toggleSelectedUser,
-                navigateToSession = { navigateTo(fr.shiningcat.simplehiit.android.shared.core.Screen.Session) },
+                navigateToSession = { navigateTo(Screen.Session) },
                 warning = screenViewState.warning,
                 hiitLogger = hiitLogger,
             )

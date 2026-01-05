@@ -26,13 +26,13 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
-import fr.shiningcat.simplehiit.android.common.ui.utils.getTextHeightPix
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.ToggleButton
 import fr.shiningcat.simplehiit.android.mobile.ui.common.components.getToggleButtonLostWidthPix
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.home.R
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.fitsOnXLines
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.getTextHeightPix
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlin.math.floor
 import kotlin.math.roundToInt

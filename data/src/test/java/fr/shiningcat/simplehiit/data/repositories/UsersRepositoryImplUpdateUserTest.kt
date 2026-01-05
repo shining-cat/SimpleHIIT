@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -152,7 +152,7 @@ internal class UsersRepositoryImplUpdateUserTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                    errorCode = DomainError.DATABASE_UPDATE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -186,7 +186,7 @@ internal class UsersRepositoryImplUpdateUserTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                    errorCode = DomainError.DATABASE_UPDATE_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -200,14 +200,14 @@ internal class UsersRepositoryImplUpdateUserTest : AbstractMockkTest() {
                 Arguments.of(
                     0,
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                        errorCode = DomainError.DATABASE_UPDATE_FAILED,
                         exception = Exception("failed updating user"),
                     ),
                 ),
                 Arguments.of(
                     7,
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                        errorCode = DomainError.DATABASE_UPDATE_FAILED,
                         exception = Exception("failed updating user"),
                     ),
                 ),

@@ -2,6 +2,9 @@ package fr.shiningcat.simplehiit.android.mobile.app.di
 
 import fr.shiningcat.simplehiit.android.mobile.app.MainViewModel
 import fr.shiningcat.simplehiit.android.mobile.app.locale.LocaleManagerImpl
+import fr.shiningcat.simplehiit.android.shared.core.di.androidSharedCoreModule
+import fr.shiningcat.simplehiit.android.shared.home.androidSharedHomeModule
+import fr.shiningcat.simplehiit.android.shared.settings.androidSharedSettingsModule
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.AndroidVersionProvider
 import fr.shiningcat.simplehiit.commonutils.AndroidVersionProviderImpl
@@ -21,8 +24,8 @@ import fr.shiningcat.simplehiit.sharedui.session.di.sessionModule
 import fr.shiningcat.simplehiit.sharedui.settings.di.settingsModule
 import fr.shiningcat.simplehiit.sharedui.statistics.di.statisticsModule
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -89,8 +92,10 @@ val allKoinModules: List<Module> =
         sessionModule,
         settingsModule,
         statisticsModule,
-        // Android common
-        commonAndroidModule,
+        // Android shared modules
+        androidSharedCoreModule,
+        androidSharedHomeModule,
+        androidSharedSettingsModule,
         // App module
         mobileAppModule,
     )
