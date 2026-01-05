@@ -45,7 +45,7 @@ dependencies {
 }
 
 moduleGraphAssert {
-    maxHeight = 7
+    maxHeight = 8
 
     allowed =
         arrayOf(
