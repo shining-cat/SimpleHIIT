@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.sharedui.settings
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import fr.shiningcat.simplehiit.domain.common.usecases.DurationFormatStyle
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
@@ -37,7 +37,7 @@ class SettingsViewStateMapper(
                     sessionStartCountDownLengthAsSeconds == null ||
                     periodsStartCountDownLengthAsSeconds == null
                 ) {
-                    Error(Constants.Errors.CONVERSION_ERROR.code)
+                    Error(DomainError.CONVERSION_ERROR.code)
                 } else {
                     Nominal(
                         workPeriodLengthAsSeconds = workPeriodLengthAsSeconds,

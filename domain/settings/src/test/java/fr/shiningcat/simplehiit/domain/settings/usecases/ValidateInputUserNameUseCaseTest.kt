@@ -1,6 +1,6 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import kotlinx.coroutines.test.runTest
@@ -16,7 +16,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
     fun `finding average number of sessions per 7-days period`(
         user: User,
         existingUsers: List<User>,
-        expectedOutput: Constants.InputError,
+        expectedOutput: InputError,
     ) = runTest {
         val testedUseCase =
             ValidateInputUserNameUseCase(logger = mockHiitLogger)
@@ -36,7 +36,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 234L, name = "user test 2"),
                         User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.VALUE_ALREADY_TAKEN,
+                    InputError.VALUE_ALREADY_TAKEN,
                 ),
                 Arguments.of(
                     User(
@@ -50,7 +50,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 234L, name = "user test 2"),
                         User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.TOO_LONG,
+                    InputError.TOO_LONG,
                 ),
                 Arguments.of(
                     User(
@@ -59,7 +59,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                             "",
                     ),
                     emptyList<User>(),
-                    Constants.InputError.VALUE_EMPTY,
+                    InputError.VALUE_EMPTY,
                 ),
                 Arguments.of(
                     User(
@@ -68,7 +68,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                             "    ",
                     ),
                     emptyList<User>(),
-                    Constants.InputError.VALUE_EMPTY,
+                    InputError.VALUE_EMPTY,
                 ),
                 // picking the same name for the same user id:
                 Arguments.of(
@@ -78,7 +78,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 234L, name = "user test 2"),
                         User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.NONE,
+                    InputError.NONE,
                 ),
                 Arguments.of(
                     // 25 chars is the accepted limit
@@ -91,7 +91,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 234L, name = "user test 2"),
                         User(id = 345L, name = "user test 3"),
                     ),
-                    Constants.InputError.NONE,
+                    InputError.NONE,
                 ),
             )
     }

@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -34,7 +34,7 @@ internal class CheckIfAnotherUserUsesThatNameUseCaseTest : AbstractMockkTest() {
                 )
             val testUser = User(name = "this is a test name")
             val testException1 = Exception("this is a test exception 1")
-            val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException1)
+            val usersError = Output.Error(DomainError.DATABASE_FETCH_FAILED, testException1)
             coEvery { mockUsersRepository.getUsersList() } answers { usersError }
             //
             val output = testedUseCase.execute(testUser)

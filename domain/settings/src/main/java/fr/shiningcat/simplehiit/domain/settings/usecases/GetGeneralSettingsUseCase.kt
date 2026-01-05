@@ -1,10 +1,10 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -24,7 +24,7 @@ class GetGeneralSettingsUseCase(
                 val exception = usersOutput.exception
                 logger.e("GetGeneralSettingsUseCase", "Error retrieving users", exception)
                 Output.Error(
-                    Constants.Errors.NO_USERS_FOUND,
+                    DomainError.NO_USERS_FOUND,
                     exception,
                 )
             } else {

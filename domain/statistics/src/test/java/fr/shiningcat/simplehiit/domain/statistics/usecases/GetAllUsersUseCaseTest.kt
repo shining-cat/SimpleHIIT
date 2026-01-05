@@ -4,6 +4,7 @@ import fr.shiningcat.simplehiit.commonutils.NonEmptyList
 import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -80,7 +81,7 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
             val users = usersFlowAsList[0]
             assertTrue(users is Output.Error)
             users as Output.Error
-            assertEquals(Constants.Errors.NO_USERS_FOUND, users.errorCode)
+            assertEquals(DomainError.NO_USERS_FOUND, users.errorCode)
             assertEquals(Constants.NO_RESULTS_FOUND, users.exception.message)
             //
             collectJob.cancel()
@@ -90,7 +91,7 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
     fun `calls repo and return error if repo returns error`() =
         runTest {
             val testException = Exception("this is a test exception")
-            val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException)
+            val usersError = Output.Error(DomainError.DATABASE_FETCH_FAILED, testException)
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
             coEvery { mockUsersRepository.getUsers() } answers { usersFlow }
             //
@@ -100,7 +101,7 @@ internal class GetAllUsersUseCaseTest : AbstractMockkTest() {
                     testedUseCase.execute().toList(usersFlowAsList)
                 }
             //
-            usersFlow.emit(Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException))
+            usersFlow.emit(Output.Error(DomainError.DATABASE_FETCH_FAILED, testException))
             assertEquals(1, usersFlowAsList.size)
             val users = usersFlowAsList[0]
             assertEquals(usersError, users)

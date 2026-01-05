@@ -30,13 +30,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogProperties
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.ButtonType
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptiveDialogProperties
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptiveDialogWidth
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 

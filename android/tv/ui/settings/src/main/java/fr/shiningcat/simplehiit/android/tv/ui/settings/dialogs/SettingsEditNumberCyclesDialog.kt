@@ -15,12 +15,12 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogInput
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.InputDialogTextFieldSize
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 @Composable
 fun SettingsEditNumberCyclesDialog(
     saveNumber: (String) -> Unit,
-    validateNumberCyclesInput: (String) -> Constants.InputError,
+    validateNumberCyclesInput: (String) -> InputError,
     numberOfCycles: String,
     onCancel: () -> Unit,
 ) {
@@ -47,9 +47,9 @@ fun SettingsEditNumberCyclesDialog(
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: Constants.InputError): Int =
+private fun setNumberCyclesErrorMessage(error: InputError): Int =
     when (error) {
-        Constants.InputError.NONE -> -1
+        InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
 
@@ -71,7 +71,7 @@ private fun SettingsEditNumberCyclesDialogPreview() {
     SimpleHiitTvTheme {
         SettingsEditNumberCyclesDialog(
             saveNumber = {},
-            validateNumberCyclesInput = { _ -> Constants.InputError.NONE },
+            validateNumberCyclesInput = { _ -> InputError.NONE },
             numberOfCycles = "5",
             onCancel = {},
         )

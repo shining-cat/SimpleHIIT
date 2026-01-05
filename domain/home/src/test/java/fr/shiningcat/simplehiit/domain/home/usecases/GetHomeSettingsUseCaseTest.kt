@@ -1,11 +1,11 @@
 package fr.shiningcat.simplehiit.domain.home.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.HomeSettings
@@ -63,7 +63,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
             //
             val testException = Exception("this is a test exception")
-            val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException)
+            val usersError = Output.Error(DomainError.DATABASE_FETCH_FAILED, testException)
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
             coEvery { mockUsersRepository.getUsers() } answers { usersFlow }
             //
@@ -77,7 +77,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             usersFlow.emit(usersError)
             assertEquals(1, homeSettingsFlowAsList.size)
             val homeSettingsResult = homeSettingsFlowAsList[0]
-            val expectedError = Output.Error(Constants.Errors.NO_USERS_FOUND, testException)
+            val expectedError = Output.Error(DomainError.NO_USERS_FOUND, testException)
             assertEquals(expectedError, homeSettingsResult)
             //
             collectJob.cancel()
@@ -187,7 +187,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             val updateException = Exception("this is a test exception")
             val updateError =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                    errorCode = DomainError.DATABASE_UPDATE_FAILED,
                     exception = updateException,
                 )
             coEvery { mockUsersRepository.updateUser(any()) } answers { updateError }
@@ -212,7 +212,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             assertEquals(1, homeSettingsFlowAsList.size)
             val homeSettingsResult = homeSettingsFlowAsList[0]
             val expectedError =
-                Output.Error(Constants.Errors.DATABASE_UPDATE_FAILED, updateException)
+                Output.Error(DomainError.DATABASE_UPDATE_FAILED, updateException)
             assertEquals(expectedError, homeSettingsResult)
             //
             collectJob.cancel()
@@ -248,9 +248,9 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             val homeSettingsResult = homeSettingsFlowAsList[0]
             assertTrue(homeSettingsResult is Output.Error)
             homeSettingsResult as Output.Error
-            assertEquals(Constants.Errors.DATABASE_UPDATE_FAILED, homeSettingsResult.errorCode)
+            assertEquals(DomainError.DATABASE_UPDATE_FAILED, homeSettingsResult.errorCode)
             assertEquals(
-                Constants.Errors.DATABASE_UPDATE_FAILED.code,
+                DomainError.DATABASE_UPDATE_FAILED.code,
                 homeSettingsResult.exception.message,
             )
             //
@@ -287,9 +287,9 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             val homeSettingsResult = homeSettingsFlowAsList[0]
             assertTrue(homeSettingsResult is Output.Error)
             homeSettingsResult as Output.Error
-            assertEquals(Constants.Errors.NO_SELECTED_USERS_FOUND, homeSettingsResult.errorCode)
+            assertEquals(DomainError.NO_SELECTED_USERS_FOUND, homeSettingsResult.errorCode)
             assertEquals(
-                Constants.Errors.NO_SELECTED_USERS_FOUND.code,
+                DomainError.NO_SELECTED_USERS_FOUND.code,
                 homeSettingsResult.exception.message,
             )
             //

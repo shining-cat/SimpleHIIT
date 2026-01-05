@@ -15,12 +15,12 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogInput
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.InputDialogTextFieldSize
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 @Composable
 fun SettingsEditSessionStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
-    validateCountDownLengthInput: (String) -> Constants.InputError,
+    validateCountDownLengthInput: (String) -> InputError,
     countDownLengthSeconds: String,
     onCancel: () -> Unit,
 ) {
@@ -47,9 +47,9 @@ fun SettingsEditSessionStartCountDownDialog(
     }
 }
 
-private fun setInputSessionCountDownLengthErrorMessage(error: Constants.InputError): Int =
+private fun setInputSessionCountDownLengthErrorMessage(error: InputError): Int =
     when (error) {
-        Constants.InputError.NONE -> -1
+        InputError.NONE -> -1
         else -> R.string.invalid_input_error
     }
 
@@ -71,7 +71,7 @@ private fun SettingsEditSessionStartCountDownDialogPreview() {
     SimpleHiitTvTheme {
         SettingsEditSessionStartCountDownDialog(
             saveCountDownLength = {},
-            validateCountDownLengthInput = { _ -> Constants.InputError.NONE },
+            validateCountDownLengthInput = { _ -> InputError.NONE },
             countDownLengthSeconds = "5",
             onCancel = {},
         )

@@ -10,9 +10,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
-import fr.shiningcat.simplehiit.android.common.ui.components.GifImage
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
+import fr.shiningcat.simplehiit.android.shared.core.ui.components.GifImage
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseDisplayNameMapper
 import fr.shiningcat.simplehiit.commonresources.helpers.ExerciseGifMapper
 import fr.shiningcat.simplehiit.commonutils.HiitLogger

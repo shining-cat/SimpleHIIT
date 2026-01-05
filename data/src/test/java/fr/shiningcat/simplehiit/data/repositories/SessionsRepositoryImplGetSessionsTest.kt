@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
@@ -75,7 +75,7 @@ internal class SessionsRepositoryImplGetSessionsTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    errorCode = DomainError.DATABASE_FETCH_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -148,7 +148,7 @@ internal class SessionsRepositoryImplGetSessionsTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    errorCode = DomainError.DATABASE_FETCH_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)

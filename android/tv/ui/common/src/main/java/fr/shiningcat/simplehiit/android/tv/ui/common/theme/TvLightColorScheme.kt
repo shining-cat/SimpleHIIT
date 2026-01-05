@@ -2,14 +2,14 @@ package fr.shiningcat.simplehiit.android.tv.ui.common.theme
 
 import androidx.tv.material3.ColorScheme
 import androidx.tv.material3.lightColorScheme
-import fr.shiningcat.simplehiit.android.common.ui.theme.Amber400
-import fr.shiningcat.simplehiit.android.common.ui.theme.Amber700
-import fr.shiningcat.simplehiit.android.common.ui.theme.Black
-import fr.shiningcat.simplehiit.android.common.ui.theme.Grey50
-import fr.shiningcat.simplehiit.android.common.ui.theme.Red_600
-import fr.shiningcat.simplehiit.android.common.ui.theme.Teal400
-import fr.shiningcat.simplehiit.android.common.ui.theme.Teal700
-import fr.shiningcat.simplehiit.android.common.ui.theme.White
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Amber400
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Amber700
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Black
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Grey50
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Red_600
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Teal400
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Teal700
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.White
 
 val tvLightColorScheme: ColorScheme
     get() =

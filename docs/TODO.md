@@ -12,6 +12,7 @@
 * **Statistics: remove seconds from displays to reduce clutter** (when value > 1h) - Minor UI polish, minimal code change.
 * **User object: expose timestamp of last session for sorting on home** - Improves UX, straightforward domain model enhancement.
 * **Find publication strategy**: Fdroid, github, or self-hosted - Research task, determines distribution approach early.
+* maybe replace InputError.NONE by a nullable?
 
 ## Priority 3: Pre-Migration Improvements
 **Medium Impact | Medium Effort | Better done before KMP migration**

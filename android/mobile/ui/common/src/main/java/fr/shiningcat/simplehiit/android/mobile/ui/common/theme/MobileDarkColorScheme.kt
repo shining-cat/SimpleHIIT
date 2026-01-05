@@ -1,15 +1,15 @@
 package fr.shiningcat.simplehiit.android.mobile.ui.common.theme
 
 import androidx.compose.material3.darkColorScheme
-import fr.shiningcat.simplehiit.android.common.ui.theme.Amber200
-import fr.shiningcat.simplehiit.android.common.ui.theme.Amber700
-import fr.shiningcat.simplehiit.android.common.ui.theme.Black
-import fr.shiningcat.simplehiit.android.common.ui.theme.Grey400
-import fr.shiningcat.simplehiit.android.common.ui.theme.Grey900
-import fr.shiningcat.simplehiit.android.common.ui.theme.Red_200
-import fr.shiningcat.simplehiit.android.common.ui.theme.Teal200
-import fr.shiningcat.simplehiit.android.common.ui.theme.Teal700
-import fr.shiningcat.simplehiit.android.common.ui.theme.White
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Amber200
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Amber700
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Black
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Grey400
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Grey900
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Red_200
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Teal200
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.Teal700
+import fr.shiningcat.simplehiit.android.shared.core.ui.theme.White
 
 val mobileDarkColorScheme =
     darkColorScheme(

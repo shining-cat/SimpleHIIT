@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.TimeProvider
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
@@ -123,7 +123,7 @@ class SessionViewModel(
         if (immutableSession == null) {
             logger.e("SessionViewModel", "tick::session is NULL!")
             viewModelScope.launch(context = mainDispatcher) {
-                _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
+                _screenViewState.emit(SessionViewState.Error(DomainError.SESSION_NOT_FOUND.code))
             }
         } else {
             stepTimerJob?.cancel()
@@ -140,7 +140,7 @@ class SessionViewModel(
         if (immutableSession == null) {
             logger.e("SessionViewModel", "tick::session is NULL!")
             viewModelScope.launch(context = mainDispatcher) {
-                _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
+                _screenViewState.emit(SessionViewState.Error(DomainError.SESSION_NOT_FOUND.code))
             }
         } else {
             val currentStep = immutableSession.steps[currentSessionStepIndex]
@@ -219,7 +219,7 @@ class SessionViewModel(
             val immutableSession = session
             if (immutableSession == null) {
                 logger.e("SessionViewModel", "emitSessionEndState::session is NULL!")
-                _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
+                _screenViewState.emit(SessionViewState.Error(DomainError.SESSION_NOT_FOUND.code))
             } else {
                 if (immutableSession.steps.last() is SessionStep.RestStep) {
                     // not counting the last Rest step for aborted session as it doesn't make much sense:
@@ -296,7 +296,7 @@ class SessionViewModel(
         val immutableSession = session
         if (immutableSession == null) {
             viewModelScope.launch(context = mainDispatcher) {
-                _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
+                _screenViewState.emit(SessionViewState.Error(DomainError.SESSION_NOT_FOUND.code))
             }
         } else {
             logger.d("SessionViewModel", "pause::stopping stepTimer")
@@ -315,7 +315,7 @@ class SessionViewModel(
         val immutableSession = session
         if (immutableSession == null) {
             viewModelScope.launch(context = mainDispatcher) {
-                _screenViewState.emit(SessionViewState.Error(Constants.Errors.SESSION_NOT_FOUND.code))
+                _screenViewState.emit(SessionViewState.Error(DomainError.SESSION_NOT_FOUND.code))
             }
             return
         }

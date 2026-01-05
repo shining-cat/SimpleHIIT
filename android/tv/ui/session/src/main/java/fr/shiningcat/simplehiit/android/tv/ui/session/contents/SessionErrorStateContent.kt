@@ -20,13 +20,13 @@ import androidx.tv.material3.ExperimentalTvMaterial3Api
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import androidx.tv.material3.Text
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonError
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.android.tv.ui.session.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import fr.shiningcat.simplehiit.commonresources.R as CommonResources
 
@@ -65,7 +65,7 @@ fun SessionErrorStateContent(
                     vertical = dimensionResource(CommonResources.dimen.spacing_2),
                 ),
             text =
-                if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                if (screenViewState.errorCode == DomainError.SESSION_NOT_FOUND.code) {
                     stringResource(id = CommonResources.string.error_session_abort)
                 } else {
                     stringResource(id = CommonResources.string.error_session_retry)
@@ -90,7 +90,7 @@ fun SessionErrorStateContent(
             )
         }
         val clickAction: () -> Unit = {
-            if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+            if (screenViewState.errorCode == DomainError.SESSION_NOT_FOUND.code) {
                 onAbort()
             } else {
                 navigateUp()
@@ -105,7 +105,7 @@ fun SessionErrorStateContent(
                     ),
             onClick = clickAction,
             label =
-                if (screenViewState.errorCode == Constants.Errors.SESSION_NOT_FOUND.code) {
+                if (screenViewState.errorCode == DomainError.SESSION_NOT_FOUND.code) {
                     stringResource(id = CommonResources.string.abort_session_button_label)
                 } else {
                     stringResource(id = CommonResources.string.exit_button_label)
@@ -138,6 +138,6 @@ internal class SessionErrorStateContentPreviewParameterProvider : PreviewParamet
             sequenceOf(
                 SessionViewState.Error(errorCode = "ABCD-123"),
                 SessionViewState.Error(errorCode = ""),
-                SessionViewState.Error(errorCode = Constants.Errors.SESSION_NOT_FOUND.code),
+                SessionViewState.Error(errorCode = DomainError.SESSION_NOT_FOUND.code),
             )
 }

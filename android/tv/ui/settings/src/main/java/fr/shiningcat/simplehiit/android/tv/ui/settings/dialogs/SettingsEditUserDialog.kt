@@ -14,13 +14,13 @@ import fr.shiningcat.simplehiit.android.tv.ui.common.components.DialogInput
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.InputDialogTextFieldSize
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 @Composable
 fun SettingsEditUserDialog(
     saveUserName: (String) -> Unit,
     deleteUser: () -> Unit,
-    validateUserNameInput: (String) -> Constants.InputError,
+    validateUserNameInput: (String) -> InputError,
     userName: String,
     onCancel: () -> Unit,
 ) {
@@ -48,11 +48,11 @@ fun SettingsEditUserDialog(
     }
 }
 
-private fun setUserNameErrorMessage(error: Constants.InputError): Int =
+private fun setUserNameErrorMessage(error: InputError): Int =
     when (error) {
-        Constants.InputError.VALUE_EMPTY -> R.string.user_name_empty_error
-        Constants.InputError.TOO_LONG -> R.string.user_name_too_long_error
-        Constants.InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
+        InputError.VALUE_EMPTY -> R.string.user_name_empty_error
+        InputError.TOO_LONG -> R.string.user_name_too_long_error
+        InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
         else -> -1
     }
 
@@ -75,7 +75,7 @@ private fun SettingsEditUserDialogPreview() {
         SettingsEditUserDialog(
             saveUserName = {},
             deleteUser = {},
-            validateUserNameInput = { _ -> Constants.InputError.NONE },
+            validateUserNameInput = { _ -> InputError.NONE },
             userName = "The user's name",
             onCancel = {},
         )

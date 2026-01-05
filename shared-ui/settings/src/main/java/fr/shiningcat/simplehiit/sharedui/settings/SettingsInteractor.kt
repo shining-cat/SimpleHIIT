@@ -1,11 +1,11 @@
 package fr.shiningcat.simplehiit.sharedui.settings
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.domain.settings.usecases.CreateUserUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.DeleteUserUseCase
@@ -61,22 +61,22 @@ interface SettingsInteractor {
     fun validatePeriodLength(
         input: String,
         periodCountDownLengthSeconds: Long,
-    ): Constants.InputError
+    ): InputError
 
-    fun validateNumberOfWorkPeriods(input: String): Constants.InputError
+    fun validateNumberOfWorkPeriods(input: String): InputError
 
-    fun validateInputSessionStartCountdown(input: String): Constants.InputError
+    fun validateInputSessionStartCountdown(input: String): InputError
 
     fun validateInputPeriodStartCountdown(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-    ): Constants.InputError
+    ): InputError
 
     fun validateInputUserName(
         user: User,
         existingUsers: List<User>,
-    ): Constants.InputError
+    ): InputError
 
     fun toggleExerciseTypeInList(
         currentList: List<ExerciseTypeSelected>,
@@ -138,18 +138,17 @@ class SettingsInteractorImpl(
     override fun validatePeriodLength(
         input: String,
         periodCountDownLengthSeconds: Long,
-    ): Constants.InputError = validatePeriodLengthUseCase.execute(input, periodCountDownLengthSeconds)
+    ): InputError = validatePeriodLengthUseCase.execute(input, periodCountDownLengthSeconds)
 
-    override fun validateNumberOfWorkPeriods(input: String): Constants.InputError = validateNumberOfWorkPeriodsUseCase.execute(input)
+    override fun validateNumberOfWorkPeriods(input: String): InputError = validateNumberOfWorkPeriodsUseCase.execute(input)
 
-    override fun validateInputSessionStartCountdown(input: String): Constants.InputError =
-        validateInputSessionStartCountdownUseCase.execute(input)
+    override fun validateInputSessionStartCountdown(input: String): InputError = validateInputSessionStartCountdownUseCase.execute(input)
 
     override fun validateInputPeriodStartCountdown(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-    ): Constants.InputError =
+    ): InputError =
         validateInputPeriodStartCountdownUseCase.execute(
             input,
             workPeriodLengthSeconds,
@@ -159,7 +158,7 @@ class SettingsInteractorImpl(
     override fun validateInputUserName(
         user: User,
         existingUsers: List<User>,
-    ): Constants.InputError = validateInputUserNameUseCase.execute(user, existingUsers)
+    ): InputError = validateInputUserNameUseCase.execute(user, existingUsers)
 
     override fun toggleExerciseTypeInList(
         currentList: List<ExerciseTypeSelected>,

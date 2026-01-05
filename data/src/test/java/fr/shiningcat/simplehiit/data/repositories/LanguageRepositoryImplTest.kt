@@ -1,9 +1,9 @@
 package fr.shiningcat.simplehiit.data.repositories
 
 import fr.shiningcat.simplehiit.data.local.localemanager.LocaleManager
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.every
 import io.mockk.mockk
@@ -95,7 +95,7 @@ internal class LanguageRepositoryImplTest : AbstractMockkTest() {
             // Verify error output
             assertTrue(result is Output.Error)
             result as Output.Error
-            assertEquals(Constants.Errors.LANGUAGE_SET_FAILED, result.errorCode)
+            assertEquals(DomainError.LANGUAGE_SET_FAILED, result.errorCode)
         }
 
     // ////////////

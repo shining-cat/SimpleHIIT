@@ -3,9 +3,9 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ensureActive
@@ -30,7 +30,7 @@ class UsersRepositoryImpl(
                     coroutineContext.ensureActive()
                     hiitLogger.e("UsersRepositoryImpl", "failed inserting user", exception)
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                        errorCode = DomainError.DATABASE_INSERT_FAILED,
                         exception = exception,
                     )
                 },
@@ -50,7 +50,7 @@ class UsersRepositoryImpl(
             hiitLogger.e("UsersRepositoryImpl", "failed getting users", exception)
             flowOf(
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    errorCode = DomainError.DATABASE_FETCH_FAILED,
                     exception = exception,
                 ),
             )
@@ -68,7 +68,7 @@ class UsersRepositoryImpl(
                     coroutineContext.ensureActive()
                     hiitLogger.e("UsersRepositoryImpl", "failed getting users as List", exception)
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                        errorCode = DomainError.DATABASE_FETCH_FAILED,
                         exception = exception,
                     )
                 },
@@ -88,7 +88,7 @@ class UsersRepositoryImpl(
             hiitLogger.e("UsersRepositoryImpl", "failed getting selected users", exception)
             flowOf(
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_FETCH_FAILED,
+                    errorCode = DomainError.DATABASE_FETCH_FAILED,
                     exception = exception,
                 ),
             )
@@ -105,7 +105,7 @@ class UsersRepositoryImpl(
                     } else {
                         hiitLogger.e("UsersRepositoryImpl", "failed updating user")
                         Output.Error(
-                            errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                            errorCode = DomainError.DATABASE_UPDATE_FAILED,
                             exception = Exception("failed updating user"),
                         )
                     }
@@ -114,7 +114,7 @@ class UsersRepositoryImpl(
                     coroutineContext.ensureActive()
                     hiitLogger.e("UsersRepositoryImpl", "failed updating user", exception)
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_UPDATE_FAILED,
+                        errorCode = DomainError.DATABASE_UPDATE_FAILED,
                         exception = exception,
                     )
                 },
@@ -135,7 +135,7 @@ class UsersRepositoryImpl(
                     } else {
                         hiitLogger.e("UsersRepositoryImpl", "failed deleting user")
                         Output.Error(
-                            errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                            errorCode = DomainError.DATABASE_DELETE_FAILED,
                             exception = Exception("failed deleting user"),
                         )
                     }
@@ -144,7 +144,7 @@ class UsersRepositoryImpl(
                     coroutineContext.ensureActive()
                     hiitLogger.e("UsersRepositoryImpl", "failed deleting user", exception)
                     Output.Error(
-                        errorCode = Constants.Errors.DATABASE_DELETE_FAILED,
+                        errorCode = DomainError.DATABASE_DELETE_FAILED,
                         exception = exception,
                     )
                 },

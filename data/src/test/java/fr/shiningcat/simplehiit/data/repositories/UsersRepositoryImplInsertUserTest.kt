@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.database.dao.UsersDao
 import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -120,7 +120,7 @@ internal class UsersRepositoryImplInsertUserTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    errorCode = DomainError.DATABASE_INSERT_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -154,7 +154,7 @@ internal class UsersRepositoryImplInsertUserTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    errorCode = DomainError.DATABASE_INSERT_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)

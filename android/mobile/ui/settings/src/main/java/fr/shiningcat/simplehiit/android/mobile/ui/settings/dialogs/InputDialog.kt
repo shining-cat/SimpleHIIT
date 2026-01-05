@@ -46,15 +46,15 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import androidx.compose.ui.window.Dialog
-import fr.shiningcat.simplehiit.android.common.ui.utils.TextLayoutInfo
-import fr.shiningcat.simplehiit.android.common.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.AdaptiveDialogButtonsLayout
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.ButtonType
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.DialogButtonConfig
 import fr.shiningcat.simplehiit.android.mobile.ui.common.previews.PreviewMobileScreensNoUI
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.TextLayoutInfo
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.fitsOnXLines
 import fr.shiningcat.simplehiit.commonresources.R
-import fr.shiningcat.simplehiit.domain.common.Constants
+import fr.shiningcat.simplehiit.domain.common.models.InputError
 
 enum class InputDialogTextFieldSize(
     val charCount: Int,
@@ -78,8 +78,8 @@ fun InputDialog(
     dismissButtonLabel: String = "",
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
-    validateInput: (String) -> Constants.InputError = { Constants.InputError.NONE },
-    pickErrorMessage: (Constants.InputError) -> Int = { -1 },
+    validateInput: (String) -> InputError = { InputError.NONE },
+    pickErrorMessage: (InputError) -> Int = { -1 },
 ) {
     val input =
         rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -91,7 +91,7 @@ fun InputDialog(
             )
         }
     val isError =
-        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != Constants.InputError.NONE) }
+        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != InputError.NONE) }
     val errorMessageStringRes =
         rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
@@ -130,7 +130,7 @@ fun InputDialog(
                             val validationResult = validateInput(it.text)
                             val errorStringRes = pickErrorMessage(validationResult)
                             isError.value =
-                                validationResult != Constants.InputError.NONE
+                                validationResult != InputError.NONE
                             errorMessageStringRes.intValue =
                                 errorStringRes
                         },
@@ -306,6 +306,7 @@ private fun InputDialogButtonsLayout(
     onDismissClick: () -> Unit,
     isError: Boolean,
     effectiveDialogContentWidthDp: Dp,
+    // todo check unused parameter density
     density: Density,
 ) {
     val primaryButtonInfo =
@@ -397,7 +398,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { InputError.NONE },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -408,7 +409,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.MEDIUM,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { InputError.NONE },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -419,7 +420,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "Delete long",
                     dismissButtonLabel = "Cancel even longer",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { InputError.NONE },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -430,7 +431,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { Constants.InputError.NONE },
+                    validateInput = { InputError.NONE },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -444,7 +445,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { Constants.InputError.WRONG_FORMAT },
+                    validateInput = { InputError.WRONG_FORMAT },
                     errorMessage = { R.string.invalid_input_error },
                 ),
                 InputDialogPreviewObject(
@@ -455,7 +456,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { Constants.InputError.WRONG_FORMAT },
+                    validateInput = { InputError.WRONG_FORMAT },
                     errorMessage = { R.string.invalid_input_error },
                 ),
             )
@@ -470,6 +471,6 @@ internal data class InputDialogPreviewObject(
     val secondaryButtonLabel: String,
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
-    val validateInput: (String) -> Constants.InputError,
-    val errorMessage: (Constants.InputError) -> Int,
+    val validateInput: (String) -> InputError,
+    val errorMessage: (InputError) -> Int,
 )

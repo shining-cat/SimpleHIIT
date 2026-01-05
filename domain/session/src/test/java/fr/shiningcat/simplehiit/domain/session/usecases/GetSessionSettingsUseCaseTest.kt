@@ -1,11 +1,11 @@
 package fr.shiningcat.simplehiit.domain.session.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
@@ -176,7 +176,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
             coEvery { mockSettingsRepository.getPreferences() } answers { settingsFlow }
             //
             val testException = Exception("this is a test exception")
-            val usersError = Output.Error(Constants.Errors.DATABASE_FETCH_FAILED, testException)
+            val usersError = Output.Error(DomainError.DATABASE_FETCH_FAILED, testException)
             val usersFlow = MutableSharedFlow<Output<List<User>>>()
             coEvery { mockUsersRepository.getSelectedUsers() } answers { usersFlow }
             //
@@ -190,7 +190,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
             usersFlow.emit(usersError)
             assertEquals(1, generalSettingsFlowAsList.size)
             val homeSettingsResult = generalSettingsFlowAsList[0]
-            val expectedError = Output.Error(Constants.Errors.NO_USERS_FOUND, testException)
+            val expectedError = Output.Error(DomainError.NO_USERS_FOUND, testException)
             assertEquals(expectedError, homeSettingsResult)
             //
             collectJob.cancel()

@@ -4,6 +4,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import fr.shiningcat.simplehiit.config.ConfigTv
 import fr.shiningcat.simplehiit.extensions.configureAndroidAppTvKotlin
 import fr.shiningcat.simplehiit.extensions.configureBuildTypes
+import fr.shiningcat.simplehiit.extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -31,6 +32,14 @@ class AndroidAppTvConventionPlugin : Plugin<Project> {
             dependencies {
                 add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
+
+                // TV app-specific dependencies
+                add("implementation", libs.findLibrary("androidx.lifecycle").get())
+                add("implementation", libs.findLibrary("androidx.navigation3.runtime").get())
+                add("implementation", libs.findLibrary("androidx.navigation3.ui").get())
+                add("implementation", libs.findLibrary("androidx.tv.foundation").get())
+                add("implementation", libs.findLibrary("androidx.tv.material").get())
+                add("implementation", libs.findLibrary("koin.androidx.compose").get())
             }
         }
     }

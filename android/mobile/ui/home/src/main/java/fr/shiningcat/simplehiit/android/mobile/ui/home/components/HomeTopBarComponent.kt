@@ -24,8 +24,8 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
-import fr.shiningcat.simplehiit.android.common.Screen
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
+import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.sharedui.home.HomeViewState
 
@@ -46,14 +46,14 @@ fun HomeTopBarComponent(
             )
         },
         actions = {
-            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.About) }) {
+            IconButton(onClick = { navigateTo(Screen.About) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.question_mark),
                     contentDescription = stringResource(id = R.string.about_button_content_label),
                     tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
-            IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Settings) }) {
+            IconButton(onClick = { navigateTo(Screen.Settings) }) {
                 Icon(
                     imageVector = ImageVector.vectorResource(R.drawable.cog),
                     contentDescription = stringResource(id = R.string.settings_button_content_label),
@@ -61,7 +61,7 @@ fun HomeTopBarComponent(
                 )
             }
             if (screenViewState is HomeViewState.Nominal) {
-                IconButton(onClick = { navigateTo(fr.shiningcat.simplehiit.android.common.Screen.Statistics) }) {
+                IconButton(onClick = { navigateTo(Screen.Statistics) }) {
                     Icon(
                         imageVector = ImageVector.vectorResource(R.drawable.bar_chart),
                         contentDescription = stringResource(id = R.string.statistics_button_content_label),

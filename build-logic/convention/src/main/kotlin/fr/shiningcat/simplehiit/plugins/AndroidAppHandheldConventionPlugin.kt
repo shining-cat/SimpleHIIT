@@ -4,6 +4,7 @@ import com.android.build.api.dsl.ApplicationExtension
 import fr.shiningcat.simplehiit.config.ConfigHandheld
 import fr.shiningcat.simplehiit.extensions.configureAndroidAppHandheldKotlin
 import fr.shiningcat.simplehiit.extensions.configureBuildTypes
+import fr.shiningcat.simplehiit.extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -31,6 +32,15 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
             dependencies {
                 add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
+
+                // Mobile app-specific dependencies
+                add("implementation", libs.findLibrary("androidx.compose.material3").get())
+                add("implementation", libs.findLibrary("androidx.compose.adaptive").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle").get())
+                add("implementation", libs.findLibrary("androidx.navigation3.runtime").get())
+                add("implementation", libs.findLibrary("androidx.navigation3.ui").get())
+                add("implementation", libs.findLibrary("androidx.activity.compose").get())
+                add("implementation", libs.findLibrary("koin.androidx.compose").get())
             }
         }
     }

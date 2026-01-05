@@ -20,7 +20,9 @@ android {
 }
 
 dependencies {
-    implementation(projects.android.common)
+    implementation(projects.android.shared.core)
+    implementation(projects.android.shared.home)
+    implementation(projects.android.shared.settings)
     implementation(projects.android.mobile.ui.common)
     implementation(projects.android.mobile.ui.home)
     implementation(projects.android.mobile.ui.session)
@@ -40,53 +42,45 @@ dependencies {
     implementation(projects.commonResources)
     implementation(projects.data)
     testImplementation(projects.testUtils)
-    //
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.adaptive)
-    implementation(libs.androidx.lifecycle)
-    implementation(libs.androidx.navigation3.runtime)
-    implementation(libs.androidx.navigation3.ui)
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.koin.androidx.compose)
 }
 
 moduleGraphAssert {
-    maxHeight = 7
+    maxHeight = 8
 
     allowed =
         arrayOf(
             // Mobile app can depend on anything (required by Android framework and DI)
             ":android:mobile:app -> .*",
             // Mobile UI feature modules - CLEAN (models only, no domain)
-            ":android:mobile:ui:home -> :android:common",
+            ":android:mobile:ui:home -> :android:shared:core",
+            ":android:mobile:ui:home -> :android:shared:home",
             ":android:mobile:ui:home -> :android:mobile:ui:common",
             ":android:mobile:ui:home -> :shared-ui:home",
             ":android:mobile:ui:home -> :models",
             ":android:mobile:ui:home -> :commonUtils",
             ":android:mobile:ui:home -> :commonResources",
-            ":android:mobile:ui:statistics -> :android:common",
+            ":android:mobile:ui:statistics -> :android:shared:core",
             ":android:mobile:ui:statistics -> :android:mobile:ui:common",
             ":android:mobile:ui:statistics -> :shared-ui:statistics",
             ":android:mobile:ui:statistics -> :models",
             ":android:mobile:ui:statistics -> :commonUtils",
             ":android:mobile:ui:statistics -> :commonResources",
-            // Mobile UI feature modules - TEMPORARY domain:common (refactoring in progress)
-            ":android:mobile:ui:session -> :android:common",
+            // Mobile UI feature modules - CLEAN (models only, no domain) ✅
+            ":android:mobile:ui:session -> :android:shared:core",
             ":android:mobile:ui:session -> :android:mobile:ui:common",
             ":android:mobile:ui:session -> :shared-ui:session",
             ":android:mobile:ui:session -> :models",
-            ":android:mobile:ui:session -> :domain:common",
             ":android:mobile:ui:session -> :commonUtils",
             ":android:mobile:ui:session -> :commonResources",
-            ":android:mobile:ui:settings -> :android:common",
+            ":android:mobile:ui:settings -> :android:shared:core",
+            ":android:mobile:ui:settings -> :android:shared:settings",
             ":android:mobile:ui:settings -> :android:mobile:ui:common",
             ":android:mobile:ui:settings -> :shared-ui:settings",
             ":android:mobile:ui:settings -> :models",
-            ":android:mobile:ui:settings -> :domain:common",
             ":android:mobile:ui:settings -> :commonUtils",
             ":android:mobile:ui:settings -> :commonResources",
             // Mobile UI common module - TEMPORARY domain:common (refactoring in progress)
-            ":android:mobile:ui:common -> :android:common",
+            ":android:mobile:ui:common -> :android:shared:core",
             ":android:mobile:ui:common -> :models",
             ":android:mobile:ui:common -> :domain:common",
             ":android:mobile:ui:common -> :commonUtils",
@@ -118,12 +112,22 @@ moduleGraphAssert {
             // Common resources depends on models and domain:common
             ":commonResources -> :models",
             ":commonResources -> :domain:common",
-            // Android common can depend on commonResources, domain, shared-ui, models and commonUtils
-            ":android:common -> :commonResources",
-            ":android:common -> :domain:.*",
-            ":android:common -> :shared-ui:.*",
-            ":android:common -> :models",
-            ":android:common -> :commonUtils",
+            // Android shared:core - foundation + DI aggregator (needs feature modules)
+            ":android:shared:core -> :android:shared:home",
+            ":android:shared:core -> :android:shared:settings",
+            ":android:shared:core -> :commonResources",
+            ":android:shared:core -> :models",
+            ":android:shared:core -> :commonUtils",
+            // Android shared:home - ONLY home feature dependencies
+            ":android:shared:home -> :domain:home",
+            ":android:shared:home -> :shared-ui:home",
+            ":android:shared:home -> :models",
+            ":android:shared:home -> :commonUtils",
+            // Android shared:settings - ONLY settings feature dependencies
+            ":android:shared:settings -> :domain:settings",
+            ":android:shared:settings -> :shared-ui:settings",
+            ":android:shared:settings -> :models",
+            ":android:shared:settings -> :commonUtils",
             // Models module is foundation - no dependencies
             ":models -> (nothing allowed)",
         )
@@ -201,7 +205,7 @@ moduleGraphAssert {
             ":shared-ui:.* -X> :android:mobile:app",
             ":commonUtils -X> :android:mobile:app",
             ":commonResources -X> :android:mobile:app",
-            ":android:common -X> :android:mobile:app",
+            ":android:shared:core -X> :android:mobile:app",
             ":testUtils -X> :android:mobile:app",
             // commonUtils CANNOT depend on anything (foundation module)
             ":commonUtils -X> :.*",

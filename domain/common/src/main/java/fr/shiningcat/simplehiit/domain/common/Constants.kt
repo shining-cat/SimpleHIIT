@@ -19,31 +19,4 @@ object Constants {
     }
 
     const val NO_RESULTS_FOUND = "no results found"
-
-    enum class Errors(
-        val code: String,
-    ) {
-        DATABASE_FETCH_FAILED("0101"),
-        DATABASE_INSERT_FAILED("0102"),
-        DATABASE_DELETE_FAILED("0103"),
-        DATABASE_UPDATE_FAILED("0104"),
-        NO_USERS_FOUND("0201"),
-        NO_USER_PROVIDED("0202"),
-        USER_NAME_TAKEN("0203"),
-        NO_SELECTED_USERS_FOUND("0204"),
-        EMPTY_RESULT("0301"),
-        CONVERSION_ERROR("0401"),
-        SESSION_NOT_FOUND("0501"),
-        LANGUAGE_SET_FAILED("0601"),
-    }
-
-    enum class InputError {
-        NONE,
-        WRONG_FORMAT,
-        TOO_LONG,
-        VALUE_EMPTY,
-        VALUE_TOO_SMALL,
-        VALUE_TOO_BIG,
-        VALUE_ALREADY_TAKEN,
-    }
 }

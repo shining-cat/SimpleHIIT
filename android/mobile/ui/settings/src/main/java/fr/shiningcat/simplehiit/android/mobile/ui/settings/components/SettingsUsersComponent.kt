@@ -29,9 +29,9 @@ import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import fr.shiningcat.simplehiit.android.common.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileTheme
 import fr.shiningcat.simplehiit.android.mobile.ui.settings.R
+import fr.shiningcat.simplehiit.android.shared.core.ui.utils.adaptDpToFontScale
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
 
@@ -48,7 +48,10 @@ fun SettingsUsersComponent(
     ) {
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = dimensionResource(CommonResourcesR.dimen.spacing_1)),
             style = MaterialTheme.typography.headlineMedium,
             text = stringResource(id = CommonResourcesR.string.users_list_setting_label),
         )

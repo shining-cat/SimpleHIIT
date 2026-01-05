@@ -1,8 +1,8 @@
 package fr.shiningcat.simplehiit.domain.settings.usecases
 
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -49,7 +49,7 @@ internal class DeleteUserUseCaseTest : AbstractMockkTest() {
             val testValue = User(name = "test user name", selected = true)
             val exceptionMessage = "this is a test exception"
             val errorFromRepo =
-                Output.Error(Constants.Errors.EMPTY_RESULT, Exception(exceptionMessage))
+                Output.Error(DomainError.EMPTY_RESULT, Exception(exceptionMessage))
             coEvery { mockUsersRepository.deleteUser(any()) } answers { errorFromRepo }
             //
             val result = testedUseCase.execute(testValue)

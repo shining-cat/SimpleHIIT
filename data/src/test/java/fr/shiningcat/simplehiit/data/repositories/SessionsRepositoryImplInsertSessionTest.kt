@@ -3,8 +3,8 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.database.dao.SessionRecordsDao
 import fr.shiningcat.simplehiit.data.local.database.entities.SessionEntity
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
-import fr.shiningcat.simplehiit.domain.common.Constants
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -83,7 +83,7 @@ internal class SessionsRepositoryImplInsertSessionTest : AbstractMockkTest() {
             coVerify(exactly = 0) { mockSessionRecordsDao.insert(any()) }
             assertTrue(actual is Output.Error)
             actual as Output.Error
-            assertEquals(Constants.Errors.NO_USER_PROVIDED, actual.errorCode)
+            assertEquals(DomainError.NO_USER_PROVIDED, actual.errorCode)
             assertEquals("No user provided when trying to insert session", actual.exception.message)
         }
 
@@ -156,7 +156,7 @@ internal class SessionsRepositoryImplInsertSessionTest : AbstractMockkTest() {
             coVerify(exactly = 1) { mockHiitLogger.e(any(), any(), thrownException) }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    errorCode = DomainError.DATABASE_INSERT_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
@@ -194,7 +194,7 @@ internal class SessionsRepositoryImplInsertSessionTest : AbstractMockkTest() {
             }
             val expectedOutput =
                 Output.Error(
-                    errorCode = Constants.Errors.DATABASE_INSERT_FAILED,
+                    errorCode = DomainError.DATABASE_INSERT_FAILED,
                     exception = thrownException,
                 )
             assertEquals(expectedOutput, actual)
