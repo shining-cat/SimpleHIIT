@@ -10,6 +10,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.tv.material3.MaterialTheme
 import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.shared.core.Screen
+import fr.shiningcat.simplehiit.android.shared.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.NavigationSideBar
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreens
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
@@ -19,7 +20,6 @@ import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
-import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 import org.koin.androidx.compose.koinViewModel
 

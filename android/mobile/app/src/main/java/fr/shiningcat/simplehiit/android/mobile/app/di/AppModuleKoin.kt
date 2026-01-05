@@ -5,6 +5,7 @@ import fr.shiningcat.simplehiit.android.mobile.app.locale.LocaleManagerImpl
 import fr.shiningcat.simplehiit.android.shared.core.di.androidSharedCoreModule
 import fr.shiningcat.simplehiit.android.shared.home.androidSharedHomeModule
 import fr.shiningcat.simplehiit.android.shared.settings.androidSharedSettingsModule
+import fr.shiningcat.simplehiit.android.shared.statistics.androidSharedStatisticsModule
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.AndroidVersionProvider
 import fr.shiningcat.simplehiit.commonutils.AndroidVersionProviderImpl
@@ -96,6 +97,7 @@ val allKoinModules: List<Module> =
         androidSharedCoreModule,
         androidSharedHomeModule,
         androidSharedSettingsModule,
+        androidSharedStatisticsModule,
         // App module
         mobileAppModule,
     )

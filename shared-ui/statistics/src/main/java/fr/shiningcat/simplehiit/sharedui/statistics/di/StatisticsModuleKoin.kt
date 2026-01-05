@@ -2,10 +2,8 @@ package fr.shiningcat.simplehiit.sharedui.statistics.di
 
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsInteractor
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsInteractorImpl
-import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
+import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsPresenter
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewStateMapper
-import org.koin.core.module.dsl.viewModel
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val statisticsModule =
@@ -28,13 +26,12 @@ val statisticsModule =
             )
         }
 
-        // ViewModel
-        viewModel {
-            StatisticsViewModel(
+        // Presenter - Pure Kotlin business logic
+        factory {
+            StatisticsPresenter(
                 statisticsInteractor = get(),
                 mapper = get(),
                 timeProvider = get(),
-                mainDispatcher = get(named("MainDispatcher")),
                 logger = get(),
             )
         }
