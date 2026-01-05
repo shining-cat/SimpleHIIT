@@ -53,6 +53,7 @@ moduleGraphAssert {
             ":android:mobile:app -> .*",
             // Mobile UI feature modules - CLEAN (models only, no domain)
             ":android:mobile:ui:home -> :android:shared:core",
+            ":android:mobile:ui:home -> :android:shared:home",
             ":android:mobile:ui:home -> :android:mobile:ui:common",
             ":android:mobile:ui:home -> :shared-ui:home",
             ":android:mobile:ui:home -> :models",
@@ -72,6 +73,7 @@ moduleGraphAssert {
             ":android:mobile:ui:session -> :commonUtils",
             ":android:mobile:ui:session -> :commonResources",
             ":android:mobile:ui:settings -> :android:shared:core",
+            ":android:mobile:ui:settings -> :android:shared:settings",
             ":android:mobile:ui:settings -> :android:mobile:ui:common",
             ":android:mobile:ui:settings -> :shared-ui:settings",
             ":android:mobile:ui:settings -> :models",

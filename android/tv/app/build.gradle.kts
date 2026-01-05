@@ -53,6 +53,7 @@ moduleGraphAssert {
             ":android:tv:app -> .*",
             // TV UI feature modules - CLEAN (models only, no domain)
             ":android:tv:ui:home -> :android:shared:core",
+            ":android:tv:ui:home -> :android:shared:home",
             ":android:tv:ui:home -> :android:tv:ui:common",
             ":android:tv:ui:home -> :shared-ui:home",
             ":android:tv:ui:home -> :models",
@@ -72,6 +73,7 @@ moduleGraphAssert {
             ":android:tv:ui:session -> :commonUtils",
             ":android:tv:ui:session -> :commonResources",
             ":android:tv:ui:settings -> :android:shared:core",
+            ":android:tv:ui:settings -> :android:shared:settings",
             ":android:tv:ui:settings -> :android:tv:ui:common",
             ":android:tv:ui:settings -> :shared-ui:settings",
             ":android:tv:ui:settings -> :models",
