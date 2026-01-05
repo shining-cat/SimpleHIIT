@@ -21,12 +21,12 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.components.StatisticsTopAppBar
 import fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents.StatisticsContentHolder
 import fr.shiningcat.simplehiit.android.shared.core.Screen
+import fr.shiningcat.simplehiit.android.shared.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsDialog
-import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsViewState
 import org.koin.androidx.compose.koinViewModel
 

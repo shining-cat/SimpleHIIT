@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.android.shared.core)
     implementation(projects.android.shared.home)
     implementation(projects.android.shared.settings)
+    implementation(projects.android.shared.statistics)
     implementation(projects.android.mobile.ui.common)
     implementation(projects.android.mobile.ui.home)
     implementation(projects.android.mobile.ui.session)
@@ -60,6 +61,7 @@ moduleGraphAssert {
             ":android:mobile:ui:home -> :commonUtils",
             ":android:mobile:ui:home -> :commonResources",
             ":android:mobile:ui:statistics -> :android:shared:core",
+            ":android:mobile:ui:statistics -> :android:shared:statistics",
             ":android:mobile:ui:statistics -> :android:mobile:ui:common",
             ":android:mobile:ui:statistics -> :shared-ui:statistics",
             ":android:mobile:ui:statistics -> :models",
@@ -128,6 +130,11 @@ moduleGraphAssert {
             ":android:shared:settings -> :shared-ui:settings",
             ":android:shared:settings -> :models",
             ":android:shared:settings -> :commonUtils",
+            // Android shared:statistics - ONLY statistics feature dependencies
+            ":android:shared:statistics -> :domain:statistics",
+            ":android:shared:statistics -> :shared-ui:statistics",
+            ":android:shared:statistics -> :models",
+            ":android:shared:statistics -> :commonUtils",
             // Models module is foundation - no dependencies
             ":models -> (nothing allowed)",
         )

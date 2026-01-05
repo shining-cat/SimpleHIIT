@@ -23,6 +23,7 @@ dependencies {
     implementation(projects.android.shared.core)
     implementation(projects.android.shared.home)
     implementation(projects.android.shared.settings)
+    implementation(projects.android.shared.statistics)
     implementation(projects.android.tv.ui.common)
     implementation(projects.android.tv.ui.home)
     implementation(projects.android.tv.ui.settings)
@@ -60,6 +61,7 @@ moduleGraphAssert {
             ":android:tv:ui:home -> :commonUtils",
             ":android:tv:ui:home -> :commonResources",
             ":android:tv:ui:statistics -> :android:shared:core",
+            ":android:tv:ui:statistics -> :android:shared:statistics",
             ":android:tv:ui:statistics -> :android:tv:ui:common",
             ":android:tv:ui:statistics -> :shared-ui:statistics",
             ":android:tv:ui:statistics -> :models",
@@ -128,6 +130,11 @@ moduleGraphAssert {
             ":android:shared:settings -> :shared-ui:settings",
             ":android:shared:settings -> :models",
             ":android:shared:settings -> :commonUtils",
+            // Android shared:statistics - ONLY statistics feature dependencies
+            ":android:shared:statistics -> :domain:statistics",
+            ":android:shared:statistics -> :shared-ui:statistics",
+            ":android:shared:statistics -> :models",
+            ":android:shared:statistics -> :commonUtils",
             // Models module is foundation - no dependencies
             ":models -> (nothing allowed)",
         )

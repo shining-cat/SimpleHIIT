@@ -10,6 +10,7 @@ plugins {
 
 dependencies {
     implementation(projects.android.shared.core)
+    implementation(projects.android.shared.statistics)
     implementation(projects.android.mobile.ui.common)
     implementation(projects.sharedUi.statistics)
     implementation(projects.commonUtils)
