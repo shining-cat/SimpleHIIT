@@ -5,6 +5,7 @@
 
 * **Extract platform-agnostic logic from viewmodels** - Critical for shared-ui to become truly multiplatform. ViewModels currently contain Android-specific dependencies that need to be abstracted into use cases/domain layer.
 * **Add tests on viewmodels after making them lighter** - Essential to ensure migration doesn't break functionality. Testing infrastructure will validate the extracted logic works correctly across platforms.
+* **Add tests on presenters once they're pure kotlin**
 
 ## Priority 2: Quick Wins
 **Low-Medium Impact | Low Effort | Can be done now, won't interfere with migration**

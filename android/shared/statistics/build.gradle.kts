@@ -5,10 +5,9 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.domain.statistics)
-    implementation(projects.sharedUi.statistics)
-    implementation(projects.models)
     implementation(projects.commonUtils)
+    implementation(projects.models)
+    implementation(projects.sharedUi.statistics)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

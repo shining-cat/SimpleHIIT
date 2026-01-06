@@ -2,11 +2,10 @@ package fr.shiningcat.simplehiit.sharedui.session.di
 
 import fr.shiningcat.simplehiit.sharedui.session.SessionInteractor
 import fr.shiningcat.simplehiit.sharedui.session.SessionInteractorImpl
-import fr.shiningcat.simplehiit.sharedui.session.SessionViewModel
+import fr.shiningcat.simplehiit.sharedui.session.SessionPresenter
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewStateMapper
 import fr.shiningcat.simplehiit.sharedui.session.SoundPoolFactory
 import fr.shiningcat.simplehiit.sharedui.session.SoundPoolFactoryImpl
-import org.koin.core.module.dsl.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -35,14 +34,13 @@ val sessionModule =
         // SoundPoolFactory - singleton (stateless factory)
         single<SoundPoolFactory> { SoundPoolFactoryImpl() }
 
-        // ViewModel
-        viewModel {
-            SessionViewModel(
+        // Presenter - factory since it holds mutable state
+        factory {
+            SessionPresenter(
                 sessionInteractor = get(),
                 mapper = get(),
-                mainDispatcher = get(named("MainDispatcher")),
                 timeProvider = get(),
-                soundPoolFactory = get(),
+                dispatcher = get(named("MainDispatcher")),
                 logger = get(),
             )
         }

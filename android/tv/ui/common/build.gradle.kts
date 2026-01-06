@@ -8,10 +8,9 @@ plugins {
 
 dependencies {
     implementation(projects.android.shared.core)
-    implementation(projects.models)
-    implementation(projects.domain.common)
-    implementation(projects.commonUtils)
     implementation(projects.commonResources)
+    implementation(projects.commonUtils)
+    implementation(projects.models)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

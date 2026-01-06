@@ -5,10 +5,9 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.domain.home)
-    implementation(projects.sharedUi.home)
-    implementation(projects.models)
     implementation(projects.commonUtils)
+    implementation(projects.models)
+    implementation(projects.sharedUi.home)
     testImplementation(projects.testUtils)
     androidTestImplementation(projects.testUtils)
 }

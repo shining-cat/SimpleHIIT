@@ -6,8 +6,5 @@ plugins {
 
 dependencies {
     implementation(projects.commonUtils)
-    implementation(projects.models)
-    implementation(projects.sharedUi.settings)
-    testImplementation(projects.testUtils)
-    androidTestImplementation(projects.testUtils)
+    implementation(projects.sharedUi.session)
 }

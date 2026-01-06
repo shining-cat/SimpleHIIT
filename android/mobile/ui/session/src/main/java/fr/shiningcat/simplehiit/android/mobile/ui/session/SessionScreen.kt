@@ -24,11 +24,11 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.components.NavigateUpTo
 import fr.shiningcat.simplehiit.android.mobile.ui.common.helpers.mainContentInsets
 import fr.shiningcat.simplehiit.android.mobile.ui.session.components.SessionSideBarComponent
 import fr.shiningcat.simplehiit.android.mobile.ui.session.contents.SessionContentHolder
+import fr.shiningcat.simplehiit.android.shared.session.SessionViewModel
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
-import fr.shiningcat.simplehiit.sharedui.session.SessionViewModel
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
 import org.koin.androidx.compose.koinViewModel
 
