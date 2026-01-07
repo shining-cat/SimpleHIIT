@@ -6,16 +6,15 @@ ksp = "2.3.4"
 kover = "0.9.4"
 
 # Code Quality & Analysis
-ktlintComposeRuleset = "0.5.2"
+ktlintComposeRuleset = "0.5.3"
 ktlintGradlePlugin = "14.0.1"
 dependencyUpdatePlugin = "0.53.0"
 modulesGraphAssert = "2.9.0"
-develocity = "4.3"
 
 # Dependency Injection
-koin = "4.0.0"
-koinAndroidxCompose = "4.0.0"
-koinTest = "4.0.0"
+koin = "4.1.1"
+koinAndroidxCompose = "4.1.1"
+koinTest = "4.1.1"
 
 # Database
 room = "2.8.4"
@@ -23,7 +22,7 @@ room = "2.8.4"
 # Testing
 mockk = "1.14.7"
 junit = "1.3.0"
-jupiter = "6.0.1"
+jupiter = "6.0.2"
 testRunner = "1.7.0"
 archCoreTest = "2.2.0"
 jetBrainsCoroutinesTest = "1.10.2"
@@ -124,7 +123,6 @@ ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGra
 dependencyupdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin" }
 modules-graph-assert = { id = "com.jraska.module.graph.assertion", version.ref = "modulesGraphAssert" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
-develocity = { id = "com.gradle.develocity", version.ref = "develocity" }
 
 # Convention Plugins - Android Application
 simplehiit-android-application-handheld = { id = "fr.shiningcat.simplehiit.android.application.handheld" }

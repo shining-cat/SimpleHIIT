@@ -10,7 +10,8 @@ pluginManagement {
 }
 
 plugins {
-    id("com.gradle.develocity") version "3.18.2"
+    // NOTE: Version catalog (libs) is not available in settings.gradle.kts
+    id("com.gradle.develocity") version "4.3"
 }
 
 develocity {
