@@ -55,8 +55,10 @@ jobs:
           
           # Extract only the "dependencies have later" section and filter out transitive dependencies
           # Also filter out the URL lines that follow each filtered dependency
-          sed -n '/The following dependencies have later/,/^Failed to determine\|^Gradle\|^$/p' dependency-updates-output.txt | \
-            grep -v '^Failed to determine\|^Gradle' | \
+          # Filter out unstable Gradle versions (RC, canary, milestone, alpha, beta, dev, SNAPSHOT)
+          sed -n '/The following dependencies have later/,/^Failed to determine\|^$/p' dependency-updates-output.txt | \
+            grep -v '^Failed to determine' | \
+            grep -E -v 'Gradle.*(-rc-|-canary|-milestone|-alpha|-beta|-dev|RC|SNAPSHOT)' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
@@ -64,7 +66,6 @@ jobs:
             grep -F -v 'io.github.oshai:kotlin-logging' | \
             grep -F -v 'org.jacoco:org.jacoco.ant' | \
             grep -F -v 'org.jetbrains.kotlin:kotlin-test' | \
-            grep -F -v 'Gradle:' | \
             grep -F -v 'https://github.com/pinterest/ktlint' | \
             grep -F -v 'https://detekt.github.io/detekt' | \
             grep -F -v 'https://github.com/oshai/kotlin-logging' > dependency-updates-filtered.txt || true
