@@ -2,7 +2,7 @@
 *.iml
 .gradle
 /.idea
-.DS_Store
+/.idea.backup-*
 
 # Local configuration
 local.properties
