@@ -7,9 +7,6 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.android.shared.home)
-    implementation(projects.android.shared.settings)
-
     implementation(projects.models)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)

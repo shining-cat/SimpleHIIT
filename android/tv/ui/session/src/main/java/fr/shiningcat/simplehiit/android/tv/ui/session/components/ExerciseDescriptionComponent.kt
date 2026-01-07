@@ -41,7 +41,6 @@ fun ExerciseDescriptionComponent(
                     when (side) {
                         ExerciseSide.LEFT -> stringResource(id = R.string.exercise_side_left)
                         ExerciseSide.RIGHT -> stringResource(id = R.string.exercise_side_right)
-                        else -> "" // unreachable
                     },
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,

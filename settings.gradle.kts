@@ -1,12 +1,12 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
-    includeBuild("build-logic")
     repositories {
         google()
         mavenCentral()
         gradlePluginPortal()
     }
+    includeBuild("build-logic")
 }
 
 plugins {
@@ -52,6 +52,7 @@ include(":android:tv:ui:settings")
 include(":android:tv:ui:statistics")
 include(":android:shared:core")
 include(":android:shared:home")
+include(":android:shared:session")
 include(":android:shared:settings")
 include(":android:shared:statistics")
 include(":shared-ui:home")

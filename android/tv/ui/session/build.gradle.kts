@@ -10,8 +10,9 @@ plugins {
 
 dependencies {
     implementation(projects.android.shared.core)
-    implementation(projects.android.tv.ui.common)
+    implementation(projects.android.shared.session)
     implementation(projects.sharedUi.session)
+    implementation(projects.android.tv.ui.common)
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     implementation(projects.models)

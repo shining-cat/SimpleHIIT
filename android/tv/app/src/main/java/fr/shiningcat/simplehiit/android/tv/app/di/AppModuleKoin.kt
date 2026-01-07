@@ -2,6 +2,7 @@ package fr.shiningcat.simplehiit.android.tv.app.di
 
 import fr.shiningcat.simplehiit.android.shared.core.di.androidSharedCoreModule
 import fr.shiningcat.simplehiit.android.shared.home.androidSharedHomeModule
+import fr.shiningcat.simplehiit.android.shared.session.androidSharedSessionModule
 import fr.shiningcat.simplehiit.android.shared.settings.androidSharedSettingsModule
 import fr.shiningcat.simplehiit.android.shared.statistics.androidSharedStatisticsModule
 import fr.shiningcat.simplehiit.android.tv.app.MainViewModel
@@ -96,6 +97,7 @@ val allKoinModules: List<Module> =
         // Android shared modules
         androidSharedCoreModule,
         androidSharedHomeModule,
+        androidSharedSessionModule,
         androidSharedSettingsModule,
         androidSharedStatisticsModule,
         // App module
