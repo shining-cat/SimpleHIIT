@@ -44,7 +44,7 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  * @param onClick Called when this button is clicked.
  * @param label The text to display on the button. If null, no text is displayed.
  * @param icon The icon to display on the button. If null, no icon is displayed.
- * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
+ * @param iconContentDescription The content description resource ID for the icon. Null if no description.
  * @param enabled Controls the enabled state of the button. When `false`, this button will not be clickable.
  * @param reserveIconSpace When true, reserves space for an icon even when icon is null, ensuring consistent width with buttons that have icons.
  */
@@ -57,7 +57,7 @@ fun ButtonText(
     label: String? = null,
     icon: ImageVector? = null,
     @StringRes
-    iconContentDescription: Int = -1,
+    iconContentDescription: Int? = null,
     enabled: Boolean = true,
     reserveIconSpace: Boolean = false,
 ) {
