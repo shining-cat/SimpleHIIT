@@ -5,6 +5,7 @@ import fr.shiningcat.simplehiit.domain.session.usecases.ComposeExercisesListForS
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.InsertSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.StepTimerUseCase
+import fr.shiningcat.simplehiit.domain.session.usecases.UpdateUsersLastSessionTimestampUseCase
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
@@ -35,8 +36,16 @@ val sessionDomainModule =
         }
 
         factory {
+            UpdateUsersLastSessionTimestampUseCase(
+                usersRepository = get(),
+                logger = get(),
+            )
+        }
+
+        factory {
             InsertSessionUseCase(
                 sessionsRepository = get(),
+                updateUsersLastSessionTimestampUseCase = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
                 logger = get(),
             )

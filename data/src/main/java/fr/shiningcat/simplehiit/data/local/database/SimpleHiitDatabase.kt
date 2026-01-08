@@ -9,7 +9,7 @@ import fr.shiningcat.simplehiit.data.local.database.entities.UserEntity
 
 @Database(
     entities = [UserEntity::class, SessionEntity::class],
-    version = 1,
+    version = 2,
 )
 abstract class SimpleHiitDatabase : RoomDatabase() {
     abstract fun userDao(): UsersDao
