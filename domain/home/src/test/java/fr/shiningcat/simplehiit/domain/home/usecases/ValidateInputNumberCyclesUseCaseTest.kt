@@ -14,7 +14,7 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         input: String,
-        expectedOutput: InputError,
+        expectedOutput: InputError?,
     ) = runTest {
         val testedUseCase =
             ValidateInputNumberCyclesUseCase(logger = mockHiitLogger)
@@ -28,14 +28,14 @@ internal class ValidateInputNumberCyclesUseCaseTest : AbstractMockkTest() {
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
                 // Valid inputs: length < 3 and is non-negative integer
-                Arguments.of("0", InputError.NONE),
-                Arguments.of("1", InputError.NONE),
-                Arguments.of("3", InputError.NONE),
-                Arguments.of("9", InputError.NONE),
-                Arguments.of("10", InputError.NONE),
-                Arguments.of("25", InputError.NONE),
-                Arguments.of("99", InputError.NONE),
-                Arguments.of("+5", InputError.NONE),
+                Arguments.of("0", null),
+                Arguments.of("1", null),
+                Arguments.of("3", null),
+                Arguments.of("9", null),
+                Arguments.of("10", null),
+                Arguments.of("25", null),
+                Arguments.of("99", null),
+                Arguments.of("+5", null),
                 // Invalid: length >= 3 (even if valid integer)
                 Arguments.of("100", InputError.WRONG_FORMAT),
                 Arguments.of("369", InputError.WRONG_FORMAT),

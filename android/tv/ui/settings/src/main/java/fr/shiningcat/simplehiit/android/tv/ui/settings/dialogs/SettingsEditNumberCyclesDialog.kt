@@ -20,7 +20,7 @@ import fr.shiningcat.simplehiit.domain.common.models.InputError
 @Composable
 fun SettingsEditNumberCyclesDialog(
     saveNumber: (String) -> Unit,
-    validateNumberCyclesInput: (String) -> InputError,
+    validateNumberCyclesInput: (String) -> InputError?,
     numberOfCycles: String,
     onCancel: () -> Unit,
 ) {
@@ -42,14 +42,14 @@ fun SettingsEditNumberCyclesDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateNumberCyclesInput,
-            pickErrorMessage = { setNumberCyclesErrorMessage(it) },
+            pickErrorMessage = ::setNumberCyclesErrorMessage,
         )
     }
 }
 
-private fun setNumberCyclesErrorMessage(error: InputError): Int =
+private fun setNumberCyclesErrorMessage(error: InputError?): Int? =
     when (error) {
-        InputError.NONE -> -1
+        null -> null
         else -> R.string.invalid_input_error
     }
 
@@ -71,7 +71,7 @@ private fun SettingsEditNumberCyclesDialogPreview() {
     SimpleHiitTvTheme {
         SettingsEditNumberCyclesDialog(
             saveNumber = {},
-            validateNumberCyclesInput = { _ -> InputError.NONE },
+            validateNumberCyclesInput = { _ -> null },
             numberOfCycles = "5",
             onCancel = {},
         )

@@ -20,7 +20,7 @@ interface HomeInteractor {
 
     suspend fun resetWholeApp()
 
-    fun validateInputNumberCycles(input: String): InputError
+    fun validateInputNumberCycles(input: String): InputError?
 }
 
 class HomeInteractorImpl(
@@ -38,5 +38,5 @@ class HomeInteractorImpl(
 
     override suspend fun resetWholeApp() = resetWholeAppUseCase.execute()
 
-    override fun validateInputNumberCycles(input: String): InputError = validateInputNumberCyclesUseCase.execute(input)
+    override fun validateInputNumberCycles(input: String): InputError? = validateInputNumberCyclesUseCase.execute(input)
 }

@@ -61,22 +61,22 @@ interface SettingsInteractor {
     fun validatePeriodLength(
         input: String,
         periodCountDownLengthSeconds: Long,
-    ): InputError
+    ): InputError?
 
-    fun validateNumberOfWorkPeriods(input: String): InputError
+    fun validateNumberOfWorkPeriods(input: String): InputError?
 
-    fun validateInputSessionStartCountdown(input: String): InputError
+    fun validateInputSessionStartCountdown(input: String): InputError?
 
     fun validateInputPeriodStartCountdown(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-    ): InputError
+    ): InputError?
 
     fun validateInputUserName(
         user: User,
         existingUsers: List<User>,
-    ): InputError
+    ): InputError?
 
     fun toggleExerciseTypeInList(
         currentList: List<ExerciseTypeSelected>,
@@ -138,17 +138,17 @@ class SettingsInteractorImpl(
     override fun validatePeriodLength(
         input: String,
         periodCountDownLengthSeconds: Long,
-    ): InputError = validatePeriodLengthUseCase.execute(input, periodCountDownLengthSeconds)
+    ): InputError? = validatePeriodLengthUseCase.execute(input, periodCountDownLengthSeconds)
 
-    override fun validateNumberOfWorkPeriods(input: String): InputError = validateNumberOfWorkPeriodsUseCase.execute(input)
+    override fun validateNumberOfWorkPeriods(input: String): InputError? = validateNumberOfWorkPeriodsUseCase.execute(input)
 
-    override fun validateInputSessionStartCountdown(input: String): InputError = validateInputSessionStartCountdownUseCase.execute(input)
+    override fun validateInputSessionStartCountdown(input: String): InputError? = validateInputSessionStartCountdownUseCase.execute(input)
 
     override fun validateInputPeriodStartCountdown(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-    ): InputError =
+    ): InputError? =
         validateInputPeriodStartCountdownUseCase.execute(
             input,
             workPeriodLengthSeconds,
@@ -158,7 +158,7 @@ class SettingsInteractorImpl(
     override fun validateInputUserName(
         user: User,
         existingUsers: List<User>,
-    ): InputError = validateInputUserNameUseCase.execute(user, existingUsers)
+    ): InputError? = validateInputUserNameUseCase.execute(user, existingUsers)
 
     override fun toggleExerciseTypeInList(
         currentList: List<ExerciseTypeSelected>,

@@ -18,7 +18,7 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-        expectedOutput: InputError,
+        expectedOutput: InputError?,
     ) = runTest {
         val testedUseCase =
             ValidateInputPeriodStartCountdownUseCase(
@@ -39,7 +39,7 @@ internal class ValidateInputPeriodStartCountdownUseCaseTest : AbstractMockkTest(
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of("three", 20L, 10L, InputError.WRONG_FORMAT),
-                Arguments.of("3", 20L, 10L, InputError.NONE),
+                Arguments.of("3", 20L, 10L, null),
                 Arguments.of("15", 20L, 10L, InputError.VALUE_TOO_BIG),
                 Arguments.of("25", 20L, 10L, InputError.VALUE_TOO_BIG),
             )

@@ -1,5 +1,9 @@
 # SimpleHIIT ToDo list
 
+## BUG FIXES
+* Fix bug where session remaining time for step and total don't behave properly, and values shown for both is the same
+
+
 ## Priority 1: Testing Enhancements
 **High Impact | Medium Effort | Critical for Production Readiness**
 
@@ -19,8 +23,6 @@
 ## Priority 3: Quick Wins
 **Low-Medium Impact | Low Effort | Can be done now, won't interfere with migration**
 
-* **User object: expose timestamp of last session for sorting on home** - Improves UX, straightforward domain model enhancement.
-* maybe replace InputError.NONE by a nullable?
 * **Find publication strategy**: Fdroid, github, or self-hosted - Research task, determines distribution approach early.
 
 ## Priority 4: Pre-Migration Improvements
@@ -50,138 +52,3 @@
 - ✅ **Completed**: Comprehensive presenter unit tests (91 tests, ~93% coverage)
 - 🚧 **In Progress**: Testing infrastructure expansion (integration, UI, screenshot tests)
 - 🎯 **Next Focus**: Migrate shared-ui from Android Library to KMP plugin
-
----
-
-## Architecture Assessment & Feedback
-
-### Current State Analysis (2026-01-08)
-
-#### ✅ Excellent Adherence to Android Best Practices
-
-1. **Separation of Concerns**
-   - Clean layering: UI → ViewModel → Presenter → Interactor → UseCase → Repository
-   - ViewModels are thin wrappers focusing solely on lifecycle management
-   - Presenters contain pure business logic with zero Android dependencies
-   - Domain layer is completely framework-agnostic
-
-2. **Dependency Management**
-   - Convention plugins properly centralize external dependencies
-   - Module dependencies follow strict unidirectional flow
-   - No circular dependencies detected
-   - Clear separation between Android modules and pure Kotlin modules
-
-3. **Testing Architecture**
-   - Presenters fully unit testable (pure Kotlin, easily mockable)
-   - Domain layer testable without Android framework
-   - Test utilities properly modularized and reusable
-   - Good use of test doubles (mockk) and coroutine testing patterns
-
-4. **Dependency Injection**
-   - Koin properly configured with module-specific DI files
-   - Clear separation between factory and singleton scopes
-   - Platform-specific and shared components properly scoped
-
-5. **Build Configuration**
-   - Gradle convention plugins promote consistency
-   - Version catalog centralized in `libs.versions.toml`
-   - Proper use of Kotlin DSL
-   - Build-logic module ensures build configuration reusability
-
-#### ✅ Strong KMP Readiness Indicators
-
-1. **Pure Kotlin Shared Logic**
-   - shared-ui presenters have no Android imports
-   - Domain layer completely platform-agnostic
-   - Models are pure Kotlin data classes
-   - Flow-based reactive architecture (KMP-compatible)
-
-2. **Proper Abstraction Layers**
-   - HiitLogger abstraction ready for expect/actual
-   - No direct Android framework usage in shared-ui or domain
-   - Repository pattern enables platform-specific implementations
-
-3. **Modular Architecture**
-   - Feature-based modules easily map to KMP source sets
-   - Clear boundaries between platform (android/*) and shared (shared-ui/*, domain/*)
-   - Common utilities properly isolated
-
-#### ⚠️ Areas for Improvement
-
-1. **Testing Gaps** (Already identified in Priority 1)
-   - No integration tests validating cross-module interactions
-   - No UI tests for Compose screens
-   - No user-flow tests covering end-to-end scenarios
-   - ViewModel layer lacks test coverage
-   - Screenshot tests not yet implemented
-
-2. **KMP Migration Blockers**
-   - shared-ui modules still use `simplehiit.android.library` plugin
-   - AndroidManifest.xml still present in shared-ui modules (unnecessary for pure Kotlin)
-   - No KMP source sets configured (commonMain, androidMain, etc.)
-   - No platform-specific implementations using expect/actual pattern
-
-3. **Architecture Debt (Minor)**
-   - Some shared-ui modules still named under Android package structure (`java/` directory instead of `kotlin/`)
-   - Could benefit from explicit KDoc on public APIs
-   - Some test naming could be more consistent
-
-4. **Performance & Monitoring**
-   - No performance benchmarks for critical paths (session timer accuracy)
-   - No crash reporting or analytics infrastructure visible
-   - No logging strategy for production (HiitLogger configuration unclear)
-
-5. **Build & CI**
-   - Test coverage reporting configured (Kover) but thresholds not enforced
-   - No visible CI/CD workflows (GitHub Actions, etc.)
-   - No automated dependency updates (Dependabot, Renovate)
-
-#### 🎯 Critical Path to KMP Success
-
-1. **Immediate Actions** (Before KMP conversion)
-   - Add integration tests to establish baseline behavior
-   - Add ViewModel tests to ensure lifecycle logic is sound
-   - Document expect/actual strategy for HiitLogger
-
-2. **KMP Conversion** (Can start once testing is solid)
-   - Convert one shared-ui module as pilot (suggest home module - simplest)
-   - Change plugin from `simplehiit.android.library` to `org.jetbrains.kotlin.multiplatform`
-   - Configure source sets (commonMain, commonTest)
-   - Remove AndroidManifest.xml
-   - Verify all tests still pass
-   - Repeat for remaining shared-ui modules
-
-3. **Post-Conversion Validation**
-   - Run tests on multiple platforms
-   - Add iOS-specific tests (when iOS target added)
-   - Verify no Android leakage in shared code
-
-#### 📊 Overall Assessment
-
-**Grade: A- (Very Strong Architecture)**
-
-**Strengths:**
-- Exemplary separation of concerns
-- Clean dependency graph
-- Production-ready testing for presenters
-- Well-positioned for KMP migration
-- Modern Android best practices (Compose, Flow, Kotlin Coroutines)
-- Proper modularization strategy
-
-**Weaknesses:**
-- Testing coverage gaps at integration/UI layers
-- One step away from true KMP (plugin conversion needed)
-- Missing production monitoring/observability
-
-**Recommendation:**
-The architecture is **production-ready from a design perspective** but needs **testing infrastructure expansion** before confident deployment. The KMP migration is **remarkably close** - the hard work of extracting pure Kotlin logic is complete. Focus on Priority 1 (testing) and Priority 2 (KMP conversion) in that order.
-
-**This project serves as an excellent learning platform for:**
-- Modern Android architecture patterns (MVVM + Clean Architecture)
-- Kotlin multiplatform preparation
-- Comprehensive testing strategies
-- Gradle build configuration best practices
-- Dependency injection with Koin
-- Modular project structure
-
-The deliberate focus on learning and best practices over minimalism has resulted in a well-architected, maintainable codebase that closely follows industry standards.

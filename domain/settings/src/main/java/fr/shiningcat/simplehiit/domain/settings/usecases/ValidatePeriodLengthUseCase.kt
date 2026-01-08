@@ -9,7 +9,7 @@ class ValidatePeriodLengthUseCase(
     fun execute(
         input: String,
         periodCountDownLengthSeconds: Long,
-    ): InputError {
+    ): InputError? {
         if ((input.toLongOrNull() is Long).not()) {
             return InputError.WRONG_FORMAT
         }
@@ -17,6 +17,6 @@ class ValidatePeriodLengthUseCase(
         if (periodLengthSeconds < periodCountDownLengthSeconds) {
             return InputError.VALUE_TOO_SMALL
         }
-        return InputError.NONE
+        return null
     }
 }

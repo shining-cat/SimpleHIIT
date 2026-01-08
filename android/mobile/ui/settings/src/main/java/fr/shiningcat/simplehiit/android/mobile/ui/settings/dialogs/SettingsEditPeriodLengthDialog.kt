@@ -19,7 +19,7 @@ import fr.shiningcat.simplehiit.domain.common.models.InputError
 fun SettingsEditPeriodLengthDialog(
     dialogTitle: String,
     savePeriodLength: (String) -> Unit,
-    validatePeriodLengthInput: (String) -> InputError,
+    validatePeriodLengthInput: (String) -> InputError?,
     periodLengthSeconds: String,
     onCancel: () -> Unit,
 ) {
@@ -41,14 +41,14 @@ fun SettingsEditPeriodLengthDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validatePeriodLengthInput,
-            pickErrorMessage = { setInputPeriodLengthErrorMessage(it) },
+            pickErrorMessage = ::setInputPeriodLengthErrorMessage,
         )
     }
 }
 
-private fun setInputPeriodLengthErrorMessage(error: InputError): Int =
+private fun setInputPeriodLengthErrorMessage(error: InputError?): Int? =
     when (error) {
-        InputError.NONE -> -1
+        null -> null
         InputError.VALUE_TOO_SMALL -> R.string.period_length_too_short_constraint
         else -> R.string.invalid_input_error
     }
@@ -63,7 +63,7 @@ private fun SettingsEditPeriodLengthDialogPreview() {
         SettingsEditPeriodLengthDialog(
             dialogTitle = "Some period length",
             savePeriodLength = {},
-            validatePeriodLengthInput = { _ -> InputError.NONE },
+            validatePeriodLengthInput = { _ -> null },
             periodLengthSeconds = "15",
             onCancel = {},
         )

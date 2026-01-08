@@ -7,7 +7,6 @@ import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
-import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -165,7 +164,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
     fun `setWorkPeriodLength with valid input calls interactor and dismisses dialog`() =
         runTest(testDispatcher) {
             every { mockMapper.map(any()) } returns testNominalViewState()
-            every { mockSettingsInteractor.validatePeriodLength(any(), any()) } returns InputError.NONE
+            every { mockSettingsInteractor.validatePeriodLength(any(), any()) } returns null
             coEvery { mockSettingsInteractor.setWorkPeriodLength(any()) } returns Unit
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
@@ -182,7 +181,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
     fun `validatePeriodLengthInput with Nominal state delegates to interactor`() =
         runTest(testDispatcher) {
             every { mockMapper.map(any()) } returns testNominalViewState()
-            every { mockSettingsInteractor.validatePeriodLength("25", 5L) } returns InputError.NONE
+            every { mockSettingsInteractor.validatePeriodLength("25", 5L) } returns null
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
 
             val collectorJob =
@@ -193,7 +192,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
 
             val result = testedPresenter.validatePeriodLengthInput("25")
 
-            assertEquals(InputError.NONE, result)
+            assertEquals(null, result)
             coVerify { mockSettingsInteractor.validatePeriodLength("25", 5L) }
 
             collectorJob.cancel()
@@ -226,7 +225,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
     fun `setRestPeriodLength with valid input calls interactor`() =
         runTest(testDispatcher) {
             every { mockMapper.map(any()) } returns testNominalViewState()
-            every { mockSettingsInteractor.validatePeriodLength(any(), any()) } returns InputError.NONE
+            every { mockSettingsInteractor.validatePeriodLength(any(), any()) } returns null
             coEvery { mockSettingsInteractor.setRestPeriodLength(any()) } returns Unit
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
@@ -264,7 +263,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
     fun `setNumberOfWorkPeriods with valid input calls interactor`() =
         runTest(testDispatcher) {
             every { mockMapper.map(any()) } returns testNominalViewState()
-            every { mockSettingsInteractor.validateNumberOfWorkPeriods(any()) } returns InputError.NONE
+            every { mockSettingsInteractor.validateNumberOfWorkPeriods(any()) } returns null
             coEvery { mockSettingsInteractor.setNumberOfWorkPeriods(any()) } returns Unit
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
@@ -278,11 +277,11 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
     @Test
     fun `validateNumberOfWorkPeriods delegates to interactor`() =
         runTest(testDispatcher) {
-            every { mockSettingsInteractor.validateNumberOfWorkPeriods("10") } returns InputError.NONE
+            every { mockSettingsInteractor.validateNumberOfWorkPeriods("10") } returns null
 
             val result = testedPresenter.validateNumberOfWorkPeriods("10")
 
-            assertEquals(InputError.NONE, result)
+            assertEquals(null, result)
         }
 
     // Beep sound tests
@@ -334,7 +333,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
     fun `setSessionStartCountDown with valid input calls interactor`() =
         runTest(testDispatcher) {
             every { mockMapper.map(any()) } returns testNominalViewState()
-            every { mockSettingsInteractor.validateInputSessionStartCountdown(any()) } returns InputError.NONE
+            every { mockSettingsInteractor.validateInputSessionStartCountdown(any()) } returns null
             coEvery { mockSettingsInteractor.setSessionStartCountDown(any()) } returns Unit
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
@@ -374,7 +373,7 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
             every { mockMapper.map(any()) } returns testNominalViewState()
             every {
                 mockSettingsInteractor.validateInputPeriodStartCountdown(any(), any(), any())
-            } returns InputError.NONE
+            } returns null
             coEvery { mockSettingsInteractor.setPeriodStartCountDown(any()) } returns Unit
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
@@ -391,13 +390,13 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
             every { mockMapper.map(any()) } returns testNominalViewState()
             every {
                 mockSettingsInteractor.validateInputPeriodStartCountdown("6", 20L, 10L)
-            } returns InputError.NONE
+            } returns null
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
 
             val result = testedPresenter.validateInputPeriodStartCountdown("6")
 
-            assertEquals(InputError.NONE, result)
+            assertEquals(null, result)
         }
 
     // User management tests
@@ -521,13 +520,13 @@ internal class SettingsPresenterTest : AbstractMockkTest() {
             every { mockMapper.map(any()) } returns testNominalViewState()
             every {
                 mockSettingsInteractor.validateInputUserName(testUser1, listOf(testUser1, testUser2))
-            } returns InputError.NONE
+            } returns null
             generalSettingsFlow.value = Output.Success(testGeneralSettings())
             advanceUntilIdle()
 
             val result = testedPresenter.validateInputUserNameString(testUser1)
 
-            assertEquals(InputError.NONE, result)
+            assertEquals(null, result)
         }
 
     // Exercise types tests

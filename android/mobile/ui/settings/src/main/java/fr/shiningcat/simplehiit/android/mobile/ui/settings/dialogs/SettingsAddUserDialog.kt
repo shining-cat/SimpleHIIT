@@ -18,7 +18,7 @@ import fr.shiningcat.simplehiit.domain.common.models.InputError
 fun SettingsAddUserDialog(
     saveUserName: (String) -> Unit,
     userName: String,
-    validateUserNameInput: (String) -> InputError,
+    validateUserNameInput: (String) -> InputError?,
     onCancel: () -> Unit,
 ) {
     Column(
@@ -38,17 +38,18 @@ fun SettingsAddUserDialog(
             dismissButtonLabel = stringResource(id = R.string.cancel_button_label),
             dismissAction = onCancel,
             validateInput = validateUserNameInput,
-            pickErrorMessage = { setUSerNameErrorMessage(it) },
+            pickErrorMessage = ::setUserNameErrorMessage,
         )
     }
 }
 
-private fun setUSerNameErrorMessage(error: InputError): Int =
+private fun setUserNameErrorMessage(error: InputError?): Int? =
     when (error) {
+        null -> null
         InputError.VALUE_EMPTY -> R.string.user_name_empty_error
         InputError.TOO_LONG -> R.string.user_name_too_long_error
         InputError.VALUE_ALREADY_TAKEN -> R.string.user_name_taken_error
-        else -> -1
+        else -> null
     }
 
 // Previews
@@ -61,7 +62,7 @@ private fun SettingsAddUserDialogPreview() {
         SettingsAddUserDialog(
             saveUserName = {},
             userName = "The User's name",
-            validateUserNameInput = { _ -> InputError.NONE },
+            validateUserNameInput = { _ -> null },
             onCancel = {},
         )
     }
