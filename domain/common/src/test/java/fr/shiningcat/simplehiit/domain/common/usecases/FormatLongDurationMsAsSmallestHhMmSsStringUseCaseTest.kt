@@ -85,11 +85,11 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(103000L, "01:43"),
                 Arguments.of(3600000L, "01:00:00"),
                 Arguments.of(57600000L, "16:00:00"),
-                Arguments.of(46825000L, "13:00:25"),
+                Arguments.of(46825000L, "13:00:00"), // Seconds removed when hours > 0
                 Arguments.of(7380000L, "02:03:00"),
                 Arguments.of(13500000L, "03:45:00"),
-                Arguments.of(11045000L, "03:04:05"),
-                Arguments.of(443096000L, "123:04:56"),
+                Arguments.of(11045000L, "03:04:00"), // Seconds removed when hours > 0
+                Arguments.of(443096000L, "123:04:00"), // Seconds removed when hours > 0
             )
 
         @JvmStatic
@@ -103,11 +103,11 @@ internal class FormatLongDurationMsAsSmallestHhMmSsStringUseCaseTest : AbstractM
                 Arguments.of(103000L, "1mn\u00A043s"),
                 Arguments.of(3600000L, "1h"),
                 Arguments.of(57600000L, "16h"),
-                Arguments.of(46825000L, "13h\u00A000mn\u00A025s"),
+                Arguments.of(46825000L, "13h"), // Seconds removed when hours > 0, minutes = 0
                 Arguments.of(7380000L, "2h\u00A003mn"),
                 Arguments.of(13500000L, "3h\u00A045mn"),
-                Arguments.of(11045000L, "3h\u00A004mn\u00A005s"),
-                Arguments.of(443096000L, "123h\u00A004mn\u00A056s"),
+                Arguments.of(11045000L, "3h\u00A004mn"), // Seconds removed when hours > 0
+                Arguments.of(443096000L, "123h\u00A004mn"), // Seconds removed when hours > 0
             )
     }
 }

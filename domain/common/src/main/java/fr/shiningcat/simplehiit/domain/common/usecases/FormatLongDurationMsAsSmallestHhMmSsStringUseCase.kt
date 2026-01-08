@@ -37,11 +37,11 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
         val seconds = TimeUnit.MILLISECONDS.toSeconds(durationMs) % 60
 
         return when {
-            // ex: 5s / 32s
+            // less than a minute: only seconds
             hours == 0L && minutes == 0L -> {
                 durationStringFormatter.seconds.format(seconds)
             }
-            //
+            // between one minute and less than one hour: minutes and optional seconds
             hours == 0L && minutes > 0L -> {
                 when (seconds) {
                     // ex: 3mn / 13mn
@@ -63,39 +63,28 @@ class FormatLongDurationMsAsSmallestHhMmSsStringUseCase(
                 }
             }
             else -> {
-                when (seconds) {
-                    0L -> {
-                        runCatching {
-                            when (minutes) {
-                                // ex: 1h / 23h
-                                0L -> {
-                                    durationStringFormatter.hoursNoMinutesNoSeconds.format(hours)
-                                }
-                                // ex: 2h03mn / 3h45mn
-                                else -> {
-                                    durationStringFormatter.hoursMinutesNoSeconds.format(
-                                        hours,
-                                        minutes,
-                                    )
-                                }
-                            }
-                        }.getOrElse {
-                            // the default String needs the 0 minutes & 0 seconds arguments to be formatted
-                            durationStringFormatter.hoursMinutesSeconds.format(
+                // When hours > 0, always omit seconds to reduce clutter
+                runCatching {
+                    when (minutes) {
+                        // ex: 1h / 23h
+                        0L -> {
+                            durationStringFormatter.hoursNoMinutesNoSeconds.format(hours)
+                        }
+                        // ex: 2h03mn / 3h45mn
+                        else -> {
+                            durationStringFormatter.hoursMinutesNoSeconds.format(
                                 hours,
                                 minutes,
-                                seconds,
                             )
                         }
                     }
-                    // ex: 3h04mn05s / 4h12mn34s / 12h34mn56s
-                    else -> {
-                        durationStringFormatter.hoursMinutesSeconds.format(
-                            hours,
-                            minutes,
-                            seconds,
-                        )
-                    }
+                }.getOrElse {
+                    // the default String needs the 0 minutes & 0 seconds arguments to be formatted
+                    durationStringFormatter.hoursMinutesSeconds.format(
+                        hours,
+                        minutes,
+                        0L, // Always use 0 for seconds when hours > 0
+                    )
                 }
             }
         }

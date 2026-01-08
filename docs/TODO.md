@@ -19,10 +19,9 @@
 ## Priority 3: Quick Wins
 **Low-Medium Impact | Low Effort | Can be done now, won't interfere with migration**
 
-* **Statistics: remove seconds from displays to reduce clutter** (when value > 1h) - Minor UI polish, minimal code change.
 * **User object: expose timestamp of last session for sorting on home** - Improves UX, straightforward domain model enhancement.
-* **Find publication strategy**: Fdroid, github, or self-hosted - Research task, determines distribution approach early.
 * maybe replace InputError.NONE by a nullable?
+* **Find publication strategy**: Fdroid, github, or self-hosted - Research task, determines distribution approach early.
 
 ## Priority 4: Pre-Migration Improvements
 **Medium Impact | Medium Effort | Better done before KMP migration**
