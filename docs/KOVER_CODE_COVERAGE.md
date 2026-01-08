@@ -36,8 +36,11 @@ build.gradle.kts (root)          # Global configuration & exclusions
 ├── android/mobile/app/          # Kover plugin applied
 ├── data/                        # Kover plugin applied
 ├── domain/common/               # Kover plugin applied
+├── shared-ui/home/              # Kover plugin applied
+├── shared-ui/session/           # Kover plugin applied
+├── shared-ui/settings/          # Kover plugin applied
+├── shared-ui/statistics/        # Kover plugin applied
 └── ... (other modules)          # Kover plugin applied
-└── ... (other modules)          # Add kover plugin as needed
 ```
 
 ### Adding Kover to a Module

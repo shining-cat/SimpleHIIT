@@ -128,6 +128,10 @@ dependencies {
     kover(project(":domain:settings"))
     kover(project(":domain:statistics"))
     kover(project(":domain:session"))
+    kover(project(":shared-ui:home"))
+    kover(project(":shared-ui:session"))
+    kover(project(":shared-ui:settings"))
+    kover(project(":shared-ui:statistics"))
 }
 
 ktlint {
