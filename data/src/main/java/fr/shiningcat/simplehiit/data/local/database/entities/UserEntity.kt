@@ -12,6 +12,7 @@ data class UserEntity(
     val userId: Long = 0L,
     @ColumnInfo(name = USER_NAME_COLUMN_NAME) val name: String,
     @ColumnInfo(name = USER_SELECTED_COLUMN_NAME) val selected: Boolean,
+    @ColumnInfo(name = USER_LAST_SESSION_TIMESTAMP_COLUMN_NAME) val lastSessionTimestamp: Long? = null,
 ) {
     companion object {
         const val USERS_TABLE_NAME = "simple_hiit_users"
@@ -20,5 +21,6 @@ data class UserEntity(
         const val USER_ID_COLUMN_NAME = "userId"
         const val USER_NAME_COLUMN_NAME = "name"
         const val USER_SELECTED_COLUMN_NAME = "selected"
+        const val USER_LAST_SESSION_TIMESTAMP_COLUMN_NAME = "lastSessionTimestamp"
     }
 }

@@ -70,7 +70,7 @@ class SettingsPresenter(
     }
 
     fun setWorkPeriodLength(inputSecondsAsString: String) {
-        if (validatePeriodLengthInput(inputSecondsAsString) == InputError.NONE) {
+        if (validatePeriodLengthInput(inputSecondsAsString) == null) {
             presenterScope.launch {
                 settingsInteractor.setWorkPeriodLength(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -83,7 +83,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validatePeriodLengthInput(input: String): InputError {
+    fun validatePeriodLengthInput(input: String): InputError? {
         val currentViewState = screenViewStateInternal.value
         if (currentViewState is SettingsViewState.Nominal) {
             return settingsInteractor.validatePeriodLength(
@@ -92,7 +92,7 @@ class SettingsPresenter(
             )
         }
         // we don't really expect to be able to land in here if current state is not Nominal
-        return InputError.NONE
+        return null
     }
 
     // Rest period operations
@@ -114,7 +114,7 @@ class SettingsPresenter(
     }
 
     fun setRestPeriodLength(inputSecondsAsString: String) {
-        if (validatePeriodLengthInput(inputSecondsAsString) == InputError.NONE) {
+        if (validatePeriodLengthInput(inputSecondsAsString) == null) {
             presenterScope.launch {
                 settingsInteractor.setRestPeriodLength(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -144,7 +144,7 @@ class SettingsPresenter(
     }
 
     fun setNumberOfWorkPeriods(value: String) {
-        if (validateNumberOfWorkPeriods(value) == InputError.NONE) {
+        if (validateNumberOfWorkPeriods(value) == null) {
             presenterScope.launch {
                 settingsInteractor.setNumberOfWorkPeriods(value.toInt())
                 _dialogViewState.emit(SettingsDialog.None)
@@ -157,7 +157,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateNumberOfWorkPeriods(input: String): InputError = settingsInteractor.validateNumberOfWorkPeriods(input)
+    fun validateNumberOfWorkPeriods(input: String): InputError? = settingsInteractor.validateNumberOfWorkPeriods(input)
 
     // Beep sound
     fun toggleBeepSound() {
@@ -190,7 +190,7 @@ class SettingsPresenter(
     }
 
     fun setSessionStartCountDown(inputSecondsAsString: String) {
-        if (validateInputSessionStartCountdown(inputSecondsAsString) == InputError.NONE) {
+        if (validateInputSessionStartCountdown(inputSecondsAsString) == null) {
             presenterScope.launch {
                 settingsInteractor.setSessionStartCountDown(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -203,7 +203,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateInputSessionStartCountdown(input: String): InputError = settingsInteractor.validateInputSessionStartCountdown(input)
+    fun validateInputSessionStartCountdown(input: String): InputError? = settingsInteractor.validateInputSessionStartCountdown(input)
 
     // Period countdown
     fun editPeriodStartCountDown() {
@@ -224,7 +224,7 @@ class SettingsPresenter(
     }
 
     fun setPeriodStartCountDown(inputSecondsAsString: String) {
-        if (validateInputPeriodStartCountdown(inputSecondsAsString) == InputError.NONE) {
+        if (validateInputPeriodStartCountdown(inputSecondsAsString) == null) {
             presenterScope.launch {
                 settingsInteractor.setPeriodStartCountDown(inputSecondsAsString.toLong() * 1000L)
                 _dialogViewState.emit(SettingsDialog.None)
@@ -237,7 +237,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateInputPeriodStartCountdown(input: String): InputError {
+    fun validateInputPeriodStartCountdown(input: String): InputError? {
         val currentViewState = screenViewStateInternal.value
         if (currentViewState is SettingsViewState.Nominal) {
             return settingsInteractor.validateInputPeriodStartCountdown(
@@ -247,7 +247,7 @@ class SettingsPresenter(
             )
         }
         // we don't really expect to be able to land in here if current state is not Nominal
-        return InputError.NONE
+        return null
     }
 
     // User management
@@ -330,7 +330,7 @@ class SettingsPresenter(
         }
     }
 
-    fun validateInputUserNameString(user: User): InputError {
+    fun validateInputUserNameString(user: User): InputError? {
         val currentViewState = screenViewStateInternal.value
         if (currentViewState is SettingsViewState.Nominal) {
             return settingsInteractor.validateInputUserName(
@@ -339,7 +339,7 @@ class SettingsPresenter(
             )
         }
         // we don't really expect to be able to land in here if current state is not Nominal
-        return InputError.NONE
+        return null
     }
 
     // Exercise types

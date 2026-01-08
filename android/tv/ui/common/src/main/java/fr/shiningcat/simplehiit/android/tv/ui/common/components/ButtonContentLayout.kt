@@ -37,7 +37,7 @@ import fr.shiningcat.simplehiit.commonresources.R as CommonResourcesR
  * @param fillHeight Whether the content should fill the available height.
  * @param label The text to display. If null, no text is displayed.
  * @param icon The icon to display. If null, no icon is displayed.
- * @param iconContentDescription The content description resource ID for the icon. Defaults to -1 (no description).
+ * @param iconContentDescription The content description resource ID for the icon. Null if no description.
  * @param reserveIconSpace When true, reserves space for an icon even when icon is null.
  */
 @Composable
@@ -47,7 +47,7 @@ internal fun ButtonContentLayout(
     label: String?,
     icon: ImageVector?,
     @StringRes
-    iconContentDescription: Int = -1,
+    iconContentDescription: Int? = null,
     reserveIconSpace: Boolean = false,
 ) {
     val rowModifier =
@@ -71,12 +71,7 @@ internal fun ButtonContentLayout(
                     Modifier
                         .size(adaptDpToFontScale(LargeIconSize))
                         .run { if (label != null) padding(end = ButtonDefaults.IconSpacing) else this },
-                contentDescription =
-                    if (iconContentDescription != -1) {
-                        stringResource(id = iconContentDescription)
-                    } else {
-                        ""
-                    },
+                contentDescription = iconContentDescription?.let { stringResource(id = it) } ?: "",
             )
         } else if (reserveIconSpace) {
             // Reserve space for icon to match width with buttons that have icons

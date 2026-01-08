@@ -6,10 +6,10 @@ import fr.shiningcat.simplehiit.domain.common.models.InputError
 class ValidateInputSessionStartCountdownUseCase(
     private val logger: HiitLogger,
 ) {
-    fun execute(input: String): InputError =
+    fun execute(input: String): InputError? =
         if ((input.toLongOrNull() is Long).not()) {
             InputError.WRONG_FORMAT
         } else {
-            InputError.NONE
+            null
         }
 }

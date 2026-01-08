@@ -9,11 +9,21 @@ import kotlinx.coroutines.withContext
 
 class InsertSessionUseCase(
     private val sessionsRepository: SessionsRepository,
+    private val updateUsersLastSessionTimestampUseCase: UpdateUsersLastSessionTimestampUseCase,
     private val defaultDispatcher: CoroutineDispatcher,
     private val logger: HiitLogger,
 ) {
     suspend fun execute(sessionRecord: SessionRecord): Output<Int> =
         withContext(defaultDispatcher) {
-            sessionsRepository.insertSessionRecord(sessionRecord)
+            val insertResult = sessionsRepository.insertSessionRecord(sessionRecord)
+
+            if (insertResult is Output.Success) {
+                updateUsersLastSessionTimestampUseCase.execute(
+                    userIds = sessionRecord.usersIds,
+                    timestamp = sessionRecord.timeStamp,
+                )
+            }
+
+            insertResult
         }
 }

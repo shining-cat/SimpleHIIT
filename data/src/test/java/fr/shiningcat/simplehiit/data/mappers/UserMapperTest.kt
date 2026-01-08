@@ -37,12 +37,16 @@ internal class UserMapperTest : AbstractMockkTest() {
         fun userModelMapperArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of(
-                    User(123L, "tralala", false),
-                    UserEntity(123L, "tralala", false),
+                    User(123L, "tralala", false, null),
+                    UserEntity(123L, "tralala", false, null),
                 ),
                 Arguments.of(
-                    User(345L, "trululu", true),
-                    UserEntity(345L, "trululu", true),
+                    User(345L, "trululu", true, null),
+                    UserEntity(345L, "trululu", true, null),
+                ),
+                Arguments.of(
+                    User(456L, "user with timestamp", true, 1234567890L),
+                    UserEntity(456L, "user with timestamp", true, 1234567890L),
                 ),
             )
 
@@ -50,12 +54,16 @@ internal class UserMapperTest : AbstractMockkTest() {
         fun userEntityMapperArguments() =
             Stream.of(
                 Arguments.of(
-                    UserEntity(123L, "tralala", false),
-                    User(123L, "tralala", false),
+                    UserEntity(123L, "tralala", false, null),
+                    User(123L, "tralala", false, null),
                 ),
                 Arguments.of(
-                    UserEntity(345L, "trululu", true),
-                    User(345L, "trululu", true),
+                    UserEntity(345L, "trululu", true, null),
+                    User(345L, "trululu", true, null),
+                ),
+                Arguments.of(
+                    UserEntity(456L, "user with timestamp", true, 1234567890L),
+                    User(456L, "user with timestamp", true, 1234567890L),
                 ),
             )
     }

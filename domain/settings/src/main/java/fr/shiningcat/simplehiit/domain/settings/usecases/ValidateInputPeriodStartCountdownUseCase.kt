@@ -10,7 +10,7 @@ class ValidateInputPeriodStartCountdownUseCase(
         input: String,
         workPeriodLengthSeconds: Long,
         restPeriodLengthSeconds: Long,
-    ): InputError {
+    ): InputError? {
         if ((input.toLongOrNull() is Long).not()) {
             return InputError.WRONG_FORMAT
         }
@@ -18,6 +18,6 @@ class ValidateInputPeriodStartCountdownUseCase(
         if (workPeriodLengthSeconds < periodCountDownLengthSeconds || restPeriodLengthSeconds < periodCountDownLengthSeconds) {
             return InputError.VALUE_TOO_BIG
         }
-        return InputError.NONE
+        return null
     }
 }

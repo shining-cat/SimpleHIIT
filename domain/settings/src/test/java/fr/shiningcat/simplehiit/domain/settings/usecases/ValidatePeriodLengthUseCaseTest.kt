@@ -15,7 +15,7 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
     fun `finding average number of sessions per 7-days period`(
         input: String,
         periodCountDownLengthSeconds: Long,
-        expectedOutput: InputError,
+        expectedOutput: InputError?,
     ) = runTest {
         val testedUseCase =
             ValidatePeriodLengthUseCase(logger = mockHiitLogger)
@@ -29,8 +29,8 @@ internal class ValidatePeriodLengthUseCaseTest : AbstractMockkTest() {
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
                 Arguments.of("three", 123L, InputError.WRONG_FORMAT),
-                Arguments.of("10", 5L, InputError.NONE),
-                Arguments.of("5", 5L, InputError.NONE),
+                Arguments.of("10", 5L, null),
+                Arguments.of("5", 5L, null),
                 Arguments.of("4", 5L, InputError.VALUE_TOO_SMALL),
             )
     }

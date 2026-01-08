@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class InsertSessionUseCaseTest : AbstractMockkTest() {
     private val mockSessionsRepository = mockk<SessionsRepository>()
+    private val mockUpdateUsersLastSessionTimestampUseCase = mockk<UpdateUsersLastSessionTimestampUseCase>()
 
     @Test
     fun `calls repo with corresponding value and returns repo success`() =
@@ -24,6 +25,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             val testedUseCase =
                 InsertSessionUseCase(
                     sessionsRepository = mockSessionsRepository,
+                    updateUsersLastSessionTimestampUseCase = mockUpdateUsersLastSessionTimestampUseCase,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     logger = mockHiitLogger,
                 )
@@ -36,10 +38,12 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
                 )
             val successFromRepo = Output.Success(2)
             coEvery { mockSessionsRepository.insertSessionRecord(any()) } answers { successFromRepo }
+            coEvery { mockUpdateUsersLastSessionTimestampUseCase.execute(any(), any()) } returns Output.Success(2)
             //
             val result = testedUseCase.execute(testValue)
             //
             coVerify(exactly = 1) { mockSessionsRepository.insertSessionRecord(testValue) }
+            coVerify(exactly = 1) { mockUpdateUsersLastSessionTimestampUseCase.execute(testValue.usersIds, testValue.timeStamp) }
             assertEquals(successFromRepo, result)
         }
 
@@ -49,6 +53,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             val testedUseCase =
                 InsertSessionUseCase(
                     sessionsRepository = mockSessionsRepository,
+                    updateUsersLastSessionTimestampUseCase = mockUpdateUsersLastSessionTimestampUseCase,
                     defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
                     logger = mockHiitLogger,
                 )
@@ -67,6 +72,7 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             val result = testedUseCase.execute(testValue)
             //
             coVerify(exactly = 1) { mockSessionsRepository.insertSessionRecord(testValue) }
+            coVerify(exactly = 0) { mockUpdateUsersLastSessionTimestampUseCase.execute(any(), any()) }
             assertEquals(errorFromRepo, result)
         }
 }

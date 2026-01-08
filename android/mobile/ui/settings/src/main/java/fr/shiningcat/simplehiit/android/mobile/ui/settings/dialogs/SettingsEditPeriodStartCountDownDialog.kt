@@ -18,7 +18,7 @@ import fr.shiningcat.simplehiit.domain.common.models.InputError
 @Composable
 fun SettingsEditPeriodStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
-    validateCountDownLengthInput: (String) -> InputError,
+    validateCountDownLengthInput: (String) -> InputError?,
     countDownLengthSeconds: String,
     onCancel: () -> Unit,
 ) {
@@ -40,14 +40,14 @@ fun SettingsEditPeriodStartCountDownDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateCountDownLengthInput,
-            pickErrorMessage = { setInputPeriodCountDownLengthErrorMessage(it) },
+            pickErrorMessage = ::setInputPeriodCountDownLengthErrorMessage,
         )
     }
 }
 
-private fun setInputPeriodCountDownLengthErrorMessage(error: InputError): Int =
+private fun setInputPeriodCountDownLengthErrorMessage(error: InputError?): Int? =
     when (error) {
-        InputError.NONE -> -1
+        null -> null
         InputError.VALUE_TOO_BIG -> R.string.period_start_countdown_length_too_long_error
         else -> R.string.invalid_input_error
     }
@@ -61,7 +61,7 @@ private fun SettingsEditPeriodStartCountDownDialogPreview() {
     SimpleHiitMobileTheme {
         SettingsEditPeriodStartCountDownDialog(
             saveCountDownLength = {},
-            validateCountDownLengthInput = { _ -> InputError.NONE },
+            validateCountDownLengthInput = { _ -> null },
             countDownLengthSeconds = "5",
             onCancel = {},
         )

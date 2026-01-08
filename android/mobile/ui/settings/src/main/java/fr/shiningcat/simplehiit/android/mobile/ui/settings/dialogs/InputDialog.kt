@@ -17,7 +17,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -78,8 +77,8 @@ fun InputDialog(
     dismissButtonLabel: String = "",
     dismissAction: () -> Unit,
     keyboardType: KeyboardType = KeyboardOptions.Default.keyboardType,
-    validateInput: (String) -> InputError = { InputError.NONE },
-    pickErrorMessage: (InputError) -> Int = { -1 },
+    validateInput: (String) -> InputError? = { null },
+    pickErrorMessage: (InputError?) -> Int? = { null },
 ) {
     val input =
         rememberSaveable(stateSaver = TextFieldValue.Saver) {
@@ -91,9 +90,9 @@ fun InputDialog(
             )
         }
     val isError =
-        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != InputError.NONE) }
+        rememberSaveable { mutableStateOf(validateInput(inputFieldValue) != null) }
     val errorMessageStringRes =
-        rememberSaveable { mutableIntStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
+        rememberSaveable { mutableStateOf(pickErrorMessage(validateInput(inputFieldValue))) }
     val focusRequester = remember { FocusRequester() }
     var focusRequested by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -130,12 +129,12 @@ fun InputDialog(
                             val validationResult = validateInput(it.text)
                             val errorStringRes = pickErrorMessage(validationResult)
                             isError.value =
-                                validationResult != InputError.NONE
-                            errorMessageStringRes.intValue =
+                                validationResult != null
+                            errorMessageStringRes.value =
                                 errorStringRes
                         },
                         isError = isError.value,
-                        errorMessageResId = errorMessageStringRes.intValue,
+                        errorMessageResId = errorMessageStringRes.value,
                         onKeyboardDoneAction = {
                             if (!isError.value) primaryAction(input.value.text)
                         },
@@ -172,7 +171,7 @@ private fun InputDialogBodyContent(
     inputValue: TextFieldValue,
     onInputValueChange: (TextFieldValue) -> Unit,
     isError: Boolean,
-    errorMessageResId: Int,
+    errorMessageResId: Int?,
     onKeyboardDoneAction: () -> Unit,
     inputFieldSingleLine: Boolean,
     inputFieldSize: InputDialogTextFieldSize,
@@ -280,7 +279,7 @@ private fun InputDialogBodyContent(
                 textAlign = TextAlign.End,
             )
         }
-        if (isError && errorMessageResId != -1) {
+        if (isError && errorMessageResId != null) {
             Text(
                 text = stringResource(id = errorMessageResId),
                 textAlign = TextAlign.Center,
@@ -398,7 +397,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "",
                     inputFieldSize = InputDialogTextFieldSize.SMALL,
-                    validateInput = { InputError.NONE },
+                    validateInput = { null },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -409,7 +408,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.MEDIUM,
-                    validateInput = { InputError.NONE },
+                    validateInput = { null },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -420,7 +419,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "Delete long",
                     dismissButtonLabel = "Cancel even longer",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { InputError.NONE },
+                    validateInput = { null },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -431,7 +430,7 @@ internal class InputDialogPreviewParameterProvider : PreviewParameterProvider<In
                     secondaryButtonLabel = "Delete",
                     dismissButtonLabel = "Cancel",
                     inputFieldSize = InputDialogTextFieldSize.LARGE,
-                    validateInput = { InputError.NONE },
+                    validateInput = { null },
                     errorMessage = { -1 },
                 ),
                 InputDialogPreviewObject(
@@ -471,6 +470,6 @@ internal data class InputDialogPreviewObject(
     val secondaryButtonLabel: String,
     val dismissButtonLabel: String,
     val inputFieldSize: InputDialogTextFieldSize,
-    val validateInput: (String) -> InputError,
-    val errorMessage: (InputError) -> Int,
+    val validateInput: (String) -> InputError?,
+    val errorMessage: (InputError?) -> Int?,
 )

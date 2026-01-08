@@ -275,6 +275,22 @@ Task: Home Module Refactoring
 
 **Key principle:** The `_WIP-plans/` folder is your collaborative notebook. Keep it current, organized, and focused on ACTIVE work. Archive completed work in merge summaries, then clean up planning artifacts.
 
+## Kotlin Code Style
+
+### Imports
+
+**Always use proper imports at the top of the file:**
+- Add all type imports in the import section at the top of the file
+- ❌ WRONG: `private fun sort(users: List<fr.shiningcat.simplehiit.domain.common.models.User>)`
+- ✅ RIGHT: Add `import fr.shiningcat.simplehiit.domain.common.models.User` at top, then use `List<User>`
+
+**Never use inline fully-qualified names:**
+- Inline package paths make code harder to read and maintain
+- They bypass IDE import management and refactoring tools
+- They obscure which types are actually being used
+
+**Philosophy:** Proper imports improve readability and maintainability. Let the IDE manage imports, not inline qualifications.
+
 ## File Change Handling
 
 **When files have been modified since your last edit:**

@@ -16,7 +16,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
     fun `finding average number of sessions per 7-days period`(
         user: User,
         existingUsers: List<User>,
-        expectedOutput: InputError,
+        expectedOutput: InputError?,
     ) = runTest {
         val testedUseCase =
             ValidateInputUserNameUseCase(logger = mockHiitLogger)
@@ -78,7 +78,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 234L, name = "user test 2"),
                         User(id = 345L, name = "user test 3"),
                     ),
-                    InputError.NONE,
+                    null,
                 ),
                 Arguments.of(
                     // 25 chars is the accepted limit
@@ -91,7 +91,7 @@ internal class ValidateInputUserNameUseCaseTest : AbstractMockkTest() {
                         User(id = 234L, name = "user test 2"),
                         User(id = 345L, name = "user test 3"),
                     ),
-                    InputError.NONE,
+                    null,
                 ),
             )
     }

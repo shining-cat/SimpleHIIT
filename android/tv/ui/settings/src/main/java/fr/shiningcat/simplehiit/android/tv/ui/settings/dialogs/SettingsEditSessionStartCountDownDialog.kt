@@ -20,7 +20,7 @@ import fr.shiningcat.simplehiit.domain.common.models.InputError
 @Composable
 fun SettingsEditSessionStartCountDownDialog(
     saveCountDownLength: (String) -> Unit,
-    validateCountDownLengthInput: (String) -> InputError,
+    validateCountDownLengthInput: (String) -> InputError?,
     countDownLengthSeconds: String,
     onCancel: () -> Unit,
 ) {
@@ -42,14 +42,14 @@ fun SettingsEditSessionStartCountDownDialog(
             dismissAction = onCancel,
             keyboardType = KeyboardType.Number,
             validateInput = validateCountDownLengthInput,
-            pickErrorMessage = { setInputSessionCountDownLengthErrorMessage(it) },
+            pickErrorMessage = ::setInputSessionCountDownLengthErrorMessage,
         )
     }
 }
 
-private fun setInputSessionCountDownLengthErrorMessage(error: InputError): Int =
+private fun setInputSessionCountDownLengthErrorMessage(error: InputError?): Int? =
     when (error) {
-        InputError.NONE -> -1
+        null -> null
         else -> R.string.invalid_input_error
     }
 
@@ -71,7 +71,7 @@ private fun SettingsEditSessionStartCountDownDialogPreview() {
     SimpleHiitTvTheme {
         SettingsEditSessionStartCountDownDialog(
             saveCountDownLength = {},
-            validateCountDownLengthInput = { _ -> InputError.NONE },
+            validateCountDownLengthInput = { _ -> null },
             countDownLengthSeconds = "5",
             onCancel = {},
         )

@@ -14,7 +14,7 @@ internal class ValidateNumberOfWorkPeriodsUseCaseTest : AbstractMockkTest() {
     @MethodSource("numberCyclesTestArguments")
     fun `finding average number of sessions per 7-days period`(
         input: String,
-        expectedOutput: InputError,
+        expectedOutput: InputError?,
     ) = runTest {
         val testedUseCase =
             ValidateNumberOfWorkPeriodsUseCase(logger = mockHiitLogger)
@@ -27,9 +27,9 @@ internal class ValidateNumberOfWorkPeriodsUseCaseTest : AbstractMockkTest() {
         @JvmStatic
         fun numberCyclesTestArguments(): Stream<Arguments> =
             Stream.of(
-                Arguments.of("3", InputError.NONE),
-                Arguments.of("369", InputError.NONE),
-                Arguments.of("369346", InputError.NONE),
+                Arguments.of("3", null),
+                Arguments.of("369", null),
+                Arguments.of("369346", null),
                 Arguments.of("three", InputError.WRONG_FORMAT),
             )
     }

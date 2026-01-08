@@ -5,6 +5,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import fr.shiningcat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shiningcat.simplehiit.data.local.database.SimpleHiitDatabase.Companion.SimpleHiitDatabaseName
+import fr.shiningcat.simplehiit.data.local.database.migrations.MIGRATION_1_2
 import fr.shiningcat.simplehiit.data.local.datastore.SIMPLE_HIIT_DATASTORE_FILENAME
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManagerImpl
@@ -20,7 +21,8 @@ val localDataModule =
                     context = androidContext(),
                     klass = SimpleHiitDatabase::class.java,
                     name = SimpleHiitDatabaseName,
-                ).build()
+                ).addMigrations(MIGRATION_1_2)
+                .build()
         }
 
         single { get<SimpleHiitDatabase>().userDao() }

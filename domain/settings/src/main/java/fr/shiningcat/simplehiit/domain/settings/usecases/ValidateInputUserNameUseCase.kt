@@ -10,7 +10,7 @@ class ValidateInputUserNameUseCase(
     fun execute(
         user: User,
         existingUsers: List<User>,
-    ): InputError =
+    ): InputError? =
         when {
             user.name.isBlank() -> {
                 InputError.VALUE_EMPTY
@@ -19,7 +19,7 @@ class ValidateInputUserNameUseCase(
                 InputError.VALUE_ALREADY_TAKEN
             }
             user.name.length < 25 -> {
-                InputError.NONE
+                null
             }
             else -> {
                 InputError.TOO_LONG
