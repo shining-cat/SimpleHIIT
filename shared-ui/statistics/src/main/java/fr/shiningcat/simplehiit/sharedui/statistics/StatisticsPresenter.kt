@@ -109,6 +109,7 @@ class StatisticsPresenter(
                 "StatisticsPresenter",
                 "openPickUser called but there is only 1 user or less",
             )
+            return
         }
         _dialogState.emit(StatisticsDialog.SelectUser(users.toList()))
     }
