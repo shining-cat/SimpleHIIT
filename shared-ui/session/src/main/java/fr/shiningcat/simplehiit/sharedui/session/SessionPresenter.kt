@@ -6,18 +6,22 @@ import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
+import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -32,8 +36,10 @@ class SessionPresenter(
     private val dispatcher: CoroutineDispatcher,
     private val logger: HiitLogger,
 ) {
-    // Coroutine scope for presenter operations
-    private val presenterScope = CoroutineScope(dispatcher)
+    // Coroutine scope for presenter operations - using SupervisorJob for proper cancellation
+    private val presenterJob = SupervisorJob()
+    private val presenterScope = CoroutineScope(presenterJob + dispatcher)
+    private var tickerCollectionJob: Job? = null
 
     // Screen state - manually managed due to complex internal state dependencies
     private val _screenViewState = MutableStateFlow<SessionViewState>(SessionViewState.Loading)
@@ -60,47 +66,54 @@ class SessionPresenter(
      * Called by ViewModel when SoundPool has loaded the beep sound.
      * Triggers session initialization flow.
      */
-    suspend fun onSoundLoaded() {
-        logger.d("SessionPresenter", "sound loaded, proceeding with initialization")
+    fun onSoundLoaded() {
+        logger.d("SessionPresenter", "onSoundLoaded - proceeding with initialization")
         soundLoaded = true
+        initializeAndStartSession()
+    }
+
+    private fun initializeAndStartSession() {
         setupTicker()
         retrieveSettingsAndProceed()
     }
 
     private fun setupTicker() {
-        presenterScope.launch {
-            timerStateFlow.collect { stepTimerState ->
-                if (stepTimerState != StepTimerState()) { // excluding first emission with default value
-                    tick(stepTimerState)
+        tickerCollectionJob?.cancel()
+        tickerCollectionJob =
+            presenterScope.launch {
+                timerStateFlow.collect { stepTimerState ->
+                    if (stepTimerState != StepTimerState()) { // excluding first emission with default value
+                        tick(stepTimerState)
+                    }
                 }
             }
-        }
     }
 
     private fun retrieveSettingsAndProceed() {
         presenterScope.launch {
-            sessionInteractor.getSessionSettings().collect { sessionSettingsOutput ->
-                when (sessionSettingsOutput) {
-                    is Output.Error -> {
-                        logger.e(
-                            "SessionPresenter",
-                            "retrieveSettingsAndProceed::getSessionSettings returned error: ",
-                            sessionSettingsOutput.exception,
+            // Use first() instead of collect() to only take the initial settings
+            // and prevent the session from being rebuilt when settings/users flows re-emit
+            val sessionSettingsOutput = sessionInteractor.getSessionSettings().first()
+            when (sessionSettingsOutput) {
+                is Output.Error -> {
+                    logger.e(
+                        "SessionPresenter",
+                        "retrieveSettingsAndProceed::getSessionSettings returned error: ",
+                        sessionSettingsOutput.exception,
+                    )
+                    _screenViewState.emit(
+                        SessionViewState.Error(
+                            sessionSettingsOutput.errorCode.code,
+                        ),
+                    )
+                }
+                is Output.Success<*> -> {
+                    val sessionSettingsResult = sessionSettingsOutput.result as SessionSettings
+                    session =
+                        sessionInteractor.buildSession(
+                            sessionSettings = sessionSettingsResult,
                         )
-                        _screenViewState.emit(
-                            SessionViewState.Error(
-                                sessionSettingsOutput.errorCode.code,
-                            ),
-                        )
-                    }
-                    is Output.Success -> {
-                        val sessionSettingsResult = sessionSettingsOutput.result
-                        session =
-                            sessionInteractor.buildSession(
-                                sessionSettings = sessionSettingsResult,
-                            )
-                        launchSession()
-                    }
+                    launchSession()
                 }
             }
         }
@@ -293,7 +306,8 @@ class SessionPresenter(
             return
         }
         val stepToStart = immutableSession.steps[currentSessionStepIndex]
-        val remainingTotalTimeToLaunch = stepToStart.durationMs.plus(stepToStart.remainingSessionDurationMsAfterMe)
+        val remainingTotalTimeToLaunch =
+            stepToStart.durationMs.plus(stepToStart.remainingSessionDurationMsAfterMe)
         stepTimerJob =
             presenterScope.launch {
                 sessionInteractor.startStepTimer(totalMilliSeconds = remainingTotalTimeToLaunch)
@@ -310,5 +324,33 @@ class SessionPresenter(
             emitSessionEndState()
             _dialogViewState.emit(SessionDialog.None)
         }
+    }
+
+    fun resetAndStart() {
+        logger.d("SessionPresenter", "resetAndStart - cleaning up and starting fresh")
+        resetInternalState()
+        presenterScope.launch {
+            _screenViewState.emit(SessionViewState.Loading)
+            _dialogViewState.emit(SessionDialog.None)
+        }
+        initializeAndStartSession()
+    }
+
+    fun cleanup() {
+        logger.d("SessionPresenter", "cleanup - cancelling all jobs and resetting state")
+        resetInternalState()
+        presenterScope.coroutineContext.cancelChildren()
+    }
+
+    /**
+     * Resets internal state for a fresh session.
+     * Used by both resetAndStart() and cleanup().
+     */
+    private fun resetInternalState() {
+        stepTimerJob?.cancel()
+        tickerCollectionJob?.cancel()
+        session = null
+        currentSessionStepIndex = 0
+        sessionInteractor.resetTimerState()
     }
 }

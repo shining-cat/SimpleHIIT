@@ -81,6 +81,12 @@ class SessionViewModel(
         }
     }
 
+    fun reinitializeSession() {
+        viewModelScope.launch(mainDispatcher) {
+            presenter.resetAndStart()
+        }
+    }
+
     fun abortSession() {
         viewModelScope.launch(mainDispatcher) {
             presenter.abortSession()
@@ -89,7 +95,8 @@ class SessionViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        logger.d("SessionViewModel", "onCleared - releasing SoundPool")
+        logger.d("SessionViewModel", "onCleared - releasing SoundPool and cleaning up presenter")
         soundPool.release()
+        presenter.cleanup()
     }
 }

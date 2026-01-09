@@ -26,6 +26,8 @@ interface SessionInteractor {
     fun getStepTimerState(): StateFlow<StepTimerState>
 
     suspend fun insertSession(sessionRecord: SessionRecord): Output<Int>
+
+    fun resetTimerState()
 }
 
 class SessionInteractorImpl(
@@ -50,4 +52,6 @@ class SessionInteractorImpl(
     override fun getStepTimerState(): StateFlow<StepTimerState> = stepTimerUseCase.timerStateFlow
 
     override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> = insertSessionUseCase.execute(sessionRecord)
+
+    override fun resetTimerState() = stepTimerUseCase.reset()
 }
