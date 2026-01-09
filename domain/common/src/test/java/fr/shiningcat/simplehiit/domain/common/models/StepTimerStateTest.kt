@@ -2,7 +2,6 @@ package fr.shiningcat.simplehiit.domain.common.models
 
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -25,9 +24,9 @@ internal class StepTimerStateTest : AbstractMockkTest() {
         assertEquals(expectedPercentage, stepTimerState.remainingPercentage, 0.001f)
     }
 
-    @ParameterizedTest(name = "{index} -> remaining={0}ms, total={1}ms")
-    @MethodSource("divisionByZeroArguments")
-    fun `remainingPercentage handles division by zero`(
+    @ParameterizedTest(name = "{index} -> remaining={0}ms, total={1}ms should give 0% (invalid)")
+    @MethodSource("invalidStateArguments")
+    fun `remainingPercentage returns zero for invalid states`(
         milliSecondsRemaining: Long,
         totalMilliSeconds: Long,
     ) {
@@ -37,15 +36,14 @@ internal class StepTimerStateTest : AbstractMockkTest() {
                 totalMilliSeconds = totalMilliSeconds,
             )
 
-        assertTrue(stepTimerState.remainingPercentage.isInfinite() || stepTimerState.remainingPercentage.isNaN())
+        assertEquals(0f, stepTimerState.remainingPercentage, 0.001f)
     }
 
-    @ParameterizedTest(name = "{index} -> remaining={0}ms, total={1}ms should give {2}%")
-    @MethodSource("negativeValuesArguments")
-    fun `remainingPercentage handles negative values`(
+    @ParameterizedTest(name = "{index} -> remaining={0}ms exceeds total={1}ms, should give 100%")
+    @MethodSource("exceedsMaxArguments")
+    fun `remainingPercentage coerces to max 100 percent when remaining exceeds total`(
         milliSecondsRemaining: Long,
         totalMilliSeconds: Long,
-        expectedPercentage: Float,
     ) {
         val stepTimerState =
             StepTimerState(
@@ -53,7 +51,7 @@ internal class StepTimerStateTest : AbstractMockkTest() {
                 totalMilliSeconds = totalMilliSeconds,
             )
 
-        assertEquals(expectedPercentage, stepTimerState.remainingPercentage, 0.001f)
+        assertEquals(1.0f, stepTimerState.remainingPercentage, 0.001f)
     }
 
     // //////////////////////
@@ -85,25 +83,30 @@ internal class StepTimerStateTest : AbstractMockkTest() {
             )
 
         @JvmStatic
-        fun divisionByZeroArguments(): Stream<Arguments> =
+        fun invalidStateArguments(): Stream<Arguments> =
             Stream.of(
+                // Zero total (division by zero)
                 Arguments.of(10000L, 0L),
                 Arguments.of(0L, 0L),
                 Arguments.of(1L, 0L),
-                Arguments.of(-1L, 0L),
+                // Negative total
+                Arguments.of(5000L, -10000L),
+                Arguments.of(0L, -1L),
+                // Negative remaining
+                Arguments.of(-1L, 10000L),
+                Arguments.of(-5000L, 10000L),
+                // Both negative (default/uninitialized state)
+                Arguments.of(-1L, -1L),
+                Arguments.of(-5000L, -10000L),
             )
 
         @JvmStatic
-        fun negativeValuesArguments(): Stream<Arguments> =
+        fun exceedsMaxArguments(): Stream<Arguments> =
             Stream.of(
-                // Default values (both -1)
-                Arguments.of(-1L, -1L, 1.0f),
-                // Negative remaining, positive total
-                Arguments.of(-5000L, 10000L, -0.5f),
-                // Positive remaining, negative total
-                Arguments.of(5000L, -10000L, -0.5f),
-                // Both negative with valid percentage
-                Arguments.of(-5000L, -10000L, 0.5f),
+                // Remaining exceeds total - should be coerced to 1.0
+                Arguments.of(15000L, 10000L),
+                Arguments.of(100000L, 10000L),
+                Arguments.of(60001L, 60000L),
             )
     }
 }

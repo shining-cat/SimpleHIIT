@@ -20,7 +20,7 @@ class StepTimerUseCase(
     private val timeProvider: TimeProvider,
     private val logger: HiitLogger,
 ) {
-    private var _timerStateFlow = MutableStateFlow(StepTimerState())
+    private val _timerStateFlow = MutableStateFlow(StepTimerState())
     val timerStateFlow: StateFlow<StepTimerState> = _timerStateFlow
 
     private var startTimeStamp = 0L
@@ -78,4 +78,14 @@ class StepTimerUseCase(
                 remainingMs = emitMs // Update remainingMs for the loop
             }
         }
+
+    /**
+     * Resets the timer state to default values.
+     * Should be called when cleaning up the session to prevent stale state.
+     */
+    fun reset() {
+        logger.d("StepTimerUseCase", "reset - clearing timer state")
+        _timerStateFlow.value = StepTimerState()
+        startTimeStamp = 0L
+    }
 }

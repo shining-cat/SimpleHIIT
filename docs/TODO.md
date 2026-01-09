@@ -1,9 +1,5 @@
 # SimpleHIIT ToDo list
 
-## BUG FIXES
-* Fix bug where session remaining time for step and total don't behave properly, and values shown for both is the same
-
-
 ## Priority 1: Testing Enhancements
 **High Impact | Medium Effort | Critical for Production Readiness**
 

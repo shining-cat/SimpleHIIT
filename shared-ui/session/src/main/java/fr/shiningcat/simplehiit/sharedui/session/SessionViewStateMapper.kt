@@ -26,11 +26,15 @@ class SessionViewStateMapper(
                 currentStepTimerState.milliSecondsRemaining.minus(currentStep.remainingSessionDurationMsAfterMe)
             val stepRemainingFormatted =
                 formatLongDurationMsAsSmallestHhMmSsStringUseCase.execute(
-                    durationMs = stepRemainingMilliSeconds,
+                    durationMs = stepRemainingMilliSeconds.coerceAtLeast(0L),
                     formatStyle = DurationFormatStyle.DIGITS_ONLY,
                 )
             val stepRemainingPercentage =
-                stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())
+                if (currentStep.durationMs > 0 && stepRemainingMilliSeconds >= 0) {
+                    (stepRemainingMilliSeconds.div(currentStep.durationMs.toFloat())).coerceIn(0f, 1f)
+                } else {
+                    0f
+                }
             //
             val countdownMillis = currentStep.countDownLengthMs
             // we'll handle session start countdown separately below, it allows us to not handle this comparison as it's not relevant for that period
