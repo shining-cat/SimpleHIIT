@@ -10,6 +10,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
+import java.io.File
 
 class AndroidAppHandheldConventionPlugin : Plugin<Project> {
     override fun apply(project: Project) {
@@ -27,7 +28,32 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
                     versionCode = ConfigHandheld.config.versionCode
                     versionName = ConfigHandheld.config.versionName
                 }
+
+                val signingKeystorePath = System.getenv("SIGNING_KEYSTORE_PATH")
+                val signingKeystorePassword = System.getenv("SIGNING_KEYSTORE_PASSWORD")
+                val signingKeyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                val signingKeyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+
+                if (signingKeystorePath != null && signingKeystorePassword != null) {
+                    signingConfigs {
+                        create("release") {
+                            storeFile = File(signingKeystorePath)
+                            storePassword = signingKeystorePassword
+                            keyAlias = signingKeyAlias
+                            keyPassword = signingKeyPassword
+                        }
+                    }
+                }
+
                 configureBuildTypes(this)
+
+                if (signingKeystorePath != null) {
+                    buildTypes {
+                        getByName("release") {
+                            signingConfig = signingConfigs.getByName("release")
+                        }
+                    }
+                }
             }
             dependencies {
                 add("androidTestImplementation", kotlin("test"))
