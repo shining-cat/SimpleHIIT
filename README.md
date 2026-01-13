@@ -31,6 +31,7 @@
 - [Kover Code Coverage](docs/KOVER_CODE_COVERAGE.md)
 - [Ktlint Formatting Guide](docs/KTLINT_FORMATTING_GUIDE.md)
 - [Module Dependencies](docs/MODULE_DEPENDENCIES.md)
+- [Releases](docs/RELEASES.md)
 - [Threading Strategy](docs/THREADING.md)
 - [Accessibility](docs/ACCESSIBILITY.md)
 - [TODO List](docs/TODO.md)

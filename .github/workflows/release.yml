@@ -51,6 +51,13 @@ jobs:
         id: get_version
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       
+      - name: Rename APKs
+        run: |
+          VERSION=${{ steps.get_version.outputs.VERSION }}
+          mkdir -p release-artifacts
+          cp android/mobile/app/build/outputs/apk/release/app-release.apk release-artifacts/SimpleHIIT-mobile-${VERSION}.apk
+          cp android/tv/app/build/outputs/apk/release/app-release.apk release-artifacts/SimpleHIIT-tv-${VERSION}.apk
+      
       - name: Generate changelog
         id: changelog
         run: |
@@ -75,26 +82,9 @@ jobs:
           name: Release ${{ steps.get_version.outputs.VERSION }}
           body_path: changelog.txt
           files: |
-            android/mobile/app/build/outputs/apk/release/app-release.apk
-            android/tv/app/build/outputs/apk/release/app-release.apk
+            release-artifacts/*.apk
           draft: false
           prerelease: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Rename APKs for clarity
-        run: |
-          VERSION=${{ steps.get_version.outputs.VERSION }}
-          mkdir -p release-artifacts
-          cp android/mobile/app/build/outputs/apk/release/app-release.apk release-artifacts/SimpleHIIT-mobile-${VERSION}.apk
-          cp android/tv/app/build/outputs/apk/release/app-release.apk release-artifacts/SimpleHIIT-tv-${VERSION}.apk
-      
-      - name: Update Release with renamed APKs
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{ steps.get_version.outputs.VERSION }}
-          files: |
-            release-artifacts/*.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       

@@ -60,6 +60,7 @@ This document describes all GitHub Actions workflows used in the SimpleHIIT proj
 - [Android Verification](#android-verification)
 - [Auto Merge and Delete](#auto-merge-and-delete)
 - [Monthly Master Sanity Check](#monthly-master-sanity-check)
+- [Release Build](#release-build)
 
 ---
 
@@ -248,3 +249,48 @@ Each checker can return one of three states:
 **The workflow fails only if:**
 - One or more checks cannot run due to build/configuration errors
 - Issues are created explaining what prevented the check from running
+
+## Release Build
+
+**Workflow File:** `.github/workflows/release.yml`
+
+**Trigger:** Push of version tags matching pattern `v*` (e.g., `v0.05`, `v1.23`)
+
+**Purpose:** Automatically builds, signs, and publishes release APKs to GitHub Releases
+
+### How It Works
+
+When a version tag is pushed to the repository, this workflow:
+
+1. **Decodes the release keystore** from GitHub Secrets
+2. **Builds signed APKs** for both mobile and TV variants
+3. **Generates changelog** from git commits since previous release
+4. **Creates GitHub Release** with downloadable APKs
+5. **Cleans up** temporary keystore file
+
+### Release Artifacts
+
+Each release includes:
+- `SimpleHIIT-mobile-vX.XX.apk` - Signed APK for handheld devices
+- `SimpleHIIT-tv-vX.XX.apk` - Signed APK for Android TV devices
+- Auto-generated changelog from commit history
+
+### Repository Secrets Required
+
+The workflow requires these secrets to be configured:
+- `SIGNING_KEYSTORE_BASE64` - Base64-encoded release keystore
+- `SIGNING_KEYSTORE_PASSWORD` - Keystore password
+- `SIGNING_KEY_ALIAS` - Key alias (currently: `simplehiit`)
+- `SIGNING_KEY_PASSWORD` - Key password
+
+### Creating a Release
+
+**See [RELEASES.md](RELEASES.md) for complete release process documentation.**
+
+Quick overview:
+1. Create release branch: `release/vX.XX`
+2. Update version numbers in `Config.kt`
+3. Create PR and merge to main
+4. Tag the merged commit: `git tag vX.XX && git push origin vX.XX`
+5. Monitor workflow at: https://github.com/shining-cat/SimpleHIIT/actions
+6. Verify release at: https://github.com/shining-cat/SimpleHIIT/releases
