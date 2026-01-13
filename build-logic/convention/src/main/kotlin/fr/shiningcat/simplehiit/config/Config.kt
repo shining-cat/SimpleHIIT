@@ -24,8 +24,8 @@ object ConfigHandheld {
             targetSdkVersion = 36,
             compileSdkVersion = 36,
             applicationId = APPLICATION_ID,
-            versionCode = 23100004,
-            versionName = "0.04",
+            versionCode = 23100005,
+            versionName = "0.05",
             nameSpace = "fr.shiningcat.simplehiit.mobile.app",
         )
     val jvm =
@@ -42,8 +42,8 @@ object ConfigTv {
             targetSdkVersion = 36,
             compileSdkVersion = 36,
             applicationId = APPLICATION_ID,
-            versionCode = 23010004,
-            versionName = "0.04",
+            versionCode = 23010005,
+            versionName = "0.05",
             nameSpace = "fr.shiningcat.simplehiit.tv.app",
         )
     val jvm =
