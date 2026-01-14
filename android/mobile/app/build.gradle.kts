@@ -1,3 +1,4 @@
+
 import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
 plugins {
@@ -13,7 +14,7 @@ plugins {
 android {
     buildTypes {
         debug {
-            // for some reason, this parameter is not accessible in the configureBuildTypes extension, need to set this here:
+            // applicationIdSuffix set from central enum config
             applicationIdSuffix = SimpleHiitBuildType.DEBUG.applicationIdSuffix
         }
     }

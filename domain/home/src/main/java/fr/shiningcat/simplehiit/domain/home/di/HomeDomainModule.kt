@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.domain.home.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.domain.home.usecases.DetectSessionWarningUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.GetHomeSettingsUseCase
 import fr.shiningcat.simplehiit.domain.home.usecases.ModifyNumberCyclesUseCase

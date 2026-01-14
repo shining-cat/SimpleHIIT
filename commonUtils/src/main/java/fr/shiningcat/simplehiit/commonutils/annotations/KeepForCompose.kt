@@ -11,6 +11,6 @@ package fr.shiningcat.simplehiit.commonutils.annotations
  * Compose navigation uses string-based references and lambda invocations
  * that R8 cannot trace, causing these classes to be incorrectly removed.
  */
-@Retention(AnnotationRetention.BINARY)
+@Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 annotation class KeepForCompose

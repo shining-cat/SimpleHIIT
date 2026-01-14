@@ -1,3 +1,5 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics
 
 import androidx.compose.animation.AnimatedVisibility
@@ -23,6 +25,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.statistics.contents.Statistics
 import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.android.shared.statistics.StatisticsViewModel
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 import fr.shiningcat.simplehiit.domain.common.models.DisplayStatisticType
 import fr.shiningcat.simplehiit.domain.common.models.DisplayedStatistic
 import fr.shiningcat.simplehiit.domain.common.models.User

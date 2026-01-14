@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.sharedui.session.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.sharedui.session.SessionInteractor
 import fr.shiningcat.simplehiit.sharedui.session.SessionInteractorImpl
 import fr.shiningcat.simplehiit.sharedui.session.SessionPresenter

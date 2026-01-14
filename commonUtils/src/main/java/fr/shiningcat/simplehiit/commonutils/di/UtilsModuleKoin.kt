@@ -1,3 +1,5 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.commonutils.di
 
 import android.content.pm.ApplicationInfo
@@ -5,6 +7,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.HiitLoggerImpl
 import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.commonutils.TimeProviderImpl
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.koin.android.ext.koin.androidContext

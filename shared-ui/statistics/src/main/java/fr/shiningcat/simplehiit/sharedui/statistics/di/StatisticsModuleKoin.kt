@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.sharedui.statistics.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsInteractor
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsInteractorImpl
 import fr.shiningcat.simplehiit.sharedui.statistics.StatisticsPresenter

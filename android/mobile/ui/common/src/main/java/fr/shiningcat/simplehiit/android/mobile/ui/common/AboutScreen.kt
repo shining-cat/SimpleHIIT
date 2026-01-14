@@ -1,3 +1,5 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.common
 
 import android.content.Intent
@@ -37,6 +39,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.android.shared.core.ui.utils.getAppVersion
 import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 
 @Composable
 fun AboutScreen(

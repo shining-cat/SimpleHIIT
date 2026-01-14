@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.domain.settings.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.domain.settings.usecases.CheckIfAnotherUserUsesThatNameUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.CreateUserUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.DeleteUserUseCase

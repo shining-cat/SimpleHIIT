@@ -11,6 +11,6 @@ package fr.shiningcat.simplehiit.commonutils.annotations
  * R8 cannot detect reflection-based access patterns used by Koin,
  * so these classes would be incorrectly removed during minification.
  */
-@Retention(AnnotationRetention.BINARY)
+@Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FILE)
 annotation class KeepForKoin

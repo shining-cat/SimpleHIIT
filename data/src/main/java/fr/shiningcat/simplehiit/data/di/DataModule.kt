@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.data.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.data.mappers.SessionMapper
 import fr.shiningcat.simplehiit.data.mappers.UserMapper
 import fr.shiningcat.simplehiit.data.repositories.LanguageRepositoryImpl

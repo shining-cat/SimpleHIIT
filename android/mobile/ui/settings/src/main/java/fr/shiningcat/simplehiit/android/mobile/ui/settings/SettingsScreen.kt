@@ -1,3 +1,5 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.settings
 
 import androidx.activity.compose.LocalActivity
@@ -26,6 +28,7 @@ import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.android.shared.settings.SettingsViewModel
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType

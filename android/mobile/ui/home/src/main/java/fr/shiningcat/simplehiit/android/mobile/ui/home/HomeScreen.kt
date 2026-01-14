@@ -1,3 +1,5 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.home
 
 import androidx.compose.animation.AnimatedVisibility
@@ -23,6 +25,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.home.contents.HomeContentHolde
 import fr.shiningcat.simplehiit.android.shared.core.Screen
 import fr.shiningcat.simplehiit.android.shared.home.HomeViewModel
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 import fr.shiningcat.simplehiit.domain.common.models.CyclesModification
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.home.HomeDialog

@@ -1,3 +1,5 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.session
 
 import androidx.activity.compose.BackHandler
@@ -27,6 +29,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.session.contents.SessionConten
 import fr.shiningcat.simplehiit.android.shared.session.SessionViewModel
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState

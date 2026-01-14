@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.domain.session.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.domain.session.usecases.BuildSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.ComposeExercisesListForSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.GetSessionSettingsUseCase
