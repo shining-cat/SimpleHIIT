@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.domain.statistics.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.domain.statistics.usecases.CalculateAverageSessionsPerWeekUseCase
 import fr.shiningcat.simplehiit.domain.statistics.usecases.CalculateCurrentStreakUseCase
 import fr.shiningcat.simplehiit.domain.statistics.usecases.CalculateLongestStreakUseCase

@@ -1,3 +1,5 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.common.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -8,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.commonresources.R
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 
 @Composable
 fun SimpleHiitMobileTheme(

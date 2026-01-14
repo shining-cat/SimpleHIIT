@@ -1,8 +1,11 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.data.local.di
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.data.local.database.SimpleHiitDatabase
 import fr.shiningcat.simplehiit.data.local.database.SimpleHiitDatabase.Companion.SimpleHiitDatabaseName
 import fr.shiningcat.simplehiit.data.local.database.migrations.MIGRATION_1_2

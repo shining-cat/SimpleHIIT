@@ -1,5 +1,8 @@
+@file:KeepForKoin
+
 package fr.shiningcat.simplehiit.sharedui.home.di
 
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
 import fr.shiningcat.simplehiit.sharedui.home.HomeInteractor
 import fr.shiningcat.simplehiit.sharedui.home.HomeInteractorImpl
 import fr.shiningcat.simplehiit.sharedui.home.HomePresenter

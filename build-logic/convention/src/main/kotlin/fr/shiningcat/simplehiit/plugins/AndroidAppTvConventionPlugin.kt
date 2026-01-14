@@ -2,8 +2,8 @@ package fr.shiningcat.simplehiit.plugins
 
 import com.android.build.api.dsl.ApplicationExtension
 import fr.shiningcat.simplehiit.config.ConfigTv
+import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 import fr.shiningcat.simplehiit.extensions.configureAndroidAppTvKotlin
-import fr.shiningcat.simplehiit.extensions.configureBuildTypes
 import fr.shiningcat.simplehiit.extensions.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -45,10 +45,11 @@ class AndroidAppTvConventionPlugin : Plugin<Project> {
                     }
                 }
 
-                configureBuildTypes(this)
-
                 buildTypes {
                     getByName("release") {
+                        isMinifyEnabled = SimpleHiitBuildType.RELEASE.isMinifyEnabled
+                        isShrinkResources = true
+                        enableUnitTestCoverage = SimpleHiitBuildType.RELEASE.enableUnitTestCoverage
                         if (signingKeystorePath != null) {
                             signingConfig = signingConfigs.getByName("release")
                         }
@@ -56,6 +57,11 @@ class AndroidAppTvConventionPlugin : Plugin<Project> {
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro",
                         )
+                    }
+                    getByName("debug") {
+                        isMinifyEnabled = SimpleHiitBuildType.DEBUG.isMinifyEnabled
+                        enableUnitTestCoverage = SimpleHiitBuildType.DEBUG.enableUnitTestCoverage
+                        applicationIdSuffix = SimpleHiitBuildType.DEBUG.applicationIdSuffix
                     }
                 }
             }

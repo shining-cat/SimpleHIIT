@@ -1,9 +1,12 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.mobile.ui.common.helpers
 
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.window.core.layout.WindowSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 
 /**
  * Determines the UI arrangement based on the current window size class.

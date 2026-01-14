@@ -23,6 +23,20 @@ plugins {
     alias(libs.plugins.simplehiit.documentation)
 }
 
+// Configure Java Toolchain for all projects (platform-agnostic)
+subprojects {
+    pluginManager.withPlugin("org.jetbrains.kotlin.android") {
+        extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension> {
+            jvmToolchain(17)
+        }
+    }
+    pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
+        extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension> {
+            jvmToolchain(17)
+        }
+    }
+}
+
 // Configure root clean task to delete Kover reports
 tasks.named<Delete>("clean") {
     delete("build/reports/kover")

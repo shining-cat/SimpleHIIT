@@ -1,51 +1,72 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# SimpleHIIT ProGuard Rules
+# Targeted rules using custom annotations for Koin and Compose
 
 # Keep source file names and line numbers for better crash reports
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# Keep Koin module declarations (accessed via reflection)
--keep class * extends org.koin.core.module.Module { *; }
--keep class **.*ModuleKt { *; }
--keep class **.*ModuleKoinKt { *; }
+# Keep annotations themselves
+-keep @interface fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin
+-keep @interface fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 
-# Keep all ViewModels (injected by Koin)
--keep class * extends androidx.lifecycle.ViewModel { *; }
+# Keep classes/files annotated with @KeepForKoin (DI modules, injected classes)
+-keep @fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin class * { *; }
+-keepclasseswithmembers,includedescriptorclasses class * {
+    @fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin <methods>;
+}
+-keepclasseswithmembers,includedescriptorclasses class * {
+    @fr.shiningcat.simplehiit.commonutils.annotations.KeepForKoin <fields>;
+}
 
-# Keep Compose screen functions (called via navigation)
--keep class **.*ScreenKt { *; }
+# Keep classes/files annotated with @KeepForCompose (Composable screens, navigation)
+-keep @fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose class * { *; }
+-keepclasseswithmembers,includedescriptorclasses class * {
+    @fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose <methods>;
+}
 
-# Keep navigation Screen sealed class and subclasses
--keep class fr.shiningcat.**.android.shared.core.Screen { *; }
--keep class fr.shiningcat.**.android.shared.core.Screen$* { *; }
+# Kotlin metadata for reflection (needed by Koin and serialization)
+-keepattributes *Annotation*, InnerClasses, Signature, Exception
 
-# Keep domain models used in ViewModels
--keep class fr.shiningcat.**.domain.common.Output { *; }
--keep class fr.shiningcat.**.domain.common.Output$* { *; }
--keep class fr.shiningcat.**.domain.common.models.** { *; }
--keep class fr.shiningcat.**.domain.common.DurationFormatPatterns { *; }
+# Keep Kotlin metadata
+-keep class kotlin.Metadata { *; }
 
-# Keep use cases (injected by Koin)
--keep class fr.shiningcat.**.domain.**.usecases.** { *; }
-
-# Keep utility classes injected by Koin
--keep class fr.shiningcat.**.commonutils.HiitLogger { *; }
--keep class fr.shiningcat.**.commonutils.AndroidVersionProvider { *; }
--keep class fr.shiningcat.**.commonutils.AndroidVersionProviderImpl { *; }
-
-# Keep data layer interfaces injected by Koin
--keep interface fr.shiningcat.**.data.local.localemanager.LocaleManager { *; }
--keep class fr.shiningcat.**.data.local.localemanager.LocaleManager { *; }
-
-# Keep theme helpers (used in Compose)
--keep class **.theme.*ThemeKt { *; }
--keep class fr.shiningcat.**.ui.common.theme.** { *; }
-
-# Kotlin metadata for reflection
--keepattributes *Annotation*, InnerClasses
+# Kotlinx Serialization
+-keepattributes RuntimeVisibleAnnotations,AnnotationDefault
 -dontnote kotlinx.serialization.AnnotationsKt
+-keep,includedescriptorclasses class fr.shiningcat.simplehiit.**$$serializer { *; }
+-keepclassmembers class fr.shiningcat.simplehiit.** {
+    *** Companion;
+}
+-keepclasseswithmembers class fr.shiningcat.simplehiit.** {
+    kotlinx.serialization.KSerializer serializer(...);
+}
+
+# Keep enum classes (used in navigation and settings)
+-keepclassmembers enum fr.shiningcat.simplehiit.** {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep data classes (often used as state/navigation args)
+-keepclassmembers class fr.shiningcat.simplehiit.**.models.** {
+    <fields>;
+    <init>(...);
+}
+
+# AndroidX and Jetpack Compose - Don't warn about AndroidX internals
+-dontwarn androidx.**
+
+# ViewModel
+-keep class * extends androidx.lifecycle.ViewModel {
+    <init>(...);
+}
+-keep class * extends androidx.lifecycle.AndroidViewModel {
+    <init>(...);
+}
+
+# Coroutines
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+-keepclassmembers class kotlinx.coroutines.** {
+    volatile <fields>;
+}

@@ -2,8 +2,8 @@ package fr.shiningcat.simplehiit.plugins
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
+import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 import fr.shiningcat.simplehiit.extensions.configureAndroidLibraryKotlin
-import fr.shiningcat.simplehiit.extensions.configureBuildTypes
 import fr.shiningcat.simplehiit.extensions.disableUnnecessaryAndroidTests
 import fr.shiningcat.simplehiit.extensions.libs
 import org.gradle.api.Plugin
@@ -23,7 +23,18 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             }
             extensions.configure<LibraryExtension> {
                 configureAndroidLibraryKotlin(this)
-                configureBuildTypes(this)
+
+                // Library build types - libraries should NEVER minify, the app module would not find the symbols when it tries to consume the library
+                buildTypes {
+                    getByName("release") {
+                        isMinifyEnabled = false
+                        enableUnitTestCoverage = SimpleHiitBuildType.RELEASE.enableUnitTestCoverage
+                    }
+                    getByName("debug") {
+                        isMinifyEnabled = false
+                        enableUnitTestCoverage = SimpleHiitBuildType.DEBUG.enableUnitTestCoverage
+                    }
+                }
             }
             extensions.configure<LibraryAndroidComponentsExtension> {
                 disableUnnecessaryAndroidTests(project)

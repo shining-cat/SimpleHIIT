@@ -1,6 +1,9 @@
+@file:KeepForCompose
+
 package fr.shiningcat.simplehiit.android.shared.core
 
 import androidx.navigation3.runtime.NavKey
+import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
 import kotlinx.serialization.Serializable
 
 /**

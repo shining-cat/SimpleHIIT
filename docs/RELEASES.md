@@ -127,8 +127,11 @@ git pull origin master
 # Create version tag
 git tag v1.23
 
-# Push the tag (this triggers the release workflow)
-git push origin v1.23
+# Explicitly push a tag (unambiguous)
+git push origin refs/tags/v1.23
+
+# Or use --tags to push all tags
+git push --tags
 ```
 
 ### Step 6: Monitor Release Build
