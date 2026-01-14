@@ -47,11 +47,15 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
 
                 configureBuildTypes(this)
 
-                if (signingKeystorePath != null) {
-                    buildTypes {
-                        getByName("release") {
+                buildTypes {
+                    getByName("release") {
+                        if (signingKeystorePath != null) {
                             signingConfig = signingConfigs.getByName("release")
                         }
+                        proguardFiles(
+                            getDefaultProguardFile("proguard-android-optimize.txt"),
+                            "proguard-rules.pro",
+                        )
                     }
                 }
             }

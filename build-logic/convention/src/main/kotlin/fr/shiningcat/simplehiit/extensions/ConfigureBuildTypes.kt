@@ -10,10 +10,7 @@ fun Project.configureBuildTypes(commonExtension: CommonExtension<*, *, *, *, *, 
             getByName("release") {
                 isMinifyEnabled = SimpleHiitBuildType.RELEASE.isMinifyEnabled
                 enableUnitTestCoverage = SimpleHiitBuildType.RELEASE.enableUnitTestCoverage
-                proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro",
-                )
+                // ProGuard files only added by app convention plugins
             }
             getByName("debug") {
                 // for some reason, applicationIdSuffix is not accessible here, we have to set it in the apps modules' build.gradle 'android' blocks
