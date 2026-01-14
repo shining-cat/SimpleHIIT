@@ -1,6 +1,6 @@
 import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 
-plugins{
+plugins {
     alias(libs.plugins.simplehiit.android.application.tv)
     alias(libs.plugins.simplehiit.koin)
     alias(libs.plugins.simplehiit.android.application.compose)
