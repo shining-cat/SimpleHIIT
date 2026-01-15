@@ -69,7 +69,9 @@ git pull origin master
 git checkout -b release/v1.23
 ```
 
-### Step 2: Update Version Numbers
+### Step 2: Update Version Numbers and F-Droid Metadata
+
+**2a. Update version in Config.kt:**
 
 Edit `build-logic/convention/src/main/kotlin/fr/shiningcat/simplehiit/config/Config.kt`:
 
@@ -100,11 +102,29 @@ object ConfigTv {
 - `YY` = Device family (10=handheld, 01=TV)
 - `ZZZZ` = Version number padded to 4 digits (e.g., 1.23 → 0123)
 
+**2b. Create F-Droid changelog (if app is on F-Droid):**
+
+Generate a draft changelog from git commits:
+```bash
+./scripts/generate-fdroid-changelog.sh 1.23 23100123
+```
+
+This creates `fastlane/metadata/android/en-US/changelogs/23100123.txt` with commits since the last tag.
+
+**Then edit the generated file to:**
+- Replace `[EDIT THIS SUMMARY]` with a brief version summary
+- Remove technical/internal commits not relevant for users
+- Reword commits in user-friendly language
+- Group related changes
+
+**Note:** English-only is acceptable. F-Droid and GitHub changelogs don't need to be identical.
+
 ### Step 3: Commit and Push
 
 ```bash
-# Stage the version change
+# Stage all changes (version + F-Droid metadata)
 git add build-logic/convention/src/main/kotlin/fr/shiningcat/simplehiit/config/Config.kt
+git add fastlane/metadata/  # if F-Droid changelogs were created
 
 # Commit with clear message
 git commit -m "Bump version to 1.23"
@@ -144,7 +164,7 @@ git push --tags
 2. Watch the "Release Build" workflow complete (typically 5-10 minutes)
 3. Check for any errors in the workflow logs
 
-### Step 7: Verify Release
+### Step 7: Verify GitHub Release
 
 1. Go to: https://github.com/shining-cat/SimpleHIIT/releases
 2. Verify the new release appears with:
@@ -152,3 +172,15 @@ git push --tags
    - Both mobile and TV APKs
    - Auto-generated changelog
 3. Download and test APKs on actual devices
+
+---
+
+## F-Droid Auto-Update
+
+After a version tag is pushed, F-Droid automatically detects and builds the new version:
+- Detection occurs within 24-48 hours of tag push
+- F-Droid fetches fastlane metadata (including changelogs) from the repository
+- Build and publication takes an additional 1-3 days
+- Monitor build status at: https://monitor.f-droid.org/
+
+**Note:** No manual submission is needed for updates after initial F-Droid setup. See `_WIP-plans/FDROID_SETUP_PLAN.md` for first-time submission instructions.

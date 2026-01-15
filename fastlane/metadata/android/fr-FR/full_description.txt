@@ -1,0 +1,13 @@
+SimpleHIIT est une application d'entraînement fractionné de haute intensité (HIIT) avec une minuterie et des exercices animés pour vous guider dans vos entraînements.
+
+Fonctionnalités :
+* Sélectionnez les types d'exercices à inclure dans une session parmi 8 catégories
+* Personnalisez la durée des périodes de travail et de repos
+* Choisissez le nombre de cycles à effectuer dans une session
+* Gérez plusieurs profils d'utilisateurs, sélectionnez qui participe à une session
+* Suivez vos progrès avec des statistiques intégrées
+* 3 langues prises en charge : anglais, français, suédois
+* Thèmes sombres et clairs
+
+SimpleHIIT est également disponible pour Android TV.
+Retrouvez les autres versions de SimpleHIIT sur la page GitHub du projet : https://github.com/shining-cat/SimpleHIIT
