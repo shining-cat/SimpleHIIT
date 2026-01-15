@@ -1,0 +1,21 @@
+Short description:
+
+A customisable timer app to guide you through HIIT sessions with animated exercises.
+
+
+Full description:
+
+SimpleHIIT is a HIIT (High-Intensity Interval Training) with a timer and animated exercises.
+
+* select which types of exercises to include in a session among 8 categories
+* customize work and rest periods' length
+* choose the number of cycles to perform in a session
+* manage multiple user profiles, pick who is participating in a session
+* track your progress with built-in statistics
+* 3 languages supported: English, French, Swedish
+* dark and bright themes supported
+
+SimpleHIIT is available today on:
+* Android mobile
+* Android TV
+Find the other versions of SimpleHIIT on the project's github page: https://github.com/shining-cat/SimpleHIIT

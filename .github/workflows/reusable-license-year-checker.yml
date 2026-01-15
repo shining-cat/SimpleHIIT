@@ -1,0 +1,301 @@
+name: License Year Check
+run-name: Checking License Copyright Year
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the license year check"
+        value: ${{ jobs.check-license-year.outputs.status }}
+
+jobs:
+  check-license-year:
+    name: Check License Year
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+    
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Check License Copyright Year
+        id: check
+        run: |
+          set -e
+          
+          CURRENT_YEAR=$(date +%Y)
+          echo "Current year: $CURRENT_YEAR"
+          
+          # Extract year from license-header.txt
+          # Expected format: SPDX-FileCopyrightText: YYYY-YYYY author
+          if [ ! -f "license-header.txt" ]; then
+            echo "❌ license-header.txt not found!"
+            echo "status=failure" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          # Extract the year range (e.g., "2024-2026" from "SPDX-FileCopyrightText: 2024-2026 shining-cat")
+          YEAR_LINE=$(grep "SPDX-FileCopyrightText:" license-header.txt || echo "")
+          
+          if [ -z "$YEAR_LINE" ]; then
+            echo "❌ Could not find SPDX-FileCopyrightText line in license-header.txt"
+            echo "status=failure" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          echo "License header line: $YEAR_LINE"
+          
+          # Extract year range (matches YYYY-YYYY or just YYYY)
+          YEAR_RANGE=$(echo "$YEAR_LINE" | grep -oE '[0-9]{4}(-[0-9]{4})?' || echo "")
+          
+          if [ -z "$YEAR_RANGE" ]; then
+            echo "❌ Could not extract year from license header"
+            echo "status=failure" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          echo "Extracted year range: $YEAR_RANGE"
+          
+          # Get the end year (if range like "2024-2026", take "2026"; if single year like "2024", use that)
+          if [[ "$YEAR_RANGE" =~ ([0-9]{4})-([0-9]{4}) ]]; then
+            LICENSE_END_YEAR="${BASH_REMATCH[2]}"
+          else
+            LICENSE_END_YEAR="$YEAR_RANGE"
+          fi
+          
+          echo "License end year: $LICENSE_END_YEAR"
+          
+          # Compare with current year
+          if [ "$LICENSE_END_YEAR" -lt "$CURRENT_YEAR" ]; then
+            echo "⚠️ License copyright year is outdated!"
+            echo "Current year: $CURRENT_YEAR"
+            echo "License ends: $LICENSE_END_YEAR"
+            echo "status=success-issues" >> $GITHUB_OUTPUT
+            echo "LICENSE_END_YEAR=$LICENSE_END_YEAR" >> $GITHUB_OUTPUT
+            echo "CURRENT_YEAR=$CURRENT_YEAR" >> $GITHUB_OUTPUT
+          else
+            echo "✅ License copyright year is current"
+            echo "status=success" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Issue if License Year Outdated
+        if: steps.check.outputs.status == 'success-issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['outdated-license-year'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            
+            const licenseEndYear = '${{ steps.check.outputs.LICENSE_END_YEAR }}';
+            const currentYear = '${{ steps.check.outputs.CURRENT_YEAR }}';
+            
+            const body = `## License Copyright Year Outdated
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### Current Status
+
+            - **Current Year:** ${currentYear}
+            - **License Ends:** ${licenseEndYear}
+            - **Status:** ⚠️ Outdated
+
+            ### Files to Update
+
+            #### 1. License Header Template (\`license-header.txt\`)
+
+            Update the copyright year range in the SPDX header:
+
+            \`\`\`diff
+            /*
+            - * SPDX-FileCopyrightText: 2024-${licenseEndYear} shining-cat
+            + * SPDX-FileCopyrightText: 2024-${currentYear} shining-cat
+             * SPDX-License-Identifier: GPL-3.0-or-later
+             */
+            \`\`\`
+
+            #### 2. Root LICENSE File
+
+            Update the copyright notice at the top of the \`LICENSE\` file:
+
+            \`\`\`diff
+            - Copyright (C) 2024-${licenseEndYear}  shining-cat
+            + Copyright (C) 2024-${currentYear}  shining-cat
+            \`\`\`
+
+            ### How to Update
+
+            **Step 1: Update the files**
+
+            \`\`\`bash
+            # Edit license-header.txt - change year to ${currentYear}
+            # Edit LICENSE - change year to ${currentYear}
+            \`\`\`
+
+            **Step 2: Apply updated headers to all source files**
+
+            \`\`\`bash
+            ./gradlew spotlessApply
+            \`\`\`
+
+            **Step 3: Verify and commit**
+
+            \`\`\`bash
+            ./gradlew spotlessCheck
+            git add .
+            git commit -m "Update copyright year to ${currentYear}"
+            \`\`\`
+
+            ### Why Update Both Files?
+
+            - **\`license-header.txt\`** - Template used by Spotless to add headers to source files
+            - **\`LICENSE\`** - Main GPL-3.0 license file with project-wide copyright notice
+
+            Both need to reflect the current year for legal accuracy.
+
+            ### Resources
+
+            - [Git Hooks Documentation](${context.payload.repository.html_url}/blob/master/docs/GITHOOKS.md#license-header-details)
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when the year is updated._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: \`License Copyright Year Outdated (${licenseEndYear} → ${currentYear})\`,
+              labels: ['outdated-license-year'],
+              body: body
+            });
+
+      - name: Create Issue if Check Failed
+        if: steps.check.outputs.status == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['outdated-license-year'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            
+            const body = `## License Year Check Failed
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### What Went Wrong
+
+            The license year check could not complete. This usually means:
+
+            - \`license-header.txt\` file is missing
+            - SPDX-FileCopyrightText line is malformed
+            - Year format doesn't match expected pattern
+
+            ### Expected Format
+
+            The \`license-header.txt\` file should contain:
+
+            \`\`\`
+            /*
+             * SPDX-FileCopyrightText: YYYY-YYYY author-name
+             * SPDX-License-Identifier: GPL-3.0-or-later
+             */
+            \`\`\`
+
+            ### How to Fix
+
+            1. Verify \`license-header.txt\` exists in project root
+            2. Check the SPDX-FileCopyrightText line format
+            3. Ensure year is in format: \`YYYY\` or \`YYYY-YYYY\`
+
+            ### Resources
+
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            - [SPDX Specification](https://spdx.dev/specifications/)
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check._`;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'License Year Check Failed',
+              labels: ['outdated-license-year'],
+              body: body
+            });
+
+      - name: Close Previous Issues if Success
+        if: steps.check.outputs.status == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['outdated-license-year'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            console.log('✅ License copyright year is current - no issue needed');
+
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## License Copyright Year Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          case "${{ steps.check.outputs.status }}" in
+            "success")
+              echo "✅ **License copyright year is current!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **License copyright year is outdated**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "Current year: ${{ steps.check.outputs.CURRENT_YEAR }}" >> $GITHUB_STEP_SUMMARY
+              echo "License ends: ${{ steps.check.outputs.LICENSE_END_YEAR }}" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created with update instructions." >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "The license year check could not run. See issue for details." >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac

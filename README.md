@@ -1,16 +1,7 @@
-[![Ktlint Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Ktlint%20Check)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
-[![Module Dependencies](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Module%20Dependencies)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
-[![Unit Tests](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Unit%20Tests)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
-[![Deprecation Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/monthly-master-sanity-check.yml?label=No%20Deprecations)](https://github.com/shining-cat/SimpleHIIT/issues?q=is%3Aissue+is%3Aopen+label%3Adeprecations)
-[![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
-[![WCAG 2.1 AA](https://img.shields.io/badge/WCAG%202.1-AA%20Compliant-green)](docs/COLOR_CONTRAST_ANALYSIS.md)
-
-<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
-  <img src="commonResources/src/main/res/raw/exercise_standing_skater.gif" alt="Animated picture for the Standing: The Skater exercise" style="height:180px; width:180px; object-fit:cover;"/>
-  <img src="commonResources/src/main/res/mipmap-xhdpi/tv_banner_figure_and_clock_bicolor_secondary.png" alt="Icon of a silhouette doing an exercise below a stopwatch with a highlighted elapsed time" style="height:180px;"/>
-  <img src="commonResources/src/main/res/raw/exercise_standing_skater.gif" alt="Animated picture for the Standing: The Skater exercise" style="height:180px; width:180px; object-fit:cover;"/>
-</div>
-
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # SimpleHIIT
 
 SimpleHIIT is a HIIT (High-Intensity Interval Training) with a timer and animated exercises.
@@ -69,7 +60,7 @@ This is a simple HIIT application.
   looping gif image. A summary of the exercises done is shown at the end of the session.
 * A statistics screen allows to see (and delete) basic statistics for each user.
 
-![Features and UX description](docs/simpleHIIT_UX_description.png)
+![Features and UX description](docs/assets/simpleHIIT_UX_description.png)
 
 ## Caracteristics:
 
@@ -148,7 +139,7 @@ This project follows a **matrix-like modularization** structure with strict clea
 - **Layers** (rows): Presentation (UI), Domain, Data
 - **Platforms**: Mobile and TV with shared foundation modules
 
-![Module Dependency Graph](docs/project_dependencies_graph.png)
+![Module Dependency Graph](docs/assets/project_dependencies_graph.png)
 
 The dependency graph shows the current validated module structure. Dependencies are validated on every PR, and the graph is automatically updated when changes are merged to master. Dependencies flow **top-to-bottom** only, with lateral dependencies restricted to `common` modules.
 
@@ -171,6 +162,7 @@ free web app
 * [Mockk library](https://mockk.io/)
 * [Glide Compose image loading library](https://github.com/bumptech/glide)
 * [Ktlint Gradle by Jonathan Leitschuh](https://github.com/JLLeitschuh/ktlint-gradle)
+* [Spotless - Code formatting and license headers](https://github.com/diffplug/spotless)
 
 ### References
 

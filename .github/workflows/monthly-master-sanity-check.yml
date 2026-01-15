@@ -35,10 +35,21 @@ jobs:
       issues: write
       contents: read
 
+  check-license-headers:
+    name: Check License Headers
+    uses: ./.github/workflows/reusable-spotless-check.yml
+
+  check-license-year:
+    name: Check License Copyright Year
+    uses: ./.github/workflows/reusable-license-year-checker.yml
+    permissions:
+      issues: write
+      contents: read
+
   report-results:
     name: Report Results
     runs-on: ubuntu-latest
-    needs: [verify-module-dependencies, verify-dependency-graph, check-deprecations, check-dependency-updates]
+    needs: [verify-module-dependencies, verify-dependency-graph, check-deprecations, check-dependency-updates, check-license-headers, check-license-year]
     if: always()
     steps:
       - name: Check Results
@@ -98,6 +109,30 @@ jobs:
             echo "⚠️ Issues found (see created issue)" >> $GITHUB_STEP_SUMMARY
           else
             echo "✅ No issues found" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # License Headers
+          LICENSE_HEADERS_RESULT="${{ needs.check-license-headers.result }}"
+          echo "### License Headers: $LICENSE_HEADERS_RESULT" >> $GITHUB_STEP_SUMMARY
+          if [ "$LICENSE_HEADERS_RESULT" == "failure" ]; then
+            echo "❌ Missing or incorrect license headers" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          else
+            echo "✅ All files have correct GPL-3.0 SPDX headers" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # License Year
+          LICENSE_YEAR_STATUS="${{ needs.check-license-year.outputs.status }}"
+          echo "### License Copyright Year: $LICENSE_YEAR_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$LICENSE_YEAR_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$LICENSE_YEAR_STATUS" == "success-issues" ]; then
+            echo "⚠️ Copyright year is outdated (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ Copyright year is current" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
           

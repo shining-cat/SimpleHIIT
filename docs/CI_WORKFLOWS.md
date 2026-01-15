@@ -1,3 +1,7 @@
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # CI/CD Workflows Documentation
 
 This document describes all GitHub Actions workflows used in the SimpleHIIT project for continuous integration and deployment automation.
@@ -119,12 +123,12 @@ This is the **single required status check** for branch protection. It provides 
 
 1. Make your dependency changes
 2. Run `./scripts/update-dependency-graph.sh` (recommended) or manually run the Gradle task
-3. Review changes: `git diff docs/dependency-graph.gv` (text diff shows exact module changes)
-4. Commit both graph files: `git add docs/dependency-graph.gv docs/project_dependencies_graph.png`
+3. Review changes: `git diff docs/assets/dependency-graph.gv` (text diff shows exact module changes)
+4. Commit both graph files: `git add docs/assets/dependency-graph.gv docs/assets/project_dependencies_graph.png`
 
 **What's validated:**
-- CI compares `docs/dependency-graph.gv` (DOT file - text format, deterministic)
-- The PNG file (`docs/project_dependencies_graph.png`) is for documentation only
+- CI compares `docs/assets/dependency-graph.gv` (DOT file - text format, deterministic)
+- The PNG file (`docs/assets/project_dependencies_graph.png`) is for documentation only
 
 **If you forget:** The verification workflow will fail with a clear message explaining how to update the graph.
 

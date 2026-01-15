@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 package fr.shiningcat.simplehiit.android.mobile.ui.common.helpers
 
 import androidx.compose.foundation.layout.Arrangement
@@ -139,7 +143,6 @@ private fun RenderDialogButton(
                 Text(text = config.label, style = config.style)
             }
         }
-
         ButtonType.OUTLINED -> {
             OutlinedButton(
                 onClick = config.onClick,
@@ -149,7 +152,6 @@ private fun RenderDialogButton(
                 Text(text = config.label, style = config.style)
             }
         }
-
         ButtonType.FILLED -> {
             Button(
                 onClick = config.onClick,

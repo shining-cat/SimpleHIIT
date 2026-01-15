@@ -7,6 +7,7 @@ kover = "0.9.4"
 
 # Code Quality & Analysis
 ktlintGradlePlugin = "14.0.1"
+spotless = "7.0.3"
 dependencyUpdatePlugin = "0.53.0"
 modulesGraphAssert = "2.9.0"
 
@@ -111,6 +112,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 
 # Code Quality & Analysis Plugins
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintGradlePlugin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 dependencyupdate = { id = "com.github.ben-manes.versions", version.ref = "dependencyUpdatePlugin" }
 modules-graph-assert = { id = "com.jraska.module.graph.assertion", version.ref = "modulesGraphAssert" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }

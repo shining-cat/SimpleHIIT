@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 plugins {
     `kotlin-dsl`
 }

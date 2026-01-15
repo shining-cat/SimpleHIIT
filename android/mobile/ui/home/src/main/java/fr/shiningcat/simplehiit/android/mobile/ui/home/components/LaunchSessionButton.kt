@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 package fr.shiningcat.simplehiit.android.mobile.ui.home.components
 
 import androidx.compose.foundation.layout.Box
@@ -75,20 +79,21 @@ fun LaunchSessionButton(
         launchSessionWarning?.let {
             val warningText =
                 when (launchSessionWarning) {
-                    LaunchSessionWarning.DUPLICATED_EXERCISES ->
+                    LaunchSessionWarning.DUPLICATED_EXERCISES -> {
                         stringResource(
                             id = CommonResourcesR.string.launch_session_warning_duplicated_exercises,
                         )
-
-                    LaunchSessionWarning.SKIPPED_EXERCISE_TYPES ->
+                    }
+                    LaunchSessionWarning.SKIPPED_EXERCISE_TYPES -> {
                         stringResource(
                             id = CommonResourcesR.string.launch_session_warning_skipped_exercise_types,
                         )
-
-                    LaunchSessionWarning.NO_USER_SELECTED ->
+                    }
+                    LaunchSessionWarning.NO_USER_SELECTED -> {
                         stringResource(
                             id = CommonResourcesR.string.launch_session_warning_no_user_selected,
                         )
+                    }
                 }
             Box(
                 modifier =

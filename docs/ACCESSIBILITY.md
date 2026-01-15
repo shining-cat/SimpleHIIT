@@ -1,3 +1,7 @@
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # Accessibility Documentation
 
 This document covers all accessibility features and guidelines for SimpleHIIT, ensuring compliance with WCAG 2.1 Level AA standards and support for diverse user needs.

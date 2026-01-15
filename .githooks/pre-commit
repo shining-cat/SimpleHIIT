@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-# Ktlint pre-commit hook - Enhanced version
-# This hook ensures code quality by checking and formatting staged files
+# Code Quality pre-commit hook - Enhanced version
+# This hook ensures code quality by checking formatting and license headers
 #
 # Installation:
 #   Run once from repository root: ./.githooks/setup.sh
@@ -9,11 +9,13 @@
 #
 # Workflow:
 # 1. Run ktlintCheck on staged files
-# 2. If all issues are auto-correctable -> format and re-check
-# 3. If any non-auto-correctable issues -> fail immediately with clear feedback
-# 4. Block commit only if formatting cannot fix all issues
+# 2. Run spotlessCheck for license headers
+# 3. If issues found -> auto-format and re-check
+# 4. If any non-auto-correctable issues -> fail with clear feedback
+# 5. Block commit only if formatting cannot fix all issues
 #
 # Features:
+# - Checks both code style (ktlint) and license headers (spotless)
 # - Only processes files that are staged for commit
 # - Temporarily stashes unstaged changes to avoid modifying them
 # - Automatically re-stages formatted files
@@ -34,7 +36,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
-echo -e "${BLUE}Running ktlint checks on staged files...${NC}"
+echo -e "${BLUE}Running code quality checks on staged files...${NC}"
 echo -e "${BLUE}════════════════════════════════════════════════════════════${NC}"
 
 # Get list of staged Kotlin files
@@ -72,22 +74,34 @@ restore_stash() {
 }
 
 # Step 1: Run ktlintCheck to see current state
-echo -e "${BLUE}Step 1: Checking code style...${NC}"
+echo -e "${BLUE}Step 1: Checking code style (ktlint)...${NC}"
 ./gradlew ktlintCheck --daemon > /tmp/ktlint_check.log 2>&1
-CHECK_EXIT_CODE=$?
+KTLINT_EXIT_CODE=$?
 
-if [ $CHECK_EXIT_CODE -eq 0 ]; then
-    # All good! Code is already properly formatted
+# Step 2: Run spotlessCheck for license headers
+echo -e "${BLUE}Step 2: Checking license headers (spotless)...${NC}"
+./gradlew spotlessCheck --daemon > /tmp/spotless_check.log 2>&1
+SPOTLESS_EXIT_CODE=$?
+
+if [ $KTLINT_EXIT_CODE -eq 0 ] && [ $SPOTLESS_EXIT_CODE -eq 0 ]; then
+    # All good! Code is properly formatted with headers
     echo ""
     echo -e "${GREEN}✅ Code style check passed${NC}"
+    echo -e "${GREEN}✅ License headers check passed${NC}"
     echo -e "${GREEN}✅ Commit proceeding...${NC}"
     restore_stash
     exit 0
 fi
 
-# Step 2: Analyze the failures
+# Step 3: Analyze the failures
 echo ""
-echo -e "${YELLOW}Code style issues found. Analyzing...${NC}"
+if [ $KTLINT_EXIT_CODE -ne 0 ] && [ $SPOTLESS_EXIT_CODE -ne 0 ]; then
+    echo -e "${YELLOW}Code style and license header issues found. Analyzing...${NC}"
+elif [ $KTLINT_EXIT_CODE -ne 0 ]; then
+    echo -e "${YELLOW}Code style issues found. Analyzing...${NC}"
+else
+    echo -e "${YELLOW}License header issues found. Will auto-fix...${NC}"
+fi
 
 # Check if there are non-auto-correctable issues
 # Ktlint reports these with "(cannot be auto-corrected)"
@@ -117,33 +131,61 @@ if [ "$NON_AUTO_CORRECTABLE" -gt 0 ]; then
     exit 1
 fi
 
-# Step 3: All issues are auto-correctable, so format the code
+# Step 4: All issues are auto-correctable, so format the code
 echo ""
-echo -e "${YELLOW}All issues are auto-correctable. Running formatter...${NC}"
-./gradlew ktlintFormat --daemon
-FORMAT_EXIT_CODE=$?
+echo -e "${YELLOW}Running auto-formatters...${NC}"
 
-if [ $FORMAT_EXIT_CODE -ne 0 ]; then
-    echo ""
-    echo -e "${RED}❌ Formatting failed unexpectedly! Commit blocked.${NC}"
-    echo -e "${YELLOW}Review the errors and fix them manually.${NC}"
-    restore_stash
-    exit 1
+if [ $KTLINT_EXIT_CODE -ne 0 ]; then
+    echo -e "${BLUE}  • Running ktlintFormat...${NC}"
+    ./gradlew ktlintFormat --daemon
+    KTLINT_FORMAT_EXIT=$?
+    if [ $KTLINT_FORMAT_EXIT -ne 0 ]; then
+        echo ""
+        echo -e "${RED}❌ ktlint formatting failed! Commit blocked.${NC}"
+        echo -e "${YELLOW}Review the errors and fix them manually.${NC}"
+        restore_stash
+        exit 1
+    fi
 fi
 
-# Step 4: Verify that formatting fixed all issues
-echo ""
-echo -e "${BLUE}Step 2: Verifying formatting fixed all issues...${NC}"
-./gradlew ktlintCheck --daemon > /tmp/ktlint_recheck.log 2>&1
-RECHECK_EXIT_CODE=$?
+if [ $SPOTLESS_EXIT_CODE -ne 0 ]; then
+    echo -e "${BLUE}  • Running spotlessApply (license headers)...${NC}"
+    ./gradlew spotlessApply --daemon
+    SPOTLESS_APPLY_EXIT=$?
+    if [ $SPOTLESS_APPLY_EXIT -ne 0 ]; then
+        echo ""
+        echo -e "${RED}❌ Spotless formatting failed! Commit blocked.${NC}"
+        echo -e "${YELLOW}Review the errors and fix them manually.${NC}"
+        restore_stash
+        exit 1
+    fi
+fi
 
-if [ $RECHECK_EXIT_CODE -ne 0 ]; then
+# Step 5: Verify that formatting fixed all issues
+echo ""
+echo -e "${BLUE}Step 3: Verifying all checks now pass...${NC}"
+
+./gradlew ktlintCheck --daemon > /tmp/ktlint_recheck.log 2>&1
+KTLINT_RECHECK=$?
+
+./gradlew spotlessCheck --daemon > /tmp/spotless_recheck.log 2>&1
+SPOTLESS_RECHECK=$?
+
+if [ $KTLINT_RECHECK -ne 0 ] || [ $SPOTLESS_RECHECK -ne 0 ]; then
     # This shouldn't happen, but if it does, fail clearly
     echo ""
-    echo -e "${RED}❌ Formatting did not fix all issues! Commit blocked.${NC}"
+    echo -e "${RED}❌ Auto-formatting did not fix all issues! Commit blocked.${NC}"
     echo ""
-    cat /tmp/ktlint_recheck.log
-    echo ""
+    if [ $KTLINT_RECHECK -ne 0 ]; then
+        echo -e "${RED}Remaining ktlint issues:${NC}"
+        cat /tmp/ktlint_recheck.log
+        echo ""
+    fi
+    if [ $SPOTLESS_RECHECK -ne 0 ]; then
+        echo -e "${RED}Remaining spotless issues:${NC}"
+        cat /tmp/spotless_recheck.log
+        echo ""
+    fi
     echo -e "${YELLOW}This is unexpected. Please review the errors above.${NC}"
     restore_stash
     exit 1
@@ -174,6 +216,7 @@ if [ -n "$MODIFIED_STAGED_FILES" ]; then
 fi
 
 echo -e "${GREEN}✅ All code style checks passed${NC}"
+echo -e "${GREEN}✅ All license headers present${NC}"
 echo -e "${GREEN}✅ Commit proceeding...${NC}"
 restore_stash
 exit 0
