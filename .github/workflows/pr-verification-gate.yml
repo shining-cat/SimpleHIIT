@@ -73,6 +73,7 @@ jobs:
             // With reusable workflows, check names are in format "caller-job-name / called-job-name"
             const requiredChecks = [
               'Ktlint Check / Ktlint Check',
+              'Spotless Check (License Headers) / Spotless Check',
               'Verify Module Dependencies / Verify Module Dependencies',
               'Run Unit Tests / Run Unit Tests'
             ];

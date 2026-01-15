@@ -1,0 +1,13 @@
+SimpleHIIT är en HIIT-träningsapp (högintensiv intervallträning) med en timer och animerade övningar för att vägleda dig genom dina träningspass.
+
+Funktioner:
+* Välj vilka typer av övningar som ska ingå i ett pass bland 8 kategorier
+* Anpassa arbets- och viloperiodernas längd
+* Välj antalet cykler att utföra i ett pass
+* Hantera flera användarprofiler, välj vem som deltar i ett pass
+* Följ dina framsteg med inbyggd statistik
+* 3 språk stöds: engelska, franska, svenska
+* Mörka och ljusa teman
+
+SimpleHIIT finns också tillgängligt för Android TV.
+Hitta andra versioner av SimpleHIIT på projektets GitHub-sida: https://github.com/shining-cat/SimpleHIIT

@@ -4,6 +4,7 @@
   -->
 # SimpleHIIT
 
+
 SimpleHIIT is a HIIT (High-Intensity Interval Training) with a timer and animated exercises.
 * select which types of exercises to include in a session among 8 categories
 * customize work and rest periods' length
@@ -17,7 +18,9 @@ SimpleHIIT is available today on:
 * Android mobile
 * Android TV
 
-**[Download the latest version here →](https://github.com/shining-cat/SimpleHIIT/releases)**
+**Get SimpleHIIT:**
+- [Download latest release from GitHub](https://github.com/shining-cat/SimpleHIIT/releases)
+- F-Droid (coming soon - submission in progress)
 
 ## Table of Contents
 
@@ -62,7 +65,7 @@ This is a simple HIIT application.
 
 ![Features and UX description](docs/assets/simpleHIIT_UX_description.png)
 
-## Caracteristics:
+## Characteristics:
 
 * MVVM - Clean architecture
 * multi-module
@@ -73,6 +76,8 @@ This is a simple HIIT application.
 * Full-Compose for UI
 * handle device form-factor variation (TV / mobile) in the same project
 * ktlint for code style enforcement (see [docs/KTLINT_FORMATTING_GUIDE.md](docs/KTLINT_FORMATTING_GUIDE.md))
+* Fully FOSS - GPL-3.0-or-later license
+* No proprietary dependencies, no tracking, no analytics
 
 ## This is a WIP / Demo / Experimentation project: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/docs/TODO.md)
 
@@ -173,3 +178,14 @@ free web app
   by Shubham Garg
 * [Sharing build logic with Kotlin DSL](https://proandroiddev.com/sharing-build-logic-with-kotlin-dsl-203274f73013)
   by Chirag Kunder
+
+## License
+
+SimpleHIIT is free and open-source software licensed under the [GNU General Public License v3.0](LICENSE).
+
+```
+SPDX-FileCopyrightText: 2024-2026 shining-cat
+SPDX-License-Identifier: GPL-3.0-or-later
+```
+
+This means you're free to use, modify, and distribute this software, but any derivative works must also be open source under GPL-3.0-or-later.
