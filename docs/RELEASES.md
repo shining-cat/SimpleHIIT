@@ -1,3 +1,7 @@
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # GitHub Releases
 
 This document explains the automated release process for SimpleHIIT.
@@ -148,58 +152,3 @@ git push --tags
    - Both mobile and TV APKs
    - Auto-generated changelog
 3. Download and test APKs on actual devices
-
----
-
-## Troubleshooting
-
-### Build Fails with Signing Error
-
-- Verify GitHub secrets are correctly configured
-- Check that keystore hasn't expired
-- Verify passwords match the keystore
-
-### Workflow Doesn't Trigger
-
-- Ensure tag follows `v*` pattern (e.g., `v1.23`, not `1.23`)
-- Verify tag was pushed: `git push origin v1.23`
-- Check if tag exists: `git tag -l`
-
-### Release Created but Missing APKs
-
-- Check workflow logs for build failures
-- Verify APK paths in workflow match actual output locations
-- Ensure both mobile and TV builds completed successfully
-
-### Need to Delete a Tag
-
-```bash
-# Delete local tag
-git tag -d v1.23
-
-# Delete remote tag
-git push origin :refs/tags/v1.23
-```
-
----
-
-## Version History
-
-Releases are available at: https://github.com/shining-cat/SimpleHIIT/releases
-
-Each release includes:
-- Mobile APK for handheld devices
-- TV APK for Android TV devices
-- Changelog with commits since previous release
-- Release notes (if manually added)
-
----
-
-## Future Enhancements
-
-Potential improvements to the release process:
-
-- **F-Droid Integration** - Automatic publishing to F-Droid store
-- **Release Notes Automation** - Parse conventional commits for structured changelogs
-- **Multi-platform Builds** - Desktop (JVM/native) and iOS variants when KMP is implemented
-- **Beta Releases** - Support for pre-release tags (e.g., `v1.23-beta1`)

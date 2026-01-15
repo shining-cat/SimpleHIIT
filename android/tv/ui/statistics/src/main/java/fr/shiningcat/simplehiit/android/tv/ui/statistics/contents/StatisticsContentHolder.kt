@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 package fr.shiningcat.simplehiit.android.tv.ui.statistics.contents
 
 import androidx.compose.runtime.Composable
@@ -35,8 +39,9 @@ fun StatisticsContentHolder(
     hiitLogger: HiitLogger? = null,
 ) {
     when (screenViewState) {
-        StatisticsViewState.Loading -> BasicLoading()
-
+        StatisticsViewState.Loading -> {
+            BasicLoading()
+        }
         is StatisticsViewState.Nominal -> {
             StatisticsNominalContent(
                 openUserPicker = openUserPicker,
@@ -45,16 +50,17 @@ fun StatisticsContentHolder(
                 hiitLogger = hiitLogger,
             )
         }
-
-        is StatisticsViewState.NoSessions ->
+        is StatisticsViewState.NoSessions -> {
             StatisticsNoSessionsContent(
                 userName = screenViewState.user.name,
                 showUsersSwitch = screenViewState.showUsersSwitch,
                 openUserPicker = openUserPicker,
             )
-
-        StatisticsViewState.NoUsers -> StatisticsNoUsersContent()
-        is StatisticsViewState.Error ->
+        }
+        StatisticsViewState.NoUsers -> {
+            StatisticsNoUsersContent()
+        }
+        is StatisticsViewState.Error -> {
             StatisticsErrorContent(
                 userName = screenViewState.user.name,
                 errorCode = screenViewState.errorCode,
@@ -62,16 +68,17 @@ fun StatisticsContentHolder(
                 showUsersSwitch = screenViewState.showUsersSwitch,
                 openUserPicker = openUserPicker,
             )
-
-        is StatisticsViewState.FatalError ->
+        }
+        is StatisticsViewState.FatalError -> {
             StatisticsFatalErrorContent(
                 errorCode = screenViewState.errorCode,
                 resetWholeApp = resetWholeApp,
             )
+        }
     }
     when (dialogViewState) {
         StatisticsDialog.None -> {} // Do nothing
-        is StatisticsDialog.SelectUser ->
+        is StatisticsDialog.SelectUser -> {
             StatisticsSelectUserDialog(
                 users = dialogViewState.users,
                 selectUser = {
@@ -80,8 +87,8 @@ fun StatisticsContentHolder(
                 },
                 dismissAction = cancelDialog,
             )
-
-        is StatisticsDialog.ConfirmDeleteAllSessionsForUser ->
+        }
+        is StatisticsDialog.ConfirmDeleteAllSessionsForUser -> {
             DialogWarning(
                 message =
                     stringResource(
@@ -92,14 +99,15 @@ fun StatisticsContentHolder(
                 proceedAction = { deleteAllSessionsForUserConfirm(dialogViewState.user) },
                 dismissAction = cancelDialog,
             )
-
-        StatisticsDialog.ConfirmWholeReset ->
+        }
+        StatisticsDialog.ConfirmWholeReset -> {
             DialogWarning(
                 message = stringResource(id = R.string.error_confirm_whole_reset),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = resetWholeAppConfirmation,
                 dismissAction = cancelDialog,
             )
+        }
     }
 }
 

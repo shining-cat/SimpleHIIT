@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 package fr.shiningcat.simplehiit.android.mobile.ui.statistics.components
 
 import androidx.compose.material3.ExperimentalMaterial3Api

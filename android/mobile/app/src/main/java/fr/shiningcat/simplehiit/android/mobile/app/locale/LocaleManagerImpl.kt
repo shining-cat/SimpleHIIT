@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 package fr.shiningcat.simplehiit.android.mobile.app.locale
 
 import android.annotation.SuppressLint
@@ -90,9 +94,15 @@ class LocaleManagerImpl(
         // Language tags can be "en", "en-US", "fr", "fr-FR", etc.
         // We check if the tag starts with the language code
         return when {
-            languageTag.startsWith("en", ignoreCase = true) -> AppLanguage.ENGLISH
-            languageTag.startsWith("fr", ignoreCase = true) -> AppLanguage.FRENCH
-            languageTag.startsWith("sv", ignoreCase = true) -> AppLanguage.SWEDISH
+            languageTag.startsWith("en", ignoreCase = true) -> {
+                AppLanguage.ENGLISH
+            }
+            languageTag.startsWith("fr", ignoreCase = true) -> {
+                AppLanguage.FRENCH
+            }
+            languageTag.startsWith("sv", ignoreCase = true) -> {
+                AppLanguage.SWEDISH
+            }
             else -> {
                 hiitLogger.d(
                     "LocaleManagerImpl",

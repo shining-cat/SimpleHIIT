@@ -1,3 +1,7 @@
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # Git Hooks Documentation
 
 ## Overview
@@ -33,12 +37,16 @@ chmod +x .githooks/pre-push
 
 ### pre-commit Hook
 
-**Purpose:** Enforces code style consistency using ktlint before allowing commits.
+**Purpose:** Enforces code style and license headers before allowing commits.
+
+**Tools:**
+- **ktlint:** Code formatting and style consistency
+- **Spotless:** GPL-3.0 SPDX license headers
 
 **Features:**
-- **Smart checking:** Runs ktlintCheck first to detect issues early
+- **Smart checking:** Runs ktlintCheck and spotlessCheck first to detect issues early
 - **Fast-fails:** Immediately blocks commits on non-auto-correctable issues
-- Only formats when all issues are auto-correctable
+- Auto-formats code and adds missing license headers when possible
 - Temporarily stashes unstaged changes to avoid modifying them
 - Automatically re-stages formatted files
 - Provides clear, color-coded console feedback with helpful guidance
@@ -55,6 +63,7 @@ chmod +x .githooks/pre-push
 
 3. **Check Code Style (Step 1):**
    - Runs `./gradlew ktlintCheck --daemon`
+   - Runs `./gradlew spotlessCheck --daemon` (license headers)
    - If all checks pass → commit proceeds immediately (fast path!)
    - If issues found → proceeds to analysis
 
@@ -65,12 +74,14 @@ chmod +x .githooks/pre-push
    - If all issues are auto-correctable → proceeds to formatting
 
 5. **Auto-Format (if applicable):**
-   - Runs `./gradlew ktlintFormat --daemon`
+   - Runs `./gradlew ktlintFormat --daemon` (code style)
+   - Runs `./gradlew spotlessApply --daemon` (license headers)
    - Only runs if all issues were determined to be auto-correctable
 
 6. **Verify (Step 2):**
    - Runs `./gradlew ktlintCheck --daemon` again
-   - Ensures formatting actually fixed all issues
+   - Runs `./gradlew spotlessCheck --daemon` again
+   - Ensures formatting and headers are correct
 
 7. **Restore and Update:**
    - Restores any stashed unstaged changes
@@ -92,35 +103,39 @@ Running ktlint checks on staged files...
 **Scenario 2: Code already formatted correctly**
 ```
 ════════════════════════════════════════════════════════════
-Running ktlint checks on staged files...
+Running code quality checks on staged files...
 ════════════════════════════════════════════════════════════
 
 Staged Kotlin files:
   • android/mobile/app/src/main/java/Example.kt
 
-Step 1: Checking code style...
+Step 1: Checking code style (ktlint)...
+Step 2: Checking license headers (spotless)...
 
 ✅ Code style check passed
+✅ License headers check passed
 ✅ Commit proceeding...
 ```
 
 **Scenario 3: Issues auto-corrected successfully**
 ```
 ════════════════════════════════════════════════════════════
-Running ktlint checks on staged files...
+Running code quality checks on staged files...
 ════════════════════════════════════════════════════════════
 
 Staged Kotlin files:
   • android/mobile/app/src/main/java/Example.kt
 
 Temporarily stashing unstaged changes...
-Step 1: Checking code style...
+Step 1: Checking code style (ktlint)...
+Step 2: Checking license headers (spotless)...
 
-Code style issues found. Analyzing...
+License header issues found. Will auto-fix...
 
-All issues are auto-correctable. Running formatter...
+Running auto-formatters...
+  • Running spotlessApply (license headers)...
 
-Step 2: Verifying formatting fixed all issues...
+Step 3: Verifying all checks now pass...
 
 Auto-formatted files:
   • android/mobile/app/src/main/java/Example.kt
@@ -128,6 +143,7 @@ Auto-formatted files:
 Re-staging formatted files...
 ✅ Formatted files have been re-staged
 ✅ All code style checks passed
+✅ All license headers present
 ✅ Commit proceeding...
 Restoring unstaged changes...
 ```
@@ -258,7 +274,31 @@ If hooks aren't executing:
    ```
    Hook files should have execute permissions (`-rwxr-xr-x`)
 
+## Manual Commands
+
+### Check code style and license headers:
+```bash
+./gradlew ktlintCheck spotlessCheck
+```
+
+### Auto-fix code style and add missing license headers:
+```bash
+./gradlew ktlintFormat spotlessApply
+```
+
+### License Header Details
+
+**Template:** `license-header.txt` (project root)
+**Format:** SPDX standard GPL-3.0 header
+**Applied to:** All `.kt` and `.gradle.kts` files
+
+To update copyright year:
+1. Edit `license-header.txt`
+2. Run `./gradlew spotlessApply`
+3. All headers update automatically
+
 ## Related Documentation
 
 - [Ktlint Formatting Guide](KTLINT_FORMATTING_GUIDE.md) - Detailed information about code formatting
-- [Gradle Tasks](GRADLE_TASKS.md) - Available Gradle commands including ktlintFormat
+- [Gradle Tasks](GRADLE_TASKS.md) - Available Gradle commands
+- [CI Workflows](CI_WORKFLOWS.md) - GitHub Actions and automated checks

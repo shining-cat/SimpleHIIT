@@ -1,3 +1,7 @@
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # Module Dependency Enforcement
 
 This project uses the [modules-graph-assert](https://github.com/jraska/modules-graph-assert) Gradle plugin to enforce and validate inter-module dependencies.

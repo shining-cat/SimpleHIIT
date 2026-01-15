@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 package fr.shiningcat.simplehiit.android.mobile.ui.settings.contents
 
 import androidx.compose.foundation.layout.Box
@@ -73,16 +77,17 @@ fun SettingsContentHolder(
 ) {
     Box(modifier = modifier) {
         when (screenViewState) {
-            SettingsViewState.Loading -> BasicLoading(modifier = Modifier.fillMaxSize())
-
-            is SettingsViewState.Error ->
+            SettingsViewState.Loading -> {
+                BasicLoading(modifier = Modifier.fillMaxSize())
+            }
+            is SettingsViewState.Error -> {
                 SettingsErrorContent(
                     modifier = Modifier.fillMaxSize(),
                     errorCode = screenViewState.errorCode,
                     resetSettings = resetSettings,
                 )
-
-            is SettingsViewState.Nominal ->
+            }
+            is SettingsViewState.Nominal -> {
                 SettingsNominalContent(
                     modifier = Modifier.fillMaxSize(),
                     editWorkPeriodLength = editWorkPeriodLength,
@@ -100,14 +105,14 @@ fun SettingsContentHolder(
                     viewState = screenViewState,
                     uiArrangement = uiArrangement,
                 )
+            }
         }
     }
 
     when (dialogViewState) {
         SettingsDialog.None -> { // do nothing
         }
-
-        is SettingsDialog.EditWorkPeriodLength ->
+        is SettingsDialog.EditWorkPeriodLength -> {
             SettingsEditPeriodLengthDialog(
                 dialogTitle = stringResource(id = R.string.work_period_length_label),
                 savePeriodLength = saveWorkPeriodLength,
@@ -115,8 +120,8 @@ fun SettingsContentHolder(
                 periodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.EditRestPeriodLength ->
+        }
+        is SettingsDialog.EditRestPeriodLength -> {
             SettingsEditPeriodLengthDialog(
                 dialogTitle = stringResource(id = R.string.rest_period_length_label),
                 savePeriodLength = saveRestPeriodLength,
@@ -124,40 +129,40 @@ fun SettingsContentHolder(
                 periodLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.EditNumberCycles ->
+        }
+        is SettingsDialog.EditNumberCycles -> {
             SettingsEditNumberCyclesDialog(
                 saveNumber = saveNumberOfWorkPeriod,
                 validateNumberCyclesInput = validateNumberOfWorkPeriodsInput,
                 numberOfCycles = dialogViewState.numberOfCycles,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.EditSessionStartCountDown ->
+        }
+        is SettingsDialog.EditSessionStartCountDown -> {
             SettingsEditSessionStartCountDownDialog(
                 saveCountDownLength = saveSessionStartCountDown,
                 validateCountDownLengthInput = validateSessionCountDownLengthInput,
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.EditPeriodStartCountDown ->
+        }
+        is SettingsDialog.EditPeriodStartCountDown -> {
             SettingsEditPeriodStartCountDownDialog(
                 saveCountDownLength = savePeriodStartCountDown,
                 validateCountDownLengthInput = validatePeriodCountDownLengthInput,
                 countDownLengthSeconds = dialogViewState.valueSeconds,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.AddUser ->
+        }
+        is SettingsDialog.AddUser -> {
             SettingsAddUserDialog(
                 saveUserName = { saveUser(User(name = it)) },
                 userName = dialogViewState.userName,
                 validateUserNameInput = { validateInputNameString(User(name = it)) },
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.EditUser ->
+        }
+        is SettingsDialog.EditUser -> {
             SettingsEditUserDialog(
                 saveUserName = { saveUser(dialogViewState.user.copy(name = it)) },
                 deleteUser = { deleteUser(dialogViewState.user) },
@@ -165,38 +170,38 @@ fun SettingsContentHolder(
                 userName = dialogViewState.user.name,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.ConfirmDeleteUser ->
+        }
+        is SettingsDialog.ConfirmDeleteUser -> {
             WarningDialog(
                 message = stringResource(id = R.string.delete_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.delete_button_label),
                 proceedAction = { deleteUserConfirm(dialogViewState.user) },
                 dismissAction = { deleteUserCancel(dialogViewState.user) },
             )
-
-        is SettingsDialog.PickLanguage ->
+        }
+        is SettingsDialog.PickLanguage -> {
             SettingsPickLanguageDialog(
                 currentLanguage = dialogViewState.currentLanguage,
                 onLanguageSelected = saveLanguage,
                 onCancel = cancelDialog,
             )
-
-        is SettingsDialog.PickTheme ->
+        }
+        is SettingsDialog.PickTheme -> {
             SettingsPickThemeDialog(
                 currentTheme = dialogViewState.currentTheme,
                 onThemeSelected = saveTheme,
                 onCancel = cancelDialog,
             )
-
-        SettingsDialog.ConfirmResetAllSettings ->
+        }
+        SettingsDialog.ConfirmResetAllSettings -> {
             WarningDialog(
                 message = stringResource(id = R.string.reset_settings_confirmation_button_label),
                 proceedButtonLabel = stringResource(id = R.string.reset_button_label),
                 proceedAction = resetSettingsConfirmation,
                 dismissAction = cancelDialog,
             )
-
-        is SettingsDialog.Error ->
+        }
+        is SettingsDialog.Error -> {
             ErrorDialog(
                 // Explicitly using common ErrorDialog
                 errorMessage = "", // Consider passing a real message if available
@@ -204,6 +209,7 @@ fun SettingsContentHolder(
                 dismissButtonLabel = stringResource(id = R.string.close_button_content_label),
                 dismissAction = cancelDialog,
             )
+        }
     }
 }
 

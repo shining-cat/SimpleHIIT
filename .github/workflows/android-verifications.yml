@@ -17,6 +17,10 @@ jobs:
     name: Ktlint Check
     uses: ./.github/workflows/reusable-ktlint-check.yml
 
+  spotless-check:
+    name: Spotless Check (License Headers)
+    uses: ./.github/workflows/reusable-spotless-check.yml
+
   verify-module-dependencies:
     name: Verify Module Dependencies
     uses: ./.github/workflows/reusable-verify-module-dependencies-pr.yml

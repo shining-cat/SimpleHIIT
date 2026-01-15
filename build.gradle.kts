@@ -1,3 +1,7 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 import java.util.Locale
 
 buildscript {
@@ -18,6 +22,7 @@ plugins {
     alias(libs.plugins.kotlin.compose) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.spotless)
     alias(libs.plugins.kover)
     alias(libs.plugins.dependencyupdate)
     alias(libs.plugins.simplehiit.documentation)
@@ -27,6 +32,7 @@ plugins {
 subprojects {
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
         extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension> {
+
             jvmToolchain(17)
         }
     }
@@ -151,8 +157,54 @@ dependencies {
 ktlint {
     android.set(true)
     outputColorName.set("RED")
+
+    filter {
+        exclude { element -> element.file.path.contains("generated/") }
+        exclude { element -> element.file.path.contains("/build/") }
+    }
+
     dependencies {
         // no necessary additional ruleset needed as of 2025.08
+    }
+}
+
+// Spotless configuration for license headers and code formatting
+spotless {
+    format("markdown") {
+        target("**/*.md")
+        targetExclude("**/build/**", "**/.gradle/**")
+
+        // Add license header as HTML comment for markdown files
+        licenseHeaderFile(rootProject.file("license-header-markdown.txt"), "#+")
+
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    format("misc") {
+        target(".gitignore")
+        trimTrailingWhitespace()
+        endWithNewline()
+    }
+
+    kotlin {
+        target("**/*.kt")
+        targetExclude("**/build/**", "**/.gradle/**", "**/generated/**")
+
+        licenseHeaderFile(
+            rootProject.file("license-header.txt"),
+            "(@file|package|import)",
+        )
+    }
+
+    kotlinGradle {
+        target("**/*.gradle.kts")
+        targetExclude("**/build/**", "**/.gradle/**")
+
+        licenseHeaderFile(
+            rootProject.file("license-header.txt"),
+            "(//|@file|import|plugins|buildscript|dependencyResolutionManagement|rootProject)",
+        )
     }
 }
 

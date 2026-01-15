@@ -1,3 +1,7 @@
+<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->
 # Koin DI Naming Conventions & Scoping Rules
 
 **Purpose:** Document scoping conventions for Koin dependency injection
@@ -413,4 +417,3 @@ These tests catch:
 
 **CI Integration:**
 These tests run automatically on every PR via the `testDebugUnitTest` task.
-

@@ -13,6 +13,12 @@ end_of_line = lf
 # Ktlint-specific rules to align with ktlint formatting
 ktlint_function_naming_ignore_when_annotated_with = Composable
 
+# License header enforcement
+# Note: Using insert_final_newline property to trigger license header check
+# See: https://pinterest.github.io/ktlint/latest/rules/experimental/#license-header-set
+ktlint_experimental_license-header-file = license-header.txt
+ktlint_experimental = enabled
+
 # Enable ktlint standard rules for chain wrapping
 # This ensures dot operators stay at the end of lines when wrapping method chains
 ktlint_standard_chain-wrapping = enabled
