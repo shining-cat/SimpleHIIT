@@ -175,7 +175,15 @@ spotless {
         targetExclude("**/build/**", "**/.gradle/**")
 
         // Add license header as HTML comment for markdown files
-        licenseHeaderFile(rootProject.file("license-header-markdown.txt"), "#+")
+        // The delimiter tells Spotless where user content begins (after the closing -->)
+        // This preserves all content after the license header
+        licenseHeader(
+            """<!--
+  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+  ~ SPDX-License-Identifier: GPL-3.0-or-later
+  -->""",
+            "(-->)"
+        )
 
         trimTrailingWhitespace()
         endWithNewline()
