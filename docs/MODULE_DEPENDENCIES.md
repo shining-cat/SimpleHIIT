@@ -16,11 +16,11 @@ the project uses a **matrix-like structure** where:
 - **Columns** represent features (Home, Settings, Session, Statistics)
 - **Rows** represent architectural layers (Presentation, Domain, Data)
 
-![Module Matrix Concept](modules_matrix.png)
+![Module Matrix Concept](assets/modules_matrix.png)
 
 ### Current Module Structure
 
-![Module Dependency Graph](project_dependencies_graph.png)
+![Module Dependency Graph](assets/project_dependencies_graph.png)
 
 The dependency graph is **automatically updated** by CI when changes are merged to master. A separate workflow validates dependencies on every PR to ensure module rules are enforced before merging. This ensures the graph always reflects the current, validated module structure from the mobile app's perspective.
 

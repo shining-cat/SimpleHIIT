@@ -60,7 +60,7 @@ This is a simple HIIT application.
   looping gif image. A summary of the exercises done is shown at the end of the session.
 * A statistics screen allows to see (and delete) basic statistics for each user.
 
-![Features and UX description](docs/simpleHIIT_UX_description.png)
+![Features and UX description](docs/assets/simpleHIIT_UX_description.png)
 
 ## Caracteristics:
 
@@ -139,7 +139,7 @@ This project follows a **matrix-like modularization** structure with strict clea
 - **Layers** (rows): Presentation (UI), Domain, Data
 - **Platforms**: Mobile and TV with shared foundation modules
 
-![Module Dependency Graph](docs/project_dependencies_graph.png)
+![Module Dependency Graph](docs/assets/project_dependencies_graph.png)
 
 The dependency graph shows the current validated module structure. Dependencies are validated on every PR, and the graph is automatically updated when changes are merged to master. Dependencies flow **top-to-bottom** only, with lateral dependencies restricted to `common` modules.
 

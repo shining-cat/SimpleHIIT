@@ -37,15 +37,15 @@ This script:
 
 ```bash
 ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
-cp build/reports/dependency-graph.gv docs/dependency-graph.gv
+cp build/reports/dependency-graph.gv docs/assets/dependency-graph.gv
 ```
 
 **IDE location**: `SimpleHIIT > Tasks > documentation > generateUnifiedDependencyGraph`
 
 **Output files:**
 - `build/reports/dependency-graph.gv` - Generated DOT file (intermediate)
-- `docs/dependency-graph.gv` - Committed DOT file (validated by CI)
-- `docs/project_dependencies_graph.png` - Visual documentation
+- `docs/assets/dependency-graph.gv` - Committed DOT file (validated by CI)
+- `docs/assets/project_dependencies_graph.png` - Visual documentation
 
 The generated graph shows both mobile and TV app modules (`:android:mobile:*` and `:android:tv:*`) along with shared modules (`:domain:*`, `:data`, `:commonUtils`, etc.) to visualize the complete project architecture.
 
@@ -59,7 +59,7 @@ The generated graph shows both mobile and TV app modules (`:android:mobile:*` an
 **Workflow:**
 1. Make your dependency changes
 2. Run `./scripts/update-dependency-graph.sh`
-3. Review changes: `git diff docs/dependency-graph.gv`
+3. Review changes: `git diff docs/assets/dependency-graph.gv`
 4. Commit code changes AND both graph files together
 5. Create PR with all changes
 

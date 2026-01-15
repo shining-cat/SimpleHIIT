@@ -55,7 +55,7 @@ jobs:
           fi
           
           # Check if dependency graph file exists in git
-          if ! git ls-files --error-unmatch docs/dependency-graph.gv > /dev/null 2>&1; then
+          if ! git ls-files --error-unmatch docs/assets/dependency-graph.gv > /dev/null 2>&1; then
             # Graph not tracked - this is a check failure (config issue)
             echo "status=failure" >> $GITHUB_OUTPUT
             echo "❌ Dependency graph file is not tracked in git"
@@ -63,10 +63,10 @@ jobs:
           fi
           
           # Copy generated graph to docs location
-          cp build/reports/dependency-graph.gv docs/dependency-graph.gv
+          cp build/reports/dependency-graph.gv docs/assets/dependency-graph.gv
           
           # Check if it matches the committed version
-          if git diff --exit-code docs/dependency-graph.gv >> dep-graph-output.txt 2>&1; then
+          if git diff --exit-code docs/assets/dependency-graph.gv >> dep-graph-output.txt 2>&1; then
             # No difference - check passed
             echo "status=success" >> $GITHUB_OUTPUT
             echo "✅ Dependency graph is current"
@@ -210,14 +210,14 @@ jobs:
 
             ### Problems Found
 
-            - [ ] Committed dependency graph (docs/dependency-graph.gv) does not match current module structure
+            - [ ] Committed dependency graph (docs/assets/dependency-graph.gv) does not match current module structure
 
             ### How to Fix
 
             \`\`\`bash
             ./gradlew generateUnifiedDependencyGraph --no-configure-on-demand
-            cp build/reports/dependency-graph.gv docs/dependency-graph.gv
-            git add docs/dependency-graph.gv docs/project_dependencies_graph.png
+            cp build/reports/dependency-graph.gv docs/assets/dependency-graph.gv
+            git add docs/assets/dependency-graph.gv docs/assets/project_dependencies_graph.png
             git commit -m "Update dependency graph"
             \`\`\`
 

@@ -20,7 +20,10 @@ class DocumentationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             // Task to generate unified module dependency graph (mobile + TV)
-            tasks.register("generateUnifiedDependencyGraph", GenerateUnifiedDependencyGraphTask::class.java)
+            tasks.register(
+                "generateUnifiedDependencyGraph",
+                GenerateUnifiedDependencyGraphTask::class.java,
+            )
         }
     }
 }
@@ -51,7 +54,7 @@ abstract class GenerateUnifiedDependencyGraphTask : DefaultTask() {
                 "./gradlew",
                 ":android:mobile:app:generateModulesGraphvizText",
                 "-Pmodules.graph.output.gv=build/reports/mobile-graph",
-                "--no-configure-on-demand"
+                "--no-configure-on-demand",
             )
         }
 
@@ -61,7 +64,7 @@ abstract class GenerateUnifiedDependencyGraphTask : DefaultTask() {
                 "./gradlew",
                 ":android:tv:app:generateModulesGraphvizText",
                 "-Pmodules.graph.output.gv=build/reports/tv-graph",
-                "--no-configure-on-demand"
+                "--no-configure-on-demand",
             )
         }
 
@@ -88,9 +91,15 @@ abstract class GenerateUnifiedDependencyGraphTask : DefaultTask() {
         try {
             println("Converting graph to PNG...")
             execOperations.exec {
-                commandLine("dot", "-Tpng", "build/reports/dependency-graph.gv", "-o", "docs/project_dependencies_graph.png")
+                commandLine(
+                    "dot",
+                    "-Tpng",
+                    "build/reports/dependency-graph.gv",
+                    "-o",
+                    "docs/assets/project_dependencies_graph.png",
+                )
             }
-            println("Graph image saved to: docs/project_dependencies_graph.png")
+            println("Graph image saved to: docs/assets/project_dependencies_graph.png")
         } catch (e: Exception) {
             println("WARNING: Graphviz (dot command) not found!")
             println("Install Graphviz to generate PNG:")
