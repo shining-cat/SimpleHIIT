@@ -172,18 +172,19 @@ ktlint {
 spotless {
     format("markdown") {
         target("**/*.md")
-        targetExclude("**/build/**", "**/.gradle/**")
+        targetExclude("**/build/**", "**/.gradle/**", "_WIP-plans/**")
 
-        // Add license header as HTML comment for markdown files
-        // The delimiter tells Spotless where user content begins (after the closing -->)
-        // This preserves all content after the license header
-        licenseHeader(
-            """<!--
-  ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
-  ~ SPDX-License-Identifier: GPL-3.0-or-later
-  -->""",
-            "(-->)"
-        )
+        // Note: License headers for markdown are managed manually due to:
+        // 1. README.md has special formatting (badges, images) that automated
+        //    header insertion would disrupt
+        // 2. Delimiter patterns are unreliable for diverse markdown structures
+        // 3. Existing docs already have headers; new docs should add manually
+        //
+        // Manual license header for markdown files:
+        // <!--
+        //   ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
+        //   ~ SPDX-License-Identifier: GPL-3.0-or-later
+        //   -->
 
         trimTrailingWhitespace()
         endWithNewline()
