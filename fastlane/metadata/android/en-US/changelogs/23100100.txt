@@ -1,0 +1,9 @@
+Version 1.00 - First public release on F-Droid!
+
+Features:
+- Customizable HIIT timer with animated exercises
+- Multiple user profiles support
+- 8 exercise categories to choose from
+- Statistics tracking per user
+- Support for English, French, and Swedish
+- Dark and light themes
