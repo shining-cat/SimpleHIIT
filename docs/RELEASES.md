@@ -184,3 +184,24 @@ After a version tag is pushed, F-Droid automatically detects and builds the new 
 - Monitor build status at: https://monitor.f-droid.org/
 
 **Note:** No manual submission is needed for updates after initial F-Droid setup. See `_WIP-plans/FDROID_SETUP_PLAN.md` for first-time submission instructions.
+
+### ⚠️ AGP Version Workaround
+
+**Current status:** The F-Droid metadata includes a `prebuild` step that downgrades Android Gradle Plugin from 23.3.0 to 23.2.0:
+
+```yaml
+prebuild: sed -i -e 's/23.3.0/23.2.0/' ../../../gradle/libs.versions.toml
+```
+
+**Why this is needed:**
+- F-Droid's build environment doesn't support AGP 23.3.0 yet
+- This temporary workaround allows builds to complete successfully
+
+**What to monitor:**
+1. **F-Droid build environment changelog** - Check https://gitlab.com/fdroid/fdroidserver/-/blob/master/CHANGELOG.md periodically
+2. **Build logs at https://monitor.f-droid.org/** - Watch for sed command failures or new AGP-related errors
+3. **When F-Droid supports AGP 23.3.0:**
+   - Remove the `prebuild` line from `fdroid-metadata/fr.shiningcat.simplehiit.yml`
+   - Submit an update to F-Droid metadata repository
+
+**Risk:** If the `sed` command silently fails (e.g., due to file path changes), builds may attempt to use AGP 23.3.0 before F-Droid supports it, causing build failures.

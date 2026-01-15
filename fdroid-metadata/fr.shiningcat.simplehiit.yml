@@ -8,13 +8,30 @@ Changelog: https://github.com/shining-cat/SimpleHIIT/releases
 
 AutoName: SimpleHIIT
 
+Summary: Customisable HIIT timer with animated exercises
+
+Description: |
+  SimpleHIIT is a HIIT (High-Intensity Interval Training) companion app with a timer
+  and animated exercises to guide you through your workouts.
+
+  Features:
+  * Select which types of exercises to include in a session among 8 categories
+  * Customize work and rest periods' length
+  * Choose the number of cycles to perform in your session
+  * Manage multiple user profiles, pick who is participating in a session
+  * Track your progress with built-in statistics
+  * 3 languages supported: English, French, Swedish
+  * Dark and bright themes supported
+
+  SimpleHIIT is also available for Android TV.
+
 RepoType: git
 Repo: https://github.com/shining-cat/SimpleHIIT.git
 
 Builds:
-  - versionName: '0.06'
-    versionCode: 23100006
-    commit: v0.06
+  - versionName: '1.00'
+    versionCode: 23100100
+    commit: v1.00
     subdir: android/mobile/app
     sudo:
       - apt-get update
@@ -26,5 +43,5 @@ Builds:
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
-CurrentVersion: '0.06'
-CurrentVersionCode: 23100006
+CurrentVersion: '1.00'
+CurrentVersionCode: 23100100
