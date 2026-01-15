@@ -5,7 +5,28 @@
 [![ktlint](https://img.shields.io/badge/ktlint%20code--style-%E2%9D%A4-FF4081)](https://pinterest.github.io/ktlint/)
 [![WCAG 2.1 AA](https://img.shields.io/badge/WCAG%202.1-AA%20Compliant-green)](docs/COLOR_CONTRAST_ANALYSIS.md)
 
+<div style="display:flex; justify-content:center; align-items:center; gap:20px;">
+  <img src="commonResources/src/main/res/raw/exercise_standing_skater.gif" alt="Animated picture for the Standing: The Skater exercise" style="height:180px; width:180px; object-fit:cover;"/>
+  <img src="commonResources/src/main/res/mipmap-xhdpi/tv_banner_figure_and_clock_bicolor_secondary.png" alt="Icon of a silhouette doing an exercise below a stopwatch with a highlighted elapsed time" style="height:180px;"/>
+  <img src="commonResources/src/main/res/raw/exercise_standing_skater.gif" alt="Animated picture for the Standing: The Skater exercise" style="height:180px; width:180px; object-fit:cover;"/>
+</div>
+
 # SimpleHIIT
+
+SimpleHIIT is a HIIT (High-Intensity Interval Training) with a timer and animated exercises.
+* select which types of exercises to include in a session among 8 categories
+* customize work and rest periods' length
+* choose the number of cycles to perform in a session
+* manage multiple user profiles, pick who is participating in a session
+* track your progress with built-in statistics
+* 3 languages supported: English, French, Swedish
+* dark and bright themes support
+
+SimpleHIIT is available today on:
+* Android mobile
+* Android TV
+
+**[Download the latest version here →](https://github.com/shining-cat/SimpleHIIT/releases)**
 
 ## Table of Contents
 
@@ -38,7 +59,7 @@
 
 ## Overview
 
-This is a simple HIIT Android App for Android TV and mobile devices.
+This is a simple HIIT application.
 
 * Sessions settings can be refined, like work and rest period duration, number of work period per
   cycle, and which exercise family to include in a session, or create and edit users.
@@ -62,7 +83,7 @@ This is a simple HIIT Android App for Android TV and mobile devices.
 * handle device form-factor variation (TV / mobile) in the same project
 * ktlint for code style enforcement (see [docs/KTLINT_FORMATTING_GUIDE.md](docs/KTLINT_FORMATTING_GUIDE.md))
 
-## This is a WIP: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/docs/TODO.md)
+## This is a WIP / Demo / Experimentation project: [see current TODO list](https://github.com/shining-cat/SimpleHIIT/blob/master/docs/TODO.md)
 
 ## Setup for Contributors
 

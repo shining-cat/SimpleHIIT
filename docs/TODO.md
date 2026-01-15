@@ -19,7 +19,7 @@
 ## Priority 3: Quick Wins
 **Low-Medium Impact | Low Effort | Can be done now, won't interfere with migration**
 
-* **Find publication strategy**: Fdroid, github, or self-hosted - Research task, determines distribution approach early.
+* ✅ **Find publication strategy**: GitHub Releases implemented with automated CI/CD workflow. F-Droid submission remains optional for future consideration.
 
 ## Priority 4: Pre-Migration Improvements
 **Medium Impact | Medium Effort | Better done before KMP migration**
