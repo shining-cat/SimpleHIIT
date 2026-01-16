@@ -7,9 +7,7 @@ IssueTracker: https://github.com/shining-cat/SimpleHIIT/issues
 Changelog: https://github.com/shining-cat/SimpleHIIT/releases
 
 AutoName: SimpleHIIT
-
 Summary: Customisable HIIT timer with animated exercises
-
 Description: |
   SimpleHIIT is a HIIT (High-Intensity Interval Training) companion app with a timer
   and animated exercises to guide you through your workouts.
@@ -38,8 +36,10 @@ Builds:
       - apt-get install -y openjdk-17-jdk-headless
       - update-java-alternatives -a
     gradle:
-      - release
+      - yes
     prebuild: sed -i -e 's/23.3.0/23.2.0/' ../../../gradle/libs.versions.toml
+    scanignore:
+      - build-logic/convention/build
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
