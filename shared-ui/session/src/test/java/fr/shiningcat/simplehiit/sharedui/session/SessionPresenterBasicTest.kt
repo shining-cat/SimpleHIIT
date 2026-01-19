@@ -4,114 +4,31 @@
  */
 package fr.shiningcat.simplehiit.sharedui.session
 
-import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
-import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
-import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
-import fr.shiningcat.simplehiit.domain.common.models.Session
-import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
-import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
-import fr.shiningcat.simplehiit.domain.common.models.User
-import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
-import io.mockk.just
-import io.mockk.mockk
-import io.mockk.runs
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
+/**
+ * Tests for basic SessionPresenter functionality including initialization, basic flows, and state management.
+ */
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class SessionPresenterTest : AbstractMockkTest() {
-    private val mockSessionInteractor = mockk<SessionInteractor>()
-    private val mockMapper = mockk<SessionViewStateMapper>()
-    private val mockTimeProvider = mockk<TimeProvider>()
-    private val testDispatcher = StandardTestDispatcher()
-
-    private val sessionSettingsFlow = MutableStateFlow<Output<SessionSettings>>(Output.Success(testSessionSettings()))
-    private val timerStateFlow = MutableStateFlow(StepTimerState())
-
-    private val testUser = User(id = 1L, name = "Test User", selected = true)
-
-    private fun testSessionSettings() =
-        SessionSettings(
-            numberCumulatedCycles = 3,
-            workPeriodLengthMs = 20000L,
-            restPeriodLengthMs = 10000L,
-            numberOfWorkPeriods = 3,
-            cycleLengthMs = 30000L,
-            beepSoundCountDownActive = true,
-            sessionStartCountDownLengthMs = 5000L,
-            periodsStartCountDownLengthMs = 3000L,
-            users = listOf(testUser),
-            exerciseTypes = listOf(ExerciseTypeSelected(ExerciseType.LUNGE, true)),
-        )
-
-    private fun testSession() =
-        Session(
-            steps =
-                listOf(
-                    SessionStep.PrepareStep(
-                        durationMs = 5000L,
-                        remainingSessionDurationMsAfterMe = 95000L,
-                        countDownLengthMs = 3000L,
-                    ),
-                    SessionStep.WorkStep(
-                        durationMs = 20000L,
-                        remainingSessionDurationMsAfterMe = 75000L,
-                        exercise = Exercise.LungesBasic,
-                        side = ExerciseSide.NONE,
-                        countDownLengthMs = 3000L,
-                    ),
-                    SessionStep.RestStep(
-                        durationMs = 10000L,
-                        remainingSessionDurationMsAfterMe = 65000L,
-                        exercise = Exercise.LungesBasic,
-                        side = ExerciseSide.NONE,
-                        countDownLengthMs = 3000L,
-                    ),
-                ),
-            durationMs = 100000L,
-            beepSoundCountDownActive = true,
-            users = listOf(testUser),
-        )
-
-    private lateinit var testedPresenter: SessionPresenter
-
-    @BeforeEach
-    fun setUp() {
-        every { mockSessionInteractor.getStepTimerState() } returns timerStateFlow
-        every { mockSessionInteractor.getSessionSettings() } returns sessionSettingsFlow
-        coEvery { mockSessionInteractor.buildSession(any()) } returns testSession()
-        coEvery { mockSessionInteractor.startStepTimer(any()) } just runs
-        every { mockTimeProvider.getCurrentTimeMillis() } returns 123456789L
-
-        testedPresenter =
-            SessionPresenter(
-                sessionInteractor = mockSessionInteractor,
-                mapper = mockMapper,
-                timeProvider = mockTimeProvider,
-                dispatcher = testDispatcher,
-                logger = mockHiitLogger,
-            )
-    }
-
+internal class SessionPresenterBasicTest : SessionPresenterTestBase() {
     @Test
     fun `onSoundLoaded triggers session initialization flow`() =
         runTest(testDispatcher) {
@@ -119,7 +36,7 @@ internal class SessionPresenterTest : AbstractMockkTest() {
             sessionSettingsFlow.value = Output.Success(settings)
 
             testedPresenter.onSoundLoaded()
-            advanceUntilIdle()
+            runCurrent()
 
             coVerify { mockSessionInteractor.getSessionSettings() }
             coVerify { mockSessionInteractor.buildSession(settings) }
@@ -158,11 +75,11 @@ internal class SessionPresenterTest : AbstractMockkTest() {
             timerStateFlow.value = StepTimerState()
 
             testedPresenter.onSoundLoaded()
-            advanceUntilIdle()
+            runCurrent()
 
             // Emit timer reaching 0
             timerStateFlow.value = StepTimerState(milliSecondsRemaining = 0L)
-            advanceUntilIdle()
+            runCurrent()
 
             val state = testedPresenter.screenViewState.first()
             assertTrue(state is SessionViewState.Finished)
