@@ -1,1 +1,1 @@
-Une application de minuterie personnalisable pour vous guider dans vos séances de HIIT avec des exercices animés.
+Minuterie HIIT personnalisable avec exercices animés
