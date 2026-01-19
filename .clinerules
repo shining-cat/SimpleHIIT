@@ -291,6 +291,24 @@ Task: Home Module Refactoring
 
 **Philosophy:** Proper imports improve readability and maintainability. Let the IDE manage imports, not inline qualifications.
 
+### Idiomatic Kotlin
+
+**Always use idiomatic Kotlin syntax:**
+- Leverage Kotlin language features over Java-style code
+- Use extension functions, data classes, sealed classes, and other Kotlin idioms
+- Prefer Kotlin standard library functions (let, apply, run, also, with) when appropriate
+- Use property delegation, lambda expressions, and destructuring where it improves clarity
+- Follow Kotlin naming conventions and style guidelines
+
+**Avoid static methods and utility classes:**
+- ❌ WRONG: Object classes with static utility methods
+- ❌ WRONG: Companion objects used as static utility holders
+- ✅ RIGHT: Extension functions for utility behavior
+- ✅ RIGHT: Dependency injection for shared logic
+- ✅ RIGHT: Top-level functions when appropriate
+
+**Philosophy:** Write Kotlin code that leverages the language's strengths. Avoid Java patterns that Kotlin provides better alternatives for. Make code testable and maintainable by favoring injection over static utilities.
+
 ## File Change Handling
 
 **When files have been modified since your last edit:**

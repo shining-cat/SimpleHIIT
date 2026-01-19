@@ -23,7 +23,8 @@
 ## Priority 3: Quick Wins
 **Low-Medium Impact | Low Effort | Can be done now, won't interfere with migration**
 
-* ✅ **Find publication strategy**: GitHub Releases implemented with automated CI/CD workflow. F-Droid submission remains optional for future consideration.
+* ✅ **Find publication strategy**: GitHub Releases implemented with automated CI/CD workflow.
+* F-Droid submission in progress
 
 ## Priority 4: Pre-Migration Improvements
 **Medium Impact | Medium Effort | Better done before KMP migration**
