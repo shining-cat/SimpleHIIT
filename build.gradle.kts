@@ -76,6 +76,15 @@ fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusio
         // Exclude Room generated classes
         classes("*.*_Impl")
 
+        // Exclude Room database layer - framework code and data classes
+        // DAOs: Abstract methods with Room annotations (no business logic)
+        // Database: Room database declaration (framework boilerplate)
+        // Entities: Data classes with no logic
+        packages("*.data.local.database.dao")
+        packages("*.data.local.database.entities")
+        classes("*SimpleHiitDatabase")
+        // NOTE: Migrations are NOT excluded - see docs/KOVER_CODE_COVERAGE.md
+
         // Exclude BuildConfig and R classes
         classes("*.BuildConfig", "*.R", "*.R$*")
 

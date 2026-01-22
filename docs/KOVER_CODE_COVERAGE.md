@@ -182,7 +182,44 @@ packages("*.di")
 
 // All model packages
 packages("*.models")
+
+// Room database layer
+packages("*.data.local.database.dao")      // DAOs - framework declarations
+packages("*.data.local.database.entities") // Entities - data classes
+classes("*SimpleHiitDatabase")             // Database - framework boilerplate
+// NOTE: Migrations are NOT excluded (see "Database Migrations" section below)
 ```
+
+### Database Migrations: 0% Coverage (Expected)
+
+**Why migrations show 0% coverage:**
+
+Database migrations appear in coverage reports with **0% coverage** - this is **expected and correct**.
+
+**The reason:**
+- Kover only tracks **unit test** coverage (tests in `src/test/`)
+- Migration testing requires **instrumented tests** (tests in `src/androidTest/`)
+- Instrumented tests run on Android devices/emulators and are not tracked by Kover
+
+**Why migrations must be instrumented tests:**
+- Require real Android environment (not JVM)
+- Use Room's `MigrationTestHelper` (Android test framework)
+- Need actual SQLite database operations
+- Cannot be tested as JVM unit tests
+
+**Our migration tests:**
+- Location: `data/src/androidTest/java/.../migrations/`
+- Example: `Migration1To2Test.kt` - 4 comprehensive tests
+- Run via: `./gradlew :data:connectedAndroidTest`
+
+**What this means:**
+- ✅ Migrations ARE thoroughly tested (just not in Kover reports)
+- ✅ 0% coverage is a limitation of coverage tooling, not a testing gap
+- ✅ This is industry-standard practice for Room migrations
+
+**See also:**
+- Migration tests: `data/src/androidTest/java/fr/shiningcat/simplehiit/data/local/database/migrations/`
+- Google's Room migration testing guide
 
 ### ⚠️ Known Limitation: Dagger Factory Classes
 

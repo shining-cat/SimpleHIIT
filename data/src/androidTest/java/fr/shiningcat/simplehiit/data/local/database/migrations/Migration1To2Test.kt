@@ -4,6 +4,28 @@
  */
 package fr.shiningcat.simplehiit.data.local.database.migrations
 
+/*
+ * Migration Testing & Coverage Notes:
+ *
+ * WHY THIS IS AN INSTRUMENTED TEST (androidTest):
+ * - Migration testing requires a real Android environment (not JVM)
+ * - Uses Room's MigrationTestHelper which needs Android test framework
+ * - Requires actual SQLite database operations
+ * - Cannot be tested as JVM unit tests
+ *
+ * WHY MIGRATIONS SHOW 0% IN KOVER COVERAGE REPORTS:
+ * - Kover only tracks unit test coverage (src/test/)
+ * - Instrumented tests (src/androidTest/) are not tracked by Kover
+ * - This is a limitation of coverage tooling, NOT a testing gap
+ * - This is industry-standard practice for Room migrations
+ *
+ * HOW TO RUN THESE TESTS:
+ * - IDE: Right-click file → Run 'Migration1To2Test'
+ * - CLI: ./gradlew :data:connectedAndroidTest
+ *
+ * For more information, see docs/KOVER_CODE_COVERAGE.md
+ */
+
 import androidx.room.Room
 import androidx.room.testing.MigrationTestHelper
 import androidx.test.ext.junit.runners.AndroidJUnit4
