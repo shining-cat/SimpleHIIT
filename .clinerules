@@ -190,21 +190,27 @@ dependencies {
 
 ### Naming Conventions for _WIP-plans/
 
+**ALL documents MUST be prefixed with last edit date in YYYYMMDD_ format for chronological sorting.**
+
 **Active work (ongoing) - Use present tense:**
-- `WIP-[feature-name]-[date].md` - Main tracking document for ongoing work
-- `[FEATURE]_MODULE_REFACTORING_PLAN.md` - Planning documents (uppercase feature name)
-- `[FEATURE]_MODULE_LOGIC_ANALYSIS.md` - Analysis documents
+- `YYYYMMDD_WIP-[feature-name].md` - Main tracking document for ongoing work
+- `YYYYMMDD_[FEATURE]_MODULE_REFACTORING_PLAN.md` - Planning documents (uppercase feature name)
+- `YYYYMMDD_[FEATURE]_MODULE_LOGIC_ANALYSIS.md` - Analysis documents
 
 **Completed work (merged) - Use past tense suffix:**
-- `WIP-[feature-name]-merged-[date].md` - Summary after branch merge
-- `[FEATURE]_MODULE_REFACTORING_SUMMARY.md` - Final summary of completed work
-- `[FEATURE]_MODULE_EXTRACTION_SUMMARY.md` - Summary of extraction/major refactoring
+- `YYYYMMDD_WIP-[feature-name]-merged.md` - Summary after branch merge
+- `YYYYMMDD_[FEATURE]_MODULE_REFACTORING_SUMMARY.md` - Final summary of completed work
+- `YYYYMMDD_[FEATURE]_MODULE_EXTRACTION_SUMMARY.md` - Summary of extraction/major refactoring
 
 **Examples:**
-- Active: `WIP-viewmodel-refactoring-2026-01-02.md`
-- Merged: `WIP-models-extraction-merged-2026-01-03.md`
-- Active: `HOME_MODULE_REFACTORING_PLAN.md`
-- Complete: `HOME_MODULE_REFACTORING_SUMMARY.md`
+- Active: `20260102_WIP-viewmodel-refactoring.md`
+- Merged: `20260103_WIP-models-extraction-merged.md`
+- Active: `20260102_HOME_MODULE_REFACTORING_PLAN.md`
+- Complete: `20260103_HOME_MODULE_REFACTORING_SUMMARY.md`
+
+**When updating existing documents:**
+- Rename the file with the new date prefix reflecting the update date
+- This keeps files sorted by recency automatically
 
 ### Mandatory Workflow Steps
 
@@ -218,7 +224,7 @@ dependencies {
 Execute this workflow:
 
 a) **Create Merge Summary Document:**
-   - Filename: `WIP-[feature-name]-merged-[YYYY-MM-DD].md`
+   - Filename: `YYYYMMDD_WIP-[feature-name]-merged.md`
    - Include:
      - What was completed in this branch
      - What was NOT completed (remaining work)
@@ -253,16 +259,16 @@ d) **Confirm Cleanup with User:**
 ```
 Task: Home Module Refactoring
 ├─ Active Phase:
-│  ├─ HOME_MODULE_LOGIC_ANALYSIS.md (created during analysis)
-│  ├─ HOME_MODULE_REFACTORING_PLAN.md (created for planning)
-│  └─ WIP-viewmodel-refactoring-2026-01-02.md (main tracker)
+│  ├─ 20260102_HOME_MODULE_LOGIC_ANALYSIS.md (created during analysis)
+│  ├─ 20260102_HOME_MODULE_REFACTORING_PLAN.md (created for planning)
+│  └─ 20260102_WIP-viewmodel-refactoring.md (main tracker)
 │
 ├─ Merge Phase:
-│  ├─ WIP-home-refactor-merged-2026-01-02.md (created)
-│  ├─ HOME_MODULE_REFACTORING_SUMMARY.md (created, permanent)
-│  ├─ DELETE: HOME_MODULE_LOGIC_ANALYSIS.md (work complete)
-│  ├─ DELETE: HOME_MODULE_REFACTORING_PLAN.md (work complete)
-│  └─ KEEP: WIP-viewmodel-refactoring-2026-01-02.md (tracks ALL modules)
+│  ├─ 20260102_WIP-home-refactor-merged.md (created)
+│  ├─ 20260103_HOME_MODULE_REFACTORING_SUMMARY.md (created, permanent)
+│  ├─ DELETE: 20260102_HOME_MODULE_LOGIC_ANALYSIS.md (work complete)
+│  ├─ DELETE: 20260102_HOME_MODULE_REFACTORING_PLAN.md (work complete)
+│  └─ KEEP: 20260102_WIP-viewmodel-refactoring.md (tracks ALL modules)
 ```
 
 ### Philosophy
@@ -290,6 +296,54 @@ Task: Home Module Refactoring
 - They obscure which types are actually being used
 
 **Philosophy:** Proper imports improve readability and maintainability. Let the IDE manage imports, not inline qualifications.
+
+### Idiomatic Kotlin
+
+**Always use idiomatic Kotlin syntax:**
+- Leverage Kotlin language features over Java-style code
+- Use extension functions, data classes, sealed classes, and other Kotlin idioms
+- Prefer Kotlin standard library functions (let, apply, run, also, with) when appropriate
+- Use property delegation, lambda expressions, and destructuring where it improves clarity
+- Follow Kotlin naming conventions and style guidelines
+
+**Avoid static methods and utility classes:**
+- ❌ WRONG: Object classes with static utility methods
+- ❌ WRONG: Companion objects used as static utility holders
+- ✅ RIGHT: Extension functions for utility behavior
+- ✅ RIGHT: Dependency injection for shared logic
+- ✅ RIGHT: Top-level functions when appropriate
+
+**Philosophy:** Write Kotlin code that leverages the language's strengths. Avoid Java patterns that Kotlin provides better alternatives for. Make code testable and maintainable by favoring injection over static utilities.
+
+## Code Accuracy - Verify Don't Guess
+
+**NEVER guess parameter names, enum values, function names, or other code identifiers:**
+- ❌ WRONG: Assume a parameter is named `userId` because it seems conventional
+- ❌ WRONG: Guess an enum value is `ACTIVE` without checking the actual definition
+- ❌ WRONG: Use `getUserById()` without verifying the actual method name
+- ✅ RIGHT: Use `read_file` to check the actual class/interface definition
+- ✅ RIGHT: Use `search_files` to find how the code is used elsewhere
+- ✅ RIGHT: Use `list_code_definition_names` to see available methods/properties
+
+**Before writing code that references existing types, methods, or values:**
+1. **Locate the source** - Find where the type/method/enum is defined
+2. **Read the definition** - Verify exact names, parameter types, and signatures
+3. **Check usage examples** - See how it's used elsewhere in the codebase
+4. **Use exact names** - Match capitalization, spelling, and parameter order precisely
+
+**Common mistakes to avoid:**
+- Guessing constructor parameter names without checking the data class definition
+- Assuming enum values follow a pattern without verifying all cases
+- Using camelCase when the project uses snake_case (or vice versa)
+- Inverting boolean parameter names (e.g., `isEnabled` vs `isDisabled`)
+- Getting parameter order wrong in function calls
+
+**Tools for verification:**
+- `read_file` - Read class definitions, interfaces, enums directly
+- `search_files` - Find usage patterns across the codebase
+- `list_code_definition_names` - Survey available methods/classes in a module
+
+**Philosophy:** Build errors from typos and wrong names are preventable. Always verify actual code definitions before referencing them. A 30-second file check prevents a 5-minute build failure.
 
 ## File Change Handling
 

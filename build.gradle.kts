@@ -73,8 +73,20 @@ fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusio
         annotatedBy("javax.annotation.processing.Generated")
         annotatedBy("javax.annotation.Generated")
 
+        // Exclude classes/functions annotated with custom coverage exclusion
+        annotatedBy("fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromCoverage")
+
         // Exclude Room generated classes
         classes("*.*_Impl")
+
+        // Exclude Room database layer - framework code and data classes
+        // DAOs: Abstract methods with Room annotations (no business logic)
+        // Database: Room database declaration (framework boilerplate)
+        // Entities: Data classes with no logic
+        packages("*.data.local.database.dao")
+        packages("*.data.local.database.entities")
+        classes("*SimpleHiitDatabase")
+        // NOTE: Migrations are NOT excluded - see docs/KOVER_CODE_COVERAGE.md
 
         // Exclude BuildConfig and R classes
         classes("*.BuildConfig", "*.R", "*.R$*")
@@ -88,6 +100,12 @@ fun kotlinx.kover.gradle.plugin.dsl.KoverReportFiltersConfig.applyCommonExclusio
         // Exclude all models packages across all modules
         packages("*.models")
         classes("*DTO")
+
+        // Exclude Android UI layers (mobile and TV)
+        // Pure Compose UI components without business logic
+        // Tested via screenshot tests and interaction tests only
+        packages("*.android.mobile.ui")
+        packages("*.android.tv.ui")
 
         // Exclude Compose-generated classes
         classes("*PreviewParameterProvider")

@@ -16,6 +16,9 @@ kover {
                 // Exclude by annotation (Dagger generates with @DaggerGenerated)
                 annotatedBy("dagger.internal.DaggerGenerated")
 
+                // Exclude custom coverage exclusion annotation
+                annotatedBy("fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromCoverage")
+
                 // Also try pattern like BuildConfig (which works)
                 classes("*._Factory")
                 classes("*._MembersInjector")

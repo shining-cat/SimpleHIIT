@@ -18,7 +18,7 @@ dependencies {
     implementation(libs.koin.test)
     implementation(libs.koin.android)
     implementation(libs.jupiter)
-    implementation(libs.test.runner)
+    implementation(libs.androidx.test.runner)
     implementation(libs.mockk)
     //
     implementation(project(":commonUtils"))

@@ -28,7 +28,7 @@ class TestingConventionPlugin : Plugin<Project> {
             // Android-specific test dependencies
             pluginManager.withPlugin("com.android.base") {
                 dependencies {
-                    add("testImplementation", libs.findLibrary("test.runner").get())
+                    add("testImplementation", libs.findLibrary("androidx.test.runner").get())
                 }
 
                 // Configure Android test options

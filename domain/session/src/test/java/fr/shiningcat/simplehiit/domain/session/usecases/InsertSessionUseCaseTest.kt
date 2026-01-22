@@ -79,4 +79,35 @@ internal class InsertSessionUseCaseTest : AbstractMockkTest() {
             coVerify(exactly = 0) { mockUpdateUsersLastSessionTimestampUseCase.execute(any(), any()) }
             assertEquals(errorFromRepo, result)
         }
+
+    @Test
+    fun `returns insert success even when timestamp update fails`() =
+        runTest {
+            val testedUseCase =
+                InsertSessionUseCase(
+                    sessionsRepository = mockSessionsRepository,
+                    updateUsersLastSessionTimestampUseCase = mockUpdateUsersLastSessionTimestampUseCase,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    logger = mockHiitLogger,
+                )
+            val testValue =
+                SessionRecord(
+                    id = 123L,
+                    timeStamp = 78696L,
+                    durationMs = 345L,
+                    usersIds = listOf(1234L, 2345L),
+                )
+            val successFromRepo = Output.Success(2)
+            val timestampUpdateError = Output.Error(DomainError.DATABASE_UPDATE_FAILED, Exception("Timestamp update failed"))
+
+            coEvery { mockSessionsRepository.insertSessionRecord(any()) } answers { successFromRepo }
+            coEvery { mockUpdateUsersLastSessionTimestampUseCase.execute(any(), any()) } returns timestampUpdateError
+            //
+            val result = testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockSessionsRepository.insertSessionRecord(testValue) }
+            coVerify(exactly = 1) { mockUpdateUsersLastSessionTimestampUseCase.execute(testValue.usersIds, testValue.timeStamp) }
+            // Business logic decision: insert success is returned even if timestamp update fails
+            assertEquals(successFromRepo, result)
+        }
 }

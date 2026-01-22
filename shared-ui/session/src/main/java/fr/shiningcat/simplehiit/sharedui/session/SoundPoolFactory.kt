@@ -7,11 +7,13 @@ package fr.shiningcat.simplehiit.sharedui.session
 import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
+import fr.shiningcat.simplehiit.commonutils.annotations.ExcludeFromCoverage
 
 interface SoundPoolFactory {
     fun create(): SoundPool
 }
 
+@ExcludeFromCoverage
 class SoundPoolFactoryImpl : SoundPoolFactory {
     override fun create(): SoundPool =
         SoundPool

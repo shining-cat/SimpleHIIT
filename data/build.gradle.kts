@@ -10,6 +10,20 @@ plugins {
     alias(libs.plugins.kover)
 }
 
+// Export Room schemas for migration testing
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
+android {
+    sourceSets {
+        // Include Room schema directory in androidTest assets
+        getByName("androidTest") {
+            assets.srcDirs("$projectDir/schemas")
+        }
+    }
+}
+
 dependencies {
     implementation(projects.models)
     implementation(projects.domain.common)
@@ -21,4 +35,8 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.coroutines)
     ksp(libs.androidx.room.compiler)
+
+    // Room migration instrumented testing
+    androidTestImplementation(libs.androidx.room.testing)
+    androidTestImplementation(libs.androidx.test.ext.junit)
 }
