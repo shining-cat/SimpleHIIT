@@ -8,7 +8,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.IOException
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
+import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.APP_THEME
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.BEEP_SOUND_ACTIVE
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES
@@ -18,6 +20,7 @@ import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.SESSION_COUNTDOWN_LENGTH_MILLISECONDS
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.WORK_PERIOD_LENGTH_MILLISECONDS
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
+import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_APP_THEME
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_WORK_PERIODS_DEFAULT
@@ -59,6 +62,7 @@ class SimpleHiitDataStoreManagerTest {
     private val defaultLongValue = -1L
     private val defaultBoolValue = false
     private val defaultStringSetValue = emptySet<String>()
+    private val defaultStringValue = ""
 
     @Test
     fun `check SetWorkPeriodLength is storing in datastore preferences`() =
@@ -415,6 +419,141 @@ class SimpleHiitDataStoreManagerTest {
             assertEquals(expectedPreferences, resultPreferences)
         }
 
+    @Test
+    fun `check SetAppTheme with LIGHT is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = AppTheme.LIGHT
+            testedSimpleHiitDataStoreManager.setAppTheme(testValue)
+
+            val result = retrievePrefString(APP_THEME).first()
+
+            assertEquals(testValue.name, result)
+        }
+
+    @Test
+    fun `check SetAppTheme with DARK is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = AppTheme.DARK
+            testedSimpleHiitDataStoreManager.setAppTheme(testValue)
+
+            val result = retrievePrefString(APP_THEME).first()
+
+            assertEquals(testValue.name, result)
+        }
+
+    @Test
+    fun `check SetAppTheme with FOLLOW_SYSTEM is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = AppTheme.FOLLOW_SYSTEM
+            testedSimpleHiitDataStoreManager.setAppTheme(testValue)
+
+            val result = retrievePrefString(APP_THEME).first()
+
+            assertEquals(testValue.name, result)
+        }
+
+    @Test
+    fun `check GetPreferences with LIGHT theme returns correct SimpleHiitPreferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testTheme = AppTheme.LIGHT
+            testedSimpleHiitDataStoreManager.setAppTheme(testTheme)
+
+            val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
+
+            assertEquals(testTheme, resultPreferences.appTheme)
+        }
+
+    @Test
+    fun `check GetPreferences with DARK theme returns correct SimpleHiitPreferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testTheme = AppTheme.DARK
+            testedSimpleHiitDataStoreManager.setAppTheme(testTheme)
+
+            val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
+
+            assertEquals(testTheme, resultPreferences.appTheme)
+        }
+
+    @Test
+    fun `check GetPreferences with invalid theme returns default theme and logs error`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            // Manually insert invalid theme string
+            testDataStore.edit { preferences ->
+                preferences[APP_THEME] = "INVALID_THEME_VALUE"
+            }
+
+            val resultPreferences = testedSimpleHiitDataStoreManager.getPreferences().first()
+
+            assertEquals(DEFAULT_APP_THEME, resultPreferences.appTheme)
+            coVerify { mockkLogger.e(eq("SimpleHiitDataStoreManager"), any(), any()) }
+        }
+
     // //////////
     private fun retrievePrefInt(key: Preferences.Key<Int>): Flow<Int> =
         testDataStore.data.map {
@@ -434,5 +573,10 @@ class SimpleHiitDataStoreManagerTest {
     private fun retrievePrefStringSet(key: Preferences.Key<Set<String>>): Flow<Set<String>> =
         testDataStore.data.map {
             it[key] ?: defaultStringSetValue
+        }
+
+    private fun retrievePrefString(key: Preferences.Key<String>): Flow<String> =
+        testDataStore.data.map {
+            it[key] ?: defaultStringValue
         }
 }
