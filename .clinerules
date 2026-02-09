@@ -315,6 +315,34 @@ Task: Home Module Refactoring
 
 **Philosophy:** Write Kotlin code that leverages the language's strengths. Avoid Java patterns that Kotlin provides better alternatives for. Make code testable and maintainable by favoring injection over static utilities.
 
+### Defensive Coding & Resilience
+
+**Write defensive code to prevent crashes and ensure resilience:**
+- **Goal: Zero crashes** - Anticipate and handle error conditions proactively
+- **Graceful degradation** - Fail safely with fallback behavior when possible
+- **Prevent uncaught exceptions** - Use try-catch for risky operations, validate inputs
+- **Thread safety** - Protect shared mutable state with proper synchronization
+- **Race condition prevention** - Use appropriate concurrency primitives (Mutex, synchronized, atomic operations)
+
+**Common defensive patterns:**
+- ✅ Validate nullable inputs before use, provide safe defaults
+- ✅ Use `runCatching`, `getOrNull()`, `getOrElse()` for operations that may fail
+- ✅ Wrap external API calls (network, database, file I/O) in try-catch blocks
+- ✅ Use `@Volatile`, `Mutex`, or atomic classes for concurrent access to mutable state
+- ✅ Prefer immutable data structures to reduce concurrency risks
+- ✅ Add null checks and bounds checks before array/collection access
+- ✅ Use sealed class hierarchies for error handling instead of exceptions when appropriate
+- ✅ Log errors appropriately while still providing fallback behavior
+
+**Anti-patterns to avoid:**
+- ❌ Assuming external operations always succeed (network calls, file operations)
+- ❌ Accessing shared mutable state without synchronization
+- ❌ Ignoring potential null/empty states
+- ❌ Letting exceptions crash the app without graceful handling
+- ❌ Using unsafe collection operations (get vs getOrNull, first vs firstOrNull)
+
+**Philosophy:** Anticipate failure modes and handle them proactively. Build resilient code that degrades gracefully rather than crashes. Optimize for reliability and user experience.
+
 ## Code Accuracy - Verify Don't Guess
 
 **NEVER guess parameter names, enum values, function names, or other code identifiers:**
@@ -344,6 +372,20 @@ Task: Home Module Refactoring
 - `list_code_definition_names` - Survey available methods/classes in a module
 
 **Philosophy:** Build errors from typos and wrong names are preventable. Always verify actual code definitions before referencing them. A 30-second file check prevents a 5-minute build failure.
+
+## Commit Messages & Pull Request Descriptions
+
+**Commit messages should be concise and focused:**
+- Maximum 2 lines
+- Summarize what changed, not the entire context
+- Focus on the technical change itself
+
+**Pull request descriptions should be concise:**
+- No need to describe all intentions or full background
+- Focus on: **what changed, why it changed, and how it solves the need**
+- Skip lengthy explanations of context already known to the team
+
+**Philosophy:** Commit messages and PR descriptions are technical summaries, not conversation logs. Keep them actionable and focused on the essential information.
 
 ## File Change Handling
 
