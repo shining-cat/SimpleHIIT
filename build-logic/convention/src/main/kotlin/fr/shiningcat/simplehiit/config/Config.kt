@@ -34,8 +34,8 @@ object ConfigHandheld {
         )
     val jvm =
         JvmConfig(
-            javaVersion = JavaVersion.VERSION_17,
-            kotlinJvm = JvmTarget.JVM_17,
+            javaVersion = JavaVersion.VERSION_21,
+            kotlinJvm = JvmTarget.JVM_21,
         )
 }
 
@@ -52,8 +52,8 @@ object ConfigTv {
         )
     val jvm =
         JvmConfig(
-            javaVersion = JavaVersion.VERSION_17,
-            kotlinJvm = JvmTarget.JVM_17,
+            javaVersion = JavaVersion.VERSION_21,
+            kotlinJvm = JvmTarget.JVM_21,
         )
 }
 
@@ -66,8 +66,8 @@ object ConfigLibrary {
         )
     val jvm =
         JvmConfig(
-            javaVersion = JavaVersion.VERSION_17,
-            kotlinJvm = JvmTarget.JVM_17,
+            javaVersion = JavaVersion.VERSION_21,
+            kotlinJvm = JvmTarget.JVM_21,
         )
 }
 

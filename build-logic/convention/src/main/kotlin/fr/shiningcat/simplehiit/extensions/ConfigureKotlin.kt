@@ -18,7 +18,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() =
     configure<T> {
         // Configure JVM Toolchain for consistent JDK usage across all tasks
-        jvmToolchain(JavaVersion.VERSION_17.majorVersion.toInt())
+        jvmToolchain(JavaVersion.VERSION_21.majorVersion.toInt())
 
         // Treat all Kotlin warnings as errors (default to false)
         // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
