@@ -5,14 +5,17 @@
 package fr.shiningcat.simplehiit.plugins
 
 import fr.shiningcat.simplehiit.extensions.libs
+import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.testing.Test
+import org.gradle.jvm.toolchain.JavaLanguageVersion
+import org.gradle.jvm.toolchain.JavaToolchainService
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.withType
 
 /**
- * Convention plugin for common testing dependencies and configuration.
+ * Convention plugin for common testing dependencies and.
  * Applies to all modules that need unit testing support.
  */
 class TestingConventionPlugin : Plugin<Project> {
@@ -42,10 +45,16 @@ class TestingConventionPlugin : Plugin<Project> {
             }
 
             // Configure test tasks
+            val javaToolchains = extensions.getByType(JavaToolchainService::class.java)
             tasks.withType<Test>().configureEach {
                 useJUnitPlatform()
                 ignoreFailures = false
                 outputs.upToDateWhen { false }
+
+                // Set the JVM toolchain for the test runner
+                javaLauncher.set(javaToolchains.launcherFor {
+                    languageVersion.set(JavaLanguageVersion.of(JavaVersion.VERSION_21.majorVersion))
+                })
             }
         }
     }

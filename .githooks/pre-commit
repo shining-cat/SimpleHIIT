@@ -1,9 +1,39 @@
 #!/bin/bash
+
+# --- JAVA VERSION CHECK ---
+REQUIRED_JAVA_MAJOR=21
+JAVA_VERSION_OUTPUT=$(java -version 2>&1 | head -n 1)
+JAVA_MAJOR=$(echo "$JAVA_VERSION_OUTPUT" | sed -E 's/.*version "([0-9]+)\..*/\1/')
+if [ "$JAVA_MAJOR" != "$REQUIRED_JAVA_MAJOR" ]; then
+    echo -e "\033[0;31m❌ ERROR: Java $REQUIRED_JAVA_MAJOR is required to build this project.\033[0m"
+    echo -e "  Detected: $JAVA_VERSION_OUTPUT"
+    echo -e "  JAVA_HOME: $JAVA_HOME"
+    echo -e "  Which java: $(which java)"
+    echo -e "\033[1;33mPlease switch to JDK $REQUIRED_JAVA_MAJOR before committing.\033[0m"
+    echo -e "  - Or set JAVA_HOME to a JDK $REQUIRED_JAVA_MAJOR installation."
+    echo -e "  - On CI/F-Droid, ensure the build environment uses JDK $REQUIRED_JAVA_MAJOR."
+    echo -e "\033[1;33mCommit blocked.\033[0m"
+    exit 1
+fi
+
+# --- START DIAGNOSTICS ---
+echo "--- Pre-commit Hook Environment Diagnostics ---"
+echo "Running from: $(pwd)"
+echo "User: $(whoami)"
+echo "PATH: $PATH"
+echo "JAVA_HOME: $JAVA_HOME"
+echo "Java Version:"
+java -version
+echo "Which Java: $(which java)"
+echo "-------------------------------------------"
+# --- END DIAGNOSTICS ---
+
 #
 # Code Quality pre-commit hook - Enhanced version
 # This hook ensures code quality by checking formatting and license headers
 #
 # Installation:
+
 #   Run once from repository root: ./.githooks/setup.sh
 #   This configures git to use .githooks directory for all hooks
 #

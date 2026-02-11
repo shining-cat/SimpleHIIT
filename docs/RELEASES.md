@@ -47,7 +47,7 @@ The automated release workflow is defined in:
 
 **Steps:**
 1. Checkout code
-2. Set up JDK 17
+2. Set up JDK 21
 3. Decode release keystore from secrets
 4. Build signed mobile APK
 5. Build signed TV APK

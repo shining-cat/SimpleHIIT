@@ -137,7 +137,7 @@ internal class UpdateUsersLastSessionTimestampUseCaseTest : AbstractMockkTest() 
             coVerify(exactly = 0) { mockUsersRepository.updateUser(any()) }
             assertTrue(result is Output.Error)
             assertEquals(DomainError.DATABASE_FETCH_FAILED, (result as Output.Error).errorCode)
-            assertEquals(errorMessage, result.exception?.message)
+            assertEquals(errorMessage, result.exception.message)
         }
 
     @Test
