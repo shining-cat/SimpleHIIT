@@ -103,6 +103,14 @@ This is a simple HIIT application.
 
 ## Setup for Contributors
 
+### Build Requirements
+
+This project requires **JDK 21** to build. The build is configured to be portable and will use Gradle's toolchain mechanism to find or download the correct JDK, regardless of your local `JAVA_HOME` setting.
+
+However, for a smooth experience, it is recommended to have a JDK 21 installation available on your system.
+
+### Git Hooks
+
 After cloning the repository, run the git hooks setup to enable automatic handling of CI-generated commits:
 
 ```bash

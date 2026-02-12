@@ -33,12 +33,12 @@ subprojects {
     pluginManager.withPlugin("org.jetbrains.kotlin.android") {
         extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension> {
 
-            jvmToolchain(17)
+            jvmToolchain(JavaVersion.VERSION_21.majorVersion.toInt())
         }
     }
     pluginManager.withPlugin("org.jetbrains.kotlin.jvm") {
         extensions.configure<org.jetbrains.kotlin.gradle.dsl.KotlinJvmProjectExtension> {
-            jvmToolchain(17)
+            jvmToolchain(JavaVersion.VERSION_21.majorVersion.toInt())
         }
     }
 }
