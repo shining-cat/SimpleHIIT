@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# test comment for commit hook
 # --- JAVA VERSION CHECK ---
 REQUIRED_JAVA_MAJOR=21
 JAVA_VERSION_OUTPUT=$(java -version 2>&1 | head -n 1)

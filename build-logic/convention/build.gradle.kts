@@ -10,12 +10,12 @@ group = "fr.shiningcat.simplehiit.buildlogic"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(JavaVersion.VERSION_17.majorVersion)
+        languageVersion = JavaLanguageVersion.of(JavaVersion.VERSION_21.majorVersion)
     }
 }
 
 kotlin {
-    jvmToolchain(JavaVersion.VERSION_17.majorVersion.toInt())
+    jvmToolchain(JavaVersion.VERSION_21.majorVersion.toInt())
 }
 
 dependencies {
