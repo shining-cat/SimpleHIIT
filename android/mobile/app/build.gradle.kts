@@ -15,6 +15,11 @@ plugins {
 }
 
 android {
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
+    }
+
     buildTypes {
         debug {
             // applicationIdSuffix set from central enum config
