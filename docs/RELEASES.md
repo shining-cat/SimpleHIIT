@@ -69,7 +69,7 @@ git pull origin master
 git checkout -b release/v1.23
 ```
 
-### Step 2: Update Version Numbers and F-Droid Metadata
+### Step 2: Update Version Numbers and F-Droid Metadata (in the fastlane folder)
 
 **2a. Update version in Config.kt:**
 
@@ -158,21 +158,6 @@ git push origin refs/tags/v1.23
 git push --tags
 ```
 
-### Step 6: Monitor Release Build
-
-1. Go to: https://github.com/shining-cat/SimpleHIIT/actions
-2. Watch the "Release Build" workflow complete (typically 5-10 minutes)
-3. Check for any errors in the workflow logs
-
-### Step 7: Verify GitHub Release
-
-1. Go to: https://github.com/shining-cat/SimpleHIIT/releases
-2. Verify the new release appears with:
-   - Correct version tag
-   - Both mobile and TV APKs
-   - Auto-generated changelog
-3. Download and test APKs on actual devices
-
 ---
 
 ## F-Droid Auto-Update
@@ -183,25 +168,82 @@ After a version tag is pushed, F-Droid automatically detects and builds the new 
 - Build and publication takes an additional 1-3 days
 - Monitor build status at: https://monitor.f-droid.org/
 
-**Note:** No manual submission is needed for updates after initial F-Droid setup. See `_WIP-plans/FDROID_SETUP_PLAN.md` for first-time submission instructions.
+**Note:** No manual submission is needed for updates after initial F-Droid setup. See `_WIP-plans/FDROID_PROCESS.md` for F-Droid submission and maintenance documentation.
 
-### ⚠️ AGP Version Workaround
+---
 
-**Current status:** The F-Droid metadata includes a `prebuild` step that downgrades Android Gradle Plugin from 23.3.0 to 23.2.0:
+## Post-Tag: Monitoring & Verification
 
+### Step 6: Monitor GitHub Actions Release Build
+
+1. Go to: https://github.com/shining-cat/SimpleHIIT/actions
+2. Watch the "Release Build" workflow complete (typically 5-10 minutes)
+3. Check for any errors in the workflow logs
+
+**If build fails with Gradle version inconsistencies:**
+1. Go to: https://github.com/shining-cat/SimpleHIIT/actions/caches
+2. Delete all caches (or at least Gradle-related caches)
+3. Re-run the failed workflow or re-push the tag
+
+### Step 7: Verify GitHub Release
+
+1. Go to: https://github.com/shining-cat/SimpleHIIT/releases
+2. Verify the new release appears with:
+   - Correct version tag
+   - Both mobile and TV APKs
+   - Auto-generated changelog from commits
+3. Download and test APKs on actual devices
+
+---
+
+## GitHub Actions Cache Management
+
+### Understanding the Cache
+
+The `gradle/actions/setup-gradle@v4` action automatically caches Gradle artifacts to speed up builds:
+- Gradle wrapper files
+- Dependencies
+- Build cache
+- Configuration cache
+
+**This improves build times BUT can cause issues when Gradle/AGP versions change.**
+
+### When to Clear the Cache
+
+Clear GitHub Actions cache if you experience:
+- ❌ Build failures after Gradle or AGP version changes
+- ❌ Inconsistent metadata in APKs (e.g., wrong Gradle version in kotlin-tooling-metadata.json)
+- ❌ Unexplained build errors that don't occur locally
+
+### How to Clear the Cache
+
+**Option 1: Manual Cache Deletion (Recommended)**
+1. Go to: https://github.com/shining-cat/SimpleHIIT/actions/caches
+2. Click "Delete all caches" or select specific Gradle caches to delete
+3. Trigger a new build (push tag or re-run workflow)
+
+**Option 2: Disable Caching Temporarily**
+
+Modify `.github/workflows/release.yml`:
 ```yaml
-prebuild: sed -i -e 's/23.3.0/23.2.0/' ../../../gradle/libs.versions.toml
+- name: Setup Gradle
+  uses: gradle/actions/setup-gradle@v4
+  with:
+    cache-disabled: true  # Force clean build, no caching
 ```
 
-**Why this is needed:**
-- F-Droid's build environment doesn't support AGP 23.3.0 yet
-- This temporary workaround allows builds to complete successfully
+After one successful build, remove this flag to re-enable caching for future builds.
 
-**What to monitor:**
-1. **F-Droid build environment changelog** - Check https://gitlab.com/fdroid/fdroidserver/-/blob/master/CHANGELOG.md periodically
-2. **Build logs at https://monitor.f-droid.org/** - Watch for sed command failures or new AGP-related errors
-3. **When F-Droid supports AGP 23.3.0:**
-   - Remove the `prebuild` line from `fdroid-metadata/fr.shiningcat.simplehiit.yml`
-   - Submit an update to F-Droid metadata repository
+**Option 3: Read-Only Cache Mode**
 
-**Risk:** If the `sed` command silently fails (e.g., due to file path changes), builds may attempt to use AGP 23.3.0 before F-Droid supports it, causing build failures.
+Force cache refresh:
+```yaml
+- name: Setup Gradle
+  uses: gradle/actions/setup-gradle@v4
+  with:
+    cache-read-only: true  # Ignore old cache, create fresh cache
+```
+
+### Best Practice
+
+After upgrading Gradle, AGP, or Kotlin versions, manually clear GitHub Actions caches before creating a release tag. This prevents stale cached artifacts from being included in release APKs.
