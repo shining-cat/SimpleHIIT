@@ -4,7 +4,7 @@
  */
 package fr.shiningcat.simplehiit.android.shared.core.ui.components
 
-import androidx.annotation.DrawableRes
+import androidx.annotation.RawRes
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,7 +15,7 @@ import com.bumptech.glide.integration.compose.placeholder
 import fr.shiningcat.simplehiit.commonresources.R
 
 /**
- * This will load and display a DrawableRes as a Gif, and play it in loop
+ * This will load and display a RawRes as a Gif, and play it in loop
  * @param gifResId: the gif resource pointer
  * @param mirrored: whether to reverse the display along the vertical middle axis
  * @param paused: whether to freeze the GIF animation on the first frame
@@ -24,7 +24,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 @Composable
 fun GifImage(
     modifier: Modifier = Modifier,
-    @DrawableRes
+    @RawRes
     gifResId: Int,
     contentDescription: String,
     mirrored: Boolean = false,
