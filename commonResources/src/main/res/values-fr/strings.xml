@@ -110,7 +110,7 @@
     <string name="resume_button_label">Reprendre</string>
     <string name="exercise_remaining_in_s">Donnez tout pendant %1$s !</string>
     <string name="session_time_remaining">Fin de la session dans : %1$s</string>
-    <string name="coming_next">À venir :</string>
+    <string name="rest_coming_next">REPOS et PRÉPARATION - À venir :</string>
     <string name="rest_remaining_in_s">Reposez-vous pendant %1$s</string>
 
     <!-- FINISH PAGE -->

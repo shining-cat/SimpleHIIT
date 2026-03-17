@@ -57,7 +57,7 @@ fun ExerciseDisplayComponent(
         )
         if (periodType == RunningSessionStepType.REST) {
             Text(
-                text = stringResource(id = CommonResourcesR.string.coming_next),
+                text = stringResource(id = CommonResourcesR.string.rest_coming_next),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.secondary,

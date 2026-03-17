@@ -116,7 +116,7 @@
     <string name="resume_button_label">Resume</string>
     <string name="exercise_remaining_in_s">Give it all for %1$s !</string>
     <string name="session_time_remaining">Session end in: %1$s</string>
-    <string name="coming_next">Coming next:</string>
+    <string name="rest_coming_next">REST and PREPARE - Coming next:</string>
     <string name="rest_remaining_in_s">Rest for %1$s</string>
 
     <!-- FINISH PAGE -->
