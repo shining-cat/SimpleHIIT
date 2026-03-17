@@ -110,7 +110,7 @@
     <string name="resume_button_label">Återuppta</string>
     <string name="exercise_remaining_in_s">Ge allt i %1$s!</string>
     <string name="session_time_remaining">Passet slutar om: %1$s</string>
-    <string name="coming_next">Nästa:</string>
+    <string name="rest_coming_next">VILA och FÖRBERED - Nästa:</string>
     <string name="rest_remaining_in_s">Vila i %1$s</string>
 
     <!-- FINISH PAGE -->

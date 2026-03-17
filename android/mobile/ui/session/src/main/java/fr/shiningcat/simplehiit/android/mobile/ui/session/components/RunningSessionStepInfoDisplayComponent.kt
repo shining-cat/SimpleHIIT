@@ -4,18 +4,24 @@
  */
 package fr.shiningcat.simplehiit.android.mobile.ui.session.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import fr.shiningcat.simplehiit.android.mobile.ui.session.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
@@ -37,62 +43,91 @@ fun RunningSessionStepInfoDisplayComponent(
     Column(
         modifier = modifier,
     ) {
-        // Top section - always reserve space for "coming next" to keep exercise description in fixed position
-        Column {
-            Text(
-                text =
-                    if (periodType == RunningSessionStepType.REST) {
-                        stringResource(id = CommonResourcesR.string.coming_next)
-                    } else {
-                        "" // Empty text to reserve space
-                    },
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.fillMaxWidth(),
-            )
+        // Progress indicators for better visibility - session timer first
+        RemainingPercentageComponent(
+            modifier =
+                Modifier
+                    .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
+            label =
+                stringResource(
+                    id = CommonResourcesR.string.session_time_remaining,
+                    viewState.sessionRemainingTime,
+                ),
+            percentage = viewState.sessionRemainingPercentage,
+            thickness = dimensionResource(R.dimen.session_remaining_progress_thickness),
+            bicolor = true,
+        )
 
-            Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
-            // Exercise description always in same fixed position
-            ExerciseDescriptionComponent(exercise = exercise, side = exerciseSide)
-        }
+        val remainingPercentageStringRes =
+            when (periodType) {
+                RunningSessionStepType.REST -> CommonResourcesR.string.rest_remaining_in_s
+                RunningSessionStepType.WORK -> CommonResourcesR.string.exercise_remaining_in_s
+            }
+        StepRemainingComponent(
+            modifier =
+                Modifier
+                    .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
+            label = stringResource(id = remainingPercentageStringRes, viewState.stepRemainingTime),
+            percentage = viewState.stepRemainingPercentage,
+            thickness = dimensionResource(R.dimen.step_remaining_progress_thickness),
+            periodType = periodType,
+        )
 
-        // Flexible spacer pushes progress indicators to bottom while keeping top content at top
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
-        // Bottom section - progress indicators
-        Column {
-            val remainingPercentageStringRes =
-                when (periodType) {
-                    RunningSessionStepType.REST -> CommonResourcesR.string.rest_remaining_in_s
-                    RunningSessionStepType.WORK -> CommonResourcesR.string.exercise_remaining_in_s
-                }
-            RemainingPercentageComponent(
-                modifier =
-                    Modifier
-                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
-                label = stringResource(id = remainingPercentageStringRes, viewState.stepRemainingTime),
-                percentage = viewState.stepRemainingPercentage,
-                thickness = dimensionResource(R.dimen.step_remaining_progress_thickness),
-                bicolor = false,
-            )
+        // Always reserve space for "coming next" to keep exercise description in fixed position
+        Text(
+            text =
+                if (periodType == RunningSessionStepType.REST) {
+                    stringResource(id = CommonResourcesR.string.rest_coming_next)
+                } else {
+                    "" // Empty text to reserve space
+                },
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.fillMaxWidth(),
+        )
 
-            Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
-            RemainingPercentageComponent(
-                modifier =
-                    Modifier
-                        .padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
-                label =
-                    stringResource(
-                        id = CommonResourcesR.string.session_time_remaining,
-                        viewState.sessionRemainingTime,
-                    ),
-                percentage = viewState.sessionRemainingPercentage,
-                thickness = dimensionResource(R.dimen.session_remaining_progress_thickness),
-                bicolor = true,
-            )
-        }
+        // Exercise description always in same fixed position
+        ExerciseDescriptionComponent(exercise = exercise, side = exerciseSide)
+    }
+}
+
+@Composable
+fun StepRemainingComponent(
+    modifier: Modifier,
+    label: String,
+    percentage: Float,
+    thickness: Dp,
+    periodType: RunningSessionStepType,
+) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(CommonResourcesR.dimen.spacing_1)),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier,
+    ) {
+        Text(
+            text = label,
+            style = MaterialTheme.typography.bodyMedium,
+            textAlign = TextAlign.Center,
+            maxLines = 1,
+        )
+        LinearProgressIndicator(
+            progress = { percentage },
+            modifier =
+                Modifier
+                    .height(thickness)
+                    .fillMaxWidth(),
+            color = MaterialTheme.colorScheme.secondary,
+            trackColor = MaterialTheme.colorScheme.onBackground,
+            strokeCap = StrokeCap.Butt,
+            gapSize = 0.dp,
+            drawStopIndicator = {},
+        )
     }
 }

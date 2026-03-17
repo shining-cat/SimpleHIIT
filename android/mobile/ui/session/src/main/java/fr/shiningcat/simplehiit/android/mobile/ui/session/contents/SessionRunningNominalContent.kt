@@ -4,9 +4,9 @@
  */
 package fr.shiningcat.simplehiit.android.mobile.ui.session.contents
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -94,24 +94,25 @@ fun VerticalSessionRunningNominalContent(
         modifier =
             modifier
                 .padding(dimensionResource(R.dimen.spacing_1)),
-        verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        ExerciseDisplayComponent(
-            modifier =
-                Modifier
-                    .fillMaxWidth(),
-            exercise = exercise,
-            exerciseSide = exerciseSide,
-            countDown = countDown,
-            isPaused = isPaused,
-            hiitLogger = hiitLogger,
-        )
+        // Timers at top - compact
         RunningSessionStepInfoDisplayComponent(
             exercise = exercise,
             periodType = periodType,
             exerciseSide = exerciseSide,
             viewState = viewState,
+            hiitLogger = hiitLogger,
+        )
+        // Flexible spacer pushes exercise to bottom
+        Spacer(modifier = Modifier.weight(1f))
+        // Exercise display sticks to bottom
+        ExerciseDisplayComponent(
+            modifier = Modifier.fillMaxWidth(),
+            exercise = exercise,
+            exerciseSide = exerciseSide,
+            countDown = countDown,
+            isPaused = isPaused,
             hiitLogger = hiitLogger,
         )
     }
@@ -133,7 +134,7 @@ fun HorizontalSessionRunningNominalContent(
 
     Row(
         modifier = modifier.padding(start = dimensionResource(R.dimen.spacing_1)),
-        verticalAlignment = Alignment.Bottom,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         // Use available space for exercise display, maintaining 1:1 aspect ratio
         ExerciseDisplayComponent(
