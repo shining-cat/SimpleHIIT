@@ -5,7 +5,7 @@
 
 <!-- Project Status & Distribution -->
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![F-Droid](https://img.shields.io/badge/F--Droid-coming%20soon-orange)](https://f-droid.org/)
+[![F-Droid](https://img.shields.io/badge/F--Droid-available-green)](https://f-droid.org/packages/fr.shiningcat.simplehiit/)
 
 <!-- CI/CD & Quality Checks -->
 [![Ktlint Check](https://img.shields.io/github/actions/workflow/status/shining-cat/SimpleHIIT/android-verifications.yml?event=pull_request&label=Ktlint%20Check)](https://github.com/shining-cat/SimpleHIIT/actions/workflows/android-verifications.yml)
@@ -39,8 +39,8 @@ SimpleHIIT is available today on:
 * Android TV
 
 **Get SimpleHIIT:**
-- [Download latest release from GitHub](https://github.com/shining-cat/SimpleHIIT/releases)
-- F-Droid (coming soon - submission in progress)
+- [Download latest releases from GitHub](https://github.com/shining-cat/SimpleHIIT/releases)
+- [Get it on F-Droid](https://f-droid.org/packages/fr.shiningcat.simplehiit/) (mobile/touch devices)
 
 ## Table of Contents
 
