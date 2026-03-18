@@ -15,7 +15,6 @@ dependencies {
     implementation(projects.commonUtils)
     implementation(projects.commonResources)
     testImplementation(projects.testUtils)
-    androidTestImplementation(projects.testUtils)
 
     // Exception: Module-specific dependencies for GIF components
     implementation(libs.glide.core)

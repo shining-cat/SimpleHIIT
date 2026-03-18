@@ -5,7 +5,7 @@
 package fr.shiningcat.simplehiit.plugins
 
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
-import com.android.build.gradle.LibraryExtension
+import com.android.build.api.dsl.LibraryExtension
 import fr.shiningcat.simplehiit.config.SimpleHiitBuildType
 import fr.shiningcat.simplehiit.extensions.configureAndroidLibraryKotlin
 import fr.shiningcat.simplehiit.extensions.disableUnnecessaryAndroidTests
@@ -21,7 +21,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
         with(project) {
             with(pluginManager) {
                 apply("com.android.library")
-                apply("org.jetbrains.kotlin.android")
                 apply("com.google.devtools.ksp")
                 apply("org.jlleitschuh.gradle.ktlint")
             }
@@ -46,7 +45,6 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
             dependencies {
                 // Lifecycle - needed by ViewModels across all Android library modules
                 add("implementation", libs.findLibrary("androidx.lifecycle").get())
-                add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
             }
         }

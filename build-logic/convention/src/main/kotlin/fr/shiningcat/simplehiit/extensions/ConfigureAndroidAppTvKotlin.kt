@@ -4,13 +4,13 @@
  */
 package fr.shiningcat.simplehiit.extensions
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.ApplicationExtension
 import fr.shiningcat.simplehiit.config.ConfigTv
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
-internal fun Project.configureAndroidAppTvKotlin(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun Project.configureAndroidAppTvKotlin(commonExtension: ApplicationExtension) {
     commonExtension.apply {
         namespace = ConfigTv.config.nameSpace
         compileSdk = ConfigTv.config.compileSdkVersion

@@ -4,11 +4,12 @@
  */
 package fr.shiningcat.simplehiit.extensions
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
-internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun Project.configureAndroidCompose(commonExtension: ApplicationExtension) {
     commonExtension.apply {
         buildFeatures {
             compose = true
@@ -17,7 +18,6 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
         dependencies {
             val bom = libs.findLibrary("androidx.compose.bom").get()
             add(configurationName = "implementation", dependencyNotation = platform(bom))
-            add(configurationName = "androidTestImplementation", dependencyNotation = platform(bom))
 
             // Add Material Icons Core for all Compose modules
             val iconsCore = libs.findLibrary("androidx.compose.material.icons.core").get()
@@ -25,3 +25,21 @@ internal fun Project.configureAndroidCompose(commonExtension: CommonExtension<*,
         }
     }
 }
+
+internal fun Project.configureAndroidCompose(commonExtension: LibraryExtension) {
+    commonExtension.apply {
+        buildFeatures {
+            compose = true
+        }
+
+        dependencies {
+            val bom = libs.findLibrary("androidx.compose.bom").get()
+            add(configurationName = "implementation", dependencyNotation = platform(bom))
+
+            // Add Material Icons Core for all Compose modules
+            val iconsCore = libs.findLibrary("androidx.compose.material.icons.core").get()
+            add(configurationName = "implementation", dependencyNotation = iconsCore)
+        }
+    }
+}
+

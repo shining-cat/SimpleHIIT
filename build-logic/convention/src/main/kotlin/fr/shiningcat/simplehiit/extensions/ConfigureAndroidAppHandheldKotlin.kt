@@ -4,13 +4,13 @@
  */
 package fr.shiningcat.simplehiit.extensions
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.ApplicationExtension
 import fr.shiningcat.simplehiit.config.ConfigHandheld
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
-internal fun Project.configureAndroidAppHandheldKotlin(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun Project.configureAndroidAppHandheldKotlin(commonExtension: ApplicationExtension) {
     commonExtension.apply {
         namespace = ConfigHandheld.config.nameSpace
         compileSdk = ConfigHandheld.config.compileSdkVersion

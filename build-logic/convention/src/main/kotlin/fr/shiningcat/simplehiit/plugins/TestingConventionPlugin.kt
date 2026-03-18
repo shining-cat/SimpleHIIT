@@ -24,18 +24,34 @@ class TestingConventionPlugin : Plugin<Project> {
             dependencies {
                 // Common testing dependencies for all modules
                 add("testImplementation", libs.findLibrary("jupiter").get())
+                add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
                 add("testImplementation", libs.findLibrary("mockk").get())
                 add("testImplementation", libs.findLibrary("jetbrains.coroutines.test").get())
             }
 
-            // Android-specific test dependencies
-            pluginManager.withPlugin("com.android.base") {
+            // Android-specific test dependencies and configuration
+            pluginManager.withPlugin("com.android.library") {
                 dependencies {
                     add("testImplementation", libs.findLibrary("androidx.test.runner").get())
                 }
 
-                // Configure Android test options
-                extensions.configure(com.android.build.gradle.BaseExtension::class.java) {
+                // Configure Android test options for libraries
+                extensions.configure(com.android.build.api.dsl.LibraryExtension::class.java) {
+                    testOptions {
+                        unitTests.all {
+                            it.useJUnitPlatform()
+                        }
+                    }
+                }
+            }
+
+            pluginManager.withPlugin("com.android.application") {
+                dependencies {
+                    add("testImplementation", libs.findLibrary("androidx.test.runner").get())
+                }
+
+                // Configure Android test options for applications
+                extensions.configure(com.android.build.api.dsl.ApplicationExtension::class.java) {
                     testOptions {
                         unitTests.all {
                             it.useJUnitPlatform()

@@ -13,5 +13,4 @@ dependencies {
     implementation(projects.models)
     implementation(projects.sharedUi.home)
     testImplementation(projects.testUtils)
-    androidTestImplementation(projects.testUtils)
 }
