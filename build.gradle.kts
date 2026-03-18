@@ -63,12 +63,10 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
         candidate.version.isNonStable()
     }
 
-    // IMPORTANT: The dependency updates plugin is not compatible with configuration cache
-    // or parallel execution in Gradle 9+. Run with:
+    // IMPORTANT: This plugin is not compatible with configuration cache or parallel
+    // execution in Gradle 9+. Run from CLI with:
     //   ./gradlew dependencyUpdates --no-configuration-cache --no-parallel
-    //
     // See: https://github.com/ben-manes/gradle-versions-plugin/issues/839
-    notCompatibleWithConfigurationCache("DependencyUpdatesTask uses Configuration at execution time")
 }
 
 // Kover configuration for multi-module coverage

@@ -132,12 +132,12 @@ IDE location: `SimpleHIIT > Tasks > formatting`
 ### Dependency Updates
 
 ```bash
-./gradlew dependencyUpdates
+./gradlew dependencyUpdates --no-configuration-cache --no-parallel
 ```
 
 Scans all project dependencies and reports available updates. Configured to show stable versions only (RELEASE, FINAL, GA, or numeric versions). Filters out alpha, beta, RC, and snapshot versions.
 
-**IDE location**: `SimpleHIIT > Tasks > help > dependencyUpdates`
+> **CLI only**: This task is not compatible with Gradle 9's configuration cache or parallel execution. It must be run from the terminal with the flags shown above. See [plugin issue #839](https://github.com/ben-manes/gradle-versions-plugin/issues/839).
 
 **Output**: Console report showing:
 - Dependencies with available updates
