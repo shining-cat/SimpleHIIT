@@ -66,6 +66,8 @@ class SessionPresenter(
     private var stepTimerJob: Job? = null
     private var soundLoaded = false
 
+    fun isSessionActive(): Boolean = session != null
+
     /**
      * Called by ViewModel when SoundPool has loaded the beep sound.
      * Triggers session initialization flow.
