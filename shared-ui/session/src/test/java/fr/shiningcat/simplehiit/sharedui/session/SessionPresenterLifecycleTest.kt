@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
@@ -92,6 +93,48 @@ internal class SessionPresenterLifecycleTest : SessionPresenterTestBase() {
             // Verify session was re-initialized
             coVerify(atLeast = 2) { mockSessionInteractor.buildSession(any()) }
             coVerify(atLeast = 2) { mockSessionInteractor.startStepTimer(any()) }
+        }
+
+    @Test
+    fun `isSessionActive returns false before session initialization`() =
+        runTest(testDispatcher) {
+            assertFalse(testedPresenter.isSessionActive())
+        }
+
+    @Test
+    fun `isSessionActive returns true while session is running`() =
+        runTest(testDispatcher) {
+            sessionSettingsFlow.value = Output.Success(testSessionSettings())
+            coEvery { mockMapper.buildStateFromWholeSession(any(), any(), any()) } returns
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.LungesBasic,
+                    side = ExerciseSide.NONE,
+                    stepRemainingTime = "5s",
+                    stepRemainingPercentage = 1.0f,
+                    sessionRemainingTime = "10s",
+                    sessionRemainingPercentage = 0.5f,
+                    countDown = null,
+                )
+
+            testedPresenter.onSoundLoaded()
+            advanceUntilIdle()
+
+            assertTrue(testedPresenter.isSessionActive())
+        }
+
+    @Test
+    fun `isSessionActive returns false after cleanup`() =
+        runTest(testDispatcher) {
+            sessionSettingsFlow.value = Output.Success(testSessionSettings())
+
+            testedPresenter.onSoundLoaded()
+            advanceUntilIdle()
+
+            testedPresenter.cleanup()
+            advanceUntilIdle()
+
+            assertFalse(testedPresenter.isSessionActive())
         }
 
     @Test

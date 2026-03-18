@@ -73,6 +73,8 @@ class SessionViewModel(
 
     fun isSoundLoaded() = beepSoundLoadedId != null
 
+    fun isSessionActive() = presenter.isSessionActive()
+
     fun pause() {
         viewModelScope.launch(mainDispatcher) {
             presenter.pause()
