@@ -21,7 +21,6 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
         with(project) {
             with(pluginManager) {
                 apply("com.android.application")
-                apply("org.jetbrains.kotlin.android")
                 apply("org.jlleitschuh.gradle.ktlint")
             }
             extensions.configure<ApplicationExtension> {
@@ -70,7 +69,6 @@ class AndroidAppHandheldConventionPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                add("androidTestImplementation", kotlin("test"))
                 add("testImplementation", kotlin("test"))
 
                 // Mobile app-specific dependencies

@@ -4,12 +4,12 @@
  */
 package fr.shiningcat.simplehiit.extensions
 
-import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import fr.shiningcat.simplehiit.config.ConfigLibrary
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 
-internal fun Project.configureAndroidLibraryKotlin(commonExtension: CommonExtension<*, *, *, *, *, *>) {
+internal fun Project.configureAndroidLibraryKotlin(commonExtension: LibraryExtension) {
     commonExtension.apply {
         // Auto-generate namespace from project path only if not already set
         // Example: :android:mobile:ui:home -> fr.shiningcat.simplehiit.android.mobile.ui.home

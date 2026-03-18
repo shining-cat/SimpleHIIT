@@ -44,9 +44,10 @@ jobs:
           set -o pipefail
           
           # Run dependency updates check
+          # --no-configuration-cache is required because the plugin is not compatible with Gradle 9's config cache
           # --no-parallel is required for Gradle 9+ to get full project scan
           # -Drevision=release ensures we check for stable release versions
-          if ! ./gradlew dependencyUpdates --no-parallel -Drevision=release 2>&1 | tee dependency-updates-output.txt; then
+          if ! ./gradlew dependencyUpdates --no-configuration-cache --no-parallel -Drevision=release 2>&1 | tee dependency-updates-output.txt; then
             # Gradle failed - check couldn't complete
             echo "status=failure" >> $GITHUB_OUTPUT
             echo "❌ Failed to run dependency updates check"
@@ -173,7 +174,7 @@ jobs:
             Resolve the underlying build issue, then run:
 
             \`\`\`bash
-            ./gradlew dependencyUpdates --no-parallel
+            ./gradlew dependencyUpdates --no-configuration-cache --no-parallel
             \`\`\`
 
             ### Resources
@@ -289,7 +290,7 @@ jobs:
             ### How to Check Locally
 
             \`\`\`bash
-            ./gradlew dependencyUpdates
+            ./gradlew dependencyUpdates --no-configuration-cache --no-parallel
             \`\`\`
 
             ### Resources

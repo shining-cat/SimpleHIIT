@@ -13,5 +13,4 @@ dependencies {
     implementation(projects.models)
     implementation(projects.sharedUi.statistics)
     testImplementation(projects.testUtils)
-    androidTestImplementation(projects.testUtils)
 }

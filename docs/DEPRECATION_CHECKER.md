@@ -53,11 +53,12 @@ The workflow performs build and deprecation checks with proper error handling:
 
 #### Dependency Updates Check
 ```bash
-./gradlew dependencyUpdates
+./gradlew dependencyUpdates --no-configuration-cache --no-parallel
 ```
 - Uses the dependency update plugin
 - Identifies outdated dependencies
 - Helps prevent using deprecated library versions
+- **CLI only** - not compatible with configuration cache in Gradle 9+
 
 ### 2. Report Generation
 
