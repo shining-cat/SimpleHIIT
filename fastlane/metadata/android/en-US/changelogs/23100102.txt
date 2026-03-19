@@ -1,0 +1,6 @@
+Version 1.02
+
+- Fix session restart on orientation change (#333)
+- Improve session timer visibility and layout (fixes #325)
+- Increase visibility of REST step type for clarity
+- Update dependencies, and gradle version bumped to 9
