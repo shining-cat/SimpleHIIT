@@ -142,11 +142,11 @@ Usecases follow a common convention:
 `invoke` operator](https://chrynan.codes/invoking-usecases-the-kotlin-way/), I found out that it has
 2 main drawbacks:
 
-1. First, and that is a big issue in my mind, overriding the `invoke` operator is mostly interesting
+1. ~~First, and that is a big issue in my mind, overriding the `invoke` operator is mostly interesting
    because it allows one to shorten the call site code, by simply _invoking_ the usecase.
    Now that last point in my opinion comes with a steep decrease in discoverability, as **it will
    break the IDE's ability to find usages of the invoke method**, thus greatly hindering navigation
-   around the code.
+   around the code~~ update: this seems to work now in android studio panda 2
 2. Removing the "Usecase" suffix makes the task of finding names harder, as the usecase is usually
    invoked from inside a viewmodel's method. Now this method could very well have the same name, and
    the "Usecase" suffix allows keeping the same name for both:
