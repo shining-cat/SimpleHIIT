@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 import fr.shiningcat.simplehiit.sharedui.settings.SettingsDialog
@@ -87,6 +88,12 @@ class SettingsViewModel(
     fun toggleBeepSound() {
         viewModelScope.launch(mainDispatcher) {
             presenter.toggleBeepSound()
+        }
+    }
+
+    fun setBeepSoundType(beepSoundType: BeepSoundType) {
+        viewModelScope.launch(mainDispatcher) {
+            presenter.setBeepSoundType(beepSoundType)
         }
     }
 

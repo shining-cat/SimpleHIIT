@@ -26,6 +26,7 @@ import fr.shiningcat.simplehiit.android.tv.ui.settings.contents.SettingsContentH
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.InputError
@@ -64,6 +65,7 @@ fun SettingsScreen(
         validateNumberOfWorkPeriodsInput = { viewModel.validateNumberOfWorkPeriods(it) },
         saveNumberOfWorkPeriod = { viewModel.setNumberOfWorkPeriods(it) },
         toggleBeepSound = { viewModel.toggleBeepSound() },
+        setBeepSoundType = { viewModel.setBeepSoundType(it) },
         editSessionStartCountDown = { viewModel.editSessionStartCountDown() },
         validateSessionCountDownLengthInput = { viewModel.validateInputSessionStartCountdown(it) },
         saveSessionStartCountDown = { viewModel.setSessionStartCountDown(it) },
@@ -103,6 +105,7 @@ private fun SettingsScreen(
     validateNumberOfWorkPeriodsInput: (String) -> InputError? = { null },
     saveNumberOfWorkPeriod: (String) -> Unit = {},
     toggleBeepSound: () -> Unit = {},
+    setBeepSoundType: (BeepSoundType) -> Unit = {},
     editSessionStartCountDown: () -> Unit = {},
     validateSessionCountDownLengthInput: (String) -> InputError? = { null },
     saveSessionStartCountDown: (String) -> Unit = {},
@@ -149,6 +152,7 @@ private fun SettingsScreen(
                 validateNumberOfWorkPeriodsInput = validateNumberOfWorkPeriodsInput,
                 saveNumberOfWorkPeriod = saveNumberOfWorkPeriod,
                 toggleBeepSound = toggleBeepSound,
+                setBeepSoundType = setBeepSoundType,
                 editSessionStartCountDown = editSessionStartCountDown,
                 validateSessionCountDownLengthInput = validateSessionCountDownLengthInput,
                 saveSessionStartCountDown = saveSessionStartCountDown,
