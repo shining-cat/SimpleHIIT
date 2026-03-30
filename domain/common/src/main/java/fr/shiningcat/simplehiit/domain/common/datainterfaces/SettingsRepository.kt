@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.domain.common.datainterfaces
 
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,8 @@ interface SettingsRepository {
     suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
 
     suspend fun setAppTheme(theme: AppTheme)
+
+    suspend fun setBeepSoundType(beepSoundType: BeepSoundType)
 
     suspend fun resetAllSettings()
 }
