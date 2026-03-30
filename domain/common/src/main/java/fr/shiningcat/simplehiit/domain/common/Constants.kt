@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.domain.common
 
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 
@@ -20,6 +21,7 @@ object Constants {
         val DEFAULT_SELECTED_EXERCISES_TYPES =
             ExerciseType.entries.map { ExerciseTypeSelected(it, true) }
         val DEFAULT_APP_THEME = AppTheme.FOLLOW_SYSTEM
+        val BEEP_SOUND_TYPE_DEFAULT = BeepSoundType.LOW
     }
 
     const val NO_RESULTS_FOUND = "no results found"
