@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
@@ -17,6 +18,7 @@ import fr.shiningcat.simplehiit.domain.session.usecases.InsertSessionUseCase
 import fr.shiningcat.simplehiit.domain.session.usecases.StepTimerUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 
 interface SessionInteractor {
     fun getSessionSettings(): Flow<Output<SessionSettings>>
@@ -32,6 +34,8 @@ interface SessionInteractor {
     suspend fun insertSession(sessionRecord: SessionRecord): Output<Int>
 
     fun resetTimerState()
+
+    suspend fun getBeepSoundType(): BeepSoundType
 }
 
 class SessionInteractorImpl(
@@ -58,4 +62,12 @@ class SessionInteractorImpl(
     override suspend fun insertSession(sessionRecord: SessionRecord): Output<Int> = insertSessionUseCase.execute(sessionRecord)
 
     override fun resetTimerState() = stepTimerUseCase.reset()
+
+    override suspend fun getBeepSoundType(): BeepSoundType =
+        getSessionSettingsUseCase.execute().first().let { output ->
+            when (output) {
+                is Output.Success -> output.result.beepSoundType
+                is Output.Error -> BeepSoundType.LOW
+            }
+        }
 }
