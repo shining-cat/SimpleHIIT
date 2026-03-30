@@ -4,6 +4,7 @@
  */
 package fr.shiningcat.simplehiit.domain.home.usecases
 
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.LaunchSessionWarning
@@ -57,6 +58,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 4, // 4 * 2 = 8 exercises needed
                         cycleLengthMs = 240000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 5000L,
                         periodsStartCountDownLengthMs = 3000L,
                         users = listOf(userSelected),
@@ -78,6 +80,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 5,
                         cycleLengthMs = 450000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = listOf(userNotSelected),
@@ -98,6 +101,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 3,
                         cycleLengthMs = 135000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 5000L,
                         periodsStartCountDownLengthMs = 3000L,
                         users = emptyList(),
@@ -118,6 +122,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 2, // Only 2 exercises needed
                         cycleLengthMs = 60000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 5000L,
                         periodsStartCountDownLengthMs = 3000L,
                         users = listOf(userSelected),
@@ -140,6 +145,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 1, // Only 1 exercise needed
                         cycleLengthMs = 40000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = listOf(userSelected, userNotSelected),
@@ -162,6 +168,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 4, // 4 * 5 = 20 exercises needed
                         cycleLengthMs = 600000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 5000L,
                         periodsStartCountDownLengthMs = 3000L,
                         users = listOf(userSelected),
@@ -182,6 +189,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 5, // 5 * 10 = 50 exercises needed
                         cycleLengthMs = 2250000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = listOf(userSelected),
@@ -205,6 +213,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 1, // Would trigger SKIPPED_EXERCISE_TYPES
                         cycleLengthMs = 30000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 5000L,
                         periodsStartCountDownLengthMs = 3000L,
                         users = listOf(userNotSelected), // But no user selected
@@ -226,6 +235,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 10, // Would trigger DUPLICATED_EXERCISES
                         cycleLengthMs = 3000000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = emptyList(), // But no user selected
@@ -246,6 +256,7 @@ internal class DetectSessionWarningUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 6, // Exactly 6 exercises needed
                         cycleLengthMs = 180000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 5000L,
                         periodsStartCountDownLengthMs = 3000L,
                         users = listOf(userSelected),

@@ -7,6 +7,7 @@ package fr.shiningcat.simplehiit.data.repositories
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
@@ -25,6 +26,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.ValueSource
 import kotlin.random.Random
 
@@ -102,6 +104,24 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
             settingsRepository.setBeepSound(testValue)
             //
             coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.setBeepSound(testValue) }
+        }
+
+    @ParameterizedTest(name = "{index} -> when called with {0}, should call HiitDataStoreManager with {0}")
+    @EnumSource(BeepSoundType::class)
+    fun `setBeepSoundType calls HiitDataStoreManager setBeepSoundType with correct value `(testValue: BeepSoundType) =
+        runTest {
+            val settingsRepository =
+                SettingsRepositoryImpl(
+                    simpleHiitDataStoreManager = mockSimpleHiitDataStoreManager,
+                    ioDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    hiitLogger = mockHiitLogger,
+                )
+            //
+            coEvery { mockSimpleHiitDataStoreManager.setBeepSoundType(any()) } just Runs
+            //
+            settingsRepository.setBeepSoundType(testValue)
+            //
+            coVerify(exactly = 1) { mockSimpleHiitDataStoreManager.setBeepSoundType(testValue) }
         }
 
     @Test
@@ -234,6 +254,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                     restPeriodLengthMs = 234,
                     numberOfWorkPeriods = 345,
                     beepSoundActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 456,
                     PeriodCountDownLengthMs = 567,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
@@ -246,6 +267,7 @@ internal class SettingsRepositoryImplTest : AbstractMockkTest() {
                     restPeriodLengthMs = 876,
                     numberOfWorkPeriods = 765,
                     beepSoundActive = false,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 654,
                     PeriodCountDownLengthMs = 543,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),

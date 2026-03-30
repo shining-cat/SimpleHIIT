@@ -7,6 +7,7 @@ package fr.shiningcat.simplehiit.sharedui.settings
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
@@ -43,6 +44,7 @@ abstract class SettingsPresenterTestBase : AbstractMockkTest() {
             numberOfWorkPeriods = 8,
             cycleLengthMs = 30000L,
             beepSoundCountDownActive = true,
+            beepSoundType = BeepSoundType.LOW,
             sessionStartCountDownLengthMs = 10000L,
             periodsStartCountDownLengthMs = 5000L,
             users = listOf(testUser1, testUser2),
@@ -62,6 +64,7 @@ abstract class SettingsPresenterTestBase : AbstractMockkTest() {
             numberOfWorkPeriods = "8",
             totalCycleLength = "30",
             beepSoundCountDownActive = true,
+            beepSoundType = BeepSoundType.LOW,
             sessionStartCountDownLengthAsSeconds = "10",
             periodsStartCountDownLengthAsSeconds = "5",
             users = listOf(testUser1, testUser2),

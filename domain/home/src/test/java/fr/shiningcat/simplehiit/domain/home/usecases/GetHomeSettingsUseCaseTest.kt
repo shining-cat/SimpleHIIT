@@ -9,6 +9,7 @@ import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -53,6 +54,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
             restPeriodLengthMs = 234,
             numberOfWorkPeriods = 345,
             beepSoundActive = true,
+            beepSoundType = BeepSoundType.LOW,
             sessionCountDownLengthMs = 456,
             PeriodCountDownLengthMs = 567,
             selectedExercisesTypes = randomListOfExerciseTypesSelected(),
@@ -97,6 +99,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                     restPeriodLengthMs = 234L,
                     numberOfWorkPeriods = 345,
                     beepSoundActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 456L,
                     PeriodCountDownLengthMs = 567L,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
@@ -109,6 +112,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                     restPeriodLengthMs = 432L,
                     numberOfWorkPeriods = 543,
                     beepSoundActive = false,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 654L,
                     PeriodCountDownLengthMs = 765L,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
@@ -382,6 +386,7 @@ internal class GetHomeSettingsUseCaseTest : AbstractMockkTest() {
                     restPeriodLengthMs = 234L,
                     numberOfWorkPeriods = 345,
                     beepSoundActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 456L,
                     PeriodCountDownLengthMs = 567L,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),

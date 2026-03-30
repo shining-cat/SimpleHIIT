@@ -12,6 +12,7 @@ import androidx.datastore.preferences.core.edit
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.APP_THEME
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.BEEP_SOUND_ACTIVE
+import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.BEEP_SOUND_TYPE
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.EXERCISE_TYPES_SELECTED
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES
 import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager.Keys.NUMBER_WORK_PERIODS
@@ -30,6 +31,7 @@ import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SE
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
@@ -150,6 +152,28 @@ class SimpleHiitDataStoreManagerTest {
             val result = retrievePrefBool(BEEP_SOUND_ACTIVE).first()
 
             assertEquals(testValue, result)
+        }
+
+    @Test
+    fun `check SetBeepSoundType is storing in datastore preferences`() =
+        runTest {
+            testDataStore =
+                PreferenceDataStoreFactory.create(
+                    scope = backgroundScope,
+                    produceFile = { File(tempFolder, TEST_DATASTORE_NAME) },
+                )
+            val testedSimpleHiitDataStoreManager =
+                SimpleHiitDataStoreManagerImpl(
+                    dataStore = testDataStore,
+                    hiitLogger = mockkLogger,
+                    ioDispatcher = UnconfinedTestDispatcher(),
+                )
+            val testValue = BeepSoundType.HIGH
+            testedSimpleHiitDataStoreManager.setBeepSoundType(testValue)
+
+            val result = retrievePrefString(BEEP_SOUND_TYPE).first()
+
+            assertEquals(testValue.name, result)
         }
 
     @Test
@@ -349,6 +373,7 @@ class SimpleHiitDataStoreManagerTest {
                     restPeriodLengthMs = testRestPeriodLengthValue,
                     numberOfWorkPeriods = testNumberOfWorkPeriodsValue,
                     beepSoundActive = testBeepSoundValue,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = testSessionStartCountdownValue,
                     PeriodCountDownLengthMs = testPeriodStartCountdownValue,
                     selectedExercisesTypes =
@@ -387,6 +412,7 @@ class SimpleHiitDataStoreManagerTest {
                     restPeriodLengthMs = REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
                     numberOfWorkPeriods = NUMBER_WORK_PERIODS_DEFAULT,
                     beepSoundActive = BEEP_SOUND_ACTIVE_DEFAULT,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
                     PeriodCountDownLengthMs = PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
                     selectedExercisesTypes = DEFAULT_SELECTED_EXERCISES_TYPES,

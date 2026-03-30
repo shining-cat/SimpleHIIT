@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.domain.session.usecases
 
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
@@ -90,13 +91,14 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 0,
                         cycleLengthMs = 0L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 0L,
                         users = listOf(userTest1),
                         // this input is not used as we mock the secondary usecase which relies on it:
                         exerciseTypes = listOf(),
                     ),
-                    Session(emptyList(), 0L, true, listOf(userTest1)),
+                    Session(emptyList(), 0L, true, BeepSoundType.LOW, listOf(userTest1)),
                 ),
                 Arguments.of(
                     listOf(Exercise.LyingSupermanTwist),
@@ -107,6 +109,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 3,
                         cycleLengthMs = 240000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 123L,
                         periodsStartCountDownLengthMs = 234L,
                         users =
@@ -146,6 +149,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                             ),
                         durationMs = 720123L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         users =
                             listOf(
                                 userTest1,
@@ -166,6 +170,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 0,
                         cycleLengthMs = 400000L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 345L,
                         periodsStartCountDownLengthMs = 456L,
                         users = listOf(userTest2),
@@ -215,6 +220,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                             ),
                         durationMs = 800345L,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         users = listOf(userTest2),
                     ),
                 ),
@@ -238,6 +244,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = 0,
                         cycleLengthMs = 680000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthMs = 0L,
                         periodsStartCountDownLengthMs = 567L,
                         users =
@@ -384,6 +391,7 @@ internal class BuildSessionUseCaseTest : AbstractMockkTest() {
                             ),
                         durationMs = 3400000L,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         users =
                             listOf(
                                 userTest2,

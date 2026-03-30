@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.Session
@@ -204,6 +205,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                     ),
                 durationMs = 800000L,
                 beepSoundCountDownActive = true,
+                beepSoundType = BeepSoundType.LOW,
                 users = listOf(User(name = "user test 1"), User(name = "user test 2")),
             )
 

@@ -7,6 +7,7 @@ package fr.shiningcat.simplehiit.sharedui.settings
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -97,6 +98,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                             numberOfWorkPeriods = 6,
                             cycleLengthMs = 123L,
                             beepSoundCountDownActive = true,
+                            beepSoundType = BeepSoundType.LOW,
                             sessionStartCountDownLengthMs = 5000L,
                             periodsStartCountDownLengthMs = 20000L,
                             users = listOf(testUser1, testUser3, testUser2, testUser4),
@@ -115,6 +117,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                         numberOfWorkPeriods = "6",
                         totalCycleLength = MOCK_DURATION_STRING,
                         beepSoundCountDownActive = true,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthAsSeconds = "5",
                         periodsStartCountDownLengthAsSeconds = "20",
                         users = listOf(testUser1, testUser3, testUser2, testUser4),
@@ -135,6 +138,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                             numberOfWorkPeriods = 7,
                             cycleLengthMs = 234L,
                             beepSoundCountDownActive = false,
+                            beepSoundType = BeepSoundType.LOW,
                             sessionStartCountDownLengthMs = 7000L,
                             periodsStartCountDownLengthMs = 34000L,
                             users = listOf(testUser1, testUser2),
@@ -154,6 +158,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                         numberOfWorkPeriods = "7",
                         totalCycleLength = MOCK_DURATION_STRING,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthAsSeconds = "7",
                         periodsStartCountDownLengthAsSeconds = "34",
                         users = listOf(testUser1, testUser2),
@@ -190,6 +195,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                             numberOfWorkPeriods = 7,
                             cycleLengthMs = 234L,
                             beepSoundCountDownActive = false,
+                            beepSoundType = BeepSoundType.LOW,
                             sessionStartCountDownLengthMs = 7000L,
                             periodsStartCountDownLengthMs = 34000L,
                             users = listOf(testUser1, testUser2),
@@ -209,6 +215,7 @@ internal class SettingsViewStateMapperTest : AbstractMockkTest() {
                         numberOfWorkPeriods = "7",
                         totalCycleLength = MOCK_DURATION_STRING,
                         beepSoundCountDownActive = false,
+                        beepSoundType = BeepSoundType.LOW,
                         sessionStartCountDownLengthAsSeconds = "7",
                         periodsStartCountDownLengthAsSeconds = "34",
                         users = listOf(testUser1, testUser2),

@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.Session
@@ -57,6 +58,7 @@ internal class SessionPresenterStepTransitionTest : SessionPresenterTestBase() {
                         ),
                     durationMs = 30000L,
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     users = listOf(testUser),
                 )
 
@@ -122,6 +124,7 @@ internal class SessionPresenterStepTransitionTest : SessionPresenterTestBase() {
                         ),
                     durationMs = 10000L,
                     beepSoundCountDownActive = true, // Beep enabled
+                    beepSoundType = BeepSoundType.LOW,
                     users = listOf(testUser),
                 )
 
@@ -181,6 +184,7 @@ internal class SessionPresenterStepTransitionTest : SessionPresenterTestBase() {
                         ),
                     durationMs = 10000L,
                     beepSoundCountDownActive = false, // Beep disabled
+                    beepSoundType = BeepSoundType.LOW,
                     users = listOf(testUser),
                 )
 
