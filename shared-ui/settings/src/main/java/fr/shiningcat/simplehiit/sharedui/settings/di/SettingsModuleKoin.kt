@@ -32,6 +32,7 @@ val settingsModule =
                 setRestPeriodLengthUseCase = get(),
                 setNumberOfWorkPeriodsUseCase = get(),
                 setBeepSoundUseCase = get(),
+                setBeepSoundTypeUseCase = get(),
                 setSessionStartCountDownUseCase = get(),
                 setPeriodStartCountDownUseCase = get(),
                 updateUserNameUseCase = get(),

@@ -7,6 +7,7 @@ package fr.shiningcat.simplehiit.sharedui.settings
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
 import fr.shiningcat.simplehiit.domain.common.models.InputError
@@ -18,6 +19,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppThemeUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundTypeUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -43,6 +45,8 @@ interface SettingsInteractor {
     suspend fun setNumberOfWorkPeriods(number: Int)
 
     suspend fun setBeepSound(active: Boolean)
+
+    suspend fun setBeepSoundType(beepSoundType: BeepSoundType)
 
     suspend fun setSessionStartCountDown(durationMs: Long)
 
@@ -94,6 +98,7 @@ class SettingsInteractorImpl(
     private val setRestPeriodLengthUseCase: SetRestPeriodLengthUseCase,
     private val setNumberOfWorkPeriodsUseCase: SetNumberOfWorkPeriodsUseCase,
     private val setBeepSoundUseCase: SetBeepSoundUseCase,
+    private val setBeepSoundTypeUseCase: SetBeepSoundTypeUseCase,
     private val setSessionStartCountDownUseCase: SetSessionStartCountDownUseCase,
     private val setPeriodStartCountDownUseCase: SetPeriodStartCountDownUseCase,
     private val updateUserNameUseCase: UpdateUserNameUseCase,
@@ -119,6 +124,8 @@ class SettingsInteractorImpl(
     override suspend fun setNumberOfWorkPeriods(number: Int) = setNumberOfWorkPeriodsUseCase.execute(number)
 
     override suspend fun setBeepSound(active: Boolean) = setBeepSoundUseCase.execute(active)
+
+    override suspend fun setBeepSoundType(beepSoundType: BeepSoundType) = setBeepSoundTypeUseCase.execute(beepSoundType)
 
     override suspend fun setSessionStartCountDown(durationMs: Long) = setSessionStartCountDownUseCase.execute(durationMs)
 

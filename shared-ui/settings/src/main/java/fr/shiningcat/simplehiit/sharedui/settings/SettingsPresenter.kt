@@ -8,6 +8,7 @@ import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.InputError
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -172,6 +173,18 @@ class SettingsPresenter(
             }
         } else {
             logger.e("SettingsPresenter", "toggleBeepSound::current state does not allow this now")
+        }
+    }
+
+    // Beep sound type
+    fun setBeepSoundType(beepSoundType: BeepSoundType) {
+        val currentViewState = screenViewStateInternal.value
+        if (currentViewState is SettingsViewState.Nominal) {
+            presenterScope.launch {
+                settingsInteractor.setBeepSoundType(beepSoundType)
+            }
+        } else {
+            logger.e("SettingsPresenter", "setBeepSoundType::current state does not allow this now")
         }
     }
 
