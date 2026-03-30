@@ -77,6 +77,8 @@
     <string name="number_of_exercises_per_cycle">Exercices par cycle</string>
     <string name="total_cycle_length_label">Durée totale du cycle</string>
     <string name="beep_sound_setting_label">Compte à rebours sonore</string>
+    <string name="beep_sound_type_low">Bip grave</string>
+    <string name="beep_sound_type_high">Bip aigu</string>
     <string name="session_start_countdown_length_setting_label">Compte à rebours de début de session</string>
     <string name="period_start_countdown_length_setting_label">Compte à rebours de début de période</string>
     <string name="period_length_too_short_constraint">Cela ne peut pas être plus court que la durée du compte à rebours</string>
