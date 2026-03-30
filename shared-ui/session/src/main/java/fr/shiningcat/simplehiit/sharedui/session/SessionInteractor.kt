@@ -35,7 +35,7 @@ interface SessionInteractor {
 
     fun resetTimerState()
 
-    suspend fun getBeepSoundType(): BeepSoundType
+    suspend fun isHighBeepSound(): Boolean
 }
 
 class SessionInteractorImpl(
@@ -63,11 +63,11 @@ class SessionInteractorImpl(
 
     override fun resetTimerState() = stepTimerUseCase.reset()
 
-    override suspend fun getBeepSoundType(): BeepSoundType =
+    override suspend fun isHighBeepSound(): Boolean =
         getSessionSettingsUseCase.execute().first().let { output ->
             when (output) {
-                is Output.Success -> output.result.beepSoundType
-                is Output.Error -> BeepSoundType.LOW
+                is Output.Success -> output.result.beepSoundType == BeepSoundType.HIGH
+                is Output.Error -> false
             }
         }
 }

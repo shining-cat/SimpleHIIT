@@ -8,7 +8,6 @@ import android.media.SoundPool
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
-import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
 import fr.shiningcat.simplehiit.sharedui.session.SessionPresenter
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
@@ -70,13 +69,7 @@ class SessionViewModel(
         } ?: logger.e("SessionViewModel", "attempted to play beep but sound not loaded")
     }
 
-    suspend fun getBeepSoundType(): BeepSoundType = presenter.getBeepSoundType()
-
-    fun getBeepSoundResourceId(beepSoundType: BeepSoundType): Int =
-        when (beepSoundType) {
-            BeepSoundType.LOW -> fr.shiningcat.simplehiit.commonresources.R.raw.low_frequency_beep
-            BeepSoundType.HIGH -> fr.shiningcat.simplehiit.commonresources.R.raw.sound_beep
-        }
+    suspend fun isHighBeepSound(): Boolean = presenter.isHighBeepSound()
 
     fun getSoundPool(): SoundPool = soundPool
 

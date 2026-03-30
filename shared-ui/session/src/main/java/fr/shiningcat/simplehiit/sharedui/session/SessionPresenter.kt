@@ -7,7 +7,6 @@ package fr.shiningcat.simplehiit.sharedui.session
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.domain.common.Output
-import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionRecord
@@ -343,7 +342,7 @@ class SessionPresenter(
         initializeAndStartSession()
     }
 
-    suspend fun getBeepSoundType(): BeepSoundType = sessionInteractor.getBeepSoundType()
+    suspend fun isHighBeepSound(): Boolean = sessionInteractor.isHighBeepSound()
 
     fun cleanup() {
         logger.d("SessionPresenter", "cleanup - cancelling all jobs and resetting state")
