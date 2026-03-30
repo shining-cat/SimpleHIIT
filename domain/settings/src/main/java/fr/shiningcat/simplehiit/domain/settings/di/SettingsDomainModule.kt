@@ -16,6 +16,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppThemeUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundTypeUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -106,6 +107,14 @@ val settingsDomainModule =
 
         factory {
             SetBeepSoundUseCase(
+                settingsRepository = get(),
+                defaultDispatcher = get(named("DefaultDispatcher")),
+                logger = get(),
+            )
+        }
+
+        factory {
+            SetBeepSoundTypeUseCase(
                 settingsRepository = get(),
                 defaultDispatcher = get(named("DefaultDispatcher")),
                 logger = get(),

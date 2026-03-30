@@ -42,6 +42,7 @@ class GetGeneralSettingsUseCase(
                         numberOfWorkPeriods = settings.numberOfWorkPeriods,
                         cycleLengthMs = totalCycleLength,
                         beepSoundCountDownActive = settings.beepSoundActive,
+                        beepSoundType = settings.beepSoundType,
                         sessionStartCountDownLengthMs = settings.sessionCountDownLengthMs,
                         periodsStartCountDownLengthMs = settings.PeriodCountDownLengthMs,
                         users = usersOutput.result,
