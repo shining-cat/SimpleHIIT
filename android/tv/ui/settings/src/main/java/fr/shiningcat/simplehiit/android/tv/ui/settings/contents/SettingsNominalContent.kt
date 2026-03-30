@@ -30,6 +30,7 @@ import androidx.tv.material3.Surface
 import fr.shiningcat.simplehiit.android.tv.ui.common.components.ButtonText
 import fr.shiningcat.simplehiit.android.tv.ui.common.previews.PreviewTvScreensNoUi
 import fr.shiningcat.simplehiit.android.tv.ui.common.theme.SimpleHiitTvTheme
+import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsBeepSoundTypeComponent
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsExercisesSelectedComponent
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsFieldComponent
 import fr.shiningcat.simplehiit.android.tv.ui.settings.components.SettingsToggleComponent
@@ -38,6 +39,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
@@ -50,6 +52,7 @@ fun SettingsNominalContent(
     editRestPeriodLength: () -> Unit = {},
     editNumberOfWorkPeriods: () -> Unit = {},
     toggleBeepSound: () -> Unit = {},
+    setBeepSoundType: (BeepSoundType) -> Unit = {},
     editSessionStartCountDown: () -> Unit = {},
     editPeriodStartCountDown: () -> Unit = {},
     editUser: (User) -> Unit = {},
@@ -132,6 +135,11 @@ fun SettingsNominalContent(
                         label = stringResource(id = R.string.beep_sound_setting_label),
                         value = viewState.beepSoundCountDownActive,
                         onToggle = toggleBeepSound,
+                    )
+                    SettingsBeepSoundTypeComponent(
+                        beepSoundType = viewState.beepSoundType,
+                        onSetBeepSoundType = setBeepSoundType,
+                        enabled = viewState.beepSoundCountDownActive,
                     )
                     SettingsFieldComponent(
                         label = stringResource(id = R.string.period_start_countdown_length_setting_label),
@@ -293,6 +301,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = emptyList(),
@@ -306,6 +315,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfOneUser,
@@ -319,6 +329,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.HIGH,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfTwoUser,
@@ -332,6 +343,7 @@ internal class SettingsNominalContentPreviewParameterProvider : PreviewParameter
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.HIGH,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfMoreUser,
