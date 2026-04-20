@@ -31,6 +31,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.settings.dialogs.SettingsPickT
 import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.InputError
@@ -50,6 +51,7 @@ fun SettingsContentHolder(
     validateNumberOfWorkPeriodsInput: (String) -> InputError? = { null },
     saveNumberOfWorkPeriod: (String) -> Unit = {},
     toggleBeepSound: () -> Unit = {},
+    setBeepSoundType: (BeepSoundType) -> Unit = {},
     editSessionStartCountDown: () -> Unit = {},
     validateSessionCountDownLengthInput: (String) -> InputError? = { null },
     saveSessionStartCountDown: (String) -> Unit = {},
@@ -94,6 +96,7 @@ fun SettingsContentHolder(
                     editRestPeriodLength = editRestPeriodLength,
                     editNumberOfWorkPeriods = editNumberOfWorkPeriods,
                     toggleBeepSound = toggleBeepSound,
+                    setBeepSoundType = setBeepSoundType,
                     editSessionStartCountDown = editSessionStartCountDown,
                     editPeriodStartCountDown = editPeriodStartCountDown,
                     editUser = editUser,
@@ -279,6 +282,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = emptyList(),
@@ -292,6 +296,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = false,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfOneUser,
@@ -305,6 +310,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = true,
+                    beepSoundType = BeepSoundType.HIGH,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfTwoUser,
@@ -318,6 +324,7 @@ internal class SettingsContentHolderPreviewParameterProvider : PreviewParameterP
                     numberOfWorkPeriods = "4",
                     totalCycleLength = "3mn 20s",
                     beepSoundCountDownActive = false,
+                    beepSoundType = BeepSoundType.HIGH,
                     sessionStartCountDownLengthAsSeconds = "20",
                     periodsStartCountDownLengthAsSeconds = "5",
                     users = listOfMoreUser,

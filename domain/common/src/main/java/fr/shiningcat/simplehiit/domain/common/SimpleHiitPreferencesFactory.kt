@@ -17,6 +17,7 @@ object SimpleHiitPreferencesFactory {
             restPeriodLengthMs = Constants.SettingsDefaultValues.REST_PERIOD_LENGTH_MILLISECONDS_DEFAULT,
             numberOfWorkPeriods = Constants.SettingsDefaultValues.NUMBER_WORK_PERIODS_DEFAULT,
             beepSoundActive = Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT,
+            beepSoundType = Constants.SettingsDefaultValues.BEEP_SOUND_TYPE_DEFAULT,
             sessionCountDownLengthMs = Constants.SettingsDefaultValues.SESSION_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
             PeriodCountDownLengthMs = Constants.SettingsDefaultValues.PERIOD_COUNTDOWN_LENGTH_MILLISECONDS_DEFAULT,
             selectedExercisesTypes = Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES,

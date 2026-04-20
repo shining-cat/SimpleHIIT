@@ -10,6 +10,7 @@ data class GeneralSettings(
     val numberOfWorkPeriods: Int,
     val cycleLengthMs: Long,
     val beepSoundCountDownActive: Boolean,
+    val beepSoundType: BeepSoundType,
     val sessionStartCountDownLengthMs: Long,
     val periodsStartCountDownLengthMs: Long,
     val users: List<User>,

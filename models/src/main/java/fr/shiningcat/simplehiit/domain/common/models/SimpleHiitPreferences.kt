@@ -14,6 +14,7 @@ data class SimpleHiitPreferences(
     val restPeriodLengthMs: Long,
     val numberOfWorkPeriods: Int,
     val beepSoundActive: Boolean,
+    val beepSoundType: BeepSoundType,
     val sessionCountDownLengthMs: Long,
     val PeriodCountDownLengthMs: Long,
     val selectedExercisesTypes: List<ExerciseTypeSelected>,

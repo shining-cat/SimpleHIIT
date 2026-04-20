@@ -6,6 +6,7 @@ package fr.shiningcat.simplehiit.sharedui.session
 
 import fr.shiningcat.simplehiit.commonutils.TimeProvider
 import fr.shiningcat.simplehiit.domain.common.Output
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
@@ -52,6 +53,7 @@ abstract class SessionPresenterTestBase : AbstractMockkTest() {
             numberOfWorkPeriods = 3,
             cycleLengthMs = 30000L,
             beepSoundCountDownActive = true,
+            beepSoundType = BeepSoundType.LOW,
             sessionStartCountDownLengthMs = 5000L,
             periodsStartCountDownLengthMs = 3000L,
             users = listOf(testUser),
@@ -84,6 +86,7 @@ abstract class SessionPresenterTestBase : AbstractMockkTest() {
                 ),
             durationMs = 100000L,
             beepSoundCountDownActive = true,
+            beepSoundType = BeepSoundType.LOW,
             users = listOf(testUser),
         )
 

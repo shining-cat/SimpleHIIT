@@ -53,7 +53,8 @@ fun SessionScreen(
         if (viewModel.isSoundLoaded().not()) {
             hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
             // we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
-            viewModel.getSoundPool().load(context, R.raw.sound_beep, 0)
+            val soundResId = if (viewModel.isHighBeepSound()) R.raw.high_frequency_beep else R.raw.low_frequency_beep
+            viewModel.getSoundPool().load(context, soundResId, 0)
         } else if (!viewModel.isSessionActive()) {
             // Sound already loaded but no active session (new session with same ViewModel)
             hiitLogger.d("SessionScreen", "sound already loaded, reinitializing session")

@@ -69,6 +69,8 @@ class SessionViewModel(
         } ?: logger.e("SessionViewModel", "attempted to play beep but sound not loaded")
     }
 
+    suspend fun isHighBeepSound(): Boolean = presenter.isHighBeepSound()
+
     fun getSoundPool(): SoundPool = soundPool
 
     fun isSoundLoaded() = beepSoundLoadedId != null

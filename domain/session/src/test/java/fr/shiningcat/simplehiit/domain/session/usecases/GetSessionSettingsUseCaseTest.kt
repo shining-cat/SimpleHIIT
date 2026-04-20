@@ -9,6 +9,7 @@ import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.UsersRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.DomainError
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
@@ -49,6 +50,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                     restPeriodLengthMs = 234,
                     numberOfWorkPeriods = 345,
                     beepSoundActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 456,
                     PeriodCountDownLengthMs = 567,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
@@ -61,6 +63,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                     restPeriodLengthMs = 432,
                     numberOfWorkPeriods = 543,
                     beepSoundActive = false,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 654,
                     PeriodCountDownLengthMs = 765,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),
@@ -99,6 +102,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = settingsValue1.numberOfWorkPeriods,
                         cycleLengthMs = 240000L,
                         beepSoundCountDownActive = settingsValue1.beepSoundActive,
+                        beepSoundType = settingsValue1.beepSoundType,
                         sessionStartCountDownLengthMs = settingsValue1.sessionCountDownLengthMs,
                         periodsStartCountDownLengthMs = settingsValue1.PeriodCountDownLengthMs,
                         users = usersList1.result,
@@ -120,6 +124,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = settingsValue2.numberOfWorkPeriods,
                         cycleLengthMs = 123165L,
                         beepSoundCountDownActive = settingsValue2.beepSoundActive,
+                        beepSoundType = settingsValue2.beepSoundType,
                         sessionStartCountDownLengthMs = settingsValue2.sessionCountDownLengthMs,
                         periodsStartCountDownLengthMs = settingsValue2.PeriodCountDownLengthMs,
                         users = usersList1.result,
@@ -142,6 +147,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                         numberOfWorkPeriods = settingsValue3.numberOfWorkPeriods,
                         cycleLengthMs = 408879L,
                         beepSoundCountDownActive = settingsValue3.beepSoundActive,
+                        beepSoundType = settingsValue3.beepSoundType,
                         sessionStartCountDownLengthMs = settingsValue3.sessionCountDownLengthMs,
                         periodsStartCountDownLengthMs = settingsValue3.PeriodCountDownLengthMs,
                         users = usersList2.result,
@@ -170,6 +176,7 @@ internal class GetSessionSettingsUseCaseTest : AbstractMockkTest() {
                     restPeriodLengthMs = 234,
                     numberOfWorkPeriods = 345,
                     beepSoundActive = true,
+                    beepSoundType = BeepSoundType.LOW,
                     sessionCountDownLengthMs = 456,
                     PeriodCountDownLengthMs = 567,
                     selectedExercisesTypes = randomListOfExerciseTypesSelected(),

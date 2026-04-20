@@ -77,6 +77,8 @@
     <string name="number_of_exercises_per_cycle">Övningar per cykel</string>
     <string name="total_cycle_length_label">Total cykellängd</string>
     <string name="beep_sound_setting_label">Ljudsignal för nedräkning</string>
+    <string name="beep_sound_type_low">Låg pip</string>
+    <string name="beep_sound_type_high">Hög pip</string>
     <string name="session_start_countdown_length_setting_label">Nedräkning vid passstart</string>
     <string name="period_start_countdown_length_setting_label">Nedräkning vid periodstart</string>
     <string name="period_length_too_short_constraint">Detta kan inte vara kortare än nedräkningslängden</string>

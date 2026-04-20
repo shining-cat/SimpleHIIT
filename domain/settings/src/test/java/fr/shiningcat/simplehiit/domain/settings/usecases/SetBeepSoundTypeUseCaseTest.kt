@@ -1,0 +1,41 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2026 shining-cat
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+package fr.shiningcat.simplehiit.domain.settings.usecases
+
+import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
+import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
+import io.mockk.Runs
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
+import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.EnumSource
+
+@OptIn(ExperimentalCoroutinesApi::class)
+internal class SetBeepSoundTypeUseCaseTest : AbstractMockkTest() {
+    private val mockSettingsRepository = mockk<SettingsRepository>()
+
+    @ParameterizedTest(name = "{index} -> when called with {0}, should call SimpleHiitRepository with {0}")
+    @EnumSource(BeepSoundType::class)
+    fun `calls repo with corresponding value and returns repo success`(testValue: BeepSoundType) =
+        runTest {
+            val testedUseCase =
+                SetBeepSoundTypeUseCase(
+                    settingsRepository = mockSettingsRepository,
+                    defaultDispatcher = UnconfinedTestDispatcher(testScheduler),
+                    logger = mockHiitLogger,
+                )
+            coEvery { mockSettingsRepository.setBeepSoundType(any()) } just Runs
+            //
+            testedUseCase.execute(testValue)
+            //
+            coVerify(exactly = 1) { mockSettingsRepository.setBeepSoundType(testValue) }
+        }
+}

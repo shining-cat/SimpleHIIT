@@ -342,6 +342,8 @@ class SessionPresenter(
         initializeAndStartSession()
     }
 
+    suspend fun isHighBeepSound(): Boolean = sessionInteractor.isHighBeepSound()
+
     fun cleanup() {
         logger.d("SessionPresenter", "cleanup - cancelling all jobs and resetting state")
         resetInternalState()

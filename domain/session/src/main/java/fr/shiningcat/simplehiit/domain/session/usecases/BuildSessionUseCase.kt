@@ -38,6 +38,7 @@ class BuildSessionUseCase(
                 steps = steps,
                 durationMs = totalSessionLengthMs,
                 beepSoundCountDownActive = sessionSettings.beepSoundCountDownActive,
+                beepSoundType = sessionSettings.beepSoundType,
                 users = sessionSettings.users,
             )
         }

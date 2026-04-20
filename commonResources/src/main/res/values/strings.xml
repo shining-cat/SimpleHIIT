@@ -82,6 +82,8 @@
     <string name="number_of_exercises_per_cycle">Exercises per cycle</string>
     <string name="total_cycle_length_label">Total cycle length</string>
     <string name="beep_sound_setting_label">Beep sound countdown</string>
+    <string name="beep_sound_type_low">Low beep</string>
+    <string name="beep_sound_type_high">High beep</string>
     <string name="session_start_countdown_length_setting_label">Session start countdown</string>
     <string name="period_start_countdown_length_setting_label">Period start countdown</string>
     <string name="period_length_too_short_constraint">This can\'t be shorter than the countdown length</string>

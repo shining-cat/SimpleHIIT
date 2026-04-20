@@ -9,6 +9,7 @@ import fr.shiningcat.simplehiit.data.local.datastore.SimpleHiitDataStoreManager
 import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.datainterfaces.SettingsRepository
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.CoroutineDispatcher
@@ -66,6 +67,10 @@ class SettingsRepositoryImpl(
 
     override suspend fun setAppTheme(theme: AppTheme) {
         simpleHiitDataStoreManager.setAppTheme(theme = theme)
+    }
+
+    override suspend fun setBeepSoundType(beepSoundType: BeepSoundType) {
+        simpleHiitDataStoreManager.setBeepSoundType(beepSoundType)
     }
 
     override suspend fun resetAllSettings() {

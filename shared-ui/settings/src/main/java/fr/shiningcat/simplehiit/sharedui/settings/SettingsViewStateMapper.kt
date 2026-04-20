@@ -32,6 +32,7 @@ class SettingsViewStateMapper(
                     numberOfWorkPeriods = generalSettings.numberOfWorkPeriods.toString(),
                     totalCycleLength = cycleLengthDisplay,
                     beepSoundCountDownActive = generalSettings.beepSoundCountDownActive,
+                    beepSoundType = generalSettings.beepSoundType,
                     sessionStartCountDownLengthAsSeconds = durationMsAsSeconds(generalSettings.sessionStartCountDownLengthMs),
                     periodsStartCountDownLengthAsSeconds = durationMsAsSeconds(generalSettings.periodsStartCountDownLengthMs),
                     users = generalSettings.users,

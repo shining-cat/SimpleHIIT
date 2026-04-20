@@ -6,6 +6,7 @@ package fr.shiningcat.simplehiit.sharedui.settings
 
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.User
 
@@ -18,6 +19,7 @@ sealed interface SettingsViewState {
         val numberOfWorkPeriods: String,
         val totalCycleLength: String,
         val beepSoundCountDownActive: Boolean,
+        val beepSoundType: BeepSoundType,
         val sessionStartCountDownLengthAsSeconds: String,
         val periodsStartCountDownLengthAsSeconds: String,
         val users: List<User>,

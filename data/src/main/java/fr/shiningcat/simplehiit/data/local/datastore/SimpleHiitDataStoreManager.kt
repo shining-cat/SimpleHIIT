@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
 import kotlinx.coroutines.flow.Flow
@@ -29,6 +30,7 @@ interface SimpleHiitDataStoreManager {
         val EXERCISE_TYPES_SELECTED = stringSetPreferencesKey("exercise_types_selected")
         val NUMBER_CUMULATED_CYCLES = intPreferencesKey("number_cumulated_cycles")
         val APP_THEME = stringPreferencesKey("app_theme")
+        val BEEP_SOUND_TYPE = stringPreferencesKey("beep_sound_type")
     }
 
     //
@@ -52,6 +54,8 @@ interface SimpleHiitDataStoreManager {
     suspend fun setExercisesTypesSelected(exercisesTypes: List<ExerciseType>)
 
     suspend fun setAppTheme(theme: AppTheme)
+
+    suspend fun setBeepSoundType(beepSoundType: BeepSoundType)
 
     //
     fun getPreferences(): Flow<SimpleHiitPreferences>

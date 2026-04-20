@@ -7,6 +7,7 @@ package fr.shiningcat.simplehiit.sharedui.settings
 import fr.shiningcat.simplehiit.domain.common.Output
 import fr.shiningcat.simplehiit.domain.common.models.AppLanguage
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.GeneralSettings
@@ -18,6 +19,7 @@ import fr.shiningcat.simplehiit.domain.settings.usecases.ResetAllSettingsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SaveSelectedExerciseTypesUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppLanguageUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetAppThemeUseCase
+import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundTypeUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetBeepSoundUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetNumberOfWorkPeriodsUseCase
 import fr.shiningcat.simplehiit.domain.settings.usecases.SetPeriodStartCountDownUseCase
@@ -53,6 +55,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
     private val mockSetRestPeriodLengthUseCase = mockk<SetRestPeriodLengthUseCase>()
     private val mockSetNumberOfWorkPeriodsUseCase = mockk<SetNumberOfWorkPeriodsUseCase>()
     private val mockSetBeepSoundUseCase = mockk<SetBeepSoundUseCase>()
+    private val mockSetBeepSoundTypeUseCase = mockk<SetBeepSoundTypeUseCase>()
     private val mockSetSessionStartCountDownUseCase = mockk<SetSessionStartCountDownUseCase>()
     private val mockSetPeriodStartCountDownUseCase = mockk<SetPeriodStartCountDownUseCase>()
     private val mockUpdateUserNameUseCase = mockk<UpdateUserNameUseCase>()
@@ -91,6 +94,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
             mockSetRestPeriodLengthUseCase,
             mockSetNumberOfWorkPeriodsUseCase,
             mockSetBeepSoundUseCase,
+            mockSetBeepSoundTypeUseCase,
             mockSetSessionStartCountDownUseCase,
             mockSetPeriodStartCountDownUseCase,
             mockUpdateUserNameUseCase,
@@ -115,6 +119,7 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         coEvery { mockSetRestPeriodLengthUseCase.execute(any()) } just Runs
         coEvery { mockSetNumberOfWorkPeriodsUseCase.execute(any()) } just Runs
         coEvery { mockSetBeepSoundUseCase.execute(any()) } just Runs
+        coEvery { mockSetBeepSoundTypeUseCase.execute(any()) } just Runs
         coEvery { mockSetSessionStartCountDownUseCase.execute(any()) } just Runs
         coEvery { mockSetPeriodStartCountDownUseCase.execute(any()) } just Runs
         coEvery { mockUpdateUserNameUseCase.execute(any()) } returns Output.Success(testReturnInt)
@@ -187,6 +192,13 @@ internal class SettingsInteractorTest : AbstractMockkTest() {
         runTest(UnconfinedTestDispatcher()) {
             testedInteractor.setBeepSound(true)
             coVerify(exactly = 1) { mockSetBeepSoundUseCase.execute(true) }
+        }
+
+    @Test
+    fun `calls on interactor setBeepSoundType calls SetBeepSoundTypeUseCase`() =
+        runTest(UnconfinedTestDispatcher()) {
+            testedInteractor.setBeepSoundType(BeepSoundType.HIGH)
+            coVerify(exactly = 1) { mockSetBeepSoundTypeUseCase.execute(BeepSoundType.HIGH) }
         }
 
     @Test

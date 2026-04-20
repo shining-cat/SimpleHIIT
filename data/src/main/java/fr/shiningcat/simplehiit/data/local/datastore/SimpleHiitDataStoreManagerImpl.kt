@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_ACTIVE_DEFAULT
+import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.BEEP_SOUND_TYPE_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_APP_THEME
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.DEFAULT_SELECTED_EXERCISES_TYPES
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.NUMBER_CUMULATED_CYCLES_DEFAULT
@@ -19,6 +20,7 @@ import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.SE
 import fr.shiningcat.simplehiit.domain.common.Constants.SettingsDefaultValues.WORK_PERIOD_LENGTH_MILLISECONDS_DEFAULT
 import fr.shiningcat.simplehiit.domain.common.SimpleHiitPreferencesFactory
 import fr.shiningcat.simplehiit.domain.common.models.AppTheme
+import fr.shiningcat.simplehiit.domain.common.models.BeepSoundType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseType
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseTypeSelected
 import fr.shiningcat.simplehiit.domain.common.models.SimpleHiitPreferences
@@ -135,6 +137,15 @@ class SimpleHiitDataStoreManagerImpl(
         }
     }
 
+    override suspend fun setBeepSoundType(beepSoundType: BeepSoundType) {
+        hiitLogger.d("SimpleHiitDataStoreManager", "setBeepSoundType:: $beepSoundType")
+        withContext(ioDispatcher) {
+            dataStore.edit { preferences ->
+                preferences[SimpleHiitDataStoreManager.Keys.BEEP_SOUND_TYPE] = beepSoundType.name
+            }
+        }
+    }
+
     override fun getPreferences(): Flow<SimpleHiitPreferences> =
         dataStore.data
             .map { preferences ->
@@ -143,6 +154,7 @@ class SimpleHiitDataStoreManagerImpl(
                     restPeriodLengthMs = retrieveRestPeriodLength(preferences),
                     numberOfWorkPeriods = retrieveNumberOfWorkPeriods(preferences),
                     beepSoundActive = retrieveBeepSoundActive(preferences),
+                    beepSoundType = retrieveBeepSoundType(preferences),
                     sessionCountDownLengthMs = retrieveSessionCountDownLengthSeconds(preferences),
                     PeriodCountDownLengthMs = retrievePeriodCountDownLengthSeconds(preferences),
                     selectedExercisesTypes = getSelectedExerciseTypesAsList(preferences),
@@ -201,6 +213,20 @@ class SimpleHiitDataStoreManagerImpl(
     private fun retrieveNumberOfCumulatedCycles(preferences: Preferences) =
         preferences[SimpleHiitDataStoreManager.Keys.NUMBER_CUMULATED_CYCLES]
             ?: NUMBER_CUMULATED_CYCLES_DEFAULT
+
+    private fun retrieveBeepSoundType(preferences: Preferences): BeepSoundType {
+        val typeString = preferences[SimpleHiitDataStoreManager.Keys.BEEP_SOUND_TYPE]
+        return if (typeString != null) {
+            runCatching {
+                BeepSoundType.valueOf(typeString)
+            }.getOrElse { e ->
+                hiitLogger.e("SimpleHiitDataStoreManager", "retrieveBeepSoundType:: Invalid value $typeString, returning default", e)
+                BEEP_SOUND_TYPE_DEFAULT
+            }
+        } else {
+            BEEP_SOUND_TYPE_DEFAULT
+        }
+    }
 
     private fun retrieveAppTheme(preferences: Preferences): AppTheme {
         val themeString = preferences[SimpleHiitDataStoreManager.Keys.APP_THEME]
