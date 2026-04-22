@@ -11,6 +11,7 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.take
@@ -132,6 +133,37 @@ internal class SessionPresenterLifecycleTest : SessionPresenterTestBase() {
             advanceUntilIdle()
 
             testedPresenter.cleanup()
+            advanceUntilIdle()
+
+            assertFalse(testedPresenter.isSessionActive())
+        }
+
+    @Test
+    fun `isSessionActive returns false after abortSession`() =
+        runTest(testDispatcher) {
+            sessionSettingsFlow.value = Output.Success(testSessionSettings())
+            coEvery { mockMapper.buildStateFromWholeSession(any(), any(), any()) } returns
+                SessionViewState.RunningNominal(
+                    periodType = RunningSessionStepType.WORK,
+                    displayedExercise = Exercise.LungesBasic,
+                    side = ExerciseSide.NONE,
+                    stepRemainingTime = "5s",
+                    stepRemainingPercentage = 1.0f,
+                    sessionRemainingTime = "10s",
+                    sessionRemainingPercentage = 0.5f,
+                    countDown = null,
+                )
+            every {
+                mockSessionInteractor.formatLongDurationMsAsSmallestHhMmSsString(any())
+            } returns "0s"
+            coEvery { mockSessionInteractor.insertSession(any()) } returns Output.Success(1)
+
+            testedPresenter.onSoundLoaded()
+            advanceUntilIdle()
+
+            assertTrue(testedPresenter.isSessionActive())
+
+            testedPresenter.abortSession()
             advanceUntilIdle()
 
             assertFalse(testedPresenter.isSessionActive())

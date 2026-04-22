@@ -329,6 +329,7 @@ class SessionPresenter(
         presenterScope.launch {
             emitSessionEndState()
             _dialogViewState.emit(SessionDialog.None)
+            session = null
         }
     }
 
