@@ -73,10 +73,6 @@ class SessionViewModel(
 
     fun getSoundPool(): SoundPool = soundPool
 
-    fun isSoundLoaded() = beepSoundLoadedId != null
-
-    fun isSessionActive() = presenter.isSessionActive()
-
     fun pause() {
         viewModelScope.launch(mainDispatcher) {
             presenter.pause()
@@ -86,12 +82,6 @@ class SessionViewModel(
     fun resume() {
         viewModelScope.launch(mainDispatcher) {
             presenter.resume()
-        }
-    }
-
-    fun reinitializeSession() {
-        viewModelScope.launch(mainDispatcher) {
-            presenter.resetAndStart()
         }
     }
 

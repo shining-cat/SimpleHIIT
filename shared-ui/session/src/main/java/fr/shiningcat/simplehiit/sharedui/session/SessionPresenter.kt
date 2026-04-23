@@ -66,8 +66,6 @@ class SessionPresenter(
     private var stepTimerJob: Job? = null
     private var soundLoaded = false
 
-    fun isSessionActive(): Boolean = session != null
-
     /**
      * Called by ViewModel when SoundPool has loaded the beep sound.
      * Triggers session initialization flow.
@@ -329,17 +327,8 @@ class SessionPresenter(
         presenterScope.launch {
             emitSessionEndState()
             _dialogViewState.emit(SessionDialog.None)
+            session = null
         }
-    }
-
-    fun resetAndStart() {
-        logger.d("SessionPresenter", "resetAndStart - cleaning up and starting fresh")
-        resetInternalState()
-        presenterScope.launch {
-            _screenViewState.emit(SessionViewState.Loading)
-            _dialogViewState.emit(SessionDialog.None)
-        }
-        initializeAndStartSession()
     }
 
     suspend fun isHighBeepSound(): Boolean = sessionInteractor.isHighBeepSound()
@@ -351,8 +340,7 @@ class SessionPresenter(
     }
 
     /**
-     * Resets internal state for a fresh session.
-     * Used by both resetAndStart() and cleanup().
+     * Resets internal state. Used by cleanup().
      */
     private fun resetInternalState() {
         stepTimerJob?.cancel()
