@@ -1,20 +1,20 @@
 [versions]
 # Build Tools & Plugins
 agp = "9.1.0"
-kgp = "2.3.20"
+kgp = "2.3.21"
 ksp = "2.3.6"
-kover = "0.9.7"
+kover = "0.9.8"
 
 # Code Quality & Analysis
 ktlintGradlePlugin = "14.2.0"
-spotless = "8.3.0"
+spotless = "8.4.0"
 dependencyUpdatePlugin = "0.53.0"
 modulesGraphAssert = "2.9.0"
 
 # Dependency Injection
-koin = "4.1.1"
-koinAndroidxCompose = "4.1.1"
-koinTest = "4.1.1"
+koin = "4.2.1"
+koinAndroidxCompose = "4.2.1"
+koinTest = "4.2.1"
 
 # Database
 room = "2.8.4"
@@ -33,11 +33,11 @@ datastore = "1.2.1"
 lifecycleProcess = "2.10.0"
 
 # Compose Ecosystem
-composeBom = "2026.03.00"
+composeBom = "2026.03.01"
 navigation3 = "1.0.1"
 activityCompose = "1.13.0"
-kotlinSerialization = "2.3.20"
-kotlinxSerializationCore = "1.10.0"
+kotlinSerialization = "2.3.21"
+kotlinxSerializationCore = "1.11.0"
 
 # TV-specific
 # see https://developer.android.com/jetpack/androidx/releases/tv
