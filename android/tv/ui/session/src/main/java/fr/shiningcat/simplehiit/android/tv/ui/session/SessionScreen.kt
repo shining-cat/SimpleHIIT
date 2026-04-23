@@ -39,17 +39,9 @@ fun SessionScreen(
     // Handling the sound loading in the viewModel's soundPool:
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        if (viewModel.isSoundLoaded().not()) {
-            hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
-            // we want this loading to only happen once, to benefit from the pooling and avoid playback latency, but SideEffects wouldn't let us access the context we need
-            val soundResId = if (viewModel.isHighBeepSound()) R.raw.high_frequency_beep else R.raw.low_frequency_beep
-            viewModel.getSoundPool().load(context, soundResId, 0)
-        } else if (!viewModel.isSessionActive()) {
-            // Sound already loaded but no active session (new session with same ViewModel)
-            hiitLogger.d("SessionScreen", "sound already loaded, reinitializing session")
-            viewModel.reinitializeSession()
-        }
-        // else: session already running (e.g. after orientation change), do nothing
+        hiitLogger.d("SessionScreen", "loading beep sound in SoundPool")
+        val soundResId = if (viewModel.isHighBeepSound()) R.raw.high_frequency_beep else R.raw.low_frequency_beep
+        viewModel.getSoundPool().load(context, soundResId, 0)
     }
     // Setting up a LifeCycle observer to catch the onPause event of the Android Lifecycle so we can pause the session
     var lifecycleEvent by remember { mutableStateOf(Lifecycle.Event.ON_ANY) }
