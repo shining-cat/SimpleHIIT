@@ -19,7 +19,7 @@ android {
     sourceSets {
         // Include Room schema directory in androidTest assets
         getByName("androidTest") {
-            assets.srcDirs("$projectDir/schemas")
+            assets.directories.add("$projectDir/schemas")
         }
     }
 }

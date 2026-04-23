@@ -1,15 +1,15 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.1.0"
+agp = "9.2.0"
 kgp = "2.3.21"
-ksp = "2.3.6"
+ksp = "2.3.7"
 kover = "0.9.8"
 
 # Code Quality & Analysis
 ktlintGradlePlugin = "14.2.0"
 spotless = "8.4.0"
-dependencyUpdatePlugin = "0.53.0"
-modulesGraphAssert = "2.9.0"
+dependencyUpdatePlugin = "0.54.0"
+modulesGraphAssert = "2.9.1"
 
 # Dependency Injection
 koin = "4.2.1"
@@ -33,8 +33,8 @@ datastore = "1.2.1"
 lifecycleProcess = "2.10.0"
 
 # Compose Ecosystem
-composeBom = "2026.03.01"
-navigation3 = "1.0.1"
+composeBom = "2026.04.01"
+navigation3 = "1.1.1"
 activityCompose = "1.13.0"
 kotlinSerialization = "2.3.21"
 kotlinxSerializationCore = "1.11.0"
@@ -46,8 +46,8 @@ tvFoundation = "1.0.0-beta01"
 
 # UI & Design
 material = "1.13.0"
-glide = "5.0.5"
-glideCompose = "1.0.0-beta08"
+glide = "5.0.7"
+glideCompose = "1.0.0-beta09"
 
 [libraries]
 # Build Tools (for build-logic module)
