@@ -75,6 +75,7 @@ class AndroidAppTvConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("androidx.lifecycle").get())
                 add("implementation", libs.findLibrary("androidx.navigation3.runtime").get())
                 add("implementation", libs.findLibrary("androidx.navigation3.ui").get())
+                add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.navigation3").get())
                 add("implementation", libs.findLibrary("androidx.tv.foundation").get())
                 add("implementation", libs.findLibrary("androidx.tv.material").get())
                 add("implementation", libs.findLibrary("koin.androidx.compose").get())

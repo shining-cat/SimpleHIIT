@@ -5,6 +5,7 @@
 package fr.shiningcat.simplehiit.android.tv.app
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
@@ -28,7 +29,11 @@ fun SimpleHiitNavigation(
     NavDisplay(
         backStack = navigationViewModel.backStack,
         onBack = { navigationViewModel.goBack() },
-        entryDecorators = listOf(rememberSaveableStateHolderNavEntryDecorator()),
+        entryDecorators =
+            listOf(
+                rememberSaveableStateHolderNavEntryDecorator(),
+                rememberViewModelStoreNavEntryDecorator(),
+            ),
         entryProvider =
             entryProvider {
                 entry<Screen.Home> {
