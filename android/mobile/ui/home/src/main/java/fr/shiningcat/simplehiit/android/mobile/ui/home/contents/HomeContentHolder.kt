@@ -68,7 +68,7 @@ fun HomeContentHolder(
                     uiArrangement = uiArrangement,
                     users = screenViewState.users,
                     toggleSelectedUser = toggleSelectedUser,
-                    navigateToSession = { navigateTo(Screen.Session()) },
+                    navigateToSession = { navigateTo(Screen.Session) },
                     warning = screenViewState.warning,
                     hiitLogger = hiitLogger,
                 )
