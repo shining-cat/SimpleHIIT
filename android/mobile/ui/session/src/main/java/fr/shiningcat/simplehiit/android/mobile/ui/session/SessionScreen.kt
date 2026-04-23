@@ -44,8 +44,7 @@ fun SessionScreen(
     navigateUp: () -> Boolean,
     uiArrangement: UiArrangement,
     hiitLogger: HiitLogger,
-    sessionKey: String,
-    viewModel: SessionViewModel = koinViewModel(key = sessionKey),
+    viewModel: SessionViewModel = koinViewModel(),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     // Handling the sound loading in the viewModel's soundPool:

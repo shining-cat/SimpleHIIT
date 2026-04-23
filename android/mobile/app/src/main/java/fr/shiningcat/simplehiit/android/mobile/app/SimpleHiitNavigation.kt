@@ -52,12 +52,11 @@ fun SimpleHiitNavigation(
                         hiitLogger = hiitLogger,
                     )
                 }
-                entry<Screen.Session> { route ->
+                entry<Screen.Session> {
                     SessionScreen(
                         navigateUp = navigationViewModel::goBack,
                         uiArrangement = uiArrangement,
                         hiitLogger = hiitLogger,
-                        sessionKey = route.sessionId.toString(),
                     )
                 }
                 entry<Screen.About> {
