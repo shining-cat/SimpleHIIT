@@ -25,7 +25,9 @@ sealed interface Screen : NavKey {
     data object Statistics : Screen
 
     @Serializable
-    data object Session : Screen
+    data class Session(
+        val sessionId: Long = System.currentTimeMillis(),
+    ) : Screen
 
     @Serializable
     data object About : Screen
