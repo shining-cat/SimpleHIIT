@@ -33,7 +33,8 @@ import org.koin.androidx.compose.koinViewModel
 fun SessionScreen(
     navigateUp: () -> Boolean,
     hiitLogger: HiitLogger,
-    viewModel: SessionViewModel = koinViewModel(),
+    sessionKey: String,
+    viewModel: SessionViewModel = koinViewModel(key = sessionKey),
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
 ) {
     // Handling the sound loading in the viewModel's soundPool:
