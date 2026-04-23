@@ -1,0 +1,4 @@
+Version 1.03
+
+- Add beep sound type selector in settings (#341)
+- Fix session showing stale state after abort and relaunch (#342)
