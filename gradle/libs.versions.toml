@@ -1,13 +1,13 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.2.0"
+agp = "9.2.1"
 kgp = "2.3.21"
-ksp = "2.3.7"
+ksp = "2.3.9"
 kover = "0.9.8"
 
 # Code Quality & Analysis
 ktlintGradlePlugin = "14.2.0"
-spotless = "8.4.0"
+spotless = "8.6.0"
 dependencyUpdatePlugin = "0.54.0"
 modulesGraphAssert = "2.9.1"
 
@@ -20,11 +20,11 @@ koinTest = "4.2.1"
 room = "2.8.4"
 
 # Testing
-mockk = "1.14.9"
-jupiter = "6.0.3"
+mockk = "1.14.11"
+jupiter = "6.1.0"
 testRunner = "1.7.0"
 testExtJunit = "1.3.0"
-jetBrainsCoroutinesTest = "1.10.2"
+jetBrainsCoroutinesTest = "1.11.0"
 
 # AndroidX Core
 appCompat = "1.7.1"
@@ -33,19 +33,19 @@ datastore = "1.2.1"
 lifecycleProcess = "2.10.0"
 
 # Compose Ecosystem
-composeBom = "2026.04.01"
-navigation3 = "1.1.1"
+composeBom = "2026.05.01"
+navigation3 = "1.1.2"
 activityCompose = "1.13.0"
 kotlinSerialization = "2.3.21"
 kotlinxSerializationCore = "1.11.0"
 
 # TV-specific
 # see https://developer.android.com/jetpack/androidx/releases/tv
-tvMaterial = "1.0.1"
-tvFoundation = "1.0.0-beta01"
+tvMaterial = "1.1.0"
+tvFoundation = "1.0.0"
 
 # UI & Design
-material = "1.13.0"
+material = "1.14.0"
 glide = "5.0.7"
 glideCompose = "1.0.0-beta09"
 
