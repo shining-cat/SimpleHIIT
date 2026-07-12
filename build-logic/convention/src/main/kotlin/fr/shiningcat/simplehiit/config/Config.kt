@@ -26,7 +26,7 @@ object ConfigHandheld {
         AndroidConfig(
             minSdkVersion = 23,
             targetSdkVersion = 36,
-            compileSdkVersion = 36,
+            compileSdkVersion = 37,
             applicationId = APPLICATION_ID,
             versionCode = 23100103,
             versionName = "1.03",
@@ -44,7 +44,7 @@ object ConfigTv {
         AndroidConfig(
             minSdkVersion = 23,
             targetSdkVersion = 36,
-            compileSdkVersion = 36,
+            compileSdkVersion = 37,
             applicationId = APPLICATION_ID,
             versionCode = 23010103,
             versionName = "1.03",
@@ -62,7 +62,7 @@ object ConfigLibrary {
     val config =
         AndroidLibraryConfig(
             minSdkVersion = 23,
-            compileSdkVersion = 36,
+            compileSdkVersion = 37,
         )
     val jvm =
         JvmConfig(
