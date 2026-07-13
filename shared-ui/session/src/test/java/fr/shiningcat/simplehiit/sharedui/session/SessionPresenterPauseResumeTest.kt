@@ -40,6 +40,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                                 remainingSessionDurationMsAfterMe = 10000L,
                                 exercise = Exercise.LungesBasic,
                                 side = ExerciseSide.NONE,
+                                position = testWorkPeriodPosition(),
                                 countDownLengthMs = 3000L,
                             ),
                             SessionStep.RestStep(
@@ -47,6 +48,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                                 remainingSessionDurationMsAfterMe = 5000L,
                                 exercise = Exercise.LungesBasic,
                                 side = ExerciseSide.NONE,
+                                position = testWorkPeriodPosition(),
                                 countDownLengthMs = 3000L,
                             ),
                             SessionStep.WorkStep(
@@ -54,6 +56,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                                 remainingSessionDurationMsAfterMe = 0L,
                                 exercise = Exercise.LungesBasic,
                                 side = ExerciseSide.NONE,
+                                position = testWorkPeriodPosition(),
                                 countDownLengthMs = 3000L,
                             ),
                         ),
@@ -69,6 +72,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.LungesBasic,
                     side = ExerciseSide.NONE,
+                    position = testWorkPeriodPosition(),
                     stepRemainingTime = "5s",
                     stepRemainingPercentage = 1.0f,
                     sessionRemainingTime = "10s",
@@ -120,6 +124,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                                 remainingSessionDurationMsAfterMe = 10000L,
                                 exercise = Exercise.LungesBasic,
                                 side = ExerciseSide.NONE,
+                                position = testWorkPeriodPosition(),
                                 countDownLengthMs = 3000L,
                             ),
                             SessionStep.RestStep(
@@ -127,6 +132,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                                 remainingSessionDurationMsAfterMe = 5000L,
                                 exercise = Exercise.LungesBasic,
                                 side = ExerciseSide.NONE,
+                                position = testWorkPeriodPosition(),
                                 countDownLengthMs = 3000L,
                             ),
                             SessionStep.WorkStep(
@@ -134,6 +140,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                                 remainingSessionDurationMsAfterMe = 0L,
                                 exercise = Exercise.LungesBasic,
                                 side = ExerciseSide.NONE,
+                                position = testWorkPeriodPosition(),
                                 countDownLengthMs = 3000L,
                             ),
                         ),
@@ -149,6 +156,7 @@ internal class SessionPresenterPauseResumeTest : SessionPresenterTestBase() {
                     periodType = RunningSessionStepType.REST,
                     displayedExercise = Exercise.LungesBasic,
                     side = ExerciseSide.NONE,
+                    position = testWorkPeriodPosition(),
                     stepRemainingTime = "5s",
                     stepRemainingPercentage = 1.0f,
                     sessionRemainingTime = "10s",

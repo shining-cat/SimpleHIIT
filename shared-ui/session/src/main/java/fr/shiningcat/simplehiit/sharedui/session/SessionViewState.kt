@@ -7,6 +7,7 @@ package fr.shiningcat.simplehiit.sharedui.session
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
+import fr.shiningcat.simplehiit.domain.common.models.WorkPeriodPosition
 
 sealed interface SessionViewState {
     object Loading : SessionViewState
@@ -19,6 +20,7 @@ sealed interface SessionViewState {
         val periodType: RunningSessionStepType,
         val displayedExercise: Exercise,
         val side: ExerciseSide,
+        val position: WorkPeriodPosition,
         val stepRemainingTime: String,
         val stepRemainingPercentage: Float,
         val sessionRemainingTime: String,
