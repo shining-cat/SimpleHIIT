@@ -114,6 +114,9 @@
     <string name="session_time_remaining">Passet slutar om: %1$s</string>
     <string name="rest_coming_next">VILA och FÖRBERED - Nästa:</string>
     <string name="rest_remaining_in_s">Vila i %1$s</string>
+    <string name="session_progress_period_cycle">%1$d/%2$d i cykel %3$d/%4$d</string>
+    <string name="session_progress_a11y_work">Arbetsperiod %1$d av %2$d, cykel %3$d av %4$d</string>
+    <string name="session_progress_a11y_rest">Vila. Nästa: arbetsperiod %1$d av %2$d, cykel %3$d av %4$d</string>
 
     <!-- FINISH PAGE -->
     <string name="finish_page_topbar">Klart</string>

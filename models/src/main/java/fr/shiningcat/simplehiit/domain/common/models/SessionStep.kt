@@ -31,6 +31,7 @@ sealed class SessionStep(
     data class WorkStep(
         val exercise: Exercise,
         val side: ExerciseSide,
+        val position: WorkPeriodPosition,
         override val durationMs: Long,
         override val remainingSessionDurationMsAfterMe: Long,
         override val countDownLengthMs: Long,
@@ -43,6 +44,7 @@ sealed class SessionStep(
     data class RestStep(
         val exercise: Exercise,
         val side: ExerciseSide,
+        val position: WorkPeriodPosition,
         override val durationMs: Long,
         override val remainingSessionDurationMsAfterMe: Long,
         override val countDownLengthMs: Long,

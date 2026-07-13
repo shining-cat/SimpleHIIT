@@ -34,6 +34,7 @@ internal class SessionPresenterLifecycleTest : SessionPresenterTestBase() {
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.LungesBasic,
                     side = ExerciseSide.NONE,
+                    position = testWorkPeriodPosition(),
                     stepRemainingTime = "5s",
                     stepRemainingPercentage = 1.0f,
                     sessionRemainingTime = "10s",

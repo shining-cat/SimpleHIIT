@@ -114,6 +114,9 @@
     <string name="session_time_remaining">Fin de la session dans : %1$s</string>
     <string name="rest_coming_next">REPOS et PRÉPARATION - À venir :</string>
     <string name="rest_remaining_in_s">Reposez-vous pendant %1$s</string>
+    <string name="session_progress_period_cycle">%1$d/%2$d dans le cycle %3$d/%4$d</string>
+    <string name="session_progress_a11y_work">Période de travail %1$d sur %2$d, cycle %3$d sur %4$d</string>
+    <string name="session_progress_a11y_rest">Repos. À suivre : période de travail %1$d sur %2$d, cycle %3$d sur %4$d</string>
 
     <!-- FINISH PAGE -->
     <string name="finish_page_topbar">Terminé</string>

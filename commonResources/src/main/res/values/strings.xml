@@ -120,6 +120,9 @@
     <string name="session_time_remaining">Session end in: %1$s</string>
     <string name="rest_coming_next">REST and PREPARE - Coming next:</string>
     <string name="rest_remaining_in_s">Rest for %1$s</string>
+    <string name="session_progress_period_cycle">%1$d/%2$d in cycle %3$d/%4$d</string>
+    <string name="session_progress_a11y_work">Work period %1$d of %2$d, cycle %3$d of %4$d</string>
+    <string name="session_progress_a11y_rest">Rest. Next: work period %1$d of %2$d, cycle %3$d of %4$d</string>
 
     <!-- FINISH PAGE -->
     <string name="finish_page_topbar">Finished</string>

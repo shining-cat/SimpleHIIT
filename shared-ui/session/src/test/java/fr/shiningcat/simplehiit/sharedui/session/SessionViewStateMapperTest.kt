@@ -12,6 +12,7 @@ import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.domain.common.models.WorkPeriodPosition
 import fr.shiningcat.simplehiit.domain.common.usecases.FormatLongDurationMsAsSmallestHhMmSsStringUseCase
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
@@ -20,7 +21,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -64,9 +67,59 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
         assertEquals(expectedViewStateOutput, result)
     }
 
+    @Test
+    fun `mapper propagates the WorkPeriodPosition of a rest step and its following work step`() =
+        runTest {
+            val testDispatcher = StandardTestDispatcher(testScheduler)
+            val testedMapper =
+                SessionViewStateMapper(
+                    formatLongDurationMsAsSmallestHhMmSsStringUseCase = mockFormatLongDurationMsAsSmallestHhMmSsStringUseCase,
+                    defaultDispatcher = testDispatcher,
+                    logger = mockHiitLogger,
+                )
+            // index 7 is a rest step and index 8 is its following work step:
+            // both carry the same (upcoming) work period position
+            val expectedPosition = workPeriodPosition(workPeriodInCycle = 1, cycle = 2)
+            val timerState =
+                StepTimerState(
+                    milliSecondsRemaining = 482000L,
+                    totalMilliSeconds = 800000L,
+                )
+            //
+            val restResult =
+                testedMapper.buildStateFromWholeSession(
+                    session = testSession,
+                    currentSessionStepIndex = 7,
+                    currentStepTimerState = timerState,
+                )
+            val workResult =
+                testedMapper.buildStateFromWholeSession(
+                    session = testSession,
+                    currentSessionStepIndex = 8,
+                    currentStepTimerState = timerState,
+                )
+            //
+            assertTrue(restResult is SessionViewState.RunningNominal)
+            assertTrue(workResult is SessionViewState.RunningNominal)
+            assertEquals(expectedPosition, (restResult as SessionViewState.RunningNominal).position)
+            assertEquals(expectedPosition, (workResult as SessionViewState.RunningNominal).position)
+        }
+
     // //////////////////////
     private companion object {
         private const val MOCK_DURATION_STRING = "This is a test duration string"
+
+        // the test session holds 9 work periods, structured as 3 work periods per cycle over 3 cycles
+        private fun workPeriodPosition(
+            workPeriodInCycle: Int,
+            cycle: Int,
+        ) = WorkPeriodPosition(
+            workPeriodInCycle = workPeriodInCycle,
+            totalWorkPeriodsInCycle = 3,
+            cycle = cycle,
+            totalCycles = 3,
+        )
+
         private val testSession =
             Session(
                 steps =
@@ -79,6 +132,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
+                            position = workPeriodPosition(workPeriodInCycle = 1, cycle = 1),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 730000L,
                             countDownLengthMs = 5000L,
@@ -86,6 +140,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
+                            position = workPeriodPosition(workPeriodInCycle = 1, cycle = 1),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 680000L,
                             countDownLengthMs = 5000L,
@@ -93,6 +148,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
+                            position = workPeriodPosition(workPeriodInCycle = 2, cycle = 1),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 645000L,
                             countDownLengthMs = 5000L,
@@ -100,6 +156,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LungesSideToCurtsy,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
+                            position = workPeriodPosition(workPeriodInCycle = 2, cycle = 1),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 595000L,
                             countDownLengthMs = 5000L,
@@ -107,6 +164,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LyingSupermanTwist,
                             side = ExerciseSide.NONE,
+                            position = workPeriodPosition(workPeriodInCycle = 3, cycle = 1),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 560000L,
                             countDownLengthMs = 5000L,
@@ -114,6 +172,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LyingSupermanTwist,
                             side = ExerciseSide.NONE,
+                            position = workPeriodPosition(workPeriodInCycle = 3, cycle = 1),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 510000L,
                             countDownLengthMs = 5000L,
@@ -121,6 +180,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.PlankMountainClimber,
                             side = ExerciseSide.NONE,
+                            position = workPeriodPosition(workPeriodInCycle = 1, cycle = 2),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 475000L,
                             countDownLengthMs = 5000L,
@@ -128,6 +188,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.PlankMountainClimber,
                             side = ExerciseSide.NONE,
+                            position = workPeriodPosition(workPeriodInCycle = 1, cycle = 2),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 425000L,
                             countDownLengthMs = 5000L,
@@ -135,6 +196,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.CrabKicks,
                             side = ExerciseSide.NONE,
+                            position = workPeriodPosition(workPeriodInCycle = 2, cycle = 2),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 390000L,
                             countDownLengthMs = 5000L,
@@ -142,6 +204,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.CrabKicks,
                             side = ExerciseSide.NONE,
+                            position = workPeriodPosition(workPeriodInCycle = 2, cycle = 2),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 340000L,
                             countDownLengthMs = 5000L,
@@ -149,6 +212,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
+                            position = workPeriodPosition(workPeriodInCycle = 3, cycle = 2),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 305000L,
                             countDownLengthMs = 5000L,
@@ -156,6 +220,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
+                            position = workPeriodPosition(workPeriodInCycle = 3, cycle = 2),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 255000L,
                             countDownLengthMs = 5000L,
@@ -163,6 +228,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
+                            position = workPeriodPosition(workPeriodInCycle = 1, cycle = 3),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 220000L,
                             countDownLengthMs = 5000L,
@@ -170,6 +236,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LungesBackKick,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
+                            position = workPeriodPosition(workPeriodInCycle = 1, cycle = 3),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 170000L,
                             countDownLengthMs = 5000L,
@@ -177,6 +244,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
+                            position = workPeriodPosition(workPeriodInCycle = 2, cycle = 3),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 135000L,
                             countDownLengthMs = 5000L,
@@ -184,6 +252,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.FIRST.side,
+                            position = workPeriodPosition(workPeriodInCycle = 2, cycle = 3),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 85000L,
                             countDownLengthMs = 5000L,
@@ -191,6 +260,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.RestStep(
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
+                            position = workPeriodPosition(workPeriodInCycle = 3, cycle = 3),
                             durationMs = 35000L,
                             remainingSessionDurationMsAfterMe = 50000L,
                             countDownLengthMs = 5000L,
@@ -198,6 +268,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         SessionStep.WorkStep(
                             exercise = Exercise.LyingSideLegLift,
                             side = AsymmetricalExerciseSideOrder.SECOND.side,
+                            position = workPeriodPosition(workPeriodInCycle = 3, cycle = 3),
                             durationMs = 50000L,
                             remainingSessionDurationMsAfterMe = 0L,
                             countDownLengthMs = 5000L,
@@ -248,6 +319,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.WORK,
                         displayedExercise = Exercise.LungesSideToCurtsy,
                         side = AsymmetricalExerciseSideOrder.SECOND.side,
+                        position = workPeriodPosition(workPeriodInCycle = 2, cycle = 1),
                         // verify formatter is called with 10000L,
                         stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .2f,
@@ -273,6 +345,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.WORK,
                         displayedExercise = Exercise.LungesSideToCurtsy,
                         side = AsymmetricalExerciseSideOrder.SECOND.side,
+                        position = workPeriodPosition(workPeriodInCycle = 2, cycle = 1),
                         // verify formatter is called with 1000L,
                         stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .02f,
@@ -304,6 +377,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.REST,
                         displayedExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
+                        position = workPeriodPosition(workPeriodInCycle = 1, cycle = 2),
                         // verify formatter is called with 7000L,
                         stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .2f,
@@ -329,6 +403,7 @@ internal class SessionViewStateMapperTest : AbstractMockkTest() {
                         periodType = RunningSessionStepType.REST,
                         displayedExercise = Exercise.PlankMountainClimber,
                         side = ExerciseSide.NONE,
+                        position = workPeriodPosition(workPeriodInCycle = 1, cycle = 2),
                         // verify formatter is called with 5000L,
                         stepRemainingTime = MOCK_DURATION_STRING,
                         stepRemainingPercentage = .14285715f,

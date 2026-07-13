@@ -16,6 +16,7 @@ import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
 import fr.shiningcat.simplehiit.domain.common.models.StepTimerState
 import fr.shiningcat.simplehiit.domain.common.models.User
+import fr.shiningcat.simplehiit.domain.common.models.WorkPeriodPosition
 import fr.shiningcat.simplehiit.testutils.AbstractMockkTest
 import io.mockk.coEvery
 import io.mockk.every
@@ -44,6 +45,15 @@ abstract class SessionPresenterTestBase : AbstractMockkTest() {
     protected val testUser = User(id = 1L, name = "Test User", selected = true)
 
     protected lateinit var testedPresenter: SessionPresenter
+
+    // placeholder position for presenter tests, which mock the mapper and do not assert on it
+    protected fun testWorkPeriodPosition() =
+        WorkPeriodPosition(
+            workPeriodInCycle = 1,
+            totalWorkPeriodsInCycle = 1,
+            cycle = 1,
+            totalCycles = 1,
+        )
 
     protected fun testSessionSettings() =
         SessionSettings(
@@ -74,6 +84,7 @@ abstract class SessionPresenterTestBase : AbstractMockkTest() {
                         remainingSessionDurationMsAfterMe = 75000L,
                         exercise = Exercise.LungesBasic,
                         side = ExerciseSide.NONE,
+                        position = testWorkPeriodPosition(),
                         countDownLengthMs = 3000L,
                     ),
                     SessionStep.RestStep(
@@ -81,6 +92,7 @@ abstract class SessionPresenterTestBase : AbstractMockkTest() {
                         remainingSessionDurationMsAfterMe = 65000L,
                         exercise = Exercise.LungesBasic,
                         side = ExerciseSide.NONE,
+                        position = testWorkPeriodPosition(),
                         countDownLengthMs = 3000L,
                     ),
                 ),

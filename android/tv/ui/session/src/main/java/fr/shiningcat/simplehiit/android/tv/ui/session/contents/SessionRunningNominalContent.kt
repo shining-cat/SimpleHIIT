@@ -24,6 +24,7 @@ import fr.shiningcat.simplehiit.commonresources.R
 import fr.shiningcat.simplehiit.commonutils.HiitLogger
 import fr.shiningcat.simplehiit.domain.common.models.AsymmetricalExerciseSideOrder
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
+import fr.shiningcat.simplehiit.domain.common.models.WorkPeriodPosition
 import fr.shiningcat.simplehiit.sharedui.session.CountDown
 import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.sharedui.session.SessionViewState
@@ -96,6 +97,13 @@ internal class SessionRunningNominalContentPreviewParameterProvider : PreviewPar
                     periodType = RunningSessionStepType.REST,
                     displayedExercise = Exercise.LungesSideToCurtsy,
                     side = AsymmetricalExerciseSideOrder.SECOND.side,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "25s",
                     stepRemainingPercentage = .2f,
                     sessionRemainingTime = "3mn 25s",
@@ -106,6 +114,13 @@ internal class SessionRunningNominalContentPreviewParameterProvider : PreviewPar
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.LungesSideToCurtsy,
                     side = AsymmetricalExerciseSideOrder.SECOND.side,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .02f,
                     sessionRemainingTime = "3mn 3s",
