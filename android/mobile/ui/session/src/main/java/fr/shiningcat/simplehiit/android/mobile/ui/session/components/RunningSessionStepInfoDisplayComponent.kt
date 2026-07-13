@@ -60,6 +60,12 @@ fun RunningSessionStepInfoDisplayComponent(
 
         Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
+        SessionProgressIndicatorComponent(
+            position = viewState.position,
+            periodType = periodType,
+        )
+        Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
+
         val remainingPercentageStringRes =
             when (periodType) {
                 RunningSessionStepType.REST -> CommonResourcesR.string.rest_remaining_in_s

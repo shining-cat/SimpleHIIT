@@ -16,6 +16,7 @@ import fr.shiningcat.simplehiit.android.mobile.ui.common.theme.SimpleHiitMobileT
 import fr.shiningcat.simplehiit.domain.common.models.Exercise
 import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.SessionStepDisplay
+import fr.shiningcat.simplehiit.domain.common.models.WorkPeriodPosition
 import fr.shiningcat.simplehiit.sharedui.session.CountDown
 import fr.shiningcat.simplehiit.sharedui.session.RunningSessionStepType
 import fr.shiningcat.simplehiit.sharedui.session.SessionDialog
@@ -59,6 +60,13 @@ internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<
                     periodType = RunningSessionStepType.REST,
                     displayedExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "25s",
                     stepRemainingPercentage = .53f,
                     sessionRemainingTime = "16mn 23s",
@@ -68,6 +76,13 @@ internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<
                     periodType = RunningSessionStepType.REST,
                     displayedExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "25s",
                     stepRemainingPercentage = .53f,
                     sessionRemainingTime = "16mn 23s",
@@ -83,6 +98,13 @@ internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<
                     periodType = RunningSessionStepType.REST,
                     displayedExercise = Exercise.CatBackLegLift,
                     side = ExerciseSide.RIGHT,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "25s",
                     stepRemainingPercentage = .23f,
                     sessionRemainingTime = "16mn 23s",
@@ -92,6 +114,13 @@ internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.NONE,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .7f,
                     sessionRemainingTime = "5mn 12s",
@@ -101,6 +130,13 @@ internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.NONE,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .7f,
                     sessionRemainingTime = "5mn 12s",
@@ -116,6 +152,13 @@ internal class SessionScreenPreviewParameterProvider : PreviewParameterProvider<
                     periodType = RunningSessionStepType.WORK,
                     displayedExercise = Exercise.CrabAdvancedBridge,
                     side = ExerciseSide.LEFT,
+                    position =
+                        WorkPeriodPosition(
+                            workPeriodInCycle = 3,
+                            totalWorkPeriodsInCycle = 8,
+                            cycle = 1,
+                            totalCycles = 2,
+                        ),
                     stepRemainingTime = "3s",
                     stepRemainingPercentage = .5f,
                     sessionRemainingTime = "5mn 12s",
