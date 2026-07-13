@@ -61,6 +61,8 @@ fun RunningSessionStepInfoDisplayComponent(
         Spacer(modifier = Modifier.height(dimensionResource(CommonResourcesR.dimen.spacing_2)))
 
         SessionProgressIndicatorComponent(
+            modifier =
+                Modifier.padding(horizontal = dimensionResource(CommonResourcesR.dimen.spacing_2)),
             position = viewState.position,
             periodType = periodType,
         )

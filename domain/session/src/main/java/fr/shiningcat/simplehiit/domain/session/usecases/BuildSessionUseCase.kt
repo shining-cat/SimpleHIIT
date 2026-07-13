@@ -108,17 +108,11 @@ class BuildSessionUseCase(
 
                 val rawCycle = (index / numberOfWorkPeriods) + 1
                 val cappedCycle = rawCycle.coerceAtMost(numberCumulatedCycles)
+                // an asymmetrical exercise's 2nd side can overshoot the last cycle; fold it into the last period
+                val isOvershoot = rawCycle > numberCumulatedCycles
                 val position =
                     WorkPeriodPosition(
-                        // fold an asymmetrical overshoot side into the last period of the last cycle
-                        workPeriodInCycle =
-                            if (rawCycle >
-                                numberCumulatedCycles
-                            ) {
-                                numberOfWorkPeriods
-                            } else {
-                                (index % numberOfWorkPeriods) + 1
-                            },
+                        workPeriodInCycle = if (isOvershoot) numberOfWorkPeriods else (index % numberOfWorkPeriods) + 1,
                         totalWorkPeriodsInCycle = numberOfWorkPeriods,
                         cycle = cappedCycle,
                         totalCycles = numberCumulatedCycles,
