@@ -31,10 +31,12 @@ fun SimpleHiitNavigation(
     // Home, so it is pushed onto the stack and can be backed out of.
     val navigate: (Screen) -> Unit = { destination ->
         when (destination) {
-            Screen.Home, Screen.Settings, Screen.Statistics, Screen.About ->
+            Screen.Home, Screen.Settings, Screen.Statistics, Screen.About -> {
                 navigationViewModel.clearAndNavigateTo(destination)
-            Screen.Session ->
+            }
+            Screen.Session -> {
                 navigationViewModel.navigateTo(destination)
+            }
         }
     }
     NavDisplay(
