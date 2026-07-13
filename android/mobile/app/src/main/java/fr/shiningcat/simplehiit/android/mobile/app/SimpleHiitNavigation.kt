@@ -26,6 +26,19 @@ fun SimpleHiitNavigation(
     hiitLogger: HiitLogger,
     navigationViewModel: NavigationViewModel = koinViewModel(),
 ) {
+    // Top-level destinations (reachable from the navigation sidebar) reset the back stack:
+    // switching between them is flat navigation, not a push. Session is a flow entered from
+    // Home, so it is pushed onto the stack and can be backed out of.
+    val navigate: (Screen) -> Unit = { destination ->
+        when (destination) {
+            Screen.Home, Screen.Settings, Screen.Statistics, Screen.About -> {
+                navigationViewModel.clearAndNavigateTo(destination)
+            }
+            Screen.Session -> {
+                navigationViewModel.navigateTo(destination)
+            }
+        }
+    }
     NavDisplay(
         backStack = navigationViewModel.backStack,
         onBack = { navigationViewModel.goBack() },
@@ -38,21 +51,21 @@ fun SimpleHiitNavigation(
             entryProvider {
                 entry<Screen.Home> {
                     HomeScreen(
-                        navigateTo = navigationViewModel::navigateTo,
+                        navigateTo = navigate,
                         uiArrangement = uiArrangement,
                         hiitLogger = hiitLogger,
                     )
                 }
                 entry<Screen.Settings> {
                     SettingsScreen(
-                        navigateTo = navigationViewModel::navigateTo,
+                        navigateTo = navigate,
                         uiArrangement = uiArrangement,
                         hiitLogger = hiitLogger,
                     )
                 }
                 entry<Screen.Statistics> {
                     StatisticsScreen(
-                        navigateTo = navigationViewModel::navigateTo,
+                        navigateTo = navigate,
                         uiArrangement = uiArrangement,
                         hiitLogger = hiitLogger,
                     )
@@ -66,7 +79,7 @@ fun SimpleHiitNavigation(
                 }
                 entry<Screen.About> {
                     AboutScreen(
-                        navigateTo = navigationViewModel::navigateTo,
+                        navigateTo = navigate,
                         uiArrangement = uiArrangement,
                     )
                 }
