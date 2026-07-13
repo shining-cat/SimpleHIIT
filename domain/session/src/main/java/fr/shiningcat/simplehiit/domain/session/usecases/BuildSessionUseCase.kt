@@ -11,6 +11,7 @@ import fr.shiningcat.simplehiit.domain.common.models.ExerciseSide
 import fr.shiningcat.simplehiit.domain.common.models.Session
 import fr.shiningcat.simplehiit.domain.common.models.SessionSettings
 import fr.shiningcat.simplehiit.domain.common.models.SessionStep
+import fr.shiningcat.simplehiit.domain.common.models.WorkPeriodPosition
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 
@@ -33,6 +34,8 @@ class BuildSessionUseCase(
                     workPeriodLengthMs = sessionSettings.workPeriodLengthMs,
                     periodsStartCountDownLengthMs = sessionSettings.periodsStartCountDownLengthMs,
                     sessionStartCountDownLengthMs = sessionSettings.sessionStartCountDownLengthMs,
+                    numberOfWorkPeriods = sessionSettings.numberOfWorkPeriods,
+                    numberCumulatedCycles = sessionSettings.numberCumulatedCycles,
                 )
             Session(
                 steps = steps,
@@ -60,6 +63,8 @@ class BuildSessionUseCase(
         workPeriodLengthMs: Long,
         periodsStartCountDownLengthMs: Long,
         sessionStartCountDownLengthMs: Long,
+        numberOfWorkPeriods: Int,
+        numberCumulatedCycles: Int,
     ): List<SessionStep> =
         withContext(defaultDispatcher) {
             val allSteps = mutableListOf<SessionStep>()
@@ -101,6 +106,23 @@ class BuildSessionUseCase(
                         ExerciseSide.NONE
                     }
 
+                val rawCycle = (index / numberOfWorkPeriods) + 1
+                val cappedCycle = rawCycle.coerceAtMost(numberCumulatedCycles)
+                val position =
+                    WorkPeriodPosition(
+                        // fold an asymmetrical overshoot side into the last period of the last cycle
+                        workPeriodInCycle =
+                            if (rawCycle >
+                                numberCumulatedCycles
+                            ) {
+                                numberOfWorkPeriods
+                            } else {
+                                (index % numberOfWorkPeriods) + 1
+                            },
+                        totalWorkPeriodsInCycle = numberOfWorkPeriods,
+                        cycle = cappedCycle,
+                        totalCycles = numberCumulatedCycles,
+                    )
                 //
                 val remainingExercisesAfterStep = totalSteps.minus(index).minus(1)
                 val remainingSessionDurationMsAfterRest =
@@ -117,6 +139,7 @@ class BuildSessionUseCase(
                     SessionStep.RestStep(
                         exercise = exercise,
                         side = stepExerciseSide,
+                        position = position,
                         durationMs = restPeriodLengthMs,
                         remainingSessionDurationMsAfterMe = remainingSessionDurationMsAfterRest,
                         countDownLengthMs = periodsStartCountDownLengthMs,
@@ -127,6 +150,7 @@ class BuildSessionUseCase(
                     SessionStep.WorkStep(
                         exercise = exercise,
                         side = stepExerciseSide,
+                        position = position,
                         durationMs = workPeriodLengthMs,
                         remainingSessionDurationMsAfterMe = remainingSessionDurationMsAfterWork,
                         countDownLengthMs = periodsStartCountDownLengthMs,
