@@ -1,0 +1,5 @@
+Version 1.04
+
+- Add workout progress indicator showing your period and cycle during a session, so you don't lose track in long or custom workouts, with screen reader support (#347)
+- Fix navigation building up an unexpected back stack when switching between main screens (#353)
+- Update dependencies and build tooling
