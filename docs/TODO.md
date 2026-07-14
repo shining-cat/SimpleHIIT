@@ -2,7 +2,12 @@
   ~ SPDX-FileCopyrightText: 2024-2026 shining-cat
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
-# SimpleHIIT ToDo list
+# SimpleHIIT — Roadmap
+
+> **Scope — read me first.** This is SimpleHIIT's strategic roadmap: direction and
+> priorities by theme, **not** a live task tracker. Granular, in-progress work is
+> managed separately; items here graduate into active work when they're picked up.
+> Expect themes and direction, not tickets.
 
 ## Priority 1: Testing Enhancements
 **High Impact | Medium Effort | Critical for Production Readiness**
@@ -20,25 +25,19 @@
 * **Add expect/actual implementations for platform-specific dependencies** - Currently uses HiitLogger (could be platform-agnostic). Identify and abstract any remaining platform-specific code.
 * **Configure KMP source sets** - Set up commonMain, androidMain, iosMain, etc. Ensure domain and shared-ui layers compile for all target platforms.
 
-## Priority 3: Quick Wins
-**Low-Medium Impact | Low Effort | Can be done now, won't interfere with migration**
-
-* ✅ **Find publication strategy**: GitHub Releases implemented with automated CI/CD workflow.
-* F-Droid published and automatic updates configured on each github release.
-
-## Priority 4: Pre-Migration Improvements
+## Priority 3: Pre-Migration Improvements
 **Medium Impact | Medium Effort | Better done before KMP migration**
 
 * **Refine French and Swedish translations** - Easier to manage in current structure; localization strategy may change with KMP.
 * **Allow session to run as timer-only when no exercise types selected** - Feature enhancement that touches session flow; stabilize before migration.
 * **Improve UI arrangement bucketing for large displays in portrait** - Android-specific responsive layout fix; address while architecture is familiar.
 
-## Priority 5: Android-Specific Optimizations
+## Priority 4: Android-Specific Optimizations
 **Medium Impact | Low-Medium Effort | Android-only, deprioritize until after KMP**
 
 * **Use [compose stability plugin](https://proandroiddev.com/compose-stability-analyzer-real-time-stability-insights-for-jetpack-compose-1399924a0a64)** - Android Compose optimization; wait until shared-ui architecture stabilizes post-migration.
 
-## Priority 6: Platform Expansion
+## Priority 5: Platform Expansion
 **Variable Impact | High Effort | Pursue after KMP foundation is solid**
 
 * **Complete KMP migration** - Final conversion of shared-ui modules to remove remaining Android library plugin, enabling true multiplatform compilation.
@@ -51,5 +50,7 @@
 - ✅ **Completed**: Hilt → Koin migration
 - ✅ **Completed**: shared-ui module extraction with pure Kotlin presenters
 - ✅ **Completed**: Comprehensive presenter unit tests (91 tests, ~93% coverage)
+- ✅ **Completed**: Publication strategy — GitHub Releases with automated CI/CD
+- ✅ **Completed**: F-Droid published, auto-updates on each GitHub release
 - 🚧 **In Progress**: Testing infrastructure expansion (integration, UI, screenshot tests)
 - 🎯 **Next Focus**: Migrate shared-ui from Android Library to KMP plugin
