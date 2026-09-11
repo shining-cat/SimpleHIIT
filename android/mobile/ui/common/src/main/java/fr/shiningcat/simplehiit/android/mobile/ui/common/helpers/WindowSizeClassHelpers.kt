@@ -6,7 +6,7 @@
 
 package fr.shiningcat.simplehiit.android.mobile.ui.common.helpers
 
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.window.core.layout.WindowSizeClass
 import fr.shiningcat.simplehiit.android.mobile.ui.common.UiArrangement
@@ -22,7 +22,7 @@ import fr.shiningcat.simplehiit.commonutils.annotations.KeepForCompose
  */
 @Composable
 fun currentUiArrangement(): UiArrangement {
-    val windowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+    val windowSizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
 
     return if (windowSizeClass.isWidthAtLeastBreakpoint(WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND)) {
         // Typically, a tablet or bigger in landscape
