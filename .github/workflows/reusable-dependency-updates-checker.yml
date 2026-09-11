@@ -54,12 +54,26 @@ jobs:
             exit 1
           fi
           
-          # Extract only the "dependencies have later" section and filter out transitive dependencies
-          # Also filter out the URL lines that follow each filtered dependency
-          # Filter out unstable Gradle versions (RC, canary, milestone, alpha, beta, dev, SNAPSHOT)
-          sed -n '/The following dependencies have later/,/^Failed to determine\|^$/p' dependency-updates-output.txt | \
-            grep -v '^Failed to determine' | \
-            grep -E -v 'Gradle.*(-rc-|-canary|-milestone|-alpha|-beta|-dev|RC|SNAPSHOT)' | \
+          # Extract dependency updates AND Gradle updates (which come after "Failed to determine")
+          # The output structure is:
+          #   1. "The following dependencies have later..." section
+          #   2. "Failed to determine..." section
+          #   3. "Gradle release-candidate updates:" section
+          # We need sections 1 and 3, but the original sed stopped at section 2
+
+          # Extract main dependencies section (stops at "Failed to determine")
+          sed -n '/The following dependencies have later/,/^Failed to determine/p' dependency-updates-output.txt | \
+            grep -v '^Failed to determine' > dependency-updates-temp.txt || true
+
+          # Extract Gradle updates section (from "Gradle release" to end/next major section)
+          sed -n '/^Gradle release/,/^Generated report\|^$/p' dependency-updates-output.txt | \
+            grep -v '^Generated report' >> dependency-updates-temp.txt || true
+
+          # Now filter out transitive dependencies
+          # Note: We don't filter Gradle updates by unstable markers because the update chain
+          # often shows both stable and unstable versions (e.g., "9.5.0 -> 9.7.1 -> 9.8.0-rc-1").
+          # We want to keep these to report the stable version (9.7.1) even if an RC is also shown.
+          cat dependency-updates-temp.txt | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-ruleset-standard' | \
@@ -70,6 +84,8 @@ jobs:
             grep -F -v 'https://github.com/pinterest/ktlint' | \
             grep -F -v 'https://detekt.github.io/detekt' | \
             grep -F -v 'https://github.com/oshai/kotlin-logging' > dependency-updates-filtered.txt || true
+
+          rm -f dependency-updates-temp.txt
           
           # Count actual dependency update lines (start with " - ")
           UPDATE_COUNT=$(grep -c '^ - ' dependency-updates-filtered.txt 2>/dev/null || echo "0")
