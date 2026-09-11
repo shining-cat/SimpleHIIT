@@ -1,14 +1,14 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.3.1"
+agp = "9.3.2"
 kgp = "2.4.10"
-ksp = "2.3.10"
+ksp = "2.3.11"
 kover = "0.9.9"
 
 # Code Quality & Analysis
 ktlintGradlePlugin = "14.2.0"
-spotless = "8.9.0"
-dependencyUpdatePlugin = "0.58.0"
+spotless = "8.10.1"
+dependencyUpdatePlugin = "0.61.0"
 modulesGraphAssert = "2.9.1"
 
 # Dependency Injection
@@ -21,20 +21,20 @@ room = "2.8.4"
 
 # Testing
 mockk = "1.14.11"
-jupiter = "6.1.2"
+jupiter = "6.1.3"
 testRunner = "1.7.0"
 testExtJunit = "1.3.0"
 jetBrainsCoroutinesTest = "1.11.0"
 
 # AndroidX Core
-appCompat = "1.7.1"
+appCompat = "1.8.0"
 datastore = "1.2.1"
 # see https://developer.android.com/jetpack/androidx/releases/lifecycle
 lifecycleProcess = "2.11.0"
 
 # Compose Ecosystem
-composeBom = "2026.06.01"
-navigation3 = "1.1.5"
+composeBom = "2026.08.00"
+navigation3 = "1.1.7"
 activityCompose = "1.13.0"
 kotlinSerialization = "2.4.10"
 kotlinxSerializationCore = "1.11.0"

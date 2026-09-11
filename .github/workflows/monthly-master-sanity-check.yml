@@ -46,10 +46,17 @@ jobs:
       issues: write
       contents: read
 
+  check-android-sdk-versions:
+    name: Check Android SDK Versions
+    uses: ./.github/workflows/reusable-android-sdk-version-checker.yml
+    permissions:
+      issues: write
+      contents: read
+
   report-results:
     name: Report Results
     runs-on: ubuntu-latest
-    needs: [verify-module-dependencies, verify-dependency-graph, check-deprecations, check-dependency-updates, check-license-headers, check-license-year]
+    needs: [verify-module-dependencies, verify-dependency-graph, check-deprecations, check-dependency-updates, check-license-headers, check-license-year, check-android-sdk-versions]
     if: always()
     steps:
       - name: Check Results
@@ -135,7 +142,20 @@ jobs:
             echo "✅ Copyright year is current" >> $GITHUB_STEP_SUMMARY
           fi
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
+          # Android SDK Versions
+          ANDROID_SDK_STATUS="${{ needs.check-android-sdk-versions.outputs.status }}"
+          echo "### Android SDK Versions: $ANDROID_SDK_STATUS" >> $GITHUB_STEP_SUMMARY
+          if [ "$ANDROID_SDK_STATUS" == "failure" ]; then
+            echo "❌ Check failed to complete" >> $GITHUB_STEP_SUMMARY
+            ANY_FAILED=true
+          elif [ "$ANDROID_SDK_STATUS" == "success-issues" ]; then
+            echo "⚠️ SDK updates available (see created issue)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "✅ SDK versions are current" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+
           # Fail workflow only if any check failed to run
           if [ "$ANY_FAILED" == "true" ]; then
             echo "---" >> $GITHUB_STEP_SUMMARY

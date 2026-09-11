@@ -1,0 +1,213 @@
+name: Android SDK Version Check
+run-name: Checking Android SDK Versions
+
+on:
+  workflow_call:
+    outputs:
+      status:
+        description: "Status of the Android SDK version check"
+        value: ${{ jobs.check-android-sdk-versions.outputs.status }}
+
+jobs:
+  check-android-sdk-versions:
+    name: Check Android SDK Versions
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    outputs:
+      status: ${{ steps.check.outputs.status }}
+
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v3
+
+      - name: Check Android SDK Versions
+        id: check
+        run: |
+          set -o pipefail
+
+          # Latest known Android SDK versions (update when Google releases new versions)
+          # See: https://developer.android.com/studio/releases/platforms
+          LATEST_COMPILE_SDK=37  # Android 15 (API level 37)
+          LATEST_TARGET_SDK=36   # Android 14 (API level 36) - Google Play requirement
+
+          # Extract current versions from Config.kt
+          CONFIG_FILE="build-logic/convention/src/main/kotlin/fr/shiningcat/simplehiit/config/Config.kt"
+
+          if [ ! -f "$CONFIG_FILE" ]; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "❌ Config.kt not found at expected path"
+            exit 1
+          fi
+
+          # Extract compileSdkVersion (first occurrence)
+          CURRENT_COMPILE_SDK=$(grep -m 1 'compileSdkVersion = ' "$CONFIG_FILE" | sed 's/.*compileSdkVersion = \([0-9]*\).*/\1/')
+
+          # Extract targetSdkVersion (first occurrence)
+          CURRENT_TARGET_SDK=$(grep -m 1 'targetSdkVersion = ' "$CONFIG_FILE" | sed 's/.*targetSdkVersion = \([0-9]*\).*/\1/')
+
+          if [ -z "$CURRENT_COMPILE_SDK" ] || [ -z "$CURRENT_TARGET_SDK" ]; then
+            echo "status=failure" >> $GITHUB_OUTPUT
+            echo "❌ Could not extract SDK versions from Config.kt"
+            exit 1
+          fi
+
+          echo "Current compileSdk: $CURRENT_COMPILE_SDK"
+          echo "Latest compileSdk:  $LATEST_COMPILE_SDK"
+          echo "Current targetSdk:  $CURRENT_TARGET_SDK"
+          echo "Latest targetSdk:   $LATEST_TARGET_SDK"
+
+          # Check if updates are needed
+          NEEDS_UPDATE=false
+          UPDATES=""
+
+          if [ "$CURRENT_COMPILE_SDK" -lt "$LATEST_COMPILE_SDK" ]; then
+            NEEDS_UPDATE=true
+            UPDATES="${UPDATES}- compileSdk: $CURRENT_COMPILE_SDK → $LATEST_COMPILE_SDK\n"
+          fi
+
+          if [ "$CURRENT_TARGET_SDK" -lt "$LATEST_TARGET_SDK" ]; then
+            NEEDS_UPDATE=true
+            UPDATES="${UPDATES}- targetSdk: $CURRENT_TARGET_SDK → $LATEST_TARGET_SDK\n"
+          fi
+
+          if [ "$NEEDS_UPDATE" = true ]; then
+            echo "status=success-issues" >> $GITHUB_OUTPUT
+            echo -e "$UPDATES" > sdk-updates.txt
+            echo "⚠️ Android SDK updates available"
+          else
+            echo "status=success" >> $GITHUB_OUTPUT
+            echo "✅ Android SDK versions are up to date"
+          fi
+
+      - name: Create Issue if Updates Available
+        if: steps.check.outputs.status == 'success-issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            // Close previous issues
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['outdated-android-sdk'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+
+            // Read updates from file
+            const updates = fs.readFileSync('sdk-updates.txt', 'utf8');
+
+            const body = `## Android SDK Updates Available
+
+            **Check Date:** ${new Date().toISOString().split('T')[0]}
+
+            ### Updates Needed
+
+            ${updates}
+
+            ### What to Update
+
+            Update the SDK versions in \`build-logic/convention/src/main/kotlin/fr/shiningcat/simplehiit/config/Config.kt\`:
+
+            \`\`\`kotlin
+            object ConfigHandheld {
+                val config = AndroidConfig(
+                    compileSdkVersion = <latest>,
+                    targetSdkVersion = <latest>,
+                    // ... other fields
+                )
+            }
+
+            object ConfigTv {
+                val config = AndroidConfig(
+                    compileSdkVersion = <latest>,
+                    targetSdkVersion = <latest>,
+                    // ... other fields
+                )
+            }
+
+            object ConfigLibrary {
+                val config = AndroidLibraryConfig(
+                    compileSdkVersion = <latest>,
+                    // ... other fields
+                )
+            }
+            \`\`\`
+
+            ### Testing After Update
+
+            1. Clean build: \`./gradlew clean build\`
+            2. Run all tests: \`./gradlew test\`
+            3. Test on device (both handheld and TV if applicable)
+
+            ### Resources
+
+            - [Android Platform Releases](https://developer.android.com/studio/releases/platforms)
+            - [Google Play target API requirements](https://support.google.com/googleplay/android-developer/answer/11926878)
+            - [Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+
+            ---
+            _Auto-generated by Monthly Master Sanity Check. This issue will be auto-closed when SDK versions are updated._`;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: 'Android SDK Updates Available',
+              labels: ['outdated-android-sdk'],
+              body: body
+            });
+
+      - name: Close Previous Issues if Success
+        if: steps.check.outputs.status == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['outdated-android-sdk'],
+              state: 'open'
+            });
+            for (const issue of issues.data) {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                state: 'closed',
+                state_reason: 'completed'
+              });
+            }
+            console.log('✅ Android SDK versions up to date - no issue needed');
+
+      - name: Workflow Summary
+        if: always()
+        run: |
+          echo "## Android SDK Version Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          case "${{ steps.check.outputs.status }}" in
+            "success")
+              echo "✅ **Android SDK versions are up to date!**" >> $GITHUB_STEP_SUMMARY
+              ;;
+            "success-issues")
+              echo "⚠️ **Android SDK updates available**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "A GitHub issue has been created with the details." >> $GITHUB_STEP_SUMMARY
+              ;;
+            "failure")
+              echo "❌ **Check failed to complete**" >> $GITHUB_STEP_SUMMARY
+              echo "" >> $GITHUB_STEP_SUMMARY
+              echo "Could not extract SDK versions from Config.kt" >> $GITHUB_STEP_SUMMARY
+              ;;
+          esac
