@@ -69,10 +69,10 @@ jobs:
           sed -n '/^Gradle release/,/^Generated report\|^$/p' dependency-updates-output.txt | \
             grep -v '^Generated report' >> dependency-updates-temp.txt || true
 
-          # Now filter out transitive dependencies
-          # Note: We don't filter Gradle updates by unstable markers because the update chain
-          # often shows both stable and unstable versions (e.g., "9.5.0 -> 9.7.1 -> 9.8.0-rc-1").
-          # We want to keep these to report the stable version (9.7.1) even if an RC is also shown.
+          # Filter out transitive dependencies and RC-only Gradle updates
+          # For Gradle: Keep lines with 2+ arrows (e.g., "9.5.0 -> 9.7.1 -> 9.8.0-rc-1" shows
+          # stable 9.7.1 is available). Filter lines with 1 arrow (e.g., "9.7.1 -> 9.8.0-rc-1"
+          # means only RC available, no stable update).
           cat dependency-updates-temp.txt | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli' | \
             grep -F -v 'com.pinterest.ktlint:ktlint-cli-reporter-baseline' | \
@@ -83,7 +83,8 @@ jobs:
             grep -F -v 'org.jetbrains.kotlin:kotlin-test' | \
             grep -F -v 'https://github.com/pinterest/ktlint' | \
             grep -F -v 'https://detekt.github.io/detekt' | \
-            grep -F -v 'https://github.com/oshai/kotlin-logging' > dependency-updates-filtered.txt || true
+            grep -F -v 'https://github.com/oshai/kotlin-logging' | \
+            awk '!/^ - Gradle:/ || gsub(/->/,"&") > 1' > dependency-updates-filtered.txt || true
 
           rm -f dependency-updates-temp.txt
           
