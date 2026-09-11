@@ -1,13 +1,13 @@
 [versions]
 # Build Tools & Plugins
-agp = "9.3.2"
-kgp = "2.4.10"
-ksp = "2.3.11"
+agp = "9.4.0"
+kgp = "2.4.20"
+ksp = "2.3.12"
 kover = "0.9.9"
 
 # Code Quality & Analysis
 ktlintGradlePlugin = "14.2.0"
-spotless = "8.10.1"
+spotless = "8.10.2"
 dependencyUpdatePlugin = "0.61.0"
 modulesGraphAssert = "2.9.1"
 
@@ -17,7 +17,7 @@ koinAndroidxCompose = "4.2.2"
 koinTest = "4.2.2"
 
 # Database
-room = "2.8.4"
+room = "2.8.5"
 
 # Testing
 mockk = "1.14.11"
@@ -33,10 +33,10 @@ datastore = "1.2.1"
 lifecycleProcess = "2.11.0"
 
 # Compose Ecosystem
-composeBom = "2026.08.00"
+composeBom = "2026.09.00"
 navigation3 = "1.1.7"
 activityCompose = "1.13.0"
-kotlinSerialization = "2.4.10"
+kotlinSerialization = "2.4.20"
 kotlinxSerializationCore = "1.11.0"
 
 # TV-specific
