@@ -8,7 +8,6 @@ import fr.shiningcat.simplehiit.config.ConfigHandheld
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinBaseExtension
 
@@ -23,7 +22,7 @@ internal inline fun <reified T : KotlinBaseExtension> Project.configureKotlin() 
         // Treat all Kotlin warnings as errors (default to false)
         // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
         // this can be used to have it as true on local builds and false on CI builds (would require dedicated gradle.properties files)
-        val warningsAsErrors: String? by project
+        val warningsAsErrors = findProperty("warningsAsErrors") as String?
         when (this) {
             is KotlinAndroidProjectExtension -> compilerOptions
             else -> error("Unsupported project extension $this ${T::class}")
